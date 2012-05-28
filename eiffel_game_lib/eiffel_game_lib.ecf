@@ -13,17 +13,17 @@
 				<custom name="toolchain" excluded_value="wiz"/>
 			</condition>
 		</external_include>
-		<external_include location="/opt/arm-gph-linux-gnueabi/arm-gph-linux-gnueabi/sys-root/usr/include -L/opt/arm-gph-linux-gnueabi/lib -L/opt/arm-gph-linux-gnueabi/arm-gph-linux-gnueabi/sys-root/usr/lib -D_FILE_OFFSET_BITS=64">
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include -L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -D_FILE_OFFSET_BITS=64">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_include>
-		<external_include location="/opt/arm-gph-linux-gnueabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL">
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_include>
-		<external_include location="/opt/arm-gph-linux-gnueabi/include/AL">
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/include/AL">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
