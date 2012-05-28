@@ -8,7 +8,7 @@ objet-linux-x86-64/SDL_more.o: src/SDL_more.c
 
 linux-caanoo: objet-linux-caanoo/SDL_more.o include/SDL_more.h
 objet-linux-caanoo/SDL_more.o: src/SDL_more.c
-	/opt/arm-gph-linux-gnueabi/bin/arm-gph-linux-gnueabi-gcc -c -I/opt/arm-gph-linux-gnueabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL -Iinclude/ -o objet-linux-caanoo/SDL_more.o src/SDL_more.c
+	/opt/gcc-4.2.4-glibc-2.7-eabi/bin/arm-gph-linux-gnueabi-gcc -c -I/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL -Iinclude/ -o objet-linux-caanoo/SDL_more.o src/SDL_more.c
 
 linux-wiz: objet-linux-wiz/SDL_more.o include/SDL_more.h
 objet-linux-wiz/SDL_more.o: src/SDL_more.c
