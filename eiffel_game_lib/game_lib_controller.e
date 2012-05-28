@@ -15,11 +15,15 @@ inherit
 		quit_library as sdl_quit_library
 	export {NONE}
 		sdl_quit_library
+	redefine
+		launch
 	end
 	GAME_AL_CONTROLLER
 	rename
 		make as make_al,
-		quit_library as al_quit_library
+		quit_library as al_quit_library,
+		last_error as last_sound_error,
+		is_error as is_sound_error
 	export {NONE}
 		al_quit_library
 	end
@@ -49,11 +53,34 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	update_all
+			-- Execute the sound streaming update and the event polling.
+		do
+			if is_sound_open then
+				update_sound_playing
+			end
+			update_event
+		end
+
 	quit_library
 			-- Close the library. (Must be launch before quitting application)
 		do
 			al_quit_library
 			sdl_quit_library
+		end
+
+	launch
+			-- Start the main loop. Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handeler.
+		do
+			from
+				must_stop:=false
+			until
+				must_stop
+			loop
+				update_all
+				delay (1)
+			end
 		end
 
 end

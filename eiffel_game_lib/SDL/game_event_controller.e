@@ -7,7 +7,10 @@ note
 class
 	GAME_EVENT_CONTROLLER
 
-create
+inherit
+	DISPOSABLE
+
+create {GAME_SDL_CONTROLLER}
 	make
 
 feature {NONE} -- Initialization
@@ -16,6 +19,8 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 		do
 			sdl_ctrl:=ctrl
+			event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
+			make_tick_event
 			make_active_event
 			make_keyboard_event
 			make_mouse_motion_event
@@ -27,6 +32,7 @@ feature {NONE} -- Initialization
 			make_resize_event
 			make_expose_event -- Not tested. Dont know how!
 			make_quit_event
+
 		end
 
 
@@ -35,30 +41,29 @@ feature -- Access
 	poll_event
 		-- Execute an event validation. If no event is pending, do nothing.
 	local
-		event_ptr:POINTER
+
 		is_event:INTEGER
 	do
-		event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
+		decode_tick_event
 		is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 		if is_event/=0 then
 			decode_event(event_ptr)
 		end
-		{GAME_SDL_EXTERNAL}.c_event_struct_free(event_ptr)
 	end
 
-	wait_event
-		-- Execute an event validation. If no event is pending, wait an event before exit.
-	local
-		event_ptr:POINTER
-		is_event:INTEGER
-	do
-		event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
-		is_event:={GAME_SDL_EXTERNAL}.SDL_WaitEvent(event_ptr)
-		if is_event/=0 then
-			decode_event(event_ptr)
-		end
-		{GAME_SDL_EXTERNAL}.c_event_struct_free(event_ptr)
-	end
+--	wait_event
+--		-- Execute an event validation. If no event is pending, wait an event before exit.
+--	local
+--		event_ptr:POINTER
+--		is_event:INTEGER
+--	do
+--		event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
+--		is_event:={GAME_SDL_EXTERNAL}.SDL_WaitEvent(event_ptr)
+--		if is_event/=0 then
+--			decode_event(event_ptr)
+--		end
+--		{GAME_SDL_EXTERNAL}.c_event_struct_free(event_ptr)
+--	end
 
 feature -- Active event access
 
@@ -291,11 +296,12 @@ feature {NONE} -- Mouse button event implementation
 		end
 	end
 
-feature -- For all Joystick event
+feature {GAME_SDL_CONTROLLER} -- Controller Joystick event enable
 
 	enable_joystick_event
 		-- Enable the joysticks and joypads event.
 		-- Must be use before using joysticks and joypads event.
+		-- Use the method `enable_joystick' of the GAME_SDL_CONTROLLER enable joystick event
 	local
 		temp:INTEGER
 	do
@@ -309,6 +315,8 @@ feature -- For all Joystick event
 	do
 		temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_IGNORE)
 	end
+
+feature -- Access Joystick event enable
 
 	is_joystick_event_enable:BOOLEAN
 		-- Return true if the joysticks and joypads event are enable
@@ -539,10 +547,57 @@ feature {NONE} -- Quit event implementation
 		end
 	end
 
+feature -- Tick event
+
+	on_tick: ACTION_SEQUENCE[TUPLE[ticks:NATURAL_32]] -- When a lap time has past (set by the `tick_delay') feature.
+
+	tick_delay:NATURAL -- Time delay to call `on_tick' event (in millisecond)
+
+	set_tick_delay(l_tick_delay:NATURAL)
+			-- Set the time delay to call `on_tick' event (in millisecond).
+		do
+			tick_delay:=l_tick_delay
+		end
+
+	is_tick_event_actions:BOOLEAN
+		-- Return true if there is at least one tick event listener.
+	do
+		Result:=on_tick.count/=0
+	end
+
+feature -- Tick event implementation
+
+	old_ticks:NATURAL_32
+
+	make_tick_event
+	do
+		old_ticks:=0
+		tick_delay:=1
+		create on_tick.default_create
+	end
+
+	decode_tick_event
+	local
+		new_ticks:NATURAL_32
+		next_tick:NATURAL_64
+	do
+		if on_quit_signal.count/=0 then
+			new_ticks:=sdl_ctrl.get_ticks
+			next_tick:=old_ticks.to_natural_64+tick_delay.to_natural_64
+			next_tick:=next_tick\\(new_ticks.max_value.to_natural_64+1)
+			if next_tick<=new_ticks then
+				on_tick.call ([new_ticks])
+				old_ticks:=new_ticks
+			end
+		end
+	end
+
 
 feature {NONE} -- Implementation
 
 	sdl_ctrl:GAME_SDL_CONTROLLER
+
+	event_ptr:POINTER
 
 	decode_event(event:POINTER)
 	local
@@ -574,6 +629,9 @@ feature {NONE} -- Implementation
 		end
 	end
 
-
+	dispose
+		do
+			{GAME_SDL_EXTERNAL}.c_event_struct_free(event_ptr)
+		end
 
 end

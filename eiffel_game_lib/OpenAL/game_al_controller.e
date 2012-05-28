@@ -101,6 +101,7 @@ feature -- Access
 			mem:MEMORY
 		do
 			if is_sound_open then
+				wipe_sources
 				create mem
 				mem.full_collect
 				close_sound_controler
@@ -130,6 +131,8 @@ feature -- Sources management
 		do
 			sources.do_all (agent (s: GAME_AL_SOURCE) do s.update_playing end)
 		end
+
+
 
 	sources_count:INTEGER
 			-- The current number of sound source in the sound context.
@@ -173,6 +176,7 @@ feature -- Sources management
 			Al_Controler_Source_Remove_Index_Valid: i>0 and then i<sources_count+1
 		do
 			sources.go_i_th (i)
+			sources.item.stop
 			sources.remove
 		end
 
@@ -183,9 +187,19 @@ feature -- Sources management
 			Sources_Remove_Sound_Open:is_sound_open
 			Al_Controler_Source_Remove_Source_Valid: l_source /= Void and then sources_has (l_source)
 		do
+			l_source.stop
 			sources.prune_all (l_source)
 		ensure
 			Al_Controler_Source_Remove_Source_Removed: not sources.has (l_source)
+		end
+
+	wipe_sources
+			-- This methode remove all sound sources in the sound context.
+		require
+			Update_Sound_Playing_Sound_Open:is_sound_open
+		do
+			sources.do_all (agent (s: GAME_AL_SOURCE) do s.stop end)
+			sources.wipe_out
 		end
 
 	sources_has(l_source:GAME_AL_SOURCE):BOOLEAN

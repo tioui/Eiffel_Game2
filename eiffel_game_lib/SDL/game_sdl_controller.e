@@ -145,7 +145,8 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enabled
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
-			update_joyticks
+			event_controller.enable_joystick_event
+			refresh_joyticks
 		ensure
 			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enabled
 		end
@@ -155,6 +156,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enabled
 		do
+			event_controller.disable_joystick_event
 			close_all_joysticks
 			quit_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
 		ensure
@@ -169,11 +171,11 @@ feature -- Subs Systems
 
 feature -- Video methods
 
-	enable_event_thread
-			-- Put the thread in an independant SDL thread. Not recommanded.
-		do
-			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_EVENTTHREAD)
-		end
+--	enable_event_thread
+--			-- Put the thread in an independant SDL thread. Not recommanded.
+--		do
+--			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_EVENTTHREAD)
+--		end
 
 	flip_screen
 			-- Show the screen surface in the window
@@ -186,7 +188,7 @@ feature -- Video methods
 			check error = 0 end
 		end
 
-	create_screen_surface(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN):GAME_SCREEN
+	create_screen_surface(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN)
 		-- Create a window with a new screen surface.
 		-- The flags `video_memory' and `hardware_dbl_buf' can be use if the graphic card support them.
 		-- On some exploiting system, the `video_memory' and `hardware_dbl_buf' flags are used only on `fullscreen' mode
@@ -212,7 +214,6 @@ feature -- Video methods
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_FULLSCREEN
 		end
 		screen_surface:=create {GAME_SCREEN}.make(the_width,the_height,the_bits_per_pixel,flags)
-		Result:=screen_surface
 	ensure
 		Create_Screen_Not_Void: screen_is_create
 	end
@@ -284,9 +285,6 @@ feature -- Video methods
 		Result:=list_resolution
 	end
 
-feature {NONE} -- Video implementation
-
-	screen_surface:GAME_SCREEN
 
 feature -- Mouse		
 	show_mouse_cursor
@@ -339,7 +337,7 @@ feature -- Joystick methods
 		Result:=all_joysticks.i_th (index+1)
 	end
 
-	update_joyticks
+	refresh_joyticks
 		-- Update the joystiks list (if joysticks as been add or remove)
 		-- Warning: This will close all opened joysticks
 	require
@@ -383,6 +381,14 @@ feature {NONE} -- Joystick implementation
 
 feature -- Other methods
 
+	event_controller:GAME_EVENT_CONTROLLER -- The event manager. Use it to have access to your event.
+
+	update_event
+			-- Execute the event polling and throw the event handeler execution for each event.
+		do
+			event_controller.poll_event
+		end
+
 
 	delay(millisecond:NATURAL_32)
 			-- Pause the execution for given time in `millisecond'.
@@ -394,6 +400,26 @@ feature -- Other methods
 			-- Get the number of millisecond since the initialisation of the library.
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetTicks
+		end
+
+	launch
+			-- Start the main loop. Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handeler.
+		do
+			from
+				must_stop:=false
+			until
+				must_stop
+			loop
+				update_event
+				delay (1)
+			end
+		end
+
+	stop
+			-- Stop the main loop
+		do
+			must_stop:=true
 		end
 
 	quit_library
@@ -415,17 +441,17 @@ feature -- Other methods
 
 
 
-feature{NONE} -- Implementation
+feature{NONE} -- Implementation - Methods
 
 	initialise_library(flags:NATURAL_32)
 			-- Initialise the library.
 		local
 			error:INTEGER
 		once
-
 			create all_joysticks.make (0)
 			error:={GAME_SDL_EXTERNAL}.SDL_Init(flags)
 			check error = 0 end
+			create event_controller.make (Current)
 		end
 
 	initialise_sub_system(flags:NATURAL_32)
@@ -458,5 +484,11 @@ feature{NONE} -- Implementation
 				Result:=false
 			end
 		end
+
+feature {NONE} -- Implementation - Variables
+
+	screen_surface:GAME_SCREEN
+
+	must_stop:BOOLEAN
 
 end
