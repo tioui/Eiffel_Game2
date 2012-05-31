@@ -12,7 +12,7 @@ objet-linux-caanoo/SDL_more.o: src/SDL_more.c
 
 linux-wiz: objet-linux-wiz/SDL_more.o include/SDL_more.h
 objet-linux-wiz/SDL_more.o: src/SDL_more.c
-	/opt/arm-openwiz-linux-gnu/bin/arm-openwiz-linux-gnu-gcc -c -Iinclude/ -I/opt/arm-openwiz-linux-gnu/include/SDL -o objet-linux-wiz/SDL_more.o src/SDL_more.c
+	/opt/arm-openwiz-linux-gnu/bin/arm-openwiz-linux-gnu-gcc -c -Iinclude/ -I-I$(EIF_GAME_LIB)/C_lib_wiz/include/SDL -o objet-linux-wiz/SDL_more.o src/SDL_more.c
 
 windows: objet-windows/SDL_more.o include/SDL_more.h
 objet-windows/SDL_more.o: src/SDL_more.c
