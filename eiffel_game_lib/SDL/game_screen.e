@@ -75,6 +75,15 @@ feature -- Access
 			Result.print_surface_part_on_surface (Current,from_x,from_y,0,0, sub_width,sub_height)
 		end
 
+	set_captions(window_caption,icon_caption:STRING)
+		local
+			caption_c, icon_caption_c:C_STRING
+		do
+			create caption_c.make (window_caption)
+			create icon_caption_c.make (icon_caption)
+			{GAME_SDL_EXTERNAL}.SDL_WM_SetCaption(caption_c.item,icon_caption_c.item)
+		end
+
 --	update_screen
 --			-- Flip the screen
 --		require

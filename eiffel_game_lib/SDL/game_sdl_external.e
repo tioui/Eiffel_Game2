@@ -349,6 +349,20 @@ feature -- Function SDL.h
 			"SDL_SetColorKey"
 		end
 
+	frozen SDL_WM_SetIcon(surface,mask:POINTER)
+		external
+			"C (SDL_Surface *,Uint8 *) | %"SDL.h%""
+		alias
+			"SDL_WM_SetIcon"
+		end
+
+	frozen SDL_WM_SetCaption(title,icon_caption:POINTER)
+		external
+			"C (const char *,const char *) | %"SDL.h%""
+		alias
+			"SDL_WM_SetCaption"
+		end
+
 
 feature -- Function SDL_rotozoom.h
 
