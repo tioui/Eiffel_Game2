@@ -412,6 +412,22 @@ feature -- Fonction SDL_image
 			"IMG_Load"
 		end
 
+	frozen IMG_Init(flags:INTEGER):INTEGER
+		external
+			"C (int):int | %"SDL_image.h%""
+		alias
+			"IMG_Init"
+		end
+
+	frozen IMG_Quit
+		external
+			"C | %"SDL_image.h%""
+		alias
+			"IMG_Quit"
+		end
+
+
+
 feature -- Fonction SDL_ttf
 
 	frozen TTF_Init:INTEGER
@@ -4395,6 +4411,30 @@ feature -- Macro SDL.h
 			"C inline use <SDL.h>"
 		alias
 			"SDL_ALPHA_TRANSPARENT"
+		end
+
+
+feature -- Constants SDL_Image
+
+	frozen IMG_INIT_JPG:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"IMG_INIT_JPG"
+		end
+
+	frozen IMG_INIT_PNG:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"IMG_INIT_PNG"
+		end
+
+	frozen IMG_INIT_TIF:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"IMG_INIT_TIF"
 		end
 
 

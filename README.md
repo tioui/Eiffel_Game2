@@ -44,6 +44,8 @@ Installation on Windows
 * You need to install the C libraries dependancies. To get them, download the file [https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip](https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip) . When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel Game Lib repository directory.
 * Create a project and add the Eiffel_game_lib library (".ecf") file in the project (You can use the EIF_GAME_LIB environment variable).
 * Put all ".dll" files of the %EIF_GAME_LIB%\C_lib_win\DLL directory in the new project directory.
+* Please note that the library does not work with the Microsoft C compiler for now.
+* Please note that the library does not work on an 64 bits compiler. It should not be too dificult to make it work on such compiler, but I don't have a 64 bits Windows to do it.
 
 Installation on GP2X Wiz
 ------------------------

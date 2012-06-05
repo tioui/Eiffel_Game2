@@ -458,6 +458,7 @@ feature -- Other methods
 			if is_joystick_enabled then
 				close_all_joysticks
 			end
+			{GAME_SDL_EXTERNAL}.IMG_Quit
 			{GAME_SDL_EXTERNAL}.SDL_Quit
 		end
 
@@ -469,12 +470,15 @@ feature{NONE} -- Implementation - Methods
 	initialise_library(flags:NATURAL_32)
 			-- Initialise the library.
 		local
-			error:INTEGER
+			error,img_flags:INTEGER
 		once
 			create all_joysticks.make (0)
 			error:={GAME_SDL_EXTERNAL}.SDL_Init(flags)
 			check error = 0 end
 			create event_controller.make (Current)
+			img_flags:={GAME_SDL_EXTERNAL}.IMG_INIT_JPG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_PNG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_TIF))
+			error:={GAME_SDL_EXTERNAL}.IMG_Init(img_flags)
+			check error.bit_and (img_flags)=img_flags end
 		end
 
 	initialise_sub_system(flags:NATURAL_32)

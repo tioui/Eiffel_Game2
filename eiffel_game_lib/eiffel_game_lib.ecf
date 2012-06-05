@@ -9,7 +9,6 @@
 		<external_include location="/usr/include/SDL -I/usr/include/AL -D_GNU_SOURCE=1 -D_REENTRANT">
 			<condition>
 				<platform value="unix"/>
-				<custom name="toolchain" excluded_value="caanoo"/>
 				<custom name="toolchain" excluded_value="wiz"/>
 			</condition>
 		</external_include>
@@ -84,31 +83,31 @@
 			</condition>
 		</external_include>
 		<external_include location="/Library/Frameworks/SDL_gfx.framework/Headers">
-                        <condition>
-                                <platform value="macintosh"/>
-                        </condition>
-                </external_include>
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
 		<external_include location="/Library/Frameworks/SDL_image.framework/Headers">
 			<condition>
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
 		<external_include location="/Library/Frameworks/SDL_ttf.framework/Headers">
-                        <condition>
-                                <platform value="macintosh"/>
-                        </condition>
-                </external_include>
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
 		<external_include location="/Library/Frameworks/OpenAL.framework/Headers">
-                        <condition>
-                                <platform value="macintosh"/>
-                        </condition>
-                </external_include>
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
 		<external_include location="/opt/local/include">
-                        <condition>
-                                <platform value="macintosh"/>
-                        </condition>
-                </external_include>
-		<external_object location="$(EIF_GAME_LIB)/C_more/objet-$(ISE_PLATFORM)/SDL_more.o" />
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIF_GAME_LIB)/C_more/objet-$(ISE_PLATFORM)/SDL_more.o"/>
 		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL\lib\libSDL.dll.a">
 			<condition>
 				<platform value="windows"/>
@@ -179,6 +178,7 @@
 		</pre_compile_action>
 		<variable name="malloc_check_" value="0"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="custom_package_file" location="$EIF_GAME_LIB\custom_package_file\custom_package_file.ecf" readonly="false"/>
 		<cluster name="eiffel_game_lib" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
