@@ -305,20 +305,32 @@ feature -- Access
 			-- Draw a rectangle of the color `color' on the surface.
 		require
 			Fill_Rect_Color_Not_Void: color /=Void
-			Fill_Rect_X_Valid: l_x >= (create {INTEGER_16}).Min_value and l_x <= (create {INTEGER_16}).Max_value
-			Fill_Rect_Y_Valid: l_y >= (create {INTEGER_16}).Min_value and l_y <= (create {INTEGER_16}).Max_value
-			Fill_Rect_W_Valid: l_w >= (create {NATURAL_16}).Min_value and l_w <= (create {NATURAL_16}).Max_value
-			Fill_Rect_H_Valid: l_h >= (create {NATURAL_16}).Min_value and l_h <= (create {NATURAL_16}).Max_value
+			Fill_Rect_X_Valid:
+					(l_w<0 and then (l_x+l_w)+start_x >= (create {INTEGER_16}).Min_value and then (l_x+l_w)+start_x <= (create {INTEGER_16}).Max_value) or else
+					(l_w>=0 and then l_x+start_x >= (create {INTEGER_16}).Min_value and then l_x+start_x <= (create {INTEGER_16}).Max_value)
+			Fill_Rect_Y_Valid:
+					(l_h<0 and then (l_y+l_h)+start_y >= (create {INTEGER_16}).Min_value and then ((l_y+l_h)+start_y) <= (create {INTEGER_16}).Max_value) or else
+					(l_h>=0 and then l_y+start_y >= (create {INTEGER_16}).Min_value and then (l_y+start_y) <= (create {INTEGER_16}).Max_value)
+			Fill_Rect_W_Valid: l_w.abs <= (create {NATURAL_16}).Max_value
+			Fill_Rect_H_Valid: l_h.abs <= (create {NATURAL_16}).Max_value
 		local
 			rect_src:POINTER
 			error:INTEGER
 			color_key:NATURAL_32
 		do
 			rect_src:={GAME_SDL_EXTERNAL}.c_rect_struct_allocate
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,(l_x+start_x).to_integer_16)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,(l_y+start_y).to_integer_16)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,l_w.to_natural_16)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,l_h.to_natural_16)
+			if l_w<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,((l_x+l_w)+start_x).to_integer_16)
+			else
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,(l_x+start_x).to_integer_16)
+			end
+			if l_h<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,((l_y+l_h)+start_y).to_integer_16)
+			else
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,(l_y+start_y).to_integer_16)
+			end
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,l_w.abs.to_natural_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,l_h.abs.to_natural_16)
 			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(get_format_pointer,color.red,color.green,color.blue)
 			error:={GAME_SDL_EXTERNAL}.SDL_FillRect(get_surface_pointer,rect_src,color_key)
 			check error=0 end
@@ -337,6 +349,7 @@ feature -- Access
 			if is_transparent_accelerated then
 				flags:=flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RLEACCEL)
 			end
+			disable_alpha
 			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(get_surface_pointer,flags,color_key)
 			check error=0 end
 		end
@@ -349,6 +362,9 @@ feature -- Access
 			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(get_surface_pointer,0,0)
 			check error=0 end
 		end
+
+	start_x:INTEGER
+	start_y:INTEGER
 
 
 feature{GAME_SURFACE,GAME_SDL_CONTROLLER} -- Implementation
@@ -385,9 +401,6 @@ feature{GAME_SURFACE,GAME_SDL_CONTROLLER} -- Implementation
 	do
 		is_transparent_accelerated:=val
 	end
-
-	start_x:INTEGER
-	start_y:INTEGER
 
 	srf_height:INTEGER
 	srf_width:INTEGER

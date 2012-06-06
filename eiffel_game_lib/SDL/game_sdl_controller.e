@@ -7,9 +7,6 @@ note
 class
 	GAME_SDL_CONTROLLER
 
-inherit
-	ANY
-
 create
 	make,
 	make_no_parachute
@@ -446,10 +443,11 @@ feature -- Other methods
 		end
 
 	quit_library
-			-- Close the library.
+			-- Close the library. Must be used before the end of the application
 		local
 			mem:MEMORY
 		do
+			event_controller:=Void
 			create mem
 			mem.full_collect
 			if is_text_enabled then
@@ -458,6 +456,7 @@ feature -- Other methods
 			if is_joystick_enabled then
 				close_all_joysticks
 			end
+
 			{GAME_SDL_EXTERNAL}.IMG_Quit
 			{GAME_SDL_EXTERNAL}.SDL_Quit
 		end

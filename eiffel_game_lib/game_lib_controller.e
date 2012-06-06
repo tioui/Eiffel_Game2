@@ -12,20 +12,20 @@ inherit
 	rename
 		make as make_sdl,
 		make_no_parachute as make_no_parachute_sdl,
-		quit_library as sdl_quit_library
-	export {NONE}
-		sdl_quit_library
+		quit_library as quit_library_sdl
+	export
+		{NONE} quit_library_sdl
 	redefine
 		launch
 	end
 	GAME_AL_CONTROLLER
 	rename
 		make as make_al,
-		quit_library as al_quit_library,
 		last_error as last_sound_error,
-		is_error as is_sound_error
-	export {NONE}
-		al_quit_library
+		is_error as is_sound_error,
+		quit_library as quit_library_al
+	export
+		{NONE} quit_library_al
 	end
 
 create
@@ -56,17 +56,10 @@ feature -- Access
 	update_all
 			-- Execute the sound streaming update and the event polling.
 		do
-			if is_sound_open then
+			if is_sound_enable then
 				update_sound_playing
 			end
 			update_event
-		end
-
-	quit_library
-			-- Close the library. (Must be launch before quitting application)
-		do
-			al_quit_library
-			sdl_quit_library
 		end
 
 	launch
@@ -82,5 +75,15 @@ feature -- Access
 				delay (1)
 			end
 		end
+
+	quit_library
+		do
+			quit_library_al
+			quit_library_sdl
+		end
+
+feature {NONE}  -- Implementation methods
+
+
 
 end

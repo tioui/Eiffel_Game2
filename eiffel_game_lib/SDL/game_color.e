@@ -8,7 +8,8 @@ class
 	GAME_COLOR
 
 create
-	make
+	make,
+	make_rgb
 
 feature {NONE} -- Initialization
 
@@ -20,6 +21,13 @@ feature {NONE} -- Initialization
 			set_green(g)
 			set_blue(b)
 			set_alpha(a)
+		end
+
+	make_rgb(r,g,b:NATURAL_8)
+			-- Initialization for `Current'.
+			-- Assignation of the default red, green, blue values (with Alpha value set to 255).
+		do
+			make(r,g,b,255)
 		end
 
 

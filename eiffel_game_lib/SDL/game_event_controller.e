@@ -565,7 +565,7 @@ feature -- Tick event
 		Result:=on_tick.count/=0
 	end
 
-feature -- Tick event implementation
+feature {NONE} -- Tick event implementation
 
 	old_ticks:NATURAL_32
 

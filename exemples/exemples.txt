@@ -1,0 +1,18 @@
+General 2D graphics library initialisation
+	- mouse-text
+	- surface
+
+Loading and printing image:
+	- surface
+
+Drawing rectangles on screen:
+	- mouse-text
+
+Mouse management:
+	- mouse-text
+
+Text surface:
+	- mouse text
+
+Transparency:
+	- surface

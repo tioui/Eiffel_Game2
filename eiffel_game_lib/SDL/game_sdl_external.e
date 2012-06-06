@@ -55,16 +55,65 @@ feature -- Function SDL.h
 
 	frozen SDL_SetVideoMode(width,height,depth:INTEGER;flags:NATURAL_32):POINTER
 		external
-			"C (int,int,int,Uint32) : SDL_Surface * | %"SDL.h%""
+			"C (int,int,int,Uint32) : SDL_Surface * | <SDL.h>"
 		alias
 			"SDL_SetVideoMode"
 		end
 
 	frozen SDL_LoadBMP(filename:POINTER):POINTER
 		external
-		"C inline use <SDL.h>"
+			"C (const char *) : SDL_Surface * | <SDL.h>"
 		alias
-			"(EIF_POINTER) SDL_LoadBMP((const char*) $filename)"
+			"SDL_LoadBMP"
+		end
+
+	frozen SDL_RWFromFile(filename,mode:POINTER):POINTER
+		external
+			"C (const char *, const char *) : SDL_RWops * | <SDL.h>"
+		alias
+			"SDL_RWFromFile"
+		end
+
+	frozen SDL_FreeRW(rwops:POINTER)
+		external
+			"C (SDL_RWops *) | <SDL.h>"
+		alias
+			"SDL_FreeRW"
+		end
+
+	frozen SDL_RWseek(rwops:POINTER;offset,whence:INTEGER):INTEGER
+		external
+			"C (struct SDL_RWops *, int, int) : int | <SDL.h>"
+		alias
+			"SDL_RWseek"
+		end
+
+	frozen SDL_RWtell(rwops:POINTER):INTEGER
+		external
+			"C (struct SDL_RWops *) : int | <SDL.h>"
+		alias
+			"SDL_RWtell"
+		end
+
+	frozen SDL_RWread(rwops,ptr:POINTER;size,maxnum:INTEGER):INTEGER
+		external
+			"C (struct SDL_RWops *, void *, int , int) : int | <SDL.h>"
+		alias
+			"SDL_RWread"
+		end
+
+	frozen SDL_RWwrite(rwops,ptr:POINTER;size,num:INTEGER):INTEGER
+		external
+			"C (struct SDL_RWops *, const void *, int , int ) : int | <SDL.h>"
+		alias
+			"SDL_RWwrite"
+		end
+
+	frozen SDL_RWclose(rwops:POINTER)
+		external
+			"C (struct SDL_RWops * ) | <SDL.h>"
+		alias
+			"SDL_RWclose"
 		end
 
 	frozen SDL_BlitSurface(source,source_rect,dest,dest_rect:POINTER):INTEGER

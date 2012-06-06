@@ -10,7 +10,8 @@ class
 inherit
 	GAME_COLOR
 	rename
-		make as make_rgb
+		make as make_color,
+		make_rgb as make_color_rgb
 	redefine
 		red,green,blue,set_red,set_green,set_blue
 	end
@@ -22,6 +23,7 @@ inherit
 
 create
 	make,
+	make_rgb,
 	make_from_pointer,
 	make_from_pointer_and_alpha,
 	make_from_rgba_color
@@ -31,10 +33,15 @@ feature {NONE} -- Initialization
 	make(r,g,b,a:NATURAL_8)
 	do
 		sdl_color_pointer:={GAME_SDL_EXTERNAL}.c_color_struct_allocate
-		make_rgb(r,g,b,a)
+		make_color(r,g,b,a)
 	ensure
 		SDL_Color_Make_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
 	end
+
+	make_rgb(r,g,b:NATURAL_8)
+		do
+			make(r,g,b,255)
+		end
 
 	make_from_pointer(the_ptr:POINTER)
 			-- Initialization for `Current'.

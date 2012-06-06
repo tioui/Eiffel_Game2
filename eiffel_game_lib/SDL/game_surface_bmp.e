@@ -20,7 +20,6 @@ feature {NONE} -- Implementation
 			-- Open the surface from the BMP image file `filename'.
 		local
 			filename_c:C_STRING
-			pointeur:POINTER
 		do
 			create filename_c.make (filename)
 			make_from_pointer ({GAME_SDL_EXTERNAL}.SDL_LoadBMP(filename_c.item ))
