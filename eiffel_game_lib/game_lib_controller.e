@@ -27,6 +27,10 @@ inherit
 	export
 		{NONE} quit_library_al
 	end
+	GAME_RANDOM
+		rename
+			make as make_random
+		end
 
 create
 	make,
@@ -40,7 +44,7 @@ feature {NONE} -- Initialization
 		do
 			make_sdl
 			make_no_sound
-			init_random
+			make_random
 		end
 
 	make_no_parachute
@@ -50,21 +54,9 @@ feature {NONE} -- Initialization
 		do
 			make_no_parachute_sdl
 			make_no_sound
-			init_random
+			make_random
 		end
 
-	init_random
-		local
-			l_time: TIME
-			l_seed: INTEGER
-		do
-			create l_time.make_now
-			l_seed := l_time.hour
-			l_seed := l_seed * 60 + l_time.minute
-			l_seed := l_seed * 60 + l_time.second
-			l_seed := l_seed * 1000 + l_time.milli_second
-			create random_sequence.set_seed (l_seed)
-		end
 
 feature -- Access
 
@@ -96,38 +88,5 @@ feature -- Access
 			quit_library_al
 			quit_library_sdl
 		end
-
-	get_random_integer:INTEGER_32
-		do
-			random_sequence.forth
-			Result:=random_sequence.item
-		end
-
-	get_random_integer_between(min,max:INTEGER):INTEGER
-		require
-			Get_Random_Between_Max_and_Min_Valid: max>min
-		do
-			Result:= (get_random_integer\\(max-min+1))+min
-		end
-
-	get_random_real:REAL
-		do
-			random_sequence.forth
-			Result:=random_sequence.real_item
-		end
-
-	get_random_real_between(min,max:REAL):REAL
-		require
-			Get_Random_Between_Max_and_Min_Valid: max>min
-		do
-			Result:= (get_random_real*(max-min))+min
-		end
-
-
-feature {NONE}  -- Implementation methods
-
-feature {NONE}  -- Implementation variables
-
-	random_sequence:RANDOM
 
 end
