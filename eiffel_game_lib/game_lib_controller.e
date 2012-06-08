@@ -1,8 +1,8 @@
 note
 	description: "Controller for the library."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "$Date$"
+	revision: "$Revision$"
 
 class
 	GAME_LIB_CONTROLLER
