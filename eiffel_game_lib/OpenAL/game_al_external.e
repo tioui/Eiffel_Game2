@@ -230,6 +230,13 @@ feature -- OpenAL functions
 			"alSourceStop"
 		end
 
+	frozen AL_source_rewind(source:NATURAL)
+		external
+			"C (ALuint) | <al.h>"
+		alias
+			"alSourceRewind"
+		end
+
 --feature -- OggVorbis Functions
 
 --	frozen OV_file_open(filename,oggvorbis_file:POINTER):INTEGER

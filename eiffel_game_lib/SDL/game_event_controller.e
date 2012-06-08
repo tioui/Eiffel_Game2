@@ -606,7 +606,7 @@ feature {NONE} -- Implementation
 		event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(event)
 		if is_active_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_ACTIVEEVENT then
 			decode_active_event({GAME_SDL_EXTERNAL}.get_event_struct_active_pointer(event))
-		elseif is_keyboard_event_actions and (event_type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN or event_type={GAME_SDL_EXTERNAL}.SDL_KEYUP) then
+		elseif ((event_type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN or else event_type={GAME_SDL_EXTERNAL}.SDL_KEYUP)) and then is_keyboard_event_actions then
 			decode_keyboard_event({GAME_SDL_EXTERNAL}.get_event_struct_key_pointer(event))
 		elseif is_mouse_motion_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEMOTION then
 			decode_mouse_motion_event({GAME_SDL_EXTERNAL}.get_event_struct_motion_pointer(event))

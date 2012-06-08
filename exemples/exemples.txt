@@ -16,3 +16,12 @@ Text surface:
 
 Transparency:
 	- surface
+
+Sound usage:
+	- sound
+
+Keyboard event:
+	- sound
+
+Window icon and caption:
+	- sound

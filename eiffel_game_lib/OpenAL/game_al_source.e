@@ -83,7 +83,7 @@ feature -- Access
 		do
 			{GAME_AL_EXTERNAL}.AL_source_pause(index)
 		ensure
-			Source_Pause_Is_Pause: is_pause
+			Source_Pause_Is_Pause: is_pause or else is_initial
 		end
 
 	stop
@@ -92,8 +92,9 @@ feature -- Access
 			{GAME_AL_EXTERNAL}.AL_source_stop(index)
 			sound_queued.wipe_out
 			update_playing
+			{GAME_AL_EXTERNAL}.AL_source_rewind(index)
 		ensure
-			Source_Stop_Is_Stopped: is_stop
+			Source_Stop_Is_Stopped: is_initial
 		end
 
 	is_initial:BOOLEAN

@@ -1,0 +1,11 @@
+The intro.ogg and loop.flac files came from the Pingus game (see: http://pingus.seul.org/). The 
+pings game is under GPL license (see: GPL.license.txt).
+
+The sound.aif file came from then freesound.org web. The sound has been send to the web
+site by the user ianhall (see: http://www.freesound.org/people/ianhall/sounds/13244/). 
+The sound is under the Attribution Creative Commons License 
+(see http://creativecommons.org/licenses/by/3.0/).
+
+The icon.bmp file come from the Open Icon Library and is in the Public Domain
+(see: http://openiconlibrary.sourceforge.net/gallery2/?./Icons/symbols/cards-club.png).
+

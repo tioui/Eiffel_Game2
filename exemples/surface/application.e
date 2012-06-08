@@ -37,10 +37,10 @@ feature {NONE} -- Initialization
 
 			create sprite1.make ("pingus.png")  -- This image don't have an Alpha chanel.
 			sprite1.set_transparent_color (create {GAME_COLOR}.make_rgb(255,0,255))  -- We can use the set_transparent_color to select a color for the transparency (in this case, pink -> 255,0,255)
-			controller.get_screen_surface.print_surface_on_surface (sprite1, 250, 215)  -- Put the sprite1 on the screen
+			controller.get_screen_surface.print_surface_on_surface (sprite1, 400, 350)  -- Put the sprite1 on the screen
 
 			create sprite2.make ("pingus-trans.png")  -- This image have an alpha chanel. You don't have to use the set_transparent_color feature.
-			controller.get_screen_surface.print_surface_on_surface (sprite2, 80, 300)  -- Put the
+			controller.get_screen_surface.print_surface_on_surface (sprite2, 80, 300)  -- Put the sprite2 on the screen
 			controller.flip_screen  -- Show the screen in the window.
 			controller.launch  -- The controller will loop until the stop controller.method is called (in method on_quit).
 		end
