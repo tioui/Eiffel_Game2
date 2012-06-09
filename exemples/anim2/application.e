@@ -99,7 +99,7 @@ feature {NONE} -- Routines
 				end
 				controller.flip_screen		-- Show the screen in the window
 				controller.update_all		-- This call is very important. It permit to the event, sound, etc. to continue.
-				controller.delay (1)		-- Donc forget the delay
+				controller.delay (1)		-- Donc forget the loop delay. Without it, your CPU will burn :)
 			end
 
 		end
