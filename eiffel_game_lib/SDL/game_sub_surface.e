@@ -47,6 +47,8 @@ feature {NONE} -- Initialization
 			set_width(the_width)
 			set_height(the_height)
 			set_is_alpha_accelerated(false)
+			disable_alpha
+			disable_transparent
 		end
 
 end

@@ -14,7 +14,6 @@ feature {NONE} -- Initialization
 	make
 		local
 			controller:GAME_LIB_CONTROLLER
-			mem:MEMORY
 		do
 			create controller.make
 			controller.enable_video -- Enable the video functionalities
@@ -50,15 +49,15 @@ feature {NONE} -- Initialization
 
 			create l_bk_color.make_rgb (200, 200, 0)  -- Select a color for the background
 
-			controller.get_screen_surface.fill_rect (l_bk_color, 0, 0, controller.get_screen_surface.width, controller.get_screen_surface.height)
+			controller.screen_surface.fill_rect (l_bk_color, 0, 0, controller.screen_surface.width, controller.screen_surface.height)
 							-- Draw a rectangle of the color l_bk_color that take all the screen (the background color).
 			if rect_start_x/=-1 then
 				create l_rect_color.make_rgb(0,0,200)  -- Select the color for the mouse rectangle
-				controller.get_screen_surface.fill_rect (l_rect_color, rect_start_x, rect_start_y, x-rect_start_x, y-rect_start_y)  -- Draw the mouse rectangle.
+				controller.screen_surface.fill_rect (l_rect_color, rect_start_x, rect_start_y, x-rect_start_x, y-rect_start_y)  -- Draw the mouse rectangle.
 			end
 			create l_font_color.make_rgb (0, 0, 0)  -- Initialise the color of the text to print on the screen
 			create l_text_surface.make_blended ("("+x.out+","+y.out+")", l_font, l_font_color)  -- Create the surface containing the text to print
-			controller.get_screen_surface.print_surface_on_surface (l_text_surface, 0, 0)  -- Put the Text surface on the screen at (x,y)=(0,0)
+			controller.screen_surface.print_surface_on_surface (l_text_surface, 0, 0)  -- Put the Text surface on the screen at (x,y)=(0,0)
 			controller.flip_screen  -- Show the screen in the window
 		end
 

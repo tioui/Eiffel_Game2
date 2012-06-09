@@ -12,9 +12,16 @@ inherit
 	GAME_MEDIA_FILE
 
 create
-	make
+	make,
+	make_with_alpha
 
 feature {NONE} -- Implemetation
+
+	make_with_alpha(filename:STRING)
+		do
+			make(filename)
+			enable_alpha
+		end
 
 	open_from_file(filename:STRING)
 			-- Open the surface from the image file `filename'.

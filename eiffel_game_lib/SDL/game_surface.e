@@ -30,6 +30,8 @@ feature {NONE} -- Initialisation
 			start_y:=0
 			set_width({GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer))
 			set_height({GAME_SDL_EXTERNAL}.get_surface_struct_h(get_surface_pointer))
+			disable_alpha
+			disable_transparent
 		end
 
 	make_from_surface(the_surface:GAME_SURFACE)
@@ -47,6 +49,8 @@ feature {NONE} -- Initialisation
 			start_y:=the_surface.start_y
 			set_width(the_surface.width)
 			set_height(the_surface.height)
+			disable_alpha
+			disable_transparent
 		end
 
 feature -- Access
@@ -55,12 +59,18 @@ feature -- Access
 			-- Create another surface from the current surface (the memory SDL surface is duplicate).
 		do
 			create Result.make_from_pointer({GAME_SDL_EXTERNAL}.SDL_ConvertSurface(get_surface_pointer,get_format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer)))
-			Result.set_is_alpha_accelerated (is_alpha_accelerated)
 			set_start_x(start_x)
 			set_start_y(start_y)
 			Result.set_width (width)
 			Result.set_height (height)
-			Result.set_is_transparent_accelerated (is_transparent_accelerated)
+			Result.is_alpha_accelerated:=is_alpha_accelerated
+			Result.is_transparent_accelerated:=is_transparent_accelerated
+			if is_alpha_enable then
+				Result.enable_alpha
+			end
+			if is_transparent_enable then
+				Result.set_color_key (trans_color_key)
+			end
 		end
 
 	bits_per_pixel:INTEGER
@@ -119,82 +129,109 @@ feature -- Access
 			Get_Sub_Surface_From_Height_Valid: sub_height <= height-from_y
 		do
 			Result := create {GAME_SUB_SURFACE}.make_from_surface (Current, from_x, from_y, sub_width, sub_height)
+			Result.is_alpha_accelerated:=is_alpha_accelerated
+			Result.is_transparent_accelerated:=is_transparent_accelerated
+			if is_alpha_enable then
+				Result.enable_alpha
+			end
+			if is_transparent_enable then
+				Result.set_color_key (trans_color_key)
+			end
 		end
 
 	get_new_surface_rotate_90_degree(nb_clockwise:INTEGER):GAME_SURFACE
 			-- Create a new surface from the current surface after doing a 90*`nb_clockwise' rotation (a new memory surface will be created).
-		local
-			temp_surface:GAME_SURFACE
-			bbp:INTEGER
-			format:POINTER
-			is_temp_surface:BOOLEAN
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
 		do
-			if bits_per_pixel=8 or bits_per_pixel=16 or bits_per_pixel=32 then
-				bbp:=bits_per_pixel
-			else
-				bbp:=32
+			create Result.make_from_pointer(get_new_surface_pointer_rotate_90_degree(nb_clockwise))
+			Result.is_alpha_accelerated:=is_alpha_accelerated
+			Result.is_transparent_accelerated:=is_transparent_accelerated
+			if is_alpha_enable then
+				Result.enable_alpha
 			end
-
-			if start_x = 0 and start_y = 0 and width={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) and height={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) then
-				is_temp_surface:=false
-				temp_surface:=Current
-			else
-				is_temp_surface:=true
-				format:=get_format_pointer
-				temp_surface:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.SDL_SWSURFACE,width, height,bbp,
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
-				if bits_per_pixel=8 then
-
-					temp_surface:= create {GAME_SURFACE}.make_from_pointer({GAME_SDL_EXTERNAL}.SDL_ConvertSurface(temp_surface.get_surface_pointer,format,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer)))
-				end
-
-				temp_surface.print_surface_on_surface (Current, 0, 0)
+			if is_transparent_enable then
+				Result.set_color_key (trans_color_key)
 			end
-			create Result.make_from_pointer({GAME_SDL_EXTERNAL}.rotateSurface90Degrees(temp_surface.get_surface_pointer ,nb_clockwise))
 		end
 
 	rotate_surface_90_degree(nb_clockwise:INTEGER)
 			-- Modify the current surface by doing a 90*`nb_clockwise' rotation (a new memory surface will be created)
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
 		do
-			set_surface_pointer(get_new_surface_rotate_90_degree(nb_clockwise).get_surface_pointer)
+			set_surface_pointer(get_new_surface_pointer_rotate_90_degree(nb_clockwise))
+			if is_alpha_enable then
+				enable_alpha
+			else
+				disable_alpha
+			end
+			if is_transparent_enable then
+				set_color_key (trans_color_key)
+			end
 		end
 
 
 	get_new_surface_rotate_and_zoom(angle_clockwise,zoom_x,zoom_y:REAL_64;smooth:BOOLEAN):GAME_SURFACE
 			-- Create a new surface from the current surface after doing a `angle_clockwise' degree rotation
 			-- and doing a zoom (a new memory surface will be created).
-		local
-			temp_surface:GAME_SURFACE
-			bbp:INTEGER
-			format:POINTER
+			-- The surface has to be 8 bits per pixel or 32 bits per pixel.
 		do
-			if bits_per_pixel=8 or bits_per_pixel=32 then
-				bbp:=bits_per_pixel
-			else
-				bbp:=32
+			create Result.make_from_pointer (get_new_surface_pointer_rotate_and_zoom(angle_clockwise,zoom_x,zoom_y,smooth))
+			Result.is_alpha_accelerated:=is_alpha_accelerated
+			Result.is_transparent_accelerated:=is_transparent_accelerated
+			if is_alpha_enable then
+				Result.enable_alpha
 			end
-			if start_x = 0 and start_y = 0 and width={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) and height={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) then
-				temp_surface:=Current
-			else
-				format:=get_format_pointer
-				temp_surface:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.SDL_SWSURFACE,width, height,bbp,
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
-				if bits_per_pixel=8 then
-
-					temp_surface:= create {GAME_SURFACE}.make_from_pointer({GAME_SDL_EXTERNAL}.SDL_ConvertSurface(temp_surface.get_surface_pointer,format,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer)))
-				end
-				temp_surface.print_surface_on_surface (Current, 0, 0)
+			if is_transparent_enable then
+				Result.set_color_key (trans_color_key)
 			end
-			create Result.make_from_pointer ({GAME_SDL_EXTERNAL}.rotozoomSurfaceXY(temp_surface.get_surface_pointer ,-angle_clockwise,zoom_x,zoom_y,smooth))
 		end
 
 	rotate_and_zoom_surface(angle_clockwise,zoom_x,zoom_y:REAL_64;smooth:BOOLEAN)
 			-- Modify the current surface by doing a `angle_clockwise' degree rotation
 			-- and doing a zoom (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel or 32 bits per pixel.
 		do
-			set_surface_pointer(get_new_surface_rotate_and_zoom(angle_clockwise,zoom_x,zoom_y,smooth).get_surface_pointer)
+			set_surface_pointer(get_new_surface_pointer_rotate_and_zoom(angle_clockwise,zoom_x,zoom_y,smooth))
+			if is_alpha_enable then
+				enable_alpha
+			else
+				disable_alpha
+			end
+			if is_transparent_enable then
+				set_color_key (trans_color_key)
+			end
+		end
+
+	get_new_surface_mirror(mirror_x,mirror_y:BOOLEAN):GAME_SURFACE
+			-- Create a new surface from the current surface after doing a mirror (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
+		do
+			create Result.make_from_pointer(get_new_surface_pointer_mirror(mirror_x,mirror_y))
+			Result.is_alpha_accelerated:=is_alpha_accelerated
+			Result.is_transparent_accelerated:=is_transparent_accelerated
+			if is_alpha_enable then
+				Result.enable_alpha
+			end
+			if is_transparent_enable then
+				Result.set_color_key (trans_color_key)
+			end
+		end
+
+	mirror_surface(mirror_x,mirror_y:BOOLEAN)
+			-- Modify the present surface by doing a mirror (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
+		do
+			set_surface_pointer(get_new_surface_pointer_mirror(mirror_x,mirror_y))
+			if is_alpha_enable then
+				enable_alpha
+			else
+				disable_alpha
+			end
+			if is_transparent_enable then
+				set_color_key (trans_color_key)
+			end
+
+
 		end
 
 
@@ -263,7 +300,9 @@ feature -- Access
 		end
 		error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(get_surface_pointer,flags,get_overall_alpha_value)
 		check error=0 end
+		is_alpha_enable:=true
 	end
+	is_alpha_enable:BOOLEAN
 
 	is_alpha_accelerated:BOOLEAN assign set_is_alpha_accelerated
 
@@ -274,8 +313,9 @@ feature -- Access
 		local
 			error:INTEGER
 		do
-			error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(get_surface_pointer,0,{GAME_SDL_EXTERNAL}.SDL_ALPHA_OPAQUE)
+			error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(get_surface_pointer,0,get_overall_alpha_value)
 			check error=0 end
+			is_alpha_enable:=false
 		end
 
 	get_overall_alpha_value:NATURAL_8
@@ -337,38 +377,50 @@ feature -- Access
 		end
 
 	set_transparent_color(color:GAME_COLOR)
-			-- Change all pixel of color `color' into transparency. The transparency by color don't work if the surface
+			-- Change all pixel of color `color' into transparency (and enable it). The transparency by color don't work if the surface
 			-- have an alpha blending activated.
 		local
-			color_key:NATURAL_32
-			error:INTEGER
-			flags:NATURAL_32
+			key:NATURAL_32
 		do
-			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(get_format_pointer,color.red, color.green, color.blue)
-			flags:={GAME_SDL_EXTERNAL}.SDL_SRCCOLORKEY
-			if is_transparent_accelerated then
-				flags:=flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RLEACCEL)
-			end
-			disable_alpha
-			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(get_surface_pointer,flags,color_key)
-			check error=0 end
+			key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(get_format_pointer,color.red, color.green, color.blue)
+			set_color_key(key)
 		end
 
+	is_transparent_enable:BOOLEAN  -- Is transparency by color key is enabled.
+
 	disable_transparent
-			-- Remove the transparency by color.
+			-- Remove the transparency by color key.
 		local
 			error:INTEGER
+			key:NATURAL_32
 		do
 			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(get_surface_pointer,0,0)
 			check error=0 end
+			is_transparent_enable:=false
 		end
 
 	start_x:INTEGER
 	start_y:INTEGER
 
 
+
 feature{GAME_SURFACE,GAME_SDL_CONTROLLER} -- Implementation
 
+	set_color_key(key:NATURAL_32)
+		local
+			error:INTEGER
+			flags:NATURAL_32
+		do
+			trans_color_key:=key
+			flags:={GAME_SDL_EXTERNAL}.SDL_SRCCOLORKEY
+			if is_transparent_accelerated then
+				flags:=flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RLEACCEL)
+			end
+			disable_alpha
+			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(get_surface_pointer,flags,trans_color_key)
+			check error=0 end
+			is_transparent_enable:=true
+		end
 
 	get_format_pointer:POINTER
 			-- Get the SDL format structure pointer.
@@ -431,6 +483,111 @@ feature{GAME_SURFACE,GAME_SDL_CONTROLLER} -- Implementation
 
 	is_make:BOOLEAN
 
+
+feature {NONE} -- Implemenation routine
+
+		get_surface_copy_8_16_32:GAME_SURFACE
+			-- Get a copy of the current surface
+		local
+			temp_surface:GAME_SURFACE
+			bbp:INTEGER
+			format:POINTER
+			is_temp_surface:BOOLEAN
+		do
+			if bits_per_pixel=8 or bits_per_pixel=16 or bits_per_pixel=32 then
+				bbp:=bits_per_pixel
+			else
+				bbp:=(create {GAME_SCREEN}.make_from_current_video_surface).bits_per_pixel
+				if bits_per_pixel=8 or bits_per_pixel=16 or bits_per_pixel=32 then
+					bbp:=32
+				end
+			end
+
+			if start_x = 0 and start_y = 0 and width={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) and height={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) then
+				is_temp_surface:=false
+				temp_surface:=Current
+			else
+				is_temp_surface:=true
+				format:=get_format_pointer
+				if bbp=bits_per_pixel then
+					Result:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
+											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
+											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
+				else
+					Result:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
+											0,0,0,0)
+				end
+
+				if bits_per_pixel=8 then
+					{GAME_SDL_EXTERNAL}.copyPalette(get_surface_pointer,temp_surface.get_surface_pointer)
+				end
+				Result.is_transparent_accelerated:=is_transparent_accelerated
+				Result.is_alpha_accelerated:=is_alpha_accelerated
+				if is_transparent_enable then
+					Result.set_color_key (trans_color_key)
+				end
+				if is_alpha_enable then
+
+					disable_alpha
+					Result.print_surface_on_surface (Current, 0, 0)
+					enable_alpha
+					Result.enable_alpha
+				else
+					Result.print_surface_on_surface (Current, 0, 0)
+				end
+
+
+			end
+		end
+
+
+	get_new_surface_pointer_mirror(mirror_x,mirror_y:BOOLEAN):POINTER
+			-- Create a new surface from the current surface after doing a mirror (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
+		local
+			temp_surface:GAME_SURFACE
+		do
+			temp_surface:=get_surface_copy_8_16_32
+			if mirror_x and then mirror_y then
+				Result:={GAME_SDL_EXTERNAL}.rotateSurface90Degrees(temp_surface.get_surface_pointer,2)
+			elseif mirror_x then
+				Result:={GAME_SDL_EXTERNAL}.MirrorSurfaceX(temp_surface.get_surface_pointer)
+			elseif mirror_y then
+				Result:={GAME_SDL_EXTERNAL}.MirrorSurfaceY(temp_surface.get_surface_pointer)
+			else
+				Result:=temp_surface.get_surface_pointer
+			end
+
+
+		end
+
+	get_new_surface_pointer_rotate_and_zoom(angle_clockwise,zoom_x,zoom_y:REAL_64;smooth:BOOLEAN):POINTER
+			-- Create a new surface from the current surface after doing a `angle_clockwise' degree rotation
+			-- and doing a zoom (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel or 32 bits per pixel.
+		local
+			temp_surface:GAME_SURFACE
+		do
+			temp_surface:=get_surface_copy_8_16_32
+
+			Result:={GAME_SDL_EXTERNAL}.rotozoomSurfaceXY(temp_surface.get_surface_pointer ,-angle_clockwise,zoom_x,zoom_y,smooth)
+		end
+
+	get_new_surface_pointer_rotate_90_degree(nb_clockwise:INTEGER):POINTER
+			-- Create a new surface from the current surface after doing a 90*`nb_clockwise' rotation (a new memory surface will be created).
+			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
+		local
+			temp_surface:GAME_SURFACE
+		do
+			temp_surface:=get_surface_copy_8_16_32
+
+			Result:={GAME_SDL_EXTERNAL}.rotateSurface90Degrees(temp_surface.get_surface_pointer ,nb_clockwise)
+		end
+
+
+feature {NONE} -- Implementation Variables
+
+	trans_color_key:NATURAL_32
 
 
 invariant

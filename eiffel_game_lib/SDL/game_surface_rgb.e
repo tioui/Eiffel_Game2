@@ -34,12 +34,7 @@ feature {NONE} -- Initialisation
 			-- Initialization for `Current'.
 			-- Create a new empty surface with RGBA mask and flags.
 		do
-			set_surface_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(flags,the_width,the_height,the_bits_per_pixel,Rmask,Gmask,Bmask,Amask))
-			start_x:=0
-			start_y:=0
-			set_width(the_width)
-			set_height(the_height)
-			set_is_alpha_accelerated(false)
+			make_from_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(flags,the_width,the_height,the_bits_per_pixel,Rmask,Gmask,Bmask,Amask))
 		end
 
 end

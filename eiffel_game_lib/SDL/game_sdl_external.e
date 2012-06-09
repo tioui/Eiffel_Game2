@@ -452,6 +452,30 @@ feature -- Manual C function (implemented in SDLmore.c)
 			"putpixel"
 		end
 
+	frozen copyPalette(surface_src,surface_dst:POINTER)
+		external
+			"C (SDL_Surface *,SDL_Surface *)  | %"SDL_more.h%""
+		alias
+			"CopyPalette_8"
+		end
+
+	frozen MirrorSurfaceX(surface:POINTER):POINTER
+		external
+			"C (SDL_Surface *) : SDL_Surface * | %"SDL_more.h%""
+		alias
+			"MirrorSurfaceX"
+		end
+
+
+	frozen MirrorSurfaceY(surface:POINTER):POINTER
+		external
+			"C (SDL_Surface *) : SDL_Surface * | %"SDL_more.h%""
+		alias
+			"MirrorSurfaceY"
+		end
+
+
+
 feature -- Fonction SDL_image
 
 	frozen IMG_Load(filename:POINTER):POINTER
@@ -563,7 +587,7 @@ feature -- Structure SDL_Surface SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_Surface), 1)"
+			"malloc (sizeof(SDL_Surface))"
 		end
 
 	frozen c_surface_struct_free(surface:POINTER) is
@@ -635,7 +659,7 @@ feature -- Structure SDL_Rect SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_Rect), 1)"
+			"malloc (sizeof(SDL_Rect))"
 		end
 
 	frozen c_rect_struct_free(rect:POINTER) is
@@ -707,7 +731,7 @@ feature -- Structure SDL_PixelFormat SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_PixelFormat), 1)"
+			"malloc (sizeof(SDL_PixelFormat))"
 		end
 
 	frozen c_pixel_format_struct_free(pixel_format:POINTER) is
@@ -961,7 +985,7 @@ feature -- Structure SDL_Palette SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_Palette), 1)"
+			"malloc (sizeof(SDL_Palette))"
 		end
 
 	frozen c_palette_struct_free(palette:POINTER) is
@@ -1012,7 +1036,7 @@ feature -- Structure SDL_Color SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_Color), 1)"
+			"malloc (sizeof(SDL_Color))"
 		end
 
 	frozen c_color_struct_free(color:POINTER) is
@@ -1084,7 +1108,7 @@ feature -- Structure SDL_Event SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_Event), 1)"
+			"malloc (sizeof(SDL_Event))"
 		end
 
 	frozen c_event_struct_free(event:POINTER) is
@@ -1234,7 +1258,7 @@ feature -- Structure SDL_ActiveEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_ActiveEvent), 1)"
+			"malloc (sizeof(SDL_ActiveEvent))"
 		end
 
 	frozen c_active_event_struct_free(event:POINTER)
@@ -1292,7 +1316,7 @@ feature -- Structure SDL_KeyboardEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_KeyboardEvent), 1)"
+			"malloc (sizeof(SDL_KeyboardEvent))"
 		end
 
 	frozen c_keyboard_event_struct_free(event:POINTER)
@@ -1345,7 +1369,7 @@ feature -- Structure SDL_keysym SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_keysym), 1)"
+			"malloc (sizeof(SDL_keysym))"
 		end
 
 	frozen c_key_sym_struct_free(ptr:POINTER) is
@@ -1417,7 +1441,7 @@ feature -- Structure SDL_MouseMotionEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_MouseMotionEvent), 1)"
+			"malloc (sizeof(SDL_MouseMotionEvent))"
 		end
 
 	frozen c_mouse_motion_event_struct_free(ptr:POINTER) is
@@ -1518,7 +1542,7 @@ feature -- Structure SDL_MouseButtonEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_MouseButtonEvent), 1)"
+			"malloc (sizeof(SDL_MouseButtonEvent))"
 		end
 
 	frozen c_mouse_button_event_struct_free(ptr:POINTER) is
@@ -1618,7 +1642,7 @@ feature -- Structure SDL_JoyAxisEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_JoyAxisEvent), 1)"
+			"malloc (sizeof(SDL_JoyAxisEvent))"
 		end
 
 	frozen c_joy_axis_event_struct_free(ptr:POINTER) is
@@ -1690,7 +1714,7 @@ feature -- Structure SDL_JoyBallEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_JoyBallEvent), 1)"
+			"malloc (sizeof(SDL_JoyBallEvent))"
 		end
 
 	frozen c_joy_ball_event_struct_free(ptr:POINTER) is
@@ -1776,7 +1800,7 @@ feature -- Structure SDL_JoyHatEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_JoyHatEvent), 1)"
+			"malloc (sizeof(SDL_JoyHatEvent))"
 		end
 
 	frozen c_joy_hat_event_struct_free(ptr:POINTER) is
@@ -1848,7 +1872,7 @@ feature -- Structure SDL_JoyButtonEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_JoyButtonEvent), 1)"
+			"malloc (sizeof(SDL_JoyButtonEvent))"
 		end
 
 	frozen c_joy_button_event_struct_free(ptr:POINTER) is
@@ -1920,7 +1944,7 @@ feature -- Structure SDL_ResizeEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_ResizeEvent), 1)"
+			"malloc (sizeof(SDL_ResizeEvent))"
 		end
 
 	frozen c_resize_event_struct_free(ptr:POINTER) is
@@ -1978,7 +2002,7 @@ feature -- Structure SDL_ExposeEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_ExposeEvent), 1)"
+			"malloc (sizeof(SDL_ExposeEvent))"
 		end
 
 	frozen c_expose_event_struct_free(ptr:POINTER) is
@@ -2008,7 +2032,7 @@ feature -- Structure SDL_QuitEvent SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"calloc (sizeof(SDL_QuitEvent), 1)"
+			"malloc (sizeof(SDL_QuitEvent))"
 		end
 
 	frozen c_quit_event_struct_free(ptr:POINTER) is

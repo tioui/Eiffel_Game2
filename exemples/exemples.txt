@@ -22,6 +22,16 @@ Sound usage:
 
 Keyboard event:
 	- sound
+	- anim
 
 Window icon and caption:
 	- sound
+
+Animation (sub image)
+	- anim
+
+Mirror (Rotation is just the same)
+	- anim
+
+Tick event (main loop routine)
+	- anim

@@ -181,7 +181,7 @@ feature -- Video methods
 		local
 			error:INTEGER
 		do
-			error:={GAME_SDL_EXTERNAL}.SDL_Flip(get_screen_surface.get_surface_pointer)
+			error:={GAME_SDL_EXTERNAL}.SDL_Flip(screen_surface.get_surface_pointer)
 			check error = 0 end
 		end
 
@@ -233,25 +233,25 @@ feature -- Video methods
 		if fullscreen then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_FULLSCREEN
 		end
-		screen_surface:=create {GAME_SCREEN}.make(the_width,the_height,the_bits_per_pixel,flags)
+		scr_surface:=create {GAME_SCREEN}.make(the_width,the_height,the_bits_per_pixel,flags)
 	ensure
 		Create_Screen_Not_Void: screen_is_create
 	end
 
-	get_screen_surface:GAME_SCREEN
+	screen_surface:GAME_SCREEN
 		-- Get the screen surface given by create_screen.
 		-- You can print other surface on this screen.
 		-- When you use the routine flip_screen, the screen is show on the window.
 	require
 		Get_Screen_Surface_Not_Void: screen_is_create
 	do
-		Result := screen_surface
+		Result := scr_surface
 	end
 
 	screen_is_create:BOOLEAN
 		-- Return true if a screen has been created and is not destroy.
 	do
-		Result:=screen_surface /= Void
+		Result:=scr_surface /= Void
 	end
 
 	get_available_video_mode(video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN):SEQUENCE[TUPLE[width,height:INTEGER_32]]
@@ -436,6 +436,8 @@ feature -- Other methods
 			end
 		end
 
+	loop_delay:NATURAL_32	-- Change it if to change the frequency of the event.
+
 	stop
 			-- Stop the main loop
 		do
@@ -513,7 +515,7 @@ feature{NONE} -- Implementation - Methods
 
 feature {NONE} -- Implementation - Variables
 
-	screen_surface:GAME_SCREEN
+	scr_surface:GAME_SCREEN
 
 	must_stop:BOOLEAN
 

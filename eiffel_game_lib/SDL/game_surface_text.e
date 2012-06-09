@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 			create text_c.make (l_text)
 			create l_sdl_color.make_from_rgba_color (l_color)
 			make_from_pointer ({GAME_SDL_EXTERNAL}.TTF_RenderText_Solid(l_font.sdl_font_pointer,text_c.item,l_sdl_color.sdl_color_pointer))
+			enable_alpha
 		ensure
 			SDL_Surface_Text_Surface_Imp_Ok: surface_imp = Void or surface_imp.is_surface_ok
 		end
@@ -79,6 +80,7 @@ feature {NONE} -- Initialization
 			create text_c.make (l_text)
 			create l_sdl_color.make_from_rgba_color (l_color)
 			make_from_pointer ({GAME_SDL_EXTERNAL}.TTF_RenderText_Blended(l_font.sdl_font_pointer,text_c.item,l_sdl_color.sdl_color_pointer))
+			enable_alpha
 		ensure
 			SDL_Surface_Text_Surface_Imp_Ok: surface_imp = Void or surface_imp.is_surface_ok
 		end

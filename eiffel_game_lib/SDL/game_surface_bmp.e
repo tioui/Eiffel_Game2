@@ -23,7 +23,6 @@ feature {NONE} -- Implementation
 		do
 			create filename_c.make (filename)
 			make_from_pointer ({GAME_SDL_EXTERNAL}.SDL_LoadBMP(filename_c.item ))
-
 		end
 
 

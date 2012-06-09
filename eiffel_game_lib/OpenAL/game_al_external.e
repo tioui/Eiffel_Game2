@@ -14,7 +14,7 @@ feature -- Usefull function
 		external
 			"C inline use <stdint.h>"
 		alias
-			"calloc ($length,sizeof(uint8_t))"
+			"malloc ($length*sizeof(uint8_t))"
 		end
 
 	frozen c_buffer_free(buffer:POINTER)
@@ -272,7 +272,7 @@ feature -- OpenAL functions
 --			"C (OggVorbis_File *) : long | <vorbisfile.h>"
 --		alias
 --			"ov_seekable"
---		end
+--		end 
 
 --	frozen OV_pcm_seek_page(oggvorbis_file:POINTER;pos:INTEGER_64):INTEGER
 --		external
@@ -349,7 +349,7 @@ feature -- libsndfile SF_INFO structure
 		external
 			"C inline use <sndfile.h>"
 		alias
-			"calloc (1,sizeof(SF_INFO))"
+			"malloc (sizeof(SF_INFO))"
 		end
 
 	frozen c_sf_info_struct_free(info:POINTER) is

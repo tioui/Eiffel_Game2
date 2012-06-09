@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="sound" uuid="46FD29F2-0485-4A58-BDC7-E749CED4C3EE">
-	<target name="sound-mac">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="anim1" uuid="46FD29F2-0485-4A58-BDC7-E749CED4C3EE">
+	<target name="anim1-mac">
                 <root class="APPLICATION" feature="make"/>
                 <option warning="true" is_attached_by_default="false" syntax="transitional">
                         <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
@@ -16,16 +16,16 @@
                         </file_rule>
                 </cluster>
         </target>
-	<target name="sound" extends="sound-mac">
+	<target name="anim1" extends="anim1-mac">
 		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
 	</target>
-	<target name="sound-caanoo" extends="sound-mac">
+	<target name="anim1-caanoo" extends="anim1-mac">
 		<option warning="true" is_attached_by_default="false" syntax="transitional">
 			<assertions precondition="false" postcondition="false" check="false" invariant="false" loop="false" supplier_precondition="false"/>
 		</option>
 		<variable name="toolchain" value="caanoo"/>
 	</target>
-	<target name="sound-wiz" extends="sound-mac">
+	<target name="anim1-wiz" extends="anim1-mac">
 		<option warning="true" is_attached_by_default="false" syntax="transitional">
 			<assertions precondition="false" postcondition="false" check="false" invariant="false" loop="false" supplier_precondition="false"/>
 		</option>

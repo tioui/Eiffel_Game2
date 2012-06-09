@@ -1,6 +1,6 @@
 note
 	description: "Summary description for {GAME_RANDOM}."
-	author: ""
+	author: "Louis Marchand inspire by Martin Seiler (http://community.eiffel.com/room/article/random_numbers)"
 	date: "$Date$"
 	revision: "$Revision$"
 
