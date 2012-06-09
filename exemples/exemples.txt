@@ -22,16 +22,23 @@ Sound usage:
 
 Keyboard event:
 	- sound
-	- anim
+	- anim1
+	- anim2
 
 Window icon and caption:
 	- sound
 
 Animation (sub image)
-	- anim
+	- anim1
+	- anim2
 
 Mirror (Rotation is just the same)
-	- anim
+	- anim1
+	- anim2
 
 Tick event (main loop routine)
-	- anim
+	- anim1
+
+Real game loop (without the controller.launch)
+	- anim2
+
