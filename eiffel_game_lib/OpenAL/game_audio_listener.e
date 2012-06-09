@@ -5,12 +5,12 @@ note
 	revision: "0.1"
 
 class
-	GAME_AL_LISTENER
+	GAME_AUDIO_LISTENER
 
 inherit
-	GAME_AL_OBJECT_3D
+	GAME_AUDIO_3D_OBJECT
 
-create {GAME_AL_CONTROLLER}
+create {GAME_AUDIO_CONTROLLER}
 	make
 
 feature {NONE} -- Initialization
@@ -33,13 +33,13 @@ feature -- Access
 		require
 			Listener_Orientation_At_And_Up_Orthogonal: x_at*x_up+y_at*y_up+z_at*z_up=0
 		do
-			set_6_float_params({GAME_AL_EXTERNAL}.AL_ORIENTATION,x_at,y_at,z_at,x_up,y_up,z_up)
+			set_6_float_params({GAME_AUDIO_EXTERNAL}.AL_ORIENTATION,x_at,y_at,z_at,x_up,y_up,z_up)
 		end
 
 	get_orientation:TUPLE[x_at,y_at,z_at,x_up,y_up,z_up:REAL]
 			-- Get the listener orientation (UP and AT).
 		do
-			Result:=get_6_float_parms({GAME_AL_EXTERNAL}.AL_ORIENTATION)
+			Result:=get_6_float_parms({GAME_AUDIO_EXTERNAL}.AL_ORIENTATION)
 		end
 
 feature {NONE} -- Implementation
@@ -80,12 +80,12 @@ feature {NONE} -- Implementation
 
 	set_float_params_c(id:INTEGER;ptr:POINTER)
 		do
-			{GAME_AL_EXTERNAL}.AL_set_listener_fv(id,ptr)
+			{GAME_AUDIO_EXTERNAL}.AL_set_listener_fv(id,ptr)
 		end
 
 	get_float_params_c(id:INTEGER;ptr:POINTER)
 		do
-			{GAME_AL_EXTERNAL}.AL_get_listener_fv(id,ptr)
+			{GAME_AUDIO_EXTERNAL}.AL_get_listener_fv(id,ptr)
 		end
 
 end

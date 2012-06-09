@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 
 	run_game(controller:GAME_LIB_CONTROLLER)
 		local
-			bk,sprite1,sprite2:GAME_SURFACE_IMG
+			bk,sprite1,sprite2:GAME_SURFACE_IMG_FILE
 		do
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
 

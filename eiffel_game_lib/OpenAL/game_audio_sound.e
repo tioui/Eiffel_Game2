@@ -5,12 +5,12 @@ note
 	revision: "0.1"
 
 deferred class
-	GAME_AL_SOUND
+	GAME_AUDIO_SOUND
 
 inherit
-	GAME_AL_ERROR_MANAGER
+	GAME_OPENAL_ERROR_MANAGER
 
-feature {GAME_AL_SOURCE}
+feature {GAME_AUDIO_SOURCE}
 
 	fill_buffer(buffer:POINTER;max_length:INTEGER)
 		-- Warning, side effect on buffer (buffer will be modified by this method)

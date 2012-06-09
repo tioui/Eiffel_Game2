@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			bk,desert:GAME_SURFACE
 			maryo_anim:LIST[GAME_SURFACE]
 			sky_color:GAME_COLOR
-			random_gen:GAME_RANDOM
+			random_gen:GAME_RANDOM_CONTROLLER
 		do
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
 			controller.event_controller.on_key_down.extend(agent on_key_down)
@@ -35,8 +35,8 @@ feature {NONE} -- Initialization
 
 
 
-			desert:=create {GAME_SURFACE_IMG}.make_with_alpha ("desert.png")  -- Create the desert surface
-			bk:=create {GAME_SURFACE_RGB}.make(desert.width,desert.height,16,true)  -- Create the background surface
+			desert:=create {GAME_SURFACE_IMG_FILE}.make_with_alpha ("desert.png")  -- Create the desert surface
+			create bk.make(desert.width,desert.height,16,true)  -- Create the background surface
 			create sky_color.make_rgb (69, 161, 246)	-- Set blue for the background sky.
 			bk.fill_rect (sky_color, 0, 0, bk.width, bk.height)	-- Draw the blue background sky.
 			bk.print_surface_on_surface (desert, 0, 0)	-- Show the desert surface on the blue background.
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 
 	gen_maryo_anim:LIST[GAME_SURFACE]
 		local
-			maryo:GAME_SURFACE_IMG
+			maryo:GAME_SURFACE_IMG_FILE
 		do
 			Result:=create{ARRAYED_LIST[GAME_SURFACE]}.make(4) -- We need 4 images to animate the Maryo (the 2nd and the 4th are the same)
 			create maryo.make_with_alpha ("maryo.png")		-- In this image, there are 3 images

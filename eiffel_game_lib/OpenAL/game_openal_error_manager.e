@@ -10,14 +10,14 @@ note
 	revision: "0.1"
 
 deferred class
-	GAME_AL_ERROR_MANAGER
+	GAME_OPENAL_ERROR_MANAGER
 
 
 feature {NONE}
 
 	read_error
 		do
-			last_error:={GAME_AL_EXTERNAL}.AL_get_error
+			last_error:={GAME_AUDIO_EXTERNAL}.AL_get_error
 		end
 
 feature -- Access
@@ -27,7 +27,7 @@ feature -- Access
 	is_error:BOOLEAN
 			-- Is there an error in the OpenAL library.
 		do
-			Result:=last_error/={GAME_AL_EXTERNAL}.AL_NO_ERROR
+			Result:=last_error/={GAME_AUDIO_EXTERNAL}.AL_NO_ERROR
 		end
 
 	last_error:INTEGER -- The last error index return by the OpenAL library.

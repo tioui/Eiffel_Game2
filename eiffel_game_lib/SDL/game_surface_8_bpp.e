@@ -5,11 +5,12 @@ note
 	revision: "0.1"
 
 class
-	GAME_SURFACE_8
+	GAME_SURFACE_8_BPP
 
 inherit
 	GAME_SURFACE
 	rename
+		make as make_base,
 		make_from_surface as make_from_surface_base,
 		make_from_pointer as make_from_pointer_base
 	redefine
@@ -26,9 +27,9 @@ feature {NONE} -- Initialization
 	make(the_width,the_height:INTEGER;video_memory:BOOLEAN)
 			-- Initialization for `Current'.
 		local
-			temp_surface:GAME_SURFACE_RGB
+			temp_surface:GAME_SURFACE
 		do
-			make_from_surface(create {GAME_SURFACE_RGB}.make (the_width, the_height,8, video_memory))
+			make_base (the_width, the_height,8, video_memory)
 		end
 
 	make_from_surface(l_surface:GAME_SURFACE)

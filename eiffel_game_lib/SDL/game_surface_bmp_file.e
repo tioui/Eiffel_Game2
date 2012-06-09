@@ -5,10 +5,13 @@ note
 	revision: "0.1"
 
 class
-	GAME_SURFACE_BMP
+	GAME_SURFACE_BMP_FILE
 
 inherit
 	GAME_SURFACE
+		rename
+			make as make_surface
+		end
 	GAME_MEDIA_FILE
 
 create

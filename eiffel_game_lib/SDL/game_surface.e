@@ -1,5 +1,5 @@
 note
-	description: "Représentation of an image that can be paste on other image."
+	description: "Representation of an image that can be paste on other image."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
 	revision: "0.1"
@@ -11,7 +11,10 @@ inherit
 	ANY
 
 create
-	make_from_pointer
+	make,
+	make_from_pointer,
+	make_from_surface,
+	make_with_flags_and_masks
 
 feature {NONE} -- Initialisation
 
@@ -51,6 +54,27 @@ feature {NONE} -- Initialisation
 			set_height(the_surface.height)
 			disable_alpha
 			disable_transparent
+		end
+
+	make(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory:BOOLEAN)
+			-- Initialization for `Current'.
+			-- Create a new empty surface.
+		local
+			flags:NATURAL_32
+		do
+			if video_memory then
+				flags:={GAME_SDL_EXTERNAL}.SDL_HWSURFACE
+			else
+				flags:={GAME_SDL_EXTERNAL}.SDL_SWSURFACE
+			end
+			make_with_flags_and_masks(flags,the_width,the_height,the_bits_per_pixel,0,0,0,0)
+		end
+
+	make_with_flags_and_masks(flags:NATURAL_32;the_width,the_height,the_bits_per_pixel:INTEGER;Rmask,Gmask,Bmask,Amask:NATURAL_32)
+			-- Initialization for `Current'.
+			-- Create a new empty surface with RGBA mask and flags.
+		do
+			make_from_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(flags,the_width,the_height,the_bits_per_pixel,Rmask,Gmask,Bmask,Amask))
 		end
 
 feature -- Access
@@ -510,11 +534,11 @@ feature {NONE} -- Implemenation routine
 				is_temp_surface:=true
 				format:=get_format_pointer
 				if bbp=bits_per_pixel then
-					Result:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
+					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
 											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
 											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
 				else
-					Result:= create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
+					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer),width, height,bbp,
 											0,0,0,0)
 				end
 

@@ -5,10 +5,10 @@ note
 	revision: "0.1"
 
 deferred class
-	GAME_AL_OBJECT_3D
+	GAME_AUDIO_3D_OBJECT
 
 inherit
-	GAME_AL_ERROR_MANAGER
+	GAME_OPENAL_ERROR_MANAGER
 
 
 feature -- Access
@@ -16,26 +16,26 @@ feature -- Access
 	set_position(x,y,z:REAL)
 			-- Set the object position in a 3D environment.
 		do
-			set_3_float_params({GAME_AL_EXTERNAL}.AL_POSITION,x,y,z)
+			set_3_float_params({GAME_AUDIO_EXTERNAL}.AL_POSITION,x,y,z)
 		end
 
 	set_velocity(x,y,z:REAL)
 			-- Set the object velocity (deplacement) in a 3D environment.
 		do
-			set_3_float_params({GAME_AL_EXTERNAL}.AL_VELOCITY,x,y,z)
+			set_3_float_params({GAME_AUDIO_EXTERNAL}.AL_VELOCITY,x,y,z)
 		end
 
 
 	get_position:TUPLE[x,y,z:REAL]
 			-- Get the object position in a 3D environment.
 		do
-			Result:=get_3_float_parms({GAME_AL_EXTERNAL}.AL_POSITION)
+			Result:=get_3_float_parms({GAME_AUDIO_EXTERNAL}.AL_POSITION)
 		end
 
 	get_velocity:TUPLE[x,y,z:REAL]
 			-- Get the object velocity (deplacement) in a 3D environment.
 		do
-			Result:=get_3_float_parms({GAME_AL_EXTERNAL}.AL_VELOCITY)
+			Result:=get_3_float_parms({GAME_AUDIO_EXTERNAL}.AL_VELOCITY)
 		end
 
 feature {NONE} -- Implementation

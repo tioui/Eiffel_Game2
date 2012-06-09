@@ -5,10 +5,11 @@ note
 	revision: "0.1"
 
 class
-	GAME_SURFACE_IMG
+	GAME_SURFACE_IMG_FILE
 
 inherit
 	GAME_SURFACE
+	rename make as make_surface end
 	GAME_MEDIA_FILE
 
 create

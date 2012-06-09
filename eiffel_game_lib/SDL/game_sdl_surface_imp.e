@@ -14,7 +14,7 @@ inherit
 		{NONE} all
 	end
 
-create
+create {GAME_SURFACE}
 	make
 
 feature {NONE} -- Initialization

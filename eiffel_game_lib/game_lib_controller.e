@@ -18,7 +18,7 @@ inherit
 	redefine
 		launch
 	end
-	GAME_AL_CONTROLLER
+	GAME_AUDIO_CONTROLLER
 	rename
 		make as make_al,
 		last_error as last_sound_error,
@@ -27,7 +27,7 @@ inherit
 	export
 		{NONE} quit_library_al
 	end
-	GAME_RANDOM
+	GAME_RANDOM_CONTROLLER
 		rename
 			make as make_random
 		end

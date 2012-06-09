@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {GAME_RANDOM}."
+	description: "Summary description for {GAME_RANDOM_CONTROLLER}."
 	author: "Louis Marchand inspire by Martin Seiler (http://community.eiffel.com/room/article/random_numbers)"
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	GAME_RANDOM
+	GAME_RANDOM_CONTROLLER
 
 create
 	make

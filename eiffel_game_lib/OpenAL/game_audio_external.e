@@ -5,7 +5,7 @@ note
 	revision: "0.1"
 
 class
-	GAME_AL_EXTERNAL
+	GAME_AUDIO_EXTERNAL
 
 
 feature -- Usefull function

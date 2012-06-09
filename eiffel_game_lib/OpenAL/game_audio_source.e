@@ -14,13 +14,13 @@ note
 -- for stereo formats the left channel comes first
 
 class
-	GAME_AL_SOURCE
+	GAME_AUDIO_SOURCE
 
 inherit
-	GAME_AL_OBJECT_3D
+	GAME_AUDIO_3D_OBJECT
 	DISPOSABLE
 
-create {GAME_AL_CONTROLLER}
+create {GAME_AUDIO_CONTROLLER}
 	make
 
 feature {NONE} -- Initialization
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 	make(l_buffer_size:INTEGER)
 			-- Initialization for `Current'.
 		require
-			Make_Source_Audio_Open:not {GAME_AL_EXTERNAL}.AL_get_current_context.is_default_pointer
+			Make_Source_Audio_Open:not {GAME_AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer
 		local
 			sources:ARRAY[NATURAL]
 			source_c:ANY
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			create sources.make_filled (0, 1, 1)
 			source_c:=sources.to_c
 			read_error
-			{GAME_AL_EXTERNAL}.AL_gen_sources(1,$source_c)
+			{GAME_AUDIO_EXTERNAL}.AL_gen_sources(1,$source_c)
 			read_error
 			check not is_error end
 			index:=sources.at (1)
@@ -46,14 +46,14 @@ feature {NONE} -- Initialization
 			buffer_tail:=0
 			buffer_head:=0
 			sound_al_buffer_c:=sound_al_buffer.to_c
-			{GAME_AL_EXTERNAL}.AL_Gen_Buffers(nb_buffer,$sound_al_buffer_c)
+			{GAME_AUDIO_EXTERNAL}.AL_Gen_Buffers(nb_buffer,$sound_al_buffer_c)
 			read_error
 			check not is_error end
 			create sound_queued.make
 			set_position (0.0, 0.0, 0.0)
 			set_direction (0.0,0.0, 0.0)
 			set_direction(0.0,0.0,0.0)
-			temp_buffer:={GAME_AL_EXTERNAL}.c_buffer_allocate(buffer_size)
+			temp_buffer:={GAME_AUDIO_EXTERNAL}.c_buffer_allocate(buffer_size)
 		end
 
 feature -- Access
@@ -71,7 +71,7 @@ feature -- Access
 			-- Start the sound streaming.
 		do
 			update_playing
-			{GAME_AL_EXTERNAL}.AL_source_play(index)
+			{GAME_AUDIO_EXTERNAL}.AL_source_play(index)
 		ensure
 			Source_Play_Is_Playing: is_playing
 		end
@@ -81,7 +81,7 @@ feature -- Access
 		require
 			Source_Pause_Was_Not_Stop: not (is_stop or else is_initial)
 		do
-			{GAME_AL_EXTERNAL}.AL_source_pause(index)
+			{GAME_AUDIO_EXTERNAL}.AL_source_pause(index)
 		ensure
 			Source_Pause_Is_Pause: is_pause or else is_initial
 		end
@@ -89,10 +89,10 @@ feature -- Access
 	stop
 			-- Stop the streaming. All queud sound will be remove from the queue.
 		do
-			{GAME_AL_EXTERNAL}.AL_source_stop(index)
+			{GAME_AUDIO_EXTERNAL}.AL_source_stop(index)
 			sound_queued.wipe_out
 			update_playing
-			{GAME_AL_EXTERNAL}.AL_source_rewind(index)
+			{GAME_AUDIO_EXTERNAL}.AL_source_rewind(index)
 		ensure
 			Source_Stop_Is_Stopped: is_initial
 		end
@@ -100,32 +100,32 @@ feature -- Access
 	is_initial:BOOLEAN
 			-- Return true if the sound source is in the initial state.
 		do
-			Result:=(get_int_param_c({GAME_AL_EXTERNAL}.AL_SOURCE_STATE)={GAME_AL_EXTERNAL}.AL_INITIAL)
+			Result:=(get_int_param_c({GAME_AUDIO_EXTERNAL}.AL_SOURCE_STATE)={GAME_AUDIO_EXTERNAL}.AL_INITIAL)
 		end
 
 	is_playing:BOOLEAN
 			-- Return true if the sound source is currently playing.
 		do
-			Result:=(get_int_param_c({GAME_AL_EXTERNAL}.AL_SOURCE_STATE)={GAME_AL_EXTERNAL}.AL_PLAYING)
+			Result:=(get_int_param_c({GAME_AUDIO_EXTERNAL}.AL_SOURCE_STATE)={GAME_AUDIO_EXTERNAL}.AL_PLAYING)
 		end
 
 	is_pause:BOOLEAN
 			-- Return true if the sound source is currently on pause.
 		do
-			Result:=(get_int_param_c({GAME_AL_EXTERNAL}.AL_SOURCE_STATE)={GAME_AL_EXTERNAL}.AL_PAUSED)
+			Result:=(get_int_param_c({GAME_AUDIO_EXTERNAL}.AL_SOURCE_STATE)={GAME_AUDIO_EXTERNAL}.AL_PAUSED)
 		end
 
 	is_stop:BOOLEAN
 			-- Return true if the sound source is currently stop state (not initial or playing or on pause).
 		do
-			Result:=(get_int_param_c({GAME_AL_EXTERNAL}.AL_SOURCE_STATE)={GAME_AL_EXTERNAL}.AL_STOPPED)
+			Result:=(get_int_param_c({GAME_AUDIO_EXTERNAL}.AL_SOURCE_STATE)={GAME_AUDIO_EXTERNAL}.AL_STOPPED)
 		end
 
 	get_gain:REAL_32
 			-- Get the current sound source gain (volume). The gain will always be a REAL between 0 and 1.
 			-- If the gain is set at 0, the source is mute. If the gain is set at 1, it is at it's max volume.
 		do
-			Result:=get_float_param_c({GAME_AL_EXTERNAL}.AL_GAIN)
+			Result:=get_float_param_c({GAME_AUDIO_EXTERNAL}.AL_GAIN)
 		end
 
 	set_gain(value:REAL_32)
@@ -134,16 +134,16 @@ feature -- Access
 		require
 			Source_Set_Gain_Valid_Value: value>=0.0 and then value<=1.0
 		do
-			set_float_param_c({GAME_AL_EXTERNAL}.AL_GAIN,value)
+			set_float_param_c({GAME_AUDIO_EXTERNAL}.AL_GAIN,value)
 		ensure
 			Source_Set_Gain_Is_Set: get_gain = value
 		end
 
-	queue_sound_loop(sound:GAME_AL_SOUND;nb_loop:INTEGER)
+	queue_sound_loop(sound:GAME_AUDIO_SOUND;nb_loop:INTEGER)
 			-- Add a `sound' to the playing queue.
 			-- Put `nb_loop' to 0 for no loop and to -1 to infinite loop
 		local
-			sound_tuple:TUPLE[sound:GAME_AL_SOUND;nb_loop:INTEGER]
+			sound_tuple:TUPLE[sound:GAME_AUDIO_SOUND;nb_loop:INTEGER]
 		do
 			create sound_tuple
 			sound_tuple.sound:=sound
@@ -151,14 +151,14 @@ feature -- Access
 			sound_queued.put (sound_tuple)
 		end
 
-	queue_sound(sound:GAME_AL_SOUND)
+	queue_sound(sound:GAME_AUDIO_SOUND)
 			-- Add a `sound' to the playing queue.
 			-- Don't loop the sound at all (only one playing).
 		do
 			queue_sound_loop(sound,0)
 		end
 
-	queue_sound_infinite_loop(sound:GAME_AL_SOUND)
+	queue_sound_infinite_loop(sound:GAME_AUDIO_SOUND)
 			-- Add a `sound' to the playing queue.
 			-- Loop the `sound' until the source is stopped.
 		do
@@ -218,13 +218,13 @@ feature -- Access
 	set_direction(x,y,z:REAL)
 			-- Set the source direction. Meaning where the source object is looking at in the 3D environment.
 		do
-			set_3_float_params({GAME_AL_EXTERNAL}.AL_DIRECTION,x,y,z)
+			set_3_float_params({GAME_AUDIO_EXTERNAL}.AL_DIRECTION,x,y,z)
 		end
 
 	get_direction:TUPLE[x,y,z:REAL]
 			-- Get the source direction. Meaning where the source object is looking at in the 3D environment.
 		do
-			Result:=get_3_float_parms({GAME_AL_EXTERNAL}.AL_DIRECTION)
+			Result:=get_3_float_parms({GAME_AUDIO_EXTERNAL}.AL_DIRECTION)
 		end
 
 feature {NONE} -- Implementation - Routines
@@ -232,7 +232,7 @@ feature {NONE} -- Implementation - Routines
 
 	get_processed_buffers_number:INTEGER
 		do
-			Result:=get_int_param_c({GAME_AL_EXTERNAL}.AL_BUFFERS_PROCESSED)
+			Result:=get_int_param_c({GAME_AUDIO_EXTERNAL}.AL_BUFFERS_PROCESSED)
 		end
 
 	queue_buffer(l_buffer:POINTER;length,channel,bits_resolution,freq:INTEGER)
@@ -243,28 +243,28 @@ feature {NONE} -- Implementation - Routines
 		do
 			if channel=1 then
 				if bits_resolution=8 then
-					format:={GAME_AL_EXTERNAL}.AL_FORMAT_MONO8
+					format:={GAME_AUDIO_EXTERNAL}.AL_FORMAT_MONO8
 				else
-					format:={GAME_AL_EXTERNAL}.AL_FORMAT_MONO16
+					format:={GAME_AUDIO_EXTERNAL}.AL_FORMAT_MONO16
 				end
 			else
 				if bits_resolution=8 then
-					format:={GAME_AL_EXTERNAL}.AL_FORMAT_STEREO8
+					format:={GAME_AUDIO_EXTERNAL}.AL_FORMAT_STEREO8
 				else
-					format:={GAME_AL_EXTERNAL}.AL_FORMAT_STEREO16
+					format:={GAME_AUDIO_EXTERNAL}.AL_FORMAT_STEREO16
 				end
 			end
 
 			check buffer_tail/=(buffer_head+1)\\nb_buffer end
 			read_error
-			{GAME_AL_EXTERNAL}.AL_buffer_data(sound_al_buffer.at (buffer_head),format,l_buffer,length,freq)
+			{GAME_AUDIO_EXTERNAL}.AL_buffer_data(sound_al_buffer.at (buffer_head),format,l_buffer,length,freq)
 			read_error
 			check not is_error end
 			create l_buffer_name.make_filled (sound_al_buffer.at (buffer_head), 1, 1)
 			buffer_head:=(buffer_head+1)\\nb_buffer
 			l_buffer_name_c:=l_buffer_name.to_c
 			read_error
-			{GAME_AL_EXTERNAL}.AL_source_queue_buffers(index,1,$l_buffer_name_c)
+			{GAME_AUDIO_EXTERNAL}.AL_source_queue_buffers(index,1,$l_buffer_name_c)
 			read_error
 			check not is_error end
 		end
@@ -281,7 +281,7 @@ feature {NONE} -- Implementation - Routines
 			buffer_tail:=(buffer_tail+1)\\nb_buffer
 			l_buffer_name_c:=l_buffer_name.to_c
 			read_error
-			{GAME_AL_EXTERNAL}.AL_source_unqueue_buffers(index,1,$l_buffer_name_c)
+			{GAME_AUDIO_EXTERNAL}.AL_source_unqueue_buffers(index,1,$l_buffer_name_c)
 			read_error
 			check not is_error end
 		end
@@ -290,7 +290,7 @@ feature {NONE} -- Implementation - Routines
 		local
 			value:INTEGER
 		do
-			{GAME_AL_EXTERNAL}.AL_get_source_i(index,id,$value)
+			{GAME_AUDIO_EXTERNAL}.AL_get_source_i(index,id,$value)
 			Result:=value
 		end
 
@@ -298,23 +298,23 @@ feature {NONE} -- Implementation - Routines
 		local
 			value:REAL_32
 		do
-			{GAME_AL_EXTERNAL}.AL_get_source_f(index,id,$value)
+			{GAME_AUDIO_EXTERNAL}.AL_get_source_f(index,id,$value)
 			Result:=value
 		end
 
 	set_float_param_c(id:INTEGER;value:REAL_32)
 		do
-			{GAME_AL_EXTERNAL}.AL_set_source_f(index,id,value)
+			{GAME_AUDIO_EXTERNAL}.AL_set_source_f(index,id,value)
 		end
 
 	set_float_params_c(id:INTEGER;ptr:POINTER)
 		do
-			{GAME_AL_EXTERNAL}.AL_set_source_fv(index,id,ptr)
+			{GAME_AUDIO_EXTERNAL}.AL_set_source_fv(index,id,ptr)
 		end
 
 	get_float_params_c(id:INTEGER;ptr:POINTER)
 		do
-			{GAME_AL_EXTERNAL}.AL_get_source_fv(index,id,ptr)
+			{GAME_AUDIO_EXTERNAL}.AL_get_source_fv(index,id,ptr)
 		end
 
 	dispose
@@ -323,11 +323,11 @@ feature {NONE} -- Implementation - Routines
 			source_c:ANY
 		do
 			stop
-			{GAME_AL_EXTERNAL}.c_buffer_free(temp_buffer)
+			{GAME_AUDIO_EXTERNAL}.c_buffer_free(temp_buffer)
 			create sources.make_filled (index, 1, 1)
 			source_c:=sources.to_c
 			read_error
-			{GAME_AL_EXTERNAL}.AL_delete_sources(1,$source_c)
+			{GAME_AUDIO_EXTERNAL}.AL_delete_sources(1,$source_c)
 			read_error
 			check not is_error end
 		end
@@ -342,7 +342,7 @@ feature {NONE} -- Implementation - Variables
 
 	temp_buffer:POINTER
 
-	sound_queued:LINKED_QUEUE[TUPLE[sound:GAME_AL_SOUND;nb_loop:INTEGER]]
+	sound_queued:LINKED_QUEUE[TUPLE[sound:GAME_AUDIO_SOUND;nb_loop:INTEGER]]
 
 	nb_buffer:INTEGER is 4
 

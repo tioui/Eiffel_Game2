@@ -5,10 +5,10 @@ note
 	revision: "0.1"
 
 class
-	GAME_AL_CONTROLLER
+	GAME_AUDIO_CONTROLLER
 
 inherit
-	GAME_AL_ERROR_MANAGER
+	GAME_OPENAL_ERROR_MANAGER
 
 
 create
@@ -40,24 +40,24 @@ feature -- Access
 			error:INTEGER
 		do
 			if not is_sound_enable then
-				device:={GAME_AL_EXTERNAL}.AL_open_device(create {POINTER})
+				device:={GAME_AUDIO_EXTERNAL}.AL_open_device(create {POINTER})
 				if not device.is_default_pointer then
-					context:={GAME_AL_EXTERNAL}.AL_Create_context(device,create {POINTER})
+					context:={GAME_AUDIO_EXTERNAL}.AL_Create_context(device,create {POINTER})
 					if not context.is_default_pointer then
 						read_error
-						{GAME_AL_EXTERNAL}.AL_make_context_current(context)
+						{GAME_AUDIO_EXTERNAL}.AL_make_context_current(context)
 						read_error
 						if not is_error then
 							create i_listener.make
-							sources:= create {LINKED_LIST[GAME_AL_SOURCE]}.make
+							sources:= create {LINKED_LIST[GAME_AUDIO_SOURCE]}.make
 							is_sound_enable:=true
 						else
-							{GAME_AL_EXTERNAL}.AL_destroy_context(context)
-							error:={GAME_AL_EXTERNAL}.AL_close_device(device)
+							{GAME_AUDIO_EXTERNAL}.AL_destroy_context(context)
+							error:={GAME_AUDIO_EXTERNAL}.AL_close_device(device)
 							check error/=0 end
 						end
 					else
-						error:={GAME_AL_EXTERNAL}.AL_close_device(device)
+						error:={GAME_AUDIO_EXTERNAL}.AL_close_device(device)
 						check error/=0 end
 					end
 				end
@@ -70,21 +70,21 @@ feature -- Access
 			error:INTEGER
 		do
 			if is_sound_enable then
-				sources.do_all (agent (s: GAME_AL_SOURCE) do s.stop end)
+				sources.do_all (agent (s: GAME_AUDIO_SOURCE) do s.stop end)
 				sources:=Void
 				is_sound_enable:=false
 				read_error
-				{GAME_AL_EXTERNAL}.AL_suspend_context(context)
+				{GAME_AUDIO_EXTERNAL}.AL_suspend_context(context)
 				read_error
 				check not is_error end
-				{GAME_AL_EXTERNAL}.AL_destroy_context(context)
-				error:={GAME_AL_EXTERNAL}.AL_close_device(device)
+				{GAME_AUDIO_EXTERNAL}.AL_destroy_context(context)
+				error:={GAME_AUDIO_EXTERNAL}.AL_close_device(device)
 				check error/=0 end
 			end
 
 		end
 
-	listener:GAME_AL_LISTENER
+	listener:GAME_AUDIO_LISTENER
 			-- Get the sound listener.
 		require
 			Get_Listener_Sound_Open:is_sound_enable
@@ -119,7 +119,7 @@ feature -- Sources management
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
-			sources.do_all (agent (s: GAME_AL_SOURCE) do s.update_playing end)
+			sources.do_all (agent (s: GAME_AUDIO_SOURCE) do s.update_playing end)
 		end
 
 
@@ -137,12 +137,12 @@ feature -- Sources management
 		require
 			Sources_Add_Sound_Open:is_sound_enable
 		do
-			sources.extend (create {GAME_AL_SOURCE}.make(sound_buffer_size))
+			sources.extend (create {GAME_AUDIO_SOURCE}.make(sound_buffer_size))
 		ensure
 			sources.count = old sources.count+1
 		end
 
-	source_get_last_add:GAME_AL_SOURCE
+	source_get_last_add:GAME_AUDIO_SOURCE
 			-- Return the last sound source that as been created.
 		require
 			Sources_Get_Last_add_Sound_Open:is_sound_enable
@@ -150,7 +150,7 @@ feature -- Sources management
 			Result:=source_get_at (sources_count)
 		end
 
-	source_get_at(i:INTEGER):GAME_AL_SOURCE
+	source_get_at(i:INTEGER):GAME_AUDIO_SOURCE
 			-- Return the `i'-th sound source.
 		require
 			Sources_Get_At_Sound_Open:is_sound_enable
@@ -170,7 +170,7 @@ feature -- Sources management
 			sources.remove
 		end
 
-	sources_remove(l_source:GAME_AL_SOURCE)
+	sources_remove(l_source:GAME_AUDIO_SOURCE)
 			-- Remove the sound source `l_source' from the sound controller. A sound that has been remove from the sound
 			-- controller can continue to work on its own, but it will not be update by the `update_sound_playing' routine.
 		require
@@ -188,11 +188,11 @@ feature -- Sources management
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
-			sources.do_all (agent (s: GAME_AL_SOURCE) do s.stop end)
+			sources.do_all (agent (s: GAME_AUDIO_SOURCE) do s.stop end)
 			sources.wipe_out
 		end
 
-	sources_has(l_source:GAME_AL_SOURCE):BOOLEAN
+	sources_has(l_source:GAME_AUDIO_SOURCE):BOOLEAN
 			-- Return true if the sound source `l_source' is still in the sound controller.
 		require
 			Sources_Has_Sound_Open:is_sound_enable
@@ -217,8 +217,8 @@ feature {NONE} -- Implementation Class Variable
 
 	device:POINTER
 	context:POINTER
-	i_listener:GAME_AL_LISTENER
-	sources:LIST[GAME_AL_SOURCE]
+	i_listener:GAME_AUDIO_LISTENER
+	sources:LIST[GAME_AUDIO_SOURCE]
 
 feature {NONE} -- Implementation Routine
 
@@ -226,7 +226,7 @@ feature {NONE} -- Implementation Routine
 
 invariant
 	Is_Sound_Open_Context_Valid:
-		is_sound_enable = (not {GAME_AL_EXTERNAL}.AL_get_current_context.is_default_pointer)
+		is_sound_enable = (not {GAME_AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer)
 	Is_Sound_Open_Sources_Valid:
 		is_sound_enable = (sources /= Void)
 

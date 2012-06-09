@@ -14,8 +14,11 @@ class
 
 inherit
 	GAME_SURFACE
+	rename
+		make as make_base
 	redefine
 		height,width,get_sub_surface
+
 	end
 
 create {GAME_SDL_CONTROLLER}
@@ -72,7 +75,7 @@ feature -- Access
 			format:POINTER
 		do
 			format:={GAME_SDL_EXTERNAL}.get_surface_struct_format(get_surface_pointer)
-			Result:=create {GAME_SURFACE_RGB}.make_with_bits_per_pixel_flags_and_rgba({GAME_SDL_EXTERNAL}.SDL_HWSURFACE,sub_width, sub_height,bits_per_pixel,
+			create Result.make_with_flags_and_masks({GAME_SDL_EXTERNAL}.SDL_HWSURFACE,sub_width, sub_height,bits_per_pixel,
 						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
 						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
 			Result.print_surface_part_on_surface (Current,from_x,from_y,0,0, sub_width,sub_height)

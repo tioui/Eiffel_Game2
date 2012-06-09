@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 	run_game(controller:GAME_LIB_CONTROLLER)
 		local
 			icon_trans_color,bk_color:GAME_COLOR
-			l_sound,l_music_intro,l_music_loop:GAME_AL_SOUND
+			l_sound,l_music_intro,l_music_loop:GAME_AUDIO_SOUND
 		do
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
 			create icon_trans_color.make_rgb(255,0,255)  -- Change the pink for transparent in the window icon.
@@ -41,8 +41,8 @@ feature {NONE} -- Initialization
 
 	set_sound(controller:GAME_LIB_CONTROLLER)
 		local
-			l_sound,l_music_intro,l_music_loop:GAME_AL_SOUND_FILE
-			sound_source,music_source:GAME_AL_SOURCE	-- You need one source for each sound you want to be playing at the same time.
+			l_sound,l_music_intro,l_music_loop:GAME_AUDIO_SOUND_FILE
+			sound_source,music_source:GAME_AUDIO_SOURCE	-- You need one source for each sound you want to be playing at the same time.
 		do
 			controller.enable_sound
 			create l_sound.make ("sound.aif")			-- This sound will be played when the user press the space bar.
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	on_key_down_sound(l_sound:GAME_AL_SOUND;sound_source:GAME_AL_SOURCE;kb_event:GAME_KEYBOARD_EVENT)
+	on_key_down_sound(l_sound:GAME_AUDIO_SOUND;sound_source:GAME_AUDIO_SOURCE;kb_event:GAME_KEYBOARD_EVENT)
 		do
 			if kb_event.is_space_key then		-- If the space key as been pressed, play the space sound
 				sound_source.stop					-- Assure that the queue buffer is empty on the sound_source object (when stop, the source queue is clear)

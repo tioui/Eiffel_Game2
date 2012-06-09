@@ -195,7 +195,7 @@ feature -- Video methods
 		Controller_Create_Screen_Is_Video_Enable: is_video_enabled
 		Controller_Create_Screen_Already_Exist: not screen_is_create
 	local
-		l_icon:GAME_SURFACE_BMP
+		l_icon:GAME_SURFACE_BMP_FILE
 	do
 		create l_icon.make (icon_filename)
 		if transparent_color/=Void then
