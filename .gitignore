@@ -1,3 +1,4 @@
 eiffel_game_lib/EIFGENs
 C_more/objet-*/*.o
 exemples/*/EIFGENs/
+custom_package_file/EIFGENs

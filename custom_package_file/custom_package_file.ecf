@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="custom_package_file" uuid="F60A95BB-4C28-4CD3-A9D3-E9A98614226D" library_target="custom_package_file_lib">
+	<target name="custom_package_file" abstract="true">
+		
+		<option warning="true" is_attached_by_default="false" syntax="transitional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+	</target>
+	<target name="custom_package_file_lib" extends="custom_package_file">
+		<root all_classes="true"/>
+		<cluster name="custom_package_file_lib" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+				<exclude>/APP$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="custom_package_file_app" extends="custom_package_file">
+		<root class="CPF_APP" feature="make"/>
+		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
+		<cluster name="custom_package_file_app" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>
