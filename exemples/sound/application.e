@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 										-- 16 bits per pixel, Use video memory, use hardware double buffer, the windows will be unresisable, the window will have the window frame, not in fullscreen mode.
 										-- Use the file icon.bmp (must be a bmp file and must be 32x32 on Windows) for window icon
 			controller.screen_surface.set_captions ("Exemple Sound", "Sound")	-- Put a caption for the window and the icon (on some system)
-			controller.event_controller.on_key_down.extend (agent on_key_down_quit(controller,?)) -- When
+			controller.event_controller.on_key_down.extend (agent on_key_down_quit(controller,?)) -- When the user press the escape key, close the application
 
 			set_sound (controller)	-- Set the sound system to play the music and the sound on space key press
 

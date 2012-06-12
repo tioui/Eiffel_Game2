@@ -185,6 +185,29 @@ feature -- Video methods
 			check error = 0 end
 		end
 
+	create_screen_surface_with_icon_cpf(cpf:GAME_PACKAGE_FILE;index:INTEGER;transparent_color:GAME_COLOR;the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN)
+		-- Create a window with a new screen surface and set the icon.
+		-- The `icon_filename' must point to a standard bmp file. On MS Windows, the bmp file must be 32x32 pixels.
+		-- If `transparent_color', the icon will be opaque.
+		-- The flags `video_memory' and `hardware_dbl_buf' can be use if the graphic card support them.
+		-- On some exploiting system, the `video_memory' and `hardware_dbl_buf' flags are used only on `fullscreen' mode
+	require
+		Controller_Create_Screen_Is_Video_Enable: is_video_enabled
+		Controller_Create_Screen_Already_Exist: not screen_is_create
+		Controller_Cpf_Index_Valid:index>0 and then index<=cpf.sub_files_count
+	local
+		l_icon:GAME_SURFACE_BMP_CPF
+	do
+		create l_icon.make (cpf,index)
+		if transparent_color/=Void then
+			l_icon.set_transparent_color (transparent_color)
+		end
+		{GAME_SDL_EXTERNAL}.SDL_WM_SetIcon(l_icon.get_surface_pointer,create {POINTER})
+		create_screen_surface(the_width,the_height,the_bits_per_pixel,video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen)
+	ensure
+		Create_Screen_Not_Void: screen_is_create
+	end
+
 	create_screen_surface_with_icon(icon_filename:STRING;transparent_color:GAME_COLOR;the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN)
 		-- Create a window with a new screen surface and set the icon.
 		-- The `icon_filename' must point to a standard bmp file. On MS Windows, the bmp file must be 32x32 pixels.

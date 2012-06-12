@@ -1,5 +1,9 @@
-#include "SDL.h"
-#include "SDL_rotozoom.h"
+#ifndef GAME_MORE_H
+#define GAME_MORE_H
+#include <SDL.h>
+#include <SDL_rotozoom.h>
+#include <stdio.h>
+#include <sndfile.h>
 
 // Rotate a surface of 8, 16 or 32 bits per pixel
 SDL_Surface* rotateSurface90Degrees_all(SDL_Surface* src, int numClockwiseTurns);
@@ -23,3 +27,15 @@ void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 int SDL_MUSTLOCK_ALT(SDL_Surface *surface);
 
 
+typedef struct CustomPackageFileInfos
+    {
+	FILE *	filePtr;
+	int64_t StartOffset;
+        int64_t	TotalSize;
+    } CustomPackageFileInfos;
+
+void setSndFileVirtualIo(SF_VIRTUAL_IO *VirtualIO);
+void setSDLRWops(SDL_RWops *rwop,CustomPackageFileInfos* cpfInfos);
+
+
+#endif

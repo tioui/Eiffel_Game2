@@ -1,12 +1,12 @@
 /* Util function for Eiffel Game Lib. 	*
- * Strongly inspire by the code of the	*
- * library SDL_gfx.			*
  * Author: Louis Marchand		*
- * Date: May 24, 2012			*
- * Version: 0.1				*/
+ * Date: June 10, 2012			*
+ * Version: 0.3				*/
 
-#include "SDL_more.h" 
+#include "game_more.h" 
 
+/* Functions to add functionnalities to the SDL C library 	*
+ * Strongly inspire by the code of the library SDL_gfx.		*/
 SDL_Surface* rotateSurface90Degrees_16(SDL_Surface* src, int numClockwiseTurns) 
 {
 	int row, col, newWidth, newHeight;
@@ -663,5 +663,130 @@ int SDL_MUSTLOCK_ALT(SDL_Surface *surface)
 {
 	return SDL_MUSTLOCK(surface);
 }
+
+
+
+/* Functions to add the "Custom Package File" functionality	*/
+
+int64_t cpfFileLength(void* UserData)
+{
+	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
+
+	return cpfInfos->TotalSize;
+}
+
+
+int64_t cpfFileTell(void* UserData)
+{
+	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
+
+	return ftello(cpfInfos->filePtr)-cpfInfos->StartOffset;
+}
+
+
+int64_t cpfFileSeek(int64_t Offset, int Whence, void* UserData)
+{
+	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
+
+
+	int64_t Position = 0;
+	switch (Whence)
+	{
+		case SEEK_SET :
+			Position = Offset;
+			break;
+		case SEEK_CUR :
+			Position = cpfFileTell(UserData) + Offset;
+			break;
+		case SEEK_END :
+			Position = cpfInfos->TotalSize + Offset - 1;
+			break;
+		default :
+			Position = 0;
+			break;
+	}
+
+	if (Position >= cpfInfos->TotalSize)
+		Position = cpfInfos->TotalSize - 1;
+	else if (Position < 0)
+		Position = 0;
+
+	fseeko(cpfInfos->filePtr,Position+cpfInfos->StartOffset,SEEK_SET);
+
+	return Position;
+}
+
+int64_t cpfFileRead(void* Ptr, int64_t Count, void* UserData)
+{
+	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
+	int64_t currentOffset = cpfFileTell(UserData);
+
+	if(currentOffset+Count>cpfInfos->TotalSize){
+		Count = cpfInfos->TotalSize-currentOffset;
+	}
+
+	Count=fread(Ptr,1,Count,cpfInfos->filePtr);
+
+	return Count;
+}
+
+// Writing is not supported yet (do not need it).
+int64_t cpfFileWrite(const void *ptr, int64_t count, void *user_data)
+{
+	return 0;
+}
+
+void setSndFileVirtualIo(SF_VIRTUAL_IO *VirtualIO)
+{
+	VirtualIO->get_filelen = &cpfFileLength;
+	VirtualIO->read = &cpfFileRead;
+	VirtualIO->seek = &cpfFileSeek;
+	VirtualIO->tell = &cpfFileTell;
+	VirtualIO->write = &cpfFileWrite;
+}
+
+
+static int myseekfunc(SDL_RWops *context, int offset, int whence)
+{
+	return cpfFileSeek(offset,whence,context->hidden.unknown.data1);
+}
+
+static int myreadfunc(SDL_RWops *context, void *ptr, int size, int maxnum)
+{
+	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)context->hidden.unknown.data1;
+	int64_t currentOffset = cpfFileTell(cpfInfos);
+
+	if(currentOffset+size*maxnum>cpfInfos->TotalSize){
+		maxnum = (cpfInfos->TotalSize-currentOffset)/size;
+	}
+
+	maxnum=fread(ptr,size,maxnum,cpfInfos->filePtr);
+
+	return maxnum;
+}
+
+// Writing is not supported yet (do not need it).
+static int mywritefunc(SDL_RWops *context, const void *ptr, int size, int num)
+{
+	return 0;
+}
+
+// The Application must free the context
+static int myclosefunc(SDL_RWops *context)
+{
+	return 0;
+}
+
+void setSDLRWops(SDL_RWops *rwop,CustomPackageFileInfos* cpfInfos)
+{
+	rwop->seek = myseekfunc;
+	rwop->read = myreadfunc;
+	rwop->write = mywritefunc;
+	rwop->close = myclosefunc;
+	rwop->type = 0x501e11;
+	rwop->hidden.unknown.data1 = cpfInfos;
+
+}
+
 
 

@@ -110,7 +110,7 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_object location="$(EIF_GAME_LIB)/C_more/objet-$(ISE_PLATFORM)/SDL_more.o"/>
+		<external_object location="$(EIF_GAME_LIB)/C_more/objet-$(ISE_PLATFORM)/game_more.o"/>
 		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL\lib\libSDL.dll.a">
 			<condition>
 				<platform value="windows"/>

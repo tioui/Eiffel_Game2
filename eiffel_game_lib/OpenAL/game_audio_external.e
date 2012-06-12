@@ -8,44 +8,6 @@ class
 	GAME_AUDIO_EXTERNAL
 
 
-feature -- Usefull function
-
-	frozen c_buffer_allocate(length:INTEGER): POINTER
-		external
-			"C inline use <stdint.h>"
-		alias
-			"malloc ($length*sizeof(uint8_t))"
-		end
-
-	frozen c_buffer_free(buffer:POINTER)
-		external
-			"C inline use <stdint.h>"
-		alias
-			"free((uint8_t *)$buffer)"
-		end
-
-	frozen c_sizeof_short:INTEGER
-		external
-			"C inline use <stdint.h>"
-		alias
-			"sizeof(short)"
-		end
-
-	frozen c_sizeof_char:INTEGER
-		external
-			"C inline use <stdint.h>"
-		alias
-			"sizeof(char)"
-		end
-
-	frozen c_sizeof_int_64_t:INTEGER
-		external
-			"C inline use <stdint.h>"
-		alias
-			"sizeof(int64_t)"
-		end
-
-
 feature -- OpenAL functions
 
 	frozen c_sizeof_sf_count_t:INTEGER
@@ -272,7 +234,7 @@ feature -- OpenAL functions
 --			"C (OggVorbis_File *) : long | <vorbisfile.h>"
 --		alias
 --			"ov_seekable"
---		end 
+--		end
 
 --	frozen OV_pcm_seek_page(oggvorbis_file:POINTER;pos:INTEGER_64):INTEGER
 --		external
@@ -322,6 +284,13 @@ feature -- libsndfile fonctions
 			"sf_open"
 		end
 
+	frozen sf_open_virtual(sf_virtual_io:POINTER;mode:INTEGER;sf_info:POINTER;user_data:POINTER):POINTER
+		external
+			"C (SF_VIRTUAL_IO *, int , SF_INFO *, void *) : SNDFILE* | <sndfile.h>"
+		alias
+			"sf_open_virtual"
+		end
+
 	frozen SF_close(sndfile:POINTER):INTEGER
 		external
 			"C (SNDFILE *) : int | <sndfile.h>"
@@ -341,6 +310,21 @@ feature -- libsndfile fonctions
 			"C (SNDFILE *, short *, sf_count_t) : sf_count_t | <sndfile.h>"
 		alias
 			"sf_read_short"
+		end
+
+	frozen set_snd_file_virtual_io(virtual_io:POINTER)
+		external
+			"C (SF_VIRTUAL_IO *) | <game_more.h>"
+		alias
+			"setSndFileVirtualIo"
+		end
+
+
+	frozen c_sizeof_snd_file_virtual_io:INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"sizeof(SF_VIRTUAL_IO)"
 		end
 
 feature -- libsndfile SF_INFO structure

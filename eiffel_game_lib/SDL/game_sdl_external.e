@@ -67,11 +67,25 @@ feature -- Function SDL.h
 			"SDL_LoadBMP"
 		end
 
+	frozen SDL_LoadBMP_RW(rwop:POINTER;free_struct:INTEGER):POINTER
+		external
+			"C (SDL_RWops *,int) : SDL_Surface * | <SDL.h>"
+		alias
+			"SDL_LoadBMP_RW"
+		end
+
 	frozen SDL_RWFromFile(filename,mode:POINTER):POINTER
 		external
 			"C (const char *, const char *) : SDL_RWops * | <SDL.h>"
 		alias
 			"SDL_RWFromFile"
+		end
+
+	frozen SDL_AllocRW:POINTER
+		external
+			"C : SDL_RWops * | <SDL.h>"
+		alias
+			"SDL_AllocRW"
 		end
 
 	frozen SDL_FreeRW(rwops:POINTER)
@@ -433,35 +447,35 @@ feature -- Manual C function (implemented in SDLmore.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
 		external
-			"C (SDL_Surface *,int) : SDL_Surface * | %"SDL_more.h%""
+			"C (SDL_Surface *,int) : SDL_Surface * | %"game_more.h%""
 		alias
 			"rotateSurface90Degrees_all"
 		end
 
 	frozen getPixel(surface:POINTER;x,y:INTEGER):NATURAL_32
 		external
-			"C (SDL_Surface *,int,int) : Uint32 | %"SDL_more.h%""
+			"C (SDL_Surface *,int,int) : Uint32 | %"game_more.h%""
 		alias
 			"getpixel"
 		end
 
 	frozen putPixel(surface:POINTER;x,y:INTEGER;pixel:NATURAL_32)
 		external
-			"C (SDL_Surface *,int,int,Uint32) | %"SDL_more.h%""
+			"C (SDL_Surface *,int,int,Uint32) | %"game_more.h%""
 		alias
 			"putpixel"
 		end
 
 	frozen copyPalette(surface_src,surface_dst:POINTER)
 		external
-			"C (SDL_Surface *,SDL_Surface *)  | %"SDL_more.h%""
+			"C (SDL_Surface *,SDL_Surface *)  | %"game_more.h%""
 		alias
 			"CopyPalette_8"
 		end
 
 	frozen MirrorSurfaceX(surface:POINTER):POINTER
 		external
-			"C (SDL_Surface *) : SDL_Surface * | %"SDL_more.h%""
+			"C (SDL_Surface *) : SDL_Surface * | %"game_more.h%""
 		alias
 			"MirrorSurfaceX"
 		end
@@ -469,10 +483,19 @@ feature -- Manual C function (implemented in SDLmore.c)
 
 	frozen MirrorSurfaceY(surface:POINTER):POINTER
 		external
-			"C (SDL_Surface *) : SDL_Surface * | %"SDL_more.h%""
+			"C (SDL_Surface *) : SDL_Surface * | %"game_more.h%""
 		alias
 			"MirrorSurfaceY"
 		end
+
+
+	frozen setSDLRWops(rwop,cpf_infos:POINTER)
+		external
+			"C (SDL_RWops *,CustomPackageFileInfos*) | %"game_more.h%""
+		alias
+			"setSDLRWops"
+		end
+
 
 
 
@@ -483,6 +506,13 @@ feature -- Fonction SDL_image
 			"C (char *):SDL_Surface * | %"SDL_image.h%""
 		alias
 			"IMG_Load"
+		end
+
+	frozen IMG_Load_RW(rwop:POINTER;free:INTEGER):POINTER
+		external
+			"C (SDL_RWops *,int):SDL_Surface * | %"SDL_image.h%""
+		alias
+			"IMG_Load_RW"
 		end
 
 	frozen IMG_Init(flags:INTEGER):INTEGER

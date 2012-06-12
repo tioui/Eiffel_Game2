@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			set_position (0.0, 0.0, 0.0)
 			set_direction (0.0,0.0, 0.0)
 			set_direction(0.0,0.0,0.0)
-			temp_buffer:={GAME_AUDIO_EXTERNAL}.c_buffer_allocate(buffer_size)
+			temp_buffer:={GAME_GENERAL_EXTERNAL}.c_buffer_allocate(buffer_size)
 		end
 
 feature -- Access
@@ -323,7 +323,7 @@ feature {NONE} -- Implementation - Routines
 			source_c:ANY
 		do
 			stop
-			{GAME_AUDIO_EXTERNAL}.c_buffer_free(temp_buffer)
+			{GAME_GENERAL_EXTERNAL}.c_buffer_free(temp_buffer)
 			create sources.make_filled (index, 1, 1)
 			source_c:=sources.to_c
 			read_error
