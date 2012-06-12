@@ -41,6 +41,7 @@ Installation on Windows
 
 * You must use an EiffelStudio that use the MinGW compiler to work. If you don't have it already, install it.
 * You need to set the environment variable EIF_GAME_LIB to the root directory of the Eiffel Game Lib repository directory.
+* You need to add the Msys and MinGW bin directory in the system PATH variable (Both are in the EiffelStudio program sub directory)
 * You need to install the C libraries dependancies. To get them, download the file [https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip](https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip) . When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel Game Lib repository directory.
 * Create a project and add the Eiffel_game_lib library (".ecf") file in the project (You can use the EIF_GAME_LIB environment variable).
 * Put all ".dll" files of the %EIF_GAME_LIB%\C_lib_win\DLL directory in the new project directory.
