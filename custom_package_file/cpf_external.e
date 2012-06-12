@@ -30,12 +30,12 @@ feature -- stdio.h
 			"fread"
 		end
 
-	frozen fseeko(file:POINTER;offset:INTEGER_64;whence:INTEGER):INTEGER
-		external
-			"C (FILE *, off_t, int) : int | <stdio.h>"
-		alias
-			"fseeko"
-		end
+--	frozen fseeko(file:POINTER;offset:INTEGER_64;whence:INTEGER):INTEGER
+--		external
+--			"C (FILE *, off_t, int) : int | <stdio.h>"
+--		alias
+--			"fseeko"
+--		end
 
 	frozen fseek(file:POINTER;offset:INTEGER;whence:INTEGER):INTEGER
 		external
@@ -44,12 +44,12 @@ feature -- stdio.h
 			"fseek"
 		end
 
-	frozen ftello(file:POINTER):INTEGER_64
-		external
-			"C (FILE *) : off_t | <stdio.h>"
-		alias
-			"ftello"
-		end
+--	frozen ftello(file:POINTER):INTEGER_64
+--		external
+--			"C (FILE *) : off_t | <stdio.h>"
+--		alias
+--			"ftello"
+--		end
 
 	frozen ftell(file:POINTER):INTEGER
 		external

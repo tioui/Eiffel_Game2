@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			create filename_c.make (filename)
 			create mode_c.make ("r")
 			file_ptr:={CPF_EXTERNAL}.fopen(filename_c.item,mode_c.item)
-			error:={CPF_EXTERNAL}.fseeko(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
+			error:={CPF_EXTERNAL}.fseek(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
 			check error=0 end
 			length_of_package_file:={CPF_EXTERNAL}.ftell(file_ptr)+1
 			select_sub_file (0)
