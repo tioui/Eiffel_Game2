@@ -680,7 +680,7 @@ int64_t cpfFileTell(void* UserData)
 {
 	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
 
-	return ftello(cpfInfos->filePtr)-cpfInfos->StartOffset;
+	return ftell(cpfInfos->filePtr)-cpfInfos->StartOffset;
 }
 
 
@@ -711,7 +711,7 @@ int64_t cpfFileSeek(int64_t Offset, int Whence, void* UserData)
 	else if (Position < 0)
 		Position = 0;
 
-	fseeko(cpfInfos->filePtr,Position+cpfInfos->StartOffset,SEEK_SET);
+	fseek(cpfInfos->filePtr,Position+cpfInfos->StartOffset,SEEK_SET);
 
 	return Position;
 }

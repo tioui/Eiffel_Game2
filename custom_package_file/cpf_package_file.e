@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			file_ptr:={CPF_EXTERNAL}.fopen(filename_c.item,mode_c.item)
 			error:={CPF_EXTERNAL}.fseeko(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
 			check error=0 end
-			length_of_package_file:={CPF_EXTERNAL}.ftello(file_ptr)+1
+			length_of_package_file:={CPF_EXTERNAL}.ftell(file_ptr)+1
 			select_sub_file (0)
 			process_cpf_file
 			select_sub_file(index)
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			check last_natural_8=0x46 end
 			read_natural_16_big_endian
 			nbr:=last_natural_16
-			sub_files_infos:= create {ARRAYED_LIST[TUPLE[pos,length:NATURAL_32]]}.make (nbr.to_integer_32)
+			sub_files_infos:= create {ARRAYED_LIST[TUPLE[pos,length:INTEGER_32]]}.make (nbr.to_integer_32)
 			from i:=1
 			until i>nbr
 			loop
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 				pos:=last_natural_32
 				read_natural_32_big_endian
 				length:=last_natural_32
-				sub_files_infos.extend ([pos,length])
+				sub_files_infos.extend ([pos.to_integer_32,length.to_integer_32])
 				i:=i+1
 			end
 		end
@@ -79,10 +79,10 @@ feature -- Access
 
 	current_file_index:INTEGER
 		local
-			offset:INTEGER_64
+			offset:INTEGER
 			is_found:BOOLEAN
 		do
-			offset:={CPF_EXTERNAL}.ftello(file_ptr)
+			offset:={CPF_EXTERNAL}.ftell(file_ptr)
 			Result:=0
 			from
 				is_found:=false
@@ -101,21 +101,21 @@ feature -- Access
 
 	current_offset_is_in_selected_file:BOOLEAN
 		local
-			offset:INTEGER_64
+			offset:INTEGER
 		do
-			offset:={CPF_EXTERNAL}.ftello(file_ptr)
+			offset:={CPF_EXTERNAL}.ftell(file_ptr)
 			Result:=offset>=start_of_selected_file_offset and then offset<=end_of_selected_file_offset
 		end
 
-	current_offset:INTEGER_64
+	current_offset:INTEGER
 			-- Return the current stream offset (position) in the file.
 		Require
 			File_Current_Offset_Is_In_File: current_offset_is_in_selected_file
 		do
-			Result:={CPF_EXTERNAL}.ftello(file_ptr)-start_of_selected_file_offset
+			Result:={CPF_EXTERNAL}.ftell(file_ptr)-start_of_selected_file_offset
 		end
 
-	seek_from_begining(offset:INTEGER_64)
+	seek_from_begining(offset:INTEGER)
 			-- Place the stream offset at `offset' position after the begining of the file.
 			-- The `offset' value must be posifive.
 		require
@@ -123,13 +123,13 @@ feature -- Access
 		local
 			error:INTEGER
 		do
-			error:={CPF_EXTERNAL}.fseeko(file_ptr,offset+start_of_selected_file_offset,{CPF_EXTERNAL}.SEEK_SET)
+			error:={CPF_EXTERNAL}.fseek(file_ptr,offset+start_of_selected_file_offset,{CPF_EXTERNAL}.SEEK_SET)
 			check error=0 end
 		ensure
 			current_offset = offset
 		end
 
-	seek_from_current_offset(offset:INTEGER_64)
+	seek_from_current_offset(offset:INTEGER)
 			-- Place the stream offset at `offset' position after (or before if `offset' is negative) the current offset.
 		require
 			File_Seek_From_Current_Offset_Is_In_File: current_offset_is_in_selected_file
@@ -137,13 +137,13 @@ feature -- Access
 		local
 			error:INTEGER
 		do
-			error:={CPF_EXTERNAL}.fseeko(file_ptr,offset,{CPF_EXTERNAL}.SEEK_CUR)
+			error:={CPF_EXTERNAL}.fseek(file_ptr,offset,{CPF_EXTERNAL}.SEEK_CUR)
 			check error=0 end
 		ensure
 			current_offset = (old current_offset)+offset
 		end
 
-	seek_from_end(offset:INTEGER_64)
+	seek_from_end(offset:INTEGER)
 			-- Place the stream offset at `offset' position before the end of the file.
 			-- The `offset' value must be negative.
 		require
@@ -152,18 +152,18 @@ feature -- Access
 			error:INTEGER
 		do
 
-			error:={CPF_EXTERNAL}.fseeko(file_ptr,end_of_selected_file_offset+offset,{CPF_EXTERNAL}.SEEK_SET)
+			error:={CPF_EXTERNAL}.fseek(file_ptr,end_of_selected_file_offset+offset,{CPF_EXTERNAL}.SEEK_SET)
 			check error=0 end
 		end
 
-	start_of_selected_file_offset:INTEGER_64
+	start_of_selected_file_offset:INTEGER
 
-	end_of_selected_file_offset:INTEGER_64
+	end_of_selected_file_offset:INTEGER
 		do
 			Result:=start_of_selected_file_offset+length_of_selected_file-1
 		end
 
-	length_of_selected_file:INTEGER_64
+	length_of_selected_file:INTEGER
 
 	file_index:INTEGER
 
@@ -223,7 +223,7 @@ feature -- Reader
 
 feature -- CPF informations
 
-	sub_files_infos:LIST[TUPLE[pos,length:NATURAL_32]]
+	sub_files_infos:LIST[TUPLE[pos,length:INTEGER_32]]
 
 	sub_files_count:INTEGER_32
 	do
@@ -245,7 +245,7 @@ feature {NONE} -- Implemetntation - Variables
 
 	file_ptr:POINTER
 
-	length_of_package_file:INTEGER_64
+	length_of_package_file:INTEGER
 
 invariant
 	File_Stream_Ptr_Not_Null: not file_ptr.is_default_pointer

@@ -37,11 +37,25 @@ feature -- stdio.h
 			"fseeko"
 		end
 
+	frozen fseek(file:POINTER;offset:INTEGER;whence:INTEGER):INTEGER
+		external
+			"C (FILE *, long, int) : int | <stdio.h>"
+		alias
+			"fseek"
+		end
+
 	frozen ftello(file:POINTER):INTEGER_64
 		external
 			"C (FILE *) : off_t | <stdio.h>"
 		alias
 			"ftello"
+		end
+
+	frozen ftell(file:POINTER):INTEGER
+		external
+			"C (FILE *) : long | <stdio.h>"
+		alias
+			"ftell"
 		end
 
 	frozen pointer_to_natural_8(ptr:POINTER):NATURAL_8

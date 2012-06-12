@@ -82,6 +82,6 @@ feature {NONE} -- Implementation - Variables
 	virtual_io:POINTER
 	the_cpf:GAME_PACKAGE_FILE
 	the_cpf_index:INTEGER
-	last_offset:INTEGER_64
+	last_offset:INTEGER
 
 end
