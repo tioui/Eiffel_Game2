@@ -23,8 +23,7 @@ feature {NONE} -- Initialization
 
 	run_game(controller:GAME_LIB_CONTROLLER)
 		local
-			icon_trans_color,bk_color:GAME_COLOR
-			l_sound,l_music_intro,l_music_loop:GAME_AUDIO_SOUND
+			icon_trans_color:GAME_COLOR
 		do
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
 			create icon_trans_color.make_rgb(255,0,255)  -- Change the pink for transparent in the window icon.
