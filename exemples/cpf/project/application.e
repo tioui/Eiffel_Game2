@@ -38,6 +38,8 @@ feature {NONE} -- Initialization
 		end
 
 	set_system(controller:GAME_LIB_CONTROLLER;custom_file:GAME_PACKAGE_FILE)
+		local
+			icon_trans_color:GAME_COLOR
 		do
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))
 

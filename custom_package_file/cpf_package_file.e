@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			error:INTEGER
 		do
 			create filename_c.make (filename)
-			create mode_c.make ("r")
+			create mode_c.make ("rb")
 			file_ptr:={CPF_EXTERNAL}.fopen(filename_c.item,mode_c.item)
 			error:={CPF_EXTERNAL}.fseek(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
 			check error=0 end
