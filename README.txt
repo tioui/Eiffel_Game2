@@ -1,6 +1,6 @@
 eiffel_game_lib
 ===============
-
+ 
 A Game library for ISE Eiffel.
 This is a library for game developping with the Eiffel Language. The library is made for the IDE EiffelStudio.
 
