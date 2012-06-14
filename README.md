@@ -258,6 +258,4 @@ Installation on Mac OS X
 Bug to fixe:
 ------------
 
-
-* Icon bitmap transparency problem
 * MAC OS X transparency by color key not working.

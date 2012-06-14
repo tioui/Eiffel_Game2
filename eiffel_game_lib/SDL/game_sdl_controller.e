@@ -188,7 +188,7 @@ feature -- Video methods
 	create_screen_surface_with_icon_cpf(cpf:GAME_PACKAGE_FILE;index:INTEGER;transparent_color:GAME_COLOR;the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN)
 		-- Create a window with a new screen surface and set the icon.
 		-- The `icon_filename' must point to a standard bmp file. On MS Windows, the bmp file must be 32x32 pixels.
-		-- If `transparent_color', the icon will be opaque.
+		-- If `transparent_color' is void, the icon will be opaque. To use a transparent color, you must convert your bmp in 8 bits indexed bitmap image.
 		-- The flags `video_memory' and `hardware_dbl_buf' can be use if the graphic card support them.
 		-- On some exploiting system, the `video_memory' and `hardware_dbl_buf' flags are used only on `fullscreen' mode
 	require
