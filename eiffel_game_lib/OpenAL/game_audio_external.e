@@ -26,28 +26,28 @@ feature -- OpenAL functions
 
 	frozen AL_Create_context(device:POINTER;flags:POINTER):POINTER
 		external
-			"C (ALCdevice *,ALCint *) : ALCcontext * | <al.h>"
+			"C (ALCdevice *,ALCint *) : ALCcontext * | <alc.h>"
 		alias
 			"alcCreateContext"
 		end
 
 	frozen AL_make_context_current(context:POINTER)
 		external
-			"C (ALCcontext *) | <al.h>"
+			"C (ALCcontext *) | <alc.h>"
 		alias
 			"alcMakeContextCurrent"
 		end
 
 	frozen AL_get_current_context:POINTER
 		external
-			"C : ALCcontext * | <al.h>"
+			"C : ALCcontext * | <alc.h>"
 		alias
 			"alcGetCurrentContext"
 		end
 
 	frozen AL_destroy_context(context:POINTER)
 		external
-			"C (ALCcontext *) | <al.h>"
+			"C (ALCcontext *) | <alc.h>"
 		alias
 			"alcDestroyContext"
 		end
@@ -55,14 +55,14 @@ feature -- OpenAL functions
 
 	frozen AL_suspend_context(context:POINTER)
 		external
-			"C (ALCcontext *) | <al.h>"
+			"C (ALCcontext *) | <alc.h>"
 		alias
 			"alcSuspendContext"
 		end
 
 	frozen AL_open_device(device_name:POINTER):POINTER
 		external
-			"C (ALCchar *) : ALCdevice * | <al.h>"
+			"C (ALCchar	 *) : ALCdevice * | <alc.h>"
 		alias
 			"alcOpenDevice"
 		end
@@ -389,27 +389,27 @@ feature -- OpenAL Constantes
 
 	frozen AL_INVALID_ENUM :INTEGER
 		external
-			"C inline use <alc.h>"
+			"C inline use <al.h>"
 		alias
 			"AL_INVALID_ENUM"
 		end
 	frozen AL_INVALID_OPERATION :INTEGER
 		external
-			"C inline use <alc.h>"
+			"C inline use <al.h>"
 		alias
 			"AL_INVALID_OPERATION"
 		end
 
 	frozen AL_INVALID_NAME :INTEGER
 		external
-			"C inline use <alc.h>"
+			"C inline use <al.h>"
 		alias
 			"AL_INVALID_NAME"
 		end
 
 	frozen AL_OUT_OF_MEMORY :INTEGER
 		external
-			"C inline use <alc.h>"
+			"C inline use <al.h>"
 		alias
 			"AL_OUT_OF_MEMORY"
 		end

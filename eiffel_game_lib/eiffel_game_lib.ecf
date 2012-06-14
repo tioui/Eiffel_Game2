@@ -100,12 +100,17 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_include location="/Library/Frameworks/OpenAL.framework/Headers">
+		<external_include location="-lopenal">
 			<condition>
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
 		<external_include location="/opt/local/include">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/local/include/AL/">
 			<condition>
 				<platform value="macintosh"/>
 			</condition>
