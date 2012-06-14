@@ -26,7 +26,7 @@ objet-windows/game_more.o: src/game_more.c
 macosx-x86-64-SDL: objet-macosx-x86-64-SDL/game_more.o include/game_more.h
 objet-macosx-x86-64-SDL/game_more.o: src/game_more.c
 	mkdir -p objet-macosx-x86-64-SDL
-	gcc -c -I/opt/local/include/SDL/ -Iinclude/ -o objet-macosx-x86-64-SDL/game_more.o src/game_more.c
+	gcc -c -I/opt/local/include/SDL/ -Iinclude/ -I/opt/local/include -o objet-macosx-x86-64-SDL/game_more.o src/game_more.c
 
 clean:
 	rm -f objet-*/game_more.o

@@ -36,6 +36,7 @@ feature {NONE} -- Initialization
 
 			create sprite1.make ("pingus.png")  -- This image don't have an Alpha chanel.
 			sprite1.set_transparent_color (create {GAME_COLOR}.make_rgb(255,0,255))  -- We can use the set_transparent_color to select a color for the transparency (in this case, pink -> 255,0,255)
+			sprite1.is_transparent_accelerated:=true
 			controller.screen_surface.print_surface_on_surface (sprite1, 400, 350)  -- Put the sprite1 on the screen
 
 			create sprite2.make_with_alpha ("pingus-trans.png")  	-- This image have an alpha chanel. You don't have to use the set_transparent_color

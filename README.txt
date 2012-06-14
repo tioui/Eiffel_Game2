@@ -108,3 +108,14 @@ Installation on Mac OS X
 	- Save and quit the text editor.
 	- Create a project and add the Eiffel_game_lib library (".ecf") file in the project (You can use the EIF_GAME_LIB environment variable).
 	- Note that the spec that we create has no precompile library. It will be necessary to remove the default Precompile library in the project.
+
+
+
+
+
+
+Bug to fixe:
+------------
+	- Icon bitmap transparency problem
+	- MAC OS X transparency by color key not working.
+	- Sound source rewind not functionnal
