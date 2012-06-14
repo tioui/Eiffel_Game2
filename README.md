@@ -261,4 +261,3 @@ Bug to fixe:
 
 * Icon bitmap transparency problem
 * MAC OS X transparency by color key not working.
-* Sound source rewind not functionnal
