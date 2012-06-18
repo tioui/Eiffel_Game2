@@ -31,6 +31,11 @@ inherit
 		rename
 			make as make_random
 		end
+	THREAD
+		rename
+			launch as launch_sound,
+			execute as execute_sound
+		end
 
 create
 	make,
@@ -42,6 +47,7 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 			-- No sound enable.
 		do
+			disable_sound_thread
 			make_sdl
 			make_no_sound
 			make_random
@@ -52,6 +58,7 @@ feature {NONE} -- Initialization
 			-- Don't clean up library on segfault
 			-- No sound enable.
 		do
+			disable_sound_thread
 			make_no_parachute_sdl
 			make_no_sound
 			make_random
@@ -72,21 +79,72 @@ feature -- Access
 	launch
 			-- Start the main loop. Used to get a Event-driven programming only.
 			-- Don't forget to execute the method `stop' in an event handeler.
+			-- Be carefull, if the sound thread is disabled and `loop_delay' variable is set too high,
+			-- the sound may stop unexpectedly.
+		do
+			if is_sound_thread_enable and then is_sound_enable then
+				launch_sound
+				launch_event
+				join
+			else
+				from
+					must_stop:=false
+				until
+					must_stop
+				loop
+					update_all
+					delay (loop_delay)
+				end
+			end
+
+		end
+
+	quit_library
+			-- Must be launch before closign the program. Correctly stop the library.
+		do
+			quit_library_al
+			quit_library_sdl
+		end
+
+	enable_sound_thread
+			-- Put the sound management in a different thread when the `launch' method will be used.
+		do
+			is_sound_thread_enable:=true
+		end
+
+	disable_sound_thread
+			-- Do not put the sound management in a different thread when the `launch' method will be used.
+		do
+			is_sound_thread_enable:=false
+		end
+
+	is_sound_thread_enable:BOOLEAN
+			-- Return true if the sound management will be put in a different thread when the `launch' method will be used.
+
+feature {NONE} -- Implementation - Routines
+
+	execute_sound
 		do
 			from
 				must_stop:=false
 			until
 				must_stop
 			loop
-				update_all
-				delay (1)
+				update_sound_playing
+				delay (100)
 			end
 		end
 
-	quit_library
+	launch_event
 		do
-			quit_library_al
-			quit_library_sdl
+			from
+				must_stop:=false
+			until
+				must_stop
+			loop
+				update_event
+				delay (loop_delay)
+			end
 		end
 
 end

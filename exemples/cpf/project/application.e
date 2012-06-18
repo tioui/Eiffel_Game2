@@ -78,6 +78,10 @@ feature {NONE} -- Initialization
 			sound_source,music_source:GAME_AUDIO_SOURCE
 		do
 			controller.enable_sound		-- Enable the sound in the controller
+			controller.enable_sound_thread		-- A little optimisation. The library will handle the sound in a different thread.
+												-- If you want precompile library with this functionnality, you have to use a multi-thread precompile library.
+												-- If you use this functionnality, donc load images from the cpf file on event handeler (when the launch is
+												-- executed). If you want to do that, create two cpf files (one for sound and one for images).
 
 			create l_music_intro.make (custom_file, 5)		-- he music intro is place in the index 5 of the package file.
 			create l_music_loop.make (custom_file, 6)	-- The music loop.flac is at index 6 in the custom package file "test.cpf"

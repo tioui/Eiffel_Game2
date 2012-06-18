@@ -187,8 +187,9 @@
 		<variable name="malloc_check_" value="0"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="custom_package_file" location="$EIF_GAME_LIB\custom_package_file\custom_package_file.ecf" readonly="false"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
-		<cluster name="eiffel_game_lib" location=".\" recursive="true" >
+		<cluster name="eiffel_game_lib" location=".\" recursive="true">
 			<description>A Game Library for EiffelStudio</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

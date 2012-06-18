@@ -455,7 +455,7 @@ feature -- Other methods
 				must_stop
 			loop
 				update_event
-				delay (1)
+				delay (loop_delay)
 			end
 		end
 
@@ -496,6 +496,7 @@ feature{NONE} -- Implementation - Methods
 		local
 			error,img_flags:INTEGER
 		once
+			loop_delay:=1
 			create all_joysticks.make (0)
 			error:={GAME_SDL_EXTERNAL}.SDL_Init(flags)
 			check error = 0 end
