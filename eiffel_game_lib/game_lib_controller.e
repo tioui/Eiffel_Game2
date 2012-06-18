@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 			-- No sound enable.
 		do
 			disable_sound_thread
+			sound_thread_loop_delay:=100
 			make_sdl
 			make_no_sound
 			make_random
@@ -59,6 +60,7 @@ feature {NONE} -- Initialization
 			-- No sound enable.
 		do
 			disable_sound_thread
+			sound_thread_loop_delay:=100
 			make_no_parachute_sdl
 			make_no_sound
 			make_random
@@ -121,6 +123,10 @@ feature -- Access
 	is_sound_thread_enable:BOOLEAN
 			-- Return true if the sound management will be put in a different thread when the `launch' method will be used.
 
+	sound_thread_loop_delay:NATURAL_32 assign set_sound_thread_loop_delay
+			-- If th souund stop unexpectedly when using the sound thread optimisation, lower the value of this variable.
+			-- The default value is 100.
+
 feature {NONE} -- Implementation - Routines
 
 	execute_sound
@@ -145,6 +151,11 @@ feature {NONE} -- Implementation - Routines
 				update_event
 				delay (loop_delay)
 			end
+		end
+
+	set_sound_thread_loop_delay(l_sound_thread_loop_delay:NATURAL_32)
+		do
+			sound_thread_loop_delay	:= l_sound_thread_loop_delay
 		end
 
 end

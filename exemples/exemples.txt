@@ -45,3 +45,6 @@ Real game loop (without the controller.launch)
 Custom Package File (putting all images and sounds ressources in a single file)
 	- cpf
 
+Thread sound optimisation
+	- cpf
+
