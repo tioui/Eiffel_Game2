@@ -79,22 +79,21 @@ feature {NONE} -- Initialisation
 
 feature -- Access
 
-	copy_surface:GAME_SURFACE
-			-- Create another surface from the current surface (the memory SDL surface is duplicate).
+
+	optimise_surface
+		local
+			screen:GAME_SCREEN
+			result_ptr:POINTER
 		do
-			create Result.make_from_pointer({GAME_SDL_EXTERNAL}.SDL_ConvertSurface(get_surface_pointer,get_format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(get_surface_pointer)))
-			set_start_x(start_x)
-			set_start_y(start_y)
-			Result.set_width (width)
-			Result.set_height (height)
-			Result.is_alpha_accelerated:=is_alpha_accelerated
-			Result.is_transparent_accelerated:=is_transparent_accelerated
-			if is_alpha_enable then
-				Result.enable_alpha
+			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
+				create screen.make_from_current_video_surface
+				result_ptr:={GAME_SDL_EXTERNAL}.SDL_ConvertSurface(get_surface_pointer,screen.get_format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(screen.get_format_pointer))
+				if not result_ptr.is_default_pointer then
+					set_surface_pointer(result_ptr)
+				end
 			end
-			if is_transparent_enable then
-				Result.set_color_key (trans_color_key)
-			end
+
+
 		end
 
 	bits_per_pixel:INTEGER
@@ -406,6 +405,7 @@ feature -- Access
 		local
 			key:NATURAL_32
 		do
+			optimise_surface
 			key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(get_format_pointer,color.red, color.green, color.blue)
 			set_color_key(key)
 		end
