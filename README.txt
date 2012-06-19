@@ -6,7 +6,7 @@ This is a library for game developping with the Eiffel Language. The library is 
 
 The library is compatible with Linux, MAC OS X, Windows, GP2X Wiz and Caanoo.
 
-The library is under Eiffel Forum Licence v2.
+The library is under Eiffel Forum License v2.
 
 The project use those libraries: SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL and Libsndfile.
 
