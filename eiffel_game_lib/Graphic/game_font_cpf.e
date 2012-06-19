@@ -1,0 +1,90 @@
+note
+	description: "Summary description for {GAME_FONT_CPF}."
+	author: ""
+	date: "$Date$"
+	revision: "$Revision$"
+
+class
+	GAME_FONT_CPF
+
+inherit
+	GAME_RESSOURCE_CPF
+	GAME_FONT
+	rename
+		make as make_from_file,
+		make_with_index as make_with_index_from_file
+	undefine
+		modify_font
+	redefine
+		dispose
+	end
+
+create
+	make,
+	make_with_index
+
+feature -- Initialisation
+
+	make (l_cpf:GAME_PACKAGE_FILE;l_cpf_index:INTEGER; l_size: INTEGER_32)
+			-- Initialization for `Current'.
+		require
+			make_font_text_enabled: {GAME_SDL_EXTERNAL}.ttf_wasinit = 1
+			Make_Font_CPF_Index_Valid:l_cpf_index>0 and then l_cpf_index<=l_cpf.sub_files_count
+		do
+			make_with_index (l_cpf,l_cpf_index, l_size, 0)
+		ensure
+			make_font_valid: sdl_font_pointer /= Void and then not sdl_font_pointer.is_default_pointer
+		end
+
+	make_with_index (l_cpf:GAME_PACKAGE_FILE;l_cpf_index:INTEGER; l_size: INTEGER_32; l_index: INTEGER_32)
+			-- Initialization for `Current'.
+			-- The index is use if there is more than one font in a ttf file.
+		require
+			make_font_text_enabled: {GAME_SDL_EXTERNAL}.ttf_wasinit = 1
+			Make_Font_CPF_Index_Valid:l_cpf_index>0 and then l_cpf_index<=l_cpf.sub_files_count
+		local
+
+		do
+			cpf:=l_cpf
+			cpf_index:=l_cpf_index
+			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
+			cpf.select_sub_file (cpf_index)
+			{GAME_SDL_EXTERNAL}.setSDLRWops(rwop,cpf.get_current_cpf_infos_ptr)
+			reload_font(l_size, l_index)
+		ensure
+			make_font_valid: sdl_font_pointer /= Void and then not sdl_font_pointer.is_default_pointer
+		end
+
+feature {NONE} -- Implementation Routines
+
+	reload_font(l_size:INTEGER;l_index:INTEGER_32)
+		do
+			size := l_size
+			index := l_index
+			cpf.select_sub_file (cpf_index)
+			sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndexRW(rwop,0,size,index)
+		end
+
+	modify_font(l_size:INTEGER;l_index:INTEGER_32)
+		local
+			old_font_pointer:POINTER
+		do
+			old_font_pointer:=sdl_font_pointer
+			reload_font(l_size,l_index)
+			{GAME_SDL_EXTERNAL}.TTF_CloseFont(old_font_pointer)
+		end
+
+	dispose
+		do
+			precursor {GAME_FONT}
+			{GAME_SDL_EXTERNAL}.SDL_FreeRW(rwop)
+		end
+
+feature {NONE} -- Implementation - Variables
+
+	cpf:GAME_PACKAGE_FILE
+	cpf_index:INTEGER
+	rwop:POINTER
+
+
+end

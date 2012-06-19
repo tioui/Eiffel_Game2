@@ -13,6 +13,7 @@ Mouse management:
 
 Text surface:
 	- mouse text
+	- cpf
 
 Transparency:
 	- surface

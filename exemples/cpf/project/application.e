@@ -16,7 +16,6 @@ feature {NONE} -- Initialization
 			controller:GAME_LIB_CONTROLLER
 		do
 			create controller.make
-			controller.enable_video
 			run_game(controller)
 			controller.quit_library
 		end
@@ -26,7 +25,7 @@ feature {NONE} -- Initialization
 			custom_file:GAME_PACKAGE_FILE	-- The custom package file that will be use for all ressources files (images and sounds)
 		do
 			create custom_file.make ("ressources.cpf")		-- Create (open) the custom package file "ressources.cpf
-			check custom_file.sub_files_count=7 end		-- Valid that the package has the 7 files in it. (you can valid other information with custom_file.sub_files_infos)
+			check custom_file.sub_files_count=8 end		-- Valid that the package has the 7 files in it. (you can valid other information with custom_file.sub_files_infos)
 
 			set_system(controller,custom_file)	-- Set the screen and the events handeler
 
@@ -41,6 +40,8 @@ feature {NONE} -- Initialization
 		local
 			icon_trans_color:GAME_COLOR
 		do
+			controller.enable_video
+
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))
 
 			create icon_trans_color.make_rgb(255,0,255)  -- Change the pink for transparent in the window icon (the same as with a file)
@@ -56,7 +57,9 @@ feature {NONE} -- Initialization
 	show_images(controller:GAME_LIB_CONTROLLER;custom_file:GAME_PACKAGE_FILE)
 		local
 			bk,sprite1,sprite2:GAME_SURFACE_IMG_CPF	-- Use GAME_SURFACE_IMG_CPF instead of GAME_SURFACE_IMG_FILE to use package file
-			sprite1_trans_color:GAME_COLOR
+			font:GAME_FONT_CPF
+			text:GAME_SURFACE_TEXT
+			sprite1_trans_color,text_color:GAME_COLOR
 		do
 			create bk.make (custom_file, 2)						-- The background has been place at index 2 of the custom package file
 			create sprite1.make (custom_file, 3)				-- The first sprite (without transparency) is store at index 3 of the package file
@@ -65,7 +68,15 @@ feature {NONE} -- Initialization
 			-- Once the GAME_SURFACE_IMG_CPF object is created, it is use the same way as any GAME_SURFACE object
 			create sprite1_trans_color.make_rgb (255, 0, 255)
 			sprite1.set_transparent_color (sprite1_trans_color)
+
+			-- Print a "Hello World!" on the screen.
+			controller.enable_text
+			create text_color.make_rgb (255, 255, 255)
+			create font.make (custom_file, 8, 12)		-- The font.ttf file is in the ressources.cpf file at index 8
+			create text.make_solid ("Hello World!", font, text_color)
+
 			controller.screen_surface.print_surface_on_surface (bk, 0, 0)
+			controller.screen_surface.print_surface_on_surface (text, 135, 25)
 			controller.screen_surface.print_surface_on_surface (sprite1, 100, 100)
 			controller.screen_surface.print_surface_on_surface (sprite2, 200, 100)
 			controller.flip_screen

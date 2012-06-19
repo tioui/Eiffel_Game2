@@ -569,6 +569,13 @@ feature -- Fonction SDL_ttf
 			"TTF_OpenFontIndex"
 		end
 
+	frozen TTF_OpenFontIndexRW(rwop: POINTER; free_struct: INTEGER;taille:INTEGER;index:INTEGER_32):POINTER
+		external
+			"C (SDL_RWops *, int, int, long):TTF_Font *| <SDL_ttf.h>"
+		alias
+			"TTF_OpenFontIndexRW"
+		end
+
 	frozen TTF_CloseFont(font:POINTER)
 		external
 			"C (TTF_Font *)| <SDL_ttf.h>"

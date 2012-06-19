@@ -24,8 +24,6 @@ feature {NONE} -- Initialization
 		require
 			Make_Font_Text_Enabled: {GAME_SDL_EXTERNAL}.TTF_WasInit=1
 			Make_Font_Filename_Not_Void: l_filename /= Void
-		local
-			filename_c:C_STRING
 		do
 			make_with_index(l_filename,l_size,0)
 		ensure
@@ -46,7 +44,6 @@ feature {NONE} -- Initialization
 			index:=l_index
 			create filename_c.make (filename)
 			sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndex(filename_c.item,size,index)
-			check sdl_font_pointer /= void and then not sdl_font_pointer.is_default_pointer end
 		ensure
 			Make_Font_Valid: sdl_font_pointer /= void and then not sdl_font_pointer.is_default_pointer
 		end
