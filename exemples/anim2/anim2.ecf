@@ -19,16 +19,4 @@
 	<target name="anim2" extends="anim2-mac">
 		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
 	</target>
-	<target name="anim2-caanoo" extends="anim2-mac">
-		<option warning="true" is_attached_by_default="false" syntax="transitional">
-			<assertions precondition="false" postcondition="false" check="false" invariant="false" loop="false" supplier_precondition="false"/>
-		</option>
-		<variable name="toolchain" value="caanoo"/>
-	</target>
-	<target name="anim2-wiz" extends="anim2-mac">
-		<option warning="true" is_attached_by_default="false" syntax="transitional">
-			<assertions precondition="false" postcondition="false" check="false" invariant="false" loop="false" supplier_precondition="false"/>
-		</option>
-		<variable name="toolchain" value="wiz"/>
-	</target>
 </system>

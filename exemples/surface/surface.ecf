@@ -19,16 +19,4 @@
 	<target name="surface" extends="surface-mac">
 		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
 	</target>
-	<target name="surface-caanoo" extends="surface-mac">
-		<option warning="true" is_attached_by_default="false" syntax="transitional">
-			<assertions/>
-		</option>
-		<variable name="toolchain" value="caanoo"/>
-	</target>
-	<target name="surface-wiz" extends="surface-mac">
-		<option warning="true" is_attached_by_default="false" syntax="transitional">
-			<assertions/>
-		</option>
-		<variable name="toolchain" value="wiz"/>
-	</target>
 </system>
