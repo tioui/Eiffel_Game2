@@ -433,6 +433,11 @@ feature -- Other methods
 			event_controller:=new_event_controller
 		end
 
+	clear_event_controller
+		do
+			create event_controller.make (Current)
+		end
+
 	update_event
 			-- Execute the event polling and throw the event handeler execution for each event.
 		do
