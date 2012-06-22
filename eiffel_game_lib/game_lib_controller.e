@@ -158,4 +158,5 @@ feature {NONE} -- Implementation - Routines
 			sound_thread_loop_delay	:= l_sound_thread_loop_delay
 		end
 
+
 end
