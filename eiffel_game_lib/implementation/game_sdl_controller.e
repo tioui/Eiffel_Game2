@@ -426,6 +426,13 @@ feature -- Other methods
 
 	event_controller:GAME_EVENT_CONTROLLER -- The event manager. Use it to have access to your event.
 
+	replace_event_controller(new_event_controller:GAME_EVENT_CONTROLLER)
+		require
+			SDL_Controller_Replace_Event_Controller_Not_Void:new_event_controller/=Void
+		do
+			event_controller:=new_event_controller
+		end
+
 	update_event
 			-- Execute the event polling and throw the event handeler execution for each event.
 		do

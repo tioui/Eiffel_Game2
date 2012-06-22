@@ -16,7 +16,8 @@ inherit
 	undefine
 		modify_font
 	redefine
-		dispose
+		dispose,
+		sdl_font_pointer
 	end
 
 create
@@ -33,7 +34,7 @@ feature -- Initialisation
 		do
 			make_with_index (l_cpf,l_cpf_index, l_size, 0)
 		ensure
-			make_font_valid: sdl_font_pointer /= Void and then not sdl_font_pointer.is_default_pointer
+			make_font_valid: c_sdl_font_pointer /= Void and then not c_sdl_font_pointer.is_default_pointer
 		end
 
 	make_with_index (l_cpf:GAME_PACKAGE_FILE;l_cpf_index:INTEGER; l_size: INTEGER_32; l_index: INTEGER_32)
@@ -52,7 +53,16 @@ feature -- Initialisation
 			{GAME_SDL_EXTERNAL}.setSDLRWops(rwop,cpf.get_current_cpf_infos_ptr)
 			reload_font(l_size, l_index)
 		ensure
-			make_font_valid: sdl_font_pointer /= Void and then not sdl_font_pointer.is_default_pointer
+			make_font_valid: c_sdl_font_pointer /= Void and then not c_sdl_font_pointer.is_default_pointer
+		end
+
+feature {GAME_SURFACE_TEXT} -- Internal
+
+	sdl_font_pointer:POINTER
+		do
+			cpf.select_sub_file (cpf_index)
+			cpf.seek_from_begining (0)
+			Result:=c_sdl_font_pointer
 		end
 
 feature {NONE} -- Implementation Routines
@@ -62,14 +72,15 @@ feature {NONE} -- Implementation Routines
 			size := l_size
 			index := l_index
 			cpf.select_sub_file (cpf_index)
-			sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndexRW(rwop,0,size,index)
+			cpf.seek_from_begining (0)
+			c_sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndexRW(rwop,0,size,index)
 		end
 
 	modify_font(l_size:INTEGER;l_index:INTEGER_32)
 		local
 			old_font_pointer:POINTER
 		do
-			old_font_pointer:=sdl_font_pointer
+			old_font_pointer:=c_sdl_font_pointer
 			reload_font(l_size,l_index)
 			{GAME_SDL_EXTERNAL}.TTF_CloseFont(old_font_pointer)
 		end

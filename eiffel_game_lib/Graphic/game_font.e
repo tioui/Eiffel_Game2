@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 		do
 			make_with_index(l_filename,l_size,0)
 		ensure
-			Make_Font_Valid: sdl_font_pointer /= void and then not sdl_font_pointer.is_default_pointer
+			Make_Font_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
 		end
 
 	make_with_index(l_filename:STRING;l_size:INTEGER;l_index:INTEGER_32)
@@ -43,9 +43,9 @@ feature {NONE} -- Initialization
 			size:=l_size
 			index:=l_index
 			create filename_c.make (filename)
-			sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndex(filename_c.item,size,index)
+			c_sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndex(filename_c.item,size,index)
 		ensure
-			Make_Font_Valid: sdl_font_pointer /= void and then not sdl_font_pointer.is_default_pointer
+			Make_Font_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
 		end
 
 feature -- Access
@@ -57,13 +57,13 @@ feature -- Access
 	is_underline:BOOLEAN
 		-- Return true if the font is underlined
 	do
-		result:=({GAME_SDL_EXTERNAL}.TTF_GetFontStyle(sdl_font_pointer).bit_and({GAME_SDL_EXTERNAL}.TTF_STYLE_UNDERLINE) /= 0)
+		result:=({GAME_SDL_EXTERNAL}.TTF_GetFontStyle(c_sdl_font_pointer).bit_and({GAME_SDL_EXTERNAL}.TTF_STYLE_UNDERLINE) /= 0)
 	end
 
 	add_underline
 		-- Add an underline effect to the font
 	do
-		{GAME_SDL_EXTERNAL}.TTF_SetFontStyle(sdl_font_pointer,{GAME_SDL_EXTERNAL}.TTF_STYLE_UNDERLINE)
+		{GAME_SDL_EXTERNAL}.TTF_SetFontStyle(c_sdl_font_pointer,{GAME_SDL_EXTERNAL}.TTF_STYLE_UNDERLINE)
 	ensure
 		Font_Add_Underline_Is_Underlined: is_underline
 	end
@@ -71,7 +71,7 @@ feature -- Access
 	remove_underline
 		-- Remove the underline effect from the font
 	do
-		{GAME_SDL_EXTERNAL}.TTF_SetFontStyle(sdl_font_pointer,{GAME_SDL_EXTERNAL}.TTF_STYLE_NORMAL)
+		{GAME_SDL_EXTERNAL}.TTF_SetFontStyle(c_sdl_font_pointer,{GAME_SDL_EXTERNAL}.TTF_STYLE_NORMAL)
 	ensure
 		Font_Remove_Underline_Is_Removed: not is_underline
 	end
@@ -79,6 +79,9 @@ feature -- Access
 feature {GAME_SURFACE_TEXT} -- Internal
 
 	sdl_font_pointer:POINTER
+		do
+			Result:=c_sdl_font_pointer
+		end
 
 feature {NONE} -- Implementation
 
@@ -86,7 +89,7 @@ feature {NONE} -- Implementation
 	local
 		old_font_pointer:POINTER
 	do
-		old_font_pointer:=sdl_font_pointer
+		old_font_pointer:=c_sdl_font_pointer
 		make_with_index(filename,l_size,l_index)
 		{GAME_SDL_EXTERNAL}.TTF_CloseFont(old_font_pointer)
 	end
@@ -105,10 +108,11 @@ feature {NONE} -- Implementation
 
 	dispose
 	do
-		{GAME_SDL_EXTERNAL}.TTF_CloseFont(sdl_font_pointer)
+		{GAME_SDL_EXTERNAL}.TTF_CloseFont(c_sdl_font_pointer)
 	end
 
+	c_sdl_font_pointer:POINTER
 
 invariant
-	Font_Pointer_Valid: sdl_font_pointer /= void and then not sdl_font_pointer.is_default_pointer
+	Font_Pointer_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
 end
