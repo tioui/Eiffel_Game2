@@ -180,9 +180,16 @@ feature -- Video methods
 			Print_Screen_Video_Enabled: is_video_enabled
 		local
 			error:INTEGER
+			error_ptr:POINTER
+			error_c:C_STRING
 		do
 			error:={GAME_SDL_EXTERNAL}.SDL_Flip(screen_surface.get_surface_pointer)
-			check error = 0 end
+			if error/=0 then
+				create error_c.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetError)
+				io.error.put_string ("Error: Cannot flip screen.%N"+error_c.string)
+				io.error.flush
+				check false end
+			end
 		end
 
 	create_screen_surface_with_icon_cpf(cpf:GAME_PACKAGE_FILE;index:INTEGER;transparent_color:GAME_COLOR;the_width,the_height,the_bits_per_pixel:INTEGER;video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen:BOOLEAN)
@@ -515,7 +522,6 @@ feature{NONE} -- Implementation - Methods
 			create event_controller.make (Current)
 			img_flags:={GAME_SDL_EXTERNAL}.IMG_INIT_JPG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_PNG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_TIF))
 			error:={GAME_SDL_EXTERNAL}.IMG_Init(img_flags)
-			check error.bit_and (img_flags)=img_flags end
 		end
 
 	initialise_sub_system(flags:NATURAL_32)

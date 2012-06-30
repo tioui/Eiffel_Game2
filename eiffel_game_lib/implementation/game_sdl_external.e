@@ -46,6 +46,13 @@ feature -- Function SDL.h
 			"SDL_WasInit"
 		end
 
+	frozen SDL_GetError:POINTER
+		external
+			"C : char* | %"SDL.h%""
+		alias
+			"SDL_GetError"
+		end
+
 	frozen SDL_ShowCursor(toggle:INTEGER):INTEGER
 		external
 			"C (int) : int | %"SDL.h%""

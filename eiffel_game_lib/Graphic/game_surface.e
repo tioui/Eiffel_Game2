@@ -182,6 +182,8 @@ feature -- Access
 			-- The surface has to be 8 bits per pixel, 16 bits per pixel or 32 bits per pixel.
 		do
 			set_surface_pointer(get_new_surface_pointer_rotate_90_degree(nb_clockwise))
+			set_height ({GAME_SDL_EXTERNAL}.get_surface_struct_h(get_surface_pointer))
+			set_width ({GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer))
 			if is_alpha_enable then
 				enable_alpha
 			else
@@ -223,6 +225,8 @@ feature -- Access
 			if is_transparent_enable then
 				set_color_key (trans_color_key)
 			end
+			set_height ({GAME_SDL_EXTERNAL}.get_surface_struct_h(get_surface_pointer))
+			set_width ({GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer))
 		end
 
 	get_new_surface_mirror(mirror_x,mirror_y:BOOLEAN):GAME_SURFACE
@@ -394,7 +398,7 @@ feature -- Access
 			end
 			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,l_w.abs.to_natural_16)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,l_h.abs.to_natural_16)
-			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(get_format_pointer,color.red,color.green,color.blue)
+			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(get_format_pointer,color.red,color.green,color.blue,color.alpha)
 			error:={GAME_SDL_EXTERNAL}.SDL_FillRect(get_surface_pointer,rect_src,color_key)
 			check error=0 end
 		end
@@ -528,8 +532,7 @@ feature {NONE} -- Implemenation routine
 			end
 
 			if start_x = 0 and start_y = 0 and width={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) and height={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer) then
-				is_temp_surface:=false
-				temp_surface:=Current
+				Result:=Current
 			else
 				is_temp_surface:=true
 				format:=get_format_pointer
@@ -543,7 +546,7 @@ feature {NONE} -- Implemenation routine
 				end
 
 				if bits_per_pixel=8 then
-					{GAME_SDL_EXTERNAL}.copyPalette(get_surface_pointer,temp_surface.get_surface_pointer)
+					{GAME_SDL_EXTERNAL}.copyPalette(get_surface_pointer,Result.get_surface_pointer)
 				end
 				Result.is_transparent_accelerated:=is_transparent_accelerated
 				Result.is_alpha_accelerated:=is_alpha_accelerated

@@ -11,7 +11,7 @@ objet-linux-x86-64/game_more.o: src/game_more.c
 linux-caanoo: objet-linux-caanoo/game_more.o include/game_more.h
 objet-linux-caanoo/game_more.o: src/game_more.c
 	mkdir -p objet-linux-caanoo
-	/opt/gcc-4.2.4-glibc-2.7-eabi/bin/arm-gph-linux-gnueabi-gcc -c -I/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL -Iinclude/ -o objet-linux-caanoo/game_more.o src/game_more.c
+	/opt/gcc-4.2.4-glibc-2.7-eabi/bin/arm-gph-linux-gnueabi-gcc -c -I$(EIF_GAME_LIB)/C_lib_caanoo/include -I/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL -Iinclude/ -o objet-linux-caanoo/game_more.o src/game_more.c
 
 linux-wiz: objet-linux-wiz/game_more.o include/game_more.h
 objet-linux-wiz/game_more.o: src/game_more.c

@@ -51,6 +51,7 @@ feature {NONE} -- Initialisation
 				cpf_infos.extend (temp_ptr)
 				sub_files_infos.forth
 			end
+			create file_mutex.make
 		end
 
 feature {GAME_RESSOURCE_CPF} -- The C pointer to the file infos structure
@@ -61,6 +62,8 @@ feature {GAME_RESSOURCE_CPF} -- The C pointer to the file infos structure
 		do
 			Result:=cpf_infos.at (current_file_index)
 		end
+
+	file_mutex:MUTEX
 
 
 feature {NONE} -- Implementation - Routines
