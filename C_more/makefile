@@ -20,7 +20,7 @@ objet-linux-wiz/game_more.o: src/game_more.c
 
 windows: objet-windows/game_more.o include/game_more.h
 objet-windows/game_more.o: src/game_more.c
-	mkdir -p objet-windows
+	-mkdir objet-windows
 	gcc -c -I"$(EIF_GAME_LIB)\C_lib_win\SDL\include\SDL" -I"$(EIF_GAME_LIB)\C_lib_win\SDL_gfx\include" -I"$(EIF_GAME_LIB)\C_lib_win\libsndfile\include" -I".\include" -o objet-windows/game_more.o src/game_more.c
 
 macosx-x86-64-SDL: objet-macosx-x86-64-SDL/game_more.o include/game_more.h
