@@ -27,11 +27,20 @@ feature {NONE} -- Implemetation
 	open_from_file(filename:STRING)
 			-- Open the surface from the image file `filename'.
 		local
-			filename_c:C_STRING
-			pointeur:POINTER
+			filename_c,error_c:C_STRING
+			l_pointer:POINTER
 		do
 			create filename_c.make (filename)
-			make_from_pointer ({GAME_SDL_EXTERNAL}.IMG_Load(filename_c.item ))
+			l_pointer:={GAME_SDL_EXTERNAL}.IMG_Load(filename_c.item )
+			if l_pointer.is_default_pointer then
+				create error_c.make_by_pointer ({GAME_SDL_EXTERNAL}.IMG_GetError)
+				io.error.put_string ("Error when loading file: "+filename+"%N"+error_c.string+"%N")
+				io.error.flush
+				check false end
+			else
+				make_from_pointer (l_pointer)
+			end
+
 		end
 
 end

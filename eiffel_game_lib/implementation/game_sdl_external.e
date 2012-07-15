@@ -522,19 +522,26 @@ feature -- Fonction SDL_image
 			"IMG_Load_RW"
 		end
 
-	frozen IMG_Init(flags:INTEGER):INTEGER
+	frozen IMG_GetError:POINTER
 		external
-			"C (int):int | %"SDL_image.h%""
+			"C :char * | %"SDL_image.h%""
 		alias
-			"IMG_Init"
+			"IMG_GetError"
 		end
 
-	frozen IMG_Quit
-		external
-			"C | %"SDL_image.h%""
-		alias
-			"IMG_Quit"
-		end
+--	frozen IMG_Init(flags:INTEGER):INTEGER
+--		external
+--			"C (int):int | %"SDL_image.h%""
+--		alias
+--			"IMG_Init"
+--		end
+
+--	frozen IMG_Quit
+--		external
+--			"C | %"SDL_image.h%""
+--		alias
+--			"IMG_Quit"
+--		end
 
 
 
@@ -4533,26 +4540,26 @@ feature -- Macro SDL.h
 
 feature -- Constants SDL_Image
 
-	frozen IMG_INIT_JPG:INTEGER
-		external
-			"C inline use <SDL.h>"
-		alias
-			"IMG_INIT_JPG"
-		end
+--	frozen IMG_INIT_JPG:INTEGER
+--		external
+--			"C inline use <SDL_image.h>"
+--		alias
+--			"IMG_INIT_JPG"
+--		end
 
-	frozen IMG_INIT_PNG:INTEGER
-		external
-			"C inline use <SDL.h>"
-		alias
-			"IMG_INIT_PNG"
-		end
+--	frozen IMG_INIT_PNG:INTEGER
+--		external
+--			"C inline use <SDL_image.h>"
+--		alias
+--			"IMG_INIT_PNG"
+--		end
 
-	frozen IMG_INIT_TIF:INTEGER
-		external
-			"C inline use <SDL.h>"
-		alias
-			"IMG_INIT_TIF"
-		end
+--	frozen IMG_INIT_TIF:INTEGER
+--		external
+--			"C inline use <SDL_image.h>"
+--		alias
+--			"IMG_INIT_TIF"
+--		end
 
 
 feature -- Constants SDL_endian.h

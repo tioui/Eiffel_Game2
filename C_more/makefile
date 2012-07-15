@@ -16,7 +16,7 @@ objet-linux-caanoo/game_more.o: src/game_more.c
 linux-wiz: objet-linux-wiz/game_more.o include/game_more.h
 objet-linux-wiz/game_more.o: src/game_more.c
 	mkdir -p objet-linux-wiz
-	/opt/arm-openwiz-linux-gnu/bin/arm-openwiz-linux-gnu-gcc -c -Iinclude/ -I-I$(EIF_GAME_LIB)/C_lib_wiz/include/SDL -o objet-linux-wiz/game_more.o src/game_more.c
+	/opt/arm-openwiz-linux-gnu/bin/arm-openwiz-linux-gnu-gcc -c -Iinclude/ -I$(EIF_GAME_LIB)/C_lib_wiz/include/SDL -I$(EIF_GAME_LIB)/C_lib_wiz/include/ -o objet-linux-wiz/game_more.o src/game_more.c
 
 windows: objet-windows/game_more.o include/game_more.h
 objet-windows/game_more.o: src/game_more.c

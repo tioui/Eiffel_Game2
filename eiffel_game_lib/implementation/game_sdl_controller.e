@@ -184,7 +184,10 @@ feature -- Video methods
 			error_ptr:POINTER
 			error_c:C_STRING
 		do
-			error:={GAME_SDL_EXTERNAL}.SDL_Flip(screen_surface.get_surface_pointer)
+			if not has_hardware_double_buffer then
+				scr_surface.print_surface_on_surface (buffer_surface, 0, 0)
+			end
+			error:={GAME_SDL_EXTERNAL}.SDL_Flip(scr_surface.get_surface_pointer)
 			if error/=0 then
 				create error_c.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetError)
 				io.error.put_string ("Error: Cannot flip screen.%N"+error_c.string)
@@ -249,11 +252,14 @@ feature -- Video methods
 		flags:NATURAL_32
 	do
 		flags:=0
+		has_hardware_double_buffer:=hardware_dbl_buf
 		if video_memory then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_HWSURFACE
 		end
 		if hardware_dbl_buf then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_DOUBLEBUF
+		else
+			create buffer_surface.make (the_width, the_height, the_bits_per_pixel, video_memory)
 		end
 		if resisable then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_RESIZABLE
@@ -269,14 +275,19 @@ feature -- Video methods
 		Create_Screen_Not_Void: screen_is_create
 	end
 
-	screen_surface:GAME_SCREEN
+	screen_surface:GAME_SURFACE
 		-- Get the screen surface given by create_screen.
 		-- You can print other surface on this screen.
 		-- When you use the routine flip_screen, the screen is show on the window.
 	require
 		Get_Screen_Surface_Not_Void: screen_is_create
 	do
-		Result := scr_surface
+		if has_hardware_double_buffer then
+			Result := scr_surface
+		else
+			Result := buffer_surface
+		end
+
 	end
 
 	screen_is_create:BOOLEAN
@@ -335,6 +346,8 @@ feature -- Video methods
 		end
 		Result:=list_resolution
 	end
+
+	has_hardware_double_buffer:BOOLEAN
 
 
 feature -- Mouse		
@@ -493,16 +506,14 @@ feature -- Other methods
 			mem:MEMORY
 		do
 			event_controller:=Void
+			all_joysticks:=void
 			create mem
 			mem.full_collect
 			if is_text_enabled then
 				disable_text
 			end
-			if is_joystick_enabled then
-				close_all_joysticks
-			end
 
-			{GAME_SDL_EXTERNAL}.IMG_Quit
+	--		{GAME_SDL_EXTERNAL}.IMG_Quit
 			{GAME_SDL_EXTERNAL}.SDL_Quit
 		end
 
@@ -521,8 +532,8 @@ feature{NONE} -- Implementation - Methods
 			error:={GAME_SDL_EXTERNAL}.SDL_Init(flags)
 			check error = 0 end
 			create event_controller.make (Current)
-			img_flags:={GAME_SDL_EXTERNAL}.IMG_INIT_JPG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_PNG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_TIF))
-			error:={GAME_SDL_EXTERNAL}.IMG_Init(img_flags)
+--			img_flags:={GAME_SDL_EXTERNAL}.IMG_INIT_JPG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_PNG.bit_or({GAME_SDL_EXTERNAL}.IMG_INIT_TIF))
+--			error:={GAME_SDL_EXTERNAL}.IMG_Init(img_flags)
 		end
 
 	initialise_sub_system(flags:NATURAL_32)
@@ -559,6 +570,8 @@ feature{NONE} -- Implementation - Methods
 feature {NONE} -- Implementation - Variables
 
 	scr_surface:GAME_SCREEN
+
+	buffer_surface:GAME_SURFACE
 
 	must_stop:BOOLEAN
 
