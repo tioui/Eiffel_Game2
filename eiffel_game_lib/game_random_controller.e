@@ -46,9 +46,11 @@ feature -- Access
 			-- `generate_new_random' routine. The return value will be between `min' and `max'
 			-- (including `min' and `max').
 		require
-			Get_Random_Between_Max_and_Min_Valid: max>min
+			Get_Random_Between_Max_and_Min_Valid: max>=min
 		do
 			Result:= (last_random_integer\\(max-min+1))+min
+		ensure
+			Random_Value_valid: Result>=min and Result<=max
 		end
 
 	last_random_real:REAL
@@ -63,9 +65,11 @@ feature -- Access
 			-- `generate_new_random' routine. The return value will be between `min' and `max'
 			-- (including `min' and `max').
 		require
-			Get_Random_Between_Max_and_Min_Valid: max>min
+			Get_Random_Between_Max_and_Min_Valid: max>=min
 		do
 			Result:= (last_random_real*(max-min))+min
+		ensure
+			Random_Value_valid: Result>=min and Result<=max
 		end
 
 feature {NONE}  -- Implementation variables

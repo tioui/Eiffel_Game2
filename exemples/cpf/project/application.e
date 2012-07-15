@@ -24,7 +24,9 @@ feature {NONE} -- Initialization
 		local
 			custom_file:GAME_PACKAGE_FILE	-- The custom package file that will be use for all ressources files (images and sounds)
 		do
-			create custom_file.make ("ressources.cpf")		-- Create (open) the custom package file "ressources.cpf
+			create custom_file.make ("ressources.cpf",true)		-- Create (open) the custom package file "ressources.cpf
+																	-- Put false to thread_safe if you don't use the thread (including sound thread) functionnality
+																	-- If thread_safe is set, your application must be multithread enabled (with mt precompile library if you use one).
 			check custom_file.sub_files_count=8 end		-- Valid that the package has the 7 files in it. (you can valid other information with custom_file.sub_files_infos)
 
 			set_system(controller,custom_file)	-- Set the screen and the events handeler

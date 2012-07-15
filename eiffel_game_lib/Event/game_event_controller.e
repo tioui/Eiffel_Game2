@@ -45,9 +45,11 @@ feature -- Access
 		is_event:INTEGER
 	do
 		decode_tick_event
-		is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
-		if is_event/=0 then
+		from is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+		until is_event=0
+		loop
 			decode_event(event_ptr)
+			is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 		end
 	end
 
@@ -296,7 +298,7 @@ feature {NONE} -- Mouse button event implementation
 		end
 	end
 
-feature {GAME_SDL_CONTROLLER} -- Controller Joystick event enable
+feature -- Controller Joystick event enable
 
 	enable_joystick_event
 		-- Enable the joysticks and joypads event.
@@ -315,8 +317,6 @@ feature {GAME_SDL_CONTROLLER} -- Controller Joystick event enable
 	do
 		temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_IGNORE)
 	end
-
-feature -- Access Joystick event enable
 
 	is_joystick_event_enable:BOOLEAN
 		-- Return true if the joysticks and joypads event are enable
@@ -424,7 +424,7 @@ feature {NONE} -- Joystick hats event implementation
 
 feature -- Joystick buttons event access
 
-	on_joystick_buttons_change: ACTION_SEQUENCE[TUPLE[is_down,is_pressed:BOOLEAN;button_id,device_id:NATURAL_8]]
+	on_joystick_buttons_change: ACTION_SEQUENCE[TUPLE[is_pressed:BOOLEAN;button_id,device_id:NATURAL_8]]
 		-- When joystick buttons state change
 
 	on_joystick_button_pressed:ACTION_SEQUENCE[TUPLE[button_id,device_id:NATURAL_8]]
@@ -450,14 +450,13 @@ feature {NONE} -- Joystick buttons event implementation
 
 	decode_joystick_buttons_event(joystick_buttons_event:POINTER)
 	local
-		type, which, button, state:NATURAL_8
+		which, button, state:NATURAL_8
 	do
-		type:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_type(joystick_buttons_event)
 		which:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which(joystick_buttons_event)
 		button:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button(joystick_buttons_event)
 		state:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_state(joystick_buttons_event)
 		if on_joystick_buttons_change.count/=0 then
-			on_joystick_buttons_change.call ([type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONDOWN,state={GAME_SDL_EXTERNAL}.SDL_PRESSED,button,which])
+			on_joystick_buttons_change.call ([state={GAME_SDL_EXTERNAL}.SDL_PRESSED,button,which])
 		end
 		if on_joystick_button_pressed.count/=0 and state={GAME_SDL_EXTERNAL}.SDL_PRESSED then
 			on_joystick_button_pressed.call([button,which])

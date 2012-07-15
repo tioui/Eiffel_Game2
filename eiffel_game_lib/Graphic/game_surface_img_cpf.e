@@ -26,11 +26,11 @@ feature {NONE} -- Initialization
 			rwop:POINTER
 		do
 			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
-			cpf.file_mutex.lock
+			cpf.mutex_lock
 			cpf.select_sub_file (index)
 			{GAME_SDL_EXTERNAL}.setSDLRWops(rwop,cpf.get_current_cpf_infos_ptr)
 			make_from_pointer ({GAME_SDL_EXTERNAL}.IMG_Load_RW(rwop,0))
-			cpf.file_mutex.unlock
+			cpf.mutex_unlock
 			{GAME_SDL_EXTERNAL}.SDL_FreeRW(rwop)
 		end
 

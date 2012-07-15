@@ -9,7 +9,9 @@ class
 
 create
 	make,
-	make_rgb
+	make_rgb,
+	make_from_hex_string,
+	make_from_hex_string_rgb
 
 feature {NONE} -- Initialization
 
@@ -28,6 +30,37 @@ feature {NONE} -- Initialization
 			-- Assignation of the default red, green, blue values (with Alpha value set to 255).
 		do
 			make(r,g,b,255)
+		end
+
+	make_from_hex_string(hex_string:STRING)
+		require
+			hex_string.count=8
+		local
+			string_r,string_g,string_b,string_a:STRING
+			r,g,b,a:NATURAL_8
+			convertor:HEXADECIMAL_STRING_TO_INTEGER_CONVERTER
+		do
+			create convertor.make
+			string_r:="0x"+hex_string.substring (1, 2)
+			string_g:="0x"+hex_string.substring (3, 4)
+			string_b:="0x"+hex_string.substring (5, 6)
+			string_a:="0x"+hex_string.substring (7, 8)
+			convertor.parse_string_with_type (string_r,convertor.type_natural_8)
+			r:=convertor.parsed_natural_8
+			convertor.parse_string_with_type (string_g,convertor.type_natural_8)
+			g:=convertor.parsed_natural_8
+			convertor.parse_string_with_type (string_b,convertor.type_natural_8)
+			b:=convertor.parsed_natural_8
+			convertor.parse_string_with_type (string_a,convertor.type_natural_8)
+			a:=convertor.parsed_natural_8
+			make(r,g,b,a)
+		end
+
+	make_from_hex_string_rgb(hex_string:STRING)
+		require
+			hex_string.count=6
+		do
+			make_from_hex_string(hex_string+"ff")
 		end
 
 

@@ -142,10 +142,11 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enabled
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
-			event_controller.enable_joystick_event
+		--	event_controller.enable_joystick_event
 			refresh_joyticks
 		ensure
 			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enabled
+		--	SDL_Controller_Enable_Joystick_Event_Enable: event_controller.is_joystick_event_enable
 		end
 
 	disable_joystick
@@ -168,11 +169,11 @@ feature -- Subs Systems
 
 feature -- Video methods
 
---	enable_event_thread
---			-- Put the thread in an independant SDL thread. Not recommanded.
---		do
---			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_EVENTTHREAD)
---		end
+	enable_event_thread
+			-- Put the thread in an independant SDL thread. Not recommanded.
+		do
+			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_EVENTTHREAD)
+		end
 
 	flip_screen
 			-- Show the screen surface in the window

@@ -31,14 +31,14 @@ feature {NONE} -- Initialization
 		do
 			the_cpf:=cpf
 			the_cpf_index:=index
-			the_cpf.file_mutex.lock
+			the_cpf.mutex_lock
 			the_cpf.select_sub_file (the_cpf_index)
 			last_offset:=the_cpf.current_offset
 			virtual_io:=virtual_io.memory_alloc ({GAME_AUDIO_EXTERNAL}.c_sizeof_snd_file_virtual_io)
 			{GAME_AUDIO_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
 			file_info:={GAME_AUDIO_EXTERNAL}.c_sf_info_struct_allocate
 			snd_file_ptr:={GAME_AUDIO_EXTERNAL}.sf_open_virtual(virtual_io,{GAME_AUDIO_EXTERNAL}.SFM_READ,file_info,cpf.get_current_cpf_infos_ptr)
-			the_cpf.file_mutex.unlock
+			the_cpf.mutex_unlock
 			check not snd_file_ptr.is_default_pointer end
 			last_offset:=the_cpf.current_offset
 		end
@@ -47,7 +47,7 @@ feature {GAME_AUDIO_SOURCE}
 
 	fill_buffer(buffer:POINTER;max_length:INTEGER)
 		do
-			the_cpf.file_mutex.lock
+			the_cpf.mutex_lock
 			if the_cpf.current_file_index/=the_cpf_index then
 				the_cpf.select_sub_file (the_cpf_index)
 			end
@@ -60,18 +60,18 @@ feature {GAME_AUDIO_SOURCE}
 			else
 				last_offset:=0
 			end
-			the_cpf.file_mutex.unlock
+			the_cpf.mutex_unlock
 		end
 
 feature-- Access
 
 	restart
 		do
-			the_cpf.file_mutex.lock
+			the_cpf.mutex_lock
 			the_cpf.select_sub_file (the_cpf_index)
 			Precursor
 			last_offset:=the_cpf.current_offset
-			the_cpf.file_mutex.unlock
+			the_cpf.mutex_unlock
 		end
 
 

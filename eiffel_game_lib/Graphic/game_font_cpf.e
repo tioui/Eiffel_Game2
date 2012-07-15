@@ -49,10 +49,10 @@ feature -- Initialisation
 			cpf:=l_cpf
 			cpf_index:=l_cpf_index
 			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
-			cpf.file_mutex.lock
+			cpf.mutex_lock
 			cpf.select_sub_file (cpf_index)
 			{GAME_SDL_EXTERNAL}.setSDLRWops(rwop,cpf.get_current_cpf_infos_ptr)
-			cpf.file_mutex.unlock
+			cpf.mutex_unlock
 			reload_font(l_size, l_index)
 		ensure
 			make_font_valid: c_sdl_font_pointer /= Void and then not c_sdl_font_pointer.is_default_pointer
@@ -62,11 +62,11 @@ feature {GAME_SURFACE_TEXT} -- Internal
 
 	sdl_font_pointer:POINTER
 		do
-			cpf.file_mutex.lock
+			cpf.mutex_lock
 			cpf.select_sub_file (cpf_index)
 			cpf.seek_from_begining (0)
 			Result:=c_sdl_font_pointer
-			cpf.file_mutex.unlock
+			cpf.mutex_unlock
 		end
 
 feature {NONE} -- Implementation Routines
@@ -75,11 +75,11 @@ feature {NONE} -- Implementation Routines
 		do
 			size := l_size
 			index := l_index
-			cpf.file_mutex.lock
+			cpf.mutex_lock
 			cpf.select_sub_file (cpf_index)
 			cpf.seek_from_begining (0)
 			c_sdl_font_pointer:={GAME_SDL_EXTERNAL}.TTF_OpenFontIndexRW(rwop,0,size,index)
-			cpf.file_mutex.unlock
+			cpf.mutex_unlock
 		end
 
 	modify_font(l_size:INTEGER;l_index:INTEGER_32)
