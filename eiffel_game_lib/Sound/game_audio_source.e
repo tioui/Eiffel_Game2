@@ -72,18 +72,14 @@ feature -- Access
 		do
 			update_playing
 			{GAME_AUDIO_EXTERNAL}.AL_source_play(index)
-		ensure
-			Source_Play_Is_Playing: is_playing
 		end
 
 	pause
 			-- Put the streaming in pause.
-		require
-			Source_Pause_Was_Not_Stop: not (is_stop or else is_initial)
 		do
 			{GAME_AUDIO_EXTERNAL}.AL_source_pause(index)
 		ensure
-			Source_Pause_Is_Pause: is_pause or else is_initial
+			Source_Pause_Is_Pause: is_stop or is_pause or is_initial
 		end
 
 	stop

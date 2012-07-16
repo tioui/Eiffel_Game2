@@ -33,6 +33,7 @@ inherit
 		end
 	THREAD
 		rename
+			make as make_thread,
 			launch as launch_sound,
 			execute as execute_sound
 		end
@@ -117,6 +118,7 @@ feature -- Access
 	disable_sound_thread
 			-- Do not put the sound management in a different thread when the `launch' method will be used.
 		do
+			make_thread
 			is_sound_thread_enable:=false
 		end
 
