@@ -98,7 +98,7 @@ feature {NONE} -- Routines
 					controller.screen_surface.print_surface_on_surface (maryo_anim.at (anim_index), maryo_x, maryo_y)		-- No move, show the static sprite
 				end
 				controller.flip_screen		-- Show the screen in the window
-				controller.update_all		-- This call is very important. It permit to the event, sound, etc. to continue.
+				controller.update		-- This call is very important. It permit to the events to continue.
 				controller.delay (1)		-- Donc forget the loop delay. Without it, your CPU will burn :)
 			end
 

@@ -16,10 +16,13 @@ Text surface:
 	- cpf
 
 Transparency:
-	- surface
+	- surface1
 
 Sound usage:
+	- sound-console1 (without graphical window)
 	- sound
+	- sound-console2 (without graphical window)
+	- cpf
 
 Keyboard event:
 	- sound
@@ -47,5 +50,6 @@ Custom Package File (putting all images and sounds ressources in a single file)
 	- cpf
 
 Thread sound optimisation
+	- sound-console2 (without graphical window)
 	- cpf
 

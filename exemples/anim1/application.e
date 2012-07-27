@@ -14,10 +14,14 @@ feature {NONE} -- Initialization
 	make
 		local
 			controller:GAME_LIB_CONTROLLER
+			img_controller:GAME_IMG_CONTROLLER
 		do
 			create controller.make
+			create img_controller.make
 			controller.enable_video -- Enable the video functionalities
+			img_controller.enable_image (true, false, false)  -- Enable PNG image (but not TIF or JPG).
 			run_game(controller)  -- Run the core creator of the game.
+			img_controller.quit_library  -- Correctly unlink image files library
 			controller.quit_library  -- Clear the library before quitting
 		end
 

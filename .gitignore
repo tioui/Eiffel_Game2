@@ -1,6 +1,3 @@
 .DS_Store
-eiffel_game_lib/EIFGENs
-C_more/objet-*
-exemples/*/EIFGENs/
-exemples/cpf/project/EIFGENs
-custom_package_file/EIFGENs
+EIFGENs
+Clib/objet-*

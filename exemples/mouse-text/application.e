@@ -14,13 +14,16 @@ feature {NONE} -- Initialization
 	make
 		local
 			controller:GAME_LIB_CONTROLLER
+			text_controller:GAME_TEXT_CONTROLLER
 		do
 			create controller.make
+			create text_controller.make
 			controller.enable_video -- Enable the video functionalities
-			controller.enable_text  -- Enable the Text Surface functionnality
+			text_controller.enable_text  -- Enable the Text Surface functionnality
 			run_game(controller)  -- Run the core creator of the game.
 			controller.quit_library  -- Clear the library before quitting
-		end
+			text_controller.quit_library
+		end	
 
 	run_game(controller:GAME_LIB_CONTROLLER)
 		local
@@ -31,11 +34,12 @@ feature {NONE} -- Initialization
 			create l_font.make ("font.ttf", 10)  -- Initialise the font to use in the text print. The process is long. Better doing it only once.
 			controller.event_controller.on_mouse_motion_position.extend(agent on_mouse_move(controller,l_font,?,?)) 	-- The method on_mouse_move will be execute when the mouse is moved on the window
 																																-- The controller, the font and the color wll be passed to the method.
+			controller.event_controller.on_resize_window.extend (agent on_window_resize(controller,?,?))	-- When the window will be resized, execute the on_window_resize routine with the controller as argument.
 			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
 			rect_start_x:=-1
 			rect_start_y:=-1
-			controller.create_screen_surface (320, 240, 16, true, true, false, true, false)	-- Create the window. Dimension: 320x240, 16 bits per pixel, Use video memory, use hardware double buffer,
-																								-- the windows will be unresisable, the window will have the window frame, not in fullscreen mode.
+			controller.create_screen_surface (320, 240, 16, true, true, true, true, false)	-- Create the window. Dimension: 320x240, 16 bits per pixel, Use video memory, use hardware double buffer,
+																								-- the windows will be resisable, the window will have the window frame, not in fullscreen mode.
 			on_mouse_move(controller,l_font,0,0)  -- Show the initial screen layout
 			controller.launch  -- The controller will loop until the stop controller.method is called (in method on_quit).
 		end
@@ -83,6 +87,12 @@ feature {NONE} -- Initialization
 			-- This method is called when the quit signal is send to the application (ex: window X button pressed).
 		do
 			controller.stop  -- Stop the controller loop (allow controller.launch to return)
+		end
+
+	on_window_resize(controller:GAME_LIB_CONTROLLER;width,height:INTEGER)
+			-- When the window is resized, create a new screen surface with the new dimension
+		do
+			controller.create_screen_surface (width, height, 16, true, true, true, true, false)
 		end
 
 

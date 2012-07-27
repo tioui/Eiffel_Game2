@@ -1,0 +1,332 @@
+note
+	description: "External C feature for Audio snd files libraries."
+	author: "Louis Marchand"
+	date: "May 24, 2012"
+	revision: "0.1"
+
+class
+	AUDIO_SND_FILES_EXTERNAL
+
+
+feature -- libsndfile fonctions
+
+	frozen c_sizeof_sf_count_t:INTEGER
+		external
+			"C inline use <stdint.h>"
+		alias
+			"sizeof(sf_count_t)"
+		end
+
+	frozen SF_open(path:POINTER;mode:INTEGER;sf_info:POINTER):POINTER
+		external
+			"C (const char *, int , SF_INFO *) : SNDFILE* | <sndfile.h>"
+		alias
+			"sf_open"
+		end
+
+	frozen sf_open_virtual(sf_virtual_io:POINTER;mode:INTEGER;sf_info:POINTER;user_data:POINTER):POINTER
+		external
+			"C (SF_VIRTUAL_IO *, int , SF_INFO *, void *) : SNDFILE* | <sndfile.h>"
+		alias
+			"sf_open_virtual"
+		end
+
+	frozen SF_close(sndfile:POINTER):INTEGER
+		external
+			"C (SNDFILE *) : int | <sndfile.h>"
+		alias
+			"sf_close"
+		end
+
+	frozen SF_seek(sndfile:POINTER;frames:INTEGER_64;whence:INTEGER):INTEGER_64
+		external
+			"C (SNDFILE *, sf_count_t, int) : sf_count_t | <sndfile.h>"
+		alias
+			"sf_seek"
+		end
+
+	frozen sf_read_short(sndfile,ptr:POINTER;items:INTEGER_64):INTEGER_64
+		external
+			"C (SNDFILE *, short *, sf_count_t) : sf_count_t | <sndfile.h>"
+		alias
+			"sf_read_short"
+		end
+
+	frozen set_snd_file_virtual_io(virtual_io:POINTER)
+		external
+			"C (SF_VIRTUAL_IO *) | <audio_more.h>"
+		alias
+			"setSndFileVirtualIo"
+		end
+
+
+	frozen c_sizeof_snd_file_virtual_io:INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"sizeof(SF_VIRTUAL_IO)"
+		end
+
+feature -- libsndfile SF_INFO structure
+
+	frozen c_sf_info_struct_allocate: POINTER is
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"malloc (sizeof(SF_INFO))"
+		end
+
+	frozen c_sf_info_struct_free(info:POINTER) is
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"free((SF_INFO *)$info)"
+		end
+
+	frozen get_sf_info_struct_channels (sf_info:POINTER):INTEGER
+		external
+			"C [struct <sndfile.h>] (SF_INFO):int"
+		alias
+			"channels"
+		end
+
+	frozen get_sf_info_struct_frames (sf_info:POINTER):INTEGER_64
+		external
+			"C [struct <sndfile.h>] (SF_INFO):sf_count_t"
+		alias
+			"frames"
+		end
+
+	frozen get_sf_info_struct_format (sf_info:POINTER):INTEGER
+		external
+			"C [struct <sndfile.h>] (SF_INFO):int"
+		alias
+			"format"
+		end
+
+	frozen get_sf_info_struct_samplerate (sf_info:POINTER):INTEGER
+		external
+			"C [struct <sndfile.h>] (SF_INFO):int"
+		alias
+			"samplerate"
+		end
+
+	frozen get_sf_info_struct_seekable (sf_info:POINTER):INTEGER
+		external
+			"C [struct <sndfile.h>] (SF_INFO):int"
+		alias
+			"seekable"
+		end
+
+feature -- OpenAL Constantes
+
+	frozen AL_INVALID_VALUE :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_INVALID_VALUE"
+		end
+
+	frozen AL_INVALID_ENUM :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_INVALID_ENUM"
+		end
+	frozen AL_INVALID_OPERATION :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_INVALID_OPERATION"
+		end
+
+	frozen AL_INVALID_NAME :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_INVALID_NAME"
+		end
+
+	frozen AL_OUT_OF_MEMORY :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_OUT_OF_MEMORY"
+		end
+
+	frozen AL_INVALID_DEVICE :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_INVALID_DEVICE"
+		end
+
+
+	frozen AL_INVALID_CONTEXT :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_INVALID_CONTEXT"
+		end
+
+	frozen AL_NO_ERROR :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_NO_ERROR"
+		end
+
+	frozen AL_POSITION :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_POSITION"
+		end
+
+	frozen AL_VELOCITY :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_VELOCITY"
+		end
+
+	frozen AL_ORIENTATION :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_ORIENTATION"
+		end
+
+	frozen AL_DIRECTION :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_DIRECTION"
+		end
+
+
+	frozen AL_BUFFERS_PROCESSED :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_BUFFERS_PROCESSED"
+		end
+
+	frozen AL_FORMAT_MONO8 :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_FORMAT_MONO8"
+		end
+
+	frozen AL_FORMAT_STEREO8 :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_FORMAT_STEREO8"
+		end
+
+	frozen AL_FORMAT_MONO16 :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_FORMAT_MONO16"
+		end
+
+	frozen AL_FORMAT_STEREO16 :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_FORMAT_STEREO16"
+		end
+
+
+	frozen AL_SOURCE_STATE :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_SOURCE_STATE"
+		end
+
+	frozen AL_INITIAL :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_INITIAL"
+		end
+
+	frozen AL_PLAYING :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_PLAYING"
+		end
+
+	frozen AL_PAUSED :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_PAUSED"
+		end
+
+	frozen AL_STOPPED :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_STOPPED"
+		end
+
+	frozen AL_GAIN :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_GAIN"
+		end
+
+feature -- libsndfile Constants
+
+	frozen SFM_READ :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SFM_READ"
+		end
+
+	frozen SFM_WRITE :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SFM_WRITE"
+		end
+
+	frozen SFM_RDWR :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SFM_RDWR"
+		end
+
+
+
+	frozen SEEK_SET :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SEEK_SET"
+		end
+
+	frozen SEEK_CUR :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SEEK_CUR"
+		end
+
+	frozen SEEK_END :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"SEEK_END"
+		end
+
+end

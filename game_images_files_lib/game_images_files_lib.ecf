@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="game_images_files_lib" uuid="D73AA6EE-BA99-4AD2-90BE-A2D07FDB528B" library_target="game_images_files_lib">
+	<description>An extension to the Eiffel Game Library to use PNG, JPEG, TIFF, GIF, etc. images files.</description>
+	<target name="game_images_files_lib">
+		<description>An extension to the Eiffel Game Library to use PNG, JPEG, TIFF, GIF, etc. images files.</description>
+		<root all_classes="true"/>
+		<option is_attached_by_default="false">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\SDL_image\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="/Library/Frameworks/SDL_image.framework/Headers">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL_image\lib\x86\SDL_image.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_library location="-lSDL_image">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_library>
+		<external_linker_flag value="-framework SDL_image">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
+		<library name="game_core_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
+		<cluster name="game_images_files_lib" location=".\" recursive="true">
+			<description>An extension to the Eiffel Game Library to use PNG, JPEG, TIFF, GIF, etc. images files.</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

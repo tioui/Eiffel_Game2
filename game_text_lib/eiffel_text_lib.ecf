@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="game_text_lib" uuid="8E59AF77-5559-4A3B-B771-3C412143A79D" library_target="game_text_lib">
+	<description>An addon for the Eiffel Game Library to print text on image surface.</description>
+	<target name="game_text_lib">
+		<description>An addon for the Eiffel Game Library to print text on image surface.</description>
+		<root all_classes="true"/>
+		<option is_attached_by_default="false" syntax="transitional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\SDL_ttf\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="/Library/Frameworks/SDL_ttf.framework/Headers">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL_ttf\lib\x86\SDL_ttf.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="-framework SDL_ttf">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_object>
+		<external_library location="-lSDL_ttf">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_library>
+		<external_library location="-lfreetype">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_library>
+		
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
+		<library name="game_core_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
+		<cluster name="game_text_lib" location=".\" recursive="true">
+			<description>An addon for the Eiffel Game Library to print text on image surface.</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

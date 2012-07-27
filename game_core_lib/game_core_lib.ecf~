@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="game_core_lib" uuid="96C4285D-765B-4AD2-BB48-DF0CFE1A74EE" library_target="game_core_lib">
+	<description>A Game library for EiffelStudio</description>
+	<target name="game_core_lib">
+		<description>A game library for EiffelStudio</description>
+		<root all_classes="true"/>
+		<version major="0" minor="1" release="1" build="0" product="Game_Eiffel_Lib" copyright="Louis Marchand"/>
+		<option is_attached_by_default="false" syntax="transitional" namespace="Lambda.Library.eiffel_game_lib">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="$(EIF_GAME_LIB)/game_core_lib/implementation/Clib/include"/>
+		<external_include location="/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" excluded_value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include -L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -L\$(EIF_GAME_LIB)/C_lib_caanoo/lib -D_FILE_OFFSET_BITS=64">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include/SDL">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)/C_lib_caanoo/include">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/arm-openwiz-linux-gnu/include -L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIF_GAME_LIB)/C_lib_wiz/lib -D_FILE_OFFSET_BITS=64">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)/C_lib_wiz/include/SDL">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)/C_lib_wiz/include">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\SDL\include\SDL">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/Library/Frameworks/SDL.framework/Headers -I$(EIF_GAME_LIB)/C_lib_mac/SDL $(EIF_GAME_LIB)/C_lib_mac/SDL/SDLmain.m">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIF_GAME_LIB)/game_core_lib/implementation/Clib/objet-$(ISE_PLATFORM)/core_more.o"/>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL\lib\libSDL.dll.a">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\SDL\lib\libSDLmain.a">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="-framework SDL -framework Cocoa ">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_object>
+		<external_library location="-lSDL">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_library>
+		<external_library location="-liconv">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_library>
+		<pre_compile_action working_directory="$EIF_GAME_LIB/game_core_lib/implementation/Clib/" command="make $ISE_PLATFORM">
+			<description>Compile the modified SDL method.</description>
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</pre_compile_action>
+		<pre_compile_action working_directory="$EIF_GAME_LIB\game_core_lib\implementation\Clib\" command="gmake windows">
+			<description>Compile the modified SDL method.</description>
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</pre_compile_action>
+		<variable name="malloc_check_" value="0"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
+		<cluster name="game_core_lib" location=".\" recursive="true">
+			<description>A Game Library for EiffelStudio</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

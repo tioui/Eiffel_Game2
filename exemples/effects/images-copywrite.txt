@@ -1,0 +1,3 @@
+Images files pingus.png come from the Pingus game (see http://pingus.seul.org/). 
+The Pingus Game is a GPL licended game (see GPL.license.txt).
+

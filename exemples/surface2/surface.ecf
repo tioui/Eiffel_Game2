@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-9-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-9-0 http://www.eiffel.com/developers/xml/configuration-1-9-0.xsd" name="surface" uuid="46FD29F2-0485-4A58-BDC7-E749CED4C3EE">
+	<target name="surface-mac">
+		<root class="APPLICATION" feature="make"/>
+		<option warning="true" is_attached_by_default="false" syntax="transitional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="eiffel_game_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
+		<library name="game_images_files_lib" location="$EIF_GAME_LIB\game_images_files_lib\game_images_files_lib.ecf"/>
+		<cluster name="project" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/theme$</exclude>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="surface" extends="surface-mac">
+		<precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
+	</target>
+</system>

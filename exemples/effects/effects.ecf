@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="effects" uuid="ADE5FD59-BBF2-4F88-A609-2D8CEDDD47DC">
+	<target name="effects-mac">
+		<root class="APPLICATION" feature="make"/>
+		<option warning="true" is_attached_by_default="false" syntax="transitional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<setting name="console_application" value="true"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="game_core_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf" readonly="false"/>
+		<library name="game_effects_lib" location="$EIF_GAME_LIB\game_effects_lib\game_effects_lib.ecf"/>
+		<library name="game_images_files_lib" location="$EIF_GAME_LIB\game_images_files_lib\game_images_files_lib.ecf"/>
+		<cluster name="Effects" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+	<target name="effects" extends="effects-mac">
+                <precompile name="base_pre" location="$ISE_PRECOMP\base.ecf"/>
+        </target>
+</system>
