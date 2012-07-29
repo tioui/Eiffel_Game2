@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="audio_lib" uuid="B169A15D-75F1-4725-B916-67E12D077075" library_target="audio_snd_files_lib">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="audio_snd_files_lib" uuid="B169A15D-75F1-4725-B916-67E12D077075" library_target="audio_snd_files_lib">
 	<description>An add-on for The Audio Eiffel Game Library to open some audio files (OGG, FLAC, etc.)</description>
 	<target name="audio_snd_files_lib">
 		<description>An add-on for The Audio Eiffel Game Library to open some audio files (OGG, FLAC, etc.)</description>

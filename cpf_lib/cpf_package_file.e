@@ -8,7 +8,20 @@ class
 	CPF_PACKAGE_FILE
 
 inherit
-	DISPOSABLE
+	CPF_FILE
+		rename
+			make as make_file,
+			current_offset as current_offset_file,
+			seek_from_begining as seek_from_begining_file,
+			seek_from_current_offset as seek_from_current_offset_file,
+			seek_from_end as seek_from_end_file
+		export
+			{NONE} 	current_offset_file,seek_from_begining_file,
+					seek_from_current_offset_file,seek_from_end_file
+		redefine
+			dispose,
+			read
+		end
 
 create
 	make,
@@ -19,13 +32,10 @@ feature {NONE} -- Initialization
 	make(filename:STRING)
 			-- Initialization for `Current'.
 		local
-			filename_c,mode_c:C_STRING
 			error:INTEGER
 			temp_ptr:POINTER
 		do
-			create filename_c.make (filename)
-			create mode_c.make ("rb")
-			file_ptr:={CPF_EXTERNAL}.fopen(filename_c.item,mode_c.item)
+			make_file(filename)
 			error:={CPF_EXTERNAL}.fseek(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
 			check error=0 end
 			length_of_package_file:={CPF_EXTERNAL}.ftell(file_ptr)+1
@@ -135,7 +145,7 @@ feature -- Access
 		Require
 			File_Current_Offset_Is_In_File: current_offset_is_in_selected_file
 		do
-			Result:={CPF_EXTERNAL}.ftell(file_ptr)-start_of_selected_file_offset
+			Result:=current_offset_file-start_of_selected_file_offset
 		end
 
 	seek_from_begining(offset:INTEGER)
@@ -143,11 +153,8 @@ feature -- Access
 			-- The `offset' value must be posifive.
 		require
 			File_Seek_From_Begining_Offset_Positive: offset>=0 and then offset<=end_of_selected_file_offset
-		local
-			error:INTEGER
 		do
-			error:={CPF_EXTERNAL}.fseek(file_ptr,offset+start_of_selected_file_offset,{CPF_EXTERNAL}.SEEK_SET)
-			check error=0 end
+			seek_from_begining_file(offset+start_of_selected_file_offset)
 		ensure
 			current_offset = offset
 		end
@@ -157,13 +164,8 @@ feature -- Access
 		require
 			File_Seek_From_Current_Offset_Is_In_File: current_offset_is_in_selected_file
 			File_Seek_From_Current_Offset_Offset_is_Valid: (offset>=0 and then offset<=end_of_selected_file_offset-current_offset) or else (offset<0 and then offset.abs<=current_offset)
-		local
-			error:INTEGER
 		do
-			error:={CPF_EXTERNAL}.fseek(file_ptr,offset,{CPF_EXTERNAL}.SEEK_CUR)
-			check error=0 end
-		ensure
-			current_offset = (old current_offset)+offset
+			seek_from_current_offset_file(offset)
 		end
 
 	seek_from_end(offset:INTEGER)
@@ -171,12 +173,20 @@ feature -- Access
 			-- The `offset' value must be negative.
 		require
 			Custom_File_Seek_From_End_Offset_Negative: offset<=0
-		local
-			error:INTEGER
 		do
 
-			error:={CPF_EXTERNAL}.fseek(file_ptr,end_of_selected_file_offset+offset,{CPF_EXTERNAL}.SEEK_SET)
-			check error=0 end
+			seek_from_begining_file(end_of_selected_file_offset+offset)
+		end
+
+	read(buffer:POINTER;byte_per_sample,count:NATURAL_32)
+		local
+			temp_count:NATURAL_32
+		do
+			temp_count:=count
+			if current_offset+(count*byte_per_sample).to_integer_32>length_of_selected_file then
+				temp_count:=(length_of_selected_file-current_offset).to_natural_32//byte_per_sample
+			end
+			precursor(buffer,byte_per_sample,temp_count)
 		end
 
 	start_of_selected_file_offset:INTEGER
@@ -194,55 +204,7 @@ feature -- Access
 
 feature -- Reader
 
-	read_natural_8
-		local
-			temp_ptr:POINTER
-			error:NATURAL
-		do
-			temp_ptr:=temp_ptr.memory_alloc (1)
-			error:={CPF_EXTERNAL}.fread(temp_ptr,1,1,file_ptr)
-			check error/=0 end
-			last_natural_8:={CPF_EXTERNAL}.pointer_to_natural_8(temp_ptr)
-			temp_ptr.memory_free
-		end
 
-	read_natural_16_big_endian
-		local
-			temp:NATURAL_16
-		do
-			read_natural_8
-			temp:=last_natural_8.to_natural_16.bit_shift_left (8)
-			read_natural_8
-			last_natural_16:=last_natural_8.to_natural_16.bit_or (temp)
-		end
-
-	read_natural_32_big_endian
-		local
-			temp:NATURAL_32
-		do
-			read_natural_16_big_endian
-			temp:=last_natural_16.to_natural_32.bit_shift_left (16)
-			read_natural_16_big_endian
-			last_natural_32:=last_natural_16.to_natural_32.bit_or (temp)
-		end
-
-	read_natural_64_big_endian
-		local
-			temp:NATURAL_64
-		do
-			read_natural_32_big_endian
-			temp:=last_natural_32.to_natural_64.bit_shift_left (16)
-			read_natural_32_big_endian
-			last_natural_64:=last_natural_32.to_natural_64.bit_or (temp)
-		end
-
-	last_natural_8:NATURAL_8
-
-	last_natural_16:NATURAL_16
-
-	last_natural_32:NATURAL_32
-
-	last_natural_64:NATURAL_64
 
 feature -- CPF informations
 
@@ -291,14 +253,12 @@ feature {NONE} -- Implementation - Routines
 				cpf_infos.item.memory_free
 				cpf_infos.forth
 			end
-			error:={CPF_EXTERNAL}.fclose(file_ptr)
-			check error=0 end
-			file_ptr.set_item (create {POINTER})
+			Precursor
 		end
 
 feature {NONE} -- Implemetntation - Variables
 
-	file_ptr:POINTER
+
 
 	length_of_package_file:INTEGER
 

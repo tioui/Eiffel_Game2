@@ -30,11 +30,11 @@ feature {GAME_AUDIO_SOURCE}
 
 	fill_buffer(buffer:POINTER;max_length:INTEGER)
 		do
-			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,buffer,max_length//2).to_integer
+			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,buffer,max_length//byte_per_buffer_sample).to_integer
 		end
 
 	byte_per_buffer_sample:INTEGER
-		do
+		once
 			Result:=2
 		end
 

@@ -191,10 +191,10 @@ feature -- Access
 					freq:=sound_queued.item.sound.get_frequency
 					byte_per_buffer_sample:=sound_queued.item.sound.byte_per_buffer_sample
 					if last_fill_buffer_size=0 then
+						sound_queued.item.sound.restart
 						if sound_queued.item.nb_loop=0 then
 							sound_queued.remove
 						else
-							sound_queued.item.sound.restart
 							if sound_queued.item.nb_loop>0 then
 								sound_queued.item.nb_loop:=sound_queued.item.nb_loop-1
 							end

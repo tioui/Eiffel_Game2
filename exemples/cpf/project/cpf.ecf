@@ -10,15 +10,15 @@
 		<library name="audio_snd_files_lib" location="$EIF_GAME_LIB\audio_snd_files_lib\audio_snd_files_lib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
-		<library name="eiffel_game_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf" readonly="true"/>
+		<library name="eiffel_game_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
 		<library name="game_images_files_lib" location="$EIF_GAME_LIB\game_images_files_lib\game_images_files_lib.ecf"/>
 		<library name="game_text_lib" location="$EIF_GAME_LIB\game_text_lib\eiffel_text_lib.ecf"/>
 		<cluster name="project" location=".\" recursive="true">
 			<file_rule>
-				<exclude>/theme$</exclude>
+				<exclude>/.svn$</exclude>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
-				<exclude>/.svn$</exclude>
+				<exclude>/theme$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

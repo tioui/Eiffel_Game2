@@ -11,7 +11,6 @@
 		<external_include location="/usr/include/AL">
 			<condition>
 				<platform value="unix"/>
-				<custom name="toolchain" excluded_value="wiz"/>
 				<custom name="toolchain" excluded_value="caanoo"/>
 			</condition>
 		</external_include>
@@ -76,6 +75,7 @@
 			</condition>
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf" readonly="false"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<cluster name="audio_lib" location=".\" recursive="true">
 			<description>An audio add-on for The Eiffel Game Library.</description>

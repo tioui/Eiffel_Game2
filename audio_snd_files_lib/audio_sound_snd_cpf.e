@@ -38,9 +38,9 @@ feature {NONE} -- Initialization
 			{AUDIO_SND_FILES_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
 			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
 			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,cpf.get_current_cpf_infos_ptr)
-			the_cpf.mutex_unlock
 			check not snd_file_ptr.is_default_pointer end
 			last_offset:=the_cpf.current_offset
+			the_cpf.mutex_unlock
 		end
 
 feature {GAME_AUDIO_SOURCE}
@@ -48,7 +48,7 @@ feature {GAME_AUDIO_SOURCE}
 	fill_buffer(buffer:POINTER;max_length:INTEGER)
 		do
 			the_cpf.mutex_lock
-			if the_cpf.current_file_index/=the_cpf_index then
+			if the_cpf.current_file_index/=the_cpf_index or else not the_cpf.current_offset_is_in_selected_file  then
 				the_cpf.select_sub_file (the_cpf_index)
 			end
 			if the_cpf.current_offset/=last_offset then
@@ -66,10 +66,20 @@ feature {GAME_AUDIO_SOURCE}
 feature-- Access
 
 	restart
+		local
+			error: INTEGER_64
 		do
 			the_cpf.mutex_lock
 			the_cpf.select_sub_file (the_cpf_index)
-			Precursor
+			if is_seekable then
+				error := {AUDIO_SND_FILES_EXTERNAL}.sf_seek (snd_file_ptr, 0, {AUDIO_SND_FILES_EXTERNAL}.seek_set)
+				check
+					error /= -1
+				end
+			else
+				the_cpf.select_sub_file (the_cpf_index)
+				the_cpf.seek_from_begining (0)
+			end
 			last_offset:=the_cpf.current_offset
 			the_cpf.mutex_unlock
 		end
