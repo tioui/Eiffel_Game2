@@ -8,7 +8,7 @@ The library is compatible with Linux, MAC OS X, Windows, GP2X Wiz and Caanoo.
 
 The library is under Eiffel Forum License v2.
 
-The project use those libraries: SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL and Libsndfile.
+The project use those libraries: SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, Libsndfile and FFMPEG LibAV.
 
 
 Installation on Linux (Ubuntu)
@@ -20,7 +20,7 @@ Installation on Linux (Ubuntu)
 		# echo "EIF_GAME_LIB='/home/user/projects/eiffel_game_dir'" >> /etc/environment
 		# exit
 	- You need to install the C libraries SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, libsndfile and all their development tools kit and dependancies:
-		# sudo apt-get install libsdl-dev libsdl-image1.2-dev libsdl-gfx1.2-dev libsdl-ttf2.0-dev libopenal-dev libsndfile1-dev
+		# sudo apt-get install libsdl-dev libsdl-image1.2-dev libsdl-gfx1.2-dev libsdl-ttf2.0-dev libopenal-dev libsndfile1-dev libavformat-dev libswscale-dev
 	- Create a project and add the Eiffel_game_lib library (".ecf") file in the project (You can use the EIF_GAME_LIB environment variable).
 
 
