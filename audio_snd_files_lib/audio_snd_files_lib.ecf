@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="audio_snd_files_lib" uuid="B169A15D-75F1-4725-B916-67E12D077075" library_target="audio_snd_files_lib">
-	<description>An add-on for The Audio Eiffel Game Library to open some audio files (OGG, FLAC, etc.)</description>
+	<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
 	<target name="audio_snd_files_lib">
-		<description>An add-on for The Audio Eiffel Game Library to open some audio files (OGG, FLAC, etc.)</description>
+		<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
 		<root all_classes="true"/>
-		<version major="0" minor="1" release="1" build="0" product="Audio_Snd_Files_Lib" copyright="Louis Marchand"/>
 		<option is_attached_by_default="false" syntax="transitional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
@@ -39,7 +38,7 @@
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_cflag>
-		<external_object location="$(EIF_GAME_LIB)/audio_snd_files_lib/implementation/Clib/objet-$(ISE_PLATFORM)/audio_more.o"/>
+		<external_object location="$(EIF_GAME_LIB)/audio_snd_files_lib/implementation/Clib/objet-$(ISE_PLATFORM)/sndfile_more.o"/>
 		<external_object location="$(EIF_GAME_LIB)\C_lib_win\libsndfile\lib\libsndfile-1.lib">
 			<condition>
 				<platform value="windows"/>
@@ -72,7 +71,7 @@
 		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<cluster name="audio_snd_files_lib" location=".\" recursive="true">
-			<description>An add-on for The Audio Eiffel Game Library to open some audio files (OGG, FLAC, etc.)</description>
+			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>

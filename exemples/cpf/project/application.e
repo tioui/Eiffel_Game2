@@ -99,7 +99,14 @@ feature {NONE} -- Initialization
 	set_sound(controller:GAME_LIB_CONTROLLER;audio_ctrl:AUDIO_CONTROLLER;custom_file:CPF_PACKAGE_FILE)
 		local
 
-			l_music_loop,l_music_intro,l_sound:AUDIO_SOUND_SND_CPF	-- Use GAME_AUDIO_SOUND_CPF instead of GAME_AUDIO_SOUND_FILE to use package file
+			l_music_intro:AUDIO_SOUND_SND_CPF	-- Use AUDIO_SOUND_SND_CPF instead of AUDIO_SOUND_SND_FILE to use package file
+			l_music_loop:AUDIO_SOUND_AV_CPF		-- Use AUDIO_SOUND_AV_CPF instead of AUDIO_SOUND_AV_FILE to use package file
+			l_sound:AUDIO_SOUND_WAV_CPF			-- Use AUDIO_SOUND_WAV_CPF instead of AUDIO_SOUND_WAV_FILE to use package file
+												-- AUDIO_SOUND_SND_CPF use the libsndfile C library
+												-- AUDIO_SOUND_AV_CPF use the libav C library (libavcodec and libavformat)
+												-- AUDIO_SOUND_WAV_CPF don't use any third party library.
+												-- Other than the class name, all AUDIO_SOUND_*_FILE and AUDIO_SOUND_*_CPF are used identicaly.
+
 			sound_source,music_source:AUDIO_SOURCE
 		do
 			audio_ctrl.launch_in_thread			-- A little optimisation. The library will handle the sound in a different thread.
@@ -109,7 +116,7 @@ feature {NONE} -- Initialization
 			create l_music_loop.make (custom_file, 6)	-- The music loop.flac is at index 6 in the custom package file "test.cpf"
 			create l_sound.make (custom_file, 7)			-- This sound that will be played when the user press the space bar is at index 7.
 
-			-- Once the GAME_AUDIO_SOUND_CPF object is created, it is use the same way as any GAME_AUDIO_SOUND object
+			-- Once the AUDIO_SOUND_*_CPF object is created, it is use the same way as any AUDIO_SOUND object
 			audio_ctrl.source_add
 			music_source:=audio_ctrl.source_get_last_add
 			audio_ctrl.source_add

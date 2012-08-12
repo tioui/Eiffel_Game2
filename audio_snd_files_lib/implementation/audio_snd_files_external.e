@@ -52,19 +52,21 @@ feature -- libsndfile fonctions
 			"sf_read_short"
 		end
 
-	frozen set_snd_file_virtual_io(virtual_io:POINTER)
-		external
-			"C (SF_VIRTUAL_IO *) | <audio_more.h>"
-		alias
-			"setSndFileVirtualIo"
-		end
-
 
 	frozen c_sizeof_snd_file_virtual_io:INTEGER
 		external
 			"C inline use <sndfile.h>"
 		alias
 			"sizeof(SF_VIRTUAL_IO)"
+		end
+
+feature -- sndfile_more functions
+
+	frozen set_snd_file_virtual_io(virtual_io:POINTER)
+		external
+			"C (SF_VIRTUAL_IO *) | <sndfile_more.h>"
+		alias
+			"setSndFileVirtualIo"
 		end
 
 feature -- libsndfile SF_INFO structure

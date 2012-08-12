@@ -234,11 +234,28 @@ feature -- Sources management
 		do
 			if is_sound_enable then
 				wipe_sources
-				disable_sound
 				create mem
 				mem.full_collect
 				disable_sound
 			end
+		end
+
+feature {AUDIO_SOURCE}
+
+	source_push(l_source:AUDIO_SOURCE)
+		require
+			Sources_Push_Sound_Open:is_sound_enable
+		do
+			if is_thread_executing then
+				g_mutex.lock
+			end
+			sources.extend (l_source)
+			if is_thread_executing then
+				source_get_last_add.set_thread_safe
+				g_mutex.unlock
+			end
+		ensure
+			sources.count = old sources.count+1
 		end
 
 feature {NONE} -- Implementation Class Variable

@@ -13,6 +13,7 @@
 			<condition>
 				<platform value="unix"/>
 				<custom name="toolchain" excluded_value="wiz"/>
+				<custom name="toolchain" excluded_value="caanoo"/>
 			</condition>
 		</external_include>
 		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include -L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -L\$(EIF_GAME_LIB)/C_lib_caanoo/lib -D_FILE_OFFSET_BITS=64">

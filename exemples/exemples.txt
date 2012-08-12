@@ -31,6 +31,7 @@ Keyboard event:
 
 Window icon and caption:
 	- sound
+	- video
 
 Animation (sub image)
 	- anim1
@@ -52,4 +53,11 @@ Custom Package File (putting all images and sounds ressources in a single file)
 Thread sound optimisation
 	- sound-console2 (without graphical window)
 	- cpf
+
+Window resize
+	- video
+
+Video (playing movie)
+	- audio_video
+	- video
 

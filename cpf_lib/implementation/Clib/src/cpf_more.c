@@ -41,7 +41,7 @@ int64_t cpfFileSeek(int64_t Offset, int Whence, void* UserData)
 			Position = cpfInfos->TotalSize + Offset - 1;
 			break;
 		default :
-			Position = 0;
+			return(-1);
 			break;
 	}
 
@@ -59,6 +59,10 @@ int64_t cpfFileRead(void* Ptr, int64_t Count, void* UserData)
 {
 	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
 	int64_t currentOffset = cpfFileTell(UserData);
+
+	if(currentOffset>=cpfInfos->TotalSize){
+		return 0;
+	}
 
 	if(currentOffset+Count>cpfInfos->TotalSize){
 		Count = cpfInfos->TotalSize-currentOffset;

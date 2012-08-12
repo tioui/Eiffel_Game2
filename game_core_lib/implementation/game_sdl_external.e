@@ -433,6 +433,41 @@ feature -- Function SDL.h
 			"SDL_WM_SetCaption"
 		end
 
+	frozen SDL_CreateYUVOverlay(width,height:INTEGER;format:NATURAL_32;display:POINTER):POINTER
+		external
+			"C (int, int, Uint32, SDL_Surface *) :SDL_Overlay * | <SDL.h>"
+		alias
+			"SDL_CreateYUVOverlay"
+		end
+
+	frozen SDL_FreeYUVOverlay(overlay:POINTER)
+		external
+			"C (SDL_Overlay *) | <SDL.h>"
+		alias
+			"SDL_FreeYUVOverlay"
+		end
+
+	frozen SDL_LockYUVOverlay(overlay:POINTER):INTEGER
+		external
+			"C (SDL_Overlay *) : int | <SDL.h>"
+		alias
+			"SDL_LockYUVOverlay"
+		end
+
+	frozen SDL_UnlockYUVOverlay(overlay:POINTER)
+		external
+			"C (SDL_Overlay *) | <SDL.h>"
+		alias
+			"SDL_UnlockYUVOverlay"
+		end
+
+	frozen SDL_DisplayYUVOverlay(overlay,dstrect:POINTER)
+		external
+			"C (SDL_Overlay *, SDL_Rect *) | <SDL.h>"
+		alias
+			"SDL_DisplayYUVOverlay"
+		end
+
 
 feature -- Manual C function (implemented in SDLmore.c)
 
@@ -560,6 +595,13 @@ feature -- Structure SDL_Surface SDL.h
 		end
 
 feature -- Structure SDL_Rect SDL.h
+
+	frozen c_sizeof_sdl_rect:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_Rect)"
+		end
 
 	frozen c_rect_struct_allocate: POINTER is
 		external
@@ -1028,6 +1070,7 @@ feature -- Structure SDL_Event SDL.h
 		external
 			"C [struct <SDL.h>] (SDL_Event, Uint8)"
 		alias
+
 			"type"
 		end
 
@@ -1962,6 +2005,23 @@ feature -- Structure SDL_QuitEvent SDL.h
 			"type"
 		end
 
+feature -- Structure SDL_Overlay SDL.h
+
+	frozen get_sdl_overlay_struct_pixels_i(overlay:POINTER;i:INTEGER):POINTER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"(Uint8 *)(((SDL_Overlay *)$overlay)->pixels[(int)$i])"
+		end
+
+	frozen get_sdl_overlay_struct_pitches_i(overlay:POINTER;i:INTEGER):NATURAL_16
+		external
+			"C inline use <SDL.h>"
+		alias
+			"(Uint16)(((SDL_Overlay *)$overlay)->pitches[(int)$i])"
+		end
+
+
 feature -- Constants SDL.h
 
 	frozen SDL_INIT_TIMER:NATURAL_32
@@ -2160,6 +2220,13 @@ feature -- Constants SDL.h
 			"C inline use <SDL.h>"
 		alias
 			"return (EIF_NATURAL_32) SDL_NOFRAME"
+		end
+
+	frozen SDL_YV12_OVERLAY:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_YV12_OVERLAY"
 		end
 
 	frozen SDLK_BACKSPACE:INTEGER

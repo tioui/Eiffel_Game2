@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="audio_av_files_lib" uuid="3C1ED323-6494-4F03-A90F-E475329318E0" library_target="audio_av_files_lib">
+	<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (MP3, OGG, FLAC, etc.)</description>
+	<target name="audio_av_files_lib">
+		<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (OGG, FLAC, etc.)</description>
+		<root all_classes="true"/>
+		<option is_attached_by_default="false" syntax="transitional">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="$(EIF_GAME_LIB)/audio_video_lib/implementation/Clib/include"/>
+		<external_include location="/usr/include/libavcodec">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" excluded_value="wiz"/>
+				<custom name="toolchain" excluded_value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/include/libavformat">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" excluded_value="wiz"/>
+				<custom name="toolchain" excluded_value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)/C_lib_caanoo/include">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)/C_lib_wiz/include">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include">
+                        <condition>
+                                <platform value="macintosh"/>
+                        </condition>
+                </external_include>
+		<external_include location="/opt/local/include/libavcodec">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavformat">
+                        <condition>
+                                <platform value="macintosh"/>
+                        </condition>
+                </external_include>
+		<external_linker_flag value="-L/opt/local/lib -lavcodec -lavformat -lavutil">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<external_cflag value="-L\$(EIF_GAME_LIB)/C_lib_caanoo/lib -D_FILE_OFFSET_BITS=64">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_cflag>
+		<external_cflag value="-L\$(EIF_GAME_LIB)/C_lib_wiz/lib -D_FILE_OFFSET_BITS=64">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_cflag>
+		<external_object location="$(EIF_GAME_LIB)/audio_video_lib/implementation/Clib/objet-$(ISE_PLATFORM)/av_more.o"/>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\libav\lib\avcodec.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\libav\lib\avutil.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIF_GAME_LIB)\C_lib_win\libav\lib\avformat.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\libav\include\libavcodec">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\libav\include\libavformat">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIF_GAME_LIB)\C_lib_win\libav\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_linker_flag value="-lavcodec">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lavformat">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<pre_compile_action working_directory="$EIF_GAME_LIB\audio_video_lib\implementation\Clib\" command="make $ISE_PLATFORM">
+			<description>Compile the modified Audio libav methods.</description>
+			<condition>
+				<platform excluded_value="windows"/>
+			</condition>
+		</pre_compile_action>
+		<pre_compile_action working_directory="$EIF_GAME_LIB\audio_video_lib\implementation\Clib\" command="gmake windows">
+			<description>Compile the modified Audio LibAV methods.</description>
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</pre_compile_action>
+		<library name="audio_lib" location="$EIF_GAME_LIB\audio_lib\audio_lib.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
+		<cluster name="audio_av_files_lib" location=".\" recursive="true">
+			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (OGG, FLAC, etc.)</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+				<exclude>/video_av_files_lib$</exclude>
+				<exclude>/audio_video_av_files_lib$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

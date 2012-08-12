@@ -40,6 +40,13 @@ objet-macosx-x86-64-SDL/core_more.o: src/core_more.c
 	mkdir -p objet-macosx-x86-64-SDL
 	gcc -c -I/opt/local/include/SDL/ -Iinclude/ -I/opt/local/include -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -o objet-macosx-x86-64-SDL/core_more.o src/core_more.c
 
+macosx-x86-64: objet-macosx-x86-64/core_more.o
+objet-macosx-x86-64/core_more.o: src/core_more.c
+	cd "$(EIF_GAME_LIB)/cpf_lib/implementation/Clib"; \
+		make macosx-x86-64
+	mkdir -p objet-macosx-x86-64
+	gcc -c -I/opt/local/include/SDL/ -Iinclude/ -I/opt/local/include -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -o objet-macosx-x86-64/core_more.o src/core_more.c
+
 clean:
 	rm -rf objet-*
 
