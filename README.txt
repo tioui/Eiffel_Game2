@@ -15,7 +15,7 @@ Installation on Linux (Ubuntu)
 ------------------------------
 
 	- I assume that you already have a fonctionnal EiffelStudio on your system. If not, install it.
-	- You need to set the environment variable EIF_GAME_LIB to the root directory of the Eiffel Game Lib repository directory. You can do it with the /etc/environment file:
+	- You need to set the environment variable EIF_GAME_LIB to the root directory of the Eiffel Game Lib repository directory. You can do it with the /etc/environment file. After editing the file, you will have to reboot your PC (or at least logout your session).
 		# sudo -s
 		# echo "EIF_GAME_LIB='/home/user/projects/eiffel_game_dir'" >> /etc/environment
 		# exit
