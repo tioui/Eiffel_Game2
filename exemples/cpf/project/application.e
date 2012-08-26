@@ -66,7 +66,10 @@ feature {NONE} -- Initialization
 										-- Use the first index of the package file for window icon (must be a bmp file and must be 32x32 on Windows)
 
 			controller.set_window_caption ("Exemple Custom Package File", "Ex. CPF")
+			controller.enable_grab_input	-- Force the mouse and focus in the window
 			controller.event_controller.on_key_down.extend (agent on_key_down_quit(controller,?))
+			controller.event_controller.on_mouse_motion_relative_position.extend (agent on_mouse_move(controller,?,?)) -- Force the mouse in the middle of the window
+			on_mouse_move(controller,0,0)
 		end
 
 	show_images(controller:GAME_LIB_CONTROLLER;custom_file:CPF_PACKAGE_FILE)
@@ -87,7 +90,7 @@ feature {NONE} -- Initialization
 			-- Print a "Hello World!" on the screen.
 			create text_color.make_rgb (255, 255, 255)
 			create font.make (custom_file, 8, 12)		-- The font.ttf file is in the ressources.cpf file at index 8
-			create text.make_solid ("Hello World!", font, text_color)
+			create text.make_solid ("Esc to quit!", font, text_color)
 
 			controller.screen_surface.print_surface_on_surface (bk, 0, 0)
 			controller.screen_surface.print_surface_on_surface (text, 135, 25)
@@ -150,6 +153,11 @@ feature {NONE} -- Initialization
 			-- This method is called when the quit signal is send to the application (ex: window X button pressed).
 		do
 			controller.stop
+		end
+
+	on_mouse_move(controller:GAME_LIB_CONTROLLER;rel_x,rel_y:INTEGER_16)
+		do
+			controller.wrap_mouse ((controller.screen_surface.width//2).to_natural_16, (controller.screen_surface.height//2).to_natural_16)
 		end
 
 

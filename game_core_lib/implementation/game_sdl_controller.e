@@ -304,6 +304,30 @@ feature -- Mouse
 		Result:= is_enable={GAME_SDL_EXTERNAL}.SDL_ENABLE
 	end
 
+	wrap_mouse(x,y:NATURAL_16)
+		do
+			{GAME_SDL_EXTERNAL}.SDL_WarpMouse(x,y)
+		end
+
+	enable_grab_input
+		local
+			error:INTEGER
+		do
+			error:={GAME_SDL_EXTERNAL}.SDL_WM_GrabInput({GAME_SDL_EXTERNAL}.SDL_GRAB_ON)
+		end
+
+	disable_grab_input
+		local
+			error:INTEGER
+		do
+			error:={GAME_SDL_EXTERNAL}.SDL_WM_GrabInput({GAME_SDL_EXTERNAL}.SDL_GRAB_OFF)
+		end
+
+	is_grab_input_enable:BOOLEAN
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_WM_GrabInput({GAME_SDL_EXTERNAL}.SDL_GRAB_QUERY)={GAME_SDL_EXTERNAL}.SDL_GRAB_ON
+		end
+
 feature -- Joystick methods
 
 	get_joystick_count:INTEGER

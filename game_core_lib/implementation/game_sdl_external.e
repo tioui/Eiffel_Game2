@@ -158,6 +158,20 @@ feature -- Function SDL.h
 			"SDL_GetVideoSurface"
 		end
 
+	frozen SDL_WarpMouse(x,y:NATURAL_16)
+		external
+			"C (Uint16, Uint16) | %"SDL.h%""
+		alias
+			"SDL_WarpMouse"
+		end
+
+	frozen SDL_WM_GrabInput(mode:INTEGER):INTEGER
+		external
+			"C (SDL_GrabMode) : SDL_GrabMode | %"SDL.h%""
+		alias
+			"SDL_WM_GrabInput"
+		end
+
 	frozen SDL_CreateRGBSurface(flags:NATURAL_32;width,height,bits_per_pixel:INTEGER;rmask,gmask,bmask,amask:NATURAL_32):POINTER
 		external
 			"C (Uint32, int, int, int, Uint32, Uint32, Uint32, Uint32) : SDL_Surface * | %"SDL.h%""
@@ -2100,6 +2114,27 @@ feature -- Constants SDL.h
 			"C inline use <SDL.h>"
 		alias
 			"return (EIF_INTEGER) SDL_QUERY"
+		end
+
+	frozen SDL_GRAB_ON:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_GRAB_ON"
+		end
+
+	frozen SDL_GRAB_OFF:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_GRAB_OFF"
+		end
+
+	frozen SDL_GRAB_QUERY:INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_GRAB_QUERY"
 		end
 
 	frozen SDL_IGNORE:INTEGER
