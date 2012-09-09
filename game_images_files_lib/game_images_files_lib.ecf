@@ -27,6 +27,16 @@
 				<platform value="unix"/>
 			</condition>
 		</external_library>
+		<external_library location="-lz">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_library>
+		<external_library location="-lpng15">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_library>
 		<external_linker_flag value="-framework SDL_image">
 			<condition>
 				<platform value="macintosh"/>
