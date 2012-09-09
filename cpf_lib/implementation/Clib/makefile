@@ -6,7 +6,7 @@ objet-linux-x86/cpf_more.o: src/cpf_more.c
 linux-x86-64: objet-linux-x86-64/cpf_more.o
 objet-linux-x86-64/cpf_more.o: src/cpf_more.c
 	mkdir -p objet-linux-x86-64
-	gcc -c -Iinclude -o objet-linux-x86-64/cpf_more.o src/cpf_more.c
+	gcc -c -fPIC -Iinclude -o objet-linux-x86-64/cpf_more.o src/cpf_more.c
 
 linux-caanoo: objet-linux-caanoo/cpf_more.o
 objet-linux-caanoo/cpf_more.o: src/cpf_more.c

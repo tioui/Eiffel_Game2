@@ -10,7 +10,7 @@ objet-linux-x86-64/core_more.o: src/core_more.c
 	cd "$(EIF_GAME_LIB)/cpf_lib/implementation/Clib"; \
 		make linux-x86-64
 	mkdir -p objet-linux-x86-64
-	gcc -c -I/usr/include/SDL -Iinclude -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -o objet-linux-x86-64/core_more.o src/core_more.c
+	gcc -c -fPIC -I/usr/include/SDL -Iinclude -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -o objet-linux-x86-64/core_more.o src/core_more.c
 
 linux-caanoo: objet-linux-caanoo/core_more.o
 objet-linux-caanoo/core_more.o: src/core_more.c
