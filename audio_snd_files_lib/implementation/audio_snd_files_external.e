@@ -38,11 +38,25 @@ feature -- libsndfile fonctions
 			"sf_close"
 		end
 
+	frozen sf_strerror(sndfile:POINTER):POINTER
+		external
+			"C (SNDFILE *) : const char* | <sndfile.h>"
+		alias
+			"sf_strerror"
+		end
+
 	frozen SF_seek(sndfile:POINTER;frames:INTEGER_64;whence:INTEGER):INTEGER_64
 		external
 			"C (SNDFILE *, sf_count_t, int) : sf_count_t | <sndfile.h>"
 		alias
 			"sf_seek"
+		end
+
+	frozen sf_command(sndfile:POINTER;cmd:INTEGER;data:POINTER;datasize:INTEGER):INTEGER
+		external
+			"C (SNDFILE *, int, void *, int) : int | <sndfile.h>"
+		alias
+			"sf_command"
 		end
 
 	frozen sf_read_short(sndfile,ptr:POINTER;items:INTEGER_64):INTEGER_64
@@ -124,21 +138,21 @@ feature -- libsndfile Constants
 
 	frozen SFM_READ :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SFM_READ"
 		end
 
 	frozen SFM_WRITE :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SFM_WRITE"
 		end
 
 	frozen SFM_RDWR :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SFM_RDWR"
 		end
@@ -147,23 +161,30 @@ feature -- libsndfile Constants
 
 	frozen SEEK_SET :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SEEK_SET"
 		end
 
 	frozen SEEK_CUR :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SEEK_CUR"
 		end
 
 	frozen SEEK_END :INTEGER
 		external
-			"C inline use <al.h>"
+			"C inline use <sndfile.h>"
 		alias
 			"SEEK_END"
+		end
+
+	frozen SFC_GET_LOG_INFO :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SFC_GET_LOG_INFO"
 		end
 
 end

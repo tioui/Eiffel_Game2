@@ -98,12 +98,16 @@ feature {NONE} -- Implementation - Methodes
 
 	open_from_file(filename:STRING)
 		local
-			filename_c:C_STRING
+			filename_c,error_c:C_STRING
 		do
 			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
 			create filename_c.make(filename)
 			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(filename_c.item,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info)
-			check not snd_file_ptr.is_default_pointer end
+			if snd_file_ptr.is_default_pointer then
+				create error_c.make_by_pointer ({AUDIO_SND_FILES_EXTERNAL}.sf_strerror(snd_file_ptr))
+				io.error.put_string (error_c.string+"%N")
+				check false end
+			end
 		end
 
 	dispose
