@@ -12,6 +12,7 @@ inherit
 
 create
 	make,
+	make_with_bit_per_pixel,
 	make_from_pointer,
 	make_from_surface,
 	make_with_flags_and_masks
@@ -56,18 +57,61 @@ feature {NONE} -- Initialisation
 			disable_transparent
 		end
 
-	make(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory:BOOLEAN)
+	make(the_width,the_height:INTEGER)
 			-- Initialization for `Current'.
 			-- Create a new empty surface.
 		local
-			flags:NATURAL_32
+			l_screen:GAME_SCREEN
+		do
+			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
+				create l_screen.make_from_current_video_surface
+				make_with_bit_per_pixel(the_width,the_height,l_screen.bits_per_pixel,false)
+			else
+				make_with_bit_per_pixel(the_width,the_height,32,false)
+			end
+		end
+
+	make_video_memory(the_width,the_height:INTEGER)
+			-- Initialization for `Current'.
+			-- Create a new empty surface on video memory.
+		local
+			l_screen:GAME_SCREEN
+		do
+			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
+				create l_screen.make_from_current_video_surface
+				make_with_bit_per_pixel(the_width,the_height,l_screen.bits_per_pixel,true)
+			else
+				make_with_bit_per_pixel(the_width,the_height,32,true)
+			end
+		end
+
+	make_with_bit_per_pixel(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory:BOOLEAN)
+			-- Initialization for `Current'.
+			-- Create a new empty surface with a different `the_bits_per_pixel' and `video_memory'.
+		local
+			l_screen:GAME_SCREEN
+			l_screen_format:POINTER
+			flags, l_rmask, l_gmask, l_bmask, l_amask:NATURAL_32
 		do
 			if video_memory then
 				flags:={GAME_SDL_EXTERNAL}.SDL_HWSURFACE
 			else
 				flags:={GAME_SDL_EXTERNAL}.SDL_SWSURFACE
 			end
-			make_with_flags_and_masks(flags,the_width,the_height,the_bits_per_pixel,0,0,0,0)
+			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
+				create l_screen.make_from_current_video_surface
+				l_screen_format:=l_screen.get_format_pointer
+				l_rmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(l_screen_format)
+				l_gmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(l_screen_format)
+				l_bmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(l_screen_format)
+				l_amask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(l_screen_format)
+			else
+				l_rmask:=0
+				l_gmask:=0
+				l_bmask:=0
+				l_amask:=0
+			end
+			make_with_flags_and_masks(flags,the_width,the_height,the_bits_per_pixel,l_rmask, l_gmask, l_bmask, l_amask)
 		end
 
 	make_with_flags_and_masks(flags:NATURAL_32;the_width,the_height,the_bits_per_pixel:INTEGER;Rmask,Gmask,Bmask,Amask:NATURAL_32)
@@ -274,6 +318,9 @@ feature -- Access
 
 	get_Pixel(x,y:INTEGER):GAME_COLOR
 		-- Get the color of the pixel at `x', `y'.
+	require
+		Get_Pixel_X_Valid: x>=0 and x<width
+		Get_Pixel_Y_Valid: y>=0 and y<width
 	local
 		color_index:NATURAL_32
 		r,g,b,a:NATURAL_8
@@ -297,6 +344,9 @@ feature -- Access
 	put_pixel(x,y:INTEGER;color:GAME_COLOR)
 		-- Innefficient to put lots of pixel
 		-- ToDo: Create a put_pixels that put lots of pixel with only one lock
+	require
+		Put_Pixel_X_Valid: x>=0 and x<width
+		Put_Pixel_Y_Valid: y>=0 and y<width
 	local
 		format:POINTER
 		color_index:NATURAL_32
@@ -329,6 +379,7 @@ feature -- Access
 		check error=0 end
 		is_alpha_enable:=true
 	end
+
 	is_alpha_enable:BOOLEAN
 
 	is_alpha_accelerated:BOOLEAN assign set_is_alpha_accelerated
@@ -384,6 +435,9 @@ feature -- Access
 			rect_src:POINTER
 			error:INTEGER
 			color_key:NATURAL_32
+
+			r,g,b,a:NATURAL_8
+			test:GAME_COLOR
 		do
 			rect_src:={GAME_SDL_EXTERNAL}.c_rect_struct_allocate
 			if l_w<0 then
@@ -399,6 +453,11 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,l_w.abs.to_natural_16)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,l_h.abs.to_natural_16)
 			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(get_format_pointer,color.red,color.green,color.blue,color.alpha)
+			{GAME_SDL_EXTERNAL}.SDL_GetRGBA(color_key,get_format_pointer,$r,$g,$b,$a)
+			create test.make (r, g, b,a)
+			if color_key = 0 then
+				color_key := 0xFF000000
+			end
 			error:={GAME_SDL_EXTERNAL}.SDL_FillRect(get_surface_pointer,rect_src,color_key)
 			check error=0 end
 		end

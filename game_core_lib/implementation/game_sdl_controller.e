@@ -182,7 +182,7 @@ feature -- Video methods
 		if hardware_dbl_buf then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_DOUBLEBUF
 		else
-			create buffer_surface.make (the_width, the_height, the_bits_per_pixel, video_memory)
+			create buffer_surface.make_with_bit_per_pixel (the_width, the_height, the_bits_per_pixel, video_memory)
 		end
 		if resisable then
 			flags:=flags | {GAME_SDL_EXTERNAL}.SDL_RESIZABLE

@@ -148,6 +148,29 @@ feature -- Keyboard event access
 		Result:=on_keyboard_actions.count/=0 or else on_key_down.count/=0 or else on_key_up.count/=0
 	end
 
+	is_unicode_enabled:BOOLEAN
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_EnableUNICODE(-1)
+		end
+
+	enable_keyboard_unicode
+		local
+			unuse:BOOLEAN
+		do
+			unuse:={GAME_SDL_EXTERNAL}.SDL_EnableUNICODE(1)
+		ensure
+			Enable_Unicode_Is_Enabled: is_unicode_enabled
+		end
+
+	disable_keyboard_unicode
+		local
+			unuse:BOOLEAN
+		do
+			unuse:={GAME_SDL_EXTERNAL}.SDL_EnableUNICODE(0)
+		ensure
+			Enable_Unicode_Is_Not_Enabled: not is_unicode_enabled
+		end
+
 feature {NONE} -- Keyboard event Implementation
 
 	make_keyboard_event
@@ -155,6 +178,7 @@ feature {NONE} -- Keyboard event Implementation
 		create on_keyboard_actions.default_create
 		create on_key_down.default_create
 		create on_key_up.default_create
+		disable_keyboard_unicode
 	end
 
 	decode_keyboard_event(keyboard_event_ptr:POINTER)

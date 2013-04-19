@@ -40,6 +40,7 @@ function eifgensExClear () {
 	rm -rf $EIF_GAME_LIB/exemples/cpf/project/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/effects/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/mouse-text/EIFGENs
+	rm -rf $EIF_GAME_LIB/exemples/keyboard-text/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/sound/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/surface1/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/surface2/EIFGENs
@@ -109,6 +110,7 @@ then
 	compileEx "Custom Package Files Exemple" "cpf/project" "cpf.ecf" "cpf" "cpf"
 	compileEx "Visual Effects Exemple" "effects" "effects.ecf" "effects" "effects"
 	compileEx "Mouse and Text Exemple" "mouse-text" "mouse-text.ecf" "mouse-text" "mouse-text"
+	compileEx "Keyboard and Text Exemple" "keyboard-text" "keyboard-text.ecf" "keyboard-text" "keyboard-text"
 	compileEx "Sound Exemple" "sound" "sound.ecf" "sound" "sound"
 	compileEx "Surface Exemple 1" "surface1" "surface1.ecf" "surface1" "surface1"
 	compileEx "Surface Exemple 2" "surface2" "surface2.ecf" "surface2" "surface2"

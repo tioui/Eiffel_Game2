@@ -7,6 +7,12 @@ note
 class
 	GAME_KEYBOARD_EVENT
 
+inherit
+	ANY
+		redefine
+			out
+		end
+
 create {GAME_EVENT_CONTROLLER}
 	make
 
@@ -38,6 +44,27 @@ feature -- Access
 	scancode:NATURAL_8 -- Hardware dependent scancode (not compatible between system)
 
 	unicode:NATURAL_16 -- The translated unicode character representing the button pressed or released.
+
+	character:CHARACTER_8
+			-- Return the caracter representation of the key pressed.
+		do
+			result := unicode.to_character_32.to_character_8
+		end
+
+	out:STRING
+		local
+			l_result_ptr:POINTER
+			l_result_c:C_STRING
+		do
+			l_result_ptr:={GAME_SDL_EXTERNAL}.SDL_GetKeyName(sym)
+			if not l_result_ptr.is_default_pointer then
+				create l_result_c.make_by_pointer (l_result_ptr)
+				Result:=l_result_c.string
+			else
+				Result:=""
+			end
+
+		end
 
 feature -- Type and State
 	is_key_down:BOOLEAN

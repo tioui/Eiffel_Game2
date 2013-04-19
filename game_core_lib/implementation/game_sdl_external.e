@@ -482,6 +482,20 @@ feature -- Function SDL.h
 			"SDL_DisplayYUVOverlay"
 		end
 
+	frozen SDL_EnableUNICODE(value:INTEGER):BOOLEAN
+		external
+			"C (int): int | <SDL.h>"
+		alias
+			"SDL_EnableUNICODE"
+		end
+
+	frozen SDL_GetKeyName(key:INTEGER):POINTER
+		external
+			"C (SDLKey): char * | <SDL.h>"
+		alias
+			"SDL_GetKeyName"
+		end
+
 
 feature -- Manual C function (implemented in SDLmore.c)
 
@@ -4492,6 +4506,29 @@ feature -- Macro SDL.h
 			"C inline use <SDL.h>"
 		alias
 			"SDL_ALPHA_TRANSPARENT"
+		end
+
+feature -- Macro SDL_endian.h
+
+	frozen SDL_BYTEORDER:NATURAL_32
+		external
+			"C inline use <SDL_endian.h>"
+		alias
+			"SDL_BYTEORDER"
+		end
+
+	frozen SDL_LIL_ENDIAN:NATURAL_32
+		external
+			"C inline use <SDL_endian.h>"
+		alias
+			"SDL_LIL_ENDIAN"
+		end
+
+	frozen SDL_BIG_ENDIAN:NATURAL_32
+		external
+			"C inline use <SDL_endian.h>"
+		alias
+			"SDL_BIG_ENDIAN"
 		end
 
 
