@@ -12,6 +12,7 @@ inherit
 
 create
 	make,
+	make_video_memory,
 	make_with_bit_per_pixel,
 	make_from_pointer,
 	make_from_surface,

@@ -117,4 +117,10 @@ then
 	compileEx "Playing Video Exemple" "video" "video.ecf" "video" "video"
 	compileEx "Playing Video (CPF) Exemple" "video_cpf/project" "video_cpf.ecf" "video_cpf" "video_cpf"
 
+	if [[ "1$PARAM" != "1keep" ]]
+	then
+		clibClear
+		eifgensExClear
+		eifgensLibClear
+	fi
 fi

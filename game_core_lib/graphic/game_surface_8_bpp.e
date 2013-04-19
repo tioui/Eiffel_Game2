@@ -11,6 +11,7 @@ inherit
 	GAME_SURFACE
 	rename
 		make as make_base,
+		make_video_memory as make_video_memory_base,
 		make_from_surface as make_from_surface_base,
 		make_from_pointer as make_from_pointer_base
 	redefine
@@ -19,19 +20,27 @@ inherit
 
 create
 	make,
+	make_video_memory,
 	make_from_surface,
 	make_from_pointer
 
 feature {NONE} -- Initialization
 
-	make(the_width,the_height:INTEGER;video_memory:BOOLEAN)
+	make(the_width,the_height:INTEGER)
 			-- Initialization for `Current'.
 		local
 			temp_surface:GAME_SURFACE
 		do
-			make_base (the_width, the_height,8, video_memory)
+			make_with_bit_per_pixel (the_width, the_height,8, False)
 		end
 
+	make_video_memory(the_width,the_height:INTEGER)
+			-- Initialization for `Current' on video memory.
+		local
+			temp_surface:GAME_SURFACE
+		do
+			make_with_bit_per_pixel (the_width, the_height,8, True)
+		end
 	make_from_surface(l_surface:GAME_SURFACE)
 			-- Initialization for `Current'.
 			-- Create a new surface from `l_surface' (the memory surface will ne be duplicated).

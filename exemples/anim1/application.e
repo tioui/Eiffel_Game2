@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 
 			desert:=create {GAME_SURFACE_IMG_FILE}.make_with_alpha ("desert.png")  -- Create the desert surface
-			create bk.make(desert.width,desert.height,16,true)  -- Create the background surface
+			create bk.make_with_bit_per_pixel (desert.width,desert.height,16,true)  -- Create the background surface
 			create sky_color.make_rgb (69, 161, 246)	-- Set blue for the background sky.
 			bk.fill_rect (sky_color, 0, 0, bk.width, bk.height)	-- Draw the blue background sky.
 			bk.print_surface_on_surface (desert, 0, 0)	-- Show the desert surface on the blue background.
