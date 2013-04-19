@@ -59,7 +59,6 @@
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_linker_flag>
-
 		<pre_compile_action working_directory="$EIF_GAME_LIB\audio_snd_files_lib\implementation\Clib\" command="make $ISE_PLATFORM">
 			<description>Compile the modified Audio Snd Files methods.</description>
 			<condition>
