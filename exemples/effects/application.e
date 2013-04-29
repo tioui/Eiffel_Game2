@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 			tick:=lib_ctrl.get_ticks//100
 			create image_zoom.make_rotate_zoom (image, (tick\\360).to_real_64, ((tick\\10).to_real_64)/5, ((tick\\10).to_real_64)/5, true)		-- Rotate and zoom the original image.
 			lib_ctrl.screen_surface.fill_rect (create {GAME_COLOR}.make_rgb(0,0,200), 0, 0,lib_ctrl.screen_surface.width, lib_ctrl.screen_surface.height)		-- Put a blue background on the screen
-			lib_ctrl.screen_surface.print_surface_on_surface (image_zoom, (lib_ctrl.screen_surface.width//2)-(image_zoom.width//2), (lib_ctrl.screen_surface.height//2)-(image_zoom.height//2))		-- Put the result surface at the center of the screen
+			lib_ctrl.screen_surface.draw_surface (image_zoom, (lib_ctrl.screen_surface.width//2)-(image_zoom.width//2), (lib_ctrl.screen_surface.height//2)-(image_zoom.height//2))		-- Put the result surface at the center of the screen
 			lib_ctrl.flip_screen	-- Update the screen
 			image_zoom:=Void	-- This is done to make sure the garbage collector will collect the memory surface.
 			full_collect		-- Tell the garbage collector to remove unuse object from memory (will remove the created 'image_zoom').

@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			create bk.make_with_bit_per_pixel(desert.width,desert.height,16,true)  -- Create the background surface
 			create sky_color.make_rgb (69, 161, 246)	-- Set blue for the background sky.
 			bk.fill_rect (sky_color, 0, 0, bk.width, bk.height)	-- Draw the blue background sky.
-			bk.print_surface_on_surface (desert, 0, 0)	-- Show the desert surface on the blue background.
+			bk.draw_surface (desert, 0, 0)	-- Show the desert surface on the blue background.
 
 			maryo_anim:=gen_maryo_anim		-- Generate the animations images
 
@@ -62,13 +62,13 @@ feature {NONE} -- Initialization
 		do
 			Result:=create{ARRAYED_LIST[GAME_SURFACE]}.make(4) -- We need 4 images to animate the Maryo (the 2nd and the 4th are the same)
 			create maryo.make_with_alpha ("maryo.png")		-- In this image, there are 3 images
-			Result.extend (maryo.get_sub_surface (maryo.width//3, 0, maryo.width//3, maryo.height))			-- Make a surface with the second image
-			Result.extend (maryo.get_sub_surface (0, 0, maryo.width//3, maryo.height))						-- Make a surface with the first image
-			Result.extend (maryo.get_sub_surface ((maryo.width//3)*2, 0, maryo.width//3, maryo.height))		-- Make a surface with the third image
-			Result.extend (maryo.get_sub_surface (0, 0, maryo.width//3, maryo.height))						-- Make a surface with the first image
-			Result.extend (Result.at(1).get_new_surface_mirror (true, false))	-- Make the surface for when the Maryo go to the left
-			Result.extend (Result.at(2).get_new_surface_mirror (true, false))	-- The mirror and rotate routine of a GAME_SURFACE is very expensive in
-			Result.extend (Result.at(3).get_new_surface_mirror (true, false))	-- memor an in CPU. Don't do it in a game loop.
+			Result.extend (maryo.sub_surface (maryo.width//3, 0, maryo.width//3, maryo.height))			-- Make a surface with the second image
+			Result.extend (maryo.sub_surface (0, 0, maryo.width//3, maryo.height))						-- Make a surface with the first image
+			Result.extend (maryo.sub_surface ((maryo.width//3)*2, 0, maryo.width//3, maryo.height))		-- Make a surface with the third image
+			Result.extend (maryo.sub_surface (0, 0, maryo.width//3, maryo.height))						-- Make a surface with the first image
+			Result.extend (Result.at(1).surface_mirrored (true, false))	-- Make the surface for when the Maryo go to the left
+			Result.extend (Result.at(2).surface_mirrored (true, false))	-- The mirror and rotate routine of a GAME_SURFACE is very expensive in
+			Result.extend (Result.at(3).surface_mirrored (true, false))	-- memor an in CPU. Don't do it in a game loop.
 			Result.extend (Result.at(6))
 						-- Note that this method does not duplicate the surface in memory
 		end
@@ -83,19 +83,19 @@ feature {NONE} -- Routines
 			until
 				must_quit
 			loop
-				controller.screen_surface.print_surface_on_surface (bk, 0, 0)	-- Print the background on the screen surface
+				controller.screen_surface.draw_surface (bk, 0, 0)	-- Print the background on the screen surface
 				if go_left then
 					maryo_x:=maryo_x-1	-- Move the Maryo to the left
 					anim_index:=(anim_index+1)\\20		-- The same image must be print for 5 calls of main_loop. There is 4 images in the animation.
 														-- o at index 20, we go back to the first (index 0)
-					controller.screen_surface.print_surface_on_surface (maryo_anim.at ((anim_index//5)+5), maryo_x, maryo_y)	-- Show the animation images 5 to 8
+					controller.screen_surface.draw_surface (maryo_anim.at ((anim_index//5)+5), maryo_x, maryo_y)	-- Show the animation images 5 to 8
 				elseif go_right then
 					maryo_x:=maryo_x+1	-- Move the Maryo to the left
 					anim_index:=(anim_index+1)\\20		-- The same image must be print for 5 calls of main_loop. There is 4 images in the animation.
 														-- o at index 20, we go back to the first (index 0)
-					controller.screen_surface.print_surface_on_surface (maryo_anim.at ((anim_index//5)+1), maryo_x, maryo_y) 	-- Shaw the animation images 1 to 4
+					controller.screen_surface.draw_surface (maryo_anim.at ((anim_index//5)+1), maryo_x, maryo_y) 	-- Shaw the animation images 1 to 4
 				else
-					controller.screen_surface.print_surface_on_surface (maryo_anim.at (anim_index), maryo_x, maryo_y)		-- No move, show the static sprite
+					controller.screen_surface.draw_surface (maryo_anim.at (anim_index), maryo_x, maryo_y)		-- No move, show the static sprite
 				end
 				controller.flip_screen		-- Show the screen in the window
 				controller.update		-- This call is very important. It permit to the events to continue.

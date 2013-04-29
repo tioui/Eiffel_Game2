@@ -69,9 +69,9 @@ feature {NONE} -- Initialization
 			create l_print_surface.make_blended ("Generated text: "+text_to_print, a_font, l_text_color)
 			create l_bg_color.make_rgb (255, 168, 0)
 			a_controller.screen_surface.fill_rect (l_bg_color, 0, 0, a_controller.screen_surface.width, a_controller.screen_surface.height)
-			a_controller.screen_surface.print_surface_on_surface (l_key_text_surface, 10, 10)
-			a_controller.screen_surface.print_surface_on_surface (l_character_surface, 10, 110)
-			a_controller.screen_surface.print_surface_on_surface (l_print_surface, 10, 210)
+			a_controller.screen_surface.draw_surface (l_key_text_surface, 10, 10)
+			a_controller.screen_surface.draw_surface (l_character_surface, 10, 110)
+			a_controller.screen_surface.draw_surface (l_print_surface, 10, 210)
 			a_controller.flip_screen
 		end
 

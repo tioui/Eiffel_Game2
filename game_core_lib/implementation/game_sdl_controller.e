@@ -105,9 +105,9 @@ feature -- Video methods
 			error_c:C_STRING
 		do
 			if not has_hardware_double_buffer then
-				scr_surface.print_surface_on_surface (buffer_surface, 0, 0)
+				scr_surface.draw_surface (buffer_surface, 0, 0)
 			end
-			error:={GAME_SDL_EXTERNAL}.SDL_Flip(scr_surface.get_surface_pointer)
+			error:={GAME_SDL_EXTERNAL}.SDL_Flip(scr_surface.internal_pointer)
 			if error/=0 then
 				create error_c.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetError)
 				io.error.put_string ("Error: Cannot flip screen.%N"+error_c.string)
@@ -138,7 +138,7 @@ feature -- Video methods
 		if transparent_color/=Void then
 			l_icon.set_transparent_color (transparent_color)
 		end
-		{GAME_SDL_EXTERNAL}.SDL_WM_SetIcon(l_icon.get_surface_pointer,create {POINTER})
+		{GAME_SDL_EXTERNAL}.SDL_WM_SetIcon(l_icon.internal_pointer,create {POINTER})
 		create_screen_surface(the_width,the_height,the_bits_per_pixel,video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen)
 	ensure
 		Create_Screen_Not_Void: screen_is_create
@@ -159,7 +159,7 @@ feature -- Video methods
 		if transparent_color/=Void then
 			l_icon.set_transparent_color (transparent_color)
 		end
-		{GAME_SDL_EXTERNAL}.SDL_WM_SetIcon(l_icon.get_surface_pointer,create {POINTER})
+		{GAME_SDL_EXTERNAL}.SDL_WM_SetIcon(l_icon.internal_pointer,create {POINTER})
 		create_screen_surface(the_width,the_height,the_bits_per_pixel,video_memory,hardware_dbl_buf,resisable,with_frame,fullscreen)
 	ensure
 		Create_Screen_Not_Void: screen_is_create

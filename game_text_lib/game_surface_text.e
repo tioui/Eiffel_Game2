@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			if l_text_c.string.is_empty then
 				make (100, 100)
 				create l_color.make (0, 0, 0, 255)
-				put_pixel (0, 0, l_color)
+				put_pixel_color (0, 0, l_color)
 				set_transparent_color (l_color)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)
@@ -66,7 +66,7 @@ feature {NONE} -- Initialization
 			create l_text_c.make (a_text)
 			if l_text_c.string.is_empty then
 				make (100, 100)
-				put_pixel (0, 0, color_bg)
+				put_pixel_color (0, 0, color_bg)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)
 				create l_sdl_color_bg.make_from_rgba_color (a_color_bg)
@@ -98,7 +98,7 @@ feature {NONE} -- Initialization
 			if l_text_c.string.is_empty then
 				make (100, 100)
 				create l_color.make (0, 0, 0, 255)
-				put_pixel (0, 0, l_color)
+				put_pixel_color (0, 0, l_color)
 				set_transparent_color (l_color)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)

@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 			run_game(controller)  -- Run the core creator of the game.
 			controller.quit_library  -- Clear the library before quitting
 			text_controller.quit_library
-		end	
+		end
 
 	run_game(controller:GAME_LIB_CONTROLLER)
 		local
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			end
 			create l_font_color.make_rgb (0, 0, 0)  -- Initialise the color of the text to print on the screen
 			create l_text_surface.make_blended ("("+x.out+","+y.out+")", l_font, l_font_color)  -- Create the surface containing the text to print
-			controller.screen_surface.print_surface_on_surface (l_text_surface, 0, 0)  -- Put the Text surface on the screen at (x,y)=(0,0)
+			controller.screen_surface.draw_surface (l_text_surface, 0, 0)  -- Put the Text surface on the screen at (x,y)=(0,0)
 			controller.flip_screen  -- Show the screen in the window
 		end
 

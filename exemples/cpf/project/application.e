@@ -66,6 +66,7 @@ feature {NONE} -- Initialization
 										-- Use the first index of the package file for window icon (must be a bmp file and must be 32x32 on Windows)
 
 			controller.set_window_caption ("Exemple Custom Package File", "Ex. CPF")
+			controller.hide_mouse_cursor	-- Hide the mouse cursor
 			controller.enable_grab_input	-- Force the mouse and focus in the window
 			controller.event_controller.on_key_down.extend (agent on_key_down_quit(controller,?))
 			controller.event_controller.on_mouse_motion_relative_position.extend (agent on_mouse_move(controller,?,?)) -- Force the mouse in the middle of the window
@@ -92,10 +93,10 @@ feature {NONE} -- Initialization
 			create font.make (custom_file, 8, 12)		-- The font.ttf file is in the ressources.cpf file at index 8
 			create text.make_solid ("Esc to quit!", font, text_color)
 
-			controller.screen_surface.print_surface_on_surface (bk, 0, 0)
-			controller.screen_surface.print_surface_on_surface (text, 135, 25)
-			controller.screen_surface.print_surface_on_surface (sprite1, 100, 100)
-			controller.screen_surface.print_surface_on_surface (sprite2, 200, 100)
+			controller.screen_surface.draw_surface (bk, 0, 0)
+			controller.screen_surface.draw_surface (text, 135, 25)
+			controller.screen_surface.draw_surface (sprite1, 100, 100)
+			controller.screen_surface.draw_surface (sprite2, 200, 100)
 			controller.flip_screen
 		end
 

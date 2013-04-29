@@ -17,7 +17,7 @@ inherit
 	rename
 		make as make_base
 	redefine
-		height,width,get_sub_surface
+		height,width,sub_surface
 
 	end
 
@@ -60,25 +60,25 @@ feature -- Access
 	height:INTEGER
 			-- Return the height of the screen surface.
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_surface_struct_h(get_surface_pointer)
+			Result:={GAME_SDL_EXTERNAL}.get_surface_struct_h(internal_pointer)
 		end
 
 	width:INTEGER
 			-- Return the width of the screen surface.
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_surface_struct_w(get_surface_pointer)
+			Result:={GAME_SDL_EXTERNAL}.get_surface_struct_w(internal_pointer)
 		end
 
-	get_sub_surface (from_x, from_y, sub_width, sub_height: INTEGER): GAME_SURFACE
+	sub_surface (from_x, from_y, sub_width, sub_height: INTEGER): GAME_SURFACE
 			-- Return a part of screen surface.
 		local
 			format:POINTER
 		do
-			format:={GAME_SDL_EXTERNAL}.get_surface_struct_format(get_surface_pointer)
+			format:={GAME_SDL_EXTERNAL}.get_surface_struct_format(internal_pointer)
 			create Result.make_with_flags_and_masks({GAME_SDL_EXTERNAL}.SDL_HWSURFACE,sub_width, sub_height,bits_per_pixel,
 						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
 						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
-			Result.print_surface_part_on_surface (Current,from_x,from_y,0,0, sub_width,sub_height)
+			Result.draw_sub_surface (Current,from_x,from_y,0,0, sub_width,sub_height)
 		end
 
 	set_captions(window_caption,icon_caption:STRING)

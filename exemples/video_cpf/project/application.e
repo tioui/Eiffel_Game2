@@ -89,8 +89,8 @@ feature {NONE} -- Initialization
 	update_screen(lib_ctrl:GAME_LIB_CONTROLLER;text1,text2:GAME_SURFACE_TEXT)
 		do
 			lib_ctrl.screen_surface.fill_rect (create {GAME_COLOR}.make_rgb(0,0,0), 0, 0, lib_ctrl.screen_surface.width, lib_ctrl.screen_surface.height)
-			lib_ctrl.screen_surface.print_surface_on_surface (text1, 80, 360)
-			lib_ctrl.screen_surface.print_surface_on_surface (text2, 270, 360)
+			lib_ctrl.screen_surface.draw_surface (text1, 80, 360)
+			lib_ctrl.screen_surface.draw_surface (text2, 270, 360)
 			lib_ctrl.flip_screen
 		end
 

@@ -9,7 +9,7 @@
 		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
 		<library name="game_core_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
 		<library name="game_text_lib" location="$EIF_GAME_LIB\game_text_lib\eiffel_text_lib.ecf"/>
-		<library name="video_av_files_lib" location="$EIF_GAME_LIB\audio_video_lib\video_av_files_lib.ecf" readonly="false"/>
+		<library name="video_av_files_lib" location="$EIF_GAME_LIB\audio_video_lib\video_av_files_lib.ecf"/>
 		<cluster name="video_cpf" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
