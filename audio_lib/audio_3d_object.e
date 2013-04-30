@@ -13,69 +13,69 @@ inherit
 
 feature -- Access
 
-	set_position(x,y,z:REAL)
+	set_position(a_x,a_y,a_z:REAL)
 			-- Set the object position in a 3D environment.
 		do
-			set_3_float_params({AUDIO_EXTERNAL}.AL_POSITION,x,y,z)
+			set_params_3_float({AUDIO_EXTERNAL}.AL_POSITION,a_x,a_y,a_z)
 		end
 
-	set_velocity(x,y,z:REAL)
+	set_velocity(a_x,a_y,a_z:REAL)
 			-- Set the object velocity (deplacement) in a 3D environment.
 		do
-			set_3_float_params({AUDIO_EXTERNAL}.AL_VELOCITY,x,y,z)
+			set_params_3_float({AUDIO_EXTERNAL}.AL_VELOCITY,a_x,a_y,a_z)
 		end
 
 
-	get_position:TUPLE[x,y,z:REAL]
+	position:TUPLE[x,y,z:REAL]
 			-- Get the object position in a 3D environment.
 		do
-			Result:=get_3_float_parms({AUDIO_EXTERNAL}.AL_POSITION)
+			Result:=params_3_float({AUDIO_EXTERNAL}.AL_POSITION)
 		end
 
-	get_velocity:TUPLE[x,y,z:REAL]
+	velocity:TUPLE[x,y,z:REAL]
 			-- Get the object velocity (deplacement) in a 3D environment.
 		do
-			Result:=get_3_float_parms({AUDIO_EXTERNAL}.AL_VELOCITY)
+			Result:=params_3_float({AUDIO_EXTERNAL}.AL_VELOCITY)
 		end
 
 feature {NONE} -- Implementation
 
-	set_float_params_c(id:INTEGER;ptr:POINTER)
+	set_params_float_pointer_c(a_id:INTEGER;a_ptr:POINTER)
 	deferred
 	end
 
-	set_3_float_params(id:INTEGER;x,y,z:REAL)
+	set_params_3_float(a_id:INTEGER;a_x,a_y,a_z:REAL)
 		local
-			params_vector:ARRAY[REAL]
-			c_params:ANY
+			l_params_vector:ARRAY[REAL]
+			l_params_c:ANY
 		do
-			create params_vector.make_filled (0.0, 1, 3)
-			params_vector.at (1):=x
-			params_vector.at (2):=y
-			params_vector.at (3):=z
-			c_params:=params_vector.to_c
+			create l_params_vector.make_filled (0.0, 1, 3)
+			l_params_vector.at (1):=a_x
+			l_params_vector.at (2):=a_y
+			l_params_vector.at (3):=a_z
+			l_params_c:=l_params_vector.to_c
 			read_error
-			set_float_params_c(id,$c_params)
+			set_params_float_pointer_c(a_id,$l_params_c)
 			read_error
 			check not is_error end
 		end
 
-	get_float_params_c(id:INTEGER;ptr:POINTER)
+	assign_params_float_pointer_c(a_id:INTEGER;a_ptr:POINTER)
 	deferred
 	end
 
-	get_3_float_parms(id:INTEGER):TUPLE[x,y,z:REAL]
+	params_3_float(a_id:INTEGER):TUPLE[x,y,z:REAL]
 		local
-			params_vector:ARRAY[REAL]
-			c_params:ANY
+			l_params_vector:ARRAY[REAL]
+			l_params_c:ANY
 		do
-			create params_vector.make_filled (0.0, 1, 3)
-			c_params:=params_vector.to_c
+			create l_params_vector.make_filled (0.0, 1, 3)
+			l_params_c:=l_params_vector.to_c
 			read_error
-			get_float_params_c(id,$c_params)
+			assign_params_float_pointer_c(a_id,$l_params_c)
 			read_error
 			check not is_error end
-			Result:=[params_vector.at (1),params_vector.at (2),params_vector.at (3)]
+			Result:=[l_params_vector.at (1),l_params_vector.at (2),l_params_vector.at (3)]
 		end
 
 end

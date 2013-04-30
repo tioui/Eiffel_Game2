@@ -26,25 +26,25 @@ feature {NONE} -- Initialization
 feature -- Access
 
 
-	set_orientation(x_at,y_at,z_at,x_up,y_up,z_up:REAL)
+	set_orientation(a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up:REAL)
 			-- Set the listener orientation (UP and AT).
 			-- If you visualize the listener as a head, the UP is a vector representing the top of the head.
 			-- The AT is the vector representing where the head is looking.
 		require
-			Listener_Orientation_At_And_Up_Orthogonal: x_at*x_up+y_at*y_up+z_at*z_up=0
+			Listener_Orientation_At_And_Up_Orthogonal: a_x_at*a_x_up+a_y_at*a_y_up+a_z_at*a_z_up=0
 		do
-			set_6_float_params({AUDIO_EXTERNAL}.AL_ORIENTATION,x_at,y_at,z_at,x_up,y_up,z_up)
+			set_params_6_float({AUDIO_EXTERNAL}.AL_ORIENTATION,a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up)
 		end
 
-	get_orientation:TUPLE[x_at,y_at,z_at,x_up,y_up,z_up:REAL]
+	orientation:TUPLE[a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up:REAL]
 			-- Get the listener orientation (UP and AT).
 		do
-			Result:=get_6_float_parms({AUDIO_EXTERNAL}.AL_ORIENTATION)
+			Result:=params_6_float({AUDIO_EXTERNAL}.AL_ORIENTATION)
 		end
 
 feature {NONE} -- Implementation
 
-	set_6_float_params(id:INTEGER;x_at,y_at,z_at,x_up,y_up,z_up:REAL)
+	set_params_6_float(id:INTEGER;x_at,y_at,z_at,x_up,y_up,z_up:REAL)
 		local
 			params_vector:ARRAY[REAL]
 			c_params:ANY
@@ -58,34 +58,34 @@ feature {NONE} -- Implementation
 			params_vector.at (6):=z_up
 			c_params:=params_vector.to_c
 			read_error
-			set_float_params_c(id,$c_params)
+			set_params_float_pointer_c(id,$c_params)
 			read_error
 			check not is_error end
 		end
 
 
-	get_6_float_parms(id:INTEGER):TUPLE[x_at,y_at,z_at,x_up,y_up,z_up:REAL]
+	params_6_float(a_id:INTEGER):TUPLE[x_at,y_at,z_at,x_up,y_up,z_up:REAL]
 		local
-			params_vector:ARRAY[REAL]
-			c_params:ANY
+			l_params_vector:ARRAY[REAL]
+			l_params_c:ANY
 		do
-			create params_vector.make_filled (0.0, 1, 6)
-			c_params:=params_vector.to_c
+			create l_params_vector.make_filled (0.0, 1, 6)
+			l_params_c:=l_params_vector.to_c
 			read_error
-			get_float_params_c(id,$c_params)
+			assign_params_float_pointer_c(a_id,$l_params_c)
 			read_error
 			check not is_error end
-			Result:=[params_vector.at (1),params_vector.at (2),params_vector.at (3),params_vector.at (4),params_vector.at (5),params_vector.at (6)]
+			Result:=[l_params_vector.at (1),l_params_vector.at (2),l_params_vector.at (3),l_params_vector.at (4),l_params_vector.at (5),l_params_vector.at (6)]
 		end
 
-	set_float_params_c(id:INTEGER;ptr:POINTER)
+	set_params_float_pointer_c(a_id:INTEGER;a_ptr:POINTER)
 		do
-			{AUDIO_EXTERNAL}.AL_set_listener_fv(id,ptr)
+			{AUDIO_EXTERNAL}.AL_set_listener_fv(a_id,a_ptr)
 		end
 
-	get_float_params_c(id:INTEGER;ptr:POINTER)
+	assign_params_float_pointer_c(a_id:INTEGER;a_ptr:POINTER)
 		do
-			{AUDIO_EXTERNAL}.AL_get_listener_fv(id,ptr)
+			{AUDIO_EXTERNAL}.AL_get_listener_fv(a_id,a_ptr)
 		end
 
 end
