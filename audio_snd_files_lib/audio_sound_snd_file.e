@@ -16,21 +16,21 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
 			-- Will use 16 bits signed frames in the buffer.
 		do
-			bit_res:=16
-			media_signed:=true
-			c_filename:=filename
+			bits_per_sample_internal:=16
+			is_signed_internal:=true
+			filename:=a_filename
 			open_from_file(filename)
 		end
 
 feature {GAME_AUDIO_SOURCE}
 
-	fill_buffer(buffer:POINTER;max_length:INTEGER)
+	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		do
-			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,buffer,max_length//byte_per_buffer_sample).to_integer
+			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,a_buffer,a_max_length//byte_per_buffer_sample).to_integer
 		end
 
 	byte_per_buffer_sample:INTEGER
@@ -40,37 +40,37 @@ feature {GAME_AUDIO_SOURCE}
 
 feature --Access
 
-	file_exist(filename:STRING):BOOLEAN
+	file_exist(a_filename:STRING):BOOLEAN
 			-- Valid if the file `filename' exist and is readable.
 		local
-			the_file:RAW_FILE
+			l_file:RAW_FILE
 		do
-			create the_file.make (filename)
-			Result:= the_file.access_exists and the_file.is_access_readable
+			create l_file.make (a_filename)
+			Result:= l_file.access_exists and l_file.is_access_readable
 		end
 
-	get_channels:INTEGER
+	channel_count:INTEGER
 			-- Get the channel number of the sound (1=mono, 2=stereo, etc.).
 		do
 			Result:={AUDIO_SND_FILES_EXTERNAL}.get_sf_info_struct_channels(file_info)
 		end
 
-	get_frequency:INTEGER
+	frequency:INTEGER
 			-- Get the frequency (sample rate) of the sound.
 		do
 			Result:={AUDIO_SND_FILES_EXTERNAL}.get_sf_info_struct_samplerate(file_info)
 		end
 
-	get_bit_resolution:INTEGER
+	bits_per_sample:INTEGER
 			-- Get the bit resolution of one frame of the sound.
 		do
-			Result:=bit_res
+			Result:=bits_per_sample_internal
 		end
 
 	is_signed:BOOLEAN
 			-- Return true if the frames in the buffer are signed.
 		do
-			Result:=media_signed
+			Result:=is_signed_internal
 		end
 
 	is_seekable:BOOLEAN
@@ -82,30 +82,30 @@ feature --Access
 	restart
 			-- Restart the sound to the beginning.
 		local
-			error:INTEGER_64
+			l_error:INTEGER_64
 		do
 			if is_seekable then
-				error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,{AUDIO_SND_FILES_EXTERNAL}.SEEK_SET)
-				check error/=-1 end
+				l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,{AUDIO_SND_FILES_EXTERNAL}.SEEK_SET)
+				check l_error/=-1 end
 			else
 				dispose
-				open_from_file(c_filename)
+				open_from_file(filename)
 			end
 
 		end
 
 feature {NONE} -- Implementation - Methodes
 
-	open_from_file(filename:STRING)
+	open_from_file(a_filename:STRING)
 		local
-			filename_c,error_c:C_STRING
+			l_filename_c,l_error_c:C_STRING
 		do
 			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
-			create filename_c.make(filename)
-			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(filename_c.item,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info)
+			create l_filename_c.make(a_filename)
+			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(l_filename_c.item,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info)
 			if snd_file_ptr.is_default_pointer then
-				create error_c.make_by_pointer ({AUDIO_SND_FILES_EXTERNAL}.sf_strerror(snd_file_ptr))
-				io.error.put_string (error_c.string+"%N")
+				create l_error_c.make_by_pointer ({AUDIO_SND_FILES_EXTERNAL}.sf_strerror(snd_file_ptr))
+				io.error.put_string (l_error_c.string+"%N")
 				check false end
 			end
 		end
@@ -124,10 +124,10 @@ feature {NONE} -- Implementation - Variables
 	snd_file_ptr:POINTER
 	file_info:POINTER
 
-	bit_res:INTEGER
-	media_signed:BOOLEAN
+	bits_per_sample_internal:INTEGER
+	is_signed_internal:BOOLEAN
 
-	c_filename:STRING
+	filename:STRING
 
 
 end

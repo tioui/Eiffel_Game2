@@ -47,17 +47,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
 		do
-			precursor {AUDIO_SOUND_AV_FILE} (filename)
+			precursor {AUDIO_SOUND_AV_FILE} (a_filename)
 			create {ARRAYED_QUEUE[POINTER]} video_packets_filled.make(1)
 			init_video_context
 		end
 
-	make_thread_safe(filename:STRING)
+	make_thread_safe(a_filename:STRING)
 		do
-			make(filename)
+			make(a_filename)
 			is_thread_safe := True
 			create media_mutex.make
 		end
@@ -66,27 +66,27 @@ feature {VIDEO_READER}
 
 	decode_frame
 		local
-			got,error:INTEGER
-			temp_packet:POINTER
+			l_got,l_error:INTEGER
+			l_packet_pointer:POINTER
 		do
 			if is_thread_safe then
 				media_mutex.lock
 			end
 			from
-				got:=0
+				l_got:=0
 			until
-				got/=0 or
+				l_got/=0 or
 				end_of_file
 			loop
 				if video_packets_filled.is_empty then
 					read_packet(video_stream_index)
 				end
 				if not end_of_file then
-					temp_packet:=video_packets_filled.item
+					l_packet_pointer:=video_packets_filled.item
 					video_packets_filled.remove
-					packets_pool.put (temp_packet)
-					error:={AV_EXTERNAL}.avcodec_decode_video2(video_codec_context_ptr,video_frame,$got,temp_packet)
-					check error>=0 end
+					packets_pool.put (l_packet_pointer)
+					l_error:={AV_EXTERNAL}.avcodec_decode_video2(video_codec_context_ptr,video_frame,$l_got,l_packet_pointer)
+					check l_error>=0 end
 				end
 			end
 			if is_thread_safe then
@@ -96,33 +96,32 @@ feature {VIDEO_READER}
 
 feature {NONE} -- Implementation - Routines
 
-	read_packet(index:INTEGER)
+	read_packet(a_index:INTEGER)
 		local
-			error:INTEGER
-			got:BOOLEAN
-			packet:POINTER
+			l_error:INTEGER
+			l_got:BOOLEAN
 		do
 			from
-				got:=false
+				l_got:=false
 				last_packet:=false
 			until
-				got or
+				l_got or
 				last_packet
 			loop
 				if packets_pool.is_empty then
 					fill_packet_pool
 				end
 				{AV_EXTERNAL}.av_free_packet(packets_pool.item)
-				error:={AV_EXTERNAL}.av_read_frame(format_context_ptr,packets_pool.item)
-				if error<0 then
-					if error/={AV_EXTERNAL}.AVERROR_EOF then
-						io.error.put_string ("Error reading frame: "+Get_Error_Message(error)+"%N")
+				l_error:={AV_EXTERNAL}.av_read_frame(format_context_pointer,packets_pool.item)
+				if l_error<0 then
+					if l_error/={AV_EXTERNAL}.AVERROR_EOF then
+						io.error.put_string ("Error reading frame: "+Get_Error_Message(l_error)+"%N")
 						check false end
 					end
 					last_packet:=true
 				else
-					if {AV_EXTERNAL}.get_av_packet_struct_stream_index(packets_pool.item)=index then
-						got:=true
+					if {AV_EXTERNAL}.get_av_packet_struct_stream_index(packets_pool.item)=a_index then
+						l_got:=true
 					end
 					if {AV_EXTERNAL}.get_av_packet_struct_stream_index(packets_pool.item)=video_stream_index then
 						video_packets_filled.put (packets_pool.item)
@@ -137,10 +136,10 @@ feature {NONE} -- Implementation - Routines
 
 	dispose
 		local
-			error:INTEGER
+			l_error:INTEGER
 		do
-			error:={AV_EXTERNAL}.avcodec_close(video_codec_context_ptr)
-			check error=0 end
+			l_error:={AV_EXTERNAL}.avcodec_close(video_codec_context_ptr)
+			check l_error=0 end
 			{AV_EXTERNAL}.av_free(video_frame)
 			precursor {AUDIO_SOUND_AV_FILE}
 		end

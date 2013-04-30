@@ -88,14 +88,14 @@ feature {NONE} -- Initialization
 				has_error:=true
 			else
 				file.read_natural_16_little_endian	-- Number of channels
-				channels:=file.last_natural_16.as_integer_32
+				channel_count_internal:=file.last_natural_16.as_integer_32
 				file.read_natural_32_little_endian	-- Sample Rate (frequency)
-				frequency:=file.last_natural_32.as_integer_32
+				frequency_internal:=file.last_natural_32.as_integer_32
 				file.read_natural_32_little_endian	-- Byte Rate
 				file.read_natural_16_little_endian	-- Block Align
 				bytes_per_sample:=file.last_natural_16
 				file.read_natural_16_little_endian	-- Bits per sample
-				bits_per_sample:=file.last_natural_16.as_integer_32
+				bits_per_sample_internal:=file.last_natural_16.as_integer_32
 			end
 		end
 
@@ -116,26 +116,26 @@ feature -- Access
 
 	has_error:BOOLEAN
 
-	get_channels:INTEGER
+	channel_count:INTEGER
 		do
-			Result:=channels
+			Result:=channel_count_internal
 		end
 
-	get_frequency:INTEGER
+	frequency:INTEGER
 		do
-			Result:=frequency
+			Result:=frequency_internal
 		end
 
-	get_bit_resolution:INTEGER
+	bits_per_sample:INTEGER
 			-- Get the bit resolution of one frame of the sound.
 		do
-			Result:=bits_per_sample
+			Result:=bits_per_sample_internal
 		end
 
 	is_signed:BOOLEAN
 			-- Return true if the frames in the buffer are signed.
 		do
-			Result:= not (bits_per_sample=8)	-- Only 8 bits per sample is unsigned
+			Result:= not (bits_per_sample_internal=8)	-- Only 8 bits per sample is unsigned
 		end
 
 	is_seekable:BOOLEAN
@@ -154,9 +154,9 @@ feature {NONE} -- Implementation - Variable
 
 	file:CPF_FILE
 
-	channels:INTEGER
-	frequency:INTEGER
-	bits_per_sample:INTEGER
+	channel_count_internal:INTEGER
+	frequency_internal:INTEGER
+	bits_per_sample_internal:INTEGER
 	data_starting_offset:INTEGER
 	data_size:NATURAL_32
 	bytes_per_sample:NATURAL_32

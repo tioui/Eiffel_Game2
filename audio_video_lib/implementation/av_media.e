@@ -15,56 +15,56 @@ inherit
 
 feature {NONE} -- Initialisation
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 		local
-			filename_c:C_STRING
-			error:INTEGER
+			l_filename_c:C_STRING
+			l_error:INTEGER
 		do
 			init_library
-			create filename_c.make (filename)
-			error:={AV_EXTERNAL}.avformat_open_input($format_context_ptr,filename_c.item,void_ptr.item,void_ptr.item)
-			check error=0 end
-			error:={AV_EXTERNAL}.avformat_find_stream_info(format_context_ptr,void_ptr.item)
-			check error>=0 end
+			create l_filename_c.make (a_filename)
+			l_error:={AV_EXTERNAL}.avformat_open_input($format_context_pointer,l_filename_c.item,void_ptr.item,void_ptr.item)
+			check l_error=0 end
+			l_error:={AV_EXTERNAL}.avformat_find_stream_info(format_context_pointer,void_ptr.item)
+			check l_error>=0 end
 			create {ARRAYED_QUEUE[POINTER]} packets_pool.make(1)
 			create {ARRAYED_QUEUE[POINTER]} packets_filled.make(1)
 			test:=0
 		end
 
-	init_stream(flags:NATURAL_32):INTEGER
+	init_stream(a_flags:NATURAL_32):INTEGER
 		local
 			i:INTEGER
-			is_found:BOOLEAN
-			nb_stream:INTEGER
+			l_is_found:BOOLEAN
+			l_nb_stream:INTEGER
 		do
-			nb_stream:={AV_EXTERNAL}.get_av_format_context_struct_nb_streams(format_context_ptr).to_integer_32
+			l_nb_stream:={AV_EXTERNAL}.get_av_format_context_struct_nb_streams(format_context_pointer).to_integer_32
 			Result:=-1
 			from
 				i:=0
-				is_found:=false
+				l_is_found:=false
 			until
-				i>=nb_stream or
-				is_found
+				i>=l_nb_stream or
+				l_is_found
 			loop
-				if {AV_EXTERNAL}.get_av_codec_context_struct_codec_type(get_context_ptr(i))=flags then
-					is_found:=true
+				if {AV_EXTERNAL}.get_av_codec_context_struct_codec_type(context_pointer(i))=a_flags then
+					l_is_found:=true
 					Result:=i
 				end
 				i:=i+1
 			end
 		end
 
-	open_codec(codec_context:POINTER)
+	open_codec(a_codec_context:POINTER)
 		local
-			codec_id:NATURAL
-			temp_codec:POINTER
-			error:INTEGER
+			l_codec_id:NATURAL
+			l_codec_ptr:POINTER
+			l_error:INTEGER
 		do
-			codec_id:={AV_EXTERNAL}.get_av_codec_context_struct_codec_id(codec_context)
-			temp_codec:={AV_EXTERNAL}.avcodec_find_decoder(codec_id)
-			check not temp_codec.is_default_pointer end
-			error:={AV_EXTERNAL}.avcodec_open2(codec_context,temp_codec,void_ptr)
-			check error=0 end
+			l_codec_id:={AV_EXTERNAL}.get_av_codec_context_struct_codec_id(a_codec_context)
+			l_codec_ptr:={AV_EXTERNAL}.avcodec_find_decoder(l_codec_id)
+			check not l_codec_ptr.is_default_pointer end
+			l_error:={AV_EXTERNAL}.avcodec_open2(a_codec_context,l_codec_ptr,void_ptr)
+			check l_error=0 end
 		end
 
 feature -- Access
@@ -72,27 +72,26 @@ feature -- Access
 	restart
 			-- Restart the media to the beginning.
 		local
-			error:INTEGER
+			l_error:INTEGER
 		do
-			error:={AV_EXTERNAL}.av_seek_frame(format_context_ptr,-1,0,{AV_EXTERNAL}.AVSEEK_FLAG_ANY.bit_or ({AV_EXTERNAL}.AVSEEK_FLAG_BACKWARD))
-			check error >= 0 end
+			l_error:={AV_EXTERNAL}.av_seek_frame(format_context_pointer,-1,0,{AV_EXTERNAL}.AVSEEK_FLAG_ANY.bit_or ({AV_EXTERNAL}.AVSEEK_FLAG_BACKWARD))
+			check l_error >= 0 end
 			last_packet:=false
 		end
 
 feature {NONE} -- Implementation - Routines
 
 
-	read_packet(index:INTEGER)
+	read_packet(a_index:INTEGER)
 		local
-			error:INTEGER
-			got:BOOLEAN
-			packet:POINTER
+			l_error:INTEGER
+			l_got:BOOLEAN
 		do
 			from
-				got:=false
+				l_got:=false
 				last_packet:=false
 			until
-				got or
+				l_got or
 				last_packet
 			loop
 				if packets_pool.is_empty then
@@ -100,18 +99,18 @@ feature {NONE} -- Implementation - Routines
 				end
 				{AV_EXTERNAL}.av_free_packet(packets_pool.item)
 				test:=test+1
-				error:={AV_EXTERNAL}.av_read_frame(format_context_ptr,packets_pool.item)
-				if error<0 then
-					if error/={AV_EXTERNAL}.AVERROR_EOF then
-						io.error.put_string ("Error reading frame: "+Get_Error_Message(error)+"%N")
+				l_error:={AV_EXTERNAL}.av_read_frame(format_context_pointer,packets_pool.item)
+				if l_error<0 then
+					if l_error/={AV_EXTERNAL}.AVERROR_EOF then
+						io.error.put_string ("Error reading frame: "+get_error_Message(l_error)+"%N")
 						check false end
 					end
 					last_packet:=true
 				else
-					if {AV_EXTERNAL}.get_av_packet_struct_stream_index(packets_pool.item)=index then
+					if {AV_EXTERNAL}.get_av_packet_struct_stream_index(packets_pool.item)=a_index then
 						packets_filled.put (packets_pool.item)
 						packets_pool.remove
-						got:=true
+						l_got:=true
 					end
 				end
 			end
@@ -127,20 +126,20 @@ feature {NONE} -- Implementation - Routines
 		end
 
 
-	close_codec(codec_context:POINTER)
+	close_codec(a_codec_context:POINTER)
 		local
-			error:INTEGER
+			l_error:INTEGER
 		do
-			error:={AV_EXTERNAL}.avcodec_close(codec_context)
-			check error=0 end
+			l_error:={AV_EXTERNAL}.avcodec_close(a_codec_context)
+			check l_error=0 end
 		end
 
-	get_context_ptr(index:INTEGER):POINTER
+	context_pointer(a_index:INTEGER):POINTER
 		local
-			temp_stream:POINTER
+			l_temp_stream:POINTER
 		do
-			temp_stream:={AV_EXTERNAL}.get_av_format_context_struct_streams_i(format_context_ptr,index)
-			Result:={AV_EXTERNAL}.get_av_stream_struct_codec(temp_stream)
+			l_temp_stream:={AV_EXTERNAL}.get_av_format_context_struct_streams_i(format_context_pointer,a_index)
+			Result:={AV_EXTERNAL}.get_av_stream_struct_codec(l_temp_stream)
 			check not Result.is_default_pointer end
 		end
 
@@ -160,12 +159,12 @@ feature {NONE} -- Implementation - Routines
 				{AV_EXTERNAL}.av_free(packets_pool.item)
 				packets_pool.remove
 			end
-			{AV_EXTERNAL}.avformat_close_input($format_context_ptr)
+			{AV_EXTERNAL}.avformat_close_input($format_context_pointer)
 		end
 
 feature {NONE} -- Implementation - Variables
 
-	format_context_ptr:POINTER
+	format_context_pointer:POINTER
 	last_packet:BOOLEAN
 	packets_pool:QUEUE[POINTER]
 	packets_filled:QUEUE[POINTER]

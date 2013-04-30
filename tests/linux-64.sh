@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ISE_EIFFEL=/usr/local/Eiffel71
+export ISE_EIFFEL=/usr/local/Eiffel72
 export ISE_PLATFORM=linux-x86-64
 export PATH=$PATH:$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin
 export LANG=C

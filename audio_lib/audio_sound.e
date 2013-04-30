@@ -24,17 +24,17 @@ feature {AUDIO_SOURCE}
 		end
 
 feature --Access
-	get_channels:INTEGER
+	channel_count:INTEGER
 			-- Get the channel number of the sound (1=mono, 2=stereo, etc.).
 		deferred
 		end
 
-	get_frequency:INTEGER
+	frequency:INTEGER
 			-- Get the frequency (sample rate) of the sound.
 		deferred
 		end
 
-	get_bit_resolution:INTEGER
+	bits_per_sample:INTEGER
 			-- Get the bit resolution of one frame of the sound.
 		deferred
 		end

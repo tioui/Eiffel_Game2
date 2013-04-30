@@ -20,18 +20,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
-		local
-			buffer_size,error:INTEGER
 		do
-			precursor(filename)
+			precursor(a_filename)
 			init_video_context
 		end
 
-	make_thread_safe(filename:STRING)
+	make_thread_safe(a_filename:STRING)
 		do
-			make(filename)
+			make(a_filename)
 			is_thread_safe:=true
 			create media_mutex.make
 		end
@@ -41,7 +39,7 @@ feature {NONE} -- Initialization
 			frame:={AV_EXTERNAL}.avcodec_alloc_frame
 			check not frame.is_default_pointer end
 			stream_index:=init_stream({AV_EXTERNAL}.AVMEDIA_TYPE_VIDEO)
-			codec_context_ptr:=get_context_ptr(stream_index)
+			codec_context_ptr:=context_pointer(stream_index)
 			open_codec(codec_context_ptr)
 			time_base_num:={AV_EXTERNAL}.get_av_rational_struct_num({AV_EXTERNAL}.get_av_codec_context_struct_time_base(codec_context_ptr))
 			time_base_denum:={AV_EXTERNAL}.get_av_rational_struct_den({AV_EXTERNAL}.get_av_codec_context_struct_time_base(codec_context_ptr))

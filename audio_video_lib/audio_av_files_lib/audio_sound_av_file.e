@@ -21,30 +21,27 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
-		local
-			filename_c:C_STRING
-			error:INTEGER
 		do
-			precursor(filename)
+			precursor(a_filename)
 			frame:={AV_EXTERNAL}.avcodec_alloc_frame
 			check not frame.is_default_pointer end
 			stream_index:=init_stream({AV_EXTERNAL}.AVMEDIA_TYPE_AUDIO)
-			codec_context_ptr:=get_context_ptr(stream_index)
-			sample_rate:={AV_EXTERNAL}.get_av_codec_context_struct_sample_rate(codec_context_ptr)
-			channels:={AV_EXTERNAL}.get_av_codec_context_struct_channels(codec_context_ptr)
+			codec_context_ptr:=context_pointer(stream_index)
+			frequency_internal:={AV_EXTERNAL}.get_av_codec_context_struct_sample_rate(codec_context_ptr)
+			channel_count_internal:={AV_EXTERNAL}.get_av_codec_context_struct_channels(codec_context_ptr)
 			fmt:={AV_EXTERNAL}.get_av_codec_context_struct_sample_fmt(codec_context_ptr)
 			is_resampling:=false
 			if fmt={AV_EXTERNAL}.AV_SAMPLE_FMT_U8 then
-				bits_per_sample:=8
-				signed:=false
+				bits_per_sample_internal:=8
+				is_signed_internal:=false
 			else
-				bits_per_sample:=16
-				signed:=true
+				bits_per_sample_internal:=16
+				is_signed_internal:=true
 				if fmt /={AV_EXTERNAL}.AV_SAMPLE_FMT_S16 then
 					is_resampling:=true
-					sample_context_ptr:={AV_EXTERNAL}.av_audio_resample_init(channels,channels,sample_rate,sample_rate,
+					sample_context_ptr:={AV_EXTERNAL}.av_audio_resample_init(channel_count_internal,channel_count_internal,frequency_internal,frequency_internal,
 															{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,fmt,0,0,0,1.0)
 				end
 			end
@@ -53,82 +50,82 @@ feature {NONE} -- Initialization
 			side_buffer_count:=0
 		end
 
-	make_thread_safe(filename:STRING)
+	make_thread_safe(a_filename:STRING)
 		do
-			make(filename)
+			make(a_filename)
 			is_thread_safe:=true
 			create media_mutex.make
 		end
 
 feature {GAME_AUDIO_SOURCE}
 
-	fill_buffer(buffer:POINTER;max_length:INTEGER)
+	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		local
-			error:INTEGER
-			ending:BOOLEAN
-			got,count:INTEGER
-			temp_buffer:POINTER
-			temp_packet:POINTER
+			l_error:INTEGER
+			l_ending:BOOLEAN
+			l_got,l_count:INTEGER
+			l_temp_buffer:POINTER
+			l_temp_packet:POINTER
 		do
 			if is_thread_safe then
 				media_mutex.lock
 			end
 			check side_buffer_count>=0 end
 			if side_buffer_count>0 then
-				buffer.memory_copy (side_buffer, side_buffer_count)
+				a_buffer.memory_copy (side_buffer, side_buffer_count)
 			end
-			temp_buffer:=buffer.plus (side_buffer_count)
+			l_temp_buffer:=a_buffer.plus (side_buffer_count)
 			last_buffer_size:=side_buffer_count
 			side_buffer_count:=0
 			from
-				ending:=false
+				l_ending:=false
 			until
-				ending
+				l_ending
 			loop
 				if packets_filled.is_empty then
 					read_packet(stream_index)
-					ending:=last_packet
+					l_ending:=last_packet
 				end
-				if not ending then
-					temp_packet:=packets_filled.item
+				if not l_ending then
+					l_temp_packet:=packets_filled.item
 					packets_filled.remove
-					packets_pool.put (temp_packet)
-					error:={AV_EXTERNAL}.avcodec_decode_audio4(codec_context_ptr,frame,$got,temp_packet)
-					if got/=0 then
+					packets_pool.put (l_temp_packet)
+					l_error:={AV_EXTERNAL}.avcodec_decode_audio4(codec_context_ptr,frame,$l_got,l_temp_packet)
+					if l_got/=0 then
 						if is_resampling then
-							count:={AV_EXTERNAL}.av_samples_get_buffer_size(create {POINTER},channels,
+							l_count:={AV_EXTERNAL}.av_samples_get_buffer_size(create {POINTER},channel_count_internal,
 								{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame),{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,1)
-							if count<0 then
-								io.error.put_string ("Error reading packet: "+Get_Error_Message(count)+"%N")
+							if l_count<0 then
+								io.error.put_string ("Error reading packet: "+get_error_Message(l_count)+"%N")
 								check false end
 							else
 
-								if last_buffer_size+count>max_length then
-									error:={AV_EXTERNAL}.audio_resample(sample_context_ptr,side_buffer,{AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0),{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame))
-									side_buffer_count:=count
-									ending:=true
+								if last_buffer_size+l_count>a_max_length then
+									l_error:={AV_EXTERNAL}.audio_resample(sample_context_ptr,side_buffer,{AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0),{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame))
+									side_buffer_count:=l_count
+									l_ending:=true
 								else
-									error:={AV_EXTERNAL}.audio_resample(sample_context_ptr,temp_buffer,{AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0),{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame))
-									temp_buffer:=temp_buffer.plus (count)
-									last_buffer_size:=last_buffer_size+count
+									l_error:={AV_EXTERNAL}.audio_resample(sample_context_ptr,l_temp_buffer,{AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0),{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame))
+									l_temp_buffer:=l_temp_buffer.plus (l_count)
+									last_buffer_size:=last_buffer_size+l_count
 								end
 							end
 						else
-							count:={AV_EXTERNAL}.av_samples_get_buffer_size(create {POINTER},channels,
+							l_count:={AV_EXTERNAL}.av_samples_get_buffer_size(create {POINTER},channel_count_internal,
 								{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame),fmt,1)
-							if count<0 then
-								io.error.put_string ("Error reading packet: "+Get_Error_Message(count)+"%N")
+							if l_count<0 then
+								io.error.put_string ("Error reading packet: "+get_error_Message(l_count)+"%N")
 								check false end
 							else
 
-								if last_buffer_size+count>max_length then
-									side_buffer.memory_copy ({AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0), count)
-									side_buffer_count:=count
-									ending:=true
+								if last_buffer_size+l_count>a_max_length then
+									side_buffer.memory_copy ({AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0), l_count)
+									side_buffer_count:=l_count
+									l_ending:=true
 								else
-									temp_buffer.memory_copy ({AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0), count)
-									temp_buffer:=temp_buffer.plus (count)
-									last_buffer_size:=last_buffer_size+count
+									l_temp_buffer.memory_copy ({AV_EXTERNAL}.get_av_frame_struct_extended_data_i(frame,0), l_count)
+									l_temp_buffer:=l_temp_buffer.plus (l_count)
+									last_buffer_size:=last_buffer_size+l_count
 								end
 							end
 						end
@@ -151,28 +148,28 @@ feature {GAME_AUDIO_SOURCE}
 feature --Access
 
 
-	get_channels:INTEGER
+	channel_count:INTEGER
 			-- Get the channel number of the sound (1=mono, 2=stereo, etc.).
 		do
-			Result:=channels
+			Result:=channel_count_internal
 		end
 
-	get_frequency:INTEGER
+	frequency:INTEGER
 			-- Get the frequency (sample rate) of the sound.
 		do
-			Result:=sample_rate
+			Result:=frequency_internal
 		end
 
-	get_bit_resolution:INTEGER
+	bits_per_sample:INTEGER
 			-- Get the bit resolution of one frame of the sound.
 		do
-			Result:=bits_per_sample
+			Result:=bits_per_sample_internal
 		end
 
 	is_signed:BOOLEAN
 			-- Return true if the frames in the buffer are signed.
 		do
-			Result:=signed
+			Result:=is_signed_internal
 		end
 
 	is_seekable:BOOLEAN
@@ -204,10 +201,10 @@ feature {NONE} -- Implementation - Variables
 
 	frame:POINTER
 
-	sample_rate:INTEGER
-	channels:INTEGER
-	signed:BOOLEAN
-	bits_per_sample:INTEGER
+	frequency_internal:INTEGER
+	channel_count_internal:INTEGER
+	is_signed_internal:BOOLEAN
+	bits_per_sample_internal:INTEGER
 	fmt:NATURAL
 
 	side_buffer:POINTER

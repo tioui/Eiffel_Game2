@@ -30,10 +30,10 @@ inherit
 	AUDIO_SOURCE
 	rename
 		make as make_audio_source,
-		is_playing as audio_is_playing,
+		is_playing as is_audio_playing,
 		stop as stop_audio
 	export
-		{NONE} queue_sound_loop, queue_sound, queue_sound_infinite_loop, is_pause, audio_is_playing, stop_audio
+		{NONE} queue_sound_loop, queue_sound, queue_sound_infinite_loop, is_pause, is_audio_playing, stop_audio
 	redefine
 		play,
 		pause,
@@ -46,11 +46,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make(lib_ctrl:GAME_LIB_CONTROLLER;l_buffer_size:INTEGER)
+	make(a_core_lib_ctrl:GAME_LIB_CONTROLLER;a_buffer_size:INTEGER)
 			-- Initialization for `Current'.
 		do
-			make_video_reader(lib_ctrl)
-			make_audio_source (l_buffer_size)
+			make_video_reader(a_core_lib_ctrl)
+			make_audio_source (a_buffer_size)
 		end
 
 feature -- Access
@@ -78,15 +78,15 @@ feature -- Access
 		end
 
 
-	queue_media_loop(video:AUDIO_VIDEO_MEDIA;nb_loop:INTEGER)
+	queue_media_loop(a_video:AUDIO_VIDEO_MEDIA;a_nb_loop:INTEGER)
 		do
-			video_queued.put ([video,nb_loop])
-			queue_sound(video)
+			video_queued.put ([a_video,a_nb_loop])
+			queue_sound(a_video)
 		end
 
 	update_playing
 		do
-			if video_finish then
+			if is_video_finish then
 				load_media
 			else
 				update_video_to_screen
@@ -98,9 +98,9 @@ feature {NONE} -- Implementation - Routines
 
 	load_media
 		do
-			video_finish:=true
-			if not audio_is_playing then
-				video_finish:=false
+			is_video_finish:=true
+			if not is_audio_playing then
+				is_video_finish:=false
 				precursor {VIDEO_READER}
 			end
 		end
@@ -113,6 +113,6 @@ feature {NONE} -- Implementation - Routines
 
 feature {NONE} -- Implementation - Variables
 
-	video_finish:BOOLEAN
+	is_video_finish:BOOLEAN
 
 end

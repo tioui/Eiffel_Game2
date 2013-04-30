@@ -16,82 +16,84 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			lib_ctrl:GAME_LIB_CONTROLLER
-			text_ctrl:GAME_TEXT_CONTROLLER
+			l_lib_ctrl:GAME_LIB_CONTROLLER
+			l_text_ctrl:GAME_TEXT_CONTROLLER
 			-- Run application.
 		do
-			create lib_ctrl.make
-			create text_ctrl.make
-			text_ctrl.enable_text
-			lib_ctrl.enable_video	-- This is to enable the graphical functionnalities of the library (not the video (movie) functionnality)
-			run_standard(lib_ctrl)
-			lib_ctrl.quit_library
-			text_ctrl.quit_library
+			create l_lib_ctrl.make
+			create l_text_ctrl.make
+			l_text_ctrl.enable_text
+			l_lib_ctrl.enable_video	-- This is to enable the graphical functionnalities of the library (not the video (movie) functionnality)
+			run_standard(l_lib_ctrl)
+			l_lib_ctrl.clear_event_controller	-- Clear the event to be sure that a surface (or font, or ...) is not stuck in an event agent
+			l_text_ctrl.quit_library
+			l_lib_ctrl.quit_library
 		end
 
-	run_standard(lib_ctrl:GAME_LIB_CONTROLLER)
+	run_standard(a_lib_ctrl:GAME_LIB_CONTROLLER)
 		local
-			ressources:CPF_PACKAGE_FILE
-			video1,video2:VIDEO_AV_CPF
-			text1,text2:GAME_SURFACE_TEXT
-			reader:VIDEO_READER
-			font:GAME_FONT_CPF
+			l_ressources:CPF_PACKAGE_FILE
+			l_video1,l_video2:VIDEO_AV_CPF
+			l_text1,l_text2:GAME_SURFACE_TEXT
+			l_reader:VIDEO_READER
+			l_font:GAME_FONT_CPF
 		do
-			create ressources.make ("ressources.cpf")
-			lib_ctrl.create_screen_surface (450, 450, 32, true, true, false, true, false)
-			lib_ctrl.set_window_caption ("You can move or resize the video with the mouse!", "Video Exemple")
-			create reader.make(lib_ctrl)
-			lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(lib_ctrl))
-			lib_ctrl.event_controller.on_tick.extend (agent reader.update_video_to_screen)
-			create video1.make (ressources,1)			-- Open the Blue Bubble video file
-			create video2.make (ressources,2)			-- Open the Red Curtain video file
-			create font.make (ressources, 3, 20)
-			create text1.make_blended ("Blue Bubbles", font, create {GAME_COLOR}.make_rgb(255,255,255))
-			create text2.make_blended ("Red Curtain", font, create {GAME_COLOR}.make_rgb(255,255,255))
-			lib_ctrl.event_controller.on_mouse_button_down.extend (agent on_mouse_down(lib_ctrl,text1,text2,reader,video1,video2,?,?,?,?,?))
-			update_screen(lib_ctrl,text1,text2)
-			reader.queue_video_infinite_loop (video2)	-- Queue the video to do an infinite loop
-			reader.play			-- Play the video
-			lib_ctrl.launch		-- Launch the application (the reader will auto update beacause we add reader.update_video_to_screen on an on_tick event)
+			create l_ressources.make ("ressources.cpf")
+			a_lib_ctrl.create_screen_surface (450, 450, 32, true, true, false, true, false)
+			a_lib_ctrl.set_window_caption ("You can move or resize the video with the mouse!", "Video Exemple")
+			create l_reader.make(a_lib_ctrl)
+			a_lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(a_lib_ctrl))
+			a_lib_ctrl.event_controller.on_tick.extend (agent l_reader.update_video_to_screen)
+			create l_video1.make (l_ressources,1)			-- Open the Blue Bubble video file
+			create l_video2.make (l_ressources,2)			-- Open the Red Curtain video file
+			create l_font.make (l_ressources, 3, 20)
+			create l_text1.make_blended ("Blue Bubbles", l_font, create {GAME_COLOR}.make_rgb(255,255,255))
+			create l_text2.make_blended ("Red Curtain", l_font, create {GAME_COLOR}.make_rgb(255,255,255))
+			a_lib_ctrl.event_controller.on_mouse_button_down.extend (agent on_mouse_down(a_lib_ctrl,l_text1,l_text2,l_reader,l_video1,l_video2,?,?,?,?,?))
+			update_screen(a_lib_ctrl,l_text1,l_text2)
+			l_reader.queue_video_infinite_loop (l_video2)	-- Queue the video to do an infinite loop
+			l_reader.play			-- Play the video
+			a_lib_ctrl.launch		-- Launch the application (the reader will auto update beacause we add reader.update_video_to_screen on an on_tick event)
 		end
 
-	on_quit(lib_ctrl:GAME_LIB_CONTROLLER)	-- When the user close the application, stop the controller
+	on_quit(a_lib_ctrl:GAME_LIB_CONTROLLER)	-- When the user close the application, stop the controller
 		do
-			lib_ctrl.stop
+			a_lib_ctrl.stop
 		end
 
-	on_mouse_down(lib_ctrl:GAME_LIB_CONTROLLER;text1,text2:GAME_SURFACE_TEXT;reader:VIDEO_READER;video1,video2:VIDEO_AV_FILE;is_left_button, is_right_button, is_middle_button: BOOLEAN; mouse_x, mouse_y: NATURAL_16)
+	on_mouse_down(a_lib_ctrl:GAME_LIB_CONTROLLER;a_text1,a_text2:GAME_SURFACE_TEXT;a_reader:VIDEO_READER;a_video1,a_video2:VIDEO_AV_FILE;
+					a_is_left_button, a_is_right_button, a_is_middle_button: BOOLEAN; a_mouse_x, a_mouse_y: NATURAL_16)
 		do
-			if is_left_button then
+			if a_is_left_button then
 
-				if mouse_x>80 and mouse_x<80+text1.width and mouse_y>360 and mouse_y<360+text1.height then
-					reader.stop
-					video1.restart
-					reader.queue_video_infinite_loop (video1)
-					reader.pos_x:=25
-					reader.play
-					update_screen(lib_ctrl,text1,text2)
+				if a_mouse_x>80 and a_mouse_x<80+a_text1.width and a_mouse_y>360 and a_mouse_y<360+a_text1.height then
+					a_reader.stop
+					a_video1.restart
+					a_reader.queue_video_infinite_loop (a_video1)
+					a_reader.x:=25
+					a_reader.play
+					update_screen(a_lib_ctrl,a_text1,a_text2)
 				end
 
-				if mouse_x>270 and mouse_x<270+text2.width and mouse_y>360 and mouse_y<360+text2.height then
-					reader.stop
-					video2.restart
-					reader.queue_video_infinite_loop (video2)
-					reader.pos_x:=0
-					reader.play
-					update_screen(lib_ctrl,text1,text2)
+				if a_mouse_x>270 and a_mouse_x<270+a_text2.width and a_mouse_y>360 and a_mouse_y<360+a_text2.height then
+					a_reader.stop
+					a_video2.restart
+					a_reader.queue_video_infinite_loop (a_video2)
+					a_reader.x:=0
+					a_reader.play
+					update_screen(a_lib_ctrl,a_text1,a_text2)
 				end
 
 			end
 
 		end
 
-	update_screen(lib_ctrl:GAME_LIB_CONTROLLER;text1,text2:GAME_SURFACE_TEXT)
+	update_screen(a_lib_ctrl:GAME_LIB_CONTROLLER;a_text1,a_text2:GAME_SURFACE_TEXT)
 		do
-			lib_ctrl.screen_surface.fill_rect (create {GAME_COLOR}.make_rgb(0,0,0), 0, 0, lib_ctrl.screen_surface.width, lib_ctrl.screen_surface.height)
-			lib_ctrl.screen_surface.draw_surface (text1, 80, 360)
-			lib_ctrl.screen_surface.draw_surface (text2, 270, 360)
-			lib_ctrl.flip_screen
+			a_lib_ctrl.screen_surface.fill_rect (create {GAME_COLOR}.make_rgb(0,0,0), 0, 0, a_lib_ctrl.screen_surface.width, a_lib_ctrl.screen_surface.height)
+			a_lib_ctrl.screen_surface.draw_surface (a_text1, 80, 360)
+			a_lib_ctrl.screen_surface.draw_surface (a_text2, 270, 360)
+			a_lib_ctrl.flip_screen
 		end
 
 end

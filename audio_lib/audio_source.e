@@ -186,9 +186,9 @@ feature -- Access
 				loop
 					sound_queued.item.sound.fill_buffer (temp_buffer,buffer_size)
 					last_fill_buffer_size:=sound_queued.item.sound.last_buffer_size
-					channel:=sound_queued.item.sound.get_channels
-					bits_resolution:=sound_queued.item.sound.get_bit_resolution
-					freq:=sound_queued.item.sound.get_frequency
+					channel:=sound_queued.item.sound.channel_count
+					bits_resolution:=sound_queued.item.sound.bits_per_sample
+					freq:=sound_queued.item.sound.frequency
 					byte_per_buffer_sample:=sound_queued.item.sound.byte_per_buffer_sample
 					if last_fill_buffer_size=0 then
 						sound_queued.item.sound.restart

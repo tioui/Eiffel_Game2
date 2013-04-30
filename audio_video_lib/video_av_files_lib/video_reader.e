@@ -15,19 +15,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make(lib_ctrl:GAME_LIB_CONTROLLER)
+	make(a_core_lib_ctrl:GAME_LIB_CONTROLLER)
 			-- Initialization for `Current'.
 		Require
-			Video_Make_Screen_Must_Exist:lib_ctrl.screen_is_create
+			Video_Make_Screen_Must_Exist:a_core_lib_ctrl.screen_is_create
 		do
-			core_lib_ctrl:=lib_ctrl
+			core_lib_ctrl:=a_core_lib_ctrl
 			dst_rect:= dst_rect.memory_alloc ({GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
-			set_pos_x (0)
-			set_pos_y (0)
-			set_width (lib_ctrl.screen_surface.width)
-			set_height (lib_ctrl.screen_surface.height)
+			set_x (0)
+			set_y (0)
+			set_width (a_core_lib_ctrl.screen_surface.width)
+			set_height (a_core_lib_ctrl.screen_surface.height)
 			create video_queued.make
-			auto_resize:=true
+			is_auto_resize:=true
 		end
 
 feature -- Access
@@ -35,12 +35,12 @@ feature -- Access
 
 
 
-	pos_x:INTEGER assign set_pos_x
+	x:INTEGER assign set_x
 		do
 			Result:={GAME_SDL_EXTERNAL}.get_rect_struct_x(dst_rect).to_integer
 		end
 
-	pos_y:INTEGER assign set_pos_y
+	y:INTEGER assign set_y
 		do
 			Result:={GAME_SDL_EXTERNAL}.get_rect_struct_y(dst_rect).to_integer
 		end
@@ -55,24 +55,24 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.get_rect_struct_h(dst_rect).to_integer_32
 		end
 
-	set_pos_x(l_pos_x:INTEGER)
+	set_x(a_x:INTEGER)
 		do
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(dst_rect,l_pos_x.to_integer_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(dst_rect,a_x.to_integer_16)
 		end
 
-	set_pos_y(l_pos_y:INTEGER)
+	set_y(a_y:INTEGER)
 		do
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(dst_rect,l_pos_y.to_integer_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(dst_rect,a_y.to_integer_16)
 		end
 
-	set_width(l_width:INTEGER)
+	set_width(a_width:INTEGER)
 		do
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(dst_rect,l_width.to_natural_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(dst_rect,a_width.to_natural_16)
 		end
 
-	set_height(l_height:INTEGER)
+	set_height(a_height:INTEGER)
 		do
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(dst_rect,l_height.to_natural_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(dst_rect,a_height.to_natural_16)
 		end
 
 	play
@@ -110,26 +110,31 @@ feature -- Access
 			Result:=not is_playing and not is_on_pause
 		end
 
-	auto_resize:BOOLEAN assign set_auto_resize
+	is_auto_resize:BOOLEAN
 
-	set_auto_resize(new_auto_resize:BOOLEAN)
+	enable_auto_resize
 		do
-			auto_resize:=new_auto_resize
+			is_auto_resize:=true
 		end
 
-	queue_video_loop(video:VIDEO_MEDIA;nb_loop:INTEGER)
+	disable_auto_resize
 		do
-			video_queued.put ([video,nb_loop])
+			is_auto_resize:=true
 		end
 
-	queue_video_infinite_loop(video:VIDEO_MEDIA)
+	queue_video_loop(a_video:VIDEO_MEDIA;a_nb_loop:INTEGER)
 		do
-			queue_video_loop (video,-1)
+			video_queued.put ([a_video,a_nb_loop])
 		end
 
-	queue_video(video:VIDEO_MEDIA)
+	queue_video_infinite_loop(a_video:VIDEO_MEDIA)
 		do
-			queue_video_loop (video,0)
+			queue_video_loop (a_video,-1)
+		end
+
+	queue_video(a_video:VIDEO_MEDIA)
+		do
+			queue_video_loop (a_video,0)
 		end
 
 	video_queued_count:INTEGER
@@ -181,7 +186,7 @@ feature {NONE} -- Implementation - Routines
 		local
 			size,error:INTEGER
 		do
-			if auto_resize then
+			if is_auto_resize then
 				set_width (video_queued.item.video.width)
 				set_height (video_queued.item.video.height)
 			end

@@ -57,8 +57,8 @@ inherit
 		stream_index as stream_index_video_cpf,
 		codec_context_ptr as codec_context_ptr_video_cpf,
 		frame as frame_video_cpf,
-		the_cpf as the_cpf_not_used,
-		the_cpf_index as the_cpf_index_not_used,
+		cpf as the_cpf_not_used,
+		cpf_index as the_cpf_index_not_used,
 		last_offset as last_offset_not_used,
 		avio_context as avio_context_not_used,
 		bio_buffer as bio_buffer_not_used
@@ -85,42 +85,42 @@ create
 
 feature {NONE} -- Initialization
 
-	make_with_read_buffer_size(cpf:CPF_PACKAGE_FILE;index:INTEGER;read_buffer_size:INTEGER)
+	make_with_read_buffer_size(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER;a_read_buffer_size:INTEGER)
 			-- Initialization for `Current'.
 		do
 			init_library
-			the_cpf:=cpf
-			the_cpf_index:=index
+			cpf:=a_cpf
+			cpf_index:=a_index
 
-			bio_buffer:={AV_EXTERNAL}.av_malloc(read_buffer_size+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
-			the_cpf.mutex_lock
-			the_cpf.select_sub_file (the_cpf_index)
-			avio_context:={AV_EXTERNAL}.avio_alloc_context(bio_buffer,read_buffer_size,0,cpf.get_current_cpf_infos_ptr,
+			bio_buffer:={AV_EXTERNAL}.av_malloc(a_read_buffer_size+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
+			cpf.mutex_lock
+			cpf.select_sub_file (cpf_index)
+			avio_context:={AV_EXTERNAL}.avio_alloc_context(bio_buffer,a_read_buffer_size,0,a_cpf.get_current_cpf_infos_ptr,
 								{AV_EXTERNAL}.av_more_read_packet,create{POINTER},{AV_EXTERNAL}.av_more_seek)
 			check not avio_context.is_default_pointer end
-			format_context_ptr:={AV_EXTERNAL}.avformat_alloc_context
-			{AV_EXTERNAL}.set_av_format_context_struct_pb(format_context_ptr,avio_context)
+			format_context_pointer:={AV_EXTERNAL}.avformat_alloc_context
+			{AV_EXTERNAL}.set_av_format_context_struct_pb(format_context_pointer,avio_context)
 			make_file("Stream")
-			last_offset:=the_cpf.current_offset
-			the_cpf.mutex_unlock
+			last_offset:=cpf.current_offset
+			cpf.mutex_unlock
 		end
 
-	make(cpf:CPF_PACKAGE_FILE;index:INTEGER)
+	make(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER)
 			-- Initialization for `Current'.
 		do
-			make_with_read_buffer_size(cpf,index,4096)
+			make_with_read_buffer_size(a_cpf,a_index,4096)
 		end
 
-	make_thread_safe(cpf:CPF_PACKAGE_FILE;index:INTEGER)
+	make_thread_safe(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER)
 		do
-			make(cpf,index)
+			make(a_cpf,a_index)
 			is_thread_safe:=true
 			create media_mutex.make
 		end
 
-	make_with_read_buffer_size_thread_safe(cpf:CPF_PACKAGE_FILE;index:INTEGER;read_buffer_size:INTEGER)
+	make_with_read_buffer_size_thread_safe(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER;a_read_buffer_size:INTEGER)
 		do
-			make_with_read_buffer_size(cpf,index,read_buffer_size)
+			make_with_read_buffer_size(a_cpf,a_index,a_read_buffer_size)
 			is_thread_safe:=true
 			create media_mutex.make
 		end
@@ -129,20 +129,20 @@ feature {VIDEO_READER}
 
 	decode_frame
 		do
-			the_cpf.mutex_lock
-			if the_cpf.current_file_index/=the_cpf_index or else not the_cpf.current_offset_is_in_selected_file then
-				the_cpf.select_sub_file (the_cpf_index)
+			cpf.mutex_lock
+			if cpf.current_file_index/=cpf_index or else not cpf.current_offset_is_in_selected_file then
+				cpf.select_sub_file (cpf_index)
 			end
-			if the_cpf.current_offset/=last_offset then
-				the_cpf.seek_from_begining (last_offset)
+			if cpf.current_offset/=last_offset then
+				cpf.seek_from_begining (last_offset)
 			end
 			precursor {AUDIO_VIDEO_AV_FILE}
-			if the_cpf.current_offset_is_in_selected_file then
-				last_offset:=the_cpf.current_offset
+			if cpf.current_offset_is_in_selected_file then
+				last_offset:=cpf.current_offset
 			else
 				last_offset:=0
 			end
-			the_cpf.mutex_unlock
+			cpf.mutex_unlock
 		end
 
 	end_of_file:BOOLEAN

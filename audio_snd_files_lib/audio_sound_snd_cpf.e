@@ -24,43 +24,43 @@ create
 
 feature {NONE} -- Initialization
 
-	make(cpf:CPF_PACKAGE_FILE;index:INTEGER)
+	make(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER)
 			-- Initialization for `Current'.
 		require
-			Sound_Cpf_Index_Valid:index>0 and then index<=cpf.sub_files_count
+			Sound_Cpf_Index_Valid:a_index>0 and then a_index<=a_cpf.sub_files_count
 		do
-			the_cpf:=cpf
-			the_cpf_index:=index
-			the_cpf.mutex_lock
-			the_cpf.select_sub_file (the_cpf_index)
-			last_offset:=the_cpf.current_offset
+			cpf:=a_cpf
+			cpf_index:=a_index
+			cpf.mutex_lock
+			cpf.select_sub_file (cpf_index)
+			last_offset:=cpf.current_offset
 			virtual_io:=virtual_io.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_snd_file_virtual_io)
 			{AUDIO_SND_FILES_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
 			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
-			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,cpf.get_current_cpf_infos_ptr)
+			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,a_cpf.get_current_cpf_infos_ptr)
 			check not snd_file_ptr.is_default_pointer end
-			last_offset:=the_cpf.current_offset
-			the_cpf.mutex_unlock
+			last_offset:=cpf.current_offset
+			cpf.mutex_unlock
 		end
 
 feature {GAME_AUDIO_SOURCE}
 
-	fill_buffer(buffer:POINTER;max_length:INTEGER)
+	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		do
-			the_cpf.mutex_lock
-			if the_cpf.current_file_index/=the_cpf_index or else not the_cpf.current_offset_is_in_selected_file  then
-				the_cpf.select_sub_file (the_cpf_index)
+			cpf.mutex_lock
+			if cpf.current_file_index/=cpf_index or else not cpf.current_offset_is_in_selected_file  then
+				cpf.select_sub_file (cpf_index)
 			end
-			if the_cpf.current_offset/=last_offset then
-				the_cpf.seek_from_begining (last_offset)
+			if cpf.current_offset/=last_offset then
+				cpf.seek_from_begining (last_offset)
 			end
-			precursor(buffer,max_length)
-			if the_cpf.current_offset_is_in_selected_file then
-				last_offset:=the_cpf.current_offset
+			precursor(a_buffer,a_max_length)
+			if cpf.current_offset_is_in_selected_file then
+				last_offset:=cpf.current_offset
 			else
 				last_offset:=0
 			end
-			the_cpf.mutex_unlock
+			cpf.mutex_unlock
 		end
 
 feature-- Access
@@ -69,19 +69,19 @@ feature-- Access
 		local
 			error: INTEGER_64
 		do
-			the_cpf.mutex_lock
-			the_cpf.select_sub_file (the_cpf_index)
+			cpf.mutex_lock
+			cpf.select_sub_file (cpf_index)
 			if is_seekable then
 				error := {AUDIO_SND_FILES_EXTERNAL}.sf_seek (snd_file_ptr, 0, {AUDIO_SND_FILES_EXTERNAL}.seek_set)
 				check
 					error /= -1
 				end
 			else
-				the_cpf.select_sub_file (the_cpf_index)
-				the_cpf.seek_from_begining (0)
+				cpf.select_sub_file (cpf_index)
+				cpf.seek_from_begining (0)
 			end
-			last_offset:=the_cpf.current_offset
-			the_cpf.mutex_unlock
+			last_offset:=cpf.current_offset
+			cpf.mutex_unlock
 		end
 
 
@@ -95,8 +95,8 @@ feature {NONE} -- Implementation - Routines
 feature {NONE} -- Implementation - Variables
 
 	virtual_io:POINTER
-	the_cpf:CPF_PACKAGE_FILE
-	the_cpf_index:INTEGER
+	cpf:CPF_PACKAGE_FILE
+	cpf_index:INTEGER
 	last_offset:INTEGER
 
 end
