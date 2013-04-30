@@ -53,10 +53,10 @@ feature {NONE} -- Initialization
 			create l_music_intro.make ("intro.ogg")		-- This sound will be played once at the begining of the music
 			create l_music_loop.make ("loop.flac")		-- This sound will be loop until the application stop.
 														-- The library can use every sound file format that the libsndfile library can use (see: http://www.mega-nerd.com/libsndfile)
-			audio_ctrl.source_add
-			music_source:=audio_ctrl.source_get_last_add	-- The first source will be use for playing the music
-			audio_ctrl.source_add
-			sound_source:=audio_ctrl.source_get_last_add	-- The second source will be use for playing the space sound
+			audio_ctrl.add_source
+			music_source:=audio_ctrl.last_source	-- The first source will be use for playing the music
+			audio_ctrl.add_source
+			sound_source:=audio_ctrl.last_source	-- The second source will be use for playing the space sound
 
 			music_source.queue_sound (l_music_intro)				-- Playing the intro first
 			music_source.queue_sound_infinite_loop (l_music_loop)	-- After the intro end, loop the music loop

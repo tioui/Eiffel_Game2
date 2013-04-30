@@ -46,9 +46,9 @@ feature {NONE} -- Initialization
 				line:=io.last_string
 				if line.substring (1,4).is_equal ("open") then			-- When a user write "open <filename>"
 					create sound.make (line.substring (6,line.count))	-- Open the sound
-					audio_ctrl.source_add					-- Create a new sound source
-					audio_ctrl.source_get_last_add.queue_sound (sound)	-- Queued the sound in the newly created source
-					audio_ctrl.source_get_last_add.play			-- Play the source.
+					audio_ctrl.add_source					-- Create a new sound source
+					audio_ctrl.last_source.queue_sound (sound)	-- Queued the sound in the newly created source
+					audio_ctrl.last_source.play			-- Play the source.
 				end
 			end
 			audio_ctrl.stop_thread		-- Destroy the thread created by the "launch_in_thread" feature

@@ -121,10 +121,10 @@ feature {NONE} -- Initialization
 			create l_sound.make (custom_file, 7)			-- This sound that will be played when the user press the space bar is at index 7.
 
 			-- Once the AUDIO_SOUND_*_CPF object is created, it is use the same way as any AUDIO_SOUND object
-			audio_ctrl.source_add
-			music_source:=audio_ctrl.source_get_last_add
-			audio_ctrl.source_add
-			sound_source:=audio_ctrl.source_get_last_add
+			audio_ctrl.add_source
+			music_source:=audio_ctrl.last_source
+			audio_ctrl.add_source
+			sound_source:=audio_ctrl.last_source
 			music_source.queue_sound (l_music_intro)
 			music_source.queue_sound_infinite_loop (l_music_loop)
 			controller.event_controller.on_key_down.extend (agent on_key_down_sound(l_sound,sound_source,?))

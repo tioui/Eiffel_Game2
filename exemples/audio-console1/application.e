@@ -38,8 +38,8 @@ feature {NONE} -- Initialization
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env
-			audio_ctrl.source_add	-- Add a sound source in the audio context.
-			source:=audio_ctrl.source_get_last_add
+			audio_ctrl.add_source	-- Add a sound source in the audio context.
+			source:=audio_ctrl.last_source
 			from i:=1
 			until i>argument_count		-- For each program arguments
 			loop

@@ -33,8 +33,8 @@ feature {NONE} -- Initialization
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env
-			audio_ctrl.source_add	-- Add a sound source in the audio context.
-			source:=audio_ctrl.source_get_last_add
+			audio_ctrl.add_source	-- Add a sound source in the audio context.
+			source:=audio_ctrl.last_source
 			create sound.make ("sound.wav")
 			source.queue_sound (sound)
 			from source.play

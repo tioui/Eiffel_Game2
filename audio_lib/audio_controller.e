@@ -100,10 +100,10 @@ feature -- Sources management
 	sound_buffer_size:INTEGER assign set_sound_buffer_size
 		-- The buffer size for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
 
-	set_sound_buffer_size(l_buffer_size:INTEGER)
+	set_sound_buffer_size(a_buffer_size:INTEGER)
 			-- Set the buffer size for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
 		do
-			sound_buffer_size:=l_buffer_size
+			sound_buffer_size:=a_buffer_size
 		end
 
 	update
@@ -152,7 +152,7 @@ feature -- Sources management
 			Result:=sources.count
 		end
 
-	source_add
+	add_source
 			-- Create a new sound source. To receive the sound source, use the `source_get_last_add method'.
 		require
 			Sources_Add_Sound_Open:is_sound_enable
@@ -162,52 +162,52 @@ feature -- Sources management
 			end
 			sources.extend (create {AUDIO_SOURCE}.make(sound_buffer_size))
 			if is_thread_executing then
-				source_get_last_add.set_thread_safe
+				last_source.set_thread_safe
 				g_mutex.unlock
 			end
 		ensure
 			sources.count = old sources.count+1
 		end
 
-	source_get_last_add:AUDIO_SOURCE
+	last_source:AUDIO_SOURCE
 			-- Return the last sound source that as been created.
 		require
 			Sources_Get_Last_add_Sound_Open:is_sound_enable
 		do
-			Result:=source_get_at (sources_count)
+			Result:=source_at (sources_count)
 		end
 
-	source_get_at(i:INTEGER):AUDIO_SOURCE
-			-- Return the `i'-th sound source.
+	source_at(a_index:INTEGER):AUDIO_SOURCE
+			-- Return the `a_index'-th sound source.
 		require
 			Sources_Get_At_Sound_Open:is_sound_enable
-			Al_Controler_Source_Get_Index_Valid: i>0 and then i<sources_count+1
+			Al_Controler_Source_Get_Index_Valid: a_index>0 and then a_index<sources_count+1
 		do
-			Result:=sources.at (i)
+			Result:=sources.at (a_index)
 		end
 
-	sources_remove_at(i:INTEGER)
-			-- Remove the `i'-th sound source.
+	remove_source(a_index:INTEGER)
+			-- Remove the `a_index'-th sound source.
 		require
 			Sources_Remove_At_Sound_Open:is_sound_enable
-			Al_Controler_Source_Remove_Index_Valid: i>0 and then i<sources_count+1
+			Al_Controler_Source_Remove_Index_Valid: a_index>0 and then a_index<sources_count+1
 		do
-			sources.go_i_th (i)
+			sources.go_i_th (a_index)
 			sources.item.stop
 			sources.remove
 		end
 
-	sources_remove(l_source:AUDIO_SOURCE)
-			-- Remove the sound source `l_source' from the sound controller. A sound that has been remove from the sound
+	prune_source(a_source:AUDIO_SOURCE)
+			-- Remove the sound source `a_source' from the sound controller. A sound that has been remove from the sound
 			-- controller can continue to work on its own, but it will not be update by the `update_sound_playing' routine.
 		require
 			Sources_Remove_Sound_Open:is_sound_enable
-			Al_Controler_Source_Remove_Source_Valid: l_source /= Void and then sources_has (l_source)
+			Al_Controler_Source_Remove_Source_Valid: a_source /= Void and then has_source (a_source)
 		do
-			l_source.stop
-			sources.prune_all (l_source)
+			a_source.stop
+			sources.prune_all (a_source)
 		ensure
-			Al_Controler_Source_Remove_Source_Removed: not sources.has (l_source)
+			Al_Controler_Source_Remove_Source_Removed: not sources.has (a_source)
 		end
 
 	wipe_sources
@@ -219,12 +219,12 @@ feature -- Sources management
 			sources.wipe_out
 		end
 
-	sources_has(l_source:AUDIO_SOURCE):BOOLEAN
-			-- Return true if the sound source `l_source' is still in the sound controller.
+	has_source(a_source:AUDIO_SOURCE):BOOLEAN
+			-- Return true if the sound source `a_source' is still in the sound controller.
 		require
 			Sources_Has_Sound_Open:is_sound_enable
 		do
-			Result:=sources.has (l_source)
+			Result:=sources.has (a_source)
 		end
 
 	quit_library
@@ -242,16 +242,16 @@ feature -- Sources management
 
 feature {AUDIO_SOURCE}
 
-	source_push(l_source:AUDIO_SOURCE)
+	push_source(a_source:AUDIO_SOURCE)
 		require
 			Sources_Push_Sound_Open:is_sound_enable
 		do
 			if is_thread_executing then
 				g_mutex.lock
 			end
-			sources.extend (l_source)
+			sources.extend (a_source)
 			if is_thread_executing then
-				source_get_last_add.set_thread_safe
+				last_source.set_thread_safe
 				g_mutex.unlock
 			end
 		ensure
