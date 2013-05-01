@@ -95,7 +95,7 @@ Installation on Mac OS X
 ***
 
 * Now, ready for the hard part? The SDL library need a specific Main in the C program and also need to have an "#include <SDL.h>" in the same C file that the on that contain the main. It is evident that EiffelStudio don't respect these necessities from SDL. We will have to do a little hack to allow EiffelStudio to use SDL. We will make the hack in a new EiffelStudio application (a copy), so don't worry, your EiffelStudio should not be harm by this hack.
-* Open a terminal a go to the directory Eiffel?? (most likely Eiffel70) in the Application directory tree.
+* Open a terminal a go to the directory Eiffel?? (most likely Eiffel72) in the Application directory tree.
 
 ***
 
