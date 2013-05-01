@@ -121,7 +121,7 @@ then
 	compileEx "Custom Package Files Exemple" "cpf/project" "cpf.ecf" "cpf-mac" "cpf"
 	compileEx "Visual Effects Exemple" "effects" "effects.ecf" "effects-mac" "effects"
 	compileEx "Mouse and Text Exemple" "mouse-text" "mouse-text.ecf" "mouse-text-mac" "mouse-text"
-	compileEx "Keyboard and Text Exemple" "keyboard-text" "keyboard-text.ecf" "keyboard-text" "keyboard-text"
+	compileEx "Keyboard and Text Exemple" "keyboard-text" "keyboard-text.ecf" "keyboard-text-mac" "keyboard-text"
 	compileEx "Sound Exemple" "sound" "sound.ecf" "sound-mac" "sound"
 	compileEx "Surface Exemple 1" "surface1" "surface1.ecf" "surface1-mac" "surface1"
 	compileEx "Surface Exemple 2" "surface2" "surface2.ecf" "surface2-mac" "surface2"
