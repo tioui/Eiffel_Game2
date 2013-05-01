@@ -2,7 +2,7 @@ note
 	description: "Load an image file into a GAME_SURFACE."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SURFACE_IMG_FILE
@@ -18,9 +18,11 @@ create
 
 feature {NONE} -- Implemetation
 
-	make_with_alpha(filename:STRING)
+	make_with_alpha(a_filename:STRING)
+			-- Initialization for `Current' from the file `a_filename'.
+			-- Enable the alpha channel in the surface.
 		do
-			make(filename)
+			make(a_filename)
 			enable_alpha
 		end
 

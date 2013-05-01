@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {CPF_PACKAGE_FILE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "A package file."
+	author: "Louis Marchand"
+	date: "april 30, 2013"
+	revision: "1.0.0.0"
 
 class
 	CPF_PACKAGE_FILE
@@ -29,15 +29,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
 		local
-			error:INTEGER
-			temp_ptr:POINTER
+			l_error:INTEGER
+			l_temp_ptr:POINTER
 		do
-			make_file(filename)
-			error:={CPF_EXTERNAL}.fseek(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
-			check error=0 end
+			make_file(a_filename)
+			l_error:={CPF_EXTERNAL}.fseek(file_ptr,0,{CPF_EXTERNAL}.SEEK_END)
+			check l_error=0 end
 			length_of_package_file:={CPF_EXTERNAL}.ftell(file_ptr)+1
 			select_sub_file (0)
 			process_cpf_file
@@ -47,11 +47,11 @@ feature {NONE} -- Initialization
 			until
 				sub_files_infos.exhausted
 			loop
-				temp_ptr:=temp_ptr.memory_alloc ({CPF_EXTERNAL}.c_sizeof_custom_package_file_infos)
-				{CPF_EXTERNAL}.set_custom_package_infos_struct_file_ptr(temp_ptr,file_ptr)
-				{CPF_EXTERNAL}.set_custom_package_infos_struct_start_offset(temp_ptr,sub_files_infos.item.pos)
-				{CPF_EXTERNAL}.set_custom_package_infos_struct_total_size(temp_ptr,sub_files_infos.item.length)
-				cpf_infos.extend (temp_ptr)
+				l_temp_ptr:=l_temp_ptr.memory_alloc ({CPF_EXTERNAL}.c_sizeof_custom_package_file_infos)
+				{CPF_EXTERNAL}.set_custom_package_infos_struct_file_ptr(l_temp_ptr,file_ptr)
+				{CPF_EXTERNAL}.set_custom_package_infos_struct_start_offset(l_temp_ptr,sub_files_infos.item.pos)
+				{CPF_EXTERNAL}.set_custom_package_infos_struct_total_size(l_temp_ptr,sub_files_infos.item.length)
+				cpf_infos.extend (l_temp_ptr)
 				sub_files_infos.forth
 			end
 			select_sub_file (0)

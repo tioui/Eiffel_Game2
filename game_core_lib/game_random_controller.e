@@ -41,16 +41,16 @@ feature -- Access
 			Result:=random_sequence.item
 		end
 
-	last_random_integer_between(min,max:INTEGER):INTEGER
+	last_random_integer_between(a_min,a_max:INTEGER):INTEGER
 			-- Return an integer representation of the last random number generate by the
 			-- `generate_new_random' routine. The return value will be between `min' and `max'
-			-- (including `min' and `max').
+			-- (including `a_min' and `a_max').
 		require
-			Get_Random_Between_Max_and_Min_Valid: max>=min
+			Get_Random_Between_Max_and_Min_Valid: a_max>=a_min
 		do
-			Result:= (last_random_integer\\(max-min+1))+min
+			Result:= (last_random_integer\\(a_max-a_min+1))+a_min
 		ensure
-			Random_Value_valid: Result>=min and Result<=max
+			Random_Value_valid: Result>=a_min and Result<=a_max
 		end
 
 	last_random_real:REAL
@@ -60,16 +60,16 @@ feature -- Access
 			Result:=random_sequence.real_item
 		end
 
-	last_random_real_between(min,max:REAL):REAL
+	last_random_real_between(a_min,a_max:REAL):REAL
 			-- Return an real representation of the last random number generate by the
 			-- `generate_new_random' routine. The return value will be between `min' and `max'
-			-- (including `min' and `max').
+			-- (including `a_min' and `a_max').
 		require
-			Get_Random_Between_Max_and_Min_Valid: max>=min
+			Get_Random_Between_Max_and_Min_Valid: a_max>=a_min
 		do
-			Result:= (last_random_real*(max-min))+min
+			Result:= (last_random_real*(a_max-a_min))+a_min
 		ensure
-			Random_Value_valid: Result>=min and Result<=max
+			Random_Value_valid: Result>=a_min and Result<=a_max
 		end
 
 feature {NONE}  -- Implementation variables

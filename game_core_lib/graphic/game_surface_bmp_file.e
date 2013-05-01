@@ -2,7 +2,7 @@ note
 	description: "Open a bmp image. It is recommanded to use GAME_SURFACE_IMG instead."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SURFACE_BMP_FILE
@@ -19,13 +19,13 @@ create
 
 feature {NONE} -- Implementation
 
-	open_from_file(filename:STRING)
+	open_from_file(a_filename:STRING)
 			-- Open the surface from the BMP image file `filename'.
 		local
-			filename_c:C_STRING
+			l_filename_c:C_STRING
 		do
-			create filename_c.make (filename)
-			make_from_pointer ({GAME_SDL_EXTERNAL}.SDL_LoadBMP(filename_c.item ))
+			create l_filename_c.make (a_filename)
+			make_from_pointer ({GAME_SDL_EXTERNAL}.SDL_LoadBMP(l_filename_c.item ))
 		end
 
 

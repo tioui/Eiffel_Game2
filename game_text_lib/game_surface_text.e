@@ -110,11 +110,11 @@ feature {NONE} -- Initialization
 			SDL_Surface_Text_Surface_Imp_Ok: surface_imp = Void or surface_imp.is_surface_ok
 		end
 
-	init_var(l_text:STRING_GENERAL;l_font:GAME_FONT;l_color:GAME_COLOR)
+	init_var(a_text:STRING_GENERAL;a_font:GAME_FONT;a_color:GAME_COLOR)
 		do
-			text:=l_text
-			font:=l_font
-			color:=l_color
+			text:=a_text
+			font:=a_font
+			color:=a_color
 			color_bg:=Void
 		end
 

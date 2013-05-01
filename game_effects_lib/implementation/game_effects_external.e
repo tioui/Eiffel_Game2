@@ -1,5 +1,5 @@
 note
-	description: "External of the SDL library."
+	description: "External of the SDL_gfx library."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
 	revision: "0.1"

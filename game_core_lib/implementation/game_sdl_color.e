@@ -30,38 +30,38 @@ create
 
 feature {NONE} -- Initialization
 
-	make(r,g,b,a:NATURAL_8)
+	make(a_red,a_green,a_blue,a_alpha:NATURAL_8)
 	do
 		sdl_color_pointer:={GAME_SDL_EXTERNAL}.c_color_struct_allocate
-		make_color(r,g,b,a)
+		make_color(a_red,a_green,a_blue,a_alpha)
 	ensure
 		SDL_Color_Make_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
 	end
 
-	make_rgb(r,g,b:NATURAL_8)
+	make_rgb(a_red,a_green,a_blue:NATURAL_8)
 		do
-			make(r,g,b,255)
+			make(a_red,a_green,a_blue,255)
 		end
 
-	make_from_pointer(the_ptr:POINTER)
+	make_from_pointer(a_ptr:POINTER)
 			-- Initialization for `Current'.
 		do
-			make_from_pointer_and_alpha(the_ptr,{GAME_SDL_EXTERNAL}.SDL_ALPHA_OPAQUE)
+			make_from_pointer_and_alpha(a_ptr,{GAME_SDL_EXTERNAL}.SDL_ALPHA_OPAQUE)
 		end
 
-	make_from_pointer_and_alpha(the_ptr:POINTER;a:NATURAL_8)
+	make_from_pointer_and_alpha(a_ptr:POINTER;a_alpha:NATURAL_8)
 		do
-			make({GAME_SDL_EXTERNAL}.get_color_struct_r(the_ptr),
-					{GAME_SDL_EXTERNAL}.get_color_struct_r(the_ptr),
-					{GAME_SDL_EXTERNAL}.get_color_struct_r(the_ptr),
-					a)
+			make({GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
+					{GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
+					{GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
+					a_alpha)
 		end
 
-	make_from_rgba_color(the_color:GAME_COLOR)
+	make_from_rgba_color(a_other:GAME_COLOR)
 		require
-			SDL_Color_Make_From_RGBA_Color_Color_Not_Void: the_color/=Void
+			SDL_Color_Make_From_RGBA_Color_Color_Not_Void: a_other/=Void
 		do
-			make(the_color.red,the_color.green,the_color.blue,the_color.alpha)
+			make(a_other.red,a_other.green,a_other.blue,a_other.alpha)
 		ensure
 			SDL_Color_Make_From_RGBA_Color_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
 		end
@@ -90,19 +90,19 @@ feature {GAME_SURFACE} -- Internal
 
 feature {NONE} -- Implementation
 
-	set_red(r:NATURAL_8)
+	set_red(a_red:NATURAL_8)
 	do
-		{GAME_SDL_EXTERNAL}.set_color_struct_r(sdl_color_pointer,r)
+		{GAME_SDL_EXTERNAL}.set_color_struct_r(sdl_color_pointer,a_red)
 	end
 
-	set_green(g:NATURAL_8)
+	set_green(a_green:NATURAL_8)
 	do
-		{GAME_SDL_EXTERNAL}.set_color_struct_g(sdl_color_pointer,g)
+		{GAME_SDL_EXTERNAL}.set_color_struct_g(sdl_color_pointer,a_green)
 	end
 
-	set_blue(b:NATURAL_8)
+	set_blue(a_blue:NATURAL_8)
 	do
-		{GAME_SDL_EXTERNAL}.set_color_struct_b(sdl_color_pointer,b)
+		{GAME_SDL_EXTERNAL}.set_color_struct_b(sdl_color_pointer,a_blue)
 	end
 
 

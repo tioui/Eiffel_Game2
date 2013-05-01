@@ -7,7 +7,7 @@ note
 		]"
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SCREEN
@@ -18,7 +18,6 @@ inherit
 		make as make_base
 	redefine
 		height,width,sub_surface
-
 	end
 
 create {GAME_SDL_CONTROLLER}
@@ -28,14 +27,14 @@ create
 
 feature {NONE} -- Initialisation
 
-	make(the_width,the_height,the_bit_per_pixel:INTEGER;flags:NATURAL_32)
+	make(a_width,a_height,a_bit_per_pixel:INTEGER;a_flags:NATURAL_32)
 			-- Initialization for `Current'.
 		do
 			start_x:=0
 			start_y:=0
-			set_width(the_width)
-			set_height(the_height)
-			set_surface_pointer({GAME_SDL_EXTERNAL}.SDL_SetVideoMode(the_width,the_height,the_bit_per_pixel,flags))
+			set_width(a_width)
+			set_height(a_height)
+			set_surface_pointer({GAME_SDL_EXTERNAL}.SDL_SetVideoMode(a_width,a_height,a_bit_per_pixel,a_flags))
 			surface_imp.set_not_disposable
 			set_is_alpha_accelerated(false)
 			disable_alpha
@@ -69,25 +68,25 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.get_surface_struct_w(internal_pointer)
 		end
 
-	sub_surface (from_x, from_y, sub_width, sub_height: INTEGER): GAME_SURFACE
+	sub_surface (a_start_x, a_start_y, a_width, a_height: INTEGER): GAME_SURFACE
 			-- Return a part of screen surface.
 		local
-			format:POINTER
+			l_format:POINTER
 		do
-			format:={GAME_SDL_EXTERNAL}.get_surface_struct_format(internal_pointer)
-			create Result.make_with_flags_and_masks({GAME_SDL_EXTERNAL}.SDL_HWSURFACE,sub_width, sub_height,bits_per_pixel,
-						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
-						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
-			Result.draw_sub_surface (Current,from_x,from_y,0,0, sub_width,sub_height)
+			l_format:={GAME_SDL_EXTERNAL}.get_surface_struct_format(internal_pointer)
+			create Result.make_with_flags_and_masks({GAME_SDL_EXTERNAL}.SDL_HWSURFACE,a_width, a_height,bits_per_pixel,
+						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(l_format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(l_format),
+						{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(l_format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(l_format))
+			Result.draw_sub_surface (Current,a_start_x,a_start_y,0,0, a_width,a_height)
 		end
 
-	set_captions(window_caption,icon_caption:STRING)
+	set_captions(a_window_caption,a_icon_caption:STRING)
 		local
-			caption_c, icon_caption_c:C_STRING
+			l_caption_c, l_icon_caption_c:C_STRING
 		do
-			create caption_c.make (window_caption)
-			create icon_caption_c.make (icon_caption)
-			{GAME_SDL_EXTERNAL}.SDL_WM_SetCaption(caption_c.item,icon_caption_c.item)
+			create l_caption_c.make (a_window_caption)
+			create l_icon_caption_c.make (a_icon_caption)
+			{GAME_SDL_EXTERNAL}.SDL_WM_SetCaption(l_caption_c.item,l_icon_caption_c.item)
 		end
 
 

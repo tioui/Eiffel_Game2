@@ -2,7 +2,7 @@ note
 	description: "Controler for the event. It is important to call poll_event or wait_event regularly if you want events to be launch."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_EVENT_CONTROLLER
@@ -15,10 +15,10 @@ create {GAME_SDL_CONTROLLER}
 
 feature {NONE} -- Initialization
 
-	make(ctrl:GAME_SDL_CONTROLLER)
+	make(a_ctrl:GAME_SDL_CONTROLLER)
 			-- Initialization for `Current'.
 		do
-			sdl_ctrl:=ctrl
+			core_ctrl:=a_ctrl
 			event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
 			make_tick_event
 			make_active_event
@@ -41,15 +41,14 @@ feature -- Access
 	poll_event
 		-- Execute an event validation. If no event is pending, do nothing.
 	local
-
-		is_event:INTEGER
+		l_is_event:INTEGER
 	do
 		decode_tick_event
-		from is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
-		until is_event=0
+		from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+		until l_is_event=0
 		loop
 			decode_event(event_ptr)
-			is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+			l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 		end
 	end
 
@@ -69,7 +68,7 @@ feature -- Access
 
 feature -- Active event access
 
-	on_active_actions: ACTION_SEQUENCE[TUPLE[Gain,is_mouse_focus,is_keyboard_focus,minimise:BOOLEAN]]	-- When a window action come.
+	on_active_actions: ACTION_SEQUENCE[TUPLE[gain,is_mouse_focus,is_keyboard_focus,minimise:BOOLEAN]]	-- When a window action come.
 
 	on_mouse_enter: ACTION_SEQUENCE[TUPLE[]]	-- When the mouse enter the window.
 
@@ -104,31 +103,31 @@ feature {NONE} -- Active event Implementation
 		create on_restore.default_create
 	end
 
-	decode_active_event(active_event:POINTER)
+	decode_active_event(a_active_event:POINTER)
 	local
-		gain,state:NATURAL_8
+		l_gain,l_state:NATURAL_8
 	do
-		gain:={GAME_SDL_EXTERNAL}.get_active_event_struct_gain(active_event)
-		state:={GAME_SDL_EXTERNAL}.get_active_event_struct_state(active_event)
+		l_gain:={GAME_SDL_EXTERNAL}.get_active_event_struct_gain(a_active_event)
+		l_state:={GAME_SDL_EXTERNAL}.get_active_event_struct_state(a_active_event)
 		if on_active_actions.count/=0 then
-			on_active_actions.call ([gain=1,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0])
+			on_active_actions.call ([l_gain=1,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0])
 		end
-		if on_mouse_exit.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0 and gain=0 then
+		if on_mouse_exit.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0 and l_gain=0 then
 			on_mouse_exit.call([])
 		end
-		if on_mouse_enter.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0 and gain=1 then
+		if on_mouse_enter.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPMOUSEFOCUS)/=0 and l_gain=1 then
 			on_mouse_enter.call([])
 		end
-		if on_lost_focus.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0 and gain=0 then
+		if on_lost_focus.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0 and l_gain=0 then
 			on_lost_focus.call([])
 		end
-		if on_get_focus.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0 and gain=1 then
+		if on_get_focus.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPINPUTFOCUS)/=0 and l_gain=1 then
 			on_get_focus.call([])
 		end
-		if on_minimise.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0 and gain=0 then
+		if on_minimise.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0 and l_gain=0 then
 			on_minimise.call([])
 		end
-		if on_restore.count/=0 and state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0 and gain=1 then
+		if on_restore.count/=0 and l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_APPACTIVE)/=0 and l_gain=1 then
 			on_restore.call([])
 		end
 	end
@@ -164,9 +163,9 @@ feature -- Keyboard event access
 
 	disable_keyboard_unicode
 		local
-			unuse:BOOLEAN
+			l_unuse:BOOLEAN
 		do
-			unuse:={GAME_SDL_EXTERNAL}.SDL_EnableUNICODE(0)
+			l_unuse:={GAME_SDL_EXTERNAL}.SDL_EnableUNICODE(0)
 		ensure
 			Enable_Unicode_Is_Not_Enabled: not is_unicode_enabled
 		end
@@ -181,30 +180,30 @@ feature {NONE} -- Keyboard event Implementation
 		disable_keyboard_unicode
 	end
 
-	decode_keyboard_event(keyboard_event_ptr:POINTER)
+	decode_keyboard_event(a_keyboard_event_ptr:POINTER)
 	local
-		kb_event:GAME_KEYBOARD_EVENT
-		keysym_ptr:POINTER
-		type,state,scancode:NATURAL_8
-		unicode:NATURAL_16
-		sym,mod:INTEGER
+		l_kb_event:GAME_KEYBOARD_EVENT
+		l_keysym_ptr:POINTER
+		l_type,l_state,l_scancode:NATURAL_8
+		l_unicode:NATURAL_16
+		l_sym,l_mod:INTEGER
 	do
-		type:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_type(keyboard_event_ptr)
-		state:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_state(keyboard_event_ptr)
-		keysym_ptr:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(keyboard_event_ptr)
-		scancode:={GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode(keysym_ptr)
-		unicode:={GAME_SDL_EXTERNAL}.get_key_sym_struct_unicode(keysym_ptr)
-		sym:={GAME_SDL_EXTERNAL}.get_key_sym_struct_sym(keysym_ptr)
-		mod:={GAME_SDL_EXTERNAL}.get_key_sym_struct_mod(keysym_ptr)
-		create kb_event.make (type, state, scancode, unicode, sym, mod)
+		l_type:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_type(a_keyboard_event_ptr)
+		l_state:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_state(a_keyboard_event_ptr)
+		l_keysym_ptr:={GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(a_keyboard_event_ptr)
+		l_scancode:={GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode(l_keysym_ptr)
+		l_unicode:={GAME_SDL_EXTERNAL}.get_key_sym_struct_unicode(l_keysym_ptr)
+		l_sym:={GAME_SDL_EXTERNAL}.get_key_sym_struct_sym(l_keysym_ptr)
+		l_mod:={GAME_SDL_EXTERNAL}.get_key_sym_struct_mod(l_keysym_ptr)
+		create l_kb_event.make (l_type, l_state, l_scancode, l_unicode, l_sym, l_mod)
 		if on_keyboard_actions.count/=0 then
-			on_keyboard_actions.call ([kb_event])
+			on_keyboard_actions.call ([l_kb_event])
 		end
-		if on_key_down.count/=0 and kb_event.is_key_down then
-			on_key_down.call([kb_event])
+		if on_key_down.count/=0 and l_kb_event.is_key_down then
+			on_key_down.call([l_kb_event])
 		end
-		if on_key_up.count/=0 and kb_event.is_key_up then
-			on_key_up.call([kb_event])
+		if on_key_up.count/=0 and l_kb_event.is_key_up then
+			on_key_up.call([l_kb_event])
 		end
 	end
 
@@ -233,26 +232,26 @@ feature {NONE} -- Mouse motion event implementation
 		create on_mouse_motion_relative_position.default_create
 	end
 
-	decode_mouse_motion_event(mouse_motion_event:POINTER)
+	decode_mouse_motion_event(a_mouse_motion_event:POINTER)
 	local
-		state:NATURAL_8
-		x,y:NATURAL_16
-		relative_x,relative_y:INTEGER_16
+		l_state:NATURAL_8
+		l_x,l_y:NATURAL_16
+		l_relative_x,l_relative_y:INTEGER_16
 	do
-		state:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_state(mouse_motion_event)
-		x:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_x(mouse_motion_event)
-		y:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_y(mouse_motion_event)
-		relative_x:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(mouse_motion_event)
-		relative_y:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(mouse_motion_event)
+		l_state:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_state(a_mouse_motion_event)
+		l_x:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_x(a_mouse_motion_event)
+		l_y:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_y(a_mouse_motion_event)
+		l_relative_x:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(a_mouse_motion_event)
+		l_relative_y:={GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(a_mouse_motion_event)
 		if on_mouse_motion.count/=0 then
-			on_mouse_motion.call ([x,y,relative_x,relative_y,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_LMASK)/=0,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_RMASK)/=0,
-											state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_MMASK)/=0, state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X1MASK)/=0,state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X2MASK)/=0])
+			on_mouse_motion.call ([l_x,l_y,l_relative_x,l_relative_y,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_LMASK)/=0,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_RMASK)/=0,
+											l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_MMASK)/=0, l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X1MASK)/=0,l_state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X2MASK)/=0])
 		end
 		if on_mouse_motion_position.count/=0 then
-			on_mouse_motion_position.call ([x,y])
+			on_mouse_motion_position.call ([l_x,l_y])
 		end
 		if on_mouse_motion_relative_position.count/=0 then
-			on_mouse_motion_relative_position.call ([relative_x,relative_y])
+			on_mouse_motion_relative_position.call ([l_relative_x,l_relative_y])
 		end
 	end
 
@@ -292,33 +291,33 @@ feature {NONE} -- Mouse button event implementation
 		create on_mouse_wheel_up.default_create
 	end
 
-	decode_mouse_button_event(mouse_button_event:POINTER)
+	decode_mouse_button_event(a_mouse_button_event:POINTER)
 	local
-		type,which,button,state:NATURAL_8
-		x,y:NATURAL_16
+		l_type,l_which,l_button,l_state:NATURAL_8
+		l_x,l_y:NATURAL_16
 	do
-		type:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_type(mouse_button_event)
-		which:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(mouse_button_event)
-		button:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(mouse_button_event)
-		state:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(mouse_button_event)
-		x:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(mouse_button_event)
-		y:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(mouse_button_event)
+		l_type:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_type(a_mouse_button_event)
+		l_which:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(a_mouse_button_event)
+		l_button:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(a_mouse_button_event)
+		l_state:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(a_mouse_button_event)
+		l_x:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(a_mouse_button_event)
+		l_y:={GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(a_mouse_button_event)
 		if on_mouse_button_actions.count/=0 then
-			on_mouse_button_actions.call ([type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN,type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP,state={GAME_SDL_EXTERNAL}.SDL_PRESSED,state={GAME_SDL_EXTERNAL}.SDL_RELEASED,
-											button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,
-											button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN,x,y,which,button])
+			on_mouse_button_actions.call ([l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN,l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP,l_state={GAME_SDL_EXTERNAL}.SDL_PRESSED,l_state={GAME_SDL_EXTERNAL}.SDL_RELEASED,
+											l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,
+											l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN,l_x,l_y,l_which,l_button])
 		end
-		if on_mouse_button_down.count/=0 and type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP and button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
-			on_mouse_button_down.call ([button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,x,y])
+		if on_mouse_button_down.count/=0 and l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and l_button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP and l_button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
+			on_mouse_button_down.call ([l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,l_x,l_y])
 		end
-		if on_mouse_button_up.count/=0 and type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP and button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP and button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
-			on_mouse_button_up.call ([button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,x,y])
+		if on_mouse_button_up.count/=0 and l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP and l_button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP and l_button/={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
+			on_mouse_button_up.call ([l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT,l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE,l_x,l_y])
 		end
-		if on_mouse_wheel_down.count/=0 and type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
-			on_mouse_wheel_down.call ([x,y])
+		if on_mouse_wheel_down.count/=0 and l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELDOWN then
+			on_mouse_wheel_down.call ([l_x,l_y])
 		end
-		if on_mouse_wheel_up.count/=0 and type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP then
-			on_mouse_wheel_up.call ([x,y])
+		if on_mouse_wheel_up.count/=0 and l_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN and l_button={GAME_SDL_EXTERNAL}.SDL_BUTTON_WHEELUP then
+			on_mouse_wheel_up.call ([l_x,l_y])
 		end
 	end
 
@@ -329,26 +328,26 @@ feature -- Controller Joystick event enable
 		-- Must be use before using joysticks and joypads event.
 		-- Use the method `enable_joystick' of the GAME_SDL_CONTROLLER enable joystick event
 	local
-		temp:INTEGER
+		l_temp:INTEGER
 	do
-		temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_ENABLE)
+		l_temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_ENABLE)
 	end
 
 	disable_joystick_event
 		-- Disable the joysticks and joypads event.
 	local
-		temp:INTEGER
+		l_temp:INTEGER
 	do
-		temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_IGNORE)
+		l_temp:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_IGNORE)
 	end
 
 	is_joystick_event_enable:BOOLEAN
 		-- Return true if the joysticks and joypads event are enable
 	local
-		query:INTEGER
+		l_query:INTEGER
 	do
-		query:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_QUERY)
-		Result:=query={GAME_SDL_EXTERNAL}.SDL_ENABLE
+		l_query:={GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.SDL_QUERY)
+		Result:=l_query={GAME_SDL_EXTERNAL}.SDL_ENABLE
 	end
 
 feature -- Joystick axis event access
@@ -369,16 +368,16 @@ feature {NONE} -- Joystick axis event emplementation
 		create on_joystick_axis_change.default_create
 	end
 
-	decode_joystick_axis_event(joystick_axis_event:POINTER)
+	decode_joystick_axis_event(a_joystick_axis_event:POINTER)
 	local
-		which, axis:NATURAL_8
-		value:INTEGER_16
+		l_which, l_axis:NATURAL_8
+		l_value:INTEGER_16
 	do
-		which:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_which(joystick_axis_event)
-		axis:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_axis(joystick_axis_event)
-		value:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_value(joystick_axis_event)
+		l_which:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_which(a_joystick_axis_event)
+		l_axis:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_axis(a_joystick_axis_event)
+		l_value:={GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_value(a_joystick_axis_event)
 		if on_joystick_axis_change.count/=0 then
-			on_joystick_axis_change.call ([value,axis,which])
+			on_joystick_axis_change.call ([l_value,l_axis,l_which])
 		end
 	end
 
@@ -400,17 +399,17 @@ feature {NONE} -- Joystick balls event implementation
 		create on_joystick_balls_change.default_create
 	end
 
-	decode_joystick_balls_event(joystick_balls_event:POINTER)
+	decode_joystick_balls_event(a_joystick_balls_event:POINTER)
 	local
-		which, ball:NATURAL_8
-		xrel,yrel:INTEGER_16
+		l_which, l_ball:NATURAL_8
+		l_xrel,l_yrel:INTEGER_16
 	do
-		which:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_which(joystick_balls_event)
-		ball:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_ball(joystick_balls_event)
-		xrel:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_xrel(joystick_balls_event)
-		yrel:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_yrel(joystick_balls_event)
+		l_which:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_which(a_joystick_balls_event)
+		l_ball:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_ball(a_joystick_balls_event)
+		l_xrel:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_xrel(a_joystick_balls_event)
+		l_yrel:={GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_yrel(a_joystick_balls_event)
 		if on_joystick_balls_change.count/=0 then
-			on_joystick_balls_change.call ([xrel,yrel,ball,which])
+			on_joystick_balls_change.call ([l_xrel,l_yrel,l_ball,l_which])
 		end
 	end
 
@@ -432,16 +431,16 @@ feature {NONE} -- Joystick hats event implementation
 		create on_joystick_hats_change.default_create
 	end
 
-	decode_joystick_hats_event(joystick_hats_event:POINTER)
+	decode_joystick_hats_event(a_joystick_hats_event:POINTER)
 	local
-		which, hat, value:NATURAL_8
+		l_which, l_hat, l_value:NATURAL_8
 	do
-		which:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_which(joystick_hats_event)
-		hat:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_hat(joystick_hats_event)
-		value:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_value(joystick_hats_event)
+		l_which:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_which(a_joystick_hats_event)
+		l_hat:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_hat(a_joystick_hats_event)
+		l_value:={GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_value(a_joystick_hats_event)
 		if on_joystick_hats_change.count/=0 then
-			on_joystick_hats_change.call ([value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_UP)/=0,value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_DOWN)/=0,
-									value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_LEFT)/=0,value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_RIGHT)/=0,hat,which])
+			on_joystick_hats_change.call ([l_value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_UP)/=0,l_value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_DOWN)/=0,
+									l_value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_LEFT)/=0,l_value.bit_and ({GAME_SDL_EXTERNAL}.SDL_HAT_RIGHT)/=0,l_hat,l_which])
 		end
 	end
 
@@ -472,21 +471,21 @@ feature {NONE} -- Joystick buttons event implementation
 		create on_joystick_button_released.default_create
 	end
 
-	decode_joystick_buttons_event(joystick_buttons_event:POINTER)
+	decode_joystick_buttons_event(a_joystick_buttons_event:POINTER)
 	local
-		which, button, state:NATURAL_8
+		l_which, l_button, l_state:NATURAL_8
 	do
-		which:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which(joystick_buttons_event)
-		button:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button(joystick_buttons_event)
-		state:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_state(joystick_buttons_event)
+		l_which:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which(a_joystick_buttons_event)
+		l_button:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button(a_joystick_buttons_event)
+		l_state:={GAME_SDL_EXTERNAL}.get_joy_button_event_struct_state(a_joystick_buttons_event)
 		if on_joystick_buttons_change.count/=0 then
-			on_joystick_buttons_change.call ([state={GAME_SDL_EXTERNAL}.SDL_PRESSED,button,which])
+			on_joystick_buttons_change.call ([l_state={GAME_SDL_EXTERNAL}.SDL_PRESSED,l_button,l_which])
 		end
-		if on_joystick_button_pressed.count/=0 and state={GAME_SDL_EXTERNAL}.SDL_PRESSED then
-			on_joystick_button_pressed.call([button,which])
+		if on_joystick_button_pressed.count/=0 and l_state={GAME_SDL_EXTERNAL}.SDL_PRESSED then
+			on_joystick_button_pressed.call([l_button,l_which])
 		end
-		if on_joystick_button_released.count/=0 and state={GAME_SDL_EXTERNAL}.SDL_RELEASED then
-			on_joystick_button_released.call([button,which])
+		if on_joystick_button_released.count/=0 and l_state={GAME_SDL_EXTERNAL}.SDL_RELEASED then
+			on_joystick_button_released.call([l_button,l_which])
 		end
 	end
 
@@ -508,14 +507,14 @@ feature {NONE} -- Resize event implementation
 		create on_resize_window.default_create
 	end
 
-	decode_resize_event(resize_event:POINTER)
+	decode_resize_event(a_resize_event:POINTER)
 	local
-		width,height:INTEGER
+		l_width,l_height:INTEGER
 	do
-		width:={GAME_SDL_EXTERNAL}.get_resize_event_struct_w(resize_event)
-		height:={GAME_SDL_EXTERNAL}.get_resize_event_struct_h(resize_event)
+		l_width:={GAME_SDL_EXTERNAL}.get_resize_event_struct_w(a_resize_event)
+		l_height:={GAME_SDL_EXTERNAL}.get_resize_event_struct_h(a_resize_event)
 		if on_resize_window.count/=0 then
-			on_resize_window.call ([width,height])
+			on_resize_window.call ([l_width,l_height])
 		end
 	end
 
@@ -576,10 +575,10 @@ feature -- Tick event
 
 	tick_delay:NATURAL -- Time delay to call `on_tick' event (in millisecond)
 
-	set_tick_delay(l_tick_delay:NATURAL)
+	set_tick_delay(a_tick_delay:NATURAL)
 			-- Set the time delay to call `on_tick' event (in millisecond).
 		do
-			tick_delay:=l_tick_delay
+			tick_delay:=a_tick_delay
 		end
 
 	is_tick_event_actions:BOOLEAN
@@ -601,16 +600,16 @@ feature {NONE} -- Tick event implementation
 
 	decode_tick_event
 	local
-		new_ticks:NATURAL_32
-		next_tick:NATURAL_64
+		l_new_ticks:NATURAL_32
+		l_next_tick:NATURAL_64
 	do
 		if on_quit_signal.count/=0 then
-			new_ticks:=sdl_ctrl.get_ticks
-			next_tick:=old_ticks.to_natural_64+tick_delay.to_natural_64
-			next_tick:=next_tick\\(new_ticks.max_value.to_natural_64+1)
-			if next_tick<=new_ticks then
-				on_tick.call ([new_ticks])
-				old_ticks:=new_ticks
+			l_new_ticks:=core_ctrl.get_ticks
+			l_next_tick:=old_ticks.to_natural_64+tick_delay.to_natural_64
+			l_next_tick:=l_next_tick\\(l_new_ticks.max_value.to_natural_64+1)
+			if l_next_tick<=l_new_ticks then
+				on_tick.call ([l_new_ticks])
+				old_ticks:=l_new_ticks
 			end
 		end
 	end
@@ -618,36 +617,36 @@ feature {NONE} -- Tick event implementation
 
 feature {NONE} -- Implementation
 
-	sdl_ctrl:GAME_SDL_CONTROLLER
+	core_ctrl:GAME_SDL_CONTROLLER
 
 	event_ptr:POINTER
 
-	decode_event(event:POINTER)
+	decode_event(a_event:POINTER)
 	local
-		event_type:NATURAL_8
+		l_event_type:NATURAL_8
 	do
-		event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(event)
-		if is_active_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_ACTIVEEVENT then
-			decode_active_event({GAME_SDL_EXTERNAL}.get_event_struct_active_pointer(event))
-		elseif ((event_type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN or else event_type={GAME_SDL_EXTERNAL}.SDL_KEYUP)) and then is_keyboard_event_actions then
-			decode_keyboard_event({GAME_SDL_EXTERNAL}.get_event_struct_key_pointer(event))
-		elseif is_mouse_motion_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEMOTION then
-			decode_mouse_motion_event({GAME_SDL_EXTERNAL}.get_event_struct_motion_pointer(event))
-		elseif is_mouse_button_event_actions and (event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN or event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP) then
-			decode_mouse_button_event({GAME_SDL_EXTERNAL}.get_event_struct_button_pointer(event))
-		elseif is_joystick_axis_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_JOYAXISMOTION then
-			decode_joystick_axis_event({GAME_SDL_EXTERNAL}.get_event_struct_jaxis_pointer(event))
-		elseif is_joystick_balls_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_JOYBALLMOTION then
-			decode_joystick_balls_event({GAME_SDL_EXTERNAL}.get_event_struct_jball_pointer(event))
-		elseif is_joystick_hats_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_JOYHATMOTION then
-			decode_joystick_hats_event({GAME_SDL_EXTERNAL}.get_event_struct_jhat_pointer(event))
-		elseif is_joystick_buttons_event_actions and (event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONDOWN or event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONUP) then
-			decode_joystick_buttons_event({GAME_SDL_EXTERNAL}.get_event_struct_jbutton_pointer(event))
-		elseif is_resize_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_VIDEORESIZE then
-			decode_resize_event({GAME_SDL_EXTERNAL}.get_event_struct_resize_pointer(event))
-		elseif is_expose_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_VIDEOEXPOSE then
+		l_event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(a_event)
+		if is_active_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_ACTIVEEVENT then
+			decode_active_event({GAME_SDL_EXTERNAL}.get_event_struct_active_pointer(a_event))
+		elseif ((l_event_type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN or else l_event_type={GAME_SDL_EXTERNAL}.SDL_KEYUP)) and then is_keyboard_event_actions then
+			decode_keyboard_event({GAME_SDL_EXTERNAL}.get_event_struct_key_pointer(a_event))
+		elseif is_mouse_motion_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEMOTION then
+			decode_mouse_motion_event({GAME_SDL_EXTERNAL}.get_event_struct_motion_pointer(a_event))
+		elseif is_mouse_button_event_actions and (l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN or l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP) then
+			decode_mouse_button_event({GAME_SDL_EXTERNAL}.get_event_struct_button_pointer(a_event))
+		elseif is_joystick_axis_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYAXISMOTION then
+			decode_joystick_axis_event({GAME_SDL_EXTERNAL}.get_event_struct_jaxis_pointer(a_event))
+		elseif is_joystick_balls_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBALLMOTION then
+			decode_joystick_balls_event({GAME_SDL_EXTERNAL}.get_event_struct_jball_pointer(a_event))
+		elseif is_joystick_hats_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYHATMOTION then
+			decode_joystick_hats_event({GAME_SDL_EXTERNAL}.get_event_struct_jhat_pointer(a_event))
+		elseif is_joystick_buttons_event_actions and (l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONDOWN or l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONUP) then
+			decode_joystick_buttons_event({GAME_SDL_EXTERNAL}.get_event_struct_jbutton_pointer(a_event))
+		elseif is_resize_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_VIDEORESIZE then
+			decode_resize_event({GAME_SDL_EXTERNAL}.get_event_struct_resize_pointer(a_event))
+		elseif is_expose_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_VIDEOEXPOSE then
 			decode_expose_event
-		elseif is_quit_event_actions and event_type={GAME_SDL_EXTERNAL}.SDL_QUIT_CONST then
+		elseif is_quit_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_QUIT_CONST then
 			decode_quit_event
 		end
 	end

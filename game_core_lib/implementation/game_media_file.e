@@ -10,33 +10,33 @@ deferred class
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(a_filename:STRING)
 			-- Initialization for `Current'.
-			-- Create a new surface from the image file `filename'.
+			-- Create a new surface from the image file `a_filename'.
 		require
-			Open_From_File_Exist: file_exist(filename)
+			Open_From_File_Exist: file_exist(a_filename)
 		do
-			open_from_file(filename)
+			open_from_file(a_filename)
 		end
 
 feature -- Access
 
-	file_exist(filename:STRING):BOOLEAN
-			-- Valid if the file `filename' exist and is readable.
+	file_exist(a_filename:STRING):BOOLEAN
+			-- Valid if the file `a_filename' exist and is readable.
 		local
-			the_file:RAW_FILE
+			l_the_file:RAW_FILE
 		do
-			create the_file.make (filename)
-			Result:= the_file.access_exists and the_file.is_access_readable
+			create l_the_file.make (a_filename)
+			Result:= l_the_file.access_exists and l_the_file.is_access_readable
 		end
 
 feature {NONE} -- Implementation
 
-	open_from_file(filename:STRING)
+	open_from_file(a_filename:STRING)
 			-- Open the surface from the image file `filename'.
 		require
-			Open_From_File_Exist: file_exist(filename)
+			Open_From_File_Exist: file_exist(a_filename)
 		deferred
 		end
-		
+
 end

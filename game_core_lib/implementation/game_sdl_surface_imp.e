@@ -1,8 +1,8 @@
 note
-	description: "Implementation of a GAME_SURFACE. Must not be use directly."
+	description: "Implementation of a {GAME_SURFACE}. Must not be use directly."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SDL_SURFACE_IMP
@@ -19,12 +19,12 @@ create {GAME_SURFACE}
 
 feature {NONE} -- Initialization
 
-	make(the_surface:POINTER)
+	make(a_surface_pointer:POINTER)
 			-- Initialization for `Current'.
 		require
-			make_pointer_ok: the_surface /= Void and the_surface.to_integer_32 /= 0
+			make_pointer_ok: a_surface_pointer /= Void and a_surface_pointer.to_integer_32 /= 0
 		do
-			surface_pointer := the_surface
+			surface_pointer := a_surface_pointer
 			set_disposable
 		ensure
 			make_is_disposable_true:is_disposable

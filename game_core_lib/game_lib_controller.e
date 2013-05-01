@@ -41,11 +41,4 @@ feature {NONE} -- Initialization
 			make_random
 		end
 
-
-feature -- Access
-
-
-feature {NONE} -- Implementation - Routines
-
-
 end

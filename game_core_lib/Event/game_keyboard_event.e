@@ -2,7 +2,7 @@ note
 	description: "Keyboard Events. To retreive the state of the keyboard. Must be return by an object of GAME_EVENT_CONTROLLER type."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_KEYBOARD_EVENT
@@ -18,15 +18,15 @@ create {GAME_EVENT_CONTROLLER}
 
 feature {NONE} -- Initialization
 
-	make(l_type,l_state,l_scancode:NATURAL_8;l_unicode:NATURAL_16;l_sym,l_mod:INTEGER)
+	make(a_type,a_state,a_scancode:NATURAL_8;a_unicode:NATURAL_16;a_sym,a_mod:INTEGER)
 			-- Initialization for `Current'.
 		do
-			type:=l_type
-			state:=l_state
-			scancode:=l_scancode
-			unicode:=l_unicode
-			sym:=l_sym
-			mod:=l_mod
+			type:=a_type
+			state:=a_state
+			scancode:=a_scancode
+			unicode:=a_unicode
+			sym:=a_sym
+			mod:=a_mod
 		end
 
 feature {NONE} -- Implementation

@@ -21,14 +21,15 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	enable_text
+			-- Activate the game text library.
 		local
-			error_chk:INTEGER
-			error_str:C_STRING
+			l_error_chk:INTEGER
+			l_error_str:C_STRING
 		do
-			error_chk:={GAME_TEXT_EXTERNAL}.TTF_Init
-			if error_chk/=0 then
-				create error_str.make_by_pointer ({GAME_TEXT_EXTERNAL}.TTF_GetError)
-				io.error.put_string ("Error while loading the text library: "+error_str.string+"%N")
+			l_error_chk:={GAME_TEXT_EXTERNAL}.TTF_Init
+			if l_error_chk/=0 then
+				create l_error_str.make_by_pointer ({GAME_TEXT_EXTERNAL}.TTF_GetError)
+				io.error.put_string ("Error while loading the text library: "+l_error_str.string+"%N")
 				io.error.flush
 				check false end
 			end
@@ -37,11 +38,13 @@ feature -- Access
 		end
 
 	is_text_enable:BOOLEAN
+			-- The library is enabled.
 		do
 			Result:={GAME_TEXT_EXTERNAL}.TTF_WasInit=1
 		end
 
 	disable_text
+			-- Desactivate the library.
 		require
 			Disable_Text_Is_Enable:is_text_enable
 		do
@@ -49,6 +52,7 @@ feature -- Access
 		end
 
 	quit_library
+			-- Close the library.
 		local
 			mem:MEMORY
 		do

@@ -2,7 +2,7 @@ note
 	description: "A indexed 8 bits images. Give you access to the color table."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SURFACE_8_BPP

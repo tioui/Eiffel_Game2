@@ -2,7 +2,7 @@ note
 	description: "Representation of an image that can be paste on other image."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SURFACE
@@ -20,15 +20,15 @@ create
 
 feature {NONE} -- Initialisation
 
-	make_from_pointer(the_surface_pointer:POINTER)
+	make_from_pointer(a_surface_pointer:POINTER)
 			-- Initialization for `Current'.
 			-- Create a surface from an SDL pointer (the memory SDL surface is not duplicate).
 		require
-			Make_From_Pointer_Pointer_Not_Void: the_surface_pointer /= Void
-			Make_From_Pointer_Pointer_Not_NULL: not the_surface_pointer.is_default_pointer
+			Make_From_Pointer_Pointer_Not_Void: a_surface_pointer /= Void
+			Make_From_Pointer_Pointer_Not_NULL: not a_surface_pointer.is_default_pointer
 		do
 
-			set_surface_pointer(the_surface_pointer)
+			set_surface_pointer(a_surface_pointer)
 			set_is_alpha_accelerated(false)
 			set_is_transparent_accelerated(false)
 			start_x:=0
@@ -39,26 +39,26 @@ feature {NONE} -- Initialisation
 			disable_transparent
 		end
 
-	make_from_surface(the_surface:GAME_SURFACE)
+	make_from_surface(a_other:GAME_SURFACE)
 			-- Initialization for `Current'.
 			-- Create a surface from another surface (the memory SDL surface is not duplicate).
 		require
-			Make_From_Surface_Surface_Not_Void: the_surface /= Void
-			Make_From_Surface_Surface_Pointer_Not_Void: the_surface.internal_pointer /= Void
-			Make_From_Surface_Surface_Pointer_Not_NULL: not the_surface.internal_pointer.is_default_pointer
+			Make_From_Surface_Surface_Not_Void: a_other /= Void
+			Make_From_Surface_Surface_Pointer_Not_Void: a_other.internal_pointer /= Void
+			Make_From_Surface_Surface_Pointer_Not_NULL: not a_other.internal_pointer.is_default_pointer
 		do
-			make_from_pointer(the_surface.internal_pointer)
-			set_is_alpha_accelerated(the_surface.is_alpha_accelerated)
-			set_is_transparent_accelerated(the_surface.is_transparent_accelerated)
-			start_x:=the_surface.start_x
-			start_y:=the_surface.start_y
-			set_width(the_surface.width)
-			set_height(the_surface.height)
+			make_from_pointer(a_other.internal_pointer)
+			set_is_alpha_accelerated(a_other.is_alpha_accelerated)
+			set_is_transparent_accelerated(a_other.is_transparent_accelerated)
+			start_x:=a_other.start_x
+			start_y:=a_other.start_y
+			set_width(a_other.width)
+			set_height(a_other.height)
 			disable_alpha
 			disable_transparent
 		end
 
-	make(the_width,the_height:INTEGER)
+	make(a_width,a_height:INTEGER)
 			-- Initialization for `Current'.
 			-- Create a new empty surface.
 		local
@@ -66,13 +66,13 @@ feature {NONE} -- Initialisation
 		do
 			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
 				create l_screen.make_from_current_video_surface
-				make_with_bit_per_pixel(the_width,the_height,l_screen.bits_per_pixel,false)
+				make_with_bit_per_pixel(a_width,a_height,l_screen.bits_per_pixel,false)
 			else
-				make_with_bit_per_pixel(the_width,the_height,32,false)
+				make_with_bit_per_pixel(a_width,a_height,32,false)
 			end
 		end
 
-	make_video_memory(the_width,the_height:INTEGER)
+	make_video_memory(a_width,a_height:INTEGER)
 			-- Initialization for `Current'.
 			-- Create a new empty surface on video memory.
 		local
@@ -80,24 +80,24 @@ feature {NONE} -- Initialisation
 		do
 			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
 				create l_screen.make_from_current_video_surface
-				make_with_bit_per_pixel(the_width,the_height,l_screen.bits_per_pixel,true)
+				make_with_bit_per_pixel(a_width,a_height,l_screen.bits_per_pixel,true)
 			else
-				make_with_bit_per_pixel(the_width,the_height,32,true)
+				make_with_bit_per_pixel(a_width,a_height,32,true)
 			end
 		end
 
-	make_with_bit_per_pixel(the_width,the_height,the_bits_per_pixel:INTEGER;video_memory:BOOLEAN)
+	make_with_bit_per_pixel(a_width,a_height,a_bits_per_pixel:INTEGER;a_in_video_memory:BOOLEAN)
 			-- Initialization for `Current'.
 			-- Create a new empty surface with a different `the_bits_per_pixel' and `video_memory'.
 		local
 			l_screen:GAME_SCREEN
 			l_screen_format:POINTER
-			flags, l_rmask, l_gmask, l_bmask, l_amask:NATURAL_32
+			l_flags, l_rmask, l_gmask, l_bmask, l_amask:NATURAL_32
 		do
-			if video_memory then
-				flags:={GAME_SDL_EXTERNAL}.SDL_HWSURFACE
+			if a_in_video_memory then
+				l_flags:={GAME_SDL_EXTERNAL}.SDL_HWSURFACE
 			else
-				flags:={GAME_SDL_EXTERNAL}.SDL_SWSURFACE
+				l_flags:={GAME_SDL_EXTERNAL}.SDL_SWSURFACE
 			end
 			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
 				create l_screen.make_from_current_video_surface
@@ -112,14 +112,14 @@ feature {NONE} -- Initialisation
 				l_bmask:=0
 				l_amask:=0
 			end
-			make_with_flags_and_masks(flags,the_width,the_height,the_bits_per_pixel,l_rmask, l_gmask, l_bmask, l_amask)
+			make_with_flags_and_masks(l_flags,a_width,a_height,a_bits_per_pixel,l_rmask, l_gmask, l_bmask, l_amask)
 		end
 
-	make_with_flags_and_masks(flags:NATURAL_32;the_width,the_height,the_bits_per_pixel:INTEGER;Rmask,Gmask,Bmask,Amask:NATURAL_32)
+	make_with_flags_and_masks(a_flags:NATURAL_32;a_width,a_height,a_bits_per_pixel:INTEGER;a_Rmask,a_Gmask,a_Bmask,a_Amask:NATURAL_32)
 			-- Initialization for `Current'.
 			-- Create a new empty surface with RGBA mask and flags.
 		do
-			make_from_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(flags,the_width,the_height,the_bits_per_pixel,Rmask,Gmask,Bmask,Amask))
+			make_from_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(a_flags,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask))
 		end
 
 feature -- Access
@@ -127,14 +127,14 @@ feature -- Access
 
 	optimise_surface
 		local
-			screen:GAME_SCREEN
-			result_ptr:POINTER
+			l_screen:GAME_SCREEN
+			l_result_ptr:POINTER
 		do
 			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
-				create screen.make_from_current_video_surface
-				result_ptr:={GAME_SDL_EXTERNAL}.SDL_ConvertSurface(internal_pointer,screen.format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(screen.format_pointer))
-				if not result_ptr.is_default_pointer then
-					set_surface_pointer(result_ptr)
+				create l_screen.make_from_current_video_surface
+				l_result_ptr:={GAME_SDL_EXTERNAL}.SDL_ConvertSurface(internal_pointer,l_screen.format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(l_screen.format_pointer))
+				if not l_result_ptr.is_default_pointer then
+					set_surface_pointer(l_result_ptr)
 				end
 			end
 
@@ -150,7 +150,7 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_BitsPerPixel(format)
 		end
 
-	set_format_to_video_format
+	convert_format_to_video_format
 			-- Transfert the surface to the same format that the one of the Screen surface.
 		do
 			set_surface_pointer ({GAME_SDL_EXTERNAL}.SDL_DisplayFormat(internal_pointer))
@@ -343,24 +343,22 @@ feature -- Access
 	end
 
 
-	put_pixel_color(x,y:INTEGER;color:GAME_COLOR)
+	put_pixel_color(a_x,a_y:INTEGER;a_color:GAME_COLOR)
 		-- Innefficient to put lots of pixel
 		-- ToDo: Create a put_pixels that put lots of pixel with only one lock
 	require
-		Put_Pixel_X_Valid: x>=0 and x<width
-		Put_Pixel_Y_Valid: y>=0 and y<width
+		Put_Pixel_X_Valid: a_x>=0 and a_x<width
+		Put_Pixel_Y_Valid: a_y>=0 and a_y<width
 	local
-		format:POINTER
-		color_index:NATURAL_32
+		l_color_index:NATURAL_32
 	do
-		format:=format_pointer
-		color_index:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(format,color.red,color.green,color.blue,color.alpha)
+		l_color_index:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(format_pointer,a_color.red,a_color.green,a_color.blue,a_color.alpha)
 		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
 			if {GAME_SDL_EXTERNAL}.SDL_LockSurface(internal_pointer)=-1 then
 				check false end
 			end
 		end
-		{GAME_SDL_EXTERNAL}.putpixel(internal_pointer,x,y,color_index)
+		{GAME_SDL_EXTERNAL}.putpixel(internal_pointer,a_x,a_y,l_color_index)
 		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
 			{GAME_SDL_EXTERNAL}.SDL_UnlockSurface(internal_pointer)
 		end
@@ -391,75 +389,67 @@ feature -- Access
 	disable_alpha
 			-- Disable the alpha blending for the surface.
 		local
-			error:INTEGER
+			l_error:INTEGER
 		do
-			error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(internal_pointer,0,overall_alpha_value)
-			check error=0 end
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(internal_pointer,0,overall_alpha_value)
+			check l_error=0 end
 			is_alpha_enable:=false
 		end
 
 	overall_alpha_value:NATURAL_8
 			-- Return the value of the overall alpha blending value.
 		local
-			format:POINTER
+			l_format:POINTER
 		do
-			format:=format_pointer
-			Result:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_alpha(format)
+			l_format:=format_pointer
+			Result:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_alpha(l_format)
 		end
 
-	set_overall_alpha_value(a:NATURAL_8)
+	set_overall_alpha_value(a_alpha:NATURAL_8)
 			-- Set the value of the overall alpha blending.
 		local
-			error:INTEGER
-			flags:NATURAL_32
+			l_error:INTEGER
+			l_flags:NATURAL_32
 		do
-			flags:={GAME_SDL_EXTERNAL}.SDL_SRCALPHA
+			l_flags:={GAME_SDL_EXTERNAL}.SDL_SRCALPHA
 			if is_alpha_accelerated then
-				flags:=flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RLEACCEL)
+				l_flags:=l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RLEACCEL)
 			end
-			error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(internal_pointer,flags,a)
-			check error=0 end
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetAlpha(internal_pointer,l_flags,a_alpha)
+			check l_error=0 end
 		end
 
-	fill_rect(color:GAME_COLOR;l_x,l_y,l_w,l_h:INTEGER)
+	fill_rect(a_color:GAME_COLOR;a_x,a_y,a_width,a_height:INTEGER)
 			-- Draw a rectangle of the color `color' on the surface.
 		require
-			Fill_Rect_Color_Not_Void: color /=Void
+			Fill_Rect_Color_Not_Void: a_color /=Void
 			Fill_Rect_X_Valid:
-					(l_w<0 and then (l_x+l_w)+start_x >= (create {INTEGER_16}).Min_value and then (l_x+l_w)+start_x <= (create {INTEGER_16}).Max_value) or else
-					(l_w>=0 and then l_x+start_x >= (create {INTEGER_16}).Min_value and then l_x+start_x <= (create {INTEGER_16}).Max_value)
+					(a_width<0 and then (a_x+a_width)+start_x >= (create {INTEGER_16}).Min_value and then (a_x+a_width)+start_x <= (create {INTEGER_16}).Max_value) or else
+					(a_width>=0 and then a_x+start_x >= (create {INTEGER_16}).Min_value and then a_x+start_x <= (create {INTEGER_16}).Max_value)
 			Fill_Rect_Y_Valid:
-					(l_h<0 and then (l_y+l_h)+start_y >= (create {INTEGER_16}).Min_value and then ((l_y+l_h)+start_y) <= (create {INTEGER_16}).Max_value) or else
-					(l_h>=0 and then l_y+start_y >= (create {INTEGER_16}).Min_value and then (l_y+start_y) <= (create {INTEGER_16}).Max_value)
-			Fill_Rect_W_Valid: l_w.abs <= (create {NATURAL_16}).Max_value
-			Fill_Rect_H_Valid: l_h.abs <= (create {NATURAL_16}).Max_value
+					(a_height<0 and then (a_y+a_height)+start_y >= (create {INTEGER_16}).Min_value and then ((a_y+a_height)+start_y) <= (create {INTEGER_16}).Max_value) or else
+					(a_height>=0 and then a_y+start_y >= (create {INTEGER_16}).Min_value and then (a_y+start_y) <= (create {INTEGER_16}).Max_value)
+			Fill_Rect_W_Valid: a_width.abs <= (create {NATURAL_16}).Max_value
+			Fill_Rect_H_Valid: a_height.abs <= (create {NATURAL_16}).Max_value
 		local
 			rect_src:POINTER
 			error:INTEGER
 			color_key:NATURAL_32
-
-			r,g,b,a:NATURAL_8
-			test:GAME_COLOR
 		do
 			rect_src:={GAME_SDL_EXTERNAL}.c_rect_struct_allocate
-			if l_w<0 then
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,((l_x+l_w)+start_x).to_integer_16)
+			if a_width<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,((a_x+a_width)+start_x).to_integer_16)
 			else
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,(l_x+start_x).to_integer_16)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(rect_src,(a_x+start_x).to_integer_16)
 			end
-			if l_h<0 then
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,((l_y+l_h)+start_y).to_integer_16)
+			if a_height<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,((a_y+a_height)+start_y).to_integer_16)
 			else
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,(l_y+start_y).to_integer_16)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(rect_src,(a_y+start_y).to_integer_16)
 			end
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,l_w.abs.to_natural_16)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,l_h.abs.to_natural_16)
-			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(format_pointer,color.red,color.green,color.blue,color.alpha)
-			{GAME_SDL_EXTERNAL}.SDL_GetRGBA(color_key,format_pointer,$r,$g,$b,$a)
-			create test.make (r, g, b,a)
-			if color_key = 0 then
-				color_key := 0xFF000000
-			end
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(rect_src,a_width.abs.to_natural_16)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(rect_src,a_height.abs.to_natural_16)
+			color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(format_pointer,a_color.red,a_color.green,a_color.blue,a_color.alpha)
 			error:={GAME_SDL_EXTERNAL}.SDL_FillRect(internal_pointer,rect_src,color_key)
 			check error=0 end
 		end
@@ -473,15 +463,15 @@ feature -- Access
 			create Result.make (l_red, l_green, l_blue,l_alpha)
 		end
 
-	set_transparent_color(color:GAME_COLOR)
+	set_transparent_color(a_color:GAME_COLOR)
 			-- Change all pixel of color `color' into transparency (and enable it). The transparency by color don't work if the surface
 			-- have an alpha blending activated.
 		local
-			key:NATURAL_32
+			l_key:NATURAL_32
 		do
 			optimise_surface
-			key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(format_pointer,color.red, color.green, color.blue)
-			set_color_key(key)
+			l_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(format_pointer,a_color.red, a_color.green, a_color.blue)
+			set_color_key(l_key)
 		end
 
 	is_transparent_enable:BOOLEAN  -- Is transparency by color key is enabled.
@@ -489,11 +479,10 @@ feature -- Access
 	disable_transparent
 			-- Remove the transparency by color key.
 		local
-			error:INTEGER
-			key:NATURAL_32
+			l_error:INTEGER
 		do
-			error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(internal_pointer,0,0)
-			check error=0 end
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(internal_pointer,0,0)
+			check l_error=0 end
 			is_transparent_enable:=false
 		end
 
@@ -589,31 +578,31 @@ feature {NONE} -- Implemenation routine
 		surface_copy_8_16_32:GAME_SURFACE
 			-- A copy of the current surface
 		local
-			temp_surface:GAME_SURFACE
-			bbp:INTEGER
-			format:POINTER
-			is_temp_surface:BOOLEAN
+			l_temp_surface:GAME_SURFACE
+			l_bbp:INTEGER
+			l_format:POINTER
+			l_is_temp_surface:BOOLEAN
 		do
 			if bits_per_pixel=8 or bits_per_pixel=16 or bits_per_pixel=32 then
-				bbp:=bits_per_pixel
+				l_bbp:=bits_per_pixel
 			else
-				bbp:=(create {GAME_SCREEN}.make_from_current_video_surface).bits_per_pixel
+				l_bbp:=(create {GAME_SCREEN}.make_from_current_video_surface).bits_per_pixel
 				if bits_per_pixel=8 or bits_per_pixel=16 or bits_per_pixel=32 then
-					bbp:=32
+					l_bbp:=32
 				end
 			end
 
 			if start_x = 0 and start_y = 0 and width={GAME_SDL_EXTERNAL}.get_surface_struct_w(internal_pointer) and height={GAME_SDL_EXTERNAL}.get_surface_struct_w(internal_pointer) then
 				Result:=Current
 			else
-				is_temp_surface:=true
-				format:=format_pointer
-				if bbp=bits_per_pixel then
-					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(internal_pointer),width, height,bbp,
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(format),
-											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(format))
+				l_is_temp_surface:=true
+				l_format:=format_pointer
+				if l_bbp=bits_per_pixel then
+					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(internal_pointer),width, height,l_bbp,
+											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(l_format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(l_format),
+											{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(l_format),{GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(l_format))
 				else
-					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(internal_pointer),width, height,bbp,
+					create Result.make_with_flags_and_masks ({GAME_SDL_EXTERNAL}.get_surface_struct_flags(internal_pointer),width, height,l_bbp,
 											0,0,0,0)
 				end
 

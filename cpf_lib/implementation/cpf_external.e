@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {CPF_EXTERNAL}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "External C function for the Custom Package File (CPF) Library."
+	author: "Louis Marchand"
+	date: "april 30, 2013"
+	revision: "1.0.0.0"
 
 class
 	CPF_EXTERNAL

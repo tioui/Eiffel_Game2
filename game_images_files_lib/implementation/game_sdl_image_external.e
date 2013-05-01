@@ -1,8 +1,8 @@
 note
-	description: "External of the SDL library."
+	description: "External of the SDL_image library."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.0"
 
 class
 	GAME_SDL_IMAGE_EXTERNAL
