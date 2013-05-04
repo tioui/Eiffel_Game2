@@ -73,6 +73,13 @@ feature -- Fonction SDL_ttf
 			"TTF_RenderText_Solid((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color))"
 		end
 
+	frozen TTF_RenderUTF8_Solid(font:POINTER;text:POINTER;color:POINTER):POINTER
+		external
+			"C inline use  <SDL_ttf.h>"
+		alias
+			"TTF_RenderUTF8_Solid((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color))"
+		end
+
 	frozen TTF_RenderText_Shaded(font:POINTER;text:POINTER;color,bgcolor:POINTER):POINTER
 		external
 			"C inline use  <SDL_ttf.h>"
@@ -80,11 +87,25 @@ feature -- Fonction SDL_ttf
 			"TTF_RenderText_Shaded((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color),*((SDL_Color *)$bgcolor))"
 		end
 
+	frozen TTF_RenderUTF8_Shaded(font:POINTER;text:POINTER;color,bgcolor:POINTER):POINTER
+		external
+			"C inline use  <SDL_ttf.h>"
+		alias
+			"TTF_RenderUTF8_Shaded((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color),*((SDL_Color *)$bgcolor))"
+		end
+
 	frozen TTF_RenderText_Blended(font:POINTER;text:POINTER;color:POINTER):POINTER
 		external
 			"C inline use  <SDL_ttf.h>"
 		alias
 			"TTF_RenderText_Blended((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color))"
+		end
+
+	frozen TTF_RenderUTF8_Blended(font:POINTER;text:POINTER;color:POINTER):POINTER
+		external
+			"C inline use  <SDL_ttf.h>"
+		alias
+			"TTF_RenderUTF8_Blended((TTF_Font *)$font,(char *)$text,*((SDL_Color *)$color))"
 		end
 
 	frozen TTF_SetFontStyle(font:POINTER;flag:INTEGER)

@@ -2,7 +2,7 @@ note
 	description: "Keyboard Events. To retreive the state of the keyboard. Must be return by an object of GAME_EVENT_CONTROLLER type."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	revision: "1.0.0.1"
 
 class
 	GAME_KEYBOARD_EVENT
@@ -45,10 +45,10 @@ feature -- Access
 
 	unicode:NATURAL_16 -- The translated unicode character representing the button pressed or released.
 
-	character:CHARACTER_8
+	character:CHARACTER_32
 			-- Return the caracter representation of the key pressed.
 		do
-			result := unicode.to_character_32.to_character_8
+			result := unicode.to_character_32
 		end
 
 	out:STRING

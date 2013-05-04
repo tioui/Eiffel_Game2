@@ -2,7 +2,7 @@ note
 	description: "Create a new surface with a text drawed in it."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "0.1"
+	revision: "1.0.0.1"
 
 class
 	GAME_SURFACE_TEXT
@@ -17,7 +17,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_solid(a_text:STRING_8;a_font:GAME_FONT;a_color:GAME_COLOR)
+	make_solid(a_text:STRING_GENERAL;a_font:GAME_FONT;a_color:GAME_COLOR)
 			-- Initialization for `Current'.
 			-- Make a new surface from the text `l_text' using the font `l_font' of color `l_color'.
 			-- No smmoth effect on the surface (the text can look a little odd). Fast render.
@@ -30,9 +30,9 @@ feature {NONE} -- Initialization
 			l_text_c:C_STRING
 			l_sdl_color:GAME_SDL_COLOR
 			l_color:GAME_COLOR
+			l_utf_converter:UTF_CONVERTER
 		do
 			init_var(a_text,a_font,a_color)
-			create l_text_c.make (a_text)
 			if l_text_c.string.is_empty then
 				make (100, 100)
 				create l_color.make (0, 0, 0, 255)
@@ -40,14 +40,21 @@ feature {NONE} -- Initialization
 				set_transparent_color (l_color)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)
-				make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Solid(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				if a_text.is_string_32 then
+					create l_utf_converter
+					create l_text_c.make (l_utf_converter.string_32_to_utf_8_string_8 (a_text))
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderUTF8_Solid(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				else
+					create l_text_c.make (a_text)
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Solid(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				end
 				enable_alpha
 			end
 		ensure
 			SDL_Surface_Text_Surface_Imp_Ok: surface_imp = Void or surface_imp.is_surface_ok
 		end
 
-	make_shaded(a_text:STRING_8;a_font:GAME_FONT;a_color,a_color_bg:GAME_COLOR)
+	make_shaded(a_text:STRING_GENERAL;a_font:GAME_FONT;a_color,a_color_bg:GAME_COLOR)
 			-- Initialization for `Current'.
 			-- Make a new surface from the text `l_text' using the font `l_font' of color `l_color' with the background color `l_color_bg'.
 			-- Smmoth effect on the surface but no transparency. Fast render.
@@ -60,23 +67,31 @@ feature {NONE} -- Initialization
 			l_text_c:C_STRING
 			l_sdl_color:GAME_SDL_COLOR
 			l_sdl_color_bg:GAME_SDL_COLOR
+			l_utf_converter:UTF_CONVERTER
 		do
 			init_var(a_text,a_font,a_color)
 			color_bg:=a_color_bg
-			create l_text_c.make (a_text)
 			if l_text_c.string.is_empty then
 				make (100, 100)
 				put_pixel_color (0, 0, color_bg)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)
 				create l_sdl_color_bg.make_from_rgba_color (a_color_bg)
-				make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Shaded(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer,l_sdl_color_bg.sdl_color_pointer))
+				if a_text.is_string_32 then
+					create l_utf_converter
+					create l_text_c.make (l_utf_converter.string_32_to_utf_8_string_8 (a_text))
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderUTF8_Shaded(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer,l_sdl_color_bg.sdl_color_pointer))
+				else
+					create l_text_c.make (a_text)
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Shaded(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer,l_sdl_color_bg.sdl_color_pointer))
+				end
+
 			end
 		ensure
 			SDL_Surface_Text_Surface_Imp_Ok: surface_imp = Void or surface_imp.is_surface_ok
 		end
 
-	make_blended(a_text:STRING_8;a_font:GAME_FONT;a_color:GAME_COLOR)
+	make_blended(a_text:STRING_GENERAL;a_font:GAME_FONT;a_color:GAME_COLOR)
 			-- Initialization for `Current'.
 			-- Make a new surface from the text `a_text' using the font `a_font' of color `a_color'.
 			-- Smmoth effect on the surface. Relatively slow render.
@@ -88,21 +103,25 @@ feature {NONE} -- Initialization
 		local
 			l_text_c:C_STRING
 			l_sdl_color:GAME_SDL_COLOR
-
 			l_color:GAME_COLOR
-			l_screen:GAME_SCREEN
-			i,j:INTEGER
+			l_utf_converter:UTF_CONVERTER
 		do
 			init_var(a_text,a_font,a_color)
-			create l_text_c.make (a_text)
-			if l_text_c.string.is_empty then
+			if a_text.is_empty then
 				make (100, 100)
 				create l_color.make (0, 0, 0, 255)
 				put_pixel_color (0, 0, l_color)
 				set_transparent_color (l_color)
 			else
 				create l_sdl_color.make_from_rgba_color (a_color)
-				make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Blended(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				if a_text.is_string_32 then
+					create l_utf_converter
+					create l_text_c.make (l_utf_converter.string_32_to_utf_8_string_8 (a_text))
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderUTF8_Blended(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				else
+					create l_text_c.make (a_text)
+					make_from_pointer ({GAME_TEXT_EXTERNAL}.TTF_RenderText_Blended(a_font.sdl_font_pointer,l_text_c.item,l_sdl_color.sdl_color_pointer))
+				end
 				enable_alpha
 			end
 
