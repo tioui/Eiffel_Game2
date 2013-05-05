@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			lib_ctrl.set_window_caption ("You can move or resize the video with the mouse!", "Video Exemple")
 			create reader.make(lib_ctrl)
 			lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(lib_ctrl))
-			lib_ctrl.event_controller.on_tick.extend (agent reader.update_video_to_screen)
+			lib_ctrl.event_controller.on_iteration.extend (agent reader.update_video_to_screen)
 			lib_ctrl.event_controller.on_resize_window.extend (agent on_resize(lib_ctrl,?,?))
 			lib_ctrl.event_controller.on_mouse_button_down.extend (agent on_mouse_down(reader,?,?,?,?,?))
 			lib_ctrl.event_controller.on_mouse_button_up.extend (agent on_mouse_up)

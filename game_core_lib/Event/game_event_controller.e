@@ -2,7 +2,7 @@ note
 	description: "Controler for the event. It is important to call poll_event or wait_event regularly if you want events to be launch."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	revision: "1.2.1.1"
 
 class
 	GAME_EVENT_CONTROLLER
@@ -20,7 +20,7 @@ feature {NONE} -- Initialization
 		do
 			core_ctrl:=a_ctrl
 			event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
-			make_tick_event
+			make_iteration_event
 			make_active_event
 			make_keyboard_event
 			make_mouse_motion_event
@@ -43,7 +43,7 @@ feature -- Access
 	local
 		l_is_event:INTEGER
 	do
-		decode_tick_event
+		decode_iteration_event
 		from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 		until l_is_event=0
 		loop
@@ -51,20 +51,6 @@ feature -- Access
 			l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 		end
 	end
-
---	wait_event
---		-- Execute an event validation. If no event is pending, wait an event before exit.
---	local
---		event_ptr:POINTER
---		is_event:INTEGER
---	do
---		event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
---		is_event:={GAME_SDL_EXTERNAL}.SDL_WaitEvent(event_ptr)
---		if is_event/=0 then
---			decode_event(event_ptr)
---		end
---		{GAME_SDL_EXTERNAL}.c_event_struct_free(event_ptr)
---	end
 
 feature -- Active event access
 
@@ -571,47 +557,24 @@ feature {NONE} -- Quit event implementation
 
 feature -- Tick event
 
-	on_tick: ACTION_SEQUENCE[TUPLE[]] -- When a lap time has past (set by the `tick_delay') feature.
+	on_iteration: ACTION_SEQUENCE[TUPLE[]] -- Call Each Event loop iteration.
 
-	tick_delay:NATURAL -- Time delay to call `on_tick' event (in millisecond)
-
-	set_tick_delay(a_tick_delay:NATURAL)
-			-- Set the time delay to call `on_tick' event (in millisecond).
-		do
-			tick_delay:=a_tick_delay
-		end
-
-	is_tick_event_actions:BOOLEAN
+	is_iteration_event_actions:BOOLEAN
 		-- Return true if there is at least one tick event listener.
 	do
-		Result:=on_tick.count/=0
+		Result:=on_iteration.count/=0
 	end
 
 feature {NONE} -- Tick event implementation
 
-	old_ticks:NATURAL_32
-
-	make_tick_event
+	make_iteration_event
 	do
-		old_ticks:=0
-		tick_delay:=1
-		create on_tick.default_create
+		create on_iteration.default_create
 	end
 
-	decode_tick_event
-	local
-		l_new_ticks:NATURAL_32
-		l_next_tick:NATURAL_64
+	decode_iteration_event
 	do
-		if on_quit_signal.count/=0 then
-			l_new_ticks:=core_ctrl.get_ticks
-			l_next_tick:=old_ticks.to_natural_64+tick_delay.to_natural_64
-			l_next_tick:=l_next_tick\\(l_new_ticks.max_value.to_natural_64+1)
-			if l_next_tick<=l_new_ticks then
-				on_tick.call ([l_new_ticks])
-				old_ticks:=l_new_ticks
-			end
-		end
+		on_iteration.call ([])
 	end
 
 

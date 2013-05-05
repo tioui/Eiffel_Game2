@@ -2,7 +2,7 @@ note
 	description: "Create a new surface with a text drawed in it."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.1"
+	revision: "1.1.2.1"
 
 class
 	GAME_SURFACE_TEXT

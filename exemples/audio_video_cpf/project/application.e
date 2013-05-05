@@ -40,8 +40,8 @@ feature {NONE} -- Initialization
 			a_lib_ctrl.set_window_caption ("You can resize the window!", "Audio Video CPF")
 			create l_reader.make(a_lib_ctrl,a_audio_ctrl.sound_buffer_size)
 			l_reader.enable_auto_resize
-			a_lib_ctrl.event_controller.on_tick.extend (agent l_reader.update_playing)
-			a_lib_ctrl.event_controller.on_tick.extend (agent check_ending(a_lib_ctrl,l_reader))
+			a_lib_ctrl.event_controller.on_iteration.extend (agent l_reader.update_playing)
+			a_lib_ctrl.event_controller.on_iteration.extend (agent check_ending(a_lib_ctrl,l_reader))
 			a_lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(a_lib_ctrl))
 			a_lib_ctrl.event_controller.on_resize_window.extend (agent on_resize(a_lib_ctrl,l_reader,?,?))
 			create l_video.make (l_ressources,2)

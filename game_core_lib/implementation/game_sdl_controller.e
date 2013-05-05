@@ -2,7 +2,7 @@ note
 	description: "Controller of the SDL library."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	revision: "1.2.1.1"
 
 class
 	GAME_SDL_CONTROLLER
@@ -427,18 +427,48 @@ feature -- Other methods
 	launch
 			-- Start the main loop. Used to get a Event-driven programming only.
 			-- Don't forget to execute the method `stop' in an event handeler.
+		local
+			l_delay:INTEGER_64
 		do
 			from
 				must_stop:=false
+				last_tick:=get_ticks
 			until
 				must_stop
 			loop
 				update
-				delay (loop_delay)
+				l_delay:=ticks_per_iteration
+				l_delay:=l_delay-(get_ticks-last_tick).to_integer_32
+				if l_delay<1 then
+					delay (1)
+				else
+					delay(l_delay.to_natural_32)
+				end
+				last_tick:=get_ticks
 			end
 		end
 
-	loop_delay:NATURAL_32	-- Change it if to change the frequency of the event.
+	launch_with_iteration_per_second(a_iteration_per_second:NATURAL_32)
+			-- Start the main loop. Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handeler.
+			-- Set `iteration_per_second' to `a_iteration_per_second' before launching.
+		do
+			set_iteration_per_second(a_iteration_per_second)
+			launch
+		end
+
+	iteration_per_second:NATURAL_32 assign set_iteration_per_second
+			-- An approximation of the number of event loop iteration per second.
+		do
+			Result:=1000//ticks_per_iteration
+		end
+
+	set_iteration_per_second(a_iteration_per_second:NATURAL_32)
+			-- Set `iteration_per_second' to `a_iteration_per_second'
+			-- Note that this is an aproximation.
+		do
+			ticks_per_iteration:=1000//a_iteration_per_second
+		end
 
 	stop
 			-- Stop the main loop
@@ -468,7 +498,7 @@ feature{NONE} -- Implementation - Methods
 		local
 			l_error:INTEGER
 		once
-			loop_delay:=1
+			set_iteration_per_second(60)
 			create all_joysticks.make (0)
 			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
 			check l_error = 0 end
@@ -509,5 +539,9 @@ feature {NONE} -- Implementation - Variables
 	buffer_surface:GAME_SURFACE
 
 	must_stop:BOOLEAN
+
+	last_tick:NATURAL_32
+
+	ticks_per_iteration:NATURAL_32
 
 end

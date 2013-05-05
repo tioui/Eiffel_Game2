@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			bk.draw_surface (desert, 0, 0)	-- Show the desert surface on the blue background.
 
 			maryo_anim:=gen_maryo_anim		-- Generate the animations images
-			controller.event_controller.on_tick.extend (agent main_loop(controller,bk,maryo_anim,?))	-- Activate the main loop
+			controller.event_controller.on_iteration.extend (agent main_loop(controller,bk,maryo_anim))	-- Activate the main loop
 
 			controller.create_screen_surface (bk.width, bk.height, 16, true, true, false, true, false)	-- Create the window. Dimension: same as bk image, 16 bits per pixel, Use video memory, use hardware double buffer,
 
@@ -84,7 +84,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Routines
 
-	main_loop(controller:GAME_LIB_CONTROLLER;bk:GAME_SURFACE;maryo_anim:LIST[GAME_SURFACE];tick_pass:NATURAL_32)
+	main_loop(controller:GAME_LIB_CONTROLLER;bk:GAME_SURFACE;maryo_anim:LIST[GAME_SURFACE])
 			-- This routine is not a loop, but it will be launch at each pass of the application main loop
 		do
 			controller.screen_surface.draw_surface (bk, 0, 0)	-- Print the background on the screen surface

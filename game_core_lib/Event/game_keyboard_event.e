@@ -2,7 +2,7 @@ note
 	description: "Keyboard Events. To retreive the state of the keyboard. Must be return by an object of GAME_EVENT_CONTROLLER type."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.1"
+	revision: "1.1.2.1"
 
 class
 	GAME_KEYBOARD_EVENT
@@ -39,11 +39,11 @@ feature {NONE} -- Implementation
 
 	mod:INTEGER
 
+	unicode:NATURAL_16 -- The translated unicode character representing the button pressed or released.
+
 feature -- Access
 
 	scancode:NATURAL_8 -- Hardware dependent scancode (not compatible between system)
-
-	unicode:NATURAL_16 -- The translated unicode character representing the button pressed or released.
 
 	character:CHARACTER_32
 			-- Return the caracter representation of the key pressed.

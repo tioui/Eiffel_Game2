@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			lib_ctrl.event_controller.on_resize_window.extend (agent on_resize(lib_ctrl,?,?))		-- When the window is resized, the screen surface must be resized as well
 			lib_ctrl.create_screen_surface (200, 200, 16, true, true, true, true, false)	-- Create the screen surface, 200x200, 16 bpp, use hardware memory and double buffer, is resizable, have frame and is not fullscreen
 			create image.make_with_alpha ("pingus.png")
-			lib_ctrl.event_controller.on_tick.extend (agent on_tick(lib_ctrl,image))	-- On tick event, update the screen
+			lib_ctrl.event_controller.on_iteration.extend (agent on_tick(lib_ctrl,image))	-- On tick event, update the screen
 			lib_ctrl.launch		-- Launch the event driven application
 		end
 

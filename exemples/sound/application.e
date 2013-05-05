@@ -64,7 +64,7 @@ feature {NONE} -- Initialization
 			controller.event_controller.on_key_down.extend (agent on_key_down_sound(l_sound,sound_source,?))	-- When a key is pressed, the on_key_down will be launch
 																												-- The on_key_down routine will receive the sound and the source
 																												-- Note that you can add more than one event routine for an event
-			controller.event_controller.on_tick.extend (agent audio_ctrl.update)	-- To be sure that the sound will auto update sources buffers. You can use the launch_in_thread
+			controller.event_controller.on_iteration.extend (agent audio_ctrl.update)	-- To be sure that the sound will auto update sources buffers. You can use the launch_in_thread
 																					-- feature of the AUDIO_CONTROLLER instead, but your application must be multi-thread enable to do so.
 			music_source.play	-- Play the music
 		end

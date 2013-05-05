@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			a_lib_ctrl.set_window_caption ("You can move or resize the video with the mouse!", "Video Exemple")
 			create l_reader.make(a_lib_ctrl)
 			a_lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(a_lib_ctrl))
-			a_lib_ctrl.event_controller.on_tick.extend (agent l_reader.update_video_to_screen)
+			a_lib_ctrl.event_controller.on_iteration.extend (agent l_reader.update_video_to_screen)
 			create l_video1.make (l_ressources,1)			-- Open the Blue Bubble video file
 			create l_video2.make (l_ressources,2)			-- Open the Red Curtain video file
 			create l_font.make (l_ressources, 3, 20)

@@ -36,8 +36,8 @@ feature {NONE} -- Initialization
 		do
 			a_lib_ctrl.create_screen_surface (320, 176, 32, true, true, false, true, false)
 			create l_reader.make(a_lib_ctrl,a_audio_ctrl.sound_buffer_size)
-			a_lib_ctrl.event_controller.on_tick.extend (agent l_reader.update_playing)
-			a_lib_ctrl.event_controller.on_tick.extend (agent check_ending(a_lib_ctrl,l_reader))
+			a_lib_ctrl.event_controller.on_iteration.extend (agent l_reader.update_playing)
+			a_lib_ctrl.event_controller.on_iteration.extend (agent check_ending(a_lib_ctrl,l_reader))
 			a_lib_ctrl.event_controller.on_quit_signal.extend (agent on_quit(a_lib_ctrl))
 			create l_video.make ("sita.ogg")
 			l_reader.queue_media (l_video)
