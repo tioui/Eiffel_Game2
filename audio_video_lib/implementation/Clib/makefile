@@ -28,7 +28,7 @@ objet-linux-wiz/av_more.o: src/av_more.c
 
 windows: objet-windows/av_more.o
 objet-windows/av_more.o: src/av_more.c
-	cd "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib"; \
+	cd /d "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib" && \
 		gmake windows
 	-mkdir objet-windows
 	gcc -c -I".\include" -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -o objet-windows/av_more.o src/av_more.c

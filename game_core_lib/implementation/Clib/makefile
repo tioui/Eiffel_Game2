@@ -28,7 +28,7 @@ objet-linux-wiz/core_more.o: src/core_more.c
 
 windows: objet-windows/core_more.o
 objet-windows/core_more.o: src/core_more.c
-	cd "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib"; \
+	cd /d "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib" && \
 		gmake windows
 	-mkdir objet-windows
 	gcc -c -I"$(EIF_GAME_LIB)\C_lib_win\SDL\include\SDL" -I"$(EIF_GAME_LIB)\cpf_lib\implementation\Clib\include" -I".\include" -o objet-windows/core_more.o src/core_more.c

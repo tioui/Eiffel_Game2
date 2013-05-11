@@ -28,7 +28,7 @@ objet-linux-wiz/sndfile_more.o: src/sndfile_more.c
 
 windows: objet-windows/sndfile_more.o
 objet-windows/sndfile_more.o: src/sndfile_more.c
-	cd "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib"; \
+	cd /d "$(EIF_GAME_LIB)\cpf_lib\implementation\Clib" && \
 		gmake windows
 	-mkdir objet-windows
 	gcc -c -I".\include" -I"$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include" -I"$(EIF_GAME_LIB)/C_lib_win\libsndfile\include" -o objet-windows/sndfile_more.o src/sndfile_more.c
