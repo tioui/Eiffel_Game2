@@ -37,7 +37,9 @@ function eifgensExClear () {
 	rm -rf $EIF_GAME_LIB/exemples/audio-console2/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/audio_video/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/audio_wav/EIFGENs
+	rm -rf $EIF_GAME_LIB/exemples/background_move/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/cpf/project/EIFGENs
+	rm -rf $EIF_GAME_LIB/exemples/doppler/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/effects/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/mouse-text/EIFGENs
 	rm -rf $EIF_GAME_LIB/exemples/keyboard-text/EIFGENs
@@ -112,7 +114,9 @@ then
 		compileEx "Audio Video Exemple" "audio_video" "audio_video.ecf" "audio_video" "audio_video"
 		compileEx "Audio Video (CPF) Exemple" "audio_video_cpf/project" "audio_video_cpf.ecf" "audio_video_cpf" "audio_video_cpf"
 		compileEx "Audio WAV Exemple" "audio_wav" "audio_wav.ecf" "audio_wav" "audio_wav"
+		compileEx "Background Move" "background_move" "background_move.ecf" "background_move" "background_move"
 		compileEx "Custom Package Files Exemple" "cpf/project" "cpf.ecf" "cpf" "cpf"
+		compileEx "Doppler Effect" "doppler" "doppler.ecf" "doppler" "doppler"
 		compileEx "Visual Effects Exemple" "effects" "effects.ecf" "effects" "effects"
 		compileEx "Mouse and Text Exemple" "mouse-text" "mouse-text.ecf" "mouse-text" "mouse-text"
 		compileEx "Keyboard and Text Exemple" "keyboard-text" "keyboard-text.ecf" "keyboard-text" "keyboard-text"

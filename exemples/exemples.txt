@@ -23,6 +23,7 @@ Sound usage:
 	- sound
 	- sound-console2 (without graphical window)
 	- cpf
+	- doppler (stereo sound with sound source positionning and doppler effect)
 
 Keyboard event:
 	- sound
