@@ -7,7 +7,7 @@
 		</option>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="eiffel_game_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf" readonly="true"/>
-		<library name="game_text_lib" location="$EIF_GAME_LIB\game_text_lib\eiffel_text_lib.ecf"/>
+		<library name="game_text_lib" location="$EIF_GAME_LIB\game_text_lib\game_text_lib.ecf"/>
 		<cluster name="project" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/.svn$</exclude>
