@@ -6,10 +6,10 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<library name="base" location="$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name="eiffel_game_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
-		<library name="game_images_files_lib" location="$EIF_GAME_LIB\game_images_files_lib\game_images_files_lib.ecf"/>
-		<library name="audio_lib" location="$EIF_GAME_LIB\audio_lib\audio_lib.ecf"/>
-		<library name="audio_snd_files_lib" location="$EIF_GAME_LIB\audio_snd_files_lib\audio_snd_files_lib.ecf"/>
+		<library name="eiffel_game_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_core_lib\game_core_lib.ecf"/>
+		<library name="game_images_files_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_images_files_lib\game_images_files_lib.ecf"/>
+		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib.ecf"/>
+		<library name="audio_snd_files_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_snd_files_lib\audio_snd_files_lib.ecf"/>
 		<cluster name="doppler" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

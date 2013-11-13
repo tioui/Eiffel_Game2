@@ -5,11 +5,11 @@
 		<option warning="true" is_attached_by_default="false" syntax="transitional">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<library name="audio_lib" location="$EIF_GAME_LIB\audio_lib\audio_lib.ecf"/>
-		<library name="audio_video_av_files_lib" location="$EIF_GAME_LIB\audio_video_lib\audio_video_av_files_lib.ecf"/>
+		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib.ecf"/>
+		<library name="audio_video_av_files_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_video_lib\audio_video_av_files_lib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
-		<library name="game_core_lib" location="$EIF_GAME_LIB\game_core_lib\game_core_lib.ecf"/>
+		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
+		<library name="game_core_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_core_lib\game_core_lib.ecf"/>
 		<cluster name="audio_video_cpf" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

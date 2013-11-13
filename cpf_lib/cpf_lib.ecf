@@ -8,7 +8,7 @@
 		<option is_attached_by_default="false">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<external_include location="$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/include"/>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/cpf_lib/implementation/Clib/include"/>
 		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
@@ -19,7 +19,7 @@
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_include>
-		<external_include location="$(EIF_GAME_LIB)/C_lib_wiz/include">
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/include">
 			<condition>
 				<custom name="toolchain" value="wiz"/>
 			</condition>
@@ -29,24 +29,24 @@
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_cflag>
-		<external_cflag value="-L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIF_GAME_LIB)/C_lib_wiz/lib -D_FILE_OFFSET_BITS=64">
+		<external_cflag value="-L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/lib -D_FILE_OFFSET_BITS=64">
 			<condition>
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_cflag>
-		<external_object location="$(EIF_GAME_LIB)/cpf_lib/implementation/Clib/objet-$(ISE_PLATFORM)/cpf_more.o"/>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/cpf_lib/implementation/Clib/objet-$(ISE_PLATFORM)/cpf_more.o"/>
 		<external_library location="-liconv">
 			<condition>
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_library>
-		<pre_compile_action working_directory="$EIF_GAME_LIB\cpf_lib\implementation\Clib\" command="make $ISE_PLATFORM">
+		<pre_compile_action working_directory="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\implementation\Clib\" command="make $ISE_PLATFORM">
 			<description>Compile the modified CPF method.</description>
 			<condition>
 				<platform excluded_value="windows"/>
 			</condition>
 		</pre_compile_action>
-		<pre_compile_action working_directory="$EIF_GAME_LIB\cpf_lib\implementation\Clib\" command="gmake windows">
+		<pre_compile_action working_directory="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\implementation\Clib\" command="gmake windows">
 			<description>Compile the modified CPF method.</description>
 			<condition>
 				<platform value="windows"/>

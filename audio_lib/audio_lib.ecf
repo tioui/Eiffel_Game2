@@ -19,17 +19,17 @@
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_include>
-		<external_include location="$(EIF_GAME_LIB)/C_lib_caanoo/include/AL">
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/include/AL">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_include>
-		<external_include location="$(EIF_GAME_LIB)/C_lib_wiz/include/AL">
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/include/AL">
 			<condition>
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_include>
-		<external_include location="$(EIF_GAME_LIB)\C_lib_win\OpenAL\include">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\include">
 			<condition>
 				<platform value="windows"/>
 			</condition>
@@ -44,17 +44,17 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_cflag value="-L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -L\$(EIF_GAME_LIB)/C_lib_caanoo/lib">
+		<external_cflag value="-L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/lib">
 			<condition>
 				<custom name="toolchain" value="caanoo"/>
 			</condition>
 		</external_cflag>
-		<external_cflag value="-L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIF_GAME_LIB)/C_lib_wiz/lib">
+		<external_cflag value="-L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/lib">
 			<condition>
 				<custom name="toolchain" value="wiz"/>
 			</condition>
 		</external_cflag>
-		<external_object location="$(EIF_GAME_LIB)\C_lib_win\OpenAL\libs\Win32\OpenAL32.lib">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\libs\Win32\OpenAL32.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
@@ -75,7 +75,7 @@
 			</condition>
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="cpf_lib" location="$EIF_GAME_LIB\cpf_lib\cpf_lib.ecf"/>
+		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<cluster name="audio_lib" location=".\" recursive="true">
 			<description>An audio add-on for The Eiffel Game Library.</description>

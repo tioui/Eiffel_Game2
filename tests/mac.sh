@@ -3,54 +3,54 @@
 PARAM="$1"
 
 function clibClear () {
-	cd $EIF_GAME_LIB/audio_snd_files_lib/implementation/Clib
+	cd $EIFFEL_LIBRARY/contrib/library/game/audio_snd_files_lib/implementation/Clib
 	make clean
-	cd $EIF_GAME_LIB/audio_video_lib/implementation/Clib
+	cd $EIFFEL_LIBRARY/contrib/library/game/audio_video_lib/implementation/Clib
 	make clean
-	cd $EIF_GAME_LIB/cpf_lib/implementation/Clib
+	cd $EIFFEL_LIBRARY/contrib/library/game/cpf_lib/implementation/Clib
 	make clean
-	cd $EIF_GAME_LIB/game_core_lib/implementation/Clib
+	cd $EIFFEL_LIBRARY/contrib/library/game/game_core_lib/implementation/Clib
 	make clean
 }
 
 function eifgensLibClear () {
-	rm -rf $EIF_GAME_LIB/audio_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/audio_snd_files_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/audio_video_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/cpf_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/custom_package_file_app/EIFGENs
-	rm -rf $EIF_GAME_LIB/game_core_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/game_effects_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/game_images_files_lib/EIFGENs
-	rm -rf $EIF_GAME_LIB/game_text_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/audio_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/audio_snd_files_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/audio_video_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/cpf_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/custom_package_file_app/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/game_core_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/game_effects_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/game_images_files_lib/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/game_text_lib/EIFGENs
 }
 
 function eifgensExClear () {
-	rm -rf $EIF_GAME_LIB/exemples/anim1/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/anim2/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/audio-console1/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/audio-console2/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/audio_video/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/audio_wav/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/background_move/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/cpf/project/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/doppler/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/effects/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/mouse-text/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/keyboard-text/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/sound/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/surface1/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/surface2/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/video/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/video_cpf/project/EIFGENs
-	rm -rf $EIF_GAME_LIB/exemples/audio_video_cpf/project/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/anim1/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/anim2/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/audio-console1/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/audio-console2/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/audio_video/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/audio_wav/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/background_move/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/cpf/project/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/doppler/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/effects/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/mouse-text/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/keyboard-text/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/sound/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/surface1/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/surface2/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/video/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/video_cpf/project/EIFGENs
+	rm -rf $EIFFEL_LIBRARY/contrib/library/game/exemples/audio_video_cpf/project/EIFGENs
 }
 
 function compileSubLib () {
 	echo "*************************************************************************"	
 	echo "Testing" $1 "..."
 	clibClear
-	cd $EIF_GAME_LIB/$2
+	cd $EIFFEL_LIBRARY/contrib/library/game/$2
 	ec -batch -config $3 -target $4
 	if (( $? )) 
 	then 
@@ -64,14 +64,14 @@ function compileEx () {
 	echo "*************************************************************************"	
 	echo "Testing" $1 "..."
 	clibClear
-	cd $EIF_GAME_LIB/exemples/$2
+	cd $EIFFEL_LIBRARY/contrib/library/game/exemples/$2
 	ec -batch -c_compile -config $3 -target $4
 	if (( $? )) 
 	then 
 		echo Error while compiling eiffel code of $1.
 		exit 1
 	fi
-	if [ ! -f "$EIF_GAME_LIB/exemples/$2/EIFGENs/$4/W_code/$5" ];
+	if [ ! -f "$EIFFEL_LIBRARY/contrib/library/game/exemples/$2/EIFGENs/$4/W_code/$5" ];
   	then
    		echo Error while compiling c code of $1.
     		exit 1
