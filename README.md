@@ -10,6 +10,7 @@ The library is under Eiffel Forum License v2.
 
 The project use those libraries: SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, Libsndfile and FFMPEG LibAV.
 
+[<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 
 Installation on Linux (Ubuntu)
 ------------------------------
