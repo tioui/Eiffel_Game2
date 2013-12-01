@@ -1,3 +1,10 @@
+v1.3.1.1
+2013-11-25
+ * Remove the EIF_GAME_LIB environment variable dependancy.
+   - Replace all $EIF_GAME_LIB by $EIFFEL_LIBRARY/contrib/library/game.
+   - The Library must be install in the contrib/library directory in the ISE Eiffel directory.
+   - Note: You can make a symetric link if you don't want in in the Eiffel directory.
+
 v1.2.1.1
 2013-05-05
 
