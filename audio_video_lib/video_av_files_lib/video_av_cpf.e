@@ -8,7 +8,7 @@ class
 	VIDEO_AV_CPF
 
 inherit
-	CPF_RESSOURCE
+	CPF_RESSOURCE_MANAGER
 	VIDEO_AV_FILE
 	rename
 		make as make_file,
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			cpf_index:=a_index
 
 			bio_buffer:={AV_EXTERNAL}.av_malloc(a_read_buffer_size+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
-			cpf.mutex_lock
+			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			avio_context:={AV_EXTERNAL}.avio_alloc_context(bio_buffer,a_read_buffer_size,0,a_cpf.get_current_cpf_infos_ptr,
 								{AV_EXTERNAL}.av_more_read_packet,create{POINTER},{AV_EXTERNAL}.av_more_seek)
@@ -45,8 +45,8 @@ feature {NONE} -- Initialization
 			format_context_pointer:={AV_EXTERNAL}.avformat_alloc_context
 			{AV_EXTERNAL}.set_av_format_context_struct_pb(format_context_pointer,avio_context)
 			make_file("Stream")
-			last_offset:=cpf.current_offset
-			cpf.mutex_unlock
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
 		end
 
 	make(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER)
@@ -73,20 +73,20 @@ feature {VIDEO_READER}
 
 	decode_frame
 		do
-			cpf.mutex_lock
-			if cpf.current_file_index/=cpf_index or else not cpf.current_offset_is_in_selected_file then
+			cpf.lock_mutex
+			if cpf.current_sub_file_index /=cpf_index or else not cpf.is_position_in_selected_sub_file then
 				cpf.select_sub_file (cpf_index)
 			end
-			if cpf.current_offset/=last_offset then
-				cpf.seek_from_begining (last_offset)
+			if cpf.current_sub_file_position/=last_offset then
+				cpf.go_in_current_sub_file (last_offset)
 			end
 			precursor
-			if cpf.current_offset_is_in_selected_file then
-				last_offset:=cpf.current_offset
+			if cpf.is_position_in_selected_sub_file then
+				last_offset:=cpf.current_sub_file_position
 			else
 				last_offset:=0
 			end
-			cpf.mutex_unlock
+			cpf.unlock_mutex
 		end
 
 	end_of_file:BOOLEAN
@@ -98,11 +98,11 @@ feature-- Access
 
 	restart
 		do
-			cpf.mutex_lock
+			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			Precursor
-			last_offset:=cpf.current_offset
-			cpf.mutex_unlock
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
 		end
 
 

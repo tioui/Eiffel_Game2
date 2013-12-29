@@ -55,6 +55,7 @@ feature {NONE} -- Initialization
 			set_direction(0.0,0.0,0.0)
 			temp_buffer:=temp_buffer.memory_alloc(buffer_size)
 			is_thread_safe:=false
+			create g_mutex.make
 		end
 
 feature -- Access
@@ -135,6 +136,8 @@ feature -- Access
 	queue_sound_loop(a_sound:AUDIO_SOUND;a_nb_loop:INTEGER)
 			-- Add a `a_sound' to the playing queue.
 			-- Put `a_nb_loop' to 0 for no loop and to -1 to infinite loop
+		require
+			Queud_Sound_Is_Open: a_sound.is_open
 		local
 			l_sound_tuple:TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]
 		do
@@ -147,6 +150,8 @@ feature -- Access
 	queue_sound(a_sound:AUDIO_SOUND)
 			-- Add a `a_sound' to the playing queue.
 			-- Don't loop the sound at all (only one playing).
+		require
+			Queud_Sound_Is_Open: a_sound.is_open
 		do
 			queue_sound_loop(a_sound,0)
 		end
@@ -154,6 +159,8 @@ feature -- Access
 	queue_sound_infinite_loop(a_sound:AUDIO_SOUND)
 			-- Add a `a_sound' to the playing queue.
 			-- Loop the `a_sound' until the source is stopped.
+		require
+			Queud_Sound_Is_Open: a_sound.is_open
 		do
 			queue_sound_loop(a_sound,-1)
 		end
@@ -203,7 +210,7 @@ feature -- Access
 					end
 				end
 				if not sound_queued.is_empty then
-					queue_buffer(temp_buffer,last_fill_buffer_size*byte_per_buffer_sample,channel,bits_resolution,freq)
+					queue_buffer(temp_buffer,last_fill_buffer_size,channel,bits_resolution,freq)
 				end
 
 			end
@@ -230,7 +237,6 @@ feature {AUDIO_CONTROLLER}
 
 	set_thread_safe
 		do
-			create g_mutex.make
 			is_thread_safe:=true
 		end
 
@@ -352,7 +358,10 @@ feature {NONE} -- Implementation - Variables
 
 	sound_queued:LINKED_QUEUE[TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]]
 
-	nb_buffer:INTEGER is 4
+	nb_buffer:INTEGER
+		once
+			Result:=4
+		end
 
 	is_thread_safe:BOOLEAN
 	g_mutex:MUTEX

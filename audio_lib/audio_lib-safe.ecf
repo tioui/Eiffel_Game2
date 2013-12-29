@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="audio_lib" uuid="B50BE2F6-EA2C-412C-AF06-4A7DB035D783" library_target="audio_lib">
+	<description>An audio add-on for The Eiffel Game Library.</description>
+	<target name="audio_lib">
+		<description>An audio add-on for The Eiffel Game Library.</description>
+		<root all_classes="true"/>
+		<version major="0" minor="1" release="1" build="0" product="Audio_Lib" copyright="Louis Marchand"/>
+		<option warning="true" full_class_checking="false" void_safety="all" syntax="standard" namespace="EiffelSoftware.Library">
+		</option>
+		<external_include location="/usr/include/AL">
+			<condition>
+				<platform value="unix"/>
+				<custom name="toolchain" excluded_value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/include">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/include/AL">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/include/AL">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="-lopenal">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/local/include/AL/">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_cflag value="-L/opt/gcc-4.2.4-glibc-2.7-eabi/lib -L/opt/gcc-4.2.4-glibc-2.7-eabi/arm-gph-linux-gnueabi/sys-root/usr/lib -L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/lib">
+			<condition>
+				<custom name="toolchain" value="caanoo"/>
+			</condition>
+		</external_cflag>
+		<external_cflag value="-L/opt/arm-openwiz-linux-gnu/lib -L/opt/arm-openwiz-linux-gnu/arm-openwiz-linux-gnu/sys-root/lib -L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/lib">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_cflag>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\libs\Win32\OpenAL32.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_library location="-liconv">
+			<condition>
+				<custom name="toolchain" value="wiz"/>
+			</condition>
+		</external_library>
+		<external_linker_flag value="-framework OpenAL">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lopenal">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\shared\game_shared-safe.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
+		<cluster name="audio_lib" location=".\" recursive="true">
+			<description>An audio add-on for The Eiffel Game Library.</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

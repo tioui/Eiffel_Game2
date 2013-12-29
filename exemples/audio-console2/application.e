@@ -46,9 +46,18 @@ feature {NONE} -- Initialization
 				line:=io.last_string
 				if line.substring (1,4).is_equal ("open") then			-- When a user write "open <filename>"
 					create sound.make (line.substring (6,line.count))	-- Open the sound
-					audio_ctrl.add_source					-- Create a new sound source
-					audio_ctrl.last_source.queue_sound (sound)	-- Queued the sound in the newly created source
-					audio_ctrl.last_source.play			-- Play the source.
+					if sound.is_openable then
+						sound.open
+						if sound.is_open then
+							audio_ctrl.sources_add					-- Create a new sound source
+							audio_ctrl.last_source_added.queue_sound (sound)	-- Queued the sound in the newly created source
+							audio_ctrl.last_source_added.play			-- Play the source.		
+						end
+					end
+					if not sound.is_open then
+						io.put_string ("The file " + line.substring (6,line.count) + " is not valid.%N")
+					end
+
 				end
 			end
 			audio_ctrl.stop_thread		-- Destroy the thread created by the "launch_in_thread" feature

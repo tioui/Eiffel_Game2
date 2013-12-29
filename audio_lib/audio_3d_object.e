@@ -9,6 +9,7 @@ deferred class
 
 inherit
 	AUDIO_OPENAL_ERROR_MANAGER
+	GAME_3D_OBJECT
 
 
 feature -- Access

@@ -11,19 +11,17 @@ inherit
 	AUDIO_3D_OBJECT
 
 create {AUDIO_CONTROLLER}
-	make
+	default_create
 
-feature {NONE} -- Initialization
+feature -- Access
 
-	make
-			-- Initialization for `Current'.
+	initialize
+			-- Set the default orientation, velocity and position.
 		do
 			set_position (0.0, 0.0, 0.0)
 			set_velocity (0.0, 0.0, 0.0)
 			set_orientation (0.0, 0.0, -1.0, 0.0, 1.0, 0.0)
 		end
-
-feature -- Access
 
 
 	set_orientation(a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up:REAL)

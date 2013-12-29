@@ -1,5 +1,5 @@
-#ifndef CPF_MORE_H
-#define CPF_MORE_H
+#ifndef CPF_ADDITIONS_H
+#define CPF_ADDITIONS_H
 #include <stdio.h>
 #include <stdint.h>
 

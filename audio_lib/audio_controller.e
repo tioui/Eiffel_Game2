@@ -29,6 +29,9 @@ feature {NONE} -- Initialization
 		do
 			sound_buffer_size:=64000
 			is_thread_init:=false
+			create launch_mutex.make
+			create {LINKED_LIST[AUDIO_SOURCE]} sources.make
+			create i_listener
 		end
 
 feature -- Access
@@ -47,8 +50,7 @@ feature -- Access
 						{AUDIO_EXTERNAL}.AL_make_context_current(context)
 						read_error
 						if not is_error then
-							create i_listener.make
-							sources:= create {LINKED_LIST[AUDIO_SOURCE]}.make
+							i_listener.initialize
 							is_sound_enable:=true
 						else
 							{AUDIO_EXTERNAL}.AL_destroy_context(context)
@@ -71,7 +73,7 @@ feature -- Access
 			if is_sound_enable then
 				stop_thread
 				sources.do_all (agent (s: AUDIO_SOURCE) do s.stop end)
-				sources:=Void
+				sources.wipe_out
 				is_sound_enable:=false
 				read_error
 				{AUDIO_EXTERNAL}.AL_suspend_context(context)
@@ -124,7 +126,6 @@ feature -- Sources management
 			if not is_thread_init then
 				sources.do_all (agent (s: AUDIO_SOURCE) do s.set_thread_safe end)
 				make_thread
-				create g_mutex.make
 				is_thread_init:=true
 			end
 			is_thread_executing:=true
@@ -152,32 +153,32 @@ feature -- Sources management
 			Result:=sources.count
 		end
 
-	add_source
+	sources_add
 			-- Create a new sound source. To receive the sound source, use the `source_get_last_add method'.
 		require
 			Sources_Add_Sound_Open:is_sound_enable
 		do
 			if is_thread_executing then
-				g_mutex.lock
+				launch_mutex.lock
 			end
 			sources.extend (create {AUDIO_SOURCE}.make(sound_buffer_size))
 			if is_thread_executing then
-				last_source.set_thread_safe
-				g_mutex.unlock
+				last_source_added.set_thread_safe
+				launch_mutex.unlock
 			end
 		ensure
 			sources.count = old sources.count+1
 		end
 
-	last_source:AUDIO_SOURCE
+	last_source_added:AUDIO_SOURCE
 			-- Return the last sound source that as been created.
 		require
 			Sources_Get_Last_add_Sound_Open:is_sound_enable
 		do
-			Result:=source_at (sources_count)
+			Result:=sources_at (sources_count)
 		end
 
-	source_at(a_index:INTEGER):AUDIO_SOURCE
+	sources_at(a_index:INTEGER):AUDIO_SOURCE
 			-- Return the `a_index'-th sound source.
 		require
 			Sources_Get_At_Sound_Open:is_sound_enable
@@ -186,7 +187,7 @@ feature -- Sources management
 			Result:=sources.at (a_index)
 		end
 
-	remove_source(a_index:INTEGER)
+	sources_remove(a_index:INTEGER)
 			-- Remove the `a_index'-th sound source.
 		require
 			Sources_Remove_At_Sound_Open:is_sound_enable
@@ -197,12 +198,12 @@ feature -- Sources management
 			sources.remove
 		end
 
-	prune_source(a_source:AUDIO_SOURCE)
+	sources_prune(a_source:AUDIO_SOURCE)
 			-- Remove the sound source `a_source' from the sound controller. A sound that has been remove from the sound
 			-- controller can continue to work on its own, but it will not be update by the `update_sound_playing' routine.
 		require
 			Sources_Remove_Sound_Open:is_sound_enable
-			Al_Controler_Source_Remove_Source_Valid: a_source /= Void and then has_source (a_source)
+			Al_Controler_Source_Remove_Source_Valid: a_source /= Void and then sources_has (a_source)
 		do
 			a_source.stop
 			sources.prune_all (a_source)
@@ -210,7 +211,7 @@ feature -- Sources management
 			Al_Controler_Source_Remove_Source_Removed: not sources.has (a_source)
 		end
 
-	wipe_sources
+	sources_wipe_out
 			-- This methode remove all sound sources in the sound context.
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
@@ -219,7 +220,7 @@ feature -- Sources management
 			sources.wipe_out
 		end
 
-	has_source(a_source:AUDIO_SOURCE):BOOLEAN
+	sources_has(a_source:AUDIO_SOURCE):BOOLEAN
 			-- Return true if the sound source `a_source' is still in the sound controller.
 		require
 			Sources_Has_Sound_Open:is_sound_enable
@@ -233,7 +234,7 @@ feature -- Sources management
 			mem:MEMORY
 		do
 			if is_sound_enable then
-				wipe_sources
+				sources_wipe_out
 				create mem
 				mem.full_collect
 				disable_sound
@@ -242,17 +243,17 @@ feature -- Sources management
 
 feature {AUDIO_SOURCE}
 
-	push_source(a_source:AUDIO_SOURCE)
+	sources_extend(a_source:AUDIO_SOURCE)
 		require
 			Sources_Push_Sound_Open:is_sound_enable
 		do
 			if is_thread_executing then
-				g_mutex.lock
+				launch_mutex.lock
 			end
 			sources.extend (a_source)
 			if is_thread_executing then
-				last_source.set_thread_safe
-				g_mutex.unlock
+				last_source_added.set_thread_safe
+				launch_mutex.unlock
 			end
 		ensure
 			sources.count = old sources.count+1
@@ -266,7 +267,6 @@ feature {NONE} -- Implementation Class Variable
 	sources:LIST[AUDIO_SOURCE]
 	must_stop_thread:BOOLEAN
 	is_thread_init:BOOLEAN
-	g_mutex:MUTEX
 
 feature {NONE} -- Implementation Routine
 
@@ -278,17 +278,17 @@ feature {NONE} -- Implementation Routine
 			from must_stop_thread:=false
 			until must_stop_thread
 			loop
-				g_mutex.lock
+				launch_mutex.lock
 				update
-				g_mutex.unlock
+				launch_mutex.unlock
 				env.sleep (10000000)
 			end
 		end
 
 invariant
 	Is_Sound_Open_Context_Valid:
-		is_sound_enable = (not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer)
+		is_sound_enable implies (not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer)
 	Is_Sound_Open_Sources_Valid:
-		is_sound_enable = (sources /= Void)
+		(not is_sound_enable) implies (sources.count = 0)
 
 end

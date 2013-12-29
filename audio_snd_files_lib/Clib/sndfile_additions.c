@@ -1,9 +1,9 @@
 /* Util function for Eiffel Game Lib. 	*
  * Author: Louis Marchand		*
  * Date: June 10, 2012			*
- * Version: 0.3				*/
+ * Version: 2.0				*/
 
-#include "sndfile_more.h"
+#include "sndfile_additions.h"
 
 /* Functions to add the "Custom Package File" functionality	*/
 

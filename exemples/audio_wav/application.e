@@ -33,18 +33,18 @@ feature {NONE} -- Initialization
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env
-			audio_ctrl.add_source	-- Add a sound source in the audio context.
-			source:=audio_ctrl.last_source
+			audio_ctrl.sources_add	-- Add a sound source in the audio context.
+			source:=audio_ctrl.last_source_added
 			create sound.make ("sound.wav")
-			source.queue_sound (sound)
+			sound.open
+			source.queue_sound_loop (sound,1)
 			from source.play
 			until not source.is_playing
 			loop
 				env.sleep (10000000)	-- Put a loop delay to remove CPU time
 				audio_ctrl.update	-- This line is very important. If it is not execute reguraly,
-							-- the source will stop playing.
+									-- the source will stop playing.
 			end
-							-- In some system, the absence of this method can lock the audio device until a reboot.
 		end
 
 end

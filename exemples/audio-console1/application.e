@@ -38,13 +38,21 @@ feature {NONE} -- Initialization
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env
-			audio_ctrl.add_source	-- Add a sound source in the audio context.
-			source:=audio_ctrl.last_source
+			audio_ctrl.sources_add	-- Add a sound source in the audio context.
+			source:=audio_ctrl.last_source_added
 			from i:=1
 			until i>argument_count		-- For each program arguments
 			loop
-				create sound.make (argument(i))	-- Create a sound from the file given in argument
-				source.queue_sound (sound)	-- Queued the sound to be play by the sound source.
+				create sound.make (argument(i))		-- Create a sound from the file given in argument
+				if sound.is_openable then		-- Valid that the file actualy exist
+					sound.open				-- Open the sound file
+					if sound.is_open then		-- Is the sound valid
+						source.queue_sound (sound)	-- Queued the sound to be play by the sound source.
+					end
+				end
+				if not sound.is_open then
+					io.error.put_string ("The sound file " + argument (i) + " is not a valid sound file.%N")
+				end
 				i:=i+1
 			end
 			from source.play

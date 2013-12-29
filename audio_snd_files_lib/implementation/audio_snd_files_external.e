@@ -74,29 +74,22 @@ feature -- libsndfile fonctions
 			"sizeof(SF_VIRTUAL_IO)"
 		end
 
-feature -- sndfile_more functions
+feature -- sndfile_addition functions
 
 	frozen set_snd_file_virtual_io(virtual_io:POINTER)
 		external
-			"C (SF_VIRTUAL_IO *) | <sndfile_more.h>"
+			"C (SF_VIRTUAL_IO *) | <sndfile_additions.h>"
 		alias
 			"setSndFileVirtualIo"
 		end
 
 feature -- libsndfile SF_INFO structure
 
-	frozen c_sf_info_struct_allocate: POINTER is
+	frozen c_sizeof_sf_info:INTEGER
 		external
-			"C inline use <sndfile.h>"
+			"C inline use <stdint.h>"
 		alias
-			"malloc (sizeof(SF_INFO))"
-		end
-
-	frozen c_sf_info_struct_free(info:POINTER) is
-		external
-			"C inline use <sndfile.h>"
-		alias
-			"free((SF_INFO *)$info)"
+			"sizeof(SF_INFO)"
 		end
 
 	frozen get_sf_info_struct_channels (sf_info:POINTER):INTEGER

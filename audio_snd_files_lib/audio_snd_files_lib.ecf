@@ -4,20 +4,11 @@
 	<target name="audio_snd_files_lib">
 		<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
 		<root all_classes="true"/>
-		<option is_attached_by_default="false" syntax="transitional">
+		<version major="0" minor="1" release="1" build="0" product="Audio_Snd_Files_Lib" copyright="Louis Marchand"/>
+		<option full_class_checking="false" is_attached_by_default="false" void_safety="none" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/implementation/Clib/include"/>
-		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/include">
-			<condition>
-				<custom name="toolchain" value="caanoo"/>
-			</condition>
-		</external_include>
-		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/include">
-			<condition>
-				<custom name="toolchain" value="wiz"/>
-			</condition>
-		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/include"/>
 		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libsndfile\include">
 			<condition>
 				<platform value="windows"/>
@@ -28,17 +19,40 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_cflag value="-L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_caanoo/lib -D_FILE_OFFSET_BITS=64">
+		
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/$(ISE_PLATFORM)/lib/sndfile_additions.o">
 			<condition>
-				<custom name="toolchain" value="caanoo"/>
+				<platform excluded_value="windows"/>
+				<concurrency value="none"/>
 			</condition>
-		</external_cflag>
-		<external_cflag value="-L\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/lib -D_FILE_OFFSET_BITS=64">
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/$(ISE_PLATFORM)/lib/MTsndfile_additions.o">
 			<condition>
-				<custom name="toolchain" value="wiz"/>
+				<platform excluded_value="windows"/>
+				<concurrency excluded_value="none"/>
 			</condition>
-		</external_cflag>
-		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/implementation/Clib/objet-$(ISE_PLATFORM)/sndfile_more.o"/>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\sndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtsndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency excluded_value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilsndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<dotnet value="true"/>
+			</condition>
+		</external_object>
+
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libsndfile\lib\libsndfile-1.lib">
 			<condition>
 				<platform value="windows"/>
@@ -54,23 +68,6 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
-		<external_linker_flag value="-Wl,-rpath-link=\$(EIFFEL_LIBRARY)/contrib/library/game/C_lib_wiz/lib">
-			<condition>
-				<custom name="toolchain" value="wiz"/>
-			</condition>
-		</external_linker_flag>
-		<pre_compile_action working_directory="$EIFFEL_LIBRARY\contrib\library\game\audio_snd_files_lib\implementation\Clib\" command="make $ISE_PLATFORM">
-			<description>Compile the modified Audio Snd Files methods.</description>
-			<condition>
-				<platform excluded_value="windows"/>
-			</condition>
-		</pre_compile_action>
-		<pre_compile_action working_directory="$EIFFEL_LIBRARY\contrib\library\game\audio_snd_files_lib\implementation\Clib\" command="gmake windows">
-			<description>Compile the modified Audio Snd files methods.</description>
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</pre_compile_action>
 		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
@@ -79,8 +76,8 @@
 			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
-				<exclude>/CVS$</exclude>
-				<exclude>/.svn$</exclude>
+				<exclude>/Clib$</exclude>
+				<exclude>/spec$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

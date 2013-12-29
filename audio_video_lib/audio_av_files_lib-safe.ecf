@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="audio_av_files_lib" uuid="3C1ED323-6494-4F03-A90F-E475329318E0" library_target="audio_av_files_lib">
+	<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (MP3, OGG, FLAC, etc.)</description>
+	<target name="audio_av_files_lib">
+		<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (OGG, FLAC, etc.)</description>
+		<root all_classes="true"/>
+		<version major="2" minor="0" release="0" build="0" product="Audio_AV_Files_Lib" copyright="Louis Marchand"/>
+		<option warning="true" full_class_checking="false" void_safety="all" syntax="standard" namespace="EiffelSoftware.Library">
+		</option>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_video_lib/spec/include"/>
+
+		
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_video_lib/spec/$(ISE_PLATFORM)/lib/av_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_video_lib/spec/$(ISE_PLATFORM)/lib/MTav_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency excluded_value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_video_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\av_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_video_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency excluded_value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_video_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<dotnet value="true"/>
+			</condition>
+		</external_object>
+
+
+		<external_include location="/usr/include/libavcodec">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/include/libavformat">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavcodec">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavformat">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libavcodec">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libavformat">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avcodec.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avutil.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avformat.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_linker_flag value="-L/opt/local/lib -lavcodec -lavformat -lavutil">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lavcodec">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lavformat">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib-safe.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\shared\game_shared-safe.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
+		<cluster name="audio_av_files_lib" location=".\" recursive="true">
+			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (OGG, FLAC, etc.)</description>
+			<file_rule>
+				<exclude>/audio_video_av_files_lib$</exclude>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/Clib$</exclude>
+				<exclude>/spec$</exclude>
+				<exclude>/video_av_files_lib$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

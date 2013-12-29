@@ -11,7 +11,8 @@ inherit
 	AV_MEDIA
 	redefine
 		make,
-		dispose
+		dispose,
+		open
 	end
 	AUDIO_SOUND
 
@@ -21,40 +22,19 @@ create
 
 feature {NONE} -- Initialization
 
-	make(a_filename:STRING)
+	make(a_filename:READABLE_STRING_GENERAL)
 			-- Initialization for `Current'.
 		do
 			precursor(a_filename)
-			frame:={AV_EXTERNAL}.avcodec_alloc_frame
-			check not frame.is_default_pointer end
-			stream_index:=init_stream({AV_EXTERNAL}.AVMEDIA_TYPE_AUDIO)
-			codec_context_ptr:=context_pointer(stream_index)
-			frequency_internal:={AV_EXTERNAL}.get_av_codec_context_struct_sample_rate(codec_context_ptr)
-			channel_count_internal:={AV_EXTERNAL}.get_av_codec_context_struct_channels(codec_context_ptr)
-			fmt:={AV_EXTERNAL}.get_av_codec_context_struct_sample_fmt(codec_context_ptr)
-			is_resampling:=false
-			if fmt={AV_EXTERNAL}.AV_SAMPLE_FMT_U8 then
-				bits_per_sample_internal:=8
-				is_signed_internal:=false
-			else
-				bits_per_sample_internal:=16
-				is_signed_internal:=true
-				if fmt /={AV_EXTERNAL}.AV_SAMPLE_FMT_S16 then
-					is_resampling:=true
-					sample_context_ptr:={AV_EXTERNAL}.av_audio_resample_init(channel_count_internal,channel_count_internal,frequency_internal,frequency_internal,
-															{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,fmt,0,0,0,1.0)
-				end
-			end
-			open_codec(codec_context_ptr)
-			side_buffer:={AV_EXTERNAL}.av_malloc({AV_EXTERNAL}.AVCODEC_MAX_AUDIO_FRAME_SIZE+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
+			create media_mutex.make
 			side_buffer_count:=0
+			is_thread_safe:=False
 		end
 
-	make_thread_safe(a_filename:STRING)
+	make_thread_safe(a_filename:READABLE_STRING_GENERAL)
 		do
 			make(a_filename)
 			is_thread_safe:=true
-			create media_mutex.make
 		end
 
 feature {GAME_AUDIO_SOURCE}
@@ -147,6 +127,42 @@ feature {GAME_AUDIO_SOURCE}
 
 feature --Access
 
+	open
+		do
+			Precursor
+			is_open:=False
+			if not has_error then
+				frame:={AV_EXTERNAL}.avcodec_alloc_frame
+				if frame.is_default_pointer then
+					io.error.put_string ("Error while allocating Audio frame.%N")
+					has_error:=True
+				else
+					stream_index:=init_stream({AV_EXTERNAL}.AVMEDIA_TYPE_AUDIO)
+					codec_context_ptr:=context_pointer(stream_index)
+					frequency_internal:={AV_EXTERNAL}.get_av_codec_context_struct_sample_rate(codec_context_ptr)
+					channel_count_internal:={AV_EXTERNAL}.get_av_codec_context_struct_channels(codec_context_ptr)
+					fmt:={AV_EXTERNAL}.get_av_codec_context_struct_sample_fmt(codec_context_ptr)
+					is_resampling:=false
+					if fmt={AV_EXTERNAL}.AV_SAMPLE_FMT_U8 then
+						bits_per_sample_internal:=8
+						is_signed_internal:=false
+					else
+						bits_per_sample_internal:=16
+						is_signed_internal:=true
+						if fmt /={AV_EXTERNAL}.AV_SAMPLE_FMT_S16 then
+							is_resampling:=true
+							sample_context_ptr:={AV_EXTERNAL}.av_audio_resample_init(channel_count_internal,channel_count_internal,frequency_internal,frequency_internal,
+																	{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,fmt,0,0,0,1.0)
+						end
+					end
+					open_codec(codec_context_ptr)
+					side_buffer:={AV_EXTERNAL}.av_malloc({AV_EXTERNAL}.AVCODEC_MAX_AUDIO_FRAME_SIZE+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
+				end
+				is_open:=not has_error
+			end
+
+		end
+
 
 	channel_count:INTEGER
 			-- Get the channel number of the sound (1=mono, 2=stereo, etc.).
@@ -188,9 +204,18 @@ feature {NONE} -- Implementation - Methodes
 			if is_resampling then
 				{AV_EXTERNAL}.audio_resample_close(sample_context_ptr)
 			end
-			{AV_EXTERNAL}.av_free(side_buffer)
-			close_codec(codec_context_ptr)
-			{AV_EXTERNAL}.av_free(frame)
+			if not side_buffer.is_default_pointer then
+				{AV_EXTERNAL}.av_free(side_buffer)
+				side_buffer:=void_ptr
+			end
+			if not codec_context_ptr.is_default_pointer then
+				close_codec(codec_context_ptr)
+				codec_context_ptr:=void_ptr
+			end
+			if not frame.is_default_pointer then
+				{AV_EXTERNAL}.av_free(frame)
+				frame:=void_ptr
+			end
 			precursor
 		end
 

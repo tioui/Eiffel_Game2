@@ -16,209 +16,141 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			inc_files:ARRAYED_LIST[STRING]
+			l_inc_files:ARRAYED_LIST[READABLE_STRING_GENERAL]
+			l_exceptions:EXCEPTIONS
 		do
+			has_error:=False
 			if argument_count<2 or else (not argument (1).is_equal ("create") and then not argument (1).is_equal ("extract")) then
-				io.put_string ("Usage: "+argument (0)+" create <dest file name> <included files>")
-				io.put_new_line
-				io.put_string ("       "+argument (0)+" extract <dest file name>")
-				io.put_new_line
+				io.error.put_string ("Usage: "+argument (0)+" create <dest file name> <included files>")
+				io.error.put_new_line
+				io.error.put_string ("       "+argument (0)+" extract <dest file name>")
+				io.error.put_new_line;
+				has_error:=True
 			else
 				if argument (1).is_equal ("create") then
-					create inc_files.make_from_array (argument_array.subarray (3, argument_count))
-					create_file(argument (2),inc_files)
+					create l_inc_files.make_from_array (argument_array.subarray (3, argument_count))
+					create_file(argument (2),l_inc_files)
 				elseif argument (1).is_equal ("extract") then
 					extract_file(argument (2))
 				end
 			end
+			if has_error then
+				create l_exceptions
+				l_exceptions.die (1)
+			end
 		end
 
-	create_file(dest_file_name:STRING;inc_file_names:CHAIN[STRING])
+	create_file(a_dest_file_name:READABLE_STRING_GENERAL;a_inc_file_names:CHAIN[READABLE_STRING_GENERAL])
 		local
-			file_list:LINKED_LIST[FILE]
-			dest_file:CPF_RAW_FILE
-			inc_file:RAW_FILE
-			index:NATURAL_32
-			error:BOOLEAN
+			l_file_list:LINKED_LIST[FILE]
+			l_dest_file:GAME_FILE
+			l_inc_file:RAW_FILE
+			l_index:NATURAL_32
 			i:INTEGER
 		do
-			error:=false
-			create file_list.make
-			create dest_file.make (dest_file_name)
-			dest_file.open_write
-			if not dest_file.exists or else not dest_file.is_writable then
-				io.put_string ("The file "+dest_file_name+" is not writable.")
-				io.put_new_line
-				error:=true
-			else
-				io.put_string ("Please wait...")
-				io.put_new_line
-				dest_file.put_string ("CPF")
-				dest_file.put_natural_16_big_endian (inc_file_names.count.to_natural_16)
+			create l_file_list.make
+			create l_dest_file.make (a_dest_file_name)
+			if l_dest_file.path_exists then
+				l_dest_file.delete
 			end
+			l_dest_file.create_read_write
+			io.put_string ("Please wait...")
+			io.put_new_line
+			l_dest_file.put_string ("CPF")
+			l_dest_file.put_natural_16_big_endian (a_inc_file_names.count.to_natural_16)
 
 			from
-				inc_file_names.start
-				index:=(8*inc_file_names.count+5).to_natural_32
+				a_inc_file_names.start
+				l_index:=(8*a_inc_file_names.count+5).to_natural_32
 			until
-				inc_file_names.exhausted or else
-				error
+				a_inc_file_names.exhausted or else
+				has_error
 			loop
-				create inc_file.make (inc_file_names.item)
-				if not inc_file.exists or else not inc_file.is_readable then
-					io.put_string ("The file "+inc_file_names.item+" is not readable.")
-					io.put_new_line
-					error:=true
+				create l_inc_file.make_with_name (a_inc_file_names.item)
+				if not l_inc_file.exists or else not l_inc_file.is_readable then
+					io.error.put_string ("The file "+a_inc_file_names.item+" is not readable.")
+					io.error.put_new_line
+					l_dest_file.delete
+					has_error:=true
 				else
-					inc_file.open_read
-					dest_file.put_natural_32_big_endian (index)
-					dest_file.put_natural_32_big_endian (inc_file.count.to_natural_32)
-					index:=index+inc_file.count.to_natural_32
-					file_list.extend (inc_file)
+					l_inc_file.open_read
+					l_dest_file.put_natural_32_big_endian (l_index)
+					l_dest_file.put_natural_32_big_endian (l_inc_file.count.to_natural_32)
+					l_index:=l_index+l_inc_file.count.to_natural_32
+					l_file_list.extend (l_inc_file)
 				end
-				inc_file_names.forth
+				a_inc_file_names.forth
 			end
-			if not error then
+			if not has_error then
 				i:=1
-				from file_list.start
-				until file_list.exhausted
+				from l_file_list.start
+				until l_file_list.exhausted
 				loop
-					io.put_string ("Packaging ("+i.out+"/"+inc_file_names.count.out+") : "+inc_file_names.at (i))
+					io.put_string ("Packaging ("+i.out+"/"+a_inc_file_names.count.out+") : "+a_inc_file_names.at (i))
 					io.put_new_line
-					from file_list.item.start
-					until file_list.item.end_of_file
+					from l_file_list.item.start
+					until l_file_list.item.end_of_file
 					loop
-						file_list.item.read_natural_8
-						if not file_list.item.end_of_file then
-							dest_file.put_natural_8 (file_list.item.last_natural_8)
+						l_file_list.item.read_natural_8
+						if not l_file_list.item.end_of_file then
+							l_dest_file.put_natural_8 (l_file_list.item.last_natural_8)
 						end
 					end
-					file_list.forth
+					l_file_list.forth
 					i:=i+1
 				end
 			end
-			dest_file.flush
+			l_dest_file.flush
 		end
 
-	extract_file(dest_file_name:STRING)
+	extract_file(a_package_file_name:READABLE_STRING_GENERAL)
 		local
-			src_file:CPF_PACKAGE_FILE
-			src_file_valid:RAW_FILE
-			inc_file:RAW_FILE
+			l_src_file:CPF_PACKAGE_FILE
+			l_inc_file:RAW_FILE
 			i,j:INTEGER
-			error:BOOLEAN
 		do
-			create src_file_valid.make (dest_file_name)
-			if not src_file_valid.exists or else not src_file_valid.is_readable then
-				io.put_string ("The file "+dest_file_name+" is not readable.")
-				io.put_new_line
+			create l_src_file.make (a_package_file_name)
+			if not l_src_file.exists or else not l_src_file.is_readable then
+				io.error.put_string ("The file "+a_package_file_name+" is not readable.")
+				io.error.put_new_line
+				has_error:=True
 			else
 				io.put_string ("Please wait...")
 				io.put_new_line
-				create src_file.make (dest_file_name)
-				from i:=1
-				until i>src_file.sub_files_count or else error
-				loop
-					io.put_string ("Extracting file ("+i.out+"/"+src_file.sub_files_count.out+")")
-					io.put_new_line
-					src_file.select_sub_file (i)
-					create inc_file.make_open_write ("File"+i.out)
-					if not inc_file.exists or else not inc_file.is_writable then
-						io.put_string ("Cannot create File"+i.out+".")
-						io.put_new_line
-						error:=true
-					end
-					from
-						j:=1
-					until
-						error or else
-						j>src_file.length_of_selected_file
-					loop
-						src_file.read_natural_8
-						inc_file.put_natural_8 (src_file.last_natural_8)
-						j:=j+1
-					end
-					i:=i+1
-				end
-			end
-
-		end
-
-	extract_file1(dest_file_name:STRING)
-		local
-			src_file:CPF_RAW_FILE
-			inc_file:RAW_FILE
-			error:BOOLEAN
-			nbr:NATURAL_16
-			position,length:NATURAL_32
-			infos:ARRAYED_LIST[TUPLE[position,length:NATURAL_32]]
-			i,j:INTEGER
-		do
-			create src_file.make (dest_file_name)
-			if not src_file.exists or else not src_file.is_readable then
-				io.put_string ("The file "+dest_file_name+" is not readable.")
-				io.put_new_line
-			else
-				src_file.open_read
-				src_file.read_stream (3)
-				if not src_file.last_string.is_equal ("CPF") then
-					io.put_string ("The file "+dest_file_name+" is not a valid game custom package.")
-					io.put_new_line
-				else
-					io.put_string ("Please wait...")
-					io.put_new_line
-					src_file.read_natural_16_big_endian
-					nbr:=src_file.last_natural_16
-					create infos.make (nbr.to_integer_32)
+				l_src_file.open
+				if l_src_file.is_valid then
 					from i:=1
-					until i>nbr
+					until i>l_src_file.sub_files_count or else has_error
 					loop
-						src_file.read_natural_32_big_endian
-						position:=src_file.last_natural_32
-						src_file.read_natural_32_big_endian
-						length:=src_file.last_natural_32
-						infos.extend ([position,length])
-						i:=i+1
-					end
-
-					from
-						i:=1
-						infos.start
-						error:=false
-					until
-						error or else
-						infos.exhausted
-					loop
-						io.put_string ("Extracting file ("+i.out+"/"+nbr.out+")")
+						io.put_string ("Extracting file ("+i.out+"/"+l_src_file.sub_files_count.out+")")
 						io.put_new_line
-						src_file.go (infos.item.position.to_integer_32)
-						create inc_file.make_open_write ("File"+i.out)
-						if not inc_file.exists or else not inc_file.is_writable then
-							io.put_string ("Cannot create File"+i.out+".")
-							io.put_new_line
-							error:=true
+						l_src_file.select_sub_file (i)
+						create l_inc_file.make_open_write ("File"+i.out)
+						if not l_inc_file.exists or else not l_inc_file.is_writable then
+							io.error.put_string ("Cannot create File"+i.out+".")
+							io.error.put_new_line
+							has_error:=True
 						end
 						from
 							j:=1
 						until
-							error or else
-							j>infos.item.length.to_integer_32 or else
-							src_file.end_of_file
+							has_error or else
+							j>l_src_file.current_sub_file_count
 						loop
-							src_file.read_natural_8
-							if not src_file.end_of_file then
-								inc_file.put_natural_8 (src_file.last_natural_8)
-							end
+							l_src_file.read_natural_8
+							l_inc_file.put_natural_8 (l_src_file.last_natural_8)
 							j:=j+1
 						end
-						infos.forth
 						i:=i+1
 					end
+				else
+					io.error.put_string ("The file " + a_package_file_name + " is not a valid package file.")
+					io.error.put_new_line
+					has_error:=True
 				end
-
 			end
-
-
 		end
+
+	has_error:BOOLEAN
 
 end

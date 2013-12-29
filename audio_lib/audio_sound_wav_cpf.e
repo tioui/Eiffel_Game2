@@ -12,29 +12,26 @@ inherit
 	rename
 		make as make_wav_file
 	undefine
-		restart
+		restart,
+		is_openable,
+		open
 	redefine
 		fill_buffer
 	end
-	CPF_RESSOURCE
+	CPF_RESSOURCE_MANAGER
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make(cpf:CPF_PACKAGE_FILE;index:INTEGER)
+	make(a_cpf:CPF_PACKAGE_FILE;a_index:INTEGER)
 			-- Initialization for `Current'.
 		do
-			the_cpf:=cpf
-			file:=cpf
-			the_cpf_index:=index
-			has_error:=false
-			the_cpf.mutex_lock
-			cpf.select_sub_file (index)
-			process_header
-			last_offset:=the_cpf.current_offset
-			the_cpf.mutex_unlock
+			cpf:=a_cpf
+			file:=a_cpf
+			cpf_index:=a_index
+			make_ressource
 		end
 
 feature {GAME_AUDIO_SOURCE}
@@ -44,39 +41,55 @@ feature {GAME_AUDIO_SOURCE}
 			if last_offset=-1 then
 				last_buffer_size:=0
 			else
-				the_cpf.mutex_lock
-				if the_cpf.current_file_index/=the_cpf_index or else not the_cpf.current_offset_is_in_selected_file then
-					the_cpf.select_sub_file (the_cpf_index)
+				cpf.lock_mutex
+				if cpf.current_sub_file_index/=cpf_index or else not cpf.is_position_in_selected_sub_file then
+					cpf.select_sub_file (cpf_index)
 				end
-				if the_cpf.current_offset/=last_offset then
-					the_cpf.seek_from_begining (last_offset)
+				if cpf.current_sub_file_position/=last_offset then
+					cpf.go_in_current_sub_file (last_offset)
 				end
 				precursor(buffer,max_length)
-				if the_cpf.current_offset_is_in_selected_file then
-					last_offset:=the_cpf.current_offset
+				if cpf.is_position_in_selected_sub_file then
+					last_offset:=cpf.current_sub_file_position
 				else
 					last_offset:=-1
 				end
-				the_cpf.mutex_unlock
+				cpf.unlock_mutex
 			end
 
 		end
 
 feature-- Access
 
+	is_openable:BOOLEAN
+		do
+			result := cpf.is_readable and then cpf.sub_files_count>=cpf_index
+		end
+
+	open
+		do
+			cpf.lock_mutex
+			cpf.select_sub_file (cpf_index)
+			has_error:=False
+			process_header
+			is_open:=not has_error
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
+		end
+
 	restart
 		do
-			the_cpf.mutex_lock
-			the_cpf.select_sub_file (the_cpf_index)
+			cpf.lock_mutex
+			cpf.select_sub_file (cpf_index)
 			Precursor
-			last_offset:=the_cpf.current_offset
-			the_cpf.mutex_unlock
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
 		end
 
 feature {NONE} -- Implementation - Variables
 
-	the_cpf:CPF_PACKAGE_FILE
-	the_cpf_index:INTEGER
+	cpf:CPF_PACKAGE_FILE
+	cpf_index:INTEGER
 	last_offset:INTEGER
 
 end

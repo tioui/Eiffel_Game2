@@ -31,7 +31,13 @@ inherit
 	rename
 		make as make_audio_source,
 		is_playing as is_audio_playing,
-		stop as stop_audio
+		stop as stop_audio,
+		x as object_3d_x,
+		y as object_3d_y,
+		z as object_3d_z,
+		set_x as set_object_3d_x,
+		set_y as set_object_3d_y,
+		set_z as set_object_3d_z
 	export
 		{NONE} queue_sound_loop, queue_sound, queue_sound_infinite_loop, is_pause, is_audio_playing, stop_audio
 	redefine

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="audio_snd_files_lib" uuid="B169A15D-75F1-4725-B916-67E12D077075" library_target="audio_snd_files_lib">
+	<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
+	<target name="audio_snd_files_lib">
+		<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
+		<root all_classes="true"/>
+		<version major="2" minor="0" release="0" build="0" product="Audio_Snd_Files_Lib" copyright="Louis Marchand"/>
+		<option warning="true" full_class_checking="false" void_safety="all" syntax="standard" namespace="EiffelSoftware.Library">
+		</option>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/include"/>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libsndfile\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/$(ISE_PLATFORM)/lib/sndfile_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/audio_snd_files_lib/spec/$(ISE_PLATFORM)/lib/MTsndfile_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency excluded_value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\sndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtsndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency excluded_value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\audio_snd_files_lib\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilsndfile_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<dotnet value="true"/>
+			</condition>
+		</external_object>
+
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libsndfile\lib\libsndfile-1.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_linker_flag value="-L/opt/local/lib -lsndfile">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lsndfile">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib-safe.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib-safe.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
+		<cluster name="audio_snd_files_lib" location=".\" recursive="true">
+			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibSndFile (OGG, FLAC, etc.)</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/Clib$</exclude>
+				<exclude>/spec$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

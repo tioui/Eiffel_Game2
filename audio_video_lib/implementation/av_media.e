@@ -12,23 +12,22 @@ inherit
 
 	DISPOSABLE
 
+	GAME_RESSOURCE
+		rename
+			make as make_ressource
+		end
+
 
 feature {NONE} -- Initialisation
 
-	make(a_filename:STRING)
-		local
-			l_filename_c:C_STRING
-			l_error:INTEGER
+	make(a_filename:READABLE_STRING_GENERAL)
 		do
 			init_library
-			create l_filename_c.make (a_filename)
-			l_error:={AV_EXTERNAL}.avformat_open_input($format_context_pointer,l_filename_c.item,void_ptr.item,void_ptr.item)
-			check l_error=0 end
-			l_error:={AV_EXTERNAL}.avformat_find_stream_info(format_context_pointer,void_ptr.item)
-			check l_error>=0 end
+			filename:=a_filename
 			create {ARRAYED_QUEUE[POINTER]} packets_pool.make(1)
 			create {ARRAYED_QUEUE[POINTER]} packets_filled.make(1)
 			test:=0
+			create media_mutex.make
 		end
 
 	init_stream(a_flags:NATURAL_32):INTEGER
@@ -52,6 +51,7 @@ feature {NONE} -- Initialisation
 				end
 				i:=i+1
 			end
+			has_error := not l_is_found
 		end
 
 	open_codec(a_codec_context:POINTER)
@@ -62,20 +62,67 @@ feature {NONE} -- Initialisation
 		do
 			l_codec_id:={AV_EXTERNAL}.get_av_codec_context_struct_codec_id(a_codec_context)
 			l_codec_ptr:={AV_EXTERNAL}.avcodec_find_decoder(l_codec_id)
-			check not l_codec_ptr.is_default_pointer end
-			l_error:={AV_EXTERNAL}.avcodec_open2(a_codec_context,l_codec_ptr,void_ptr)
-			check l_error=0 end
+			if l_codec_ptr.is_default_pointer then
+				has_error:=True
+			else
+				l_error:={AV_EXTERNAL}.avcodec_open2(a_codec_context,l_codec_ptr,void_ptr)
+				has_error := (l_error/=0)
+			end
 		end
 
 feature -- Access
 
+	is_openable:BOOLEAN
+		local
+			l_file:RAW_FILE
+		do
+			create l_file.make_with_name (filename)
+			Result:=l_file.exists and then l_file.is_readable
+		end
+
+	open
+		local
+			l_filename_c:C_STRING
+			l_error:INTEGER
+		do
+			if not has_error then
+				create l_filename_c.make (filename)
+				l_error:={AV_EXTERNAL}.avformat_open_input($format_context_pointer,l_filename_c.item,void_ptr.item,void_ptr.item)
+				if l_error=0 then
+					l_error:={AV_EXTERNAL}.avformat_find_stream_info(format_context_pointer,void_ptr.item)
+					if l_error<0 then
+						io.error.put_string ("Error while reading AV file information.%N")
+						io.error.put_string (get_error_message(l_error))
+						io.error.put_new_line
+						has_error:=True
+					end
+				else
+					io.error.put_string ("Error while reading AV file information.%N")
+					io.error.put_string (get_error_message(l_error))
+					io.error.put_new_line
+					has_error:=True
+				end
+				if has_error then
+					{AV_EXTERNAL}.avformat_close_input($format_context_pointer)
+				end
+			end
+			is_open := not has_error
+		end
+
 	restart
 			-- Restart the media to the beginning.
+		require
+			Media_Is_Open: is_open
 		local
 			l_error:INTEGER
 		do
 			l_error:={AV_EXTERNAL}.av_seek_frame(format_context_pointer,-1,0,{AV_EXTERNAL}.AVSEEK_FLAG_ANY.bit_or ({AV_EXTERNAL}.AVSEEK_FLAG_BACKWARD))
-			check l_error >= 0 end
+			has_error := l_error < 0
+			if has_error then
+				io.error.put_string ("Error while restarting the media%N")
+				io.error.put_string (get_error_message (l_error))
+				check False end
+			end
 			last_packet:=false
 		end
 
@@ -83,6 +130,8 @@ feature {NONE} -- Implementation - Routines
 
 
 	read_packet(a_index:INTEGER)
+		require
+			Media_Is_Open: is_open
 		local
 			l_error:INTEGER
 			l_got:BOOLEAN
@@ -117,6 +166,8 @@ feature {NONE} -- Implementation - Routines
 		end
 
 	fill_packet_pool
+		require
+			Media_Is_Open: is_open
 		local
 			new_packet:POINTER
 		do
@@ -145,21 +196,23 @@ feature {NONE} -- Implementation - Routines
 
 	dispose
 		do
-			from
-			until
-				packets_filled.is_empty
-			loop
-				{AV_EXTERNAL}.av_free(packets_filled.item)
-				packets_filled.remove
+			if is_open then
+				from
+				until
+					packets_filled.is_empty
+				loop
+					{AV_EXTERNAL}.av_free(packets_filled.item)
+					packets_filled.remove
+				end
+				from
+				until
+					packets_pool.is_empty
+				loop
+					{AV_EXTERNAL}.av_free(packets_pool.item)
+					packets_pool.remove
+				end
+				{AV_EXTERNAL}.avformat_close_input($format_context_pointer)
 			end
-			from
-			until
-				packets_pool.is_empty
-			loop
-				{AV_EXTERNAL}.av_free(packets_pool.item)
-				packets_pool.remove
-			end
-			{AV_EXTERNAL}.avformat_close_input($format_context_pointer)
 		end
 
 feature {NONE} -- Implementation - Variables
@@ -174,7 +227,6 @@ feature {NONE} -- Implementation - Variables
 
 	test:NATURAL_64
 
-invariant
-	Media_Thread_Safe_Mutex_Set: (not is_thread_safe) or else media_mutex.is_set
+	filename:READABLE_STRING_GENERAL
 
 end

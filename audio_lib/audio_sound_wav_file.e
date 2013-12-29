@@ -15,96 +15,123 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:STRING)
+	make(filename:READABLE_STRING_GENERAL)
 		do
+			make_ressource
 			create file.make (filename)
-			file.seek_from_begining (0)
-			has_error:=false
-			process_header
 		end
 
 	process_header
 		do
-			file.read_natural_32_big_endian
-			if file.last_natural_32/=0x52494646 then		-- RIFF
-				has_error:=true
-				io.error.put_string ("Not a WAV file!")
-				check false end
-			else
+			if file.can_read_32 then
 				file.read_natural_32_big_endian
-				file.read_natural_32_big_endian
-				if file.last_natural_32/=0x57415645 then		-- WAVE
-					has_error:=true
-					io.error.put_string ("Not a WAV file!")
-					check false end
+				if file.last_natural_32/=0x52494646 then		-- RIFF
+					io.error.put_string ("Not a valid WAV file!%N")
+					has_error:=True
 				else
-					process_chunks
+					if file.can_read_64 then
+						file.read_natural_32_big_endian
+						file.read_natural_32_big_endian
+						if file.last_natural_32/=0x57415645 then		-- WAVE
+							io.error.put_string ("Not a valid WAV file!%N")
+							has_error:=True
+						else
+							process_chunks
+						end
+					else
+						io.error.put_string ("The file has stop before the end of the WAV header.%N")
+						has_error:=True
+					end
 				end
+			else
+				io.error.put_string ("The file has stop before the end of the WAV header.%N")
+				has_error:=True
 			end
+
 		end
 
 	process_chunks
 		local
 			chunk_id,chunk_data_size:NATURAL_32
 			cur_offset:INTEGER
-			fmt_found,data_found,error:BOOLEAN
+			fmt_found,data_found:BOOLEAN
 		do
 			from
 				fmt_found:=false
 				data_found:=false
-				error:=false
+				has_error:=false
 			until
-				data_found or error
+				data_found or has_error
 			loop
-				file.read_natural_32_big_endian
-				chunk_id:=file.last_natural_32
-				file.read_natural_32_little_endian
-				chunk_data_size:=file.last_natural_32
-				cur_offset:=file.current_offset
-				if chunk_id=0x64617461 then		-- Data
-					data_starting_offset:=file.current_offset
+				if file.can_read_64 then
+					file.read_natural_32_big_endian
+					chunk_id:=file.last_natural_32
 					file.read_natural_32_little_endian
-					data_size:=file.last_natural_32
-					data_found:=true
-					has_error:=not fmt_found		-- Data deteted but not the fmt (impossible)
-				else
-					if chunk_id=0x666D7420 then		-- fmt
-						process_fmt
-						error:=has_error
-						fmt_found:=true
+					chunk_data_size:=file.last_natural_32
+					cur_offset:=file.position
+					if chunk_id=0x64617461 then		-- Data
+						data_starting_offset:=file.position
+						if file.can_read_32 then
+							file.read_natural_32_little_endian
+							data_size:=file.last_natural_32
+							data_found:=true
+							has_error:=not fmt_found		-- Data deteted but not the fmt (impossible)	
+						end
+					else
+						if chunk_id=0x666D7420 then		-- fmt
+							process_fmt
+							fmt_found:=true
+						end
+						file.go (cur_offset+chunk_data_size.to_integer_32)
 					end
-					file.seek_from_begining (cur_offset+chunk_data_size.to_integer_32)
+				else
+					io.error.put_string ("The file has stop before the end of a WAV chunk.%N")
+					has_error:=True
 				end
-
 			end
 			check not has_error end
 		end
 
 	process_fmt
 		do
-			file.read_natural_16_little_endian		-- Audio Format (1=PCM)
-			if file.last_natural_16/=1 then
-				io.error.put_string ("WAV file not supported!")
-				has_error:=true
+			if file.can_read_64 then
+				file.read_natural_16_little_endian		-- Audio Format (1=PCM)
+				if file.last_natural_16/=1 then
+					io.error.put_string ("WAV file not supported!%N")
+					has_error:=True
+				else
+					file.read_natural_16_little_endian	-- Number of channels
+					channel_count_internal:=file.last_natural_16.as_integer_32
+					file.read_natural_32_little_endian	-- Sample Rate (frequency)
+					frequency_internal:=file.last_natural_32.as_integer_32
+					if file.can_read_64 then
+						file.read_natural_32_little_endian	-- Byte Rate
+						file.read_natural_16_little_endian	-- Block Align
+						bytes_per_sample:=file.last_natural_16
+						file.read_natural_16_little_endian	-- Bits per sample
+						bits_per_sample_internal:=file.last_natural_16.as_integer_32
+					else
+						io.error.put_string ("The file has stop before the end of a WAV fmt.%N")
+						has_error:=True
+					end
+				end
 			else
-				file.read_natural_16_little_endian	-- Number of channels
-				channel_count_internal:=file.last_natural_16.as_integer_32
-				file.read_natural_32_little_endian	-- Sample Rate (frequency)
-				frequency_internal:=file.last_natural_32.as_integer_32
-				file.read_natural_32_little_endian	-- Byte Rate
-				file.read_natural_16_little_endian	-- Block Align
-				bytes_per_sample:=file.last_natural_16
-				file.read_natural_16_little_endian	-- Bits per sample
-				bits_per_sample_internal:=file.last_natural_16.as_integer_32
+				io.error.put_string ("The file has stop before the end of a WAV fmt.%N")
+				has_error:=True
 			end
+
 		end
 
-feature {GAME_AUDIO_SOURCE}
+feature {AUDIO_SOURCE}
 
-	fill_buffer(buffer:POINTER;max_length:INTEGER)
+	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		do
-			file.read (buffer,bytes_per_sample, max_length.to_natural_32//bytes_per_sample)
-			last_buffer_size:=file.last_read_size.to_integer_32
+			if file.readable then
+				file.read_to_pointer (a_buffer,0,a_max_length)
+				last_buffer_size:=file.bytes_read
+			else
+				last_buffer_size:=0
+			end
 		end
 
 	byte_per_buffer_sample:INTEGER
@@ -114,7 +141,17 @@ feature {GAME_AUDIO_SOURCE}
 
 feature -- Access
 
-	has_error:BOOLEAN
+	is_openable:BOOLEAN
+		do
+			Result:=file.exists and then file.is_readable
+		end
+
+	open
+		do
+			file.open_read
+			process_header
+			is_open:=not has_error
+		end
 
 	channel_count:INTEGER
 		do
@@ -147,18 +184,18 @@ feature -- Access
 	restart
 			-- Restart the sound to the beginning.
 		do
-			file.seek_from_begining (data_starting_offset)
+			file.go (data_starting_offset)
 		end
 
 feature {NONE} -- Implementation - Variable
 
-	file:CPF_FILE
+	file:GAME_FILE
 
 	channel_count_internal:INTEGER
 	frequency_internal:INTEGER
 	bits_per_sample_internal:INTEGER
 	data_starting_offset:INTEGER
 	data_size:NATURAL_32
-	bytes_per_sample:NATURAL_32
+	bytes_per_sample:INTEGER_32
 
 end

@@ -12,12 +12,14 @@ inherit
 	rename
 		make as make_file
 	undefine
-		restart
+		restart,
+		is_openable,
+		open
 	redefine
 		dispose,
 		fill_buffer
 	end
-	CPF_RESSOURCE
+	CPF_RESSOURCE_MANAGER
 
 create
 	make
@@ -29,47 +31,62 @@ feature {NONE} -- Initialization
 		require
 			Sound_Cpf_Index_Valid:a_index>0 and then a_index<=a_cpf.sub_files_count
 		do
+			make_ressource
 			cpf:=a_cpf
 			cpf_index:=a_index
-			cpf.mutex_lock
-			cpf.select_sub_file (cpf_index)
-			last_offset:=cpf.current_offset
-			virtual_io:=virtual_io.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_snd_file_virtual_io)
-			{AUDIO_SND_FILES_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
-			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
-			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,a_cpf.get_current_cpf_infos_ptr)
-			check not snd_file_ptr.is_default_pointer end
-			last_offset:=cpf.current_offset
-			cpf.mutex_unlock
+			filename:=a_cpf.path.name
 		end
 
-feature {GAME_AUDIO_SOURCE}
+feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		do
-			cpf.mutex_lock
-			if cpf.current_file_index/=cpf_index or else not cpf.current_offset_is_in_selected_file  then
+			cpf.lock_mutex
+			if cpf.current_sub_file_index /=cpf_index or else not cpf.is_position_in_selected_sub_file  then
 				cpf.select_sub_file (cpf_index)
 			end
-			if cpf.current_offset/=last_offset then
-				cpf.seek_from_begining (last_offset)
+			if cpf.current_sub_file_position/=last_offset then
+				cpf.go_in_current_sub_file (last_offset)
 			end
 			precursor(a_buffer,a_max_length)
-			if cpf.current_offset_is_in_selected_file then
-				last_offset:=cpf.current_offset
+			if cpf.is_position_in_selected_sub_file then
+				last_offset:=cpf.current_sub_file_position
 			else
 				last_offset:=0
 			end
-			cpf.mutex_unlock
+			cpf.unlock_mutex
 		end
 
 feature-- Access
+
+	is_openable:BOOLEAN
+		do
+			result := cpf.is_readable and then cpf.sub_files_count>=cpf_index
+		end
+
+	open
+		do
+			has_error:=False
+			cpf.lock_mutex
+			cpf.select_sub_file (cpf_index)
+			last_offset:=cpf.current_sub_file_position
+			virtual_io:=virtual_io.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_snd_file_virtual_io)
+			{AUDIO_SND_FILES_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
+			file_info:=file_info.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_sf_info)
+			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,cpf.get_current_cpf_infos_ptr)
+			if snd_file_ptr.is_default_pointer then
+				has_error:=True
+			end
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
+			is_open:=not has_error
+		end
 
 	restart
 		local
 			error: INTEGER_64
 		do
-			cpf.mutex_lock
+			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			if is_seekable then
 				error := {AUDIO_SND_FILES_EXTERNAL}.sf_seek (snd_file_ptr, 0, {AUDIO_SND_FILES_EXTERNAL}.seek_set)
@@ -78,10 +95,10 @@ feature-- Access
 				end
 			else
 				cpf.select_sub_file (cpf_index)
-				cpf.seek_from_begining (0)
+				cpf.go_in_current_sub_file (0)
 			end
-			last_offset:=cpf.current_offset
-			cpf.mutex_unlock
+			last_offset:=cpf.current_sub_file_position
+			cpf.unlock_mutex
 		end
 
 

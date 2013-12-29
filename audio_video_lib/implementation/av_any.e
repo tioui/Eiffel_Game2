@@ -12,7 +12,7 @@ inherit
 
 feature -- Access
 
-	get_error_message(a_error_id:INTEGER):STRING
+	get_error_message(a_error_id:INTEGER):STRING_8
 		local
 			l_err_buf:POINTER
 			l_err_c:C_STRING

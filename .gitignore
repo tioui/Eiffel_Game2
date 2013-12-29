@@ -1,3 +1,12 @@
 .DS_Store
 EIFGENs
-objet-*
+*/spec/linux-x86-64
+*/spec/linux-x86
+*/spec/unix
+*/spec/windows
+*/spec/win64
+*.o
+*.lib
+*/Clib/Makefile
+custom_package_file_app/tests/*
+!custom_package_file_app/tests/tests.sh

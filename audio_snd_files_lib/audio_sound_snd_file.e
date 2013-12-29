@@ -16,37 +16,51 @@ create
 
 feature {NONE} -- Initialization
 
-	make(a_filename:STRING)
+	make(a_filename:READABLE_STRING_GENERAL)
 			-- Initialization for `Current'.
 			-- Will use 16 bits signed frames in the buffer.
 		do
+			make_ressource
 			bits_per_sample_internal:=16
 			is_signed_internal:=true
 			filename:=a_filename
-			open_from_file(filename)
 		end
 
 feature {GAME_AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
+		local
+			l_items:INTEGER
 		do
-			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,a_buffer,a_max_length//byte_per_buffer_sample).to_integer
+			from
+				l_items:=a_max_length//2
+			until
+				(l_items\\byte_per_buffer_sample)=0
+			loop
+				l_items:=l_items-1
+			end
+			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,a_buffer,l_items).to_integer*2
 		end
 
 	byte_per_buffer_sample:INTEGER
-		once
+		do
 			Result:=2
 		end
 
 feature --Access
 
-	file_exist(a_filename:STRING):BOOLEAN
-			-- Valid if the file `filename' exist and is readable.
+	is_openable:BOOLEAN
 		local
 			l_file:RAW_FILE
 		do
-			create l_file.make (a_filename)
-			Result:= l_file.access_exists and l_file.is_access_readable
+			create l_file.make_with_name (filename)
+			Result:= l_file.exists and l_file.is_readable
+		end
+
+	open
+		do
+			open_from_file(filename)
+			is_open:=not has_error
 		end
 
 	channel_count:INTEGER
@@ -96,17 +110,17 @@ feature --Access
 
 feature {NONE} -- Implementation - Methodes
 
-	open_from_file(a_filename:STRING)
+	open_from_file(a_filename:READABLE_STRING_GENERAL)
 		local
 			l_filename_c,l_error_c:C_STRING
 		do
-			file_info:={AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_allocate
+			file_info:=file_info.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_sf_info)
 			create l_filename_c.make(a_filename)
 			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(l_filename_c.item,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info)
 			if snd_file_ptr.is_default_pointer then
 				create l_error_c.make_by_pointer ({AUDIO_SND_FILES_EXTERNAL}.sf_strerror(snd_file_ptr))
 				io.error.put_string (l_error_c.string+"%N")
-				check false end
+				has_error:=True
 			end
 		end
 
@@ -114,7 +128,7 @@ feature {NONE} -- Implementation - Methodes
 		local
 			error:INTEGER
 		do
-			{AUDIO_SND_FILES_EXTERNAL}.c_sf_info_struct_free(file_info)
+			file_info.memory_free
 			error:={AUDIO_SND_FILES_EXTERNAL}.sf_close(snd_file_ptr)
 			check error=0 end
 		end
@@ -127,7 +141,7 @@ feature {NONE} -- Implementation - Variables
 	bits_per_sample_internal:INTEGER
 	is_signed_internal:BOOLEAN
 
-	filename:STRING
+	filename:READABLE_STRING_GENERAL
 
 
 end
