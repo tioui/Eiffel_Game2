@@ -1,7 +1,10 @@
 eiffel_game_lib
 ===============
 
+Please note: The version Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not accurate.
+
 A Game library for ISE Eiffel.
+
 This is a library for game developping with the Eiffel Language. The library is compatible with the IDE EiffelStudio 7.3 from ISE.
 
 The library is compatible with Linux, MAC OS X, Windows, GP2X Wiz and Caanoo.
