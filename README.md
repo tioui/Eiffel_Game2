@@ -1,7 +1,7 @@
 eiffel_game_lib
 ===============
 
-Please note: The version Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not accurate.
+Please note: The Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not accurate.
 
 A Game library for ISE Eiffel.
 
