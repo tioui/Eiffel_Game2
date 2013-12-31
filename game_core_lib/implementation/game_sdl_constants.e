@@ -252,6 +252,77 @@ feature {NONE} -- Constants SDL.h
 			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_NOPARACHUTE
 		end
 
+	Sdl_windowpos_undefined_display(a_display:INTEGER):INTEGER
+			-- Used to indicate that you don't care what the window position is.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_UNDEFINED_DISPLAY(a_display)
+		end
+
+	Sdl_windowpos_centered_display(a_display:INTEGER):INTEGER
+			-- Used to indicate that you don't care what the window position is.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_display)
+		end
+
+	Sdl_window_fullscreen:NATURAL_32
+			-- Fullscreen window.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN
+		end
+
+	Sdl_window_fullscreen_desktop:NATURAL_32
+			-- Fullscreen window at the current desktop resolution.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN_DESKTOP
+		end
+
+	Sdl_window_opengl:NATURAL_32
+			-- Window usable with OpenGL context
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_OPENGL
+		end
+
+	Sdl_window_hidden:NATURAL_32
+			-- Window is not visible.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_HIDDEN
+		end
+
+	Sdl_window_borderless:NATURAL_32
+			-- No window decoration.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_BORDERLESS
+		end
+
+	Sdl_window_resizable:NATURAL_32
+			-- Window can be resized.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_RESIZABLE
+		end
+
+	Sdl_window_minimized:NATURAL_32
+			-- Window is minimized.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_MINIMIZED
+		end
+
+	Sdl_window_maximized:NATURAL_32
+			-- Window is maximized.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_MAXIMIZED
+		end
+
+	Sdl_window_input_grabbed:NATURAL_32
+			-- Window has grabbed input focus.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_INPUT_GRABBED
+		end
+
+	Sdl_window_allow_highdpi:NATURAL_32
+			-- Window should be created in high-DPI mode if supported.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_ALLOW_HIGHDPI
+		end
 
 feature {NONE} -- Macro SDL_endian.h
 

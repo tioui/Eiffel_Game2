@@ -170,8 +170,14 @@ feature -- Subs Systems
 			Result:=is_sub_system_enable(Sdl_init_events)
 		end
 
---feature -- Video methods
+feature -- Video methods
 
+	displays_count:INTEGER
+		require
+			Display_Count_Is_Video_Enabled: is_video_enable
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetNumVideoDisplays
+		end
 
 --	flip_screen
 --			-- Show the screen surface in the window
@@ -275,19 +281,18 @@ feature -- Subs Systems
 --		Create_Screen_Not_Void: screen_is_create
 --	end
 
---	screen_surface:GAME_SURFACE
+--	screen:GAME_SCREEN
 --		-- Get the screen surface given by create_screen.
 --		-- You can print other surface on this screen.
 --		-- When you use the routine flip_screen, the screen is show on the window.
 --	require
 --		Get_Screen_Surface_Not_Void: screen_is_create
 --	do
---		if has_hardware_double_buffer then
---			Result := scr_surface
+--		if attached scr_surface as la_screen then
+--			Result:=la_screen
 --		else
---			Result := buffer_surface
+--			Result:=create {GAME_SCREEN}
 --		end
-
 --	end
 
 --	screen_is_create:BOOLEAN
@@ -346,9 +351,6 @@ feature -- Subs Systems
 --		end
 --		Result:=l_list_resolution
 --	end
-
---	has_hardware_double_buffer:BOOLEAN
-
 
 --feature -- Mouse		
 --	show_mouse_cursor
@@ -509,11 +511,11 @@ feature -- Other methods
 --		end
 
 
---	delay(a_millisecond:NATURAL_32)
---			-- Pause the execution for given time in `millisecond'.
---		do
---			{GAME_SDL_EXTERNAL}.SDL_Delay(a_millisecond)
---		end
+	delay(a_millisecond:NATURAL_32)
+			-- Pause the execution for given time in `millisecond'.
+		do
+			{GAME_SDL_EXTERNAL}.SDL_Delay(a_millisecond)
+		end
 
 --	get_ticks:NATURAL_32
 --			-- Get the number of millisecond since the initialisation of the library.
@@ -635,10 +637,6 @@ feature{NONE} -- Implementation - Methods
 
 
 feature {NONE} -- Implementation - Variables
-
---	scr_surface:GAME_SCREEN
-
---	buffer_surface:GAME_SURFACE
 
 --	must_stop:BOOLEAN
 

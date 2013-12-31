@@ -72,13 +72,49 @@ feature -- Function SDL.h
 			"SDL_NumJoysticks"
 		end
 
+	frozen SDL_CreateWindow(title:POINTER;x,y,w,h:INTEGER;flags:NATURAL_32):POINTER
+		external
+			"C (const char*, int, int, int, int, Uint32) : SDL_Window* | <SDL.h>"
+		alias
+			"SDL_CreateWindow"
+		end
+
+	frozen SDL_WINDOWPOS_UNDEFINED_DISPLAY(display:INTEGER):INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOWPOS_UNDEFINED_DISPLAY($display)"
+		end
+
+	frozen SDL_WINDOWPOS_CENTERED_DISPLAY(display:INTEGER):INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOWPOS_CENTERED_DISPLAY($display)"
+		end
+
+	frozen SDL_GetNumVideoDisplays:INTEGER
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_GetNumVideoDisplays"
+		end
+
+	frozen SDL_Delay(ms:NATURAL_32)
+		external
+			"C (Uint32) | <SDL.h>"
+		alias
+			"SDL_Delay"
+		end
+
+
 
 feature -- Manual C function (implemented in SDLmore.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
 			-- Do a 90 degree Rotation on the `surface' `nb_clockwise' times
 		external
-			"C (SDL_Surface *,int) : SDL_Surface * | %"core_more.h%""
+			"C (SDL_Surface *,int) : SDL_Surface * | %"sdl_additions.h%""
 		alias
 			"rotateSurface90Degrees_all"
 		end
@@ -86,7 +122,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen getPixel(surface:POINTER;x,y:INTEGER):NATURAL_32
 			-- Get the pixel internal color representation of the `surface' at (`x',`y')
 		external
-			"C (SDL_Surface *,int,int) : Uint32 | %"core_more.h%""
+			"C (SDL_Surface *,int,int) : Uint32 | %"sdl_additions.h%""
 		alias
 			"getpixel"
 		end
@@ -94,7 +130,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen putPixel(surface:POINTER;x,y:INTEGER;pixel:NATURAL_32)
 			-- Put the pixel internal color representation on the `surface' at (`x',`y')
 		external
-			"C (SDL_Surface *,int,int,Uint32) | %"core_more.h%""
+			"C (SDL_Surface *,int,int,Uint32) | %"sdl_additions.h%""
 		alias
 			"putpixel"
 		end
@@ -102,7 +138,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen copyPalette(surface_src,surface_dst:POINTER)
 			-- copy the internal color palette of the `surface_src' to the `surface_dst'.
 		external
-			"C (SDL_Surface *,SDL_Surface *)  | %"core_more.h%""
+			"C (SDL_Surface *,SDL_Surface *)  | %"sdl_additions.h%""
 		alias
 			"CopyPalette_8"
 		end
@@ -110,7 +146,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen MirrorSurfaceX(surface:POINTER):POINTER
 			-- Mirror the `surface' by the X axis
 		external
-			"C (SDL_Surface *) : SDL_Surface * | %"core_more.h%""
+			"C (SDL_Surface *) : SDL_Surface * | %"sdl_additions.h%""
 		alias
 			"MirrorSurfaceX"
 		end
@@ -119,7 +155,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen MirrorSurfaceY(surface:POINTER):POINTER
 			-- Mirror the `surface' by the Y axis
 		external
-			"C (SDL_Surface *) : SDL_Surface * | %"core_more.h%""
+			"C (SDL_Surface *) : SDL_Surface * | %"sdl_additions.h%""
 		alias
 			"MirrorSurfaceY"
 		end
@@ -128,7 +164,7 @@ feature -- Manual C function (implemented in SDLmore.c)
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
 			-- Set a CustomPackageFileInfos in the SDL ressource reader.
 		external
-			"C (SDL_RWops *,CustomPackageFileInfos*) | %"core_more.h%""
+			"C (SDL_RWops *,CustomPackageFileInfos*) | %"sdl_additions.h%""
 		alias
 			"setSDLRWops"
 		end
@@ -148,7 +184,6 @@ feature -- Structure SDL_Event SDL.h
 		external
 			"C [struct <SDL.h>] (SDL_Event, Uint32)"
 		alias
-
 			"type"
 		end
 
@@ -2523,6 +2558,76 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"C inline use <SDL.h>"
 		alias
 			"SDL_INIT_NOPARACHUTE"
+		end
+
+	frozen SDL_WINDOW_FULLSCREEN:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_FULLSCREEN"
+		end
+
+	frozen SDL_WINDOW_FULLSCREEN_DESKTOP:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_FULLSCREEN_DESKTOP"
+		end
+
+	frozen SDL_WINDOW_OPENGL:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_OPENGL"
+		end
+
+	frozen SDL_WINDOW_HIDDEN:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_HIDDEN"
+		end
+
+	frozen SDL_WINDOW_BORDERLESS:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_BORDERLESS"
+		end
+
+	frozen SDL_WINDOW_RESIZABLE:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_RESIZABLE"
+		end
+
+	frozen SDL_WINDOW_MINIMIZED:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_MINIMIZED"
+		end
+
+	frozen SDL_WINDOW_MAXIMIZED:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_MAXIMIZED"
+		end
+
+	frozen SDL_WINDOW_INPUT_GRABBED:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_INPUT_GRABBED"
+		end
+
+	frozen SDL_WINDOW_ALLOW_HIGHDPI:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_WINDOW_ALLOW_HIGHDPI"
 		end
 
 end
