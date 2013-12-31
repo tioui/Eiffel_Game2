@@ -76,7 +76,7 @@
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\shared\game_shared.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<cluster name="audio_lib" location=".\" recursive="true">
 			<description>An audio add-on for The Eiffel Game Library.</description>

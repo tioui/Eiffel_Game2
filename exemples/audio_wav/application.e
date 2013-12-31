@@ -7,7 +7,7 @@ class
 	APPLICATION
 
 inherit
-	ARGUMENTS
+	AUDIO_LIBRARY_SHARED	-- Enable the `audio_library' functionnality
 
 create
 	make
@@ -16,25 +16,21 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
-		local
-			audio_ctrl:AUDIO_CONTROLLER
 		do
-			create audio_ctrl.make	-- Create the Audio controller
-			audio_ctrl.enable_sound	-- Permit to the Audio
-			run_standard (audio_ctrl)
-			audio_ctrl.quit_library
-
+			audio_library.enable_sound	-- Permit to the Audio
+			run_standard
+			audio_library.quit_library	-- Properly quit the library
 		end
 
-	run_standard(audio_ctrl:AUDIO_CONTROLLER)
+	run_standard
 		local
 			source:AUDIO_SOURCE
 			sound:AUDIO_SOUND_WAV_FILE
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env
-			audio_ctrl.sources_add	-- Add a sound source in the audio context.
-			source:=audio_ctrl.last_source_added
+			audio_library.sources_add	-- Add a sound source in the audio context.
+			source:=audio_library.last_source_added
 			create sound.make ("sound.wav")
 			sound.open
 			source.queue_sound_loop (sound,1)
@@ -42,7 +38,7 @@ feature {NONE} -- Initialization
 			until not source.is_playing
 			loop
 				env.sleep (10000000)	-- Put a loop delay to remove CPU time
-				audio_ctrl.update	-- This line is very important. If it is not execute reguraly,
+				audio_library.update	-- This line is very important. If it is not execute reguraly,
 									-- the source will stop playing.
 			end
 		end

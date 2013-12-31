@@ -10,7 +10,7 @@ class
 inherit
 	AUDIO_3D_OBJECT
 
-create {AUDIO_CONTROLLER}
+create {AUDIO_LIBRARY_CONTROLLER}
 	default_create
 
 feature -- Access
@@ -31,13 +31,13 @@ feature -- Access
 		require
 			Listener_Orientation_At_And_Up_Orthogonal: a_x_at*a_x_up+a_y_at*a_y_up+a_z_at*a_z_up=0
 		do
-			set_params_6_float({AUDIO_EXTERNAL}.AL_ORIENTATION,a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up)
+			set_params_6_float(Al_orientation,a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up)
 		end
 
 	orientation:TUPLE[a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up:REAL]
 			-- Get the listener orientation (UP and AT).
 		do
-			Result:=params_6_float({AUDIO_EXTERNAL}.AL_ORIENTATION)
+			Result:=params_6_float(Al_orientation)
 		end
 
 feature {NONE} -- Implementation

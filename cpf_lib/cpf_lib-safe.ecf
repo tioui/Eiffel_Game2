@@ -50,7 +50,7 @@
 			</condition>
 		</external_object>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\shared\game_shared-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared-safe.ecf"/>
 		<cluster name="cpf_lib" location=".\" recursive="true">
 			<description>An add-on for the Eiffel Game Lib to use customs packages files.</description>
 			<file_rule>

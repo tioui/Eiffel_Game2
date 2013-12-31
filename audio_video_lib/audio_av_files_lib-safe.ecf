@@ -117,7 +117,7 @@
 		<library name="audio_lib" location="$EIFFEL_LIBRARY\contrib\library\game\audio_lib\audio_lib-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib-safe.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\shared\game_shared-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared-safe.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
 		<cluster name="audio_av_files_lib" location=".\" recursive="true">
 			<description>An add-on for The Audio Eiffel Game Library to open some audio files using LibAV from ffmpeg (OGG, FLAC, etc.)</description>

@@ -8,7 +8,7 @@ deferred class
 	AV_ANY
 
 inherit
-	ANY
+	AV_CONSTANTS
 
 feature -- Access
 

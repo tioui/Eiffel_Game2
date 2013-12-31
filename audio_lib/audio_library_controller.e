@@ -5,7 +5,7 @@ note
 	revision: "0.1"
 
 class
-	AUDIO_CONTROLLER
+	AUDIO_LIBRARY_CONTROLLER
 
 inherit
 	AUDIO_OPENAL_ERROR_MANAGER
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			sound_buffer_size:=64000
 			is_thread_init:=false
 			create launch_mutex.make
-			create {LINKED_LIST[AUDIO_SOURCE]} sources.make
+			create {LINKED_LIST[AUDIO_SOURCE]} internal_sources.make
 			create i_listener
 		end
 
@@ -45,19 +45,24 @@ feature -- Access
 				device:={AUDIO_EXTERNAL}.AL_open_device(create {POINTER})
 				if not device.is_default_pointer then
 					context:={AUDIO_EXTERNAL}.AL_Create_context(device,create {POINTER})
+					read_error
 					if not context.is_default_pointer then
-						read_error
 						{AUDIO_EXTERNAL}.AL_make_context_current(context)
 						read_error
 						if not is_error then
 							i_listener.initialize
-							is_sound_enable:=true
 						else
+							io.error.put_string ("Error: Cannot initialize the Audio Library context.%N")
+							io.error.put_string (last_error_description+"%N")
+							check is_error_managable end
 							{AUDIO_EXTERNAL}.AL_destroy_context(context)
 							error:={AUDIO_EXTERNAL}.AL_close_device(device)
 							check error/=0 end
 						end
 					else
+						io.error.put_string ("Error: Cannot initialize the Audio Library context.%N")
+						io.error.put_string (last_error_description+"%N")
+						check is_error_managable end
 						error:={AUDIO_EXTERNAL}.AL_close_device(device)
 						check error/=0 end
 					end
@@ -72,9 +77,8 @@ feature -- Access
 		do
 			if is_sound_enable then
 				stop_thread
-				sources.do_all (agent (s: AUDIO_SOURCE) do s.stop end)
-				sources.wipe_out
-				is_sound_enable:=false
+				internal_sources.do_all (agent {AUDIO_SOURCE}.close)
+				internal_sources.wipe_out
 				read_error
 				{AUDIO_EXTERNAL}.AL_suspend_context(context)
 				read_error
@@ -94,7 +98,10 @@ feature -- Access
 			Result:=i_listener
 		end
 
-	is_sound_enable:BOOLEAN -- Return true a sund context is activate. If true, you can use sound functionnalities.
+	is_sound_enable:BOOLEAN -- Return true when a sound context is activate. If true, you can use sound functionnalities.
+		do
+			Result := not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer
+		end
 
 feature -- Sources management
 
@@ -115,7 +122,7 @@ feature -- Sources management
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
-			sources.do_all (agent (s: AUDIO_SOURCE) do s.update_playing end)
+			internal_sources.do_all (agent {AUDIO_SOURCE}.update_playing)
 		end
 
 
@@ -124,7 +131,7 @@ feature -- Sources management
 			Launch_in_Thread_Sound_Open:is_sound_enable
 		do
 			if not is_thread_init then
-				sources.do_all (agent (s: AUDIO_SOURCE) do s.set_thread_safe end)
+				internal_sources.do_all (agent {AUDIO_SOURCE}.set_thread_safe)
 				make_thread
 				is_thread_init:=true
 			end
@@ -150,7 +157,7 @@ feature -- Sources management
 		require
 			Sources_Count_Sound_Open:is_sound_enable
 		do
-			Result:=sources.count
+			Result:=internal_sources.count
 		end
 
 	sources_add
@@ -161,13 +168,13 @@ feature -- Sources management
 			if is_thread_executing then
 				launch_mutex.lock
 			end
-			sources.extend (create {AUDIO_SOURCE}.make(sound_buffer_size))
+			internal_sources.extend (create {AUDIO_SOURCE}.make(sound_buffer_size))
 			if is_thread_executing then
 				last_source_added.set_thread_safe
 				launch_mutex.unlock
 			end
 		ensure
-			sources.count = old sources.count+1
+			internal_sources.count = old internal_sources.count+1
 		end
 
 	last_source_added:AUDIO_SOURCE
@@ -184,7 +191,7 @@ feature -- Sources management
 			Sources_Get_At_Sound_Open:is_sound_enable
 			Al_Controler_Source_Get_Index_Valid: a_index>0 and then a_index<sources_count+1
 		do
-			Result:=sources.at (a_index)
+			Result:=internal_sources.at (a_index)
 		end
 
 	sources_remove(a_index:INTEGER)
@@ -193,9 +200,9 @@ feature -- Sources management
 			Sources_Remove_At_Sound_Open:is_sound_enable
 			Al_Controler_Source_Remove_Index_Valid: a_index>0 and then a_index<sources_count+1
 		do
-			sources.go_i_th (a_index)
-			sources.item.stop
-			sources.remove
+			internal_sources.go_i_th (a_index)
+			internal_sources.item.close
+			internal_sources.remove
 		end
 
 	sources_prune(a_source:AUDIO_SOURCE)
@@ -205,10 +212,10 @@ feature -- Sources management
 			Sources_Remove_Sound_Open:is_sound_enable
 			Al_Controler_Source_Remove_Source_Valid: a_source /= Void and then sources_has (a_source)
 		do
-			a_source.stop
-			sources.prune_all (a_source)
+			a_source.close
+			internal_sources.prune_all (a_source)
 		ensure
-			Al_Controler_Source_Remove_Source_Removed: not sources.has (a_source)
+			Al_Controler_Source_Remove_Source_Removed: not internal_sources.has (a_source)
 		end
 
 	sources_wipe_out
@@ -216,8 +223,8 @@ feature -- Sources management
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
-			sources.do_all (agent (s: AUDIO_SOURCE) do s.stop end)
-			sources.wipe_out
+			internal_sources.do_all (agent {AUDIO_SOURCE}.close)
+			internal_sources.wipe_out
 		end
 
 	sources_has(a_source:AUDIO_SOURCE):BOOLEAN
@@ -225,7 +232,14 @@ feature -- Sources management
 		require
 			Sources_Has_Sound_Open:is_sound_enable
 		do
-			Result:=sources.has (a_source)
+			Result:=internal_sources.has (a_source)
+		end
+
+	sources:LINEAR_ITERATOR[AUDIO_SOURCE]
+		require
+			-- All audio sources.
+		do
+			create Result.set(internal_sources)
 		end
 
 	quit_library
@@ -250,13 +264,13 @@ feature {AUDIO_SOURCE}
 			if is_thread_executing then
 				launch_mutex.lock
 			end
-			sources.extend (a_source)
+			internal_sources.extend (a_source)
 			if is_thread_executing then
 				last_source_added.set_thread_safe
 				launch_mutex.unlock
 			end
 		ensure
-			sources.count = old sources.count+1
+			internal_sources.count = old internal_sources.count+1
 		end
 
 feature {NONE} -- Implementation Class Variable
@@ -264,7 +278,7 @@ feature {NONE} -- Implementation Class Variable
 	device:POINTER
 	context:POINTER
 	i_listener:AUDIO_LISTENER
-	sources:LIST[AUDIO_SOURCE]
+	internal_sources:LIST[AUDIO_SOURCE]
 	must_stop_thread:BOOLEAN
 	is_thread_init:BOOLEAN
 
@@ -289,6 +303,6 @@ invariant
 	Is_Sound_Open_Context_Valid:
 		is_sound_enable implies (not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer)
 	Is_Sound_Open_Sources_Valid:
-		(not is_sound_enable) implies (sources.count = 0)
+		(not is_sound_enable) implies (internal_sources.count = 0)
 
 end

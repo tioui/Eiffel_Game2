@@ -438,14 +438,6 @@ feature -- libavcodec Constants
 			"AVMEDIA_TYPE_VIDEO"
 		end
 
-	frozen AVCODEC_MAX_AUDIO_FRAME_SIZE :INTEGER
-		external
-			"C inline use <avcodec.h>"
-		alias
-			"AVCODEC_MAX_AUDIO_FRAME_SIZE"
-		end
-
-
 	frozen AVERROR_EOF :INTEGER
 		external
 			"C inline use <avcodec.h>"

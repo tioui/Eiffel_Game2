@@ -351,6 +351,7 @@ feature -- OpenAL Constantes
 			"AL_STOPPED"
 		end
 
+
 	frozen AL_GAIN :INTEGER
 		external
 			"C inline use <al.h>"

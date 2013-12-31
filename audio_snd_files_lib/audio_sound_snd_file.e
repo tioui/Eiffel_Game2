@@ -10,6 +10,7 @@ class
 inherit
 	AUDIO_SOUND
 	DISPOSABLE
+	AUDIO_SND_FILES_CONSTANTS
 
 create
 	make
@@ -26,7 +27,7 @@ feature {NONE} -- Initialization
 			filename:=a_filename
 		end
 
-feature {GAME_AUDIO_SOURCE}
+feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		local
@@ -99,7 +100,7 @@ feature --Access
 			l_error:INTEGER_64
 		do
 			if is_seekable then
-				l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,{AUDIO_SND_FILES_EXTERNAL}.SEEK_SET)
+				l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,Seek_set)
 				check l_error/=-1 end
 			else
 				dispose
@@ -114,9 +115,9 @@ feature {NONE} -- Implementation - Methodes
 		local
 			l_filename_c,l_error_c:C_STRING
 		do
-			file_info:=file_info.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_sf_info)
+			file_info:=file_info.memory_alloc (Sf_info_size)
 			create l_filename_c.make(a_filename)
-			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(l_filename_c.item,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info)
+			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.SF_open(l_filename_c.item,Sfm_read,file_info)
 			if snd_file_ptr.is_default_pointer then
 				create l_error_c.make_by_pointer ({AUDIO_SND_FILES_EXTERNAL}.sf_strerror(snd_file_ptr))
 				io.error.put_string (l_error_c.string+"%N")
@@ -131,6 +132,11 @@ feature {NONE} -- Implementation - Methodes
 			file_info.memory_free
 			error:={AUDIO_SND_FILES_EXTERNAL}.sf_close(snd_file_ptr)
 			check error=0 end
+		end
+
+	Sf_info_size:INTEGER
+		once
+			Result := {AUDIO_SND_FILES_EXTERNAL}.c_sizeof_sf_info
 		end
 
 feature {NONE} -- Implementation - Variables

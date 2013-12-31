@@ -9,6 +9,7 @@
 		</option>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
 		<cluster name="game_shared" location=".\" recursive="true">
 			<description>Shared Classes for the game library.</description>
 			<file_rule>

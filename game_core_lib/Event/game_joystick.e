@@ -7,21 +7,21 @@ note
 class
 	GAME_JOYSTICK
 
---inherit
---	DISPOSABLE
+inherit
+	DISPOSABLE
 
---create {GAME_SDL_CONTROLLER}
---	make
+create {GAME_SDL_CONTROLLER}
+	make
 
---feature {NONE} -- Initialization
+feature {NONE} -- Initialization
 
---	make(a_from_index:INTEGER)
---			-- Initialization for `Current'.
---		do
---			index:=a_from_index
---		end
+	make(a_from_index:INTEGER)
+			-- Initialization for `Current'.
+		do
+			index:=a_from_index
+		end
 
---feature -- Access
+feature -- Access
 
 --	name:STRING
 --		-- Return the Joystick Name.
@@ -32,27 +32,28 @@ class
 --		Result:=l_text_return.string
 --	end
 
---	open
---		-- Open the joystick.
---	require
---		Open_Joystick_Not_Open:not is_opened
---	do
---		joy_ptr:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(index)
---	end
+	open
+		-- Open the joystick.
+	require
+		Open_Joystick_Not_Open:not is_opened
+	do
+		joy_ptr:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(index)
+		if not joy_ptr.is_default_pointer then
+			is_opened:=True
+		end
+	end
 
---	close
---		-- Close the joystick.
---	require
---		Close_Is_Open: is_opened
---	do
---		{GAME_SDL_EXTERNAL}.SDL_JoystickClose(joy_ptr)
---	end
+	close
+		-- Close the joystick.
+	require
+		Close_Is_Open: is_opened
+	do
+		{GAME_SDL_EXTERNAL}.SDL_JoystickClose(joy_ptr)
+		is_opened:=False
+	end
 
---	is_opened:BOOLEAN
---		-- Return true if the joystick is open.
---	do
---		Result:={GAME_SDL_EXTERNAL}.SDL_JoystickOpened(index)=1
---	end
+	is_opened:BOOLEAN
+		-- True if the joystick has been opened.
 
 --	get_axes_number:INTEGER
 --		-- Get the number of axes on the joystick.
@@ -145,17 +146,17 @@ class
 --		Result:=[l_dx,l_dy]
 --	end
 
---feature {NONE} -- Implementation
+feature {NONE} -- Implementation
 
---	joy_ptr:POINTER
+	joy_ptr:POINTER
 
---	index:INTEGER
+	index:INTEGER
 
---	dispose
---	do
---		if is_opened then
---			close
---		end
---	end
+	dispose
+	do
+		if is_opened then
+			close
+		end
+	end
 
 end

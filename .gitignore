@@ -8,5 +8,6 @@ EIFGENs
 *.o
 *.lib
 */Clib/Makefile
+*/Clib/config.sh
 custom_package_file_app/tests/*
 !custom_package_file_app/tests/tests.sh

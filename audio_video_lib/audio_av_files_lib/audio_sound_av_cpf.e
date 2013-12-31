@@ -65,7 +65,7 @@ feature {NONE} -- Initialization
 			is_thread_safe:=True
 		end
 
-feature {GAME_AUDIO_SOURCE}
+feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		do
@@ -94,7 +94,7 @@ feature-- Access
 
 	open
 		do
-			bio_buffer:={AV_EXTERNAL}.av_malloc(read_buffer_size+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
+			bio_buffer:={AV_EXTERNAL}.av_malloc(read_buffer_size+Ff_input_buffer_padding_size)
 			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			avio_context:={AV_EXTERNAL}.avio_alloc_context(bio_buffer,read_buffer_size,0,cpf.get_current_cpf_infos_ptr,

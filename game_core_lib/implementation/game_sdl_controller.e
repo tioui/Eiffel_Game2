@@ -7,93 +7,171 @@ note
 class
 	GAME_SDL_CONTROLLER
 
---create
---	make,
---	make_no_parachute
+inherit
+	GAME_SDL_CONSTANTS
+	GAME_SDL_ANY
 
---feature {NONE} -- Initialization
+create
+	make,
+	make_no_parachute
 
---	make
---			-- Initialization for `Current'.
---			-- Clean up library on segfault
---		do
---			initialise_library(0)
---		end
+feature {NONE} -- Initialization
 
---	make_no_parachute
---			-- Initialization for `Current'.
---			-- Don't clean up library on segfault
---		do
---			initialise_library({GAME_SDL_EXTERNAL}.SDL_INIT_NOPARACHUTE)
---		end
+	make
+			-- Initialization for `Current'.
+			-- Clean up library on segfault
+		do
+			initialise_library(0)
+		end
 
---feature -- Subs Systems
+	make_no_parachute
+			-- Initialization for `Current'.
+			-- Don't clean up library on segfault
+		do
+			initialise_library(Sdl_init_noparachute)
+		end
 
---	enable_video
---			-- Unable the video functionalities
---		require
---			SDL_Controller_Enable_Video_Already_Enabled: not is_video_enable
---		do
---			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_VIDEO)
---		ensure
---			SDL_Controller_Enable_Video_Enabled: is_video_enable
---		end
+feature -- Subs Systems
 
---	disable_video
---			-- Disable the video functionalities
---		require
---			SDL_Controller_Disable_Video_Not_Enabled: is_video_enable
---		do
---			quit_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_VIDEO)
---		ensure
---			SDL_Controller_Disable_Video_Disabled: not is_video_enable
---		end
+	enable_video
+			-- Unable the video functionalities
+		require
+			SDL_Controller_Enable_Video_Already_Enabled: not is_video_enable
+		do
+			initialise_sub_system(Sdl_init_video)
+		ensure
+			SDL_Controller_Enable_Video_Enabled: is_video_enable
+		end
 
---	is_video_enable:BOOLEAN
---			-- Return true if the text surface functionnality is enabled.
---		do
---			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.SDL_INIT_VIDEO)
---		end
+	disable_video
+			-- Disable the video functionalities
+		require
+			SDL_Controller_Disable_Video_Not_Enabled: is_video_enable
+		do
+			quit_sub_system(Sdl_init_video)
+		ensure
+			SDL_Controller_Disable_Video_Disabled: not is_video_enable
+		end
+
+	is_video_enable:BOOLEAN
+			-- Return true if the text surface functionnality is enabled.
+		do
+			Result:=is_sub_system_enable(Sdl_init_video)
+		end
 
 
---	enable_joystick
---			-- Unable the joystick functionality
---		require
---			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
---		do
---			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
---		--	event_controller.enable_joystick_event
---			refresh_joyticks
---		ensure
---			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enable
---		--	SDL_Controller_Enable_Joystick_Event_Enable: event_controller.is_joystick_event_enable
---		end
+	enable_joystick
+			-- Unable the joystick functionality
+		require
+			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
+		do
+			initialise_sub_system(Sdl_init_joystick)
+			refresh_joyticks
+		ensure
+			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enable
+		end
 
---	disable_joystick
---			-- Disable the joystick fonctionality
---		require
---			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enable
---		do
---			event_controller.disable_joystick_event
---			close_all_joysticks
---			quit_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
---		ensure
---			SDL_Controller_Disable_Joystick_Disabled: not is_joystick_enable
---		end
+	disable_joystick
+			-- Disable the joystick fonctionality
+		require
+			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enable
+		do
+			close_all_joysticks
+			quit_sub_system(Sdl_init_joystick)
+		ensure
+			SDL_Controller_Disable_Joystick_Disabled: not is_joystick_enable
+		end
 
---	is_joystick_enable:BOOLEAN
---			-- Return true if the joystick functionnality is enabled.
---		do
---			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK)
---		end
+	is_joystick_enable:BOOLEAN
+			-- Return true if the joystick functionnality is enabled.
+		do
+			Result:=is_sub_system_enable(Sdl_init_joystick)
+		end
+
+
+	enable_haptic
+			-- Unable the haptic (force feedback) functionality.
+			-- Often use for Controller rumble.
+		require
+			SDL_Controller_Enable_Haptic_Already_Enabled: not is_haptic_enable
+		do
+			initialise_sub_system(Sdl_init_haptic)
+		ensure
+			SDL_Controller_Enable_Haptic_Enabled: is_haptic_enable
+		end
+
+	disable_haptic
+			-- Disable the haptic (force feedback) fonctionality
+		require
+			SDL_Controller_Disable_Haptic_Not_Enabled: is_haptic_enable
+		do
+			quit_sub_system(Sdl_init_haptic)
+		ensure
+			SDL_Controller_Disable_Haptic_Disabled: not is_haptic_enable
+		end
+
+	is_haptic_enable:BOOLEAN
+			-- Return true if the haptic (force feedback) functionnality is enabled.
+		do
+			Result:=is_sub_system_enable(Sdl_init_haptic)
+		end
+
+
+	enable_controller
+			-- Unable the controller functionality.
+		require
+			SDL_Controller_Enable_Controller_Already_Enabled: not is_controller_enable
+		do
+			initialise_sub_system(Sdl_init_gamecontroller)
+		ensure
+			SDL_Controller_Enable_Events_Enabled: is_controller_enable
+		end
+
+	disable_controller
+			-- Disable the controller fonctionality
+		require
+			SDL_Controller_Disable_controller_Not_Enabled: is_controller_enable
+		do
+			quit_sub_system(Sdl_init_gamecontroller)
+		ensure
+			SDL_Controller_Disable_Events_Disabled: not is_controller_enable
+		end
+
+	is_controller_enable:BOOLEAN
+			-- Return true if the controller functionnality is enabled.
+		do
+			Result:=is_sub_system_enable(Sdl_init_gamecontroller)
+		end
+
+
+	enable_events
+			-- Unable the events functionality.
+		require
+			SDL_Controller_Enable_Events_Already_Enabled: not is_events_enable
+		do
+			initialise_sub_system(Sdl_init_events)
+		ensure
+			SDL_Controller_Enable_Events_Enabled: is_events_enable
+		end
+
+	disable_events
+			-- Disable the events fonctionality
+		require
+			SDL_Controller_Disable_Events_Not_Enabled: is_events_enable
+		do
+			quit_sub_system(Sdl_init_events)
+		ensure
+			SDL_Controller_Disable_Events_Disabled: not is_events_enable
+		end
+
+	is_events_enable:BOOLEAN
+			-- Return true if the events functionnality is enabled.
+		do
+			Result:=is_sub_system_enable(Sdl_init_events)
+		end
 
 --feature -- Video methods
 
---	enable_event_thread
---			-- Put the thread in an independant SDL thread. Not recommanded.
---		do
---			initialise_sub_system({GAME_SDL_EXTERNAL}.SDL_INIT_EVENTTHREAD)
---		end
 
 --	flip_screen
 --			-- Show the screen surface in the window
@@ -327,83 +405,102 @@ class
 --			Result:={GAME_SDL_EXTERNAL}.SDL_WM_GrabInput({GAME_SDL_EXTERNAL}.SDL_GRAB_QUERY)={GAME_SDL_EXTERNAL}.SDL_GRAB_ON
 --		end
 
---feature -- Joystick methods
+feature -- Joystick methods
 
---	get_joystick_count:INTEGER
---		-- Get number of joystick detect by the library
---	require
---		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
---	do
---		Result:={GAME_SDL_EXTERNAL}.SDL_NumJoysticks
---	end
+	get_joystick_count:INTEGER
+		-- Get number of joystick detect by the library
+	require
+		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
+	do
+		Result:={GAME_SDL_EXTERNAL}.SDL_NumJoysticks
+	end
 
---	get_joystick(index:INTEGER):GAME_JOYSTICK
---		-- Use the same index used by the system.
---		-- So the first joystick in at index 0
---	require
---		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
---		Get_Joystick_Index_Valid: index<get_joystick_count
---	do
---		Result:=all_joysticks.i_th (index+1)
---	end
+	get_joystick(index:INTEGER):GAME_JOYSTICK
+		-- Use the same index used by the system.
+		-- So the first joystick in at index 0
+	require
+		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
+		Get_Joystick_Index_Valid: index<get_joystick_count
+	do
+		Result:=internal_joysticks.i_th (index+1)
+	end
 
---	refresh_joyticks
---		-- Update the joystiks list (if joysticks as been add or remove)
---		-- Warning: This will close all opened joysticks
---	require
---		Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
---	local
---		i:INTEGER
---	do
+	joysticks:LINEAR_ITERATOR[GAME_JOYSTICK]
+		require
+			Joysticks_is_Joystick_Enabled: is_joystick_enable
+		do
+			create Result.set (internal_joysticks)
+		end
 
---		close_all_joysticks
---		all_joysticks.wipe_out
---		from i:=0
---		until i>=get_joystick_count
---		loop
---			all_joysticks.extend(create {GAME_JOYSTICK}.make(i))
---			i:=i+1
---		end
---	end
+	refresh_joyticks
+		-- Update the joystiks list (if joysticks as been add or remove)
+		-- Warning: This will close all opened joysticks
+	require
+		Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
+	local
+		i:INTEGER
+	do
+		close_all_joysticks
+		internal_joysticks.wipe_out
+		from i:=0
+		until i>=get_joystick_count
+		loop
+			internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
+			i:=i+1
+		end
+	end
 
---feature {NONE} -- Joystick implementation
+feature {NONE} -- Joystick implementation
 
---	all_joysticks:ARRAYED_LIST[GAME_JOYSTICK]
+	internal_joysticks:ARRAYED_LIST[GAME_JOYSTICK]
 
---	close_all_joysticks
---		-- Close the joystick that has been opened
---	require
---		Controller_Close_All_Joysticks_Joystick_Enabled: is_joystick_enable
---		Close_All_Joystick_Attach: all_joysticks /= Void
---	do
---		from all_joysticks.start
---		until all_joysticks.off
---		loop
---			if all_joysticks.item.is_opened then
---				all_joysticks.item.close
---			end
---			all_joysticks.forth
---		end
---	end
+	open_all_joystick
+		require
+			Joysticks_is_enabled: is_joystick_enable
+		do
+			internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
+								if not a_joystick.is_opened then
+									a_joystick.open
+								end
+							end)
+		end
 
 
+	close_all_joysticks
+		-- Close the joystick that has been opened
+	require
+		Controller_Close_All_Joysticks_Joystick_Enabled: is_joystick_enable
+		Close_All_Joystick_Attach: internal_joysticks /= Void
+	do
+		internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
+								if a_joystick.is_opened then
+									a_joystick.close
+								end
+							end)
+	end
+
+feature -- Other methods
+
+	has_error:BOOLEAN
+
+	events_controller:GAME_EVENTS_CONTROLLER assign set_events_controller
+			-- The event manager. Use it to have access to your event.
+		require
+			Events_Controller_Is_Event_Enable: is_events_enable
+		do
+			Result:=internal_events_controller
+		end
 
 
---feature -- Other methods
+	set_events_controller(a_events_controller:GAME_EVENTS_CONTROLLER)
+		do
+			internal_events_controller:=a_events_controller
+		end
 
---	event_controller:GAME_EVENT_CONTROLLER -- The event manager. Use it to have access to your event.
-
---	replace_event_controller(a_other_event_controller:GAME_EVENT_CONTROLLER)
---		require
---			SDL_Controller_Replace_Event_Controller_Not_Void:a_other_event_controller/=Void
---		do
---			event_controller:=a_other_event_controller
---		end
-
---	clear_event_controller
---		do
---			create event_controller.make (Current)
---		end
+	clear_events_controller
+		do
+			create internal_events_controller.make
+		end
 
 --	update
 --			-- Execute the event polling and throw the event handeler execution for each event.
@@ -457,18 +554,18 @@ class
 --			launch
 --		end
 
---	iteration_per_second:NATURAL_32 assign set_iteration_per_second
---			-- An approximation of the number of event loop iteration per second.
---		do
---			Result:=1000//ticks_per_iteration
---		end
+	iteration_per_second:NATURAL_32 assign set_iteration_per_second
+			-- An approximation of the number of event loop iteration per second.
+		do
+			Result:=1000//ticks_per_iteration
+		end
 
---	set_iteration_per_second(a_iteration_per_second:NATURAL_32)
---			-- Set `iteration_per_second' to `a_iteration_per_second'
---			-- Note that this is an aproximation.
---		do
---			ticks_per_iteration:=1000//a_iteration_per_second
---		end
+	set_iteration_per_second(a_iteration_per_second:NATURAL_32)
+			-- Set `iteration_per_second' to `a_iteration_per_second'
+			-- Note that this is an aproximation.
+		do
+			ticks_per_iteration:=1000//a_iteration_per_second
+		end
 
 --	stop
 --			-- Stop the main loop
@@ -476,63 +573,68 @@ class
 --			must_stop:=true
 --		end
 
---	quit_library
---			-- Close the library. Must be used before the end of the application
---		local
---			l_mem:MEMORY
---		do
---			event_controller:=Void
---			all_joysticks:=void
---			create l_mem
---			l_mem.full_collect
---			{GAME_SDL_EXTERNAL}.SDL_Quit
---		end
+	quit_library
+			-- Close the library. Must be used before the end of the application
+		local
+			l_mem:MEMORY
+		do
+			create internal_events_controller.make ()
+			create l_mem
+			l_mem.full_collect
+			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
+		end
 
 
 
 
---feature{NONE} -- Implementation - Methods
+feature{NONE} -- Implementation - Methods
 
---	initialise_library(a_flags:NATURAL_32)
---			-- Initialise the library.
---		local
---			l_error:INTEGER
---		once
---			set_iteration_per_second(60)
---			create all_joysticks.make (0)
---			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
---			check l_error = 0 end
---			create event_controller.make (Current)
---		end
+	initialise_library(a_flags:NATURAL_32)
+			-- Initialise the library.
+		local
+			l_error:INTEGER
+		do
+			has_error:=False
+			set_iteration_per_second(60)
+			create internal_joysticks.make (0)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
+			if l_error < 0 then
+				has_error:=True
+				io.error.put_string ("Cannot initialise the game library.%N")
+			end
+			check l_error = 0 end
+			create internal_events_controller.make
+		end
 
---	initialise_sub_system(a_flags:NATURAL_32)
---			-- Initialise SDL sub-systems defined by `a_flags'.
---		local
---			l_error:INTEGER
---		do
---			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
---			check l_error = 0 end
---		end
+	initialise_sub_system(a_flags:NATURAL_32)
+			-- Initialise SDL sub-systems defined by `a_flags'.
+		local
+			l_error:INTEGER
+		do
+			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
+			check l_error = 0 end
+		end
 
---	quit_sub_system(a_flags:NATURAL_32)
---			-- Disable all SDL sub-system defined by `a_flags'.
---		local
---			l_error:INTEGER
---		do
---			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
---			check l_error = 0 end
---		end
+	quit_sub_system(a_flags:NATURAL_32)
+			-- Disable all SDL sub-system defined by `a_flags'.
+		local
+			l_error:INTEGER
+		do
+			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
+			check l_error = 0 end
+		end
 
---	is_sub_system_enable(a_flags:NATURAL_32):BOOLEAN
---			-- Return true if the sub-systems defined by the `a_flags' are enable.
---		local
---			l_return_value:NATURAL_32
---		do
---			l_return_value:={GAME_SDL_EXTERNAL}.SDL_WasInit(a_flags)
---			Result := l_return_value = a_flags
---		end
+	is_sub_system_enable(a_flags:NATURAL_32):BOOLEAN
+			-- Return true if the sub-systems defined by the `a_flags' are enable.
+		local
+			l_return_value:NATURAL_32
+		do
+			l_return_value:={GAME_SDL_EXTERNAL}.SDL_WasInit(a_flags)
+			Result := l_return_value = a_flags
+		end
 
---feature {NONE} -- Implementation - Variables
+
+feature {NONE} -- Implementation - Variables
 
 --	scr_surface:GAME_SCREEN
 
@@ -542,6 +644,8 @@ class
 
 --	last_tick:NATURAL_32
 
---	ticks_per_iteration:NATURAL_32
+	ticks_per_iteration:NATURAL_32
+
+	internal_events_controller:GAME_EVENTS_CONTROLLER
 
 end

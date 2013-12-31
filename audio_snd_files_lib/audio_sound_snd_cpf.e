@@ -70,10 +70,10 @@ feature-- Access
 			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			last_offset:=cpf.current_sub_file_position
-			virtual_io:=virtual_io.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_snd_file_virtual_io)
+			virtual_io:=virtual_io.memory_alloc (Sf_virtual_io_size)
 			{AUDIO_SND_FILES_EXTERNAL}.set_snd_file_virtual_io(virtual_io)
-			file_info:=file_info.memory_alloc ({AUDIO_SND_FILES_EXTERNAL}.c_sizeof_sf_info)
-			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,{AUDIO_SND_FILES_EXTERNAL}.SFM_READ,file_info,cpf.get_current_cpf_infos_ptr)
+			file_info:=file_info.memory_alloc (Sf_info_size)
+			snd_file_ptr:={AUDIO_SND_FILES_EXTERNAL}.sf_open_virtual(virtual_io,Sfm_read,file_info,cpf.get_current_cpf_infos_ptr)
 			if snd_file_ptr.is_default_pointer then
 				has_error:=True
 			end
@@ -89,7 +89,7 @@ feature-- Access
 			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
 			if is_seekable then
-				error := {AUDIO_SND_FILES_EXTERNAL}.sf_seek (snd_file_ptr, 0, {AUDIO_SND_FILES_EXTERNAL}.seek_set)
+				error := {AUDIO_SND_FILES_EXTERNAL}.sf_seek (snd_file_ptr, 0, Seek_set)
 				check
 					error /= -1
 				end
@@ -108,6 +108,11 @@ feature {NONE} -- Implementation - Routines
 		do
 			Precursor
 			virtual_io.memory_free
+		end
+
+	Sf_virtual_io_size:INTEGER
+		once
+			Result := {AUDIO_SND_FILES_EXTERNAL}.c_sizeof_snd_file_virtual_io
 		end
 feature {NONE} -- Implementation - Variables
 

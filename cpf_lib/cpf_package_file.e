@@ -89,7 +89,7 @@ feature -- Access
 				until
 					sub_files_infos.exhausted
 				loop
-					l_temp_ptr:=l_temp_ptr.memory_alloc ({CPF_EXTERNAL}.c_sizeof_custom_package_file_infos)
+					l_temp_ptr:=l_temp_ptr.memory_alloc (Custom_package_file_infos_size)
 					{CPF_EXTERNAL}.set_custom_package_infos_struct_file_ptr(l_temp_ptr,file_pointer)
 					{CPF_EXTERNAL}.set_custom_package_infos_struct_start_offset(l_temp_ptr,sub_files_infos.item.pos)
 					{CPF_EXTERNAL}.set_custom_package_infos_struct_total_size(l_temp_ptr,sub_files_infos.item.length)
@@ -283,6 +283,11 @@ feature {NONE} -- Implementation - Routine
 feature {NONE} -- Implemetntation - Variables
 
 	cpf_infos:LIST[POINTER]
+
+	custom_package_file_infos_size:INTEGER
+		once
+			Result := {CPF_EXTERNAL}.c_sizeof_custom_package_file_infos
+		end
 
 invariant
 	File_Stream_Ptr_Not_Null: not file_pointer.is_default_pointer

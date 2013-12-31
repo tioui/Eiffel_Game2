@@ -198,6 +198,60 @@ feature {NONE} -- Constants SDL.h
 			Result:={GAME_SDL_EXTERNAL}.SDL_DROPFILE
 		end
 
+	Sdl_init_timer:NATURAL_32
+			-- Timer subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_TIMER
+		end
+
+	Sdl_init_audio:NATURAL_32
+			-- Audio subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_AUDIO
+		end
+
+	Sdl_init_video:NATURAL_32
+			-- Video subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_VIDEO
+		end
+
+	Sdl_init_joystick:NATURAL_32
+			-- Joystick subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_JOYSTICK
+		end
+
+	Sdl_init_haptic:NATURAL_32
+			-- Haptic (force feedback) subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_HAPTIC
+		end
+
+	Sdl_init_gamecontroller:NATURAL_32
+			-- Controller subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_GAMECONTROLLER
+		end
+
+	Sdl_init_events:NATURAL_32
+			-- Events subsystem
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_EVENTS
+		end
+
+	Sdl_init_everything:NATURAL_32
+			-- All subsystems.
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_EVERYTHING
+		end
+
+	Sdl_init_noparachute:NATURAL_32
+			-- Don't catch fatal signals
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_INIT_NOPARACHUTE
+		end
+
 
 feature {NONE} -- Macro SDL_endian.h
 

@@ -9,6 +9,69 @@ class
 
 feature -- Function SDL.h
 
+	frozen SDL_Init(flags:NATURAL_32):INTEGER
+		external
+			"C (Uint32) : int | <SDL.h>"
+		alias
+			"SDL_Init"
+		end
+
+	frozen SDL_Quit_lib
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_Quit"
+		end
+
+	frozen SDL_ClearError
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_ClearError"
+		end
+
+	frozen SDL_GetError:POINTER
+		external
+			"C : const char* | <SDL.h>"
+		alias
+			"SDL_GetError"
+		end
+
+	frozen SDL_WasInit(flags:NATURAL_32):NATURAL_32
+		external
+			"C (Uint32) : Uint32 | <SDL.h>"
+		alias
+			"SDL_WasInit"
+		end
+
+	frozen SDL_InitSubSystem(flags:NATURAL_32):INTEGER
+		external
+			"C (Uint32) : int | <SDL.h>"
+		alias
+			"SDL_InitSubSystem"
+		end
+
+	frozen SDL_JoystickOpen(device_index:INTEGER):POINTER
+		external
+			"C (int) : SDL_Joystick* | <SDL.h>"
+		alias
+			"SDL_JoystickOpen"
+		end
+
+	frozen SDL_JoystickClose(joystick:POINTER)
+		external
+			"C (SDL_Joystick*) | <SDL.h>"
+		alias
+			"SDL_JoystickClose"
+		end
+
+	frozen SDL_NumJoysticks:INTEGER
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_NumJoysticks"
+		end
+
 
 feature -- Manual C function (implemented in SDLmore.c)
 
@@ -2397,6 +2460,69 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"C inline use <SDL.h>"
 		alias
 			"SDL_DOLLARGESTURE"
+		end
+
+	frozen SDL_INIT_TIMER:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_TIMER"
+		end
+
+	frozen SDL_INIT_AUDIO:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_AUDIO"
+		end
+
+	frozen SDL_INIT_VIDEO:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_VIDEO"
+		end
+
+	frozen SDL_INIT_JOYSTICK:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_JOYSTICK"
+		end
+
+	frozen SDL_INIT_HAPTIC:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_HAPTIC"
+		end
+
+	frozen SDL_INIT_GAMECONTROLLER:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_GAMECONTROLLER"
+		end
+
+	frozen SDL_INIT_EVENTS:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_EVENTS"
+		end
+
+	frozen SDL_INIT_EVERYTHING:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_EVERYTHING"
+		end
+
+	frozen SDL_INIT_NOPARACHUTE:NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_INIT_NOPARACHUTE"
 		end
 
 end

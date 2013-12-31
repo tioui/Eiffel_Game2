@@ -19,8 +19,9 @@ class
 inherit
 	AUDIO_3D_OBJECT
 	DISPOSABLE
+	AUDIO_LIBRARY_SHARED
 
-create {AUDIO_CONTROLLER}
+create {AUDIO_LIBRARY_CONTROLLER}
 	make
 
 feature {NONE} -- Initialization
@@ -28,7 +29,7 @@ feature {NONE} -- Initialization
 	make(a_buffer_size:INTEGER)
 			-- Initialization for `Current'.
 		require
-			Make_Source_Audio_Open:not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer
+			Make_Source_Sound_Enable:audio_library.is_sound_enable
 		local
 			l_sources:ARRAY[NATURAL]
 			l_source_c:ANY
@@ -56,6 +57,7 @@ feature {NONE} -- Initialization
 			temp_buffer:=temp_buffer.memory_alloc(buffer_size)
 			is_thread_safe:=false
 			create g_mutex.make
+			is_open:=True
 		end
 
 feature -- Access
@@ -71,6 +73,8 @@ feature -- Access
 
 	play
 			-- Start the sound streaming.
+		require
+			Source_Is_Open: is_open
 		do
 			update_playing
 			{AUDIO_EXTERNAL}.AL_source_play(index)
@@ -78,12 +82,16 @@ feature -- Access
 
 	pause
 			-- Put the streaming in pause.
+		require
+			Source_Is_Open: is_open
 		do
 			{AUDIO_EXTERNAL}.AL_source_pause(index)
 		end
 
 	stop
 			-- Stop the streaming. All queud sound will be remove from the queue.
+		require
+			Source_Is_Open: is_open
 		do
 			{AUDIO_EXTERNAL}.AL_source_stop(index)
 			sound_queued.wipe_out
@@ -94,41 +102,48 @@ feature -- Access
 --	is_initial:BOOLEAN
 --			-- Return true if the sound source is in the initial state.
 --		do
---			Result:=(get_int_param_c({AUDIO_EXTERNAL}.AL_SOURCE_STATE)={AUDIO_EXTERNAL}.AL_INITIAL)
+--			Result:=(get_int_param_c(Al_source_state)=Al_initial)
 --		end
 
 	is_playing:BOOLEAN
 			-- Return true if the sound source is currently playing.
+		require
+			Source_Is_Open: is_open
 		do
-			Result:=(param_int_c({AUDIO_EXTERNAL}.AL_SOURCE_STATE)={AUDIO_EXTERNAL}.AL_PLAYING)
+			Result:=(param_int_c(Al_source_state)=Al_playing)
 		end
 
 	is_pause:BOOLEAN
 			-- Return true if the sound source is currently on pause.
+		require
+			Source_Is_Open: is_open
 		do
-			Result:=(param_int_c({AUDIO_EXTERNAL}.AL_SOURCE_STATE)={AUDIO_EXTERNAL}.AL_PAUSED)
+			Result:=(param_int_c(Al_source_state)=Al_paused)
 		end
 
 --	is_stop:BOOLEAN
 --			-- Return true if the sound source is currently stop state (not initial or playing or on pause).
 --		do
---			Result:=(get_int_param_c({AUDIO_EXTERNAL}.AL_SOURCE_STATE)={AUDIO_EXTERNAL}.AL_STOPPED)
+--			Result:=(get_int_param_c(Al_source_state)=Al_stopped)
 --		end
 
 	get_gain:REAL_32 assign set_gain
 			-- Get the current sound source gain (volume). The gain will always be a REAL between 0 and 1.
 			-- If the gain is set at 0, the source is mute. If the gain is set at 1, it is at it's max volume.
+		require
+			Source_Is_Open: is_open
 		do
-			Result:=param_float_c({AUDIO_EXTERNAL}.AL_GAIN)
+			Result:=param_float_c(Al_gain)
 		end
 
 	set_gain(a_value:REAL_32)
 			-- Set the current sound source gain (volume) to `a_value'. The `a_value' must always be a REAL between 0 and 1.
 			-- If the `a_value' is set at 0, the source is mute. If the `a_value' is set at 1, it is at it's max volume.
 		require
+			Source_Is_Open: is_open
 			Source_Set_Gain_Valid_Value: a_value>=0.0 and then a_value<=1.0
 		do
-			set_param_float_c({AUDIO_EXTERNAL}.AL_GAIN,a_value)
+			set_param_float_c(Al_gain,a_value)
 		ensure
 			Source_Set_Gain_Is_Set: get_gain = a_value
 		end
@@ -137,6 +152,7 @@ feature -- Access
 			-- Add a `a_sound' to the playing queue.
 			-- Put `a_nb_loop' to 0 for no loop and to -1 to infinite loop
 		require
+			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
 		local
 			l_sound_tuple:TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]
@@ -151,6 +167,7 @@ feature -- Access
 			-- Add a `a_sound' to the playing queue.
 			-- Don't loop the sound at all (only one playing).
 		require
+			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
 		do
 			queue_sound_loop(a_sound,0)
@@ -160,6 +177,7 @@ feature -- Access
 			-- Add a `a_sound' to the playing queue.
 			-- Loop the `a_sound' until the source is stopped.
 		require
+			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
 		do
 			queue_sound_loop(a_sound,-1)
@@ -169,6 +187,8 @@ feature -- Access
 			-- This methode must be execute at regular interval. If it is not execute enough in a certain time lap, the sounds will stop before finishing.
 			-- If this append, you can call this methode more often or use bigger `buffer_size'. You can use the routine `update_sound_playing' on the game controller
 			-- and it will do the same effect.
+		require
+			Source_Is_Open: is_open
 		local
 			last_fill_buffer_size,channel,bits_resolution,freq,byte_per_buffer_sample:INTEGER
 		do
@@ -222,22 +242,35 @@ feature -- Access
 
 	set_direction(a_x,a_y,a_z:REAL)
 			-- Set the source direction. Meaning where the source object is looking at in the 3D environment.
+		require
+			Source_Is_Open: is_open
 		do
-			set_params_3_float({AUDIO_EXTERNAL}.AL_DIRECTION,a_x,a_y,a_z)
+			set_params_3_float(Al_direction,a_x,a_y,a_z)
 		end
 
 	direction:TUPLE[x,y,z:REAL]
 			-- Get the source direction. Meaning where the source object is looking at in the 3D environment.
+		require
+			Source_Is_Open: is_open
 		do
-			Result:=params_3_float({AUDIO_EXTERNAL}.AL_DIRECTION)
+			Result:=params_3_float(Al_direction)
 		end
 
 
-feature {AUDIO_CONTROLLER}
+	is_open:BOOLEAN
+
+feature {AUDIO_LIBRARY_CONTROLLER}
 
 	set_thread_safe
 		do
 			is_thread_safe:=true
+		end
+
+
+	close
+		do
+			stop
+			is_open:=False
 		end
 
 feature {NONE} -- Implementation - Routines
@@ -245,7 +278,7 @@ feature {NONE} -- Implementation - Routines
 
 	processed_buffers_number:INTEGER
 		do
-			Result:=param_int_c({AUDIO_EXTERNAL}.AL_BUFFERS_PROCESSED)
+			Result:=param_int_c(Al_buffers_processed)
 		end
 
 	queue_buffer(a_buffer:POINTER;a_length,a_channel,a_bits_resolution,a_frequence:INTEGER)
@@ -256,15 +289,15 @@ feature {NONE} -- Implementation - Routines
 		do
 			if a_channel=1 then
 				if a_bits_resolution=8 then
-					l_format:={AUDIO_EXTERNAL}.AL_FORMAT_MONO8
+					l_format:=Al_format_mono8
 				else
-					l_format:={AUDIO_EXTERNAL}.AL_FORMAT_MONO16
+					l_format:=Al_format_mono16
 				end
 			else
 				if a_bits_resolution=8 then
-					l_format:={AUDIO_EXTERNAL}.AL_FORMAT_STEREO8
+					l_format:=Al_format_stereo8
 				else
-					l_format:={AUDIO_EXTERNAL}.AL_FORMAT_STEREO16
+					l_format:=Al_format_stereo16
 				end
 			end
 

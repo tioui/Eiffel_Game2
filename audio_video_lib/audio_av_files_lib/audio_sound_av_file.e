@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			is_thread_safe:=true
 		end
 
-feature {GAME_AUDIO_SOURCE}
+feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 		local
@@ -74,7 +74,7 @@ feature {GAME_AUDIO_SOURCE}
 					if l_got/=0 then
 						if is_resampling then
 							l_count:={AV_EXTERNAL}.av_samples_get_buffer_size(create {POINTER},channel_count_internal,
-								{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame),{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,1)
+								{AV_EXTERNAL}.get_av_frame_struct_nb_samples(frame),Av_sample_fmt_s16,1)
 							if l_count<0 then
 								io.error.put_string ("Error reading packet: "+get_error_Message(l_count)+"%N")
 								check false end
@@ -137,26 +137,26 @@ feature --Access
 					io.error.put_string ("Error while allocating Audio frame.%N")
 					has_error:=True
 				else
-					stream_index:=init_stream({AV_EXTERNAL}.AVMEDIA_TYPE_AUDIO)
+					stream_index:=init_stream(Avmedia_type_audio)
 					codec_context_ptr:=context_pointer(stream_index)
 					frequency_internal:={AV_EXTERNAL}.get_av_codec_context_struct_sample_rate(codec_context_ptr)
 					channel_count_internal:={AV_EXTERNAL}.get_av_codec_context_struct_channels(codec_context_ptr)
 					fmt:={AV_EXTERNAL}.get_av_codec_context_struct_sample_fmt(codec_context_ptr)
 					is_resampling:=false
-					if fmt={AV_EXTERNAL}.AV_SAMPLE_FMT_U8 then
+					if fmt=Av_sample_fmt_u8 then
 						bits_per_sample_internal:=8
 						is_signed_internal:=false
 					else
 						bits_per_sample_internal:=16
 						is_signed_internal:=true
-						if fmt /={AV_EXTERNAL}.AV_SAMPLE_FMT_S16 then
+						if fmt /=Av_sample_fmt_s16 then
 							is_resampling:=true
 							sample_context_ptr:={AV_EXTERNAL}.av_audio_resample_init(channel_count_internal,channel_count_internal,frequency_internal,frequency_internal,
-																	{AV_EXTERNAL}.AV_SAMPLE_FMT_S16,fmt,0,0,0,1.0)
+																	Av_sample_fmt_s16,fmt,0,0,0,1.0)
 						end
 					end
 					open_codec(codec_context_ptr)
-					side_buffer:={AV_EXTERNAL}.av_malloc({AV_EXTERNAL}.AVCODEC_MAX_AUDIO_FRAME_SIZE+{AV_EXTERNAL}.FF_INPUT_BUFFER_PADDING_SIZE)
+					side_buffer:={AV_EXTERNAL}.av_malloc(Avcodec_max_audio_frame_size+Ff_input_buffer_padding_size)
 				end
 				is_open:=not has_error
 			end

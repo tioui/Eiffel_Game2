@@ -1,7 +1,7 @@
 #ifndef CORE_MORE_H
 #define CORE_MORE_H
 #include <SDL.h>
-#include "cpf_more.h"
+#include "cpf_additions.h"
 
 // Rotate a surface of 8, 16 or 32 bits per pixel
 SDL_Surface* rotateSurface90Degrees_all(SDL_Surface* src, int numClockwiseTurns);

@@ -7,7 +7,7 @@ class
 	APPLICATION
 
 inherit
-	ARGUMENTS
+	AUDIO_LIBRARY_SHARED
 
 create
 	make
@@ -16,26 +16,22 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
-		local
-			audio_ctrl:AUDIO_CONTROLLER
-
 		do
-			create audio_ctrl.make
-			audio_ctrl.enable_sound
-			run_standard(audio_ctrl)
-			audio_ctrl.quit_library		-- Free the sound sources and close the audio context.
+			audio_library.enable_sound		-- Initialise the audio library
+			run_standard
+			audio_library.quit_library		-- Free the sound sources and close the audio context.
 		end
 
-	run_standard(audio_ctrl:AUDIO_CONTROLLER)
+	run_standard
 		local
 			sound:AUDIO_SOUND_SND_FILE
 			line:STRING
 		do
-			audio_ctrl.launch_in_thread	-- This feature update the sound context in another thread.
+			audio_library.launch_in_thread	-- This feature update the sound context in another thread.
 							-- With this functionnality, the application is more performant
 							-- on multi-core computer. It is also more easy to program the other
 							-- aspect of the application because you dont have to think about using
-							-- the audio_ctrl.update reguraly. If you use precompile library,
+							-- the audio_library.update reguraly. If you use precompile library,
 							-- these library must be precompile with multi-thread enable.
 			from
 				line:=""
@@ -49,9 +45,9 @@ feature {NONE} -- Initialization
 					if sound.is_openable then
 						sound.open
 						if sound.is_open then
-							audio_ctrl.sources_add					-- Create a new sound source
-							audio_ctrl.last_source_added.queue_sound (sound)	-- Queued the sound in the newly created source
-							audio_ctrl.last_source_added.play			-- Play the source.		
+							audio_library.sources_add					-- Create a new sound source
+							audio_library.last_source_added.queue_sound (sound)	-- Queued the sound in the newly created source
+							audio_library.last_source_added.play			-- Play the source.		
 						end
 					end
 					if not sound.is_open then
@@ -60,7 +56,7 @@ feature {NONE} -- Initialization
 
 				end
 			end
-			audio_ctrl.stop_thread		-- Destroy the thread created by the "launch_in_thread" feature
+			audio_library.stop_thread		-- Destroy the thread created by the "launch_in_thread" feature
 		end
 
 end

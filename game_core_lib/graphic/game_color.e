@@ -91,24 +91,6 @@ feature -- Access
 		Result:=alpha_internal
 	end
 
-	color_is_equal(a_color:GAME_COLOR):BOOLEAN
-			-- Return true if the current color has the same RGBA value than the `a_color'
-		do
-			result:=color_is_equal_RGB(a_color) and then a_color.alpha=alpha
-		end
-
-	color_is_equal_RGB(a_color:GAME_COLOR):BOOLEAN
-			-- Return true if the current color has the same RGB value than the `a_color'
-		do
-			result:=a_color.red=red and then a_color.green=green and then a_color.blue=blue
-		end
-
-feature {NONE} -- Implementation
-
-	red_internal:NATURAL_8
-	green_internal:NATURAL_8
-	blue_internal:NATURAL_8
-	alpha_internal:NATURAL_8
 
 	set_red(a_red:NATURAL_8)
 	do
@@ -149,5 +131,25 @@ feature {NONE} -- Implementation
 		Set_Alpha_Green_Unchange: green = old green
 		Set_Alpha_Blue_Unchange: blue = old blue
 	end
+
+	color_is_equal(a_color:GAME_COLOR):BOOLEAN
+			-- Return true if the current color has the same RGBA value than the `a_color'
+		do
+			result:=color_is_equal_RGB(a_color) and then a_color.alpha=alpha
+		end
+
+	color_is_equal_RGB(a_color:GAME_COLOR):BOOLEAN
+			-- Return true if the current color has the same RGB value than the `a_color'
+		do
+			result:=a_color.red=red and then a_color.green=green and then a_color.blue=blue
+		end
+
+feature {NONE} -- Implementation
+
+	red_internal:NATURAL_8
+	green_internal:NATURAL_8
+	blue_internal:NATURAL_8
+	alpha_internal:NATURAL_8
+
 
 end

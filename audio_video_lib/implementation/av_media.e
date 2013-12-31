@@ -116,7 +116,7 @@ feature -- Access
 		local
 			l_error:INTEGER
 		do
-			l_error:={AV_EXTERNAL}.av_seek_frame(format_context_pointer,-1,0,{AV_EXTERNAL}.AVSEEK_FLAG_ANY.bit_or ({AV_EXTERNAL}.AVSEEK_FLAG_BACKWARD))
+			l_error:={AV_EXTERNAL}.av_seek_frame(format_context_pointer,-1,0,Avseek_flag_any.bit_or (Avseek_flag_backward))
 			has_error := l_error < 0
 			if has_error then
 				io.error.put_string ("Error while restarting the media%N")
@@ -150,7 +150,7 @@ feature {NONE} -- Implementation - Routines
 				test:=test+1
 				l_error:={AV_EXTERNAL}.av_read_frame(format_context_pointer,packets_pool.item)
 				if l_error<0 then
-					if l_error/={AV_EXTERNAL}.AVERROR_EOF then
+					if l_error/=Averror_eof then
 						io.error.put_string ("Error reading frame: "+get_error_Message(l_error)+"%N")
 						check false end
 					end
@@ -171,8 +171,8 @@ feature {NONE} -- Implementation - Routines
 		local
 			new_packet:POINTER
 		do
-			new_packet:={AV_EXTERNAL}.av_malloc({AV_EXTERNAL}.c_sizeof_av_packet)
-			new_packet.memory_set (0, {AV_EXTERNAL}.c_sizeof_av_packet)
+			new_packet:={AV_EXTERNAL}.av_malloc(Av_packet_size)
+			new_packet.memory_set (0, Av_packet_size)
 			packets_pool.put (new_packet)
 		end
 
@@ -213,6 +213,11 @@ feature {NONE} -- Implementation - Routines
 				end
 				{AV_EXTERNAL}.avformat_close_input($format_context_pointer)
 			end
+		end
+
+	Av_packet_size:INTEGER
+		once
+			Result := {AV_EXTERNAL}.c_sizeof_av_packet
 		end
 
 feature {NONE} -- Implementation - Variables

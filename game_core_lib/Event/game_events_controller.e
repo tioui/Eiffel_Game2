@@ -5,19 +5,20 @@ note
 	revision: "1.2.1.1"
 
 class
-	GAME_EVENT_CONTROLLER
+	GAME_EVENTS_CONTROLLER
 
---inherit
+inherit
+	GAME_LIBRARY_SHARED
 --	DISPOSABLE
 
---create {GAME_SDL_CONTROLLER}
---	make
+create {GAME_SDL_CONTROLLER}
+	make
 
---feature {NONE} -- Initialization
+feature {NONE} -- Initialization
 
---	make(a_ctrl:GAME_SDL_CONTROLLER)
---			-- Initialization for `Current'.
---		do
+	make
+			-- Initialization for `Current'.
+		do
 --			core_ctrl:=a_ctrl
 --			event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
 --			make_iteration_event
@@ -33,10 +34,11 @@ class
 --			make_expose_event -- Not tested. Dont know how!
 --			make_quit_event
 
---		end
+		end
 
 
---feature -- Access
+
+feature -- Access
 
 --	poll_event
 --		-- Execute an event validation. If no event is pending, do nothing.

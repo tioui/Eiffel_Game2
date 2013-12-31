@@ -17,26 +17,26 @@ feature -- Access
 	set_position(a_x,a_y,a_z:REAL)
 			-- Set the object position in a 3D environment.
 		do
-			set_params_3_float({AUDIO_EXTERNAL}.AL_POSITION,a_x,a_y,a_z)
+			set_params_3_float(Al_position,a_x,a_y,a_z)
 		end
 
 	set_velocity(a_x,a_y,a_z:REAL)
 			-- Set the object velocity (deplacement) in a 3D environment.
 		do
-			set_params_3_float({AUDIO_EXTERNAL}.AL_VELOCITY,a_x,a_y,a_z)
+			set_params_3_float(Al_velocity,a_x,a_y,a_z)
 		end
 
 
 	position:TUPLE[x,y,z:REAL]
 			-- Get the object position in a 3D environment.
 		do
-			Result:=params_3_float({AUDIO_EXTERNAL}.AL_POSITION)
+			Result:=params_3_float(Al_position)
 		end
 
 	velocity:TUPLE[x,y,z:REAL]
 			-- Get the object velocity (deplacement) in a 3D environment.
 		do
-			Result:=params_3_float({AUDIO_EXTERNAL}.AL_VELOCITY)
+			Result:=params_3_float(Al_velocity)
 		end
 
 feature {NONE} -- Implementation
