@@ -173,11 +173,39 @@ feature -- Subs Systems
 feature -- Video methods
 
 	displays_count:INTEGER
+			-- Return the number of display. 0 if error.
 		require
-			Display_Count_Is_Video_Enabled: is_video_enable
+			Displays_Count_Is_Video_Enabled: is_video_enable
 		do
+			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetNumVideoDisplays
+			if Result<0 then
+				io.error.put_string ("An error occured while retriving the number of displays.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				Result:=0
+			end
 		end
+
+	displays:LIST[GAME_DISPLAY]
+			-- All displays of the system. 0 display on error.
+		require
+			Displays_Is_Video_Enabled: is_video_enable
+		local
+			l_count, l_i, l_error:INTEGER
+		do
+			l_count:=displays_count
+			create {ARRAYED_LIST[GAME_DISPLAY]} Result.make (l_count)
+			from
+				l_i:=0
+			until
+				l_i>=l_count
+			loop
+				Result.extend (create {GAME_DISPLAY}.make (l_i))
+				l_i:=l_i+1
+			end
+		end
+
 
 --	flip_screen
 --			-- Show the screen surface in the window
@@ -482,8 +510,6 @@ feature {NONE} -- Joystick implementation
 	end
 
 feature -- Other methods
-
-	has_error:BOOLEAN
 
 	events_controller:GAME_EVENTS_CONTROLLER assign set_events_controller
 			-- The event manager. Use it to have access to your event.

@@ -9,6 +9,12 @@ deferred class
 
 feature {NONE} -- Constants SDL.h
 
+	Size_of_sdl_rect_structure : INTEGER
+			-- The size of a SDL_Rect C structure in byte.
+		once
+			Result:={GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect
+		end
+
 	Sdl_windowevent:NATURAL_32
 			 -- Event type for SDL_WindowEvent.
 		once
@@ -323,6 +329,229 @@ feature {NONE} -- Constants SDL.h
 		once
 			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_ALLOW_HIGHDPI
 		end
+
+	Size_of_sdl_display_mode_structure : INTEGER
+			-- The size of a SDL_Rect C structure in byte.
+		once
+			Result:={GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode
+		end
+
+	Sdl_pixelformat_unknown : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_UNKNOWN
+		end
+
+	Sdl_pixelformat_index1lsb : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_INDEX1LSB
+		end
+
+	Sdl_pixelformat_index1msb : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_INDEX1MSB
+		end
+
+	Sdl_pixelformat_index4lsb : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_INDEX4LSB
+		end
+
+	Sdl_pixelformat_index4msb : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_INDEX4MSB
+		end
+
+	Sdl_pixelformat_index8 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_INDEX8
+		end
+
+	Sdl_pixelformat_rgb332 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB332
+		end
+
+	Sdl_pixelformat_rgb444 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB444
+		end
+
+	Sdl_pixelformat_rgb555 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB555
+		end
+
+	Sdl_pixelformat_bgr555 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGR555
+		end
+
+	Sdl_pixelformat_argb4444 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ARGB4444
+		end
+
+	Sdl_pixelformat_rgba4444 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGBA4444
+		end
+
+	Sdl_pixelformat_abgr4444 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ABGR4444
+		end
+
+	Sdl_pixelformat_bgra4444 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGRA4444
+		end
+
+	Sdl_pixelformat_argb1555 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ARGB1555
+		end
+
+	Sdl_pixelformat_rgba5551 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGBA5551
+		end
+
+	Sdl_pixelformat_abgr1555 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ABGR1555
+		end
+
+	Sdl_pixelformat_bgra5551 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGRA5551
+		end
+
+	Sdl_pixelformat_rgb565 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB565
+		end
+
+	Sdl_pixelformat_bgr565 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGR565
+		end
+
+	Sdl_pixelformat_rgb24 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB24
+		end
+
+	Sdl_pixelformat_bgr24 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGR24
+		end
+
+	Sdl_pixelformat_rgb888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGB888
+		end
+
+	Sdl_pixelformat_rgbx8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGBX8888
+		end
+
+	Sdl_pixelformat_bgr888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGR888
+		end
+
+	Sdl_pixelformat_bgrx8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGRX8888
+		end
+
+	Sdl_pixelformat_argb8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ARGB8888
+		end
+
+	Sdl_pixelformat_rgba8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_RGBA8888
+		end
+
+	Sdl_pixelformat_abgr8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ABGR8888
+		end
+
+	Sdl_pixelformat_bgra8888 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_BGRA8888
+		end
+
+	Sdl_pixelformat_argb2101010 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_ARGB2101010
+		end
+
+	Sdl_pixelformat_yv12 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_YV12
+		end
+
+	Sdl_pixelformat_iyuv : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_IYUV
+		end
+
+	Sdl_pixelformat_yuy2 : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_YUY2
+		end
+
+	Sdl_pixelformat_uyvy : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_UYVY
+		end
+
+	Sdl_pixelformat_yvyu : NATURAL_32
+			-- Format constants
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_YVYU
+		end
+
 
 feature {NONE} -- Macro SDL_endian.h
 

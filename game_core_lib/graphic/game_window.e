@@ -1,20 +1,17 @@
 note
-	description: "[
-		The screen.Must be return by an object of type GAME_SDL_CONTROLLER
-		or GAME_LIB_CONTROLLER.
-		
-		Use it as if it was a simple GAME_SURFACE.
-		]"
+	description: "A window. You need a renderer to put thing on the window."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	date: "january 5, 2014"
+	revision: "1.0"
 
 class
 	GAME_WINDOW
 
 inherit
+	GAME_SDL_ANY
 	GAME_LIBRARY_SHARED
 	GAME_SDL_CONSTANTS
+	DISPOSABLE
 
 create
 	make,
@@ -45,22 +42,25 @@ feature {NONE} -- Initialisation
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_on_display(a_title, a_width, a_height, 1, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+			make_on_display(a_title, a_width, a_height, game_library.displays.first, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
 
-	make_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height, a_on_display: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
-			-- Create `Current' titled with `a_title' of dimension (`a_width'x`a_height') on the display (sceen) with ID `a_on_display'.
+	make_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+			-- Create `Current' titled with `a_title' of dimension (`a_width'x`a_height') on `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
 		require
-			Game_Window_Make_On_Display_Valid: a_on_display>0 and a_on_display<=game_library.displays_count
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_with_position(a_title, Sdl_windowpos_undefined_display(a_on_display-1), Sdl_windowpos_undefined_display(a_on_display), a_width, a_height,
+			make_with_position(a_title, Sdl_windowpos_undefined_display(a_display.index), Sdl_windowpos_undefined_display(a_display.index), a_width, a_height,
 								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
 
 	make_with_position(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
@@ -74,31 +74,50 @@ feature {NONE} -- Initialisation
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
 			make_with_extra_flags(a_title, a_x, a_y, a_width, a_height, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, 0)
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
 
-	make_centered(a_title:READABLE_STRING_GENERAL; a_width, a_height, a_on_display: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
-			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') centered on the display (sceen) with ID `a_on_display'.
+
+
+	make_centered(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') centered on the primary display (sceen).
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
 		require
-			Game_Window_Make_On_Display_Valid: a_on_display>0 and a_on_display<=game_library.displays_count
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_with_position(a_title, Sdl_windowpos_centered_display(a_on_display-1), Sdl_windowpos_centered_display(a_on_display), a_width, a_height,
-								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+			make_centered_on_display(a_title, a_width, a_height, game_library.displays.first ,a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
 
-	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height, a_on_display: INTEGER; a_keep_resolution, a_hide, a_minimize, a_grab_input:BOOLEAN)
-			-- Create a fullscreen Window titled with `a_title' of dimension (`a_width'x`a_height') on the display (screen) with ID `a_on_display'.
+	make_centered_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') centered on `a_display'.
+			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
+			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
+			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
+			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
+			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+		require
+			Game_Screen_Video_Enabled: game_library.is_video_enable
+		do
+			make_with_position(a_title, Sdl_windowpos_centered_display(a_display.index), Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
+								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+		ensure
+			Make_Window_Is_Open: not is_closed
+		end
+
+	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_keep_resolution, a_hide, a_minimize, a_grab_input:BOOLEAN)
+			-- Create a fullscreen Window titled with `a_title' of dimension (`a_width'x`a_height') on the `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_keep_resolution' is `True', The resolution of the display is not change to fit the `a_width' and `a_height' of `Current'.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
 		require
-			Game_Window_Make_On_Display_Valid: a_on_display>0 and a_on_display<=game_library.displays_count
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		local
 			l_flags:NATURAL_32
@@ -108,8 +127,10 @@ feature {NONE} -- Initialisation
 			else
 				l_flags:=Sdl_window_fullscreen
 			end
-			make_with_extra_flags(a_title, Sdl_windowpos_centered_display(a_on_display-1), Sdl_windowpos_centered_display(a_on_display), a_width, a_height,
+			make_with_extra_flags(a_title, Sdl_windowpos_centered_display(a_display.index), Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
 						a_hide, False, a_minimize, False, a_grab_input, l_flags)
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
 
 	make_with_extra_flags(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN; a_flags:NATURAL_32)
@@ -145,14 +166,161 @@ feature {NONE} -- Initialisation
 				l_flags := l_flags.bit_or (sdl_window_input_grabbed)
 			end
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
-			screen_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
+			internal_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
+			has_error:=False
+		ensure
+			Make_Window_Is_Open: not is_closed
 		end
+
+feature -- Access
+
+	brightness:REAL_32 assign set_brightness
+			-- The Gamma correction where 0.0 is completely dark and 1.0 is normal.
+		require
+			Window_Not_Closed: not is_closed
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowBrightness(internal_pointer)
+		ensure
+			Window_Brightness_Not_Changed: brightness = old brightness
+		end
+
+	set_brightness(a_brightness:REAL_32)
+			-- Set the `brightness' (gamma correction) to `a_brightness' for `Current' where 0.0 is completely dark and 1.0 is normal.
+			-- Set has_error when an error occured.
+		require
+			Window_Not_Closed: not is_closed
+			Window_Set_Brightness_Valid: a_brightness>=0.0 and a_brightness<=1
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			has_error:=False
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetWindowBrightness(internal_pointer, a_brightness)
+			if l_error<0 then
+				io.error.put_string ("An error occured when setting the brightness.%N")
+				io.error.put_string (get_error.as_string_8+"%N")
+				has_error:=True
+			end
+		ensure
+			Window_Set_Brightness_Changed: brightness = a_brightness
+		end
+
+	get_display_index:INTEGER
+			-- Index of the display containing the center of the window.
+		do
+			clear_error
+			has_error:=False
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowDisplayIndex(internal_pointer)
+			if Result<1 then
+				io.error.put_string ("An error occured when getting the display index.%N")
+				io.error.put_string (get_error.as_string_8+"%N")
+				has_error:=True
+			end
+		ensure
+			Window_Display_Index_Valid: not has_error implies Result>=0
+		end
+
+	close
+			-- Close `Current' (you cannot open it again).
+		require
+			Window_Not_Closed: not is_closed
+		do
+			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(internal_pointer)
+			internal_pointer := create {POINTER}.default_create
+		end
+
+	is_closed:BOOLEAN
+			-- Is `Current' has been `close'd
+		do
+			Result:=internal_pointer.is_default_pointer
+		end
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------  Travail pour Luc  -----------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
+
+
+	-- http://wiki.libsdl.org/SDL_HideWindow
+
+	-- http://wiki.libsdl.org/SDL_ShowWindow
+
+	-- http://wiki.libsdl.org/SDL_MaximizeWindow
+
+	-- http://wiki.libsdl.org/SDL_MinimizeWindow
+
+	-- http://wiki.libsdl.org/SDL_RestoreWindow
+
+	-- http://wiki.libsdl.org/SDL_RaiseWindow
+
+	-- http://wiki.libsdl.org/SDL_SetWindowBordered
+
+	-- http://wiki.libsdl.org/SDL_SetWindowDisplayMode
+
+	-- http://wiki.libsdl.org/SDL_GetWindowDisplayMode
+
+	-- http://wiki.libsdl.org/SDL_SetWindowFullscreen
+
+	-- http://wiki.libsdl.org/SDL_GetWindowID
+
+	-- http://wiki.libsdl.org/SDL_GetWindowFlags
+			-- is_full_screen
+			-- is_hidden
+			-- etc.
+
+	-- http://wiki.libsdl.org/SDL_GetWindowGammaRamp
+
+	-- http://wiki.libsdl.org/SDL_SetWindowGammaRamp
+
+	-- http://wiki.libsdl.org/SDL_GetWindowGrab
+
+	-- http://wiki.libsdl.org/SDL_SetWindowGrab
+
+	-- http://wiki.libsdl.org/SDL_GetWindowMaximumSize
+
+	-- http://wiki.libsdl.org/SDL_SetWindowMaximumSize
+
+	-- http://wiki.libsdl.org/SDL_SetWindowMinimumSize
+
+	-- http://wiki.libsdl.org/SDL_GetWindowMinimumSize
+
+	-- http://wiki.libsdl.org/SDL_GetWindowPosition
+
+	-- http://wiki.libsdl.org/SDL_SetWindowPosition
+
+	-- http://wiki.libsdl.org/SDL_GetWindowSize
+
+	-- http://wiki.libsdl.org/SDL_SetWindowSize
+
+	-- http://wiki.libsdl.org/SDL_GetWindowTitle
+
+	-- http://wiki.libsdl.org/SDL_SetWindowTitle
+
+
+---------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------  Fin du travail pour Luc  -------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------
+
+
+-- Todo:
+		-- http://wiki.libsdl.org/SDL_GetWindowPixelFormat (voir {GAME_DISPLAY_MODE})
+		-- http://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects
+		-- http://wiki.libsdl.org/SDL_GetWindowWMInfo
+		-- http://wiki.libsdl.org/SDL_SetWindowIcon
+		-- http://wiki.libsdl.org/SDL_GetWindowSurface
+		-- http://wiki.libsdl.org/SDL_UpdateWindowSurface
 
 
 feature {NONE} -- Implementation
 
-	screen_pointer:POINTER
+	dispose
+			-- Close
+		do
+			if not is_closed then
+				close
+			end
+		end
 
-invariant
-	Screen_Pointer_Not_Void: not screen_pointer.is_default_pointer
+	internal_pointer:POINTER
 end

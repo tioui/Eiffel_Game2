@@ -79,6 +79,34 @@ feature -- Function SDL.h
 			"SDL_CreateWindow"
 		end
 
+	frozen SDL_DestroyWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_DestroyWindow"
+		end
+
+	frozen SDL_GetWindowBrightness(window:POINTER):REAL_32
+		external
+			"C (SDL_Window*) : float | <SDL.h>"
+		alias
+			"SDL_GetWindowBrightness"
+		end
+
+	frozen SDL_SetWindowBrightness(window:POINTER; brightness:REAL_32):INTEGER
+		external
+			"C (SDL_Window*, float) : int | <SDL.h>"
+		alias
+			"SDL_SetWindowBrightness"
+		end
+
+	frozen SDL_GetWindowDisplayIndex(window:POINTER):INTEGER
+		external
+			"C (SDL_Window*) : int | <SDL.h>"
+		alias
+			"SDL_GetWindowDisplayIndex"
+		end
+
 	frozen SDL_WINDOWPOS_UNDEFINED_DISPLAY(display:INTEGER):INTEGER
 		external
 			"C inline use <SDL.h>"
@@ -107,9 +135,56 @@ feature -- Function SDL.h
 			"SDL_Delay"
 		end
 
+	frozen SDL_GetDisplayBounds(displayIndex:INTEGER; rect:POINTER):INTEGER
+		external
+			"C (int, SDL_Rect*) :int | <SDL.h>"
+		alias
+			"SDL_GetDisplayBounds"
+		end
 
+	frozen SDL_GetCurrentDisplayMode(displayIndex:INTEGER; mode:POINTER):INTEGER
+		external
+			"C (int, SDL_DisplayMode*) :int | <SDL.h>"
+		alias
+			"SDL_GetCurrentDisplayMode"
+		end
 
-feature -- Manual C function (implemented in SDLmore.c)
+	frozen SDL_GetDesktopDisplayMode(displayIndex:INTEGER; mode:POINTER):INTEGER
+		external
+			"C (int, SDL_DisplayMode*) :int | <SDL.h>"
+		alias
+			"SDL_GetDesktopDisplayMode"
+		end
+
+	frozen SDL_GetClosestDisplayMode(displayIndex:INTEGER; mode, closest :POINTER):POINTER
+		external
+			"C (int, const SDL_DisplayMode*, SDL_DisplayMode*) :SDL_DisplayMode* | <SDL.h>"
+		alias
+			"SDL_GetClosestDisplayMode"
+		end
+
+	frozen SDL_GetNumDisplayModes(displayIndex:INTEGER):INTEGER
+		external
+			"C (int) :int | <SDL.h>"
+		alias
+			"SDL_GetNumDisplayModes"
+		end
+
+	frozen SDL_GetDisplayMode(displayIndex, modeIndex:INTEGER; mode:POINTER):INTEGER
+		external
+			"C (int, int, SDL_DisplayMode*) :int | <SDL.h>"
+		alias
+			"SDL_GetDisplayMode"
+		end
+
+	frozen SDL_GetDisplayName(displayIndex:INTEGER):POINTER
+		external
+			"C (int) :const char* | <SDL.h>"
+		alias
+			"SDL_GetDisplayName"
+		end
+
+feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
 			-- Do a 90 degree Rotation on the `surface' `nb_clockwise' times
@@ -167,6 +242,155 @@ feature -- Manual C function (implemented in SDLmore.c)
 			"C (SDL_RWops *,CustomPackageFileInfos*) | %"sdl_additions.h%""
 		alias
 			"setSDLRWops"
+		end
+
+feature -- Structure SDL_DisplayMode SDL.h
+
+	frozen c_sizeof_sdl_display_mode:INTEGER
+			-- Size of an SDL_DisplayMode C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_DisplayMode)"
+		end
+
+	frozen set_display_mode_struct_format (mode: POINTER; format:NATURAL_32)
+			-- One of the SDL_PixelFormatEnum values
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode, Uint32)"
+		alias
+			"format"
+		end
+
+	frozen get_display_mode_struct_format(mode:POINTER):NATURAL_32
+			-- One of the SDL_PixelFormatEnum values
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode):Uint32"
+		alias
+			"format"
+		end
+
+	frozen set_display_mode_struct_w (mode: POINTER; w:INTEGER)
+			-- Width
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode, int)"
+		alias
+			"w"
+		end
+
+	frozen get_display_mode_struct_w(mode:POINTER):INTEGER
+			-- Width
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode):int"
+		alias
+			"w"
+		end
+
+	frozen set_display_mode_struct_h (mode: POINTER; h:INTEGER)
+			-- Height
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode, int)"
+		alias
+			"h"
+		end
+
+	frozen get_display_mode_struct_h(mode:POINTER):INTEGER
+			-- Height
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode):int"
+		alias
+			"h"
+		end
+
+	frozen set_display_mode_struct_refresh_rate (mode: POINTER; refresh_rate:INTEGER)
+			-- Refresh rate (in Hz), or 0 for unspecified
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode, int)"
+		alias
+			"refresh_rate"
+		end
+
+	frozen get_display_mode_struct_refresh_rate(mode:POINTER):INTEGER
+			-- Refresh rate (in Hz), or 0 for unspecified
+		external
+			"C [struct <SDL.h>] (SDL_DisplayMode):int"
+		alias
+			"refresh_rate"
+		end
+
+
+feature -- Structure SDL_Rect SDL.h
+
+	frozen c_sizeof_sdl_rect:INTEGER
+			-- Size of an SDL_Rect C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_Rect)"
+		end
+
+	frozen set_rect_struct_x (rect: POINTER; x:INTEGER)
+			-- X location of the rectangle's upper left corner
+		external
+			"C [struct <SDL.h>] (SDL_Rect, int)"
+		alias
+			"x"
+		end
+
+	frozen get_rect_struct_x(rect:POINTER):INTEGER
+			-- X location of the rectangle's upper left corner
+		external
+			"C [struct <SDL.h>] (SDL_Rect):int"
+		alias
+			"x"
+		end
+
+	frozen set_rect_struct_y (rect: POINTER; y:INTEGER)
+			-- Y location of the rectangle's upper left corner
+		external
+			"C [struct <SDL.h>] (SDL_Rect, int)"
+		alias
+			"y"
+		end
+
+	frozen get_rect_struct_y(rect:POINTER):INTEGER
+			-- Y location of the rectangle's upper left corner
+		external
+			"C [struct <SDL.h>] (SDL_Rect):int"
+		alias
+			"y"
+		end
+
+	frozen set_rect_struct_w (rect: POINTER; w:INTEGER)
+			-- Width of the rectangle
+		external
+			"C [struct <SDL.h>] (SDL_Rect, int)"
+		alias
+			"w"
+		end
+
+	frozen get_rect_struct_w(rect:POINTER):INTEGER
+			-- Width of the rectangle
+		external
+			"C [struct <SDL.h>] (SDL_Rect):int"
+		alias
+			"w"
+		end
+
+	frozen set_rect_struct_h (rect: POINTER; h:INTEGER)
+			-- Height of the rectangle
+		external
+			"C [struct <SDL.h>] (SDL_Rect, int)"
+		alias
+			"h"
+		end
+
+	frozen get_rect_struct_h(rect:POINTER):INTEGER
+			-- Height of the rectangle
+		external
+			"C [struct <SDL.h>] (SDL_Rect):int"
+		alias
+			"h"
 		end
 
 feature -- Structure SDL_Event SDL.h
@@ -2629,5 +2853,294 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 		alias
 			"SDL_WINDOW_ALLOW_HIGHDPI"
 		end
+
+	frozen SDL_PIXELFORMAT_UNKNOWN : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_UNKNOWN"
+		end
+
+
+	frozen SDL_PIXELFORMAT_INDEX1LSB : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_INDEX1LSB"
+		end
+
+
+	frozen SDL_PIXELFORMAT_INDEX1MSB : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_INDEX1MSB"
+		end
+
+
+	frozen SDL_PIXELFORMAT_INDEX4LSB : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_INDEX4LSB"
+		end
+
+
+	frozen SDL_PIXELFORMAT_INDEX4MSB : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_INDEX4MSB"
+		end
+
+
+	frozen SDL_PIXELFORMAT_INDEX8 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_INDEX8"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB332 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB332"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB444 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB444"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB555 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB555"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGR555 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGR555"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ARGB4444 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ARGB4444"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGBA4444 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGBA4444"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ABGR4444 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ABGR4444"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGRA4444 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGRA4444"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ARGB1555 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ARGB1555"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGBA5551 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGBA5551"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ABGR1555 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ABGR1555"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGRA5551 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGRA5551"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB565 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB565"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGR565 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGR565"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB24 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB24"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGR24 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGR24"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGB888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGB888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGBX8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGBX8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGR888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGR888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGRX8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGRX8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ARGB8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ARGB8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_RGBA8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_RGBA8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ABGR8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ABGR8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_BGRA8888 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_BGRA8888"
+		end
+
+
+	frozen SDL_PIXELFORMAT_ARGB2101010 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_ARGB2101010"
+		end
+
+
+	frozen SDL_PIXELFORMAT_YV12 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_YV12"
+		end
+
+
+	frozen SDL_PIXELFORMAT_IYUV : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_IYUV"
+		end
+
+
+	frozen SDL_PIXELFORMAT_YUY2 : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_YUY2"
+		end
+
+
+	frozen SDL_PIXELFORMAT_UYVY : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_UYVY"
+		end
+
+
+	frozen SDL_PIXELFORMAT_YVYU : NATURAL_32
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_PIXELFORMAT_YVYU"
+		end
+
+
 
 end
