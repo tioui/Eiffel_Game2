@@ -106,7 +106,8 @@ feature -- Access
 		end
 
 	current_mode:GAME_DISPLAY_MODE
-			-- The current display mode of `Current'.
+			-- A copy of the current display mode of `Current'.
+			-- Note that modification to this object won't have any effect on the system.
 		require
 			Displays_Bound_Is_Video_Enabled: game_library.is_video_enable
 		local
@@ -125,8 +126,9 @@ feature -- Access
 		end
 
 	native_mode:GAME_DISPLAY_MODE
-			-- The display mode that `Current' should have if the game is not in full screen
+			-- A copy of the display mode that `Current' should have if the game is not in full screen
 			-- Note that this is equivalent to `current_mode' in non full screen mode.
+			-- Note that modification to this object won't have any effect on the system.
 		require
 			Displays_Bound_Is_Video_Enabled: game_library.is_video_enable
 		local
@@ -145,7 +147,8 @@ feature -- Access
 		end
 
 	closest_mode(a_mode:GAME_DISPLAY_MODE):GAME_DISPLAY_MODE
-			-- The display mode compatible with `Current' that is closest to `a_mode'.
+			-- A copy of the display mode compatible with `Current' that is closest to `a_mode'.
+			-- Note that modification to this object won't have any effect on the system.
 		require
 			Displays_Bound_Is_Video_Enabled: game_library.is_video_enable
 		local
@@ -165,6 +168,7 @@ feature -- Access
 
 	modes:CHAIN[GAME_DISPLAY_MODE]
 			-- All display mode compatible with `Current'
+			-- Note that modification to this object won't have any effect on the system.
 		local
 			l_count, l_i, l_error:INTEGER
 			l_mode:POINTER

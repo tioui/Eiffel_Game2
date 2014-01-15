@@ -7,6 +7,9 @@ note
 deferred class
 	GAME_SDL_CONSTANTS
 
+inherit
+	GAME_SDL_ANY
+
 feature {NONE} -- Constants SDL.h
 
 	Size_of_sdl_rect_structure : INTEGER
@@ -552,22 +555,58 @@ feature {NONE} -- Constants SDL.h
 			Result:={GAME_SDL_EXTERNAL}.SDL_PIXELFORMAT_YVYU
 		end
 
+	Sdl_syswm_unknown : INTEGER
+			-- Unknow window manager
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_UNKNOWN
+		end
 
-feature {NONE} -- Macro SDL_endian.h
+	Sdl_syswm_windows : INTEGER
+			-- Windows window manager
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_WINDOWS
+		end
 
---	Sdl_byteorder:NATURAL_32
---		once
---			Result:={GAME_SDL_EXTERNAL}.SDL_BYTEORDER
---		end
+	Sdl_syswm_x11 : INTEGER
+			-- X11 window manager
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_X11
+		end
 
---	Sdl_lil_endian:NATURAL_32
---		once
---			Result:={GAME_SDL_EXTERNAL}.SDL_LIL_ENDIAN
---		end
+	Sdl_syswm_directfb : INTEGER
+			-- DirectFB window manager
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_DIRECTFB
+		end
 
---	Sdl_big_endian:NATURAL_32
---		once
---			Result:={GAME_SDL_EXTERNAL}.SDL_BIG_ENDIAN
---		end
+	Sdl_syswm_cocoa : INTEGER
+			-- Cocoa window manager for Mac OS X
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_COCOA
+		end
+
+	Sdl_syswm_uikit : INTEGER
+			-- UIKit window manager for IOS
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_SYSWM_UIKIT
+		end
+
+	Sdl_enable : INTEGER
+			-- Enable the feature
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_ENABLE
+		end
+
+	Sdl_disable : INTEGER
+			-- Disable the feature
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_DISABLE
+		end
+
+	Sdl_query : INTEGER
+			-- Query an information
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_QUERY
+		end
 
 end

@@ -8,153 +8,252 @@ class
 	GAME_SURFACE
 
 inherit
-	ANY
+	GAME_LIBRARY_SHARED
+	GAME_SDL_CONSTANTS
 
---create
---	make,
---	make_video_memory,
---	make_with_bit_per_pixel,
---	make_from_pointer,
---	make_from_surface,
---	make_with_flags_and_masks
+create
+	make_from_image_source,
+	make_from_other,
+	make_for_window,
+	make_for_display,
+	make_for_display_mode,
+	make_for_pixel_format,
+	make_with_masks
 
---feature {NONE} -- Initialisation
+feature {NONE} -- Initialisation
 
---	make_from_pointer(a_surface_pointer:POINTER)
---			-- Initialization for `Current'.
---			-- Create a surface from an SDL pointer (the memory SDL surface is not duplicate).
---		require
---			Make_From_Pointer_Pointer_Not_Void: a_surface_pointer /= Void
---			Make_From_Pointer_Pointer_Not_NULL: not a_surface_pointer.is_default_pointer
---		do
+	make_from_image_source(a_image_source:GAME_IMAGE_SOURCE)
+			-- Create a `Current' from `a_image_source'.
+		require
+			Surface_Make_From_Image_Source_Is_Open: a_image_source.is_open
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		do
+			image_source:=a_image_source
+			is_open:=not has_error
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---			set_surface_pointer(a_surface_pointer)
---			set_is_alpha_accelerated(false)
---			set_is_transparent_accelerated(false)
---			start_x:=0
---			start_y:=0
---			set_width({GAME_SDL_EXTERNAL}.get_surface_struct_w(internal_pointer))
---			set_height({GAME_SDL_EXTERNAL}.get_surface_struct_h(internal_pointer))
---			disable_alpha
---			disable_transparent
---		end
+	make_from_other(a_other:GAME_SURFACE)
+			-- Create a `Current' from `a_other'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		do
+			make_from_image_source(a_other.image_source)
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---	make_from_surface(a_other:GAME_SURFACE)
---			-- Initialization for `Current'.
---			-- Create a surface from another surface (the memory SDL surface is not duplicate).
---		require
---			Make_From_Surface_Surface_Not_Void: a_other /= Void
---			Make_From_Surface_Surface_Pointer_Not_Void: a_other.internal_pointer /= Void
---			Make_From_Surface_Surface_Pointer_Not_NULL: not a_other.internal_pointer.is_default_pointer
---		do
---			make_from_pointer(a_other.internal_pointer)
---			set_is_alpha_accelerated(a_other.is_alpha_accelerated)
---			set_is_transparent_accelerated(a_other.is_transparent_accelerated)
---			start_x:=a_other.start_x
---			start_y:=a_other.start_y
---			set_width(a_other.width)
---			set_height(a_other.height)
---			disable_alpha
---			disable_transparent
---		end
+	make_for_window(a_window:GAME_WINDOW; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_window'.
+		do
+			make_for_pixel_format(a_window.pixel_format,a_width,a_height)
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---	make(a_width,a_height:INTEGER)
---			-- Initialization for `Current'.
---			-- Create a new empty surface.
---		local
---			l_screen:GAME_SCREEN
---		do
---			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
---				create l_screen.make_from_current_video_surface
---				make_with_bit_per_pixel(a_width,a_height,l_screen.bits_per_pixel,false)
---			else
---				make_with_bit_per_pixel(a_width,a_height,32,false)
---			end
---		end
+	make_for_display(a_display:GAME_DISPLAY; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_display'.
+		do
+			make_for_display_mode(a_display.current_mode,a_width,a_height)
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---	make_video_memory(a_width,a_height:INTEGER)
---			-- Initialization for `Current'.
---			-- Create a new empty surface on video memory.
---		local
---			l_screen:GAME_SCREEN
---		do
---			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
---				create l_screen.make_from_current_video_surface
---				make_with_bit_per_pixel(a_width,a_height,l_screen.bits_per_pixel,true)
---			else
---				make_with_bit_per_pixel(a_width,a_height,32,true)
---			end
---		end
+	make_for_display_mode(a_display_mode:GAME_DISPLAY_MODE; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_display_mode'.
+		do
+			make_for_pixel_format(a_display_mode.pixel_format,a_width,a_height)
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---	make_with_bit_per_pixel(a_width,a_height,a_bits_per_pixel:INTEGER;a_in_video_memory:BOOLEAN)
---			-- Initialization for `Current'.
---			-- Create a new empty surface with a different `the_bits_per_pixel' and `video_memory'.
---		local
---			l_screen:GAME_SCREEN
---			l_screen_format:POINTER
---			l_flags, l_rmask, l_gmask, l_bmask, l_amask:NATURAL_32
---		do
---			if a_in_video_memory then
---				l_flags:={GAME_SDL_EXTERNAL}.SDL_HWSURFACE
---			else
---				l_flags:={GAME_SDL_EXTERNAL}.SDL_SWSURFACE
---			end
---			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
---				create l_screen.make_from_current_video_surface
---				l_screen_format:=l_screen.format_pointer
---				l_rmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Rmask(l_screen_format)
---				l_gmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Gmask(l_screen_format)
---				l_bmask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Bmask(l_screen_format)
---				l_amask:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_Amask(l_screen_format)
---			else
---				l_rmask:=0
---				l_gmask:=0
---				l_bmask:=0
---				l_amask:=0
---			end
---			make_with_flags_and_masks(l_flags,a_width,a_height,a_bits_per_pixel,l_rmask, l_gmask, l_bmask, l_amask)
---		end
+	make_for_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_INFO;a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_pixel_format'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		local
+			l_bpp:INTEGER
+			l_masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
+			l_success:BOOLEAN
+		do
+			l_bpp:=a_pixel_format.bit_per_pixel
+			if a_pixel_format.has_error then
+				io.error.put_string ("An error occured while creating the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				create image_source.own_from_pointer (create {POINTER})
+			else
+				l_masks:=a_pixel_format.masks
+				if a_pixel_format.has_error then
+					io.error.put_string ("An error occured while creating the surface.%N")
+					io.error.put_string (get_error.to_string_8+"%N")
+					has_error:=True
+					create image_source.own_from_pointer (create {POINTER})
+				else
+					make_with_masks(a_width, a_height, l_bpp, l_masks.red_mask, l_masks.green_mask, l_masks.blue_mask, l_masks.alpha_mask)
+				end
+			end
+		ensure
+			Surface_Make_Is_Open:is_open
+		end
 
---	make_with_flags_and_masks(a_flags:NATURAL_32;a_width,a_height,a_bits_per_pixel:INTEGER;a_Rmask,a_Gmask,a_Bmask,a_Amask:NATURAL_32)
---			-- Initialization for `Current'.
---			-- Create a new empty surface with RGBA mask and flags.
---		do
---			make_from_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(a_flags,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask))
---		end
+	make_with_masks(a_width,a_height,a_bits_per_pixel:INTEGER;a_Rmask,a_Gmask,a_Bmask,a_Amask:NATURAL_32)
+			-- Initialization for `Current'.
+			-- Create a new empty surface with RGBA mask and flags.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		local
+			l_surface_pointer:POINTER
+			l_image_source:GAME_IMAGE_SOURCE
+		do
+			clear_error
+			l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(0,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask)
+			if l_surface_pointer.is_default_pointer then
+				io.error.put_string ("An error occured while creating the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				create image_source.own_from_pointer (create {POINTER})
+			else
+				create l_image_source.own_from_pointer (l_surface_pointer)
+				if l_image_source.is_openable then
+					l_image_source.open
+					make_from_image_source(l_image_source)
+				else
+					io.error.put_string ("An error occured while creating the surface.%N")
+					has_error:=True
+					create image_source.own_from_pointer (create {POINTER})
+				end
 
---feature -- Access
+			end
+		end
+
+feature {GAME_SURFACE} -- Implementation
+
+	image_source:GAME_IMAGE_SOURCE
+
+feature -- Access
+
+	is_open:BOOLEAN
+
+	convert_to_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_INFO):GAME_SURFACE
+			-- Create a copy of `Current' conforming to `a_pixel_format'.
+		require
+			Surface_Convert_Is_Open: is_open
+		local
+			l_source:GAME_IMAGE_SOURCE
+		do
+			create l_source.own_from_pointer ({GAME_SDL_EXTERNAL}.SDL_ConvertSurfaceFormat(image_source.internal_pointer, a_pixel_format.flags, 0))
+			if l_source.is_openable then
+				l_source.open
+			end
+			create Result.make_from_image_source (l_source)
+		end
+
+	pixel_format:GAME_PIXEL_FORMAT_INFO
+			-- The internal format of the pixel representation in memory.
+		require
+			Surface_Pixel_Format_Is_Open: is_open
+		local
+			l_format_struct:POINTER
+		do
+			l_format_struct:={GAME_SDL_EXTERNAL}.get_sdl_surface_struct_format(image_source.internal_pointer)
+			create Result.make_with_flags ({GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_format(l_format_struct))
+		end
+
+	draw_surface(a_other:GAME_SURFACE;a_x,a_y:INTEGER)
+			-- Draw the whole surface `a_other' on the present surface at (`a_x',`a_y').
+		require
+			Surface_Draw_Is_Open: is_open
+		do
+			draw_sub_surface(a_other,0,0,a_x,a_y,a_other.width,a_other.height)
+		end
+
+	draw_sub_surface(a_other:GAME_SURFACE;a_x_source,a_y_source,a_x_destination,a_y_destination,a_width,a_height:INTEGER)
+			-- Draw on the present surface at (`a_x_destination',`a_y_destination') the sub surface of `a_other'
+			-- starting at (`a_x_source',`a_y_source') with dimension `a_width' x `a_height'.
+		require
+			Surface_Draw_Is_Open: is_open
+		local
+			l_rect_src, l_rect_dst:POINTER
+			l_error:INTEGER
+		do
+			l_rect_src:=l_rect_src.memory_calloc (1, Size_of_sdl_rect_structure)
+			l_rect_dst:=l_rect_dst.memory_calloc (1, Size_of_sdl_rect_structure)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,a_x_destination)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,a_y_destination)
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_BlitSurface(a_other.image_source.internal_pointer ,l_rect_src, image_source.internal_pointer, l_rect_dst)
+			if l_error<0 then
+				io.error.put_string ("An error occured while drawing to the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+			l_rect_dst.memory_free
+			l_rect_src.memory_free
+		end
+
+	fill_rect(a_color:GAME_COLOR;a_x,a_y,a_width,a_height:INTEGER)
+			-- Draw a `a_color' rectangle of dimension `a_width' x `a_height' on `Current' at (`a_x',`a_y').
+		require
+			Surface_Draw_Is_Open: is_open
+		local
+			l_rect_src, l_format:POINTER
+			l_error:INTEGER
+			l_color_key:NATURAL_32
+		do
+			clear_error
+			l_rect_src:=l_rect_src.memory_calloc (1, Size_of_sdl_rect_structure)
+			if a_width<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x+a_width)
+			else
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x)
+			end
+			if a_height<0 then
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y+a_height)
+			else
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y)
+			end
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width.abs)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height.abs)
+			l_format:=pixel_format.structure
+			if pixel_format.has_error then
+				has_error:=True
+			else
+				l_color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(l_format,a_color.red,a_color.green,a_color.blue,a_color.alpha)
+				l_error:={GAME_SDL_EXTERNAL}.SDL_FillRect(image_source.internal_pointer,l_rect_src,l_color_key)
+				if l_error<0 then
+					io.error.put_string ("An error occured while drawing rectangle to the surface.%N")
+					io.error.put_string (get_error.to_string_8+"%N")
+					has_error:=True
+				end
+			end
+			l_rect_src.memory_free
+		end
+
+	height:INTEGER
+			-- The `height' of `Current'.
+		require
+			Surface_Is_Open: is_open
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_surface_struct_h(image_source.internal_pointer)
+		end
+
+	width:INTEGER
+			-- The `width' of `Current'.
+		require
+			Surface_Is_Open: is_open
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_surface_struct_h(image_source.internal_pointer)
+		end
 
 
---	optimise_surface
---		local
---			l_screen:GAME_SCREEN
---			l_result_ptr:POINTER
---		do
---			if not {GAME_SDL_EXTERNAL}.sdl_getvideosurface.is_default_pointer then
---				create l_screen.make_from_current_video_surface
---				l_result_ptr:={GAME_SDL_EXTERNAL}.SDL_ConvertSurface(internal_pointer,l_screen.format_pointer,{GAME_SDL_EXTERNAL}.get_surface_struct_flags(l_screen.format_pointer))
---				if not l_result_ptr.is_default_pointer then
---					set_surface_pointer(l_result_ptr)
---				end
---			end
+feature {NONE} -- Implementation
 
-
---		end
-
---	bits_per_pixel:INTEGER
---			-- Get the number of bits per pixel in memory of the surface.
---		local
---			format:POINTER
---		do
---			format:=format_pointer
---			Result:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_BitsPerPixel(format)
---		end
-
---	convert_format_to_video_format
---			-- Transfert the surface to the same format that the one of the Screen surface.
---		do
---			set_surface_pointer ({GAME_SDL_EXTERNAL}.SDL_DisplayFormat(internal_pointer))
---		end
 
 --	draw_surface(a_other:GAME_SURFACE;a_x,a_y:INTEGER)
 --			-- Draw the whole surface `a_other' on the present surface at (`a_x',`a_y').
@@ -308,17 +407,6 @@ inherit
 
 
 --		end
-
-
---	height:INTEGER assign set_height
---	do
---		Result:=srf_height
---	end
-
---	width:INTEGER assign set_width
---	do
---		Result:=srf_width
---	end
 
 --	pixel_color(a_x,a_y:INTEGER):GAME_COLOR
 --		-- Get the color of the pixel at `x', `y'.
@@ -540,35 +628,6 @@ inherit
 --	do
 --		is_transparent_accelerated:=a_val
 --	end
-
---	srf_height:INTEGER
---	srf_width:INTEGER
-
---	set_height(a_height:INTEGER)
---		do
---			srf_height:=a_height
---		end
-
---	set_width(a_width:INTEGER)
---		do
---			srf_width:=a_width
---		end
-
---	set_start_x(a_start_x:INTEGER)
---		do
---			start_x:=a_start_x
---		end
-
---	set_start_y(a_start_y:INTEGER)
---		do
---			start_y:=a_start_y
---		end
-
-
-
---	surface_imp:GAME_SDL_SURFACE_IMP
-
---	is_make:BOOLEAN
 
 --	transparent_color_key:NATURAL_32
 

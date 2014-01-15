@@ -184,6 +184,153 @@ feature -- Function SDL.h
 			"SDL_GetDisplayName"
 		end
 
+	frozen SDL_GetWindowPixelFormat(window:POINTER):NATURAL_32
+		external
+			"C (SDL_Window*) :Uint32 | <SDL.h>"
+		alias
+			"SDL_GetWindowPixelFormat"
+		end
+
+	frozen SDL_VERSION_COMPILE(x:POINTER)
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_VERSION((SDL_version*)$x)"
+		end
+
+	frozen SDL_GetWindowWMInfo(window, info:POINTER):BOOLEAN
+		external
+			"C (SDL_Window*, SDL_SysWMinfo*) :SDL_bool | <SDL.h>"
+		alias
+			"SDL_GetWindowWMInfo"
+		end
+
+	frozen SDL_GetTicks:NATURAL_32
+		external
+			"C :Uint32 | <SDL.h>"
+		alias
+			"SDL_GetTicks"
+		end
+
+	frozen SDL_ShowCursor(toggle:INTEGER):INTEGER
+		external
+			"C (int) :int | <SDL.h>"
+		alias
+			"SDL_ShowCursor"
+		end
+
+	frozen SDL_LoadBMP(file:POINTER):POINTER
+		external
+			"C (const char*) :SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_LoadBMP"
+		end
+
+	frozen SDL_FreeSurface(surface:POINTER)
+		external
+			"C (SDL_Surface*) | <SDL.h>"
+		alias
+			"SDL_FreeSurface"
+		end
+
+	frozen SDL_AllocRW:POINTER
+		external
+			"C :SDL_RWops* | <SDL.h>"
+		alias
+			"SDL_AllocRW"
+		end
+
+	frozen SDL_FreeRW(area:POINTER)
+		external
+			"C (SDL_RWops*) | <SDL.h>"
+		alias
+			"SDL_FreeRW"
+		end
+
+	frozen SDL_LoadBMP_RW(src:POINTER;freesrc:INTEGER):POINTER
+		external
+			"C (SDL_RWops*,int) :SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_LoadBMP_RW"
+		end
+
+	frozen SDL_CreateRGBSurface(flags:NATURAL_32; width, height, depth:INTEGER; Rmask, Gmask, Bmask, Amask:NATURAL_32):POINTER
+		external
+			"C (Uint32,int,int,int,Uint32,Uint32,Uint32,Uint32) :SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_CreateRGBSurface"
+		end
+
+	frozen SDL_PixelFormatEnumToMasks(format:NATURAL_32; bpp, Rmask, Gmask, Bmask, Amask:POINTER):BOOLEAN
+		external
+			"C (Uint32,int*,Uint32*,Uint32*,Uint32*,Uint32*) :SDL_bool | <SDL.h>"
+		alias
+			"SDL_PixelFormatEnumToMasks"
+		end
+
+	frozen SDL_AllocFormat(pixel_format:NATURAL_32):POINTER
+		external
+			"C (Uint32) :SDL_PixelFormat* | <SDL.h>"
+		alias
+			"SDL_AllocFormat"
+		end
+
+	frozen SDL_FreeFormat(format:POINTER)
+		external
+			"C (SDL_PixelFormat*) | <SDL.h>"
+		alias
+			"SDL_FreeFormat"
+		end
+
+	frozen SDL_ConvertSurfaceFormat(src:POINTER;pixel_format,flags:NATURAL_32):POINTER
+		external
+			"C (SDL_Surface*, Uint32, Uint32) :SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_ConvertSurfaceFormat"
+		end
+
+	frozen SDL_BlitSurface(src, srcrect, dst, dstrect:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, const SDL_Rect*, SDL_Surface*, SDL_Rect*) :int | <SDL.h>"
+		alias
+			"SDL_BlitSurface"
+		end
+
+	frozen SDL_FillRect(dst, rect:POINTER; collor:NATURAL_32):INTEGER
+		external
+			"C (SDL_Surface*, const SDL_Rect*, Uint32) :int | <SDL.h>"
+		alias
+			"SDL_FillRect"
+		end
+
+	frozen SDL_MapRGBA(format:POINTER; r,g,b,a:NATURAL_8):NATURAL_32
+		external
+			"C (const SDL_PixelFormat*, Uint8, Uint8, Uint8, Uint8) :Uint32 | <SDL.h>"
+		alias
+			"SDL_MapRGBA"
+		end
+
+	frozen SDL_GetWindowSurface(window:POINTER):POINTER
+		external
+			"C (SDL_Window*) : SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_GetWindowSurface"
+		end
+
+	frozen SDL_UpdateWindowSurface(window:POINTER):INTEGER
+		external
+			"C (SDL_Window*) : int | <SDL.h>"
+		alias
+			"SDL_UpdateWindowSurface"
+		end
+
+	frozen SDL_UpdateWindowSurfaceRects(window, rects:POINTER; numrects:INTEGER):INTEGER
+		external
+			"C (SDL_Window*, const SDL_Rect*, int) : int | <SDL.h>"
+		alias
+			"SDL_UpdateWindowSurfaceRects"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
@@ -2516,6 +2663,183 @@ feature -- Structure SDL_DropEvent SDL.h
 			"file"
 		end
 
+feature -- Structure SDL_SysWMinfo SDL.h
+
+	frozen c_sizeof_sdl_sys_wm_info:INTEGER
+			-- Size of an SDL_SysWMinfo C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_SysWMinfo)"
+		end
+
+	frozen get_sys_wm_struct_version(ptr:POINTER):POINTER
+			-- Set to the version of the current SDL library.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_SysWMinfo*)$ptr)->version)"
+		end
+
+	frozen get_sys_wm_struct_subsystem(ptr:POINTER):INTEGER
+		external
+			"C [struct <SDL.h>] (SDL_SysWMinfo):int"
+		alias
+			"subsystem"
+		end
+
+feature -- Structure SDL_version SDL.h
+
+	frozen c_sizeof_sdl_version:INTEGER
+			-- Size of an SDL_SysWMinfo C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_SysWMinfo)"
+		end
+
+	frozen get_sdl_version_struct_major(ptr:POINTER):NATURAL_8
+			-- The major version of the SDL library.
+		external
+			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+		alias
+			"major"
+		end
+
+	frozen get_sdl_version_struct_minor(ptr:POINTER):NATURAL_8
+			-- The minor version of the SDL library.
+		external
+			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+		alias
+			"minor"
+		end
+
+	frozen get_sdl_version_struct_patch(ptr:POINTER):NATURAL_8
+			-- The patch level version of the SDL library.
+		external
+			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+		alias
+			"patch"
+		end
+
+feature -- Structure SDL_PixelFormat SDL.h
+
+	frozen get_sdl_pixel_format_struct_format(ptr:POINTER):NATURAL_32
+			-- the SDL_PixelFormatEnum values
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint32"
+		alias
+			"format"
+		end
+
+	frozen get_sdl_pixel_format_struct_palette(ptr:POINTER):POINTER
+			-- an SDL_Palette structure associated with this pixel format, or NULL if the format doesn't have a palette
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):SDL_Palette*"
+		alias
+			"palette"
+		end
+
+	frozen get_sdl_pixel_format_struct_bytes_per_pixel(ptr:POINTER):NATURAL_8
+			-- the number of bytes required to hold a pixel value, eg: 1, 2, 3, 4
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint8"
+		alias
+			"BytesPerPixel"
+		end
+
+	frozen get_sdl_pixel_format_struct_bits_per_pixel(ptr:POINTER):NATURAL_8
+			-- the number of significant bits in a pixel value, eg: 8, 15, 16, 24, 32
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint8"
+		alias
+			"BitsPerPixel"
+		end
+
+	frozen get_sdl_pixel_format_struct_rmask(ptr:POINTER):NATURAL_32
+			-- a mask representing the location of the red component of the pixel
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint32"
+		alias
+			"Rmask"
+		end
+
+	frozen get_sdl_pixel_format_struct_gmask(ptr:POINTER):NATURAL_32
+			-- a mask representing the location of the green component of the pixel
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint32"
+		alias
+			"Gmask"
+		end
+
+	frozen get_sdl_pixel_format_struct_bmask(ptr:POINTER):NATURAL_32
+			-- a mask representing the location of the blue component of the pixel
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint32"
+		alias
+			"Bmask"
+		end
+
+	frozen get_sdl_pixel_format_struct_amask(ptr:POINTER):NATURAL_32
+			-- a mask representing the location of the alpha component of the pixel
+		external
+			"C [struct <SDL.h>] (SDL_PixelFormat):Uint32"
+		alias
+			"Amask"
+		end
+
+feature -- Structure SDL_Surface SDL.h
+
+	frozen get_sdl_surface_struct_format(ptr:POINTER):POINTER
+			-- the format of the pixels stored in the surface
+		external
+			"C [struct <SDL.h>] (SDL_Surface):SDL_PixelFormat*"
+		alias
+			"format"
+		end
+
+	frozen get_sdl_surface_struct_w(ptr:POINTER):INTEGER
+			-- the width in pixels
+		external
+			"C [struct <SDL.h>] (SDL_Surface):int"
+		alias
+			"w"
+		end
+
+	frozen get_sdl_surface_struct_h(ptr:POINTER):INTEGER
+			-- the height in pixels
+		external
+			"C [struct <SDL.h>] (SDL_Surface):int"
+		alias
+			"h"
+		end
+
+	frozen get_sdl_surface_struct_pitch(ptr:POINTER):INTEGER
+			-- the length of a row of pixels in bytes
+		external
+			"C [struct <SDL.h>] (SDL_Surface):int"
+		alias
+			"pitch"
+		end
+
+	frozen get_sdl_surface_struct_pixels(ptr:POINTER):POINTER
+			-- the pointer to the actual pixel data
+		external
+			"C [struct <SDL.h>] (SDL_Surface):void*"
+		alias
+			"pixels"
+		end
+
+	frozen get_sdl_surface_struct_refcount(ptr:POINTER):INTEGER
+			-- reference count that can be incremented by the application
+		external
+			"C [struct <SDL.h>] (SDL_Surface):int"
+		alias
+			"refcount"
+		end
+
+
+
 feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_WINDOWEVENT:NATURAL_32
@@ -3139,6 +3463,69 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"C inline use <SDL.h>"
 		alias
 			"SDL_PIXELFORMAT_YVYU"
+		end
+
+	frozen SDL_SYSWM_UNKNOWN : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_UNKNOWN"
+		end
+
+	frozen SDL_SYSWM_WINDOWS : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_WINDOWS"
+		end
+
+	frozen SDL_SYSWM_X11 : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_X11"
+		end
+
+	frozen SDL_SYSWM_DIRECTFB : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_DIRECTFB"
+		end
+
+	frozen SDL_SYSWM_COCOA : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_COCOA"
+		end
+
+	frozen SDL_SYSWM_UIKIT : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_SYSWM_UIKIT"
+		end
+
+	frozen SDL_ENABLE : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_ENABLE"
+		end
+
+	frozen SDL_DISABLE : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_DISABLE"
+		end
+
+	frozen SDL_QUERY : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_QUERY"
 		end
 
 

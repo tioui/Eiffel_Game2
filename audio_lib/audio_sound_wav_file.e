@@ -15,10 +15,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make(filename:READABLE_STRING_GENERAL)
+	make(a_filename:READABLE_STRING_GENERAL)
 		do
 			make_ressource
-			create file.make (filename)
+			create file.make (a_filename)
 		end
 
 	process_header

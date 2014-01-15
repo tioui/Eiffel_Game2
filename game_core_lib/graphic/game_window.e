@@ -4,28 +4,18 @@ note
 	date: "january 5, 2014"
 	revision: "1.0"
 
-class
+deferred class
 	GAME_WINDOW
 
 inherit
-	GAME_SDL_ANY
 	GAME_LIBRARY_SHARED
 	GAME_SDL_CONSTANTS
 	DISPOSABLE
 
-create
-	make,
-	make_default,
-	make_on_display,
-	make_with_position,
-	make_centered,
-	make_fullscreen,
-	make_with_extra_flags
-
 feature {NONE} -- Initialisation
 
 	make_default(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER)
-			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height'). The other option are the default one.
+			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height'). The other options are the default one.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
@@ -168,6 +158,7 @@ feature {NONE} -- Initialisation
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
 			internal_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
 			has_error:=False
+			game_library.internal_windows.extend (Current)
 		ensure
 			Make_Window_Is_Open: not is_closed
 		end
@@ -227,12 +218,37 @@ feature -- Access
 		do
 			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(internal_pointer)
 			internal_pointer := create {POINTER}.default_create
+			game_library.internal_windows.prune_all (Current)
 		end
 
 	is_closed:BOOLEAN
 			-- Is `Current' has been `close'd
 		do
 			Result:=internal_pointer.is_default_pointer
+		end
+
+	pixel_format:GAME_PIXEL_FORMAT_INFO
+			-- The internal format of the pixel representation in memory.
+		do
+			create Result.make_with_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(internal_pointer))
+		end
+
+	window_manager:GAME_WINDOW_MANAGER
+			-- The window manager managing `Current'.
+		local
+			l_wm_info:POINTER
+			l_error:BOOLEAN
+		do
+			l_wm_info:=l_wm_info.memory_calloc (1,{GAME_SDL_EXTERNAL}.c_sizeof_sdl_sys_wm_info)
+			{GAME_SDL_EXTERNAL}.SDL_VERSION_COMPILE ({GAME_SDL_EXTERNAL}.get_sys_wm_struct_version(l_wm_info))
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetWindowWMInfo(internal_pointer, l_wm_info)
+			create Result.own_from_pointer (l_wm_info)
+			if l_error then
+				io.error.put_string ("An error occured when getting the window manager informations.%N")
+				io.error.put_string (get_error.as_string_8+"%N")
+				has_error:=True
+			end
 		end
 
 
@@ -297,6 +313,8 @@ feature -- Access
 
 	-- http://wiki.libsdl.org/SDL_SetWindowTitle
 
+	-- http://wiki.libsdl.org/SDL_WarpMouseInWindow
+
 
 ---------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------  Fin du travail pour Luc  -------------------------------------------------------
@@ -304,12 +322,7 @@ feature -- Access
 
 
 -- Todo:
-		-- http://wiki.libsdl.org/SDL_GetWindowPixelFormat (voir {GAME_DISPLAY_MODE})
-		-- http://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects
-		-- http://wiki.libsdl.org/SDL_GetWindowWMInfo
 		-- http://wiki.libsdl.org/SDL_SetWindowIcon
-		-- http://wiki.libsdl.org/SDL_GetWindowSurface
-		-- http://wiki.libsdl.org/SDL_UpdateWindowSurface
 
 
 feature {NONE} -- Implementation
