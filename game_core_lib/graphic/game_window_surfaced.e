@@ -1,8 +1,13 @@
 note
-	description: "Summary description for {GAME_WINDOW_SURFACED}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "[
+						A {GAME_WINDOW} that directly use {GAME_SURFACE} to render.
+						Note that {GAME_WINDOW_SURFACED} don't use hardware acceleration and is very slow.
+						It should be use for slow application only. To use hardware acceleration,
+						use the {GAME_WINDOW_RENDERED} type.
+					]"
+	author: "Louis Marchand"
+	date: "January 14, 2014"
+	revision: "2.0.0.1"
 
 class
 	GAME_WINDOW_SURFACED
@@ -31,11 +36,11 @@ feature -- Access
 				Result:=la_surface
 			else
 				l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_GetWindowSurface(internal_pointer)
-				create l_source.make_from_pointer (l_surface_pointer)
+				create l_source.share_from_pointer (l_surface_pointer)
 				if l_source.is_openable then
 					l_source.open
 					if l_source.is_open then
-						create internal_surface.make_from_image_source (l_source)
+						create internal_surface.share_from_image_source (l_source)
 						Result:=surface
 					else
 						io.error.put_string ("An error occured while creating the surfaced window.%N")
@@ -67,7 +72,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	internal_surface:detachable GAME_SURFACE
-	
+
 -- Todo:
 		-- http://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects
 

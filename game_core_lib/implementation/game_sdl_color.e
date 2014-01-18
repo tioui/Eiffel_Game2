@@ -7,111 +7,146 @@ note
 class
 	GAME_SDL_COLOR
 
---inherit
---	GAME_COLOR
---	rename
---		make as make_color,
---		make_rgb as make_color_rgb
---	redefine
---		red,green,blue,set_red,set_green,set_blue
---	end
+inherit
+	GAME_COLOR
+		redefine
+			out, is_equal,make,red,green,blue, alpha,set_red,set_green,set_blue, set_alpha
+		end
+	DISPOSABLE
+		undefine
+			out, is_equal
+		end
+	GAME_SDL_CONSTANTS
+		undefine
+			out, is_equal
+		end
 
---	DISPOSABLE
---	export
---		{NONE} all
---	end
+create
+	make,
+	make_rgb,
+	make_from_hexadecimal,
+	make_rgb_from_hexadecimal,
+	make_from_other,
+	make_from_pointer,
+	share_from_pointer,
+	own_from_pointer
 
---create
---	make,
---	make_rgb,
---	make_from_pointer,
---	make_from_pointer_and_alpha,
---	make_from_rgba_color
+feature {NONE} -- Initialization
 
---feature {NONE} -- Initialization
+	make(a_red,a_green,a_blue,a_alpha:NATURAL_8)
+		-- <Precursor>
+	do
+		internal_pointer:=internal_pointer.memory_alloc (Sizeof_sdl_color)
+		must_free:=True
+		Precursor(a_red,a_green,a_blue,a_alpha)
+	ensure then
+		SDL_Color_Make_Pointer_Valid: internal_pointer /= Void and then not internal_pointer.is_default_pointer
+	end
 
---	make(a_red,a_green,a_blue,a_alpha:NATURAL_8)
---	do
---		sdl_color_pointer:={GAME_SDL_EXTERNAL}.c_color_struct_allocate
---		make_color(a_red,a_green,a_blue,a_alpha)
---	ensure
---		SDL_Color_Make_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
---	end
+	make_from_pointer(a_internal_pointer:POINTER)
+			-- Initialize `Current' by copying the color pointed by `a_internal_pointer'.
+		do
+			make({GAME_SDL_EXTERNAL}.get_sdl_color_struct_r(a_internal_pointer),
+					{GAME_SDL_EXTERNAL}.get_sdl_color_struct_g(a_internal_pointer),
+					{GAME_SDL_EXTERNAL}.get_sdl_color_struct_b(a_internal_pointer),
+					{GAME_SDL_EXTERNAL}.get_sdl_color_struct_a(a_internal_pointer))
+		end
 
---	make_rgb(a_red,a_green,a_blue:NATURAL_8)
---		do
---			make(a_red,a_green,a_blue,255)
---		end
+	share_from_pointer(a_internal_pointer:POINTER)
+			-- Initialization for `Current' using an already existing internal color pointed by `a_internal_pointer'.
+			-- Note that the `a_internal_pointer' will not be free by `Current'.
+		do
+			internal_pointer:=a_internal_pointer
+			must_free:=False
+		end
 
---	make_from_pointer(a_ptr:POINTER)
---			-- Initialization for `Current'.
---		do
---			make_from_pointer_and_alpha(a_ptr,{GAME_SDL_EXTERNAL}.SDL_ALPHA_OPAQUE)
---		end
-
---	make_from_pointer_and_alpha(a_ptr:POINTER;a_alpha:NATURAL_8)
---		do
---			make({GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
---					{GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
---					{GAME_SDL_EXTERNAL}.get_color_struct_r(a_ptr),
---					a_alpha)
---		end
-
---	make_from_rgba_color(a_other:GAME_COLOR)
---		require
---			SDL_Color_Make_From_RGBA_Color_Color_Not_Void: a_other/=Void
---		do
---			make(a_other.red,a_other.green,a_other.blue,a_other.alpha)
---		ensure
---			SDL_Color_Make_From_RGBA_Color_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
---		end
-
-
---feature -- Access
-
---	red:NATURAL_8
---	do
---		Result:={GAME_SDL_EXTERNAL}.get_color_struct_r(sdl_color_pointer)
---	end
-
---	green:NATURAL_8
---	do
---		Result:={GAME_SDL_EXTERNAL}.get_color_struct_g(sdl_color_pointer)
---	end
-
---	blue:NATURAL_8
---	do
---		Result:={GAME_SDL_EXTERNAL}.get_color_struct_b(sdl_color_pointer)
---	end
-
---feature {GAME_SURFACE} -- Internal
-
---	sdl_color_pointer:POINTER
-
---feature {NONE} -- Implementation
-
---	set_red(a_red:NATURAL_8)
---	do
---		{GAME_SDL_EXTERNAL}.set_color_struct_r(sdl_color_pointer,a_red)
---	end
-
---	set_green(a_green:NATURAL_8)
---	do
---		{GAME_SDL_EXTERNAL}.set_color_struct_g(sdl_color_pointer,a_green)
---	end
-
---	set_blue(a_blue:NATURAL_8)
---	do
---		{GAME_SDL_EXTERNAL}.set_color_struct_b(sdl_color_pointer,a_blue)
---	end
+	own_from_pointer(a_internal_pointer:POINTER)
+			-- Initialization for `Current' using an already existing internal color pointed by `a_internal_pointer'.
+			-- Note that the `a_internal_pointer' will be free by `Current' after it's use.
+		do
+			internal_pointer:=a_internal_pointer
+			must_free:=True
+		end
 
 
---	dispose
---	do
---		{GAME_SDL_EXTERNAL}.c_color_struct_free(sdl_color_pointer)
---	end
+feature -- Access
 
---invariant
---	Sdl_Color_Pointer_Valid: sdl_color_pointer /= Void and then not sdl_color_pointer.is_default_pointer
+	red:NATURAL_8 assign set_red
+			-- <Precursor>
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_color_struct_r(internal_pointer)
+		end
+
+	green:NATURAL_8 assign set_green
+			-- <Precursor>
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_color_struct_g(internal_pointer)
+		end
+
+	blue:NATURAL_8 assign set_blue
+			-- <Precursor>
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_color_struct_b(internal_pointer)
+		end
+
+	alpha:NATURAL_8 assign set_alpha
+			-- <Precursor>
+		do
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_color_struct_a(internal_pointer)
+		end
+
+	set_red(a_red:NATURAL_8)
+			-- <Precursor>
+		do
+			{GAME_SDL_EXTERNAL}.set_sdl_color_struct_r(internal_pointer,a_red)
+		end
+
+	set_green(a_green:NATURAL_8)
+			-- <Precursor>
+		do
+			{GAME_SDL_EXTERNAL}.set_sdl_color_struct_g(internal_pointer,a_green)
+		end
+
+	set_blue(a_blue:NATURAL_8)
+			-- <Precursor>
+		do
+			{GAME_SDL_EXTERNAL}.set_sdl_color_struct_b(internal_pointer,a_blue)
+		end
+
+	set_alpha(a_alpha:NATURAL_8)
+			-- <Precursor>
+		do
+			{GAME_SDL_EXTERNAL}.set_sdl_color_struct_a(internal_pointer,a_alpha)
+		end
+
+	out:STRING_8
+			-- <Precursor>
+		do
+			Result:=Precursor {GAME_COLOR}
+		end
+
+	is_equal(a_other:like Current):BOOLEAN
+			-- <Precursor>
+		do
+			Result:=Precursor {GAME_COLOR}(a_other)
+		end
+
+feature {GAME_SURFACE} -- Internal
+
+	internal_pointer:POINTER
+
+feature {NONE} -- Implementation
+
+	must_free:BOOLEAN
+
+	dispose
+	do
+		if must_free then
+			internal_pointer.memory_free
+		end
+	end
+
+invariant
+	Sdl_Color_Pointer_Valid: internal_pointer /= Void and then not internal_pointer.is_default_pointer
 
 end

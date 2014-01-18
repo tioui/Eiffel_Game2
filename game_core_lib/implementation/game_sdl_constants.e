@@ -12,6 +12,18 @@ inherit
 
 feature {NONE} -- Constants SDL.h
 
+	Sizeof_sdl_color:INTEGER
+			-- Size of an SDL_Color C structure.
+		once
+			Result:={GAME_SDL_EXTERNAL}.c_sizeof_sdl_color
+		end
+
+	C_sizeof_sdl_event:INTEGER
+			-- Size of an SDL_Event C structure.
+		once
+			Result:={GAME_SDL_EXTERNAL}.c_sizeof_sdl_event
+		end
+
 	Size_of_sdl_rect_structure : INTEGER
 			-- The size of a SDL_Rect C structure in byte.
 		once
@@ -607,6 +619,18 @@ feature {NONE} -- Constants SDL.h
 			-- Query an information
 		once
 			Result:={GAME_SDL_EXTERNAL}.SDL_QUERY
+		end
+
+	Sdl_false : INTEGER
+			-- A false value
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_FALSE
+		end
+
+	Sdl_true : INTEGER
+			-- A rue value
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_TRUE
 		end
 
 end

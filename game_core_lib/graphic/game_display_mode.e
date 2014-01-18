@@ -24,8 +24,10 @@ create
 	make,
 	make_with_refresh_rate
 
-create {GAME_DISPLAY}
-	own_from_pointer
+create {GAME_SDL_ANY}
+	own_from_pointer,
+	shared_from_pointer
+
 
 feature {NONE} -- Initialization
 
@@ -52,6 +54,19 @@ feature {NONE} -- Initialization
 			set_width (a_width)
 			set_height (a_height)
 			set_refresh_rate (a_refresh_rate)
+			must_free:=True
+		end
+
+	shared_from_pointer(a_mode:POINTER)
+			-- Initialization for `Current' using `a_mode' pointer.
+			-- Note that the `a_mode' will not be free by `Current'.
+		require
+			Display_Mode_Own_Pointer_Not_Null: not a_mode.is_default_pointer
+		do
+			internal_pointer:=a_mode
+			must_free:=False
+		ensure
+			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
 		end
 
 	own_from_pointer(a_mode:POINTER)
@@ -61,6 +76,27 @@ feature {NONE} -- Initialization
 			Display_Mode_Own_Pointer_Not_Null: not a_mode.is_default_pointer
 		do
 			internal_pointer:=a_mode
+			must_free:=True
+		ensure
+			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
+		end
+
+	make_from_pointer(a_mode:POINTER)
+			-- Initialization for `Current' using a copy of the internal mode pointed by `a_mode' pointer.
+			-- Note that the `a_mode' will not be free by `Current'.
+		require
+			Display_Mode_Own_Pointer_Not_Null: not a_mode.is_default_pointer
+		do
+			make_with_refresh_rate(
+						{GAME_SDL_EXTERNAL}.get_display_mode_struct_w(a_mode),
+						{GAME_SDL_EXTERNAL}.get_display_mode_struct_h(a_mode),
+						{GAME_SDL_EXTERNAL}.get_display_mode_struct_refresh_rate (a_mode)
+					)
+			set_pixel_format(
+						create {GAME_PIXEL_FORMAT_IMMUTABLE}.make_from_flags (
+									{GAME_SDL_EXTERNAL}.get_display_mode_struct_format(a_mode)
+								)
+					)
 		ensure
 			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
 		end
@@ -133,16 +169,16 @@ feature -- Access
 			Display_Mode_pixel_format_Not_Changed: pixel_format~old pixel_format
 		end
 
-	pixel_format:GAME_PIXEL_FORMAT_INFO assign set_pixel_format
+	pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE assign set_pixel_format
 			-- The internal format of the pixel representation in memory.
 		do
-			create Result.make_with_flags ({GAME_SDL_EXTERNAL}.get_display_mode_struct_format(internal_pointer))
+			create Result.make_from_flags ({GAME_SDL_EXTERNAL}.get_display_mode_struct_format(internal_pointer))
 		end
 
 	set_pixel_format(a_pixel_format:like pixel_format)
 			-- Assign the `pixel_format' of the pixel representation in memory to the value of `a_pixel_format'.
 		do
-			{GAME_SDL_EXTERNAL}.set_display_mode_struct_format(internal_pointer, pixel_format.flags)
+			{GAME_SDL_EXTERNAL}.set_display_mode_struct_format(internal_pointer, pixel_format.internal_index)
 		end
 
 	out:STRING_8
@@ -158,6 +194,8 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	must_free:BOOLEAN
 
 	dispose
 		do

@@ -1,8 +1,13 @@
 note
-	description: "A Window using the window surface mecanisme that allow high DPI resolution."
+	description: "[
+						A {GAME_WINDOW} that directly use {GAME_SURFACE} to render that allow high dpi resolution.
+						Note that {GAME_WINDOW_SURFACED} don't use hardware acceleration and is very slow.
+						It should be use for slow application only. To use hardware acceleration,
+						use the {GAME_WINDOW_RENDERED} type.
+					]"
 	author: "Louis Marchand"
-	date: "january 5, 2014"
-	revision: "1.0"
+	date: "January 14, 2014"
+	revision: "2.0.0.1"
 
 class
 	GAME_WINDOW_SURFACED_HIGH_DPI

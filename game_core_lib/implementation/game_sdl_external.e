@@ -200,7 +200,7 @@ feature -- Function SDL.h
 
 	frozen SDL_GetWindowWMInfo(window, info:POINTER):BOOLEAN
 		external
-			"C (SDL_Window*, SDL_SysWMinfo*) :SDL_bool | <SDL.h>"
+			"C (SDL_Window*, SDL_SysWMinfo*) :SDL_bool | <SDL_syswm.h>"
 		alias
 			"SDL_GetWindowWMInfo"
 		end
@@ -289,6 +289,13 @@ feature -- Function SDL.h
 			"SDL_ConvertSurfaceFormat"
 		end
 
+	frozen SDL_ConvertSurface(src, fmt:POINTER;flags:NATURAL_32):POINTER
+		external
+			"C (SDL_Surface*, const SDL_PixelFormat*, Uint32) :SDL_Surface* | <SDL.h>"
+		alias
+			"SDL_ConvertSurface"
+		end
+
 	frozen SDL_BlitSurface(src, srcrect, dst, dstrect:POINTER):INTEGER
 		external
 			"C (SDL_Surface*, const SDL_Rect*, SDL_Surface*, SDL_Rect*) :int | <SDL.h>"
@@ -310,6 +317,20 @@ feature -- Function SDL.h
 			"SDL_MapRGBA"
 		end
 
+	frozen SDL_MapRGB(format:POINTER; r,g,b:NATURAL_8):NATURAL_32
+		external
+			"C (const SDL_PixelFormat*, Uint8, Uint8, Uint8) :Uint32 | <SDL.h>"
+		alias
+			"SDL_MapRGB"
+		end
+
+	frozen SDL_GetRGBA(pixel:NATURAL_32;format, r,g,b,a:POINTER)
+		external
+			"C (Uint32, const SDL_PixelFormat*, Uint8*, Uint8*, Uint8*, Uint8*) | <SDL.h>"
+		alias
+			"SDL_GetRGBA"
+		end
+
 	frozen SDL_GetWindowSurface(window:POINTER):POINTER
 		external
 			"C (SDL_Window*) : SDL_Surface* | <SDL.h>"
@@ -329,6 +350,41 @@ feature -- Function SDL.h
 			"C (SDL_Window*, const SDL_Rect*, int) : int | <SDL.h>"
 		alias
 			"SDL_UpdateWindowSurfaceRects"
+		end
+
+	frozen SDL_SetColorKey(surface:POINTER; flag:INTEGER;key:NATURAL_32):INTEGER
+		external
+			"C (SDL_Surface*, int, Uint32) : int | <SDL.h>"
+		alias
+			"SDL_SetColorKey"
+		end
+
+	frozen SDL_GetColorKey(surface, key:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, Uint32*) : int | <SDL.h>"
+		alias
+			"SDL_GetColorKey"
+		end
+
+	frozen SDL_BlitScaled(src, srcrect, dst, dstrect :POINTER):INTEGER
+		external
+			"C (SDL_Surface*, const SDL_Rect*, SDL_Surface*, SDL_Rect*) : int | <SDL.h>"
+		alias
+			"SDL_BlitScaled"
+		end
+
+	frozen SDL_PollEvent(event :POINTER):INTEGER
+		external
+			"C (SDL_Event*) : int | <SDL.h>"
+		alias
+			"SDL_PollEvent"
+		end
+
+	frozen SDL_MasksToPixelFormatEnum(bpp:INTEGER;Rmask,Gmask,Bmask,Amask:NATURAL_32):NATURAL_32
+		external
+			"C (int, Uint32, Uint32, Uint32, Uint32) : Uint32 | <SDL.h>"
+		alias
+			"SDL_MasksToPixelFormatEnum"
 		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
@@ -2668,7 +2724,7 @@ feature -- Structure SDL_SysWMinfo SDL.h
 	frozen c_sizeof_sdl_sys_wm_info:INTEGER
 			-- Size of an SDL_SysWMinfo C structure.
 		external
-			"C inline use <SDL.h>"
+			"C inline use <SDL_syswm.h>"
 		alias
 			"sizeof(SDL_SysWMinfo)"
 		end
@@ -2676,14 +2732,14 @@ feature -- Structure SDL_SysWMinfo SDL.h
 	frozen get_sys_wm_struct_version(ptr:POINTER):POINTER
 			-- Set to the version of the current SDL library.
 		external
-			"C inline use <SDL.h>"
+			"C inline use <SDL_syswm.h>"
 		alias
 			"&(((SDL_SysWMinfo*)$ptr)->version)"
 		end
 
 	frozen get_sys_wm_struct_subsystem(ptr:POINTER):INTEGER
 		external
-			"C [struct <SDL.h>] (SDL_SysWMinfo):int"
+			"C [struct <SDL_syswm.h>] (SDL_SysWMinfo):int"
 		alias
 			"subsystem"
 		end
@@ -2695,13 +2751,13 @@ feature -- Structure SDL_version SDL.h
 		external
 			"C inline use <SDL.h>"
 		alias
-			"sizeof(SDL_SysWMinfo)"
+			"sizeof(SDL_version)"
 		end
 
 	frozen get_sdl_version_struct_major(ptr:POINTER):NATURAL_8
 			-- The major version of the SDL library.
 		external
-			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+			"C [struct <SDL.h>] (SDL_version):Uint8"
 		alias
 			"major"
 		end
@@ -2709,7 +2765,7 @@ feature -- Structure SDL_version SDL.h
 	frozen get_sdl_version_struct_minor(ptr:POINTER):NATURAL_8
 			-- The minor version of the SDL library.
 		external
-			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+			"C [struct <SDL.h>] (SDL_version):Uint8"
 		alias
 			"minor"
 		end
@@ -2717,7 +2773,7 @@ feature -- Structure SDL_version SDL.h
 	frozen get_sdl_version_struct_patch(ptr:POINTER):NATURAL_8
 			-- The patch level version of the SDL library.
 		external
-			"C [struct <SDL.h>] (SDL_SysWMinfo):Uint8"
+			"C [struct <SDL.h>] (SDL_version):Uint8"
 		alias
 			"patch"
 		end
@@ -2838,7 +2894,79 @@ feature -- Structure SDL_Surface SDL.h
 			"refcount"
 		end
 
+feature -- Structure SDL_Color SDL.h
 
+	frozen c_sizeof_sdl_color:INTEGER
+			-- Size of an SDL_Color C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_Color)"
+		end
+
+	frozen set_sdl_color_struct_r (ptr: POINTER; value:NATURAL_8)
+			-- the red component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color, Uint8)"
+		alias
+			"r"
+		end
+
+	frozen get_sdl_color_struct_r(ptr:POINTER):NATURAL_8
+			-- the red component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color):Uint8"
+		alias
+			"r"
+		end
+
+	frozen set_sdl_color_struct_g (ptr: POINTER; value:NATURAL_8)
+			-- the green component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color, Uint8)"
+		alias
+			"g"
+		end
+
+	frozen get_sdl_color_struct_g(ptr:POINTER):NATURAL_8
+			-- the green component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color):Uint8"
+		alias
+			"g"
+		end
+
+	frozen set_sdl_color_struct_b (ptr: POINTER; value:NATURAL_8)
+			-- the blue component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color, Uint8)"
+		alias
+			"b"
+		end
+
+	frozen get_sdl_color_struct_b(ptr:POINTER):NATURAL_8
+			-- the blue component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color):Uint8"
+		alias
+			"b"
+		end
+
+	frozen set_sdl_color_struct_a (ptr: POINTER; value:NATURAL_8)
+			-- the alpha component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color, Uint8)"
+		alias
+			"a"
+		end
+
+	frozen get_sdl_color_struct_a(ptr:POINTER):NATURAL_8
+			-- the alpha component in the range 0-255
+		external
+			"C [struct <SDL.h>] (SDL_Color):Uint8"
+		alias
+			"a"
+		end
 
 feature {GAME_SDL_CONSTANTS} -- Constants
 
@@ -3526,6 +3654,20 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"C inline use <SDL.h>"
 		alias
 			"SDL_QUERY"
+		end
+
+	frozen SDL_FALSE : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_FALSE"
+		end
+
+	frozen SDL_TRUE : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_TRUE"
 		end
 
 

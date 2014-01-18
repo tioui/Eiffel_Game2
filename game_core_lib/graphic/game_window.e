@@ -227,10 +227,10 @@ feature -- Access
 			Result:=internal_pointer.is_default_pointer
 		end
 
-	pixel_format:GAME_PIXEL_FORMAT_INFO
+	pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE
 			-- The internal format of the pixel representation in memory.
 		do
-			create Result.make_with_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(internal_pointer))
+			create Result.make_from_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(internal_pointer))
 		end
 
 	window_manager:GAME_WINDOW_MANAGER

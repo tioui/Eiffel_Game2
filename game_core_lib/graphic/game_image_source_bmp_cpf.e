@@ -9,12 +9,9 @@ class
 
 inherit
 	GAME_IMAGE_SOURCE
-		rename
-			has_error as has_ressource_error
 		redefine
 			open
 		end
-	GAME_SDL_ANY
 	CPF_RESSOURCE_MANAGER
 
 create

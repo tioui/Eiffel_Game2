@@ -8,51 +8,103 @@ class
 	GAME_EVENTS_CONTROLLER
 
 inherit
+	DISPOSABLE
+		redefine
+			default_create
+		end
+	GAME_SDL_CONSTANTS
+		redefine
+			default_create
+		end
 	GAME_LIBRARY_SHARED
---	DISPOSABLE
+		redefine
+			default_create
+		end
 
 create {GAME_SDL_CONTROLLER}
-	make
+	default_create
 
 feature {NONE} -- Initialization
 
-	make
+	default_create
 			-- Initialization for `Current'.
 		do
---			core_ctrl:=a_ctrl
---			event_ptr:={GAME_SDL_EXTERNAL}.c_event_struct_allocate
---			make_iteration_event
---			make_active_event
---			make_keyboard_event
---			make_mouse_motion_event
---			make_mouse_button_event
---			make_joystick_axis_event
---			make_joystick_balls_event -- Not tested. Dont have a joystick with balls
---			make_joystick_hats_event -- Not tested. Dont have a joystick with hats
---			make_joystick_buttons_event
---			make_resize_event
---			make_expose_event -- Not tested. Dont know how!
---			make_quit_event
-
+			event_ptr:=event_ptr.memory_calloc (1, C_sizeof_sdl_event)
+			create on_iteration
+			create on_quit_signal
 		end
 
 
 
 feature -- Access
 
---	poll_event
---		-- Execute an event validation. If no event is pending, do nothing.
---	local
---		l_is_event:INTEGER
---	do
---		decode_iteration_event
---		from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
---		until l_is_event=0
---		loop
---			decode_event(event_ptr)
---			l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+	poll_event
+			-- Execute an event validation. If no event is pending, do nothing.
+		local
+			l_is_event:INTEGER
+		do
+			if not on_iteration.is_empty then
+				on_iteration.call ([game_library.ticks])
+			end
+			from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+			until l_is_event=0
+			loop
+				decode_event
+				l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+			end
+		end
+
+	on_quit_signal: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- When the application receive a quit signal.
+
+	on_iteration: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Called at each game loop
+
+feature {NONE} -- Implementation
+
+	decode_event
+	local
+		l_event_type:NATURAL_32
+	do
+		l_event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(event_ptr)
+		if l_event_type=Sdl_quit and not on_quit_signal.is_empty then
+			on_quit_signal.call ([{GAME_SDL_EXTERNAL}.get_quit_event_struct_timestamp(event_ptr)])
+		end
+
+--		if is_active_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_ACTIVEEVENT then
+--			decode_active_event({GAME_SDL_EXTERNAL}.get_event_struct_active_pointer(a_event))
+--		elseif ((l_event_type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN or else l_event_type={GAME_SDL_EXTERNAL}.SDL_KEYUP)) and then is_keyboard_event_actions then
+--			decode_keyboard_event({GAME_SDL_EXTERNAL}.get_event_struct_key_pointer(a_event))
+--		elseif is_mouse_motion_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEMOTION then
+--			decode_mouse_motion_event({GAME_SDL_EXTERNAL}.get_event_struct_motion_pointer(a_event))
+--		elseif is_mouse_button_event_actions and (l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONDOWN or l_event_type={GAME_SDL_EXTERNAL}.SDL_MOUSEBUTTONUP) then
+--			decode_mouse_button_event({GAME_SDL_EXTERNAL}.get_event_struct_button_pointer(a_event))
+--		elseif is_joystick_axis_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYAXISMOTION then
+--			decode_joystick_axis_event({GAME_SDL_EXTERNAL}.get_event_struct_jaxis_pointer(a_event))
+--		elseif is_joystick_balls_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBALLMOTION then
+--			decode_joystick_balls_event({GAME_SDL_EXTERNAL}.get_event_struct_jball_pointer(a_event))
+--		elseif is_joystick_hats_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYHATMOTION then
+--			decode_joystick_hats_event({GAME_SDL_EXTERNAL}.get_event_struct_jhat_pointer(a_event))
+--		elseif is_joystick_buttons_event_actions and (l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONDOWN or l_event_type={GAME_SDL_EXTERNAL}.SDL_JOYBUTTONUP) then
+--			decode_joystick_buttons_event({GAME_SDL_EXTERNAL}.get_event_struct_jbutton_pointer(a_event))
+--		elseif is_resize_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_VIDEORESIZE then
+--			decode_resize_event({GAME_SDL_EXTERNAL}.get_event_struct_resize_pointer(a_event))
+--		elseif is_expose_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_VIDEOEXPOSE then
+--			decode_expose_event
+--		elseif is_quit_event_actions and l_event_type={GAME_SDL_EXTERNAL}.SDL_QUIT_CONST then
+--			decode_quit_event
 --		end
---	end
+	end
+
+	dispose
+		do
+			event_ptr.memory_free
+		end
+
+	event_ptr:POINTER
+
+
+
 
 --feature -- Active event access
 

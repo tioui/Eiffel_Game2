@@ -9,13 +9,10 @@ class
 
 inherit
 	GAME_IMAGE_SOURCE
-		rename
-			has_error as has_ressource_error
 		redefine
 			is_openable,
 			open
 		end
-	GAME_SDL_ANY
 
 create
 	make

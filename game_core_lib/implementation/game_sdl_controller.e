@@ -245,7 +245,7 @@ feature -- Mouse
 
 feature -- Joystick methods
 
-	get_joystick_count:INTEGER
+	joysticks_count:INTEGER
 		-- Get number of joystick detect by the library
 	require
 		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
@@ -253,12 +253,12 @@ feature -- Joystick methods
 		Result:={GAME_SDL_EXTERNAL}.SDL_NumJoysticks
 	end
 
-	get_joystick(index:INTEGER):GAME_JOYSTICK
+	joystick_at(index:INTEGER):GAME_JOYSTICK
 		-- Use the same index used by the system.
 		-- So the first joystick in at index 0
 	require
 		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
-		Get_Joystick_Index_Valid: index<get_joystick_count
+		Get_Joystick_Index_Valid: index<joysticks_count
 	do
 		Result:=internal_joysticks.i_th (index+1)
 	end
@@ -281,7 +281,7 @@ feature -- Joystick methods
 		close_all_joysticks
 		internal_joysticks.wipe_out
 		from i:=0
-		until i>=get_joystick_count
+		until i>=joysticks_count
 		loop
 			internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
 			i:=i+1
@@ -319,30 +319,44 @@ feature {NONE} -- Joystick implementation
 
 feature -- Other methods
 
-	events_controller:GAME_EVENTS_CONTROLLER assign set_events_controller
-			-- The event manager. Use it to have access to your event.
-		require
-			Events_Controller_Is_Event_Enable: is_events_enable
+	events_controller:GAME_EVENTS_CONTROLLER
+			-- The library complete events controller.
 		do
 			Result:=internal_events_controller
 		end
 
-
-	set_events_controller(a_events_controller:GAME_EVENTS_CONTROLLER)
+	events:GAME_EVENTS assign set_events
+			-- The library general `events' manager.
+		require
+			Events_Is_Enable: is_events_enable
 		do
-			internal_events_controller:=a_events_controller
+			Result:=internal_events
 		end
 
-	clear_events_controller
+	set_events(a_events:GAME_EVENTS)
+			-- Assign the library general `events' manager.
+		require
+			Events_Is_Enable: is_events_enable
 		do
-			create internal_events_controller.make
+			events.stop
+			internal_events:=a_events
+			events.run
 		end
 
---	update
---			-- Execute the event polling and throw the event handeler execution for each event.
---		do
---			event_controller.poll_event
---		end
+	clear_events
+			-- Assign a new library general `events' manager.
+		require
+			Events_Is_Enable: is_events_enable
+		do
+			events.stop
+			create internal_events
+		end
+
+	update_events
+			-- Execute the event polling and throw the event handeler execution for each event.
+		do
+			events_controller.poll_event
+		end
 
 
 	delay(a_millisecond:NATURAL_32)
@@ -351,44 +365,44 @@ feature -- Other methods
 			{GAME_SDL_EXTERNAL}.SDL_Delay(a_millisecond)
 		end
 
-	get_ticks:NATURAL_32
-			-- Get the number of millisecond since the initialisation of the library.
+	ticks:NATURAL_32
+			-- Number of millisecond since the initialisation of the library.
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetTicks
 		end
 
---	launch
---			-- Start the main loop. Used to get a Event-driven programming only.
---			-- Don't forget to execute the method `stop' in an event handeler.
---		local
---			l_delay:INTEGER_64
---		do
---			from
---				must_stop:=false
---				last_tick:=get_ticks
---			until
---				must_stop
---			loop
---				update
---				l_delay:=ticks_per_iteration
---				l_delay:=l_delay-(get_ticks-last_tick).to_integer_32
---				if l_delay<1 then
---					delay (1)
---				else
---					delay(l_delay.to_natural_32)
---				end
---				last_tick:=get_ticks
---			end
---		end
+	launch
+			-- Start the main loop. Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handeler.
+		local
+			l_delay:INTEGER_64
+		do
+			from
+				must_stop:=false
+				last_tick:=ticks
+			until
+				must_stop
+			loop
+				update_events
+				l_delay:=ticks_per_iteration
+				l_delay:=l_delay-(ticks-last_tick).to_integer_32
+				if l_delay<1 then
+					delay (1)
+				else
+					delay(l_delay.to_natural_32)
+				end
+				last_tick:=ticks
+			end
+		end
 
---	launch_with_iteration_per_second(a_iteration_per_second:NATURAL_32)
---			-- Start the main loop. Used to get a Event-driven programming only.
---			-- Don't forget to execute the method `stop' in an event handeler.
---			-- Set `iteration_per_second' to `a_iteration_per_second' before launching.
---		do
---			set_iteration_per_second(a_iteration_per_second)
---			launch
---		end
+	launch_with_iteration_per_second(a_iteration_per_second:NATURAL_32)
+			-- Start the main loop. Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handeler.
+			-- Set `iteration_per_second' to `a_iteration_per_second' before launching.
+		do
+			set_iteration_per_second(a_iteration_per_second)
+			launch
+		end
 
 	iteration_per_second:NATURAL_32 assign set_iteration_per_second
 			-- An approximation of the number of event loop iteration per second.
@@ -403,18 +417,19 @@ feature -- Other methods
 			ticks_per_iteration:=1000//a_iteration_per_second
 		end
 
---	stop
---			-- Stop the main loop
---		do
---			must_stop:=true
---		end
+	stop
+			-- Stop the main loop
+		do
+			must_stop:=true
+		end
 
 	quit_library
 			-- Close the library. Must be used before the end of the application
 		local
 			l_mem:MEMORY
 		do
-			create internal_events_controller.make ()
+			create internal_events_controller
+			create internal_events
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
@@ -442,7 +457,8 @@ feature{NONE} -- Implementation - Methods
 				io.error.put_string ("Cannot initialise the game library.%N")
 			end
 			check l_error = 0 end
-			create internal_events_controller.make
+			create internal_events_controller
+			create internal_events
 			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
 		end
 
@@ -476,12 +492,14 @@ feature{NONE} -- Implementation - Methods
 
 feature {NONE} -- Implementation - Variables
 
---	must_stop:BOOLEAN
+	must_stop:BOOLEAN
 
---	last_tick:NATURAL_32
+	last_tick:NATURAL_32
 
 	ticks_per_iteration:NATURAL_32
 
 	internal_events_controller:GAME_EVENTS_CONTROLLER
+
+	internal_events:GAME_EVENTS
 
 end
