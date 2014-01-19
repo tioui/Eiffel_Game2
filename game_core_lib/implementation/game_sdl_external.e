@@ -394,6 +394,55 @@ feature -- Function SDL.h
 			"SDL_RWFromFile"
 		end
 
+	frozen SDL_GetSurfaceBlendMode(surface, blendMode:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, SDL_BlendMode*) : int | <SDL.h>"
+		alias
+			"SDL_GetSurfaceBlendMode"
+		end
+
+	frozen SDL_SetSurfaceBlendMode(surface:POINTER; blendMode:INTEGER):INTEGER
+		external
+			"C (SDL_Surface*, SDL_BlendMode) : int | <SDL.h>"
+		alias
+			"SDL_SetSurfaceBlendMode"
+		end
+
+	frozen SDL_GetSurfaceAlphaMod(surface, alpha:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, Uint8*) : int | <SDL.h>"
+		alias
+			"SDL_GetSurfaceAlphaMod"
+		end
+
+	frozen SDL_SetSurfaceAlphaMod(surface:POINTER;alpha:NATURAL_8):INTEGER
+		external
+			"C (SDL_Surface*, Uint8) : int | <SDL.h>"
+		alias
+			"SDL_SetSurfaceAlphaMod"
+		end
+
+	frozen SDL_GetSurfaceColorMod(surface, r, g, b:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, Uint8*, Uint8*, Uint8*) : int | <SDL.h>"
+		alias
+			"SDL_GetSurfaceColorMod"
+		end
+
+	frozen SDL_SetSurfaceColorMod(surface:POINTER;r, g, b:NATURAL_8):INTEGER
+		external
+			"C (SDL_Surface*, Uint8, Uint8, Uint8) : int | <SDL.h>"
+		alias
+			"SDL_SetSurfaceColorMod"
+		end
+
+	frozen SDL_SetSurfaceRLE(surface:POINTER;flag:INTEGER):INTEGER
+		external
+			"C (SDL_Surface*, int) : int | <SDL.h>"
+		alias
+			"SDL_SetSurfaceRLE"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
@@ -3675,6 +3724,34 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"C inline use <SDL.h>"
 		alias
 			"SDL_TRUE"
+		end
+
+	frozen SDL_BLENDMODE_NONE : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_BLENDMODE_NONE"
+		end
+
+	frozen SDL_BLENDMODE_BLEND : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_BLENDMODE_BLEND"
+		end
+
+	frozen SDL_BLENDMODE_ADD : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_BLENDMODE_ADD"
+		end
+
+	frozen SDL_BLENDMODE_MOD : INTEGER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_BLENDMODE_MOD"
 		end
 
 

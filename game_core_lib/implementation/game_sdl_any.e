@@ -19,6 +19,10 @@ feature {NONE} -- Implementation
 			has_error:=False
 		end
 
+feature -- Access
+
+	has_error:BOOLEAN
+	
 	get_error:READABLE_STRING_GENERAL
 		local
 			l_string:C_STRING
@@ -27,7 +31,4 @@ feature {NONE} -- Implementation
 			Result:=l_string.string
 		end
 
-feature -- Access
-
-	has_error:BOOLEAN
 end

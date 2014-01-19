@@ -376,6 +376,8 @@ feature -- Access
 				io.error.put_string ("An error occured while setting the transparent color to the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
 				has_error:=True
+			else
+				enable_rle_acceleration
 			end
 		end
 
@@ -412,6 +414,8 @@ feature -- Access
 				io.error.put_string ("An error occured while disabling the transparent color of the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
 				has_error:=True
+			else
+				disable_rle_acceleration
 			end
 		end
 
@@ -470,6 +474,231 @@ feature -- Access
 			end
 		end
 
+	disable_blending
+			-- Disable every blending mode to use for drawing operations.
+			-- No blending mode:	dstRGBA = srcRGBA
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_none)
+			if l_error<0 then
+				io.error.put_string ("An error occured while disabling the blending on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	is_blending_disabled:BOOLEAN
+			-- True if no blending mode is used for drawing operations.
+			-- No blending mode:	dstRGBA = srcRGBA
+		local
+			l_error, l_blending_mode:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceBlendMode(image_source.internal_pointer, $l_blending_mode)
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the blending mode of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				Result:=False
+			else
+				Result:=(l_blending_mode=Sdl_blendmode_none)
+			end
+		end
+
+	enable_alpha_blending
+			-- Set the alpha blending mode to use for drawing operations.
+			-- Alpha blending:	dstRGB = (srcRGB * srcA) + (dstRGB * (1-srcA))
+			--					dstA = srcA + (dstA * (1-srcA))
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_blend)
+			if l_error<0 then
+				io.error.put_string ("An error occured while enabling alpha blending on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	is_alpha_blending_enabled:BOOLEAN
+			-- True if the blending mode for drawing operation is alpha blending.
+			-- Alpha blending:	dstRGB = (srcRGB * srcA) + (dstRGB * (1-srcA))
+			--					dstA = srcA + (dstA * (1-srcA))
+		local
+			l_error, l_blending_mode:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceBlendMode(image_source.internal_pointer, $l_blending_mode)
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the blending mode of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				Result:=False
+			else
+				Result:=(l_blending_mode=Sdl_blendmode_blend)
+			end
+		end
+
+	enable_additive_blending
+			-- Set the additive blending mode to use for drawing operations.
+			-- Additive blending:	dstRGB = (srcRGB * srcA) + dstRGB
+			--						dstA = dstA
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_add)
+			if l_error<0 then
+				io.error.put_string ("An error occured while enabling additive blending on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	is_additive_blending_enabled:BOOLEAN
+			-- True if the blending mode for drawing operation is additive blending.
+			-- Additive blending:	dstRGB = (srcRGB * srcA) + dstRGB
+			--						dstA = dstA
+		local
+			l_error, l_blending_mode:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceBlendMode(image_source.internal_pointer, $l_blending_mode)
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the blending mode of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				Result:=False
+			else
+				Result:=(l_blending_mode=Sdl_blendmode_add)
+			end
+		end
+
+	enable_modulate_blending
+			-- Set the color modulate blending mode to use for drawing operations.
+			-- Color modulate:	dstRGB = srcRGB * dstRGB
+			--					dstA = dstA
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_mod)
+			if l_error<0 then
+				io.error.put_string ("An error occured while enabling color modulate blending on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	is_modulate_blending_enabled:BOOLEAN
+			-- True if the blending mode for drawing operation is color modulate blending.
+			-- Color modulate:	dstRGB = srcRGB * dstRGB
+			--					dstA = dstA
+		local
+			l_error, l_blending_mode:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceBlendMode(image_source.internal_pointer, $l_blending_mode)
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the blending mode of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+				Result:=False
+			else
+				Result:=(l_blending_mode=Sdl_blendmode_mod)
+			end
+		end
+
+	overall_alpha:NATURAL_8 assign set_overall_alpha
+			-- The Additionnal alpha value to use in drawing operation.
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceAlphaMod(image_source.internal_pointer, $Result)
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the overall alpha value of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	set_overall_alpha(a_overall_alpha:NATURAL_8)
+			-- Assign the Additionnal `overall_alpha' value to use in drawing operation to `a_overall_alpha'.
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceAlphaMod(image_source.internal_pointer, a_overall_alpha)
+			if l_error<0 then
+				io.error.put_string ("An error occured while setting the overall alpha value of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	color_multiplier:TUPLE[red_multipier, green_multipier, blue_multipier:NATURAL_8]
+			-- The additional color value multiplied into drawing operations
+		local
+			l_error:INTEGER
+			l_red, l_green, l_blue:NATURAL_8
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceColorMod(image_source.internal_pointer, $l_red, $l_green, $l_blue)
+			Result:=[l_red, l_green, l_blue]
+			if l_error<0 then
+				io.error.put_string ("An error occured while retrieving the color multiplier value of the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	set_color_multiplier(a_red_multiplier, a_green_multiplier, a_blue_multiplier:NATURAL_8)
+			-- Assign the Additionnal `color_multiplier' value to use into drawing operation to `a_red_multiplier',
+			-- `a_green_multiplier', `a_blue_multiplier'.
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceColorMod(image_source.internal_pointer, a_red_multiplier, a_green_multiplier, a_blue_multiplier)
+			if l_error<0 then
+				io.error.put_string ("An error occured while setting the overall alpha value on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	enable_rle_acceleration
+			-- Enable possible optimisation when using drawing with `transparent_color' enabled or `enable_alpha_blending'.
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceRLE(image_source.internal_pointer, 1)
+			if l_error<0 then
+				io.error.put_string ("An error occured when enabling RLE acceleration on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
+	disable_rle_acceleration
+			-- Disable the possible optimisation when using drawing with `transparent_color' enabled or `enable_alpha_blending'.
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceRLE(image_source.internal_pointer, 0)
+			if l_error<0 then
+				io.error.put_string ("An error occured when disabling RLE acceleration on the surface.%N")
+				io.error.put_string (get_error.to_string_8+"%N")
+				has_error:=True
+			end
+		end
+
 
 feature {NONE} -- Implementation
 
@@ -492,6 +721,7 @@ feature {NONE} -- Implementation
 	new_similar_from_pointer(a_internal_pointer:POINTER):GAME_SURFACE
 		local
 			l_image_source:GAME_IMAGE_SOURCE
+			l_multiplier:TUPLE[red_multipier, green_multipier, blue_multipier:NATURAL_8]
 		do
 			create l_image_source.own_from_pointer (a_internal_pointer)
 			if l_image_source.is_openable then
@@ -512,6 +742,18 @@ feature {NONE} -- Implementation
 				if is_transparent_enable then
 					Result.transparent_color:=transparent_color
 				end
+				if is_alpha_blending_enabled then
+					Result.enable_alpha_blending
+				elseif is_modulate_blending_enabled then
+					Result.enable_modulate_blending
+				elseif is_additive_blending_enabled then
+					Result.enable_additive_blending
+				else
+					Result.disable_blending
+				end
+				Result.overall_alpha:=overall_alpha
+				l_multiplier:=color_multiplier
+				Result.set_color_multiplier (l_multiplier.red_multipier, l_multiplier.green_multipier, l_multiplier.blue_multipier)
 			end
 		end
 

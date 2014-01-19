@@ -633,4 +633,28 @@ feature {NONE} -- Constants SDL.h
 			Result:={GAME_SDL_EXTERNAL}.SDL_TRUE
 		end
 
+	Sdl_blendmode_none : INTEGER
+			-- no blending dstRGBA = srcRGBA
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_BLENDMODE_NONE
+		end
+
+	Sdl_blendmode_blend : INTEGER
+			-- alpha blending dstRGB = (srcRGB * srcA) + (dstRGB * (1-srcA)) dstA = srcA + (dstA * (1-srcA))
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_BLENDMODE_BLEND
+		end
+
+	Sdl_blendmode_add : INTEGER
+			-- additive blending dstRGB = (srcRGB * srcA) + dstRGB dstA = dstA
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_BLENDMODE_ADD
+		end
+
+	Sdl_blendmode_mod : INTEGER
+			-- color modulate dstRGB = srcRGB * dstRGB dstA = dstA
+		once
+			Result:={GAME_SDL_EXTERNAL}.SDL_BLENDMODE_MOD
+		end
+
 end
