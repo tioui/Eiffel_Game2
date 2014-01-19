@@ -1,10 +1,20 @@
 note
-	description : "Mouse-text application root class"
+	description : "[
+						Show how to use a {GAME_WINDOW_SURFACED}.
+						Note that {GAME_WINDOW_SURFACED} don't use hardware acceleration and is very slow.
+						It should be use for slow application only. To use hardware acceleration, 
+						use {GAME_WINDOW_RENDERED} type.
+					]"
 	date        : "$Date$"
 	revision    : "$Revision$"
 
 class
 	APPLICATION
+
+inherit
+	GAME_LIBRARY_SHARED
+	GAME_IMG_LIBRARY_SHARED
+	EXCEPTIONS
 
 create
 	make
@@ -12,49 +22,81 @@ create
 feature {NONE} -- Initialization
 
 	make
+			-- Setup application.
+		do
+			game_library.enable_video	-- Enable the video functionnality of the library
+
+			image_files_library.enable_image (True, True, False)	-- Enable image loading from PNG and JPEG files.
+
+
+			run_standard				-- Run another routine to be able to collect every object of type GAME_*
+										-- Those object are all local object.
+
+			image_files_library.quit_library	-- Must be call before the {GAME_LIBRARY_CONTROLLER}.`quit_library'
+
+			game_library.quit_library	-- Must be done before quitting
+										-- The garbage colector must be able to collect every object of type GAME_*
+		end
+
+	run_standard
+			-- Run the application. Every local variable will be collected properly when calling the `quit_library' command in the `make' feature.
 		local
-			controller:GAME_LIB_CONTROLLER
-			img_controller:GAME_IMG_CONTROLLER
+			l_window:GAME_WINDOW_SURFACED
+			l_background, l_bird:GAME_SURFACE
 		do
-			create controller.make
-			create img_controller.make
-			controller.enable_video -- Enable the video functionalities
-			img_controller.enable_image (true, false, false)  -- Initialise PNG library (but not JPG or TIF)
-			run_game(controller)  -- Run the core creator of the game.
-			img_controller.quit_library
-			controller.quit_library  -- Clear the library before quitting
+			l_window:=create_window
+			l_background:=create_surface("bk.jpg")	-- The background is in a png file
+			l_bird:=create_surface("pingus.png")	-- The bird is in a png file
+
+			l_window.surface.draw_surface (l_background, 0, 0)		-- Drawing a background
+			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird (over the background)
+			l_window.surface.draw_sub_surface_with_scale (l_bird, 0, 0, 66, 99, 100, 300, 300, 200)	-- A very fat bird!!!
+			l_window.surface.draw_sub_surface (l_bird, 12, 0, 28, 30, 600, 300)	-- A bird head
+			l_window.surface.draw_surface (l_bird.as_rotated_90_degree (1), 300, 50)	-- A flying bird
+			l_window.surface.draw_surface (l_bird.as_mirrored (False, True), 600, 50)	-- A falling bird
+			l_window.update_surface
+
+			game_library.events.on_quit_signal.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.
+			game_library.launch		-- Launch the game loop (the application block here).
 		end
 
-	run_game(controller:GAME_LIB_CONTROLLER)
+	create_window:GAME_WINDOW_SURFACED
+			-- Create the main window.
+		do
+			create Result.make_default ("Hello Bird", 800, 600)	-- Create a window
+			if Result.has_error then	-- Valid that there is no error
+				die (1)	-- If an error occured, quit the application
+			end
+		end
+
+	create_surface(a_filename:STRING):GAME_SURFACE
+			-- Create the surface that will be use for background.
 		local
-			bk,sprite1,sprite2:GAME_SURFACE_IMG_FILE
+			l_image:GAME_IMG_IMAGE_SOURCE_FILE
 		do
-			controller.event_controller.on_quit_signal.extend (agent on_quit(controller))  -- When the X of the window is pressed, execute the on_quit method.
-
-			create bk.make ("bk.png")  -- Create the background surface
-
-			controller.create_screen_surface (bk.width, bk.height, 16, true, true, false, true, false)	-- Create the window. Dimension: same as bk image, 16 bits per pixel, Use video memory, use hardware double buffer,
-																											-- the windows will be unresisable, the window will have the window frame, not in fullscreen mode.
-
-			controller.screen_surface.draw_surface (bk, 0, 0)  -- Set the background image.
-
-			create sprite1.make ("pingus.png")  -- This image don't have an Alpha chanel.
-			sprite1.set_transparent_color (create {GAME_COLOR}.make_rgb(255,0,255))  -- We can use the set_transparent_color to select a color for the transparency (in this case, pink -> 255,0,255)
-			sprite1.is_transparent_accelerated:=true
-			controller.screen_surface.draw_surface (sprite1, 400, 350)  -- Put the sprite1 on the screen
-
-			create sprite2.make_with_alpha ("pingus-trans.png")  	-- This image have an alpha chanel. You don't have to use the set_transparent_color
-																	--  feature, but you must use the make_with_alpha creator.
-			controller.screen_surface.draw_surface (sprite2, 80, 300)  -- Put the sprite2 on the screen
-			controller.flip_screen  -- Show the screen in the window.
-			controller.launch  -- The controller will loop until the stop controller.method is called (in method on_quit).
+			create l_image.make (a_filename)	-- When created, the image source is not open
+			if l_image.is_openable then		-- Look if the file can be open. In the present case, if the file exist and is readable.
+				l_image.open		--Try to open the image source
+				if l_image.is_open then		-- If the image source is not open, then the file is probably not a valid bmp file
+					create Result.share_from_image_source (l_image)		-- Create a surface containing the image
+					if not Result.is_open then	-- If the surface has not open as it should be.
+						io.error.put_string ("The surface cannot be created.%N")
+						die(4)						-- Quit the application
+					end
+				else
+					io.error.put_string ("The file " + a_filename.as_string_8 + " does not seem to be a valid image file.%N")
+					die(3)
+				end
+			else
+				io.error.put_string ("Cannot read the image file " + a_filename.as_string_8 + ".%N")
+				die (2)
+			end
 		end
 
-	on_quit(controller:GAME_LIB_CONTROLLER)
-			-- This method is called when the quit signal is send to the application (ex: window X button pressed).
+	on_quit(a_timestamp:NATURAL_32)
+			-- Execute when the application get a quit signal.
 		do
-			controller.stop  -- Stop the controller loop (allow controller.launch to return)
+			game_library.stop		-- Stop the main loop (that was started with the `game_library'.`launch' feature)
 		end
-
 
 end

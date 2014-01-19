@@ -12,8 +12,7 @@ class
 	APPLICATION
 
 inherit
-	GAME_LIBRARY_SHARED
-	EXCEPTIONS
+	GAME_LIBRARY_SHARED		-- To use the `game_library' object (very important).
 
 create
 	make
@@ -38,88 +37,27 @@ feature {NONE} -- Initialization
 		local
 			l_window:GAME_WINDOW_SURFACED
 			l_background, l_bird:GAME_SURFACE
+			l_bk_source, l_bird_source:GAME_IMAGE_SOURCE_BMP_FILE
+			l_bird_transparent_color:GAME_COLOR
 		do
-			l_window:=create_window
-			l_background:=create_background
-			l_bird:=create_bird
+			create l_window.make_default ("Hello Bird", 800, 600)		-- Create the window
 
-			l_window.surface.draw_surface (l_background, 0, 0)		-- Drawing a background
-			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird (over the background)
-			l_window.surface.draw_sub_surface_with_scale (l_bird, 0, 0, 66, 99, 100, 300, 300, 200)	-- A very fat bird!!!
-			l_window.surface.draw_sub_surface (l_bird, 12, 0, 28, 30, 600, 300)	-- A bird head
-			l_window.surface.draw_surface (l_bird.as_rotated_90_degree (1), 300, 50)	-- A flying bird
-			l_window.surface.draw_surface (l_bird.as_mirrored (False, True), 600, 50)	-- A falling bird
-			l_window.update_surface
+			create l_bk_source.make ("bk.bmp")		-- Make the image background. The image is not loaded yet.
+			l_bk_source.open		-- Load the image
+			create l_background.share_from_image_source (l_bk_source)	-- Create the background surface using the image source.
 
-			game_library.events.on_quit_signal.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.
-			game_library.launch		-- Launch the game loop (the application block here).
-		end
+			create l_bird_source.make ("pingus.bmp")	-- Make the image bird. The image is not loaded yet.
+			l_bird_source.open		-- Load the image
+			create l_bird.share_from_image_source (l_bird_source)	-- Create the bird surface using the image source.
 
-	create_window:GAME_WINDOW_SURFACED
-			-- Create the main window.
-		do
-			create Result.make_default ("Hello Bird", 800, 600)	-- Create a window
-			if Result.has_error then	-- Valid that there is no error
-				die (1)	-- If an error occured, quit the application
-			end
-		end
+			create l_bird_transparent_color.make_rgb (255, 0, 255)
+			l_bird.transparent_color:=l_bird_transparent_color		-- Remove the pink color from the image.
 
-	create_background:GAME_SURFACE
-			-- Create the surface that will be use for background.
-		local
-			l_image:GAME_IMAGE_SOURCE_BMP_FILE
-		do
-			create l_image.make ("bk.bmp")	-- When created, the image source is not open
-			if l_image.is_openable then		-- Look if the file can be open. In the present case, if the file exist and is readable.
-				l_image.open		--Try to open the image source
-				if l_image.is_open then		-- If the image source is not open, then the file is probably not a valid bmp file
-					create Result.share_from_image_source (l_image)		-- Create a surface containing the image
-					if not Result.is_open then	-- If the surface has not open as it should be.
-						io.error.put_string ("The background surface cannot be created.%N")
-						die(4)						-- Quit the application
-					end
-				else
-					io.error.put_string ("The background file does not seem to be a valid bmp file.%N")
-					die(3)
-				end
-			else
-				io.error.put_string ("Cannot read the background bmp file.%N")
-				die (2)
-			end
-		end
+			l_window.surface.draw_surface (l_background, 0, 0)		-- Drawing a background on the window surface
+			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird on the window surface (over the background)
+			l_window.update_surface		-- Show the modifications of the window surface
 
-	create_bird:GAME_SURFACE
-			-- Create the surface that will be use in foreground.
-		local
-			l_image:GAME_IMAGE_SOURCE_BMP_FILE
-			l_color:GAME_COLOR
-		do
-			create l_image.make ("pingus.bmp")
-			if l_image.is_openable then
-				l_image.open
-				if l_image.is_open then
-					create Result.share_from_image_source (l_image)
-					if Result.is_open then
-						create l_color.make_rgb (255, 0, 255)	-- The pink in the bird surface will be hide (transparency)
-						Result.set_transparent_color (l_color)
-					else
-						io.error.put_string ("The background surface cannot be created.%N")
-						die(4)
-					end
-				else
-					io.error.put_string ("The bird file does not seem to be a valid bmp file.%N")
-					die(3)
-				end
-			else
-				io.error.put_string ("Cannot read the bird bmp file.%N")
-				die (2)
-			end
-		end
-
-	on_quit(a_timestamp:NATURAL_32)
-			-- Execute when the application get a quit signal.
-		do
-			game_library.stop		-- Stop the main loop (that was started with the `game_library'.`launch' feature)
+			game_library.delay (3000)	-- Wait 3 seconds before closing
 		end
 
 end

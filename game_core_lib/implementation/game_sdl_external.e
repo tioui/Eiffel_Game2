@@ -387,6 +387,13 @@ feature -- Function SDL.h
 			"SDL_MasksToPixelFormatEnum"
 		end
 
+	frozen SDL_RWFromFile(file, mode:POINTER):POINTER
+		external
+			"C (const char*, const char*) : SDL_RWops* | <SDL.h>"
+		alias
+			"SDL_RWFromFile"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
