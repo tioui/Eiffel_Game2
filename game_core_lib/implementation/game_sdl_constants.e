@@ -338,13 +338,7 @@ feature {NONE} -- Constants SDL.h
 		once
 			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_INPUT_GRABBED
 		end
-
-	Sdl_window_allow_highdpi:NATURAL_32
-			-- Window should be created in high-DPI mode if supported.
-		once
-			Result:={GAME_SDL_EXTERNAL}.SDL_WINDOW_ALLOW_HIGHDPI
-		end
-
+	
 	Size_of_sdl_display_mode_structure : INTEGER
 			-- The size of a SDL_Rect C structure in byte.
 		once

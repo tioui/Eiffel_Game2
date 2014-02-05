@@ -3355,13 +3355,6 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 			"SDL_WINDOW_INPUT_GRABBED"
 		end
 
-	frozen SDL_WINDOW_ALLOW_HIGHDPI:NATURAL_32
-		external
-			"C inline use <SDL.h>"
-		alias
-			"SDL_WINDOW_ALLOW_HIGHDPI"
-		end
-
 	frozen SDL_PIXELFORMAT_UNKNOWN : NATURAL_32
 		external
 			"C inline use <SDL.h>"
