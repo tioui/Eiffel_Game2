@@ -1,5 +1,5 @@
 note
-	description : "tetris application root class"
+	description : "Custom package file application root class"
 	date        : "$Date$"
 	revision    : "$Revision$"
 
@@ -17,7 +17,7 @@ feature {NONE} -- Initialization
 	make
 		local
 			l_inc_files:ARRAYED_LIST[READABLE_STRING_GENERAL]
-			l_exceptions:EXCEPTIONS
+			l_exceptions:EXCEPTIONS 
 		do
 			has_error:=False
 			if argument_count<2 or else (not argument (1).is_equal ("create") and then not argument (1).is_equal ("extract")) then
