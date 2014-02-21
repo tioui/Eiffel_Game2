@@ -16,10 +16,6 @@ inherit
 		redefine
 			default_create
 		end
-	GAME_LIBRARY_SHARED
-		redefine
-			default_create
-		end
 
 create {GAME_SDL_CONTROLLER}
 	default_create
@@ -27,7 +23,6 @@ create {GAME_SDL_CONTROLLER}
 feature {NONE} -- Initialization
 
 	default_create
-			-- Initialization for `Current'.
 		do
 			event_ptr:=event_ptr.memory_calloc (1, C_sizeof_sdl_event)
 			create on_iteration
@@ -44,7 +39,11 @@ feature -- Access
 			l_is_event:INTEGER
 		do
 			if not on_iteration.is_empty then
-				on_iteration.call ([game_library.ticks])
+				if attached game_library as la_game_library then
+					on_iteration.call ([la_game_library.ticks])
+				else
+					on_iteration.call ([(0).as_natural_32])
+				end
 			end
 			from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
 			until l_is_event=0
@@ -59,6 +58,13 @@ feature -- Access
 
 	on_iteration: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- Called at each game loop
+
+feature {GAME_SDL_CONTROLLER}
+
+	set_game_library(a_game_library:GAME_SDL_CONTROLLER)
+		do
+			game_library := a_game_library
+		end
 
 feature {NONE} -- Implementation
 
@@ -103,7 +109,7 @@ feature {NONE} -- Implementation
 
 	event_ptr:POINTER
 
-
+	game_library: detachable GAME_SDL_CONTROLLER
 
 
 --feature -- Active event access

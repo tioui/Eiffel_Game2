@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 feature -- Access
 
 	has_error:BOOLEAN
-	
+
 	get_error:READABLE_STRING_GENERAL
 		local
 			l_string:C_STRING

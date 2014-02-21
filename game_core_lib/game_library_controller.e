@@ -26,8 +26,8 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 			-- No sound enable.
 		do
-			Precursor {GAME_SDL_CONTROLLER}
 			Precursor {GAME_RANDOM_CONTROLLER}
+			Precursor {GAME_SDL_CONTROLLER}
 		end
 
 

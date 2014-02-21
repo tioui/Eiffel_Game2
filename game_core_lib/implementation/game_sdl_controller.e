@@ -350,6 +350,7 @@ feature -- Other methods
 		do
 			events.stop
 			create internal_events
+			internal_events.set_game_library (Current)
 		end
 
 	update_events
@@ -429,7 +430,9 @@ feature -- Other methods
 			l_mem:MEMORY
 		do
 			create internal_events_controller
+			internal_events_controller.set_game_library (Current)
 			create internal_events
+			internal_events.set_game_library (Current)
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
@@ -457,9 +460,11 @@ feature{NONE} -- Implementation - Methods
 				io.error.put_string ("Cannot initialise the game library.%N")
 			end
 			check l_error = 0 end
+			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
 			create internal_events_controller
 			create internal_events
-			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
+			internal_events_controller.set_game_library (Current)
+			internal_events.set_game_library (Current)
 		end
 
 	initialise_sub_system(a_flags:NATURAL_32)
