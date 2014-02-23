@@ -90,7 +90,6 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib-safe.ecf"/>
 		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared-safe.ecf"/>
-		<library name="gobo_regexp" location="$ISE_LIBRARY\library\gobo\gobo_regexp-safe.ecf"/>
 		<cluster name="game_core_lib" location=".\">
 			<description>A Game Library for EiffelStudio</description>
 			<file_rule>

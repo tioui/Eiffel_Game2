@@ -2637,28 +2637,28 @@ feature -- Structure SDL_DollarGestureEvent SDL.h
 			"timestamp"
 		end
 
-	frozen set_dollar_gesture_event_struct_touch_id (ptr: POINTER; value:INTEGER_32)
+	frozen set_dollar_gesture_event_struct_touch_id (ptr: POINTER; value:NATURAL_64)
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent, SDL_TouchID)"
 		alias
 			"touchId"
 		end
 
-	frozen get_dollar_gesture_event_struct_touch_id(ptr:POINTER):INTEGER_32
+	frozen get_dollar_gesture_event_struct_touch_id(ptr:POINTER):NATURAL_64
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent):SDL_TouchID"
 		alias
 			"touchId"
 		end
 
-	frozen set_dollar_gesture_event_struct_gesture_id (ptr: POINTER; value:INTEGER_32)
+	frozen set_dollar_gesture_event_struct_gesture_id (ptr: POINTER; value:INTEGER_64)
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent, SDL_GestureID)"
 		alias
 			"gestureId"
 		end
 
-	frozen get_dollar_gesture_event_struct_gesture_id(ptr:POINTER):INTEGER_32
+	frozen get_dollar_gesture_event_struct_gesture_id(ptr:POINTER):INTEGER_64
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent):SDL_GestureID"
 		alias
