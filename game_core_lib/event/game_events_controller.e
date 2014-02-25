@@ -33,6 +33,10 @@ feature {NONE} -- Initialization
 			create on_key_up_event
 			create on_text_editing_event
 			create on_text_input_event
+			create on_mouse_motion_event
+			create on_mouse_button_down_event
+			create on_mouse_button_up_event
+			create on_mouse_wheel_event
 		end
 
 
@@ -82,6 +86,17 @@ feature -- Access
 
 	on_text_input_event: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;text:STRING_32]]
 
+	on_mouse_motion_event: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which, state:NATURAL_32;
+													x,y,x_relative,y_relative:INTEGER_32]]
+
+	on_mouse_button_down_event: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which:NATURAL_32;
+													button, state,clicks: NATURAL_8;x,y:INTEGER_32]]
+
+	on_mouse_button_up_event: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which:NATURAL_32;
+													button, state,clicks: NATURAL_8;x,y:INTEGER_32]]
+
+	on_mouse_wheel_event: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which:NATURAL_32;x,y:INTEGER_32]]
+
 feature {GAME_SDL_CONTROLLER}
 
 	set_game_library(a_game_library:GAME_SDL_CONTROLLER)
@@ -92,6 +107,8 @@ feature {GAME_SDL_CONTROLLER}
 feature {NONE} -- Implementation
 
 	decode_event
+		-- Analyse the event and launch the appropriate action.
+		-- For optimisation purpose, this routine is quite long.
 	local
 		l_event_type:NATURAL_32
 	do
@@ -149,6 +166,47 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(event_ptr),
 										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(event_ptr))
+									])
+		elseif l_event_type = sdl_mousemotion and then not on_mouse_motion_event.is_empty then
+			on_mouse_motion_event.call ([
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_timestamp(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_window_id(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_which(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_state(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_x(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_y(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(event_ptr)
+									])
+		elseif l_event_type = sdl_mousebuttondown and then not on_mouse_button_down_event.is_empty then
+			on_mouse_button_down_event.call ([
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
+									])
+		elseif l_event_type = sdl_mousebuttonup and then not on_mouse_button_up_event.is_empty then
+			on_mouse_button_up_event.call ([
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
+									])
+		elseif l_event_type = sdl_mousewheel and then not on_mouse_wheel_event.is_empty then
+			on_mouse_wheel_event.call ([
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_timestamp(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_window_id(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_which(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_x(event_ptr),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_y(event_ptr)
 									])
 		end
 	end

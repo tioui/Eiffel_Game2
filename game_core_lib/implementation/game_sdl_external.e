@@ -1556,6 +1556,20 @@ feature -- Structure SDL_MouseButtonEvent SDL.h
 			"state"
 		end
 
+	frozen set_mouse_button_event_struct_clicks (ptr: POINTER; value:NATURAL_8)
+		external
+			"C [struct <SDL.h>] (SDL_MouseButtonEvent, Uint8)"
+		alias
+			"clicks"
+		end
+
+	frozen get_mouse_button_event_struct_clicks(ptr:POINTER):NATURAL_8
+		external
+			"C [struct <SDL.h>] (SDL_MouseButtonEvent):Uint8"
+		alias
+			"clicks"
+		end
+
 	frozen set_mouse_button_event_struct_x (ptr: POINTER; value:INTEGER_32)
 		external
 			"C [struct <SDL.h>] (SDL_MouseButtonEvent, Sint32)"
