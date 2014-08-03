@@ -205,9 +205,10 @@ feature -- Video methods
 			end
 		end
 
-	windows:LINEAR_ITERATOR[GAME_WINDOW]
+	windows:CHAIN_INDEXABLE_ITERATOR[GAME_WINDOW]
+			-- Every {GAME_WINDOW} in the system.
 		do
-			create Result.set (internal_windows)
+			create Result.make (internal_windows)
 		end
 
 
@@ -262,11 +263,11 @@ feature -- Joystick methods
 		Result:=internal_joysticks.i_th (index+1)
 	end
 
-	joysticks:LINEAR_ITERATOR[GAME_JOYSTICK]
+	joysticks:CHAIN_INDEXABLE_ITERATOR[GAME_JOYSTICK]
 		require
 			Joysticks_is_Joystick_Enabled: is_joystick_enable
 		do
-			create Result.set (internal_joysticks)
+			create Result.make (internal_joysticks)
 		end
 
 	refresh_joyticks
@@ -337,9 +338,13 @@ feature -- Other methods
 		require
 			Events_Is_Enable: is_events_enable
 		do
-			events.stop
+			if events.is_running then
+				events.stop
+			end
 			internal_events:=a_events
-			events.run
+			if not events.is_running then
+				events.run
+			end
 		end
 
 	clear_events
@@ -347,9 +352,10 @@ feature -- Other methods
 		require
 			Events_Is_Enable: is_events_enable
 		do
-			events.stop
-			create internal_events
-			internal_events.set_game_library (Current)
+			if events.is_running then
+				events.stop
+			end
+			create internal_events.make (internal_events_controller)
 		end
 
 	update_events
@@ -429,9 +435,8 @@ feature -- Other methods
 			l_mem:MEMORY
 		do
 			create internal_events_controller
+			create internal_events.make (internal_events_controller)
 			internal_events_controller.set_game_library (Current)
-			create internal_events
-			internal_events.set_game_library (Current)
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
@@ -461,9 +466,8 @@ feature{NONE} -- Implementation - Methods
 			check l_error = 0 end
 			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
 			create internal_events_controller
-			create internal_events
+			create internal_events.make (internal_events_controller)
 			internal_events_controller.set_game_library (Current)
-			internal_events.set_game_library (Current)
 		end
 
 	initialise_sub_system(a_flags:NATURAL_32)

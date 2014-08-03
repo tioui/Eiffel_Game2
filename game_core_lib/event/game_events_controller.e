@@ -227,4 +227,44 @@ feature {NONE} -- Implementation
 	game_library: detachable GAME_SDL_CONTROLLER
 
 
+
+--To Remember:
+
+--Common:
+
+--On_Iteration
+--SDL_QuitEvent
+--SDL_JoyDeviceEvent
+--SDL_ControllerDeviceEvent
+--SDL_DropEvent
+
+--Window Events:
+
+--SDL_WindowEvent
+--SDL_KeyboardEvent
+--SDL_TextEditingEvent
+--SDL_TextInputEvent
+--SDL_MouseMotionEvent
+--SDL_MouseButtonEvent
+--SDL_MouseWheelEvent
+
+--Joystick Events:
+
+--SDL_JoyAxisEvent
+--SDL_JoyBallEvent
+--SDL_JoyHatEvent
+--SDL_JoyButtonEvent
+
+--Controller Events:
+
+--SDL_ControllerAxisEvent
+--SDL_ControllerButtonEvent
+
+--To Test:
+
+--SDL_TouchFingerEvent
+--SDL_MultiGestureEvent
+--SDL_DollarGestureEvent
+
+
 end

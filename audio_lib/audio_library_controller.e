@@ -235,11 +235,11 @@ feature -- Sources management
 			Result:=internal_sources.has (a_source)
 		end
 
-	sources:LINEAR_ITERATOR[AUDIO_SOURCE]
+	sources:CHAIN_INDEXABLE_ITERATOR[AUDIO_SOURCE]
 		require
 			-- All audio sources.
 		do
-			create Result.set(internal_sources)
+			create Result.make(internal_sources)
 		end
 
 	quit_library

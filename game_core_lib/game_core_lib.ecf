@@ -92,8 +92,9 @@
 		</external_linker_flag>
 		<variable name="malloc_check_" value="0"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared.ecf"/>
+		<library name="cpf_lib" location="..\cpf_lib\cpf_lib.ecf"/>
+		<library name="chain_indexable_iterator" location="..\eiffel_chain_indexable_iterator\chain_indexable_iterator-safe.ecf"/>
+		<library name="game_shared" location="..\game_shared\game_shared.ecf"/>
 		<cluster name="game_core_lib" location=".\" recursive="true">
 			<description>A Game Library for EiffelStudio</description>
 			<file_rule>

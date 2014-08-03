@@ -7,55 +7,46 @@ note
 class
 	GAME_EVENTS
 
-inherit
-	ANY
-		redefine
-			default_create
-		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialisation
 
-	default_create
+	make(a_event_controller:GAME_EVENTS_CONTROLLER)
 		do
-			is_running:=True
+			is_running:=False
+			events_controller := a_event_controller
+			on_quit_signal_callback := agent (a_timestamp:NATURAL_32) do on_quit_signal.call ([a_timestamp]) end
+			on_iteration_callback:=agent (a_timestamp:NATURAL_32) do on_iteration.call ([a_timestamp]) end
+			run
+		ensure
+			Make_Event_Is_Running: is_running
 		end
 
 feature -- Access
 
 	stop
 			-- Put `Current' innactive.
+		require
+			Stop_Is_Running: is_running
 		do
-			if 	attached game_library as la_game_library and then
-					attached la_game_library.events_controller as la_events_controller  then
-				is_running:=False
-				if attached internal_on_quit_signal as la_event then
-					la_events_controller.on_quit_signal.prune_all (on_quit_signal_callback)
-				end
-				if attached internal_on_iteration as la_event then
-					la_events_controller.on_quit_signal.prune_all (on_iteration_callback)
-				end
-			else
-				check Game_Library_Not_Set:False end
-			end
+			is_running:=False
+			events_controller.on_quit_signal.prune_all (on_quit_signal_callback)
+			events_controller.on_iteration.prune_all (on_iteration_callback)
 		end
 
 	run
 			-- Put `Current' active.
+		require
+			Run_Not_Already_Running: not is_running
 		do
-			if 	attached game_library as la_game_library and then
-					attached la_game_library.events_controller as la_events_controller  then
-				is_running:=True
-				if attached internal_on_quit_signal as la_event then
-					la_events_controller.on_quit_signal.extend (on_quit_signal_callback)
-				end
-				if attached internal_on_iteration as la_event then
-					la_events_controller.on_quit_signal.extend (on_iteration_callback)
-				end
-			else
-				check Game_Library_Not_Set:False end
+			is_running:=True
+			if attached on_quit_signal_internal as la_on_quit_signal_internal then
+				events_controller.on_quit_signal.extend (on_quit_signal_callback)
+			end
+			if attached on_iteration_internal as la_on_iteration_internal then
+				events_controller.on_iteration.extend (on_iteration_callback)
 			end
 
 		end
@@ -63,65 +54,41 @@ feature -- Access
 	is_running:BOOLEAN
 			-- Is `Current' active
 
-
-
 	on_quit_signal: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the application receive a quit signal.
 		do
-			if attached internal_on_quit_signal as la_on_quit_signal then
-				Result:=la_on_quit_signal
+			if attached on_quit_signal_internal as la_on_quit_signal_internal then
+				Result := la_on_quit_signal_internal
 			else
 				create Result
-				if 	attached game_library as la_game_library and then
-					attached la_game_library.events_controller as la_events_controller  then
-					la_events_controller.on_quit_signal.extend (on_quit_signal_callback)
-				else
-					check Game_Library_Not_Set:False end
-				end
-				internal_on_quit_signal:=Result
+				events_controller.on_quit_signal.extend (on_quit_signal_callback)
+				on_quit_signal_internal := Result
 			end
 		end
 
 	on_iteration: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- Called at each game loop
 		do
-			if attached internal_on_iteration as la_on_iteration then
-				Result:=la_on_iteration
+			if attached on_iteration_internal as la_on_iteration_internal then
+				Result := la_on_iteration_internal
 			else
 				create Result
-				if 	attached game_library as la_game_library and then
-					attached la_game_library.events_controller as la_events_controller  then
-					la_events_controller.on_iteration.extend (on_iteration_callback)
-				else
-					check Game_Library_Not_Set:False end
-				end
-				internal_on_iteration:=Result
+				events_controller.on_iteration.extend (on_iteration_callback)
+				on_iteration_internal := Result
 			end
 		end
 
-feature {GAME_SDL_CONTROLLER}
-
-	set_game_library(a_game_library:GAME_SDL_CONTROLLER)
-		do
-			game_library := a_game_library
-		end
 
 feature {NONE} -- Implementation
 
-	internal_on_quit_signal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	on_quit_signal_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 
 	on_quit_signal_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
-		do
-			result:=agent (a_timestamp:NATURAL_32) do on_quit_signal.call ([a_timestamp]) end
-		end
 
-	internal_on_iteration: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	on_iteration_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 
 	on_iteration_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
-		do
-			result:=agent (a_timestamp:NATURAL_32) do on_iteration.call ([a_timestamp]) end
-		end
 
-	game_library:detachable GAME_SDL_CONTROLLER
+	events_controller:GAME_EVENTS_CONTROLLER
 
 end
