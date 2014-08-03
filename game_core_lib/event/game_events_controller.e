@@ -12,10 +12,6 @@ inherit
 		redefine
 			default_create
 		end
-	GAME_SDL_CONSTANTS
-		redefine
-			default_create
-		end
 
 create {GAME_SDL_CONTROLLER}
 	default_create
@@ -24,7 +20,7 @@ feature {NONE} -- Initialization
 
 	default_create
 		do
-			event_ptr:=event_ptr.memory_calloc (1, C_sizeof_sdl_event)
+			event_ptr:=event_ptr.memory_calloc (1, {GAME_SDL_EXTERNAL}.C_sizeof_sdl_event)
 			create on_iteration
 			create on_quit_signal
 			create on_dollar_gesture
@@ -113,9 +109,9 @@ feature {NONE} -- Implementation
 		l_event_type:NATURAL_32
 	do
 		l_event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(event_ptr)
-		if l_event_type=Sdl_quit and not on_quit_signal.is_empty then
+		if l_event_type={GAME_SDL_EXTERNAL}.Sdl_quit and not on_quit_signal.is_empty then
 			on_quit_signal.call ([{GAME_SDL_EXTERNAL}.get_quit_event_struct_timestamp(event_ptr)])
-		elseif l_event_type = Sdl_dollargesture and not on_dollar_gesture.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.Sdl_dollargesture and not on_dollar_gesture.is_empty then
 			on_dollar_gesture.call ([
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_touch_id(event_ptr),
@@ -125,7 +121,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_y(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_error(event_ptr)
 										])
-		elseif l_event_type = sdl_windowevent and then not on_window_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_windowevent and then not on_window_event.is_empty then
 			on_window_event.call ([
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_window_id(event_ptr),
@@ -133,7 +129,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_data1(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_data2(event_ptr)
 									])
-		elseif l_event_type = sdl_keydown and then not on_key_down_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keydown and then not on_key_down_event.is_empty then
 			on_key_down_event.call ([
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
@@ -143,7 +139,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr))
 									])
-		elseif l_event_type = sdl_keyup and then not on_key_up_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keyup and then not on_key_up_event.is_empty then
 			on_key_up_event.call ([
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
@@ -153,7 +149,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr))
 									])
-		elseif l_event_type = sdl_textediting and then not on_text_editing_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_textediting and then not on_text_editing_event.is_empty then
 			on_text_editing_event.call ([
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(event_ptr),
@@ -161,13 +157,13 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_start(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_length(event_ptr)
 									])
-		elseif l_event_type = sdl_textinput and then not on_text_input_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_textinput and then not on_text_input_event.is_empty then
 			on_text_input_event.call ([
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(event_ptr),
 										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(event_ptr))
 									])
-		elseif l_event_type = sdl_mousemotion and then not on_mouse_motion_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousemotion and then not on_mouse_motion_event.is_empty then
 			on_mouse_motion_event.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_window_id(event_ptr),
@@ -178,7 +174,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(event_ptr)
 									])
-		elseif l_event_type = sdl_mousebuttondown and then not on_mouse_button_down_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttondown and then not on_mouse_button_down_event.is_empty then
 			on_mouse_button_down_event.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
@@ -189,7 +185,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
 									])
-		elseif l_event_type = sdl_mousebuttonup and then not on_mouse_button_up_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttonup and then not on_mouse_button_up_event.is_empty then
 			on_mouse_button_up_event.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
@@ -200,7 +196,7 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
 									])
-		elseif l_event_type = sdl_mousewheel and then not on_mouse_wheel_event.is_empty then
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousewheel and then not on_mouse_wheel_event.is_empty then
 			on_mouse_wheel_event.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_window_id(event_ptr),

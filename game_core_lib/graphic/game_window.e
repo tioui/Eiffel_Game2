@@ -9,8 +9,8 @@ deferred class
 
 inherit
 	GAME_LIBRARY_SHARED
-	GAME_SDL_CONSTANTS
 	DISPOSABLE
+	GAME_SDL_ANY
 
 feature {NONE} -- Initialisation
 
@@ -47,7 +47,7 @@ feature {NONE} -- Initialisation
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_with_position(a_title, Sdl_windowpos_undefined_display(a_display.index), Sdl_windowpos_undefined_display(a_display.index), a_width, a_height,
+			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), a_width, a_height,
 								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
 			Make_Window_Is_Open: not is_closed
@@ -95,7 +95,7 @@ feature {NONE} -- Initialisation
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_with_position(a_title, Sdl_windowpos_centered_display(a_display.index), Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
+			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
 								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
 			Make_Window_Is_Open: not is_closed
@@ -113,11 +113,11 @@ feature {NONE} -- Initialisation
 			l_flags:NATURAL_32
 		do
 			if a_keep_resolution then
-				l_flags:=Sdl_window_fullscreen_desktop
+				l_flags:={GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop
 			else
-				l_flags:=Sdl_window_fullscreen
+				l_flags:={GAME_SDL_EXTERNAL}.Sdl_window_fullscreen
 			end
-			make_with_extra_flags(a_title, Sdl_windowpos_centered_display(a_display.index), Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
+			make_with_extra_flags(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
 						a_hide, False, a_minimize, False, a_grab_input, l_flags)
 		ensure
 			Make_Window_Is_Open: not is_closed
@@ -141,19 +141,19 @@ feature {NONE} -- Initialisation
 			create l_utf_converter
 			l_flags:=a_flags
 			if a_hide then
-				l_flags := l_flags.bit_or (sdl_window_hidden)
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_hidden)
 			end
 			if a_remove_border then
-				l_flags := l_flags.bit_or (sdl_window_borderless)
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_borderless)
 			end
 			if a_minimize then
-				l_flags := l_flags.bit_or (sdl_window_minimized)
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_minimized)
 			end
 			if a_maximize then
-				l_flags := l_flags.bit_or (sdl_window_maximized)
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_maximized)
 			end
 			if a_grab_input then
-				l_flags := l_flags.bit_or (sdl_window_input_grabbed)
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_input_grabbed)
 			end
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
 			internal_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
@@ -227,7 +227,7 @@ feature -- Access
 			Result:=internal_pointer.is_default_pointer
 		end
 
-	pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE
+	pixel_format:GAME_PIXEL_FORMAT_READABLE
 			-- The internal format of the pixel representation in memory.
 		do
 			create Result.make_from_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(internal_pointer))

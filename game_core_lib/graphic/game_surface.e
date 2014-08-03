@@ -9,7 +9,7 @@ class
 
 inherit
 	GAME_LIBRARY_SHARED
-	GAME_SDL_CONSTANTS
+	GAME_SDL_ANY
 
 create
 	share_from_image_source,
@@ -114,7 +114,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_Is_Open:is_open
 		end
 
-	make_for_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE;a_width,a_height:INTEGER)
+	make_for_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_READABLE;a_width,a_height:INTEGER)
 			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_pixel_format'.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
@@ -184,7 +184,7 @@ feature -- Access
 	is_open:BOOLEAN
 			-- `Current' has been opened properly
 
-	as_converted_to_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE):GAME_SURFACE
+	as_converted_to_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_READABLE):GAME_SURFACE
 			-- Create a copy of `Current' conforming to `a_pixel_format'.
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
@@ -216,7 +216,7 @@ feature -- Access
 			end
 		end
 
-	pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE
+	pixel_format:GAME_PIXEL_FORMAT_READABLE
 			-- The internal format of the pixel representation in memory.
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
@@ -244,8 +244,8 @@ feature -- Access
 			l_rect_src, l_rect_dst:POINTER
 			l_error:INTEGER
 		do
-			l_rect_src:=l_rect_src.memory_calloc (1, Size_of_sdl_rect_structure)
-			l_rect_dst:=l_rect_dst.memory_calloc (1, Size_of_sdl_rect_structure)
+			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
+			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width)
@@ -273,8 +273,8 @@ feature -- Access
 			l_rect_src, l_rect_dst:POINTER
 			l_error:INTEGER
 		do
-			l_rect_src:=l_rect_src.memory_calloc (1, Size_of_sdl_rect_structure)
-			l_rect_dst:=l_rect_dst.memory_calloc (1, Size_of_sdl_rect_structure)
+			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
+			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width_source)
@@ -305,7 +305,7 @@ feature -- Access
 			l_color_key:NATURAL_32
 		do
 			clear_error
-			l_rect_src:=l_rect_src.memory_calloc (1, Size_of_sdl_rect_structure)
+			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			if a_width<0 then
 				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x+a_width)
 			else
@@ -334,7 +334,7 @@ feature -- Access
 		end
 
 
-	transparent_color:GAME_COLOR_IMMUTABLE assign set_transparent_color
+	transparent_color:GAME_COLOR_READABLE assign set_transparent_color
 			-- The color that will be remove in the surface (the transparent color).
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
@@ -359,7 +359,7 @@ feature -- Access
 
 		end
 
-	set_transparent_color(a_color:GAME_COLOR_IMMUTABLE)
+	set_transparent_color(a_color:GAME_COLOR_READABLE)
 			-- Change all pixel of color `color' into transparency (and enable it). The transparency by color don't work if the surface
 			-- have an alpha blending activated.
 		require
@@ -371,7 +371,7 @@ feature -- Access
 		do
 			l_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(pixel_format.structure,a_color.red, a_color.green, a_color.blue)
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(image_source.internal_pointer,Sdl_true,l_key)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(image_source.internal_pointer,{GAME_SDL_EXTERNAL}.Sdl_true,l_key)
 			if l_error<0 then
 				io.error.put_string ("An error occured while setting the transparent color to the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -409,7 +409,7 @@ feature -- Access
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(image_source.internal_pointer,Sdl_false,0)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(image_source.internal_pointer,{GAME_SDL_EXTERNAL}.Sdl_false,0)
 			if l_error<0 then
 				io.error.put_string ("An error occured while disabling the transparent color of the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -436,44 +436,6 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.get_sdl_surface_struct_w(image_source.internal_pointer)
 		end
 
-	as_rotated_90_degree(a_nb_clockwise:INTEGER):GAME_SURFACE
-			-- A new surface like `Current' after applying `a_nb_clockwise' times a 90 degree rotation.
-			-- Note that this feature is not optimize and can be slow.
-		local
-			l_source_surface:GAME_SURFACE
-			l_image_ptr:POINTER
-		do
-			if a_nb_clockwise\\4 = 0 then
-				create Result.make_from_other (Current)
-			else
-				l_source_surface:=as_surface_8_16_or_32_bpp
-				l_image_ptr:={GAME_SDL_EXTERNAL}.rotateSurface90Degrees(l_source_surface.image_source.internal_pointer ,a_nb_clockwise)
-				Result:=new_similar_from_pointer(l_image_ptr)
-			end
-		end
-
-	as_mirrored(a_mirror_x,a_mirror_y:BOOLEAN):GAME_SURFACE
-			-- A new surface like `Current' after applying an X axis mirror when `a_mirror_x' is set ans an Y axis mirror when `a_mirror_y' is set.
-			-- Note that this feature is not optimize and can be slow.
-		local
-			l_source_surface:GAME_SURFACE
-			l_image_ptr:POINTER
-		do
-			if not a_mirror_x and not a_mirror_y then
-				create Result.make_from_other (Current)
-			elseif a_mirror_x and a_mirror_y then
-				Result:=as_rotated_90_degree(2)
-			else
-				l_source_surface:=as_surface_8_16_or_32_bpp
-				if a_mirror_x then
-					l_image_ptr:={GAME_SDL_EXTERNAL}.MirrorSurfaceX(l_source_surface.image_source.internal_pointer)
-				else
-					l_image_ptr:={GAME_SDL_EXTERNAL}.MirrorSurfaceY(l_source_surface.image_source.internal_pointer)
-				end
-				Result:=new_similar_from_pointer(l_image_ptr)
-			end
-		end
-
 	disable_blending
 			-- Disable every blending mode to use for drawing operations.
 			-- No blending mode:	dstRGBA = srcRGBA
@@ -481,7 +443,7 @@ feature -- Access
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_none)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, {GAME_SDL_EXTERNAL}.Sdl_blendmode_none)
 			if l_error<0 then
 				io.error.put_string ("An error occured while disabling the blending on the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -503,7 +465,7 @@ feature -- Access
 				has_error:=True
 				Result:=False
 			else
-				Result:=(l_blending_mode=Sdl_blendmode_none)
+				Result:=(l_blending_mode={GAME_SDL_EXTERNAL}.Sdl_blendmode_none)
 			end
 		end
 
@@ -515,7 +477,7 @@ feature -- Access
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_blend)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, {GAME_SDL_EXTERNAL}.Sdl_blendmode_blend)
 			if l_error<0 then
 				io.error.put_string ("An error occured while enabling alpha blending on the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -538,7 +500,7 @@ feature -- Access
 				has_error:=True
 				Result:=False
 			else
-				Result:=(l_blending_mode=Sdl_blendmode_blend)
+				Result:=(l_blending_mode={GAME_SDL_EXTERNAL}.Sdl_blendmode_blend)
 			end
 		end
 
@@ -550,7 +512,7 @@ feature -- Access
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_add)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, {GAME_SDL_EXTERNAL}.Sdl_blendmode_add)
 			if l_error<0 then
 				io.error.put_string ("An error occured while enabling additive blending on the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -573,7 +535,7 @@ feature -- Access
 				has_error:=True
 				Result:=False
 			else
-				Result:=(l_blending_mode=Sdl_blendmode_add)
+				Result:=(l_blending_mode={GAME_SDL_EXTERNAL}.Sdl_blendmode_add)
 			end
 		end
 
@@ -585,7 +547,7 @@ feature -- Access
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, Sdl_blendmode_mod)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(image_source.internal_pointer, {GAME_SDL_EXTERNAL}.Sdl_blendmode_mod)
 			if l_error<0 then
 				io.error.put_string ("An error occured while enabling color modulate blending on the surface.%N")
 				io.error.put_string (get_error.to_string_8+"%N")
@@ -608,7 +570,7 @@ feature -- Access
 				has_error:=True
 				Result:=False
 			else
-				Result:=(l_blending_mode=Sdl_blendmode_mod)
+				Result:=(l_blending_mode={GAME_SDL_EXTERNAL}.Sdl_blendmode_mod)
 			end
 		end
 

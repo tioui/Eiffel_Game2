@@ -8,7 +8,7 @@ class
 	GAME_COLOR
 
 inherit
-	GAME_COLOR_IMMUTABLE
+	GAME_COLOR_READABLE
 		redefine
 			red, green, blue, alpha
 		end

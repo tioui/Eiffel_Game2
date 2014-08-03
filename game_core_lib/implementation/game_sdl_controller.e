@@ -8,7 +8,6 @@ class
 	GAME_SDL_CONTROLLER
 
 inherit
-	GAME_SDL_CONSTANTS
 	GAME_SDL_ANY
 
 create
@@ -28,7 +27,7 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 			-- Don't clean up library on segfault
 		do
-			initialise_library(Sdl_init_noparachute)
+			initialise_library({GAME_SDL_EXTERNAL}.Sdl_init_noparachute)
 		end
 
 feature -- Subs Systems
@@ -38,7 +37,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Enable_Video_Already_Enabled: not is_video_enable
 		do
-			initialise_sub_system(Sdl_init_video)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		ensure
 			SDL_Controller_Enable_Video_Enabled: is_video_enable
 		end
@@ -48,7 +47,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Video_Not_Enabled: is_video_enable
 		do
-			quit_sub_system(Sdl_init_video)
+			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		ensure
 			SDL_Controller_Disable_Video_Disabled: not is_video_enable
 		end
@@ -56,7 +55,7 @@ feature -- Subs Systems
 	is_video_enable:BOOLEAN
 			-- Return true if the text surface functionnality is enabled.
 		do
-			Result:=is_sub_system_enable(Sdl_init_video)
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		end
 
 
@@ -65,7 +64,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
 		do
-			initialise_sub_system(Sdl_init_joystick)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
 			refresh_joyticks
 		ensure
 			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enable
@@ -77,7 +76,7 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enable
 		do
 			close_all_joysticks
-			quit_sub_system(Sdl_init_joystick)
+			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
 		ensure
 			SDL_Controller_Disable_Joystick_Disabled: not is_joystick_enable
 		end
@@ -85,7 +84,7 @@ feature -- Subs Systems
 	is_joystick_enable:BOOLEAN
 			-- Return true if the joystick functionnality is enabled.
 		do
-			Result:=is_sub_system_enable(Sdl_init_joystick)
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
 		end
 
 
@@ -95,7 +94,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Enable_Haptic_Already_Enabled: not is_haptic_enable
 		do
-			initialise_sub_system(Sdl_init_haptic)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
 		ensure
 			SDL_Controller_Enable_Haptic_Enabled: is_haptic_enable
 		end
@@ -105,7 +104,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Haptic_Not_Enabled: is_haptic_enable
 		do
-			quit_sub_system(Sdl_init_haptic)
+			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
 		ensure
 			SDL_Controller_Disable_Haptic_Disabled: not is_haptic_enable
 		end
@@ -113,7 +112,7 @@ feature -- Subs Systems
 	is_haptic_enable:BOOLEAN
 			-- Return true if the haptic (force feedback) functionnality is enabled.
 		do
-			Result:=is_sub_system_enable(Sdl_init_haptic)
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
 		end
 
 
@@ -122,7 +121,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Enable_Controller_Already_Enabled: not is_controller_enable
 		do
-			initialise_sub_system(Sdl_init_gamecontroller)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
 		ensure
 			SDL_Controller_Enable_Events_Enabled: is_controller_enable
 		end
@@ -132,7 +131,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_controller_Not_Enabled: is_controller_enable
 		do
-			quit_sub_system(Sdl_init_gamecontroller)
+			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
 		ensure
 			SDL_Controller_Disable_Events_Disabled: not is_controller_enable
 		end
@@ -140,7 +139,7 @@ feature -- Subs Systems
 	is_controller_enable:BOOLEAN
 			-- Return true if the controller functionnality is enabled.
 		do
-			Result:=is_sub_system_enable(Sdl_init_gamecontroller)
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
 		end
 
 
@@ -149,7 +148,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Enable_Events_Already_Enabled: not is_events_enable
 		do
-			initialise_sub_system(Sdl_init_events)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_events)
 		ensure
 			SDL_Controller_Enable_Events_Enabled: is_events_enable
 		end
@@ -159,7 +158,7 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Events_Not_Enabled: is_events_enable
 		do
-			quit_sub_system(Sdl_init_events)
+			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_events)
 		ensure
 			SDL_Controller_Disable_Events_Disabled: not is_events_enable
 		end
@@ -167,7 +166,7 @@ feature -- Subs Systems
 	is_events_enable:BOOLEAN
 			-- Return true if the events functionnality is enabled.
 		do
-			Result:=is_sub_system_enable(Sdl_init_events)
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_events)
 		end
 
 feature -- Video methods
@@ -218,7 +217,7 @@ feature -- Mouse
 	local
 		l_error:INTEGER
 	do
-		l_error:={GAME_SDL_EXTERNAL}.sdl_showcursor (Sdl_enable)
+		l_error:={GAME_SDL_EXTERNAL}.sdl_showcursor ({GAME_SDL_EXTERNAL}.Sdl_enable)
 	ensure
 		SHOW_MOUSE_CURSOR_VALID: is_cursor_visible
 	end
@@ -228,7 +227,7 @@ feature -- Mouse
 	local
 		l_error:INTEGER
 	do
-		l_error:={GAME_SDL_EXTERNAL}.sdl_showcursor (Sdl_disable)
+		l_error:={GAME_SDL_EXTERNAL}.sdl_showcursor ({GAME_SDL_EXTERNAL}.Sdl_disable)
 	ensure
 		HIDE_MOUSE_CURSOR_VALID: not is_cursor_visible
 	end
@@ -238,9 +237,9 @@ feature -- Mouse
 	local
 		l_is_enable:INTEGER
 	do
-		l_is_enable:={GAME_SDL_EXTERNAL}.sdl_showcursor (Sdl_query)
-		check l_is_enable=Sdl_enable or l_is_enable=Sdl_disable end
-		Result:= l_is_enable=Sdl_enable
+		l_is_enable:={GAME_SDL_EXTERNAL}.sdl_showcursor ({GAME_SDL_EXTERNAL}.Sdl_query)
+		check l_is_enable={GAME_SDL_EXTERNAL}.Sdl_enable or l_is_enable={GAME_SDL_EXTERNAL}.Sdl_disable end
+		Result:= l_is_enable={GAME_SDL_EXTERNAL}.Sdl_enable
 	end
 
 feature -- Joystick methods

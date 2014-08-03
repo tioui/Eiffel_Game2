@@ -1,19 +1,19 @@
 note
-	description: "Summary description for {GAME_PIXEL_FORMAT_IMMUTABLE}."
+	description: "Summary description for {GAME_PIXEL_FORMAT_READABLE}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	GAME_PIXEL_FORMAT_IMMUTABLE
+	GAME_PIXEL_FORMAT_READABLE
 
 inherit
-	GAME_SDL_CONSTANTS
+	DISPOSABLE
 		redefine
 			out,
 			is_equal
 		end
-	DISPOSABLE
+	GAME_SDL_ANY
 		redefine
 			out,
 			is_equal
@@ -37,7 +37,7 @@ feature {NONE} -- Initialisation
 			set_internal_index (a_enum)
 		end
 
-	make_from_other(a_other:GAME_PIXEL_FORMAT_IMMUTABLE)
+	make_from_other(a_other:GAME_PIXEL_FORMAT_READABLE)
 			-- Initialization for `Current' by copying `a_other's values.
 		do
 			make_from_flags(a_other.internal_index)
@@ -166,217 +166,217 @@ feature -- Access
 	is_unknown : BOOLEAN
 			-- the pixel format of `Current' is unknown
 		do
-			Result:=internal_index=Sdl_pixelformat_unknown
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_unknown
 		end
 
 	is_index1lsb : BOOLEAN
 			-- the pixel format of `Current' is index1lsb
 		do
-			Result:=internal_index=Sdl_pixelformat_index1lsb
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_index1lsb
 		end
 
 	is_index1msb : BOOLEAN
 			-- the pixel format of `Current' is index1msb
 		do
-			Result:=internal_index=Sdl_pixelformat_index1msb
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_index1msb
 		end
 
 	is_index4lsb : BOOLEAN
 			-- the pixel format of `Current' is index4lsb
 		do
-			Result:=internal_index=Sdl_pixelformat_index4lsb
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_index4lsb
 		end
 
 	is_index4msb : BOOLEAN
 			-- the pixel format of `Current' is index4msb
 		do
-			Result:=internal_index=Sdl_pixelformat_index4msb
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_index4msb
 		end
 
 	is_index8 : BOOLEAN
 			-- the pixel format of `Current' is index8
 		do
-			Result:=internal_index=Sdl_pixelformat_index8
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_index8
 		end
 
 	is_rgb332 : BOOLEAN
 			-- the pixel format of `Current' is rgb332
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb332
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb332
 		end
 
 	is_rgb444 : BOOLEAN
 			-- the pixel format of `Current' is rgb444
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb444
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb444
 		end
 
 	is_rgb555 : BOOLEAN
 			-- the pixel format of `Current' is rgb555
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb555
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb555
 		end
 
 	is_bgr555 : BOOLEAN
 			-- the pixel format of `Current' is bgr555
 		do
-			Result:=internal_index=Sdl_pixelformat_bgr555
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr555
 		end
 
 	is_argb4444 : BOOLEAN
 			-- the pixel format of `Current' is argb4444
 		do
-			Result:=internal_index=Sdl_pixelformat_argb4444
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb4444
 		end
 
 	is_rgba4444 : BOOLEAN
 			-- the pixel format of `Current' is rgba4444
 		do
-			Result:=internal_index=Sdl_pixelformat_rgba4444
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba4444
 		end
 
 	is_abgr4444 : BOOLEAN
 			-- the pixel format of `Current' is abgr4444
 		do
-			Result:=internal_index=Sdl_pixelformat_abgr4444
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr4444
 		end
 
 	is_bgra4444 : BOOLEAN
 			-- the pixel format of `Current' is bgra4444
 		do
-			Result:=internal_index=Sdl_pixelformat_bgra4444
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra4444
 		end
 
 	is_argb1555 : BOOLEAN
 			-- the pixel format of `Current' is argb1555
 		do
-			Result:=internal_index=Sdl_pixelformat_argb1555
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb1555
 		end
 
 	is_rgba5551 : BOOLEAN
 			-- the pixel format of `Current' is rgba5551
 		do
-			Result:=internal_index=Sdl_pixelformat_rgba5551
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba5551
 		end
 
 	is_abgr1555 : BOOLEAN
 			-- the pixel format of `Current' is abgr1555
 		do
-			Result:=internal_index=Sdl_pixelformat_abgr1555
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr1555
 		end
 
 	is_bgra5551 : BOOLEAN
 			-- the pixel format of `Current' is bgra5551
 		do
-			Result:=internal_index=Sdl_pixelformat_bgra5551
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra5551
 		end
 
 	is_rgb565 : BOOLEAN
 			-- the pixel format of `Current' is rgb565
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb565
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb565
 		end
 
 	is_bgr565 : BOOLEAN
 			-- the pixel format of `Current' is bgr565
 		do
-			Result:=internal_index=Sdl_pixelformat_bgr565
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr565
 		end
 
 	is_rgb24 : BOOLEAN
 			-- the pixel format of `Current' is rgb24
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb24
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb24
 		end
 
 	is_bgr24 : BOOLEAN
 			-- the pixel format of `Current' is bgr24
 		do
-			Result:=internal_index=Sdl_pixelformat_bgr24
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr24
 		end
 
 	is_rgb888 : BOOLEAN
 			-- the pixel format of `Current' is rgb888
 		do
-			Result:=internal_index=Sdl_pixelformat_rgb888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb888
 		end
 
 	is_rgbx8888 : BOOLEAN
 			-- the pixel format of `Current' is rgbx8888
 		do
-			Result:=internal_index=Sdl_pixelformat_rgbx8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgbx8888
 		end
 
 	is_bgr888 : BOOLEAN
 			-- the pixel format of `Current' is bgr888
 		do
-			Result:=internal_index=Sdl_pixelformat_bgr888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr888
 		end
 
 	is_bgrx8888 : BOOLEAN
 			-- the pixel format of `Current' is bgrx8888
 		do
-			Result:=internal_index=Sdl_pixelformat_bgrx8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgrx8888
 		end
 
 	is_argb8888 : BOOLEAN
 			-- the pixel format of `Current' is argb8888
 		do
-			Result:=internal_index=Sdl_pixelformat_argb8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb8888
 		end
 
 	is_rgba8888 : BOOLEAN
 			-- the pixel format of `Current' is rgba8888
 		do
-			Result:=internal_index=Sdl_pixelformat_rgba8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba8888
 		end
 
 	is_abgr8888 : BOOLEAN
 			-- the pixel format of `Current' is abgr8888
 		do
-			Result:=internal_index=Sdl_pixelformat_abgr8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr8888
 		end
 
 	is_bgra8888 : BOOLEAN
 			-- the pixel format of `Current' is bgra8888
 		do
-			Result:=internal_index=Sdl_pixelformat_bgra8888
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra8888
 		end
 
 	is_argb2101010 : BOOLEAN
 			-- the pixel format of `Current' is argb2101010
 		do
-			Result:=internal_index=Sdl_pixelformat_argb2101010
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb2101010
 		end
 
 	is_yv12 : BOOLEAN
 			-- the pixel format of `Current' is yv12
 		do
-			Result:=internal_index=Sdl_pixelformat_yv12
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_yv12
 		end
 
 	is_iyuv : BOOLEAN
 			-- the pixel format of `Current' is iyuv
 		do
-			Result:=internal_index=Sdl_pixelformat_iyuv
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_iyuv
 		end
 
 	is_yuy2 : BOOLEAN
 			-- the pixel format of `Current' is yuy2
 		do
-			Result:=internal_index=Sdl_pixelformat_yuy2
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_yuy2
 		end
 
 	is_uyvy : BOOLEAN
 			-- the pixel format of `Current' is uyvy
 		do
-			Result:=internal_index=Sdl_pixelformat_uyvy
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_uyvy
 		end
 
 	is_yvyu : BOOLEAN
 			-- the pixel format of `Current' is yvyu
 		do
-			Result:=internal_index=Sdl_pixelformat_yvyu
+			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_yvyu
 		end
 
 	is_equal(a_other: like Current):BOOLEAN
@@ -464,42 +464,42 @@ feature {NONE} -- Implementation
 	is_internal_index_valid(a_internal_index:NATURAL_32):BOOLEAN
 			-- Is `a_internal_index' a valid pixel format C `internal_index'.
 		do
-			Result:=a_internal_index = Sdl_pixelformat_unknown or
-					a_internal_index = Sdl_pixelformat_index1lsb or
-					a_internal_index = Sdl_pixelformat_index1msb or
-					a_internal_index = Sdl_pixelformat_index4lsb or
-					a_internal_index = Sdl_pixelformat_index4msb or
-					a_internal_index = Sdl_pixelformat_index8 or
-					a_internal_index = Sdl_pixelformat_rgb332 or
-					a_internal_index = Sdl_pixelformat_rgb444 or
-					a_internal_index = Sdl_pixelformat_rgb555 or
-					a_internal_index = Sdl_pixelformat_bgr555 or
-					a_internal_index = Sdl_pixelformat_argb4444 or
-					a_internal_index = Sdl_pixelformat_rgba4444 or
-					a_internal_index = Sdl_pixelformat_abgr4444 or
-					a_internal_index = Sdl_pixelformat_bgra4444 or
-					a_internal_index = Sdl_pixelformat_argb1555 or
-					a_internal_index = Sdl_pixelformat_rgba5551 or
-					a_internal_index = Sdl_pixelformat_abgr1555 or
-					a_internal_index = Sdl_pixelformat_bgra5551 or
-					a_internal_index = Sdl_pixelformat_rgb565 or
-					a_internal_index = Sdl_pixelformat_bgr565 or
-					a_internal_index = Sdl_pixelformat_rgb24 or
-					a_internal_index = Sdl_pixelformat_bgr24 or
-					a_internal_index = Sdl_pixelformat_rgb888 or
-					a_internal_index = Sdl_pixelformat_rgbx8888 or
-					a_internal_index = Sdl_pixelformat_bgr888 or
-					a_internal_index = Sdl_pixelformat_bgrx8888 or
-					a_internal_index = Sdl_pixelformat_argb8888 or
-					a_internal_index = Sdl_pixelformat_rgba8888 or
-					a_internal_index = Sdl_pixelformat_abgr8888 or
-					a_internal_index = Sdl_pixelformat_bgra8888 or
-					a_internal_index = Sdl_pixelformat_argb2101010 or
-					a_internal_index = Sdl_pixelformat_yv12 or
-					a_internal_index = Sdl_pixelformat_iyuv or
-					a_internal_index = Sdl_pixelformat_yuy2 or
-					a_internal_index = Sdl_pixelformat_uyvy or
-					a_internal_index = Sdl_pixelformat_yvyu
+			Result:=a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_unknown or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_index1lsb or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_index1msb or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_index4lsb or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_index4msb or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_index8 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb332 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb444 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb555 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr555 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb4444 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba4444 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr4444 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra4444 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb1555 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba5551 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr1555 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra5551 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb565 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr565 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb24 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr24 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgb888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgbx8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgr888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgrx8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_rgba8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_abgr8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_bgra8888 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_argb2101010 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_yv12 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_iyuv or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_yuy2 or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_uyvy or
+					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_yvyu
 		end
 
 	dispose

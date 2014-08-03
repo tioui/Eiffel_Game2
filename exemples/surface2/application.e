@@ -52,8 +52,6 @@ feature {NONE} -- Initialization
 			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird (over the background)
 			l_window.surface.draw_sub_surface_with_scale (l_bird, 0, 0, 66, 99, 100, 300, 300, 200)	-- A very fat bird!!!
 			l_window.surface.draw_sub_surface (l_bird, 12, 0, 28, 30, 600, 300)	-- A bird head
-			l_window.surface.draw_surface (l_bird.as_rotated_90_degree (1), 300, 50)	-- A flying bird
-			l_window.surface.draw_surface (l_bird.as_mirrored (False, True), 600, 50)	-- A falling bird
 			l_window.update_surface
 
 			game_library.events.on_quit_signal.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.

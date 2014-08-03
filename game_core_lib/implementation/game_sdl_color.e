@@ -16,7 +16,7 @@ inherit
 		undefine
 			out, is_equal
 		end
-	GAME_SDL_CONSTANTS
+	GAME_SDL_ANY
 		undefine
 			out, is_equal
 		end
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 	make(a_red,a_green,a_blue,a_alpha:NATURAL_8)
 		-- <Precursor>
 	do
-		internal_pointer:=internal_pointer.memory_alloc (Sizeof_sdl_color)
+		internal_pointer:=internal_pointer.memory_alloc ({GAME_SDL_EXTERNAL}.c_Sizeof_sdl_color)
 		must_free:=True
 		Precursor(a_red,a_green,a_blue,a_alpha)
 	ensure then

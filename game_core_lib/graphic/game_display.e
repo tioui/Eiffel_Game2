@@ -10,7 +10,6 @@ class
 inherit
 	GAME_SDL_ANY
 	GAME_LIBRARY_SHARED
-	GAME_SDL_CONSTANTS
 
 create
 	make
@@ -86,7 +85,7 @@ feature -- Access
 			l_error:INTEGER
 			l_rect:POINTER
 		do
-			l_rect:=l_rect.memory_calloc (1, Size_of_sdl_rect_structure)
+			l_rect:=l_rect.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetDisplayBounds(index,l_rect)
 			if l_error<0 then
@@ -114,7 +113,7 @@ feature -- Access
 			l_mode:POINTER
 			l_error:INTEGER
 		do
-			l_mode:=l_mode.memory_calloc (1, Size_of_sdl_display_mode_structure)
+			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetCurrentDisplayMode(index, l_mode)
 			if l_error<0 then
@@ -135,7 +134,7 @@ feature -- Access
 			l_mode:POINTER
 			l_error:INTEGER
 		do
-			l_mode:=l_mode.memory_calloc (1, Size_of_sdl_display_mode_structure)
+			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetDesktopDisplayMode(index, l_mode)
 			if l_error<0 then
@@ -155,7 +154,7 @@ feature -- Access
 			l_mode, l_result:POINTER
 			l_error:INTEGER
 		do
-			l_mode:=l_mode.memory_calloc (1, Size_of_sdl_display_mode_structure)
+			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_result:={GAME_SDL_EXTERNAL}.SDL_GetClosestDisplayMode(index, a_mode.internal_pointer, l_mode)
 			if l_result.is_default_pointer then
@@ -188,7 +187,7 @@ feature -- Access
 				l_i >= l_count or
 				has_error
 			loop
-				l_mode:=l_mode.memory_calloc (1, Size_of_sdl_display_mode_structure)
+				l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 				l_error:= {GAME_SDL_EXTERNAL}.SDL_GetDisplayMode(index, l_i, l_mode)
 				if l_error<0 then
 					io.error.put_string ("An error occured while retriving the display mode with the index "+ l_i.out +".%N")

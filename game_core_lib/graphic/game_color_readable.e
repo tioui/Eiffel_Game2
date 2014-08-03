@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {GAME_COLOR_IMMUTABLE}."
+	description: "Summary description for {GAME_COLOR_READABLE}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	GAME_COLOR_IMMUTABLE
+	GAME_COLOR_READABLE
 
 inherit
 	ANY

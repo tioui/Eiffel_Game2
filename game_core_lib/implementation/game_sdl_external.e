@@ -109,16 +109,16 @@ feature -- Function SDL.h
 
 	frozen SDL_WINDOWPOS_UNDEFINED_DISPLAY(display:INTEGER):INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] (EIF_INTEGER) : EIF_INTEGER"
 		alias
-			"SDL_WINDOWPOS_UNDEFINED_DISPLAY($display)"
+			"SDL_WINDOWPOS_UNDEFINED_DISPLAY"
 		end
 
 	frozen SDL_WINDOWPOS_CENTERED_DISPLAY(display:INTEGER):INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] (EIF_INTEGER) : EIF_INTEGER"
 		alias
-			"SDL_WINDOWPOS_CENTERED_DISPLAY($display)"
+			"SDL_WINDOWPOS_CENTERED_DISPLAY"
 		end
 
 	frozen SDL_GetNumVideoDisplays:INTEGER
@@ -193,9 +193,9 @@ feature -- Function SDL.h
 
 	frozen SDL_VERSION_COMPILE(x:POINTER)
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] (SDL_version *)"
 		alias
-			"SDL_VERSION((SDL_version*)$x)"
+			"SDL_VERSION"
 		end
 
 	frozen SDL_GetWindowWMInfo(window, info:POINTER):BOOLEAN
@@ -444,56 +444,6 @@ feature -- Function SDL.h
 		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
-
-	frozen rotateSurface90Degrees(surface:POINTER;nb_clockwise:INTEGER):POINTER
-			-- Do a 90 degree Rotation on the `surface' `nb_clockwise' times
-		external
-			"C (SDL_Surface *,int) : SDL_Surface * | %"sdl_additions.h%""
-		alias
-			"rotateSurface90Degrees_all"
-		end
-
-	frozen getPixel(surface:POINTER;x,y:INTEGER):NATURAL_32
-			-- Get the pixel internal color representation of the `surface' at (`x',`y')
-		external
-			"C (SDL_Surface *,int,int) : Uint32 | %"sdl_additions.h%""
-		alias
-			"getpixel"
-		end
-
-	frozen putPixel(surface:POINTER;x,y:INTEGER;pixel:NATURAL_32)
-			-- Put the pixel internal color representation on the `surface' at (`x',`y')
-		external
-			"C (SDL_Surface *,int,int,Uint32) | %"sdl_additions.h%""
-		alias
-			"putpixel"
-		end
-
-	frozen copyPalette(surface_src,surface_dst:POINTER)
-			-- copy the internal color palette of the `surface_src' to the `surface_dst'.
-		external
-			"C (SDL_Surface *,SDL_Surface *)  | %"sdl_additions.h%""
-		alias
-			"CopyPalette_8"
-		end
-
-	frozen MirrorSurfaceX(surface:POINTER):POINTER
-			-- Mirror the `surface' by the X axis
-		external
-			"C (SDL_Surface *) : SDL_Surface * | %"sdl_additions.h%""
-		alias
-			"MirrorSurfaceX"
-		end
-
-
-	frozen MirrorSurfaceY(surface:POINTER):POINTER
-			-- Mirror the `surface' by the Y axis
-		external
-			"C (SDL_Surface *) : SDL_Surface * | %"sdl_additions.h%""
-		alias
-			"MirrorSurfaceY"
-		end
-
 
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
 			-- Set a CustomPackageFileInfos in the SDL ressource reader.
@@ -3038,340 +2988,340 @@ feature -- Structure SDL_Color SDL.h
 			"a"
 		end
 
-feature {GAME_SDL_CONSTANTS} -- Constants
+feature -- Constants
 
 	frozen SDL_WINDOWEVENT:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOWEVENT"
 		end
 
 	frozen SDL_KEYDOWN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_KEYDOWN"
 		end
 
 	frozen SDL_KEYUP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_KEYUP"
 		end
 
 	frozen SDL_TEXTEDITING:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_TEXTEDITING"
 		end
 
 	frozen SDL_TEXTINPUT:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_TEXTINPUT"
 		end
 
 	frozen SDL_MOUSEMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_MOUSEMOTION"
 		end
 
 	frozen SDL_MOUSEBUTTONDOWN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_MOUSEBUTTONDOWN"
 		end
 
 	frozen SDL_MOUSEBUTTONUP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_MOUSEBUTTONUP"
 		end
 
 	frozen SDL_MOUSEWHEEL:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_MOUSEWHEEL"
 		end
 
 	frozen SDL_JOYAXISMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYAXISMOTION"
 		end
 
 	frozen SDL_JOYBALLMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYBALLMOTION"
 		end
 
 	frozen SDL_JOYHATMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYHATMOTION"
 		end
 
 	frozen SDL_JOYBUTTONDOWN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYBUTTONDOWN"
 		end
 
 	frozen SDL_JOYBUTTONUP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYBUTTONUP"
 		end
 
 	frozen SDL_JOYDEVICEADDED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYDEVICEADDED"
 		end
 
 	frozen SDL_JOYDEVICEREMOVED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_JOYDEVICEREMOVED"
 		end
 
 	frozen SDL_CONTROLLERAXISMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERAXISMOTION"
 		end
 
 	frozen SDL_CONTROLLERBUTTONDOWN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERBUTTONDOWN"
 		end
 
 	frozen SDL_CONTROLLERBUTTONUP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERBUTTONUP"
 		end
 
 	frozen SDL_CONTROLLERDEVICEADDED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERDEVICEADDED"
 		end
 
 	frozen SDL_CONTROLLERDEVICEREMOVED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERDEVICEREMOVED"
 		end
 
 	frozen SDL_CONTROLLERDEVICEREMAPPED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_CONTROLLERDEVICEREMAPPED"
 		end
 
 	frozen SDL_QUIT:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_QUIT"
 		end
 
 	frozen SDL_FINGERMOTION:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_FINGERMOTION"
 		end
 
 	frozen SDL_FINGERDOWN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_FINGERDOWN"
 		end
 
 	frozen SDL_FINGERUP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_FINGERUP"
 		end
 
 	frozen SDL_MULTIGESTURE:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_MULTIGESTURE"
 		end
 
 	frozen SDL_DROPFILE:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_DROPFILE"
 		end
 
 	frozen SDL_DOLLARGESTURE:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_DOLLARGESTURE"
 		end
 
 	frozen SDL_INIT_TIMER:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_TIMER"
 		end
 
 	frozen SDL_INIT_AUDIO:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_AUDIO"
 		end
 
 	frozen SDL_INIT_VIDEO:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_VIDEO"
 		end
 
 	frozen SDL_INIT_JOYSTICK:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_JOYSTICK"
 		end
 
 	frozen SDL_INIT_HAPTIC:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_HAPTIC"
 		end
 
 	frozen SDL_INIT_GAMECONTROLLER:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_GAMECONTROLLER"
 		end
 
 	frozen SDL_INIT_EVENTS:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_EVENTS"
 		end
 
 	frozen SDL_INIT_EVERYTHING:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_EVERYTHING"
 		end
 
 	frozen SDL_INIT_NOPARACHUTE:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_INIT_NOPARACHUTE"
 		end
 
 	frozen SDL_WINDOW_FULLSCREEN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_FULLSCREEN"
 		end
 
 	frozen SDL_WINDOW_FULLSCREEN_DESKTOP:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_FULLSCREEN_DESKTOP"
 		end
 
 	frozen SDL_WINDOW_OPENGL:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_OPENGL"
 		end
 
 	frozen SDL_WINDOW_HIDDEN:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_HIDDEN"
 		end
 
 	frozen SDL_WINDOW_BORDERLESS:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_BORDERLESS"
 		end
 
 	frozen SDL_WINDOW_RESIZABLE:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_RESIZABLE"
 		end
 
 	frozen SDL_WINDOW_MINIMIZED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_MINIMIZED"
 		end
 
 	frozen SDL_WINDOW_MAXIMIZED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_MAXIMIZED"
 		end
 
 	frozen SDL_WINDOW_INPUT_GRABBED:NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_WINDOW_INPUT_GRABBED"
 		end
 
 	frozen SDL_PIXELFORMAT_UNKNOWN : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_UNKNOWN"
 		end
@@ -3379,7 +3329,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_INDEX1LSB : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_INDEX1LSB"
 		end
@@ -3387,7 +3337,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_INDEX1MSB : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_INDEX1MSB"
 		end
@@ -3395,7 +3345,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_INDEX4LSB : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_INDEX4LSB"
 		end
@@ -3403,7 +3353,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_INDEX4MSB : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_INDEX4MSB"
 		end
@@ -3411,7 +3361,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_INDEX8 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_INDEX8"
 		end
@@ -3419,7 +3369,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB332 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB332"
 		end
@@ -3427,7 +3377,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB444 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB444"
 		end
@@ -3435,7 +3385,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB555 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB555"
 		end
@@ -3443,7 +3393,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGR555 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGR555"
 		end
@@ -3451,7 +3401,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ARGB4444 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ARGB4444"
 		end
@@ -3459,7 +3409,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGBA4444 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGBA4444"
 		end
@@ -3467,7 +3417,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ABGR4444 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ABGR4444"
 		end
@@ -3475,7 +3425,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGRA4444 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGRA4444"
 		end
@@ -3483,7 +3433,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ARGB1555 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ARGB1555"
 		end
@@ -3491,7 +3441,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGBA5551 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGBA5551"
 		end
@@ -3499,7 +3449,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ABGR1555 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ABGR1555"
 		end
@@ -3507,7 +3457,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGRA5551 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGRA5551"
 		end
@@ -3515,7 +3465,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB565 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB565"
 		end
@@ -3523,7 +3473,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGR565 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGR565"
 		end
@@ -3531,7 +3481,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB24 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB24"
 		end
@@ -3539,7 +3489,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGR24 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGR24"
 		end
@@ -3547,7 +3497,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGB888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGB888"
 		end
@@ -3555,7 +3505,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGBX8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGBX8888"
 		end
@@ -3563,7 +3513,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGR888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGR888"
 		end
@@ -3571,7 +3521,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGRX8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGRX8888"
 		end
@@ -3579,7 +3529,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ARGB8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ARGB8888"
 		end
@@ -3587,7 +3537,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_RGBA8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_RGBA8888"
 		end
@@ -3595,7 +3545,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ABGR8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ABGR8888"
 		end
@@ -3603,7 +3553,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_BGRA8888 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_BGRA8888"
 		end
@@ -3611,7 +3561,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_ARGB2101010 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_ARGB2101010"
 		end
@@ -3619,7 +3569,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_YV12 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_YV12"
 		end
@@ -3627,7 +3577,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_IYUV : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_IYUV"
 		end
@@ -3635,7 +3585,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_YUY2 : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_YUY2"
 		end
@@ -3643,7 +3593,7 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_UYVY : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_UYVY"
 		end
@@ -3651,112 +3601,112 @@ feature {GAME_SDL_CONSTANTS} -- Constants
 
 	frozen SDL_PIXELFORMAT_YVYU : NATURAL_32
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_PIXELFORMAT_YVYU"
 		end
 
 	frozen SDL_SYSWM_UNKNOWN : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_UNKNOWN"
 		end
 
 	frozen SDL_SYSWM_WINDOWS : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_WINDOWS"
 		end
 
 	frozen SDL_SYSWM_X11 : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_X11"
 		end
 
 	frozen SDL_SYSWM_DIRECTFB : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_DIRECTFB"
 		end
 
 	frozen SDL_SYSWM_COCOA : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_COCOA"
 		end
 
 	frozen SDL_SYSWM_UIKIT : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_SYSWM_UIKIT"
 		end
 
 	frozen SDL_ENABLE : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_ENABLE"
 		end
 
 	frozen SDL_DISABLE : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_DISABLE"
 		end
 
 	frozen SDL_QUERY : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_QUERY"
 		end
 
 	frozen SDL_FALSE : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_FALSE"
 		end
 
 	frozen SDL_TRUE : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_TRUE"
 		end
 
 	frozen SDL_BLENDMODE_NONE : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_BLENDMODE_NONE"
 		end
 
 	frozen SDL_BLENDMODE_BLEND : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_BLENDMODE_BLEND"
 		end
 
 	frozen SDL_BLENDMODE_ADD : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_BLENDMODE_ADD"
 		end
 
 	frozen SDL_BLENDMODE_MOD : INTEGER
 		external
-			"C inline use <SDL.h>"
+			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_BLENDMODE_MOD"
 		end

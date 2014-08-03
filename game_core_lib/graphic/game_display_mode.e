@@ -8,13 +8,12 @@ class
 	GAME_DISPLAY_MODE
 
 inherit
-	GAME_SDL_CONSTANTS
+	DISPOSABLE
 		redefine
 			out,
 			is_equal
 		end
-
-	DISPOSABLE
+	GAME_SDL_ANY
 		redefine
 			out,
 			is_equal
@@ -49,7 +48,7 @@ feature {NONE} -- Initialization
 		local
 			l_pixel_format:GAME_PIXEL_FORMAT
 		do
-			internal_pointer:=internal_pointer.memory_calloc (1, Size_of_sdl_display_mode_structure)
+			internal_pointer:=internal_pointer.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_display_mode)
 			set_pixel_format (create {GAME_PIXEL_FORMAT}.make)
 			set_width (a_width)
 			set_height (a_height)
@@ -93,7 +92,7 @@ feature {NONE} -- Initialization
 						{GAME_SDL_EXTERNAL}.get_display_mode_struct_refresh_rate (a_mode)
 					)
 			set_pixel_format(
-						create {GAME_PIXEL_FORMAT_IMMUTABLE}.make_from_flags (
+						create {GAME_PIXEL_FORMAT_READABLE}.make_from_flags (
 									{GAME_SDL_EXTERNAL}.get_display_mode_struct_format(a_mode)
 								)
 					)
@@ -169,7 +168,7 @@ feature -- Access
 			Display_Mode_pixel_format_Not_Changed: pixel_format~old pixel_format
 		end
 
-	pixel_format:GAME_PIXEL_FORMAT_IMMUTABLE assign set_pixel_format
+	pixel_format:GAME_PIXEL_FORMAT_READABLE assign set_pixel_format
 			-- The internal format of the pixel representation in memory.
 		do
 			create Result.make_from_flags ({GAME_SDL_EXTERNAL}.get_display_mode_struct_format(internal_pointer))
