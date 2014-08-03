@@ -247,6 +247,13 @@ feature -- Function SDL.h
 			"SDL_FreeRW"
 		end
 
+	frozen SDL_free(mem:POINTER)
+		external
+			"C (void *) | <SDL.h>"
+		alias
+			"SDL_free"
+		end
+
 	frozen SDL_LoadBMP_RW(src:POINTER;freesrc:INTEGER):POINTER
 		external
 			"C (SDL_RWops*,int) :SDL_Surface* | <SDL.h>"
@@ -378,6 +385,13 @@ feature -- Function SDL.h
 			"C (SDL_Event*) : int | <SDL.h>"
 		alias
 			"SDL_PollEvent"
+		end
+
+	frozen SDL_EventState(type:NATURAL_32; state:INTEGER):NATURAL_8
+		external
+			"C (Uint32, int) : Uint8 | <SDL.h>"
+		alias
+			"SDL_EventState"
 		end
 
 	frozen SDL_MasksToPixelFormatEnum(bpp:INTEGER;Rmask,Gmask,Bmask,Amask:NATURAL_32):NATURAL_32
@@ -2339,28 +2353,28 @@ feature -- Structure SDL_TouchFingerEvent SDL.h
 			"timestamp"
 		end
 
-	frozen set_touch_finger_event_struct_touch_id (ptr: POINTER; value:INTEGER_32)
+	frozen set_touch_finger_event_struct_touch_id (ptr: POINTER; value:INTEGER_64)
 		external
 			"C [struct <SDL.h>] (SDL_TouchFingerEvent, SDL_TouchID)"
 		alias
 			"touchId"
 		end
 
-	frozen get_touch_finger_event_struct_touch_id(ptr:POINTER):INTEGER_32
+	frozen get_touch_finger_event_struct_touch_id(ptr:POINTER):INTEGER_64
 		external
 			"C [struct <SDL.h>] (SDL_TouchFingerEvent):SDL_TouchID"
 		alias
 			"touchId"
 		end
 
-	frozen set_touch_finger_event_struct_finger_id (ptr: POINTER; value:INTEGER_32)
+	frozen set_touch_finger_event_struct_finger_id (ptr: POINTER; value:INTEGER_64)
 		external
 			"C [struct <SDL.h>] (SDL_TouchFingerEvent, SDL_FingerID)"
 		alias
 			"fingerId"
 		end
 
-	frozen get_touch_finger_event_struct_finger_id(ptr:POINTER):INTEGER_32
+	frozen get_touch_finger_event_struct_finger_id(ptr:POINTER):INTEGER_64
 		external
 			"C [struct <SDL.h>] (SDL_TouchFingerEvent):SDL_FingerID"
 		alias
@@ -2477,14 +2491,14 @@ feature -- Structure SDL_MultiGestureEvent SDL.h
 			"timestamp"
 		end
 
-	frozen set_multi_gesture_event_struct_touch_id (ptr: POINTER; value:INTEGER_32)
+	frozen set_multi_gesture_event_struct_touch_id (ptr: POINTER; value:INTEGER_64)
 		external
 			"C [struct <SDL.h>] (SDL_MultiGestureEvent, SDL_TouchID)"
 		alias
 			"touchId"
 		end
 
-	frozen get_multi_gesture_event_struct_touch_id(ptr:POINTER):INTEGER_32
+	frozen get_multi_gesture_event_struct_touch_id(ptr:POINTER):INTEGER_64
 		external
 			"C [struct <SDL.h>] (SDL_MultiGestureEvent):SDL_TouchID"
 		alias
