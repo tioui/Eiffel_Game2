@@ -12,6 +12,10 @@ inherit
 		redefine
 			default_create
 		end
+	GAME_SDL_ANY
+		redefine
+			default_create
+		end
 
 create {GAME_SDL_CONTROLLER}
 	default_create
@@ -77,15 +81,6 @@ feature -- Access
 	on_iteration: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- Called at each game loop
 
-	on_dollar_gesture: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_device_id:NATURAL_64;
-												gesture_id:INTEGER_64;number_of_fingers:NATURAL_32;
-												x,y,error:REAL_32]]
-			-- When a $1 gesture has been recognize on the touch device `touch_device_id'.
-			-- The gesture is uniquely identified by `gesture_id'. I use `number_of_fingers' fingers
-			-- and is centered at (`x',`y') where `x' and `y' are normalized (between 0 and 1).
-			-- The `error' indicate the difference between the current gesture and the template.
-			-- Todo: templating (SDL_RecordGesture, SDL_DOLLARRECORD event, SDL_SaveDollarTemplate, etc.)
-
 	on_window_event: ACTION_SEQUENCE[TUPLE[timestamp,window_id:NATURAL_32;event_type:NATURAL_8;data1,data2:INTEGER_32]]
 			-- When the window identified by `window_id' is changing state. `event_type' may take the following value:
 			-- SDL_WINDOWEVENT_SHOWN: The window has been shown
@@ -127,9 +122,9 @@ feature -- Access
 	on_text_input: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;text:STRING_32]]
 			-- When a `text' has been input in the window identified by `window_id'.
 
-	on_mouse_motion: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which, state:NATURAL_32;
+	on_mouse_motion: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id, state:NATURAL_32;
 													x,y,x_relative,y_relative:INTEGER_32]]
-			-- When the mouse identified by `which' has been moved to the coordinate (`x',`y')
+			-- When the mouse identified by `mouse_id' has been moved to the coordinate (`x',`y')
 			-- in the window identified by `window_id'. The mouse has been move of `x_relative'
 			-- position on the x axis and `y_relative' position on the y axis since the last call
 			-- of the `on_mouse_motion' event. The `state' of the mouse indicate which buttons is
@@ -141,37 +136,122 @@ feature -- Access
 			-- SDL_BUTTON_X2MASK: Second optionnal button
 			-- Note: `which' may be SDL_TOUCH_MOUSEID
 
-	on_mouse_button_down: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which:NATURAL_32;
-													button, state,clicks: NATURAL_8;x,y:INTEGER_32]]
+	on_mouse_button_down: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
+													button,clicks: NATURAL_8;x,y:INTEGER_32]]
+			-- When a button of the mouse identified by `mouse_id' at coordinate (`x',`y') in the window
+			-- identified by `window_id' has been pressed. The `clicks' show how much successive clicks
+			-- has been made (1 for simple click, 2 for double click, etc.). The `button' say what
+			-- mouse button has been pressed. The value can be:
+			-- SDL_BUTTON_LEFT: Left button
+			-- SDL_BUTTON_MIDDLE: Middle button
+			-- SDL_BUTTON_RIGHT: Right button
+			-- SDL_BUTTON_X1: First optionnal button
+			-- SDL_BUTTON_X2: Second optionnal button
+			-- Note: `which' may be SDL_TOUCH_MOUSEID
 
-	on_mouse_button_up: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,which:NATURAL_32;
-													button, state,clicks: NATURAL_8;x,y:INTEGER_32]]
+	on_mouse_button_up: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
+													button, clicks: NATURAL_8;x,y:INTEGER_32]]
+			-- When a button of the mouse identified by `mouse_id' at coordinate (`x',`y') in the window
+			-- identified by `window_id' has been released. The `clicks' show how much successive clicks
+			-- has been made (1 for simple click, 2 for double click, etc.). The `button' say what
+			-- mouse button has been released. The value can be:
+			-- SDL_BUTTON_LEFT: Left button
+			-- SDL_BUTTON_MIDDLE: Middle button
+			-- SDL_BUTTON_RIGHT: Right button
+			-- SDL_BUTTON_X1: First optionnal button
+			-- SDL_BUTTON_X2: Second optionnal button
+			-- Note: `which' may be SDL_TOUCH_MOUSEID
 
-	on_mouse_wheel_move: ACTION_SEQUENCE[TUPLE[timestamp,window_id,which:NATURAL_32;x,y:INTEGER_32]]
+	on_mouse_wheel_move: ACTION_SEQUENCE[TUPLE[timestamp,window_id,mouse_id:NATURAL_32;x,y:INTEGER_32]]
+			-- When the wheel of the mouse identified by `mouse_id' in the window identified by
+			-- `window_id' has been moved. A positive `x' indicate a move to the right and a negative
+			-- `x' indicate a move to the left. A positive `y' indicate a move up and a
+			-- negative `x' indicate a move down.
 
-	on_joy_axis_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32;axis:NATURAL_8;value:INTEGER_16]]
+	on_joy_axis_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;axis_id:NATURAL_8;value:INTEGER_16]]
+			-- When the axis identified by `axis_id' of the joystick identified by `joystick_id' has
+			-- been moved to a certain `value'.
 
-	on_joy_ball_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32;ball:NATURAL_8;x_rel, y_rel:INTEGER_16]]
+	on_joy_ball_motion: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;joystick_id:INTEGER_32;ball_id:NATURAL_8;
+												x_relative, y_relative:INTEGER_16]]
+			-- When the ball identified by `ball_id' of the joystick identified by `joystick_id' has
+			-- been moved. The `x_relative' and `y_relative' indicate the move relative to the last
+			-- call of the `on_joy_ball_motion' event.
 
-	on_joy_hat_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32;hat, value:NATURAL_8]]
+	on_joy_hat_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;hat_id, value:NATURAL_8]]
+			-- When the hat identified by `hat_id' of the joystick identified by `joystick_id' has
+			-- been moved to a certain `value'. The `value' can be one of the following:
+			-- SDL_HAT_LEFTUP
+			-- SDL_HAT_UP
+			-- SDL_HAT_RIGHTUP
+			-- SDL_HAT_LEFT
+			-- SDL_HAT_CENTERED
+			-- SDL_HAT_RIGHT
+			-- SDL_HAT_LEFTDOWN
+			-- SDL_HAT_DOWN
+			-- SDL_HAT_RIGHTDOWN
 
-	on_joy_button_down: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32;button:NATURAL_8]]
+	on_joy_button_down: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
+			-- When the button identified by `button_id' of the joystick identified by `joystick_id' has
+			-- been pressed.
 
-	on_joy_button_up: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32;button:NATURAL_8]]
+	on_joy_button_up: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
+			-- When the button identified by `button_id' of the joystick identified by `joystick_id' has
+			-- been released.
 
-	on_joy_device_added: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32]]
+	on_joy_device_added: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+			-- When a new joystick device identified by `joystick_id' has been founded.
 
-	on_joy_device_removed: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;which:INTEGER_32]]
+	on_joy_device_removed: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+			-- When a new joystick device identified by `joystick_id' has been removed.
 
-	on_finger_motion: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;touchId, fingerId:INTEGER_64; x, y, dx, dy, pressure:REAL_32]]
+	on_finger_motion: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
+												x, y, x_relative, y_relative, pressure:REAL_32]]
+			-- When a finger identified by `finger_id' in the touch device identified by
+			-- `touch_id' has been moved to (`x',`y') with a certain `pressure'. The
+			-- `x_relative' and `y_relative' indicate the move relative to the last
+			-- call of the `on_finger_motion' event.
+			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
+			-- between 0 and 1.
 
-	on_finger_up: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;touchId, fingerId:INTEGER_64; x, y, dx, dy, pressure:REAL_32]]
+	on_finger_up: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
+											x, y, x_relative, y_relative, pressure:REAL_32]]
+			-- When a finger identified by `finger_id' in the touch device identified by
+			-- `touch_id' has been released at (`x',`y') with a certain `pressure'. The
+			-- `x_relative' and `y_relative' indicate the move relative to the last
+			-- call of the `on_finger_motion' event.
+			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
+			-- between 0 and 1.
 
-	on_finger_down: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;touchId, fingerId:INTEGER_64; x, y, dx, dy, pressure:REAL_32]]
+	on_finger_down: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
+											x, y, x_relative, y_relative, pressure:REAL_32]]
+			-- When a finger identified by `finger_id' in the touch device identified by
+			-- `touch_id' has been pressed at (`x',`y') with a certain `pressure'. The
+			-- `x_relative' and `y_relative' indicate the move relative to the last
+			-- call of the `on_finger_motion' event.
+			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
+			-- between 0 and 1.
 
-	on_finger_gesture: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;touchId:INTEGER_64; number_of_finger:NATURAL_16; center_x, center_y, theta, distance:REAL_32]]
+	on_finger_gesture: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id:INTEGER_64;
+												number_of_fingers:NATURAL_16; center_x, center_y,
+												theta, distance:REAL_32]]
+			-- When a gesture has been made on the touch device identified by `touch_id'.
+			-- The gesture has a certain `number_of_fingers', is centered at (`center_x', `center_y').
+			-- The fingers used a rotation of `theta' degree and have a `distance' of pinch.
 
-	on_file_drop: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;file:READABLE_STRING_GENERAL]]
+	on_dollar_gesture: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_device_id:NATURAL_64;
+												gesture_id:INTEGER_64;number_of_fingers:NATURAL_32;
+												x,y,error:REAL_32]]
+			-- When a $1 gesture has been recognize on the touch device `touch_device_id'.
+			-- The gesture is uniquely identified by `gesture_id'. I use `number_of_fingers' fingers
+			-- and is centered at (`x',`y') where `x' and `y' are normalized (between 0 and 1).
+			-- The `error' indicate the difference between the current gesture and the template.
+			-- Todo: templating (SDL_RecordGesture, SDL_DOLLARRECORD event, SDL_SaveDollarTemplate, etc.)
+
+	on_file_drop: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+			-- The file pointed by `filename' has been dropped on a window of the game.
+			-- This event is disabled by default. use {GAME_EVENTS_CONTROLLER}.`enable_file_drop_event'
+			-- to activate it.
 
 	enable_quit_signal_event
 			-- Process the `on_quit_signal' event.
@@ -683,6 +763,39 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
+	enable_every_joy_events
+			-- Enable every joystick events.
+			-- Enabled by default
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_enable)
+			has_error := l_error < 0
+		end
+
+	disable_every_joy_events
+			-- Ignore every joystick events.
+			-- Enabled by default
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_disable)
+			has_error := l_error < 0
+		end
+
+	is_any_joy_event_enable:BOOLEAN
+			-- Is there any joystick event that is enable
+			-- Enabled by default
+		local
+			l_query:INTEGER
+		do
+			clear_error
+			l_query := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_query)
+			has_error := l_query < 0
+		end
+
 	enable_finger_down_event
 			-- Process the `on_finger_down' event.
 			-- Enabled by default
@@ -940,7 +1053,6 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
@@ -951,7 +1063,6 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_state(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
@@ -1107,11 +1218,11 @@ feature {NONE} -- Implementation
 
 --Common:
 
---On_Iteration
---SDL_QuitEvent
---SDL_JoyDeviceEvent
+--On_Iteration					X
+--SDL_QuitEvent					X
+--SDL_JoyDeviceEvent			X
 --SDL_ControllerDeviceEvent
---SDL_DropEvent
+--SDL_DropEvent					
 
 --Window Events:
 

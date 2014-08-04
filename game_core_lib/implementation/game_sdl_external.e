@@ -72,6 +72,132 @@ feature -- Function SDL.h
 			"SDL_NumJoysticks"
 		end
 
+	frozen SDL_JoystickUpdate
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_JoystickUpdate"
+		end
+
+	frozen SDL_JoystickEventState(state:INTEGER) : INTEGER
+		external
+			"C (int) : int | <SDL.h>"
+		alias
+			"SDL_JoystickEventState"
+		end
+
+	frozen SDL_JoystickGetAttached(joystick:POINTER) : BOOLEAN
+		external
+			"C (SDL_Joystick*) : SDL_bool | <SDL.h>"
+		alias
+			"SDL_JoystickGetAttached"
+		end
+
+	frozen SDL_JoystickNumAxes(joystick:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickNumAxes"
+		end
+
+	frozen SDL_JoystickGetAxis(joystick:POINTER; axis:INTEGER) : INTEGER_16
+		external
+			"C (SDL_Joystick*, int) : Sint16 | <SDL.h>"
+		alias
+			"SDL_JoystickGetAxis"
+		end
+
+	frozen SDL_JoystickNumBalls(joystick:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickNumBalls"
+		end
+
+	frozen SDL_JoystickGetBall(joystick:POINTER; ball: INTEGER; dx, dy:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*, int, int*, int*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickGetBall"
+		end
+
+	frozen SDL_JoystickNumButtons(joystick:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickNumButtons"
+		end
+
+	frozen SDL_JoystickGetButton(joystick:POINTER; button: INTEGER) : BOOLEAN
+		external
+			"C (SDL_Joystick*, int) : Uint8 | <SDL.h>"
+		alias
+			"SDL_JoystickGetButton"
+		end
+
+	frozen SDL_JoystickNumHats(joystick:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickNumHats"
+		end
+
+	frozen SDL_JoystickGetHat(joystick:POINTER; hat: INTEGER) : NATURAL_8
+		external
+			"C (SDL_Joystick*, int) : Uint8 | <SDL.h>"
+		alias
+			"SDL_JoystickGetHat"
+		end
+
+	frozen SDL_JoystickGetGUIDString(guid, pszguid:POINTER; cbguid: INTEGER)
+		external
+			"C inline use <SDL.h>"
+		alias
+			"SDL_JoystickGetGUIDString(*((SDL_JoystickGUID*)$guid), (char*)$pszguid, (int)$cbguid)"
+		end
+
+	frozen SDL_JoystickGetGUID(joystick:POINTER): POINTER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(SDL_JoystickGetGUID((SDL_Joystick*)$joystick))"
+		end
+
+	frozen SDL_JoystickGetDeviceGUID(deviceindex:INTEGER): POINTER
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(SDL_JoystickGetDeviceGUID((int)$deviceindex))"
+		end
+
+	frozen SDL_JoystickInstanceID(joystick:POINTER) : INTEGER_32
+		external
+			"C (SDL_Joystick*) : SDL_JoystickID | <SDL.h>"
+		alias
+			"SDL_JoystickInstanceID"
+		end
+
+	frozen SDL_JoystickIsHaptic(joystick:POINTER) : INTEGER
+		external
+			"C (SDL_Joystick*) : int | <SDL.h>"
+		alias
+			"SDL_JoystickIsHaptic"
+		end
+
+	frozen SDL_JoystickName(joystick:POINTER) : POINTER
+		external
+			"C (SDL_Joystick*) : const char* | <SDL.h>"
+		alias
+			"SDL_JoystickName"
+		end
+
+	frozen SDL_JoystickNameForIndex(device_index:INTEGER) : POINTER
+		external
+			"C (int) : const char* | <SDL.h>"
+		alias
+			"SDL_JoystickNameForIndex"
+		end
+
 	frozen SDL_CreateWindow(title:POINTER;x,y,w,h:INTEGER;flags:NATURAL_32):POINTER
 		external
 			"C (const char*, int, int, int, int, Uint32) : SDL_Window* | <SDL.h>"
@@ -3723,6 +3849,69 @@ feature -- Constants
 			"C [macro <SDL.h>] : EIF_INTEGER"
 		alias
 			"SDL_BLENDMODE_MOD"
+		end
+
+	frozen SDL_HAT_CENTERED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_CENTERED"
+		end
+
+	frozen SDL_HAT_UP : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_UP"
+		end
+
+	frozen SDL_HAT_RIGHT : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_RIGHT"
+		end
+
+	frozen SDL_HAT_DOWN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_DOWN"
+		end
+
+	frozen SDL_HAT_LEFT : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_LEFT"
+		end
+
+	frozen SDL_HAT_RIGHTUP : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_RIGHTUP"
+		end
+
+	frozen SDL_HAT_RIGHTDOWN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_RIGHTDOWN"
+		end
+
+	frozen SDL_HAT_LEFTUP : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_LEFTUP"
+		end
+
+	frozen SDL_HAT_LEFTDOWN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_HAT_LEFTDOWN"
 		end
 
 

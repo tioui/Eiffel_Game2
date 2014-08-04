@@ -245,24 +245,6 @@ feature -- Mouse
 
 feature -- Joystick methods
 
-	joysticks_count:INTEGER
-		-- Get number of joystick detect by the library
-	require
-		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
-	do
-		Result:={GAME_SDL_EXTERNAL}.SDL_NumJoysticks
-	end
-
-	joystick_at(index:INTEGER):GAME_JOYSTICK
-		-- Use the same index used by the system.
-		-- So the first joystick in at index 0
-	require
-		Controller_Joystick_Count_Joystick_Enabled: is_joystick_enable
-		Get_Joystick_Index_Valid: index<joysticks_count
-	do
-		Result:=internal_joysticks.i_th (index+1)
-	end
-
 	joysticks:CHAIN_INDEXABLE_ITERATOR[GAME_JOYSTICK]
 		require
 			Joysticks_is_Joystick_Enabled: is_joystick_enable
@@ -276,17 +258,27 @@ feature -- Joystick methods
 	require
 		Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
 	local
-		i:INTEGER
+		i, l_joystick_count:INTEGER
 	do
 		close_all_joysticks
 		internal_joysticks.wipe_out
+		l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
 		from i:=0
-		until i>=joysticks_count
+		until i>=l_joystick_count
 		loop
 			internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
 			i:=i+1
 		end
 	end
+
+	update_joysticks_state
+			-- Update the state of all opened joystick. This procedure is
+			-- Called at each game loop instead you disable every joystick event
+			-- with {GAME_EVENTS_CONTROLLER}.`disable_joy_*_event' or with
+			-- {GAME_EVENTS_CONTROLLER}.`disable_every_joy_events'
+		do
+			{GAME_SDL_EXTERNAL}.SDL_JoystickUpdate
+		end
 
 feature {NONE} -- Joystick implementation
 
@@ -325,7 +317,7 @@ feature -- Other methods
 			Result:=internal_events_controller
 		end
 
-	events:GAME_EVENTS assign set_events
+	events:GAME_COMMON_EVENTS assign set_events
 			-- The library general `events' manager.
 		require
 			Events_Is_Enable: is_events_enable
@@ -333,7 +325,7 @@ feature -- Other methods
 			Result:=internal_events
 		end
 
-	set_events(a_events:GAME_EVENTS)
+	set_events(a_events:GAME_COMMON_EVENTS)
 			-- Assign the library general `events' manager.
 		require
 			Events_Is_Enable: is_events_enable
@@ -508,6 +500,6 @@ feature {NONE} -- Implementation - Variables
 
 	internal_events_controller:GAME_EVENTS_CONTROLLER
 
-	internal_events:GAME_EVENTS
+	internal_events:GAME_COMMON_EVENTS
 
 end
