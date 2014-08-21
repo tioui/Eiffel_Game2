@@ -11,6 +11,15 @@ inherit
 	GAME_LIBRARY_SHARED
 	DISPOSABLE
 	GAME_SDL_ANY
+	GAME_WINDOW_EVENTS
+		rename
+			make as make_events,
+			stop as stop_events,
+			run as run_events,
+			is_running as is_events_running,
+			clear as clear_events,
+			window_id as id
+		end
 
 feature {NONE} -- Initialisation
 
@@ -158,6 +167,7 @@ feature {NONE} -- Initialisation
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
 			internal_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
 			has_error:=False
+			make_events
 			game_library.internal_windows.extend (Current)
 		ensure
 			Make_Window_Is_Open: not is_closed
@@ -251,7 +261,13 @@ feature -- Access
 			end
 		end
 
-
+	id:NATURAL_32
+			-- The internal identifier of the Window (For logging purpose)
+		require else
+			Window_Not_Closed: not is_closed
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowID(internal_pointer)
+		end
 
 ---------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------  Travail pour Luc  -----------------------------------------------------------
@@ -277,8 +293,6 @@ feature -- Access
 	-- http://wiki.libsdl.org/SDL_GetWindowDisplayMode
 
 	-- http://wiki.libsdl.org/SDL_SetWindowFullscreen
-
-	-- http://wiki.libsdl.org/SDL_GetWindowID
 
 	-- http://wiki.libsdl.org/SDL_GetWindowFlags
 			-- is_full_screen
@@ -336,4 +350,9 @@ feature {NONE} -- Implementation
 		end
 
 	internal_pointer:POINTER
+
+	events_controller:GAME_EVENTS_CONTROLLER
+		do
+			Result := game_library.events_controller
+		end
 end

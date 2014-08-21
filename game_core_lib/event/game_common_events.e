@@ -4,25 +4,30 @@ note
 	date: "$Date$"
 	revision: "$Revision$"
 
-class
+deferred class
 	GAME_COMMON_EVENTS
 
 
-create
-	make
-
 feature {NONE} -- Initialisation
 
-	make(a_events_controller:GAME_EVENTS_CONTROLLER)
+	make
 		do
-			is_running:=False
-			events_controller := a_events_controller
-			on_file_drop_callback := agent (a_timestamp:NATURAL_32; a_filename:READABLE_STRING_GENERAL) do on_file_drop.call ([a_timestamp, a_filename]) end
-			on_joystick_added_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do on_joystick_added.call ([a_timestamp, a_joystick_id]) end
-			on_joystick_removed_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do on_joystick_removed.call ([a_timestamp, a_joystick_id]) end
-			on_quit_signal_callback := agent (a_timestamp:NATURAL_32) do on_quit_signal.call ([a_timestamp]) end
-			on_iteration_callback:=agent (a_timestamp:NATURAL_32) do on_iteration.call ([a_timestamp]) end
-			run
+			is_running:=True
+			file_drop_actions_callback := agent (a_timestamp:NATURAL_32; a_filename:READABLE_STRING_GENERAL) do
+											file_drop_actions.call ([a_timestamp, a_filename])
+										end
+			joystick_found_actions_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do
+												joystick_found_actions.call ([a_timestamp, a_joystick_id])
+											end
+			joystick_remove_actions_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do
+												joystick_remove_actions.call ([a_timestamp, a_joystick_id])
+											end
+			quit_signal_actions_callback := agent (a_timestamp:NATURAL_32) do
+											quit_signal_actions.call ([a_timestamp])
+										end
+			iteration_actions_callback:=agent (a_timestamp:NATURAL_32) do
+										iteration_actions.call ([a_timestamp])
+									end
 		ensure
 			Make_Event_Is_Running: is_running
 		end
@@ -35,12 +40,11 @@ feature -- Access
 			Stop_Is_Running: is_running
 		do
 			is_running:=False
-			events_controller.on_quit_signal.prune_all (on_quit_signal_callback)
-			events_controller.on_iteration.prune_all (on_iteration_callback)
-			events_controller.on_joy_device_added.prune_all (on_joystick_added_callback)
-			events_controller.on_joy_device_removed.prune_all (on_joystick_removed_callback)
-			events_controller.on_file_drop.prune_all (on_file_drop_callback)
-
+			events_controller.quit_signal_actions.prune_all (quit_signal_actions_callback)
+			events_controller.iteration_actions.prune_all (iteration_actions_callback)
+			events_controller.joy_device_found_actions.prune_all (joystick_found_actions_callback)
+			events_controller.joy_device_remove_actions.prune_all (joystick_remove_actions_callback)
+			events_controller.file_drop_actions.prune_all (file_drop_actions_callback)
 		end
 
 	run
@@ -49,113 +53,137 @@ feature -- Access
 			Run_Not_Already_Running: not is_running
 		do
 			is_running:=True
-			if attached on_quit_signal_internal as la_on_quit_signal_internal then
-				events_controller.on_quit_signal.extend (on_quit_signal_callback)
+			if attached quit_signal_actions_internal as la_on_quit_signal_internal then
+				events_controller.quit_signal_actions.extend (quit_signal_actions_callback)
 			end
-			if attached on_iteration_internal as la_on_iteration_internal then
-				events_controller.on_iteration.extend (on_iteration_callback)
+			if attached iteration_actions_internal as la_on_iteration_internal then
+				events_controller.iteration_actions.extend (iteration_actions_callback)
 			end
-			if attached on_joystick_added_internal as la_on_joystick_added_internal then
-				events_controller.on_joy_device_added.extend (on_joystick_added_callback)
+			if attached joystick_found_actions_internal as la_on_joystick_added_internal then
+				events_controller.joy_device_found_actions.extend (joystick_found_actions_callback)
 			end
-			if attached on_joystick_removed_internal as la_on_joystick_removed_internal then
-				events_controller.on_joy_device_removed.extend (on_joystick_removed_callback)
+			if attached joystick_remove_actions_internal as la_on_joystick_removed_internal then
+				events_controller.joy_device_remove_actions.extend (joystick_remove_actions_callback)
 			end
-			if attached on_file_drop_internal as la_on_file_drop_internal then
-				events_controller.on_file_drop.extend (on_file_drop_callback)
+			if attached file_drop_actions_internal as la_on_file_drop_internal then
+				events_controller.file_drop_actions.extend (file_drop_actions_callback)
 			end
+		end
 
+	clear
+			-- Remove all events.
+		do
+			if is_running then
+				stop
+			end
+			quit_signal_actions_internal := Void
+			iteration_actions_internal := Void
+			joystick_found_actions_internal := Void
+			joystick_remove_actions_internal := Void
+			file_drop_actions_internal := Void
 		end
 
 	is_running:BOOLEAN
 			-- Is `Current' active
 
-	on_quit_signal: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	quit_signal_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the application receive a quit signal.
 		do
-			if attached on_quit_signal_internal as la_on_quit_signal_internal then
+			if attached quit_signal_actions_internal as la_on_quit_signal_internal then
 				Result := la_on_quit_signal_internal
 			else
 				create Result
-				events_controller.on_quit_signal.extend (on_quit_signal_callback)
-				on_quit_signal_internal := Result
+				if is_running then
+					events_controller.quit_signal_actions.extend (quit_signal_actions_callback)
+				end
+				quit_signal_actions_internal := Result
 			end
 		end
 
-	on_iteration: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	iteration_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- Called at each game loop
 		do
-			if attached on_iteration_internal as la_on_iteration_internal then
+			if attached iteration_actions_internal as la_on_iteration_internal then
 				Result := la_on_iteration_internal
 			else
 				create Result
-				events_controller.on_iteration.extend (on_iteration_callback)
-				on_iteration_internal := Result
+				if is_running then
+					events_controller.iteration_actions.extend (iteration_actions_callback)
+				end
+				iteration_actions_internal := Result
 			end
 		end
 
-	on_joystick_added: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_found_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
 			-- Called when a new joystick has been founded
 			-- To get the new joystick, call {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks',
 			-- then use the {GAME_LIBRARY_CONTROLLER}.`joysticks'.`at'(`joystick_id')
 		do
-			if attached on_joystick_added_internal as la_on_joystick_added_internal then
+			if attached joystick_found_actions_internal as la_on_joystick_added_internal then
 				Result := la_on_joystick_added_internal
 			else
 				create Result
-				events_controller.on_joy_device_added.extend (on_joystick_added_callback)
-				on_joystick_added_internal := Result
+				if is_running then
+					events_controller.joy_device_found_actions.extend (joystick_found_actions_callback)
+				end
+				joystick_found_actions_internal := Result
 			end
 		end
 
-	on_joystick_removed: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_remove_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
 			-- Called when a new joystick has been removed
 			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' when the
 			-- {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks' will be called.
 		do
-			if attached on_joystick_removed_internal as la_on_joystick_removed_internal then
+			if attached joystick_remove_actions_internal as la_on_joystick_removed_internal then
 				Result := la_on_joystick_removed_internal
 			else
 				create Result
-				events_controller.on_joy_device_removed.extend (on_joystick_removed_callback)
-				on_joystick_removed_internal := Result
+				if is_running then
+					events_controller.joy_device_remove_actions.extend (joystick_remove_actions_callback)
+				end
+				joystick_remove_actions_internal := Result
 			end
 		end
 
-	on_file_drop: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+	file_drop_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 		do
-			if attached on_file_drop_internal as la_on_file_drop_internal then
+			if attached file_drop_actions_internal as la_on_file_drop_internal then
 				Result := la_on_file_drop_internal
 			else
 				create Result
-				events_controller.on_file_drop.extend (on_file_drop_callback)
-				on_file_drop_internal := Result
+				if is_running then
+					events_controller.file_drop_actions.extend (file_drop_actions_callback)
+				end
+				file_drop_actions_internal := Result
 			end
 		end
 
 
 feature {NONE} -- Implementation
 
-	on_quit_signal_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	quit_signal_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 
-	on_quit_signal_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
+	quit_signal_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
 
-	on_iteration_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+	iteration_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 
-	on_iteration_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
+	iteration_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
 
-	on_joystick_added_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_found_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
 
-	on_joystick_added_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+	joystick_found_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 
-	on_joystick_removed_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+	joystick_remove_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 
-	on_joystick_removed_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_remove_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
 
-	on_file_drop_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+	file_drop_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 
-	on_file_drop_callback: PROCEDURE[ANY, TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+	file_drop_actions_callback: PROCEDURE[ANY, TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 
 	events_controller:GAME_EVENTS_CONTROLLER
+		deferred
+		end
 
 end

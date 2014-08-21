@@ -9,6 +9,14 @@ class
 
 inherit
 	GAME_SDL_ANY
+	GAME_COMMON_EVENTS
+		rename
+			make as make_events,
+			stop as stop_events,
+			run as run_events,
+			is_running as is_events_running,
+			clear as clear_events
+		end
 
 create
 	make,
@@ -76,6 +84,7 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enable
 		do
 			close_all_joysticks
+			internal_joysticks.wipe_out
 			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
 		ensure
 			SDL_Controller_Disable_Joystick_Disabled: not is_joystick_enable
@@ -114,34 +123,6 @@ feature -- Subs Systems
 		do
 			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
 		end
-
-
-	enable_controller
-			-- Unable the controller functionality.
-		require
-			SDL_Controller_Enable_Controller_Already_Enabled: not is_controller_enable
-		do
-			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
-		ensure
-			SDL_Controller_Enable_Events_Enabled: is_controller_enable
-		end
-
-	disable_controller
-			-- Disable the controller fonctionality
-		require
-			SDL_Controller_Disable_controller_Not_Enabled: is_controller_enable
-		do
-			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
-		ensure
-			SDL_Controller_Disable_Events_Disabled: not is_controller_enable
-		end
-
-	is_controller_enable:BOOLEAN
-			-- Return true if the controller functionnality is enabled.
-		do
-			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_gamecontroller)
-		end
-
 
 	enable_events
 			-- Unable the events functionality.
@@ -283,8 +264,10 @@ feature -- Joystick methods
 feature {NONE} -- Joystick implementation
 
 	internal_joysticks:ARRAYED_LIST[GAME_JOYSTICK]
+			-- Every {GAME_JOYSTICK} connected to the system.
 
 	open_all_joystick
+			-- Open all joystick that is not already open.
 		require
 			Joysticks_is_enabled: is_joystick_enable
 		do
@@ -312,50 +295,12 @@ feature {NONE} -- Joystick implementation
 feature -- Other methods
 
 	events_controller:GAME_EVENTS_CONTROLLER
-			-- The library complete events controller.
-		do
-			Result:=internal_events_controller
-		end
-
-	events:GAME_COMMON_EVENTS assign set_events
-			-- The library general `events' manager.
-		require
-			Events_Is_Enable: is_events_enable
-		do
-			Result:=internal_events
-		end
-
-	set_events(a_events:GAME_COMMON_EVENTS)
-			-- Assign the library general `events' manager.
-		require
-			Events_Is_Enable: is_events_enable
-		do
-			if events.is_running then
-				events.stop
-			end
-			internal_events:=a_events
-			if not events.is_running then
-				events.run
-			end
-		end
-
-	clear_events
-			-- Assign a new library general `events' manager.
-		require
-			Events_Is_Enable: is_events_enable
-		do
-			if events.is_running then
-				events.stop
-			end
-			create internal_events.make (internal_events_controller)
-		end
 
 	update_events
 			-- Execute the event polling and throw the event handeler execution for each event.
 		do
 			events_controller.poll_event
 		end
-
 
 	delay(a_millisecond:NATURAL_32)
 			-- Pause the execution for given time in `millisecond'.
@@ -426,9 +371,12 @@ feature -- Other methods
 		local
 			l_mem:MEMORY
 		do
-			create internal_events_controller
-			create internal_events.make (internal_events_controller)
-			internal_events_controller.set_game_library (Current)
+			clear_events
+			if is_joystick_enable then
+				disable_joystick
+			end
+			create events_controller
+			events_controller.set_game_library (Current)
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
@@ -438,6 +386,7 @@ feature -- Other methods
 feature {GAME_SDL_ANY}
 
 	internal_windows:LIST[GAME_WINDOW]
+			-- Every {GAME_WINDOW} of the system.
 
 
 feature{NONE} -- Implementation - Methods
@@ -457,9 +406,9 @@ feature{NONE} -- Implementation - Methods
 			end
 			check l_error = 0 end
 			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
-			create internal_events_controller
-			create internal_events.make (internal_events_controller)
-			internal_events_controller.set_game_library (Current)
+			create events_controller
+			make_events
+			events_controller.set_game_library (Current)
 		end
 
 	initialise_sub_system(a_flags:NATURAL_32)
@@ -493,13 +442,12 @@ feature{NONE} -- Implementation - Methods
 feature {NONE} -- Implementation - Variables
 
 	must_stop:BOOLEAN
+			-- When true, the launching process must stop
 
 	last_tick:NATURAL_32
+			-- The `ticks' value on the last iteration
 
 	ticks_per_iteration:NATURAL_32
-
-	internal_events_controller:GAME_EVENTS_CONTROLLER
-
-	internal_events:GAME_COMMON_EVENTS
+			-- Minimum number of ticks to pass between each iteration
 
 end

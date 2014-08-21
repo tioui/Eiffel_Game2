@@ -149,26 +149,54 @@ feature -- Function SDL.h
 			"SDL_JoystickGetHat"
 		end
 
-	frozen SDL_JoystickGetGUIDString(guid, pszguid:POINTER; cbguid: INTEGER)
+	frozen c_SDL_JoystickGetGUIDString(joystick, pszguid:POINTER; cbguid: INTEGER)
 		external
 			"C inline use <SDL.h>"
 		alias
-			"SDL_JoystickGetGUIDString(*((SDL_JoystickGUID*)$guid), (char*)$pszguid, (int)$cbguid)"
+			"[
+				SDL_JoystickGUID guid = SDL_JoystickGetGUID((SDL_Joystick*)$joystick);
+				SDL_JoystickGetGUIDString(guid, (char*)$pszguid, (int)$cbguid);
+			]"
 		end
 
-	frozen SDL_JoystickGetGUID(joystick:POINTER): POINTER
+	frozen c_SDL_JoystickGetDeviceGUIDString(deviceindex:INTEGER; pszguid:POINTER; cbguid: INTEGER)
 		external
 			"C inline use <SDL.h>"
 		alias
-			"&(SDL_JoystickGetGUID((SDL_Joystick*)$joystick))"
+			"[
+				SDL_JoystickGUID guid = SDL_JoystickGetDeviceGUID((int)$deviceindex);
+				SDL_JoystickGetGUIDString(guid, (char*)$pszguid, (int)$cbguid);
+			]"
 		end
 
-	frozen SDL_JoystickGetDeviceGUID(deviceindex:INTEGER): POINTER
-		external
-			"C inline use <SDL.h>"
-		alias
-			"&(SDL_JoystickGetDeviceGUID((int)$deviceindex))"
-		end
+
+
+--	frozen SDL_JoystickGetGUIDString(guid, pszguid:POINTER; cbguid: INTEGER)
+--		external
+--			"C inline use <SDL.h>"
+--		alias
+--			"SDL_JoystickGetGUIDString(*((SDL_JoystickGUID*)$guid), (char*)$pszguid, (int)$cbguid)"
+--		end
+
+--	frozen SDL_JoystickGetGUID(joystick:POINTER): POINTER
+--		external
+--			"C inline use <SDL.h>"
+--		alias
+--			"[
+--				SDL_Joystick* joystick = (SDL_Joystick*)$joystick;
+--				return &(SDL_JoystickGetGUID(joystick));
+--			]"
+--		end
+
+--	frozen SDL_JoystickGetDeviceGUID(deviceindex:INTEGER): POINTER
+--		external
+--			"C inline use <SDL.h>"
+--		alias
+--			"[
+--				int index = (int)$deviceindex;7
+--				return &(SDL_JoystickGetDeviceGUID(index);
+--			]"
+--		end
 
 	frozen SDL_JoystickInstanceID(joystick:POINTER) : INTEGER_32
 		external
@@ -231,6 +259,13 @@ feature -- Function SDL.h
 			"C (SDL_Window*) : int | <SDL.h>"
 		alias
 			"SDL_GetWindowDisplayIndex"
+		end
+
+	frozen SDL_GetWindowID(window:POINTER):NATURAL_32
+		external
+			"C (SDL_Window*) : Uint32 | <SDL.h>"
+		alias
+			"SDL_GetWindowID"
 		end
 
 	frozen SDL_WINDOWPOS_UNDEFINED_DISPLAY(display:INTEGER):INTEGER
@@ -3912,6 +3947,104 @@ feature -- Constants
 			"C [macro <SDL.h>] : EIF_NATURAL_8"
 		alias
 			"SDL_HAT_LEFTDOWN"
+		end
+
+	frozen SDL_WINDOWEVENT_SHOWN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_SHOWN"
+		end
+
+	frozen SDL_WINDOWEVENT_HIDDEN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_HIDDEN"
+		end
+
+	frozen SDL_WINDOWEVENT_EXPOSED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_EXPOSED"
+		end
+
+	frozen SDL_WINDOWEVENT_MOVED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_MOVED"
+		end
+
+	frozen SDL_WINDOWEVENT_RESIZED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_RESIZED"
+		end
+
+	frozen SDL_WINDOWEVENT_SIZE_CHANGED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_SIZE_CHANGED"
+		end
+
+	frozen SDL_WINDOWEVENT_MINIMIZED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_MINIMIZED"
+		end
+
+	frozen SDL_WINDOWEVENT_MAXIMIZED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_MAXIMIZED"
+		end
+
+	frozen SDL_WINDOWEVENT_RESTORED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_RESTORED"
+		end
+
+	frozen SDL_WINDOWEVENT_ENTER : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_ENTER"
+		end
+
+	frozen SDL_WINDOWEVENT_LEAVE : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_LEAVE"
+		end
+
+	frozen SDL_WINDOWEVENT_FOCUS_GAINED : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_FOCUS_GAINED"
+		end
+
+	frozen SDL_WINDOWEVENT_FOCUS_LOST : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_FOCUS_LOST"
+		end
+
+	frozen SDL_WINDOWEVENT_CLOSE : NATURAL_8
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_8"
+		alias
+			"SDL_WINDOWEVENT_CLOSE"
 		end
 
 

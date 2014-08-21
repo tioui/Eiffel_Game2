@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			l_window.surface.draw_sub_surface (l_bird, 12, 0, 28, 30, 600, 300)	-- A bird head
 			l_window.update_surface
 
-			game_library.events.on_quit_signal.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.
+			game_library.quit_signal_actions.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.
 			game_library.launch		-- Launch the game loop (the application block here).
 		end
 

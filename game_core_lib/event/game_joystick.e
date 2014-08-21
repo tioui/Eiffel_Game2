@@ -157,16 +157,15 @@ feature -- Access
 	guid:READABLE_STRING_GENERAL
 			-- A unique hardware identifier of `Current'
 		local
-			l_guid_pointer, l_string_buffer:POINTER
+			l_string_buffer:POINTER
 			l_c_string:C_STRING
 		do
 			l_string_buffer := l_string_buffer.memory_alloc (50)
 			if is_opened then
-				l_guid_pointer := {GAME_SDL_EXTERNAL}.SDL_JoystickGetGUID(joy_ptr)
+				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetGUIDString(joy_ptr, l_string_buffer, 50)
 			else
-				l_guid_pointer := {GAME_SDL_EXTERNAL}.SDL_JoystickGetDeviceGUID(index)
+				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(index, l_string_buffer, 50)
 			end
-			{GAME_SDL_EXTERNAL}.SDL_JoystickGetGUIDString(l_guid_pointer, l_string_buffer, 50)
 			create l_c_string.own_from_pointer (l_string_buffer)
 			Result := l_c_string.string
 		end
