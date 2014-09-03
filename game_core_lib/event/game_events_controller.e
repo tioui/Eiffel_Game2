@@ -57,6 +57,9 @@ feature -- Access
 
 	poll_event
 			-- Execute an event validation. If no event is pending, do nothing.
+		require
+			attached game_library as la_game_library and then
+				la_game_library.is_events_enable
 		local
 			l_is_event:INTEGER
 		do
@@ -260,6 +263,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_quit, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_quit_signal_event_enable
 		end
 
 	disable_quit_signal_event
@@ -270,6 +275,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_quit, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_quit_signal_event_enable
 		end
 
 	is_quit_signal_event_enable:BOOLEAN
@@ -290,6 +297,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_windowevent, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_window_event_enable
 		end
 
 	disable_window_event
@@ -300,6 +309,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_windowevent, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_window_event_enable
 		end
 
 	is_window_event_enable:BOOLEAN
@@ -320,6 +331,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keydown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_key_down_event_enable
 		end
 
 	disable_key_down_event
@@ -330,6 +343,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keydown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_key_down_event_enable
 		end
 
 	is_key_down_event_enable:BOOLEAN
@@ -350,6 +365,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keyup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_key_up_event_enable
 		end
 
 	disable_key_up_event
@@ -360,6 +377,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keyup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_key_up_event_enable
 		end
 
 	is_key_up_event_enable:BOOLEAN
@@ -380,6 +399,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textediting, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_text_editing_event_enable
 		end
 
 	disable_text_editing_event
@@ -390,6 +411,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textediting, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_text_editing_event_enable
 		end
 
 	is_text_editing_event_enable:BOOLEAN
@@ -410,6 +433,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_text_input_event_enable
 		end
 
 	disable_text_input_event
@@ -420,6 +445,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_text_input_event_enable
 		end
 
 	is_text_input_event_enable:BOOLEAN
@@ -440,6 +467,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousemotion, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_mouse_motion_event_enable
 		end
 
 	disable_mouse_motion_event
@@ -450,6 +479,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousemotion, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_mouse_motion_event_enable
 		end
 
 	is_mouse_motion_event_enable:BOOLEAN
@@ -470,6 +501,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttondown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_mouse_button_down_event_enable
 		end
 
 	disable_mouse_button_down_event
@@ -480,6 +513,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttondown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_mouse_button_down_event_enable
 		end
 
 	is_mouse_button_down_event_enable:BOOLEAN
@@ -500,6 +535,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttonup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_mouse_button_up_event_enable
 		end
 
 	disable_mouse_button_up_event
@@ -510,6 +547,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttonup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_mouse_button_up_event_enable
 		end
 
 	is_mouse_button_up_event_enable:BOOLEAN
@@ -530,6 +569,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousewheel, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_mouse_wheel_event_enable
 		end
 
 	disable_mouse_wheel_event
@@ -540,6 +581,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousewheel, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_mouse_wheel_event_enable
 		end
 
 	is_mouse_wheel_event_enable:BOOLEAN
@@ -560,6 +603,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyaxismotion, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_axis_motion_event_enable
 		end
 
 	disable_joy_axis_motion_event
@@ -570,6 +615,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyaxismotion, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_axis_motion_event_enable
 		end
 
 	is_joy_axis_motion_event_enable:BOOLEAN
@@ -590,6 +637,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyballmotion, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_ball_motion_event_enable
 		end
 
 	disable_joy_ball_motion_event
@@ -600,6 +649,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyballmotion, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_ball_motion_event_enable
 		end
 
 	is_joy_ball_motion_event_enable:BOOLEAN
@@ -620,6 +671,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyhatmotion, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_hat_motion_event_enable
 		end
 
 	disable_joy_hat_motion_event
@@ -630,6 +683,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyhatmotion, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_hat_motion_event_enable
 		end
 
 	is_joy_hat_motion_event_enable:BOOLEAN
@@ -650,6 +705,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttondown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_button_down_event_enable
 		end
 
 	disable_joy_button_down_event
@@ -660,6 +717,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttondown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_button_down_event_enable
 		end
 
 	is_joy_button_down_event_enable:BOOLEAN
@@ -680,6 +739,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttonup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_button_up_event_enable
 		end
 
 	disable_joy_button_up_event
@@ -690,6 +751,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttonup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_button_up_event_enable
 		end
 
 	is_joy_button_up_event_enable:BOOLEAN
@@ -702,7 +765,7 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_device_added_event
+	enable_joy_device_found_event
 			-- Process the `joy_device_found_actions' event.
 			-- Enabled by default
 		local
@@ -710,9 +773,11 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceadded, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_device_found_event_enable
 		end
 
-	disable_joy_device_added_event
+	disable_joy_device_found_event
 			-- Ignore the `joy_device_found_actions' event.
 			-- Enabled by default
 		local
@@ -720,9 +785,11 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceadded, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_device_found_event_enable
 		end
 
-	is_joy_device_added_event_enable:BOOLEAN
+	is_joy_device_found_event_enable:BOOLEAN
 			-- Is the `joy_device_found_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -732,7 +799,7 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_device_removed_event
+	enable_joy_device_remove_event
 			-- Process the `joy_device_remove_actions' event.
 			-- Enabled by default
 		local
@@ -740,9 +807,11 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceremoved, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_joy_device_remove_event_enable
 		end
 
-	disable_joy_device_removed_event
+	disable_joy_device_remove_event
 			-- Ignore the `joy_device_remove_actions' event.
 			-- Enabled by default
 		local
@@ -750,9 +819,11 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceremoved, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_joy_device_remove_event_enable
 		end
 
-	is_joy_device_removed_event_enable:BOOLEAN
+	is_joy_device_remove_event_enable:BOOLEAN
 			-- Is the `joy_device_remove_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -771,6 +842,11 @@ feature -- Access
 			clear_error
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_enable)
 			has_error := l_error < 0
+		ensure
+			Is_Events_Enabled: 	is_joy_axis_motion_event_enable and is_joy_ball_motion_event_enable and
+								is_joy_hat_motion_event_enable and is_joy_button_down_event_enable and
+								is_joy_button_up_event_enable and is_joy_device_found_event_enable and
+								is_joy_device_remove_event_enable
 		end
 
 	disable_every_joy_events
@@ -782,6 +858,11 @@ feature -- Access
 			clear_error
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_disable)
 			has_error := l_error < 0
+		ensure
+			Is_Events_Disabled:	not (is_joy_axis_motion_event_enable or is_joy_ball_motion_event_enable or
+								is_joy_hat_motion_event_enable or is_joy_button_down_event_enable or
+								is_joy_button_up_event_enable or is_joy_device_found_event_enable or
+								is_joy_device_remove_event_enable)
 		end
 
 	is_any_joy_event_enable:BOOLEAN
@@ -803,6 +884,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerdown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_finger_down_event_enable
 		end
 
 	disable_finger_down_event
@@ -813,6 +896,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerdown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_finger_down_event_enable
 		end
 
 	is_finger_down_event_enable:BOOLEAN
@@ -833,6 +918,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_finger_up_event_enable
 		end
 
 	disable_finger_up_event
@@ -843,6 +930,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_finger_up_event_enable
 		end
 
 	is_finger_up_event_enable:BOOLEAN
@@ -863,6 +952,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingermotion, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_finger_motion_event_enable
 		end
 
 	disable_finger_motion_event
@@ -873,6 +964,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingermotion, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_finger_motion_event_enable
 		end
 
 	is_finger_motion_event_enable:BOOLEAN
@@ -893,6 +986,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_multigesture, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_finger_gesture_event_enable
 		end
 
 	disable_finger_gesture_event
@@ -903,6 +998,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_multigesture, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_finger_gesture_event_enable
 		end
 
 	is_finger_gesture_event_enable:BOOLEAN
@@ -923,6 +1020,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dollargesture, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_dollar_gesture_event_enable
 		end
 
 	disable_dollar_gesture_event
@@ -933,6 +1032,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dollargesture, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_dollar_gesture_event_enable
 		end
 
 	is_dollar_gesture_event_enable:BOOLEAN
@@ -953,6 +1054,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dropfile, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_file_drop_event_enable
 		end
 
 	disable_file_drop_event
@@ -963,6 +1066,8 @@ feature -- Access
 		do
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dropfile, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_file_drop_event_enable
 		end
 
 	is_file_drop_event_enable:BOOLEAN
@@ -976,6 +1081,7 @@ feature -- Access
 		end
 
 
+	game_library: detachable GAME_SDL_CONTROLLER
 
 feature {GAME_SDL_CONTROLLER}
 
@@ -1209,7 +1315,6 @@ feature {NONE} -- Implementation
 
 	event_ptr:POINTER
 
-	game_library: detachable GAME_SDL_CONTROLLER
 
 
 

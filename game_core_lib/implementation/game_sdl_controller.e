@@ -295,6 +295,7 @@ feature {NONE} -- Joystick implementation
 feature -- Other methods
 
 	events_controller:GAME_EVENTS_CONTROLLER
+			-- <Precursor>
 
 	update_events
 			-- Execute the event polling and throw the event handeler execution for each event.

@@ -5,205 +5,134 @@ note
 	revision: "1.1.2.1"
 
 class
-	GAME_KEYBOARD_EVENT
+	GAME_KEY_STATE
 
---inherit
---	ANY
---		redefine
---			out
---		end
+inherit
+	GAME_KEY
 
---create {GAME_EVENT_CONTROLLER}
---	make
+create {GAME_SDL_ANY}
+	make
 
---feature {NONE} -- Initialization
+feature {NONE} -- Initialization
 
---	make(a_type,a_state,a_scancode:NATURAL_8;a_unicode:NATURAL_16;a_sym,a_mod:INTEGER)
---			-- Initialization for `Current'.
---		do
---			type:=a_type
---			state:=a_state
---			scancode:=a_scancode
---			unicode:=a_unicode
---			sym:=a_sym
---			mod:=a_mod
---		end
+	make(a_physical_code, a_virtual_code:INTEGER_32; a_modifier: NATURAL_16; a_repeat: NATURAL_8)
+			-- Initialization for `Current'.
+		do
+			physical_code := a_physical_code
+			virtual_code := a_virtual_code
+			repeat := a_repeat
+			modifier := a_modifier
+		end
 
---feature {NONE} -- Implementation
+feature -- Access
 
---	type:NATURAL_8
+	is_repeat:BOOLEAN
+			-- The key is a repetition
+		do
+			Result := repeat /= 0
+		end
 
---	state:NATURAL_8
+	has_no_modifier:BOOLEAN
+			-- No modifier has been use with the key
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_NONE
+		end
 
---	sym:INTEGER
+	has_left_shift_modifier:BOOLEAN
+			-- The key has the left shift modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_LSHIFT
+		end
 
---	mod:INTEGER
+	has_right_shift_modifier:BOOLEAN
+			-- The key has the right shift modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_RSHIFT
+		end
 
---	unicode:NATURAL_16 -- The translated unicode character representing the button pressed or released.
+	has_left_ctrl_modifier:BOOLEAN
+			-- The key has the left ctrl modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_LCTRL
+		end
 
---feature -- Access
+	has_right_ctrl_modifier:BOOLEAN
+			-- The key has the right ctrl modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_RCTRL
+		end
 
---	scancode:NATURAL_8 -- Hardware dependent scancode (not compatible between system)
+	has_left_alt_modifier:BOOLEAN
+			-- The key has the left alt modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_LALT
+		end
 
---	character:CHARACTER_32
---			-- Return the caracter representation of the key pressed.
---		do
---			result := unicode.to_character_32
---		end
+	has_right_alt_modifier:BOOLEAN
+			-- The key has the right alt modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_RALT
+		end
 
---	out:STRING
---		local
---			l_result_ptr:POINTER
---			l_result_c:C_STRING
---		do
---			l_result_ptr:={GAME_SDL_EXTERNAL}.SDL_GetKeyName(sym)
---			if not l_result_ptr.is_default_pointer then
---				create l_result_c.make_by_pointer (l_result_ptr)
---				Result:=l_result_c.string
---			else
---				Result:=""
---			end
+	has_left_gui_modifier:BOOLEAN
+			-- The key has the left GUI (Windows key) modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_LGUI
+		end
 
---		end
+	has_right_gui_modifier:BOOLEAN
+			-- The key has the right GUI (Windows key) modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_RGUI
+		end
 
---feature -- Type and State
---	is_key_down:BOOLEAN
---		-- Return true if the button has been pressed
---		-- Equivalent to the is_pressed for all normals keys.
---		-- The difference is for the Caps Lock and Num Lock keys.
---		-- For those keys, the is_key_down is activate when the
---		-- del turn on.
---	do
---		Result:= type={GAME_SDL_EXTERNAL}.SDL_KEYDOWN
---	end
+	has_num_lock_modifier:BOOLEAN
+			-- The key has the num luck modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_NUM
+		end
 
---	is_key_up:BOOLEAN
---		-- Return true if the button has been released
---		-- Equivalent to the is_released for all normals keys.
---		-- The difference is for the Caps Lock and Num Lock keys.
---		-- For those keys, the is_key_up is activate when the
---		-- del turn off.
---	do
---		Result:= type={GAME_SDL_EXTERNAL}.SDL_KEYUP
---	end
+	has_caps_lock_modifier:BOOLEAN
+			-- The key has the caps luck modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_CAPS
+		end
 
---	is_pressed:BOOLEAN
---		-- Return true if the button has been pressed
---		-- Equivalent to the is_key_down for all normals keys.
---		-- The difference is for the Caps Lock and Num Lock keys.
---		-- For those keys, the is_pressed is activate when the
---		-- button is pressed (same as other buttons).
---	do
---		Result:= state={GAME_SDL_EXTERNAL}.SDL_PRESSED
---	end
+	has_alt_gr_modifier:BOOLEAN
+			-- The key has the AltGr modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_MODE
+		end
 
---	is_released:BOOLEAN
---		-- Return true if the button has been released
---		-- Equivalent to the is_key_up for all normals keys.
---		-- The difference is for the Caps Lock and Num Lock keys.
---		-- For those keys, the is_released is activate when the
---		-- button is released (same as other buttons).
---	do
---		Result:= state={GAME_SDL_EXTERNAL}.SDL_RELEASED
---	end
+	has_ctrl_modifier:BOOLEAN
+			-- The key has the ctrl modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_CTRL
+		end
 
---feature -- Modifier
+	has_shift_modifier:BOOLEAN
+			-- The key has the shift modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_SHIFT
+		end
 
---	is_no_modifier:BOOLEAN
---		-- Return true if no modifier is activate.
---	do
---		Result:= mod={GAME_SDL_EXTERNAL}.KMOD_NONE
---	end
+	has_alt_modifier:BOOLEAN
+			-- The key has the alt modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_ALT
+		end
 
---	is_left_shift_modifier:BOOLEAN
---		-- Return true if the left shift is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_LSHIFT)/=0
---	end
+	has_gui_modifier:BOOLEAN
+			-- The key has the gui (Windows key) modifier
+		do
+			Result := modifier = {GAME_SDL_EXTERNAL}.KMOD_GUI
+		end
 
---	is_right_shift_modifier:BOOLEAN
---		-- Return true if the right shift is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_RSHIFT)/=0
---	end
+feature {NONE} -- Implementation
 
---	is_shift_modifier:BOOLEAN
---		-- Return true if a shift button is pressed.
---	do
---		Result:= is_left_shift_modifier or is_right_shift_modifier
---	end
+	repeat:NATURAL_8
 
---	is_left_ctrl_modifier:BOOLEAN
---		-- Return true if the left ctrl key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_LCTRL)/=0
---	end
-
---	is_right_ctrl_modifier:BOOLEAN
---		-- Return true if the right ctrl key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_RCTRL)/=0
---	end
-
---	is_ctrl_modifier:BOOLEAN
---		-- Return true if a ctrl button is pressed.
---	do
---		Result:= is_left_ctrl_modifier or is_right_ctrl_modifier
---	end
-
---	is_left_alt_modifier:BOOLEAN
---		-- Return true if the left alt key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_LALT)/=0
---	end
-
---	is_right_alt_modifier:BOOLEAN
---		-- Return true if the right alt key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_RALT)/=0
---	end
-
---	is_alt_modifier:BOOLEAN
---		-- Return true if an alt button is pressed.
---	do
---		Result:=is_left_alt_modifier or is_right_alt_modifier
---	end
-
---	is_left_meta_modifier:BOOLEAN
---		-- Return true if the left meta (windows or command) key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_LMETA)/=0
---	end
-
---	is_right_meta_modifier:BOOLEAN
---		-- Return true if the right meta (windows or command) key is pressed.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_RMETA)/=0
---	end
-
---	is_meta_modifier:BOOLEAN
---		-- Return true a meta (windows or command) key is pressed.
---	do
---		Result:=is_left_meta_modifier or is_right_meta_modifier
---	end
-
---	is_numlock_modifier:BOOLEAN
---		-- Return true if the numlock is activate (the del is on).
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_NUM)/=0
---	end
-
---	is_capslock_modifier:BOOLEAN
---		-- Return true if the numlock is activate (the del is on).
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_CAPS)/=0
---	end
-
---	is_mode_modifier:BOOLEAN
---		-- Return true if the mode is activate.
---	do
---		Result:= mod.bit_and ({GAME_SDL_EXTERNAL}.KMOD_MODE)/=0
---	end
+	modifier: NATURAL_16
 
 --feature -- Keys
 

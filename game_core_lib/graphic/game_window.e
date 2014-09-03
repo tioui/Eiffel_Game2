@@ -10,7 +10,6 @@ deferred class
 inherit
 	GAME_LIBRARY_SHARED
 	DISPOSABLE
-	GAME_SDL_ANY
 	GAME_WINDOW_EVENTS
 		rename
 			make as make_events,
@@ -18,7 +17,7 @@ inherit
 			run as run_events,
 			is_running as is_events_running,
 			clear as clear_events,
-			window_id as id
+			internal_id as id
 		end
 
 feature {NONE} -- Initialisation
@@ -339,6 +338,14 @@ feature -- Access
 		-- http://wiki.libsdl.org/SDL_SetWindowIcon
 
 
+
+
+	events_controller:GAME_EVENTS_CONTROLLER
+		do
+			Result := game_library.events_controller
+		end
+
+
 feature {NONE} -- Implementation
 
 	dispose
@@ -350,9 +357,4 @@ feature {NONE} -- Implementation
 		end
 
 	internal_pointer:POINTER
-
-	events_controller:GAME_EVENTS_CONTROLLER
-		do
-			Result := game_library.events_controller
-		end
 end

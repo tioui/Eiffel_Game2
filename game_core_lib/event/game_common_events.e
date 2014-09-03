@@ -72,7 +72,10 @@ feature -- Access
 
 	clear
 			-- Remove all events.
+		local
+			l_was_running:BOOLEAN
 		do
+			l_was_running := is_running
 			if is_running then
 				stop
 			end
@@ -81,6 +84,9 @@ feature -- Access
 			joystick_found_actions_internal := Void
 			joystick_remove_actions_internal := Void
 			file_drop_actions_internal := Void
+			if l_was_running then
+				run
+			end
 		end
 
 	is_running:BOOLEAN
@@ -88,6 +94,8 @@ feature -- Access
 
 	quit_signal_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the application receive a quit signal.
+		require
+			Quit_Event_Enabled: events_controller.is_quit_signal_event_enable
 		do
 			if attached quit_signal_actions_internal as la_on_quit_signal_internal then
 				Result := la_on_quit_signal_internal
@@ -118,6 +126,8 @@ feature -- Access
 			-- Called when a new joystick has been founded
 			-- To get the new joystick, call {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks',
 			-- then use the {GAME_LIBRARY_CONTROLLER}.`joysticks'.`at'(`joystick_id')
+		require
+			Joystick_Found_Event_Enabled: events_controller.is_joy_device_found_event_enable
 		do
 			if attached joystick_found_actions_internal as la_on_joystick_added_internal then
 				Result := la_on_joystick_added_internal
@@ -134,6 +144,8 @@ feature -- Access
 			-- Called when a new joystick has been removed
 			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' when the
 			-- {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks' will be called.
+		require
+			Joystick_Remove_Event_Enabled: events_controller.is_joy_device_remove_event_enable
 		do
 			if attached joystick_remove_actions_internal as la_on_joystick_removed_internal then
 				Result := la_on_joystick_removed_internal
@@ -147,6 +159,10 @@ feature -- Access
 		end
 
 	file_drop_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+			-- Called when the file (or any other string) `filename' is drag and drop on a {GAME_WINDOW}.
+			-- The event is not enabled by default. Use `events_controller'.`enable_file_drop_event' to enable it.
+		require
+			Joystick_Found_Event_Enabled: events_controller.is_joy_device_found_event_enable
 		do
 			if attached file_drop_actions_internal as la_on_file_drop_internal then
 				Result := la_on_file_drop_internal
@@ -159,6 +175,10 @@ feature -- Access
 			end
 		end
 
+	events_controller:GAME_EVENTS_CONTROLLER
+			-- Manage every internal events
+		deferred
+		end
 
 feature {NONE} -- Implementation
 
@@ -182,8 +202,5 @@ feature {NONE} -- Implementation
 
 	file_drop_actions_callback: PROCEDURE[ANY, TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 
-	events_controller:GAME_EVENTS_CONTROLLER
-		deferred
-		end
 
 end

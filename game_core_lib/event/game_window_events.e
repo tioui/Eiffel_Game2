@@ -7,6 +7,9 @@ note
 deferred class
 	GAME_WINDOW_EVENTS
 
+inherit
+	GAME_SDL_ANY
+
 feature {NONE} -- Initialisation
 
 	make
@@ -14,6 +17,10 @@ feature {NONE} -- Initialisation
 			is_running:=True
 			window_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32) do
 											window_events_dispatcher(a_timestamp, a_window_id, a_event_type, a_data1, a_data2)
+										end
+			key_down_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
+											key_down_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
 		ensure
 			Make_Event_Is_Running: is_running
@@ -58,7 +65,10 @@ feature -- Access
 
 	clear
 			-- Remove all events.
+		local
+			l_was_running:BOOLEAN
 		do
+			l_was_running := is_running
 			if is_running then
 				stop
 			end
@@ -76,6 +86,9 @@ feature -- Access
 			keyboard_focus_gain_actions_internal := Void
 			keyboard_focus_lost_actions_internal := Void
 			close_request_actions_internal := Void
+			if l_was_running then
+				run
+			end
 		end
 
 	is_running:BOOLEAN
@@ -83,6 +96,8 @@ feature -- Access
 
 	show_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' is show.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached show_actions_internal as la_show_actions_internal then
 				Result := la_show_actions_internal
@@ -97,6 +112,8 @@ feature -- Access
 
 	hide_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' is hide.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached hide_actions_internal as la_hide_actions_internal then
 				Result := la_hide_actions_internal
@@ -111,6 +128,8 @@ feature -- Access
 
 	expose_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' is exposed and should be redraw.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached expose_actions_internal as la_expose_actions_internal then
 				Result := la_expose_actions_internal
@@ -125,6 +144,8 @@ feature -- Access
 
 	move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; x, y:INTEGER_32]]
 			-- When `Current' has been moved to (`x',`y').
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached move_actions_internal as la_move_actions_internal then
 				Result := la_move_actions_internal
@@ -142,6 +163,8 @@ feature -- Access
 			-- to `width'x`height'. Always precceded by a `size_change_actions' events.
 			-- Note: This event is not trigger by the {GAME_WINDOW}.`set_size' or {GAME_WINDOW}.`set_full_screen'
 			-- Routines
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached resize_actions_internal as la_resize_actions_internal then
 				Result := la_resize_actions_internal
@@ -159,6 +182,8 @@ feature -- Access
 			-- Note: Trigger when a user resize the window (external to the game library) or when a
 			-- call to the {GAME_WINDOW}.`set_size' or {GAME_WINDOW}.`set_full_screen' routines has
 			-- been use.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached size_change_actions_internal as la_size_change_actions_internal then
 				Result := la_size_change_actions_internal
@@ -173,6 +198,8 @@ feature -- Access
 
 	minimize_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has been minimized.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached minimize_actions_internal as la_minimize_actions_internal then
 				Result := la_minimize_actions_internal
@@ -187,6 +214,8 @@ feature -- Access
 
 	maximize_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has been maximized.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached maximize_actions_internal as la_maximize_actions_internal then
 				Result := la_maximize_actions_internal
@@ -201,6 +230,8 @@ feature -- Access
 
 	restore_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has been restored to normal size and position.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached restore_actions_internal as la_restore_actions_internal then
 				Result := la_restore_actions_internal
@@ -215,6 +246,8 @@ feature -- Access
 
 	mouse_enter_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has gained mouse focus.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached mouse_enter_actions_internal as la_mouse_enter_actions_internal then
 				Result := la_mouse_enter_actions_internal
@@ -229,6 +262,8 @@ feature -- Access
 
 	mouse_leave_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has lost mouse focus.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached mouse_leave_actions_internal as la_mouse_leave_actions_internal then
 				Result := la_mouse_leave_actions_internal
@@ -243,6 +278,8 @@ feature -- Access
 
 	keyboard_focus_gain_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has gain keyboard focus.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached keyboard_focus_gain_actions_internal as la_keyboard_focus_gain_actions_internal then
 				Result := la_keyboard_focus_gain_actions_internal
@@ -257,6 +294,8 @@ feature -- Access
 
 	keyboard_focus_lost_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' has lost keyboard focus.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached keyboard_focus_lost_actions_internal as la_keyboard_focus_lost_actions_internal then
 				Result := la_keyboard_focus_lost_actions_internal
@@ -271,6 +310,8 @@ feature -- Access
 
 	close_request_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the Window manager request that `Current' be closed.
+		require
+			Window_Events_Enabled: events_controller.is_window_event_enable
 		do
 			if attached close_request_actions_internal as la_close_request_actions_internal then
 				Result := la_close_request_actions_internal
@@ -281,6 +322,26 @@ feature -- Access
 				end
 				close_request_actions_internal := Result
 			end
+		end
+
+	key_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+			-- When a key has been pressed.
+		require
+			Key_Down_Events_Enabled: events_controller.is_key_down_event_enable
+		do
+			if attached key_down_actions_internal as la_key_down_actions_internal then
+				Result := la_key_down_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.key_down_actions.has (key_down_events_callback) then
+					events_controller.key_down_actions.extend (key_down_events_callback)
+				end
+				key_down_actions_internal := Result
+			end
+		end
+
+	events_controller:GAME_EVENTS_CONTROLLER
+		deferred
 		end
 
 feature {NONE} -- Implementation
@@ -317,7 +378,7 @@ feature {NONE} -- Implementation
 
 	window_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32)
 		do
-			if a_window_id = window_id then
+			if a_window_id = internal_id then
 				if a_event_type = {GAME_SDL_EXTERNAL}.SDL_WINDOWEVENT_SHOWN then
 					if attached show_actions_internal as actions then
 						actions.call([a_timestamp])
@@ -379,11 +440,25 @@ feature {NONE} -- Implementation
 
 		end
 
-	events_controller:GAME_EVENTS_CONTROLLER
-		deferred
+	key_down_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+
+	key_down_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+
+	key_down_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+		local
+			l_keyboard_state:GAME_KEY_STATE
+		do
+			if a_window_id =internal_id then
+				create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
+				if attached key_down_actions_internal as actions then
+					actions.call (a_timestamp, l_keyboard_state)
+				end
+			end
 		end
 
-	window_id:NATURAL_32
+	internal_id:NATURAL_32
 		deferred
 		end
 end
