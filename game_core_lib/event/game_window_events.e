@@ -22,6 +22,37 @@ feature {NONE} -- Initialisation
 													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
 											key_down_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
+			key_up_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
+											key_up_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
+										end
+			text_editing_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32;
+													a_start,a_lenght:INTEGER_32) do
+												text_editing_events_dispatcher(a_timestamp, a_window_id, a_text, a_start,a_lenght)
+											end
+			text_input_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32) do
+												text_input_events_dispatcher(a_timestamp, a_window_id, a_text)
+											end
+			mouse_motion_events_callback := agent (a_timestamp,a_window_id, a_mouse_id, a_state:NATURAL_32;
+													a_x,a_y,a_x_relative,a_y_relative:INTEGER_32) do
+												mouse_motion_events_dispatcher(a_timestamp,a_window_id, a_mouse_id, a_state,
+																				a_x,a_y,a_x_relative,a_y_relative)
+											end
+			mouse_button_down_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+														a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32) do
+												mouse_button_down_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
+																					a_button,a_clicks, a_x,a_y)
+											end
+			mouse_button_up_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+														a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32) do
+												mouse_button_up_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
+																					a_button,a_clicks, a_x,a_y)
+											end
+			mouse_wheel_move_events_callback := agent (a_timestamp,a_window_id,a_mouse_id:NATURAL_32;a_x,a_y:INTEGER_32) do
+												mouse_wheel_move_events_dispatcher(a_timestamp,a_window_id,a_mouse_id,a_x,a_y)
+											end
+
+
 		ensure
 			Make_Event_Is_Running: is_running
 		end
@@ -34,6 +65,13 @@ feature -- Access
 		do
 			is_running:=False
 			events_controller.window_event_actions.prune_all (window_events_callback)
+			events_controller.key_down_actions.prune_all (key_down_events_callback)
+			events_controller.text_editing_actions.prune_all (text_editing_events_callback)
+			events_controller.text_input_actions.prune_all (text_input_events_callback)
+			events_controller.mouse_motion_actions.prune_all (mouse_motion_events_callback)
+			events_controller.mouse_button_down_actions.prune_all (mouse_button_down_events_callback)
+			events_controller.mouse_button_up_actions.prune_all (mouse_button_up_events_callback)
+			events_controller.mouse_wheel_move_actions.prune_all (mouse_wheel_move_events_callback)
 		end
 
 	run
@@ -60,7 +98,30 @@ feature -- Access
 			then
 				events_controller.window_event_actions.extend (window_events_callback)
 			end
-
+			if attached key_down_actions_internal then
+				events_controller.key_down_actions.extend (key_down_events_callback)
+			end
+			if attached key_up_actions_internal then
+				events_controller.key_up_actions.extend (key_up_events_callback)
+			end
+			if attached text_editing_actions_internal then
+				events_controller.text_editing_actions.extend (text_editing_events_callback)
+			end
+			if attached text_input_actions_internal then
+				events_controller.text_input_actions.extend (text_input_events_callback)
+			end
+			if attached mouse_motion_actions_internal then
+				events_controller.mouse_motion_actions.extend (mouse_motion_events_callback)
+			end
+			if attached mouse_button_down_actions_internal then
+				events_controller.mouse_button_down_actions.extend (mouse_button_down_events_callback)
+			end
+			if attached mouse_button_up_actions_internal then
+				events_controller.mouse_button_up_actions.extend (mouse_button_up_events_callback)
+			end
+			if attached mouse_wheel_move_actions_internal then
+				events_controller.mouse_wheel_move_actions.extend (mouse_wheel_move_events_callback)
+			end
 		end
 
 	clear
@@ -86,6 +147,14 @@ feature -- Access
 			keyboard_focus_gain_actions_internal := Void
 			keyboard_focus_lost_actions_internal := Void
 			close_request_actions_internal := Void
+			key_down_actions_internal := Void
+			key_up_actions_internal := Void
+			text_editing_actions_internal := Void
+			text_input_actions_internal := Void
+			mouse_motion_actions_internal := Void
+			mouse_button_down_actions_internal := Void
+			mouse_button_up_actions_internal := Void
+			mouse_wheel_move_actions_internal := Void
 			if l_was_running then
 				run
 			end
@@ -324,8 +393,8 @@ feature -- Access
 			end
 		end
 
-	key_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
-			-- When a key has been pressed.
+	key_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+			-- When a key (represented by `key_state') has been pressed.
 		require
 			Key_Down_Events_Enabled: events_controller.is_key_down_event_enable
 		do
@@ -337,6 +406,127 @@ feature -- Access
 					events_controller.key_down_actions.extend (key_down_events_callback)
 				end
 				key_down_actions_internal := Result
+			end
+		end
+
+	key_up_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+			-- When a key (represented by `key_state') has been released.
+		require
+			Key_Up_Events_Enabled: events_controller.is_key_up_event_enable
+		do
+			if attached key_up_actions_internal as la_key_up_actions_internal then
+				Result := la_key_up_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.key_up_actions.has (key_up_events_callback) then
+					events_controller.key_up_actions.extend (key_up_events_callback)
+				end
+				key_up_actions_internal := Result
+			end
+		end
+
+	text_editing_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32;
+												start,lenght:INTEGER_32]]
+			-- When a text has been edited in `Current'.
+		require
+			Text_Editing_Events_Enabled: events_controller.is_text_editing_event_enable
+		do
+			if attached text_editing_actions_internal as la_text_editing_actions_internal then
+				Result := la_text_editing_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.text_editing_actions.has (text_editing_events_callback) then
+					events_controller.text_editing_actions.extend (text_editing_events_callback)
+				end
+				text_editing_actions_internal := Result
+			end
+		end
+
+	text_input_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32]]
+			-- When a new text has been entered in `Current'.
+		require
+			Text_Input_Events_Enabled: events_controller.is_text_input_event_enable
+		do
+			if attached text_input_actions_internal as la_text_input_actions_internal then
+				Result := la_text_input_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.text_input_actions.has (text_input_events_callback) then
+					events_controller.text_input_actions.extend (text_input_events_callback)
+				end
+				text_input_actions_internal := Result
+			end
+		end
+
+	mouse_motion_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_STATE;
+																	delta_x, delta_y:INTEGER_32]]
+			-- When a mouse represented by `mouse_state' has been moved in `Current'.
+			-- The difference between the old position and the new (`delta_x',`delta_y')
+		require
+			Mouse_Motion_Events_Enabled: events_controller.is_mouse_motion_event_enable
+		do
+			if attached mouse_motion_actions_internal as la_mouse_motion_actions_internal then
+				Result := la_mouse_motion_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.mouse_motion_actions.has (mouse_motion_events_callback) then
+					events_controller.mouse_motion_actions.extend (mouse_motion_events_callback)
+				end
+				mouse_motion_actions_internal := Result
+			end
+		end
+
+	mouse_button_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+																	nb_clicks:NATURAL_8]]
+			-- When a mouse represented by `mouse_state' has been pressed for the `nb_clicks' times
+		require
+			Mouse_Button_Down_Events_Enabled: events_controller.is_mouse_button_down_event_enable
+		do
+			if attached mouse_button_down_actions_internal as la_mouse_button_down_actions_internal then
+				Result := la_mouse_button_down_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.mouse_button_down_actions.has (mouse_button_down_events_callback) then
+					events_controller.mouse_button_down_actions.extend (mouse_button_down_events_callback)
+				end
+				mouse_button_down_actions_internal := Result
+			end
+		end
+
+	mouse_button_up_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+																	nb_clicks:NATURAL_8]]
+			-- When a mouse represented by `mouse_state' has been released for the `nb_clicks' times
+		require
+			Mouse_Button_Up_Events_Enabled: events_controller.is_mouse_button_up_event_enable
+		do
+			if attached mouse_button_up_actions_internal as la_mouse_button_up_actions_internal then
+				Result := la_mouse_button_up_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.mouse_button_up_actions.has (mouse_button_up_events_callback) then
+					events_controller.mouse_button_up_actions.extend (mouse_button_up_events_callback)
+				end
+				mouse_button_up_actions_internal := Result
+			end
+		end
+
+	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENTS_STATE;
+																	delta_x,delta_y:INTEGER_32]]
+			-- When the wheel of a mouse represented by `mouse_state' has been moved.
+			-- The difference between the old wheel position and the new one is (`delta_x',`delta_y')
+			-- When `delta_x' is positive, the wheel has been move up, and when negative, it has been moved down
+			-- When `delta_y' is positive, the wheel has been move right, and when negative, it has been moved left
+		require
+			Mouse_Wheel_Move_Events_Enabled: events_controller.is_mouse_wheel_event_enable
+		do
+			if attached mouse_wheel_move_actions_internal as la_mouse_wheel_move_actions_internal then
+				Result := la_mouse_wheel_move_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.mouse_wheel_move_actions.has (mouse_wheel_move_events_callback) then
+					events_controller.mouse_wheel_move_actions.extend (mouse_wheel_move_events_callback)
+				end
+				mouse_wheel_move_actions_internal := Result
 			end
 		end
 
@@ -451,9 +641,130 @@ feature {NONE} -- Implementation
 			l_keyboard_state:GAME_KEY_STATE
 		do
 			if a_window_id =internal_id then
-				create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 				if attached key_down_actions_internal as actions then
+					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
+				end
+			end
+		end
+
+	key_up_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+
+	key_up_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+
+	key_up_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+		local
+			l_keyboard_state:GAME_KEY_STATE
+		do
+			if a_window_id =internal_id then
+				if attached key_up_actions_internal as actions then
+					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
+					actions.call (a_timestamp, l_keyboard_state)
+				end
+			end
+		end
+
+	text_editing_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32;
+																		start,lenght:INTEGER_32]]
+
+	text_editing_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;text:STRING_32;
+												start,lenght:INTEGER_32]]
+
+	text_editing_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32;
+									a_start,a_lenght:INTEGER_32)
+		do
+			if a_window_id =internal_id then
+				if attached text_editing_actions_internal as actions then
+					actions.call (a_timestamp, a_text, a_start, a_lenght)
+				end
+			end
+		end
+
+	text_input_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32]]
+
+	text_input_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;text:STRING_32]]
+
+	text_input_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32)
+		do
+			if a_window_id =internal_id then
+				if attached text_input_actions_internal as actions then
+					actions.call (a_timestamp, a_text)
+				end
+			end
+		end
+
+	mouse_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_STATE;
+																	delta_x, delta_y:INTEGER_32]]
+
+	mouse_motion_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id, state:NATURAL_32;
+														x,y,x_relative,y_relative:INTEGER_32]]
+
+	mouse_motion_events_dispatcher(a_timestamp,a_window_id, a_mouse_id, a_state:NATURAL_32;
+									a_x,a_y,a_x_relative,a_y_relative:INTEGER_32)
+		local
+			l_mouse_state:GAME_MOUSE_MOTION_STATE
+		do
+			if a_window_id =internal_id then
+				if attached mouse_motion_actions_internal as actions then
+					create l_mouse_state.make (a_mouse_id, a_state, a_x, a_y)
+					actions.call (a_timestamp, l_mouse_state, a_x_relative, a_y_relative)
+				end
+			end
+		end
+
+	mouse_button_down_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+																	nb_clicks:NATURAL_8]]
+
+	mouse_button_down_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
+													button,clicks: NATURAL_8;x,y:INTEGER_32]]
+
+	mouse_button_down_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
+		local
+			l_mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE
+		do
+			if a_window_id =internal_id then
+				if attached mouse_button_down_actions_internal as actions then
+					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
+					actions.call (a_timestamp, l_mouse_state, a_clicks)
+				end
+			end
+		end
+
+	mouse_button_up_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+																	nb_clicks:NATURAL_8]]
+
+	mouse_button_up_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
+													button,clicks: NATURAL_8;x,y:INTEGER_32]]
+
+	mouse_button_up_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
+		local
+			l_mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE
+		do
+			if a_window_id =internal_id then
+				if attached mouse_button_up_actions_internal as actions then
+					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
+					actions.call (a_timestamp, l_mouse_state, a_clicks)
+				end
+			end
+		end
+
+	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENTS_STATE;
+																	delta_x,delta_y:INTEGER_32]]
+
+	mouse_wheel_move_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;x,y:INTEGER_32]]
+
+	mouse_wheel_move_events_dispatcher(a_timestamp,a_window_id,a_mouse_id:NATURAL_32;a_x,a_y:INTEGER_32)
+		local
+			l_mouse_state:GAME_MOUSE_EVENTS_STATE
+		do
+			if a_window_id =internal_id then
+				if attached mouse_wheel_move_actions_internal as actions then
+					create l_mouse_state.make (a_mouse_id)
+					actions.call (a_timestamp, l_mouse_state, a_x, a_y)
 				end
 			end
 		end

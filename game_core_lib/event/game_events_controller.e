@@ -136,7 +136,7 @@ feature -- Access
 			-- SDL_BUTTON_RMASK: Right button
 			-- SDL_BUTTON_X1MASK: First optionnal button
 			-- SDL_BUTTON_X2MASK: Second optionnal button
-			-- Note: `which' may be SDL_TOUCH_MOUSEID
+			-- Note: `mouse_id' may be SDL_TOUCH_MOUSEID
 
 	mouse_button_down_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
@@ -149,7 +149,7 @@ feature -- Access
 			-- SDL_BUTTON_RIGHT: Right button
 			-- SDL_BUTTON_X1: First optionnal button
 			-- SDL_BUTTON_X2: Second optionnal button
-			-- Note: `which' may be SDL_TOUCH_MOUSEID
+			-- Note: `mouse_id' may be SDL_TOUCH_MOUSEID
 
 	mouse_button_up_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
 													button, clicks: NATURAL_8;x,y:INTEGER_32]]
@@ -162,7 +162,7 @@ feature -- Access
 			-- SDL_BUTTON_RIGHT: Right button
 			-- SDL_BUTTON_X1: First optionnal button
 			-- SDL_BUTTON_X2: Second optionnal button
-			-- Note: `which' may be SDL_TOUCH_MOUSEID
+			-- Note: `mouse_id' may be SDL_TOUCH_MOUSEID
 
 	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp,window_id,mouse_id:NATURAL_32;x,y:INTEGER_32]]
 			-- When the wheel of the mouse identified by `mouse_id' in the window identified by

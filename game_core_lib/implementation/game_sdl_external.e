@@ -44,6 +44,20 @@ feature -- Function SDL.h
 			"SDL_WasInit"
 		end
 
+	frozen SDL_GetGlobalMouseState(x,y:POINTER):NATURAL_32
+		external
+			"C (int*, int*) : Uint32 | <SDL.h>"
+		alias
+			"SDL_GetGlobalMouseState"
+		end
+
+	frozen SDL_GetMouseState(x,y:POINTER):NATURAL_32
+		external
+			"C (int*, int*) : Uint32 | <SDL.h>"
+		alias
+			"SDL_GetMouseState"
+		end
+
 	frozen SDL_InitSubSystem(flags:NATURAL_32):INTEGER
 		external
 			"C (Uint32) : int | <SDL.h>"
@@ -8019,6 +8033,94 @@ feature -- Constants
 			"C [macro <SDL.h>] : EIF_INTEGER_32"
 		alias
 			"SDLK_SLEEP"
+		end
+
+
+	frozen SDL_BUTTON_LMASK : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_BUTTON_LMASK"
+		end
+
+
+	frozen SDL_BUTTON_RMASK : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_BUTTON_RMASK"
+		end
+
+
+	frozen SDL_BUTTON_MMASK : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_BUTTON_MMASK"
+		end
+
+
+	frozen SDL_BUTTON_X1MASK : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_BUTTON_X1MASK"
+		end
+
+
+	frozen SDL_BUTTON_X2MASK : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_BUTTON_X2MASK"
+		end
+
+
+	frozen SDL_TOUCH_MOUSEID : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_TOUCH_MOUSEID"
+		end
+
+
+	frozen  SDL_BUTTON_LEFT : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			" SDL_BUTTON_LEFT"
+		end
+
+
+	frozen  SDL_BUTTON_RIGHT : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			" SDL_BUTTON_RIGHT"
+		end
+
+
+	frozen  SDL_BUTTON_MIDDLE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			" SDL_BUTTON_MIDDLE"
+		end
+
+
+	frozen  SDL_BUTTON_X1 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			" SDL_BUTTON_X1"
+		end
+
+
+	frozen  SDL_BUTTON_X2 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			" SDL_BUTTON_X2"
 		end
 
 
