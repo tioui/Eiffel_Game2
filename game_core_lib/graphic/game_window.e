@@ -164,7 +164,7 @@ feature {NONE} -- Initialisation
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_input_grabbed)
 			end
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
-			internal_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
+			item:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
 			has_error:=False
 			make_events
 			game_library.internal_windows.extend (Current)
@@ -174,12 +174,16 @@ feature {NONE} -- Initialisation
 
 feature -- Access
 
+	update
+		deferred
+		end
+
 	brightness:REAL_32 assign set_brightness
 			-- The Gamma correction where 0.0 is completely dark and 1.0 is normal.
 		require
 			Window_Not_Closed: not is_closed
 		do
-			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowBrightness(internal_pointer)
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowBrightness(item)
 		ensure
 			Window_Brightness_Not_Changed: brightness = old brightness
 		end
@@ -195,12 +199,8 @@ feature -- Access
 		do
 			clear_error
 			has_error:=False
-			l_error:={GAME_SDL_EXTERNAL}.SDL_SetWindowBrightness(internal_pointer, a_brightness)
-			if l_error<0 then
-				io.error.put_string ("An error occured when setting the brightness.%N")
-				io.error.put_string (get_error.as_string_8+"%N")
-				has_error:=True
-			end
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SetWindowBrightness(item, a_brightness)
+			manage_error_code(l_error, "An error occured when setting the brightness of the window.")
 		ensure
 			Window_Set_Brightness_Changed: brightness = a_brightness
 		end
@@ -210,12 +210,8 @@ feature -- Access
 		do
 			clear_error
 			has_error:=False
-			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowDisplayIndex(internal_pointer)
-			if Result<1 then
-				io.error.put_string ("An error occured when getting the display index.%N")
-				io.error.put_string (get_error.as_string_8+"%N")
-				has_error:=True
-			end
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowDisplayIndex(item)
+			manage_error_code(Result, "An error occured when getting the display index.")
 		ensure
 			Window_Display_Index_Valid: not has_error implies Result>=0
 		end
@@ -225,39 +221,35 @@ feature -- Access
 		require
 			Window_Not_Closed: not is_closed
 		do
-			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(internal_pointer)
-			internal_pointer := create {POINTER}.default_create
+			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(item)
+			item := create {POINTER}.default_create
 			game_library.internal_windows.prune_all (Current)
 		end
 
 	is_closed:BOOLEAN
 			-- Is `Current' has been `close'd
 		do
-			Result:=internal_pointer.is_default_pointer
+			Result:=item.is_default_pointer
 		end
 
 	pixel_format:GAME_PIXEL_FORMAT_READABLE
 			-- The internal format of the pixel representation in memory.
 		do
-			create Result.make_from_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(internal_pointer))
+			create Result.make_from_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(item))
 		end
 
 	window_manager:GAME_WINDOW_MANAGER
 			-- The window manager managing `Current'.
 		local
 			l_wm_info:POINTER
-			l_error:BOOLEAN
+			l_valid:BOOLEAN
 		do
 			l_wm_info:=l_wm_info.memory_calloc (1,{GAME_SDL_EXTERNAL}.c_sizeof_sdl_sys_wm_info)
 			{GAME_SDL_EXTERNAL}.SDL_VERSION_COMPILE ({GAME_SDL_EXTERNAL}.get_sys_wm_struct_version(l_wm_info))
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_GetWindowWMInfo(internal_pointer, l_wm_info)
+			l_valid:={GAME_SDL_EXTERNAL}.SDL_GetWindowWMInfo(item, l_wm_info)
+			manage_error_boolean(l_valid, "An error occured when getting the window manager informations.")
 			create Result.own_from_pointer (l_wm_info)
-			if l_error then
-				io.error.put_string ("An error occured when getting the window manager informations.%N")
-				io.error.put_string (get_error.as_string_8+"%N")
-				has_error:=True
-			end
 		end
 
 	id:NATURAL_32
@@ -265,7 +257,7 @@ feature -- Access
 		require else
 			Window_Not_Closed: not is_closed
 		do
-			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowID(internal_pointer)
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowID(item)
 		end
 
 ---------------------------------------------------------------------------------------------------------------------------
@@ -345,6 +337,9 @@ feature -- Access
 			Result := game_library.events_controller
 		end
 
+feature{GAME_RENDERER}
+
+	item:POINTER
 
 feature {NONE} -- Implementation
 
@@ -356,5 +351,5 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_pointer:POINTER
+
 end

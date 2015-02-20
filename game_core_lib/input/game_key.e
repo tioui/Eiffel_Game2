@@ -2609,27 +2609,6 @@ feature -- Access
 		end
 
 
-	is_physical_locking_caps_lock:BOOLEAN
-			-- `Current' represent the physical locking caps lock key
-		do
-			Result := physical_code = {GAME_SDL_EXTERNAL}.SDL_SCANCODE_LOCKINGCAPSLOCK
-		end
-
-
-	is_physical_locking_num_lock:BOOLEAN
-			-- `Current' represent the physical locking_num_lock key
-		do
-			Result := physical_code = {GAME_SDL_EXTERNAL}.SDL_SCANCODE_LOCKINGNUMLOCK
-		end
-
-
-	is_physical_locking_scroll_lock:BOOLEAN
-			-- `Current' represent the physical locking scroll lock key
-		do
-			Result := physical_code = {GAME_SDL_EXTERNAL}.SDL_SCANCODE_LOCKINGSCROLLLOCK
-		end
-
-
 	is_physical_keypad_comma:BOOLEAN
 			-- `Current' represent the physical keypad comma key
 		do

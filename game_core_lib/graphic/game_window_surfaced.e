@@ -35,7 +35,7 @@ feature -- Access
 			if attached internal_surface as la_surface then
 				Result:=la_surface
 			else
-				l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_GetWindowSurface(internal_pointer)
+				l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_GetWindowSurface(item)
 				create l_source.share_from_pointer (l_surface_pointer)
 				if l_source.is_openable then
 					l_source.open
@@ -56,17 +56,13 @@ feature -- Access
 			end
 		end
 
-	update_surface
+	update
 		local
 			l_error:INTEGER
 		do
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_UpdateWindowSurface(internal_pointer)
-			if l_error<0 then
-				io.error.put_string ("An error occured while updating the window surface.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
-			end
+			l_error:={GAME_SDL_EXTERNAL}.SDL_UpdateWindowSurface(item)
+			manage_error_code(l_error, "An error occured while updating the window surface.")
 		end
 
 feature {NONE} -- Implementation

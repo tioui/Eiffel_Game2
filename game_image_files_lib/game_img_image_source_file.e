@@ -11,7 +11,7 @@ inherit
 	GAME_IMAGE_SOURCE
 		rename
 			clear_error as clear_sdl_error,
-			get_error as get_sdl_error
+			last_error as last_sdl_error
 		redefine
 			is_openable,
 			open,
@@ -20,7 +20,7 @@ inherit
 	GAME_IMG_ANY
 		select
 			clear_error,
-			get_error
+			last_error
 		end
 
 create
@@ -141,7 +141,7 @@ feature -- Access
 			l_internal_pointer:={GAME_SDL_IMAGE_EXTERNAL}.IMG_Load_RW(rwop, 0)
 			if l_internal_pointer.is_default_pointer then
 				io.error.put_string ("An error occured while opening the image.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
+				io.error.put_string (last_error.to_string_8+"%N")
 				has_error:=True
 			end
 			own_from_pointer (l_internal_pointer)

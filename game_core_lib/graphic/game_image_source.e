@@ -34,7 +34,7 @@ feature {NONE} -- Initialisation
 		require
 			Image_Source_Video_Is_Enable:game_library.is_video_enable
 		do
-			internal_pointer:=a_internal_pointer
+			item := a_internal_pointer
 			must_free:=False
 		end
 
@@ -45,7 +45,7 @@ feature {NONE} -- Initialisation
 		require
 			Image_Source_Video_Is_Enable:game_library.is_video_enable
 		do
-			internal_pointer:=a_internal_pointer
+			item := a_internal_pointer
 			must_free:=True
 		end
 
@@ -61,11 +61,7 @@ feature {NONE} -- Initialisation
 			l_format_pointer:={GAME_SDL_EXTERNAL}.get_sdl_surface_struct_format(a_internal_pointer)
 			clear_error
 			l_image_pointer:={GAME_SDL_EXTERNAL}.SDL_ConvertSurface(a_internal_pointer, l_format_pointer, 0)
-			if l_image_pointer.is_default_pointer then
-				io.error.put_string ("An error occured while copying the image source.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
-			end
+			manage_error_pointer(l_image_pointer, "An error occured while copying the image source.")
 			own_from_pointer (l_image_pointer)
 		end
 
@@ -74,7 +70,7 @@ feature {NONE} -- Initialisation
 		require
 			Image_Source_Video_Is_Enable:game_library.is_video_enable
 		do
-			make_from_pointer(a_other.internal_pointer)
+			make_from_pointer(a_other.item)
 		end
 
 feature -- Access
@@ -82,7 +78,7 @@ feature -- Access
 	is_openable:BOOLEAN
 			-- <Precursor>
 		do
-			Result:=not internal_pointer.is_default_pointer
+			Result:=exists
 		end
 
 	open
@@ -91,9 +87,27 @@ feature -- Access
 			is_open:=True
 		end
 
-feature {GAME_IMAGE_SOURCE,GAME_SURFACE}
+	exists:BOOLEAN
+			-- Is `item' valid memory pointer
+		do
+			Result := not item.is_default_pointer
+		end
+	
+	is_8_bpp:BOOLEAN
+			-- Is `Current' internal format is 8 bits per pixel
+		require
+			Is_Open: is_open
+		local
+			l_format_pointer:POINTER
+		do
+			l_format_pointer := {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_format(item)
+			Result := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bytes_per_pixel(l_format_pointer) = 1
+		end
 
-	internal_pointer:POINTER
+feature {GAME_SDL_ANY}
+
+	item:POINTER
+			-- Internal pointer of `Current'
 
 feature {NONE} -- Implementation
 
@@ -101,14 +115,14 @@ feature {NONE} -- Implementation
 
 	dispose
 		do
-			if must_free and not internal_pointer.is_default_pointer then
-				{GAME_SDL_EXTERNAL}.SDL_FreeSurface(internal_pointer)
+			if must_free and exists then
+				{GAME_SDL_EXTERNAL}.SDL_FreeSurface(item)
 				is_open := False
-				internal_pointer:=create {POINTER}
+				item := create {POINTER}
 			end
 		end
 
 invariant
-	Image_Source_Valid: is_open implies not internal_pointer.is_default_pointer
+	Image_Source_Valid: is_open implies exists
 
 end

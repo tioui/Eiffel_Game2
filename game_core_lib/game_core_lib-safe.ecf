@@ -91,19 +91,19 @@
 		<library name="chain_indexable_iterator" location="..\eiffel_chain_indexable_iterator\chain_indexable_iterator-safe.ecf"/>
 		<library name="cpf_lib" location="..\cpf_lib\cpf_lib-safe.ecf"/>
 		<library name="game_shared" location="..\game_shared\game_shared-safe.ecf"/>
-		<cluster name="game_core_lib" location=".\">
+		<cluster name="game_core_lib" location=".\" recursive="true">
 			<description>A Game Library for EiffelStudio</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
-				<exclude>/event$</exclude>
+				<exclude>/input$</exclude>
 				<exclude>/spec$</exclude>
 				<exclude>/implementation$</exclude>
 				<exclude>/graphic$</exclude>
 				<exclude>/Clib$</exclude>
 			</file_rule>
-			<cluster name="event" location=".\event\"/>
+			<cluster name="input" location=".\input\"/>
 			<cluster name="graphic" location=".\graphic\"/>
-			<cluster name="implementation" location=".\implementation\"/>
+			<cluster name="implementation" location=".\implementation\" recursive="true"/>
 		</cluster>
 	</target>
 </system>

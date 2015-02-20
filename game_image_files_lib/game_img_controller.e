@@ -12,15 +12,7 @@ inherit
 	GAME_IMG_ANY
 
 create
-	make
-
-feature {NONE} -- Initialization
-
-	make
-			-- Initialization for `Current'.
-		do
-
-		end
+	default_create
 
 feature -- Access
 
@@ -47,15 +39,15 @@ feature -- Access
 			l_flags:={GAME_SDL_IMAGE_EXTERNAL}.IMG_Init(l_flags)
 			if a_enable_png and l_flags.bit_and (Img_init_png)=0 then
 				io.error.put_string ("Error while loading PNG library%N")
-				io.error.put_string (get_error.as_string_8+"%N")
+				io.error.put_string (last_error.as_string_8+"%N")
 			end
 			if a_enable_jpg and l_flags.bit_and (Img_init_jpg)=0 then
 				io.error.put_string ("Error while loading jpeg library%N")
-				io.error.put_string (get_error.as_string_8+"%N")
+				io.error.put_string (last_error.as_string_8+"%N")
 			end
 			if a_enable_tif and l_flags.bit_and (Img_init_tif)=0 then
 				io.error.put_string ("Error while loading tif library%N")
-				io.error.put_string (get_error.as_string_8+"%N")
+				io.error.put_string (last_error.as_string_8+"%N")
 			end
 		end
 

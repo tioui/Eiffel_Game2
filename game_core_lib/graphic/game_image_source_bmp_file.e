@@ -47,7 +47,7 @@ feature -- Access
 			clear_error
 			l_image_pointer:={GAME_SDL_EXTERNAL}.SDL_LoadBMP(l_filename_c.item )
 			if l_image_pointer.is_default_pointer then
-				has_error:=True
+				manage_error_pointer(l_image_pointer, "Error while loading BMP file.")
 				has_ressource_error:=True
 			else
 				own_from_pointer (l_image_pointer)
@@ -56,8 +56,7 @@ feature -- Access
 			is_open:=not has_error
 		end
 
-feature {NONE} -- Implementation - Variable
-
 	filename:READABLE_STRING_GENERAL
+			-- The name of the file to open
 
 end

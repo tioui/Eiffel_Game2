@@ -11,7 +11,7 @@ feature -- Access
 
 	image_files_library: GAME_IMG_CONTROLLER
 		once
-			create Result.make
+			create Result
 		end
 
 end

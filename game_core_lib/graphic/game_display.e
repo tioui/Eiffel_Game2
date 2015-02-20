@@ -35,9 +35,7 @@ feature -- Access
 			clear_error
 			l_name_pointer:={GAME_SDL_EXTERNAL}.sdl_getdisplayname (index)
 			if l_name_pointer.is_default_pointer then
-				io.error.put_string ("An error occured while retriving the display name.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
+				manage_error_pointer(l_name_pointer, "An error occured while retriving the display name.")
 				Result:=""
 			else
 				create l_name_c.make_by_pointer (l_name_pointer)
@@ -89,8 +87,7 @@ feature -- Access
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetDisplayBounds(index,l_rect)
 			if l_error<0 then
-				io.error.put_string ("An error occured while retriving the display bound informations.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
+				manage_error_code(l_error, "An error occured while retriving the display bound informations.")
 				Result:=[0,0,0,0]
 			else
 				Result:=[
@@ -116,11 +113,7 @@ feature -- Access
 			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetCurrentDisplayMode(index, l_mode)
-			if l_error<0 then
-				io.error.put_string ("An error occured while retriving the display mode informations.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
-			end
+			manage_error_code(l_error, "An error occured while retriving the display mode informations.")
 			create Result.own_from_pointer (l_mode)
 		end
 
@@ -137,11 +130,7 @@ feature -- Access
 			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetDesktopDisplayMode(index, l_mode)
-			if l_error<0 then
-				io.error.put_string ("An error occured while retriving the display mode informations.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
-			end
+			manage_error_code(l_error, "An error occured while retriving the display mode informations.")
 			create Result.own_from_pointer (l_mode)
 		end
 
@@ -157,11 +146,7 @@ feature -- Access
 			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
 			l_result:={GAME_SDL_EXTERNAL}.SDL_GetClosestDisplayMode(index, a_mode.internal_pointer, l_mode)
-			if l_result.is_default_pointer then
-				io.error.put_string ("An error occured while retriving the closest display mode.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
-			end
+			manage_error_pointer(l_result, "An error occured while retriving the closest display mode.")
 			create Result.own_from_pointer (l_mode)
 		end
 
@@ -174,10 +159,9 @@ feature -- Access
 		do
 			clear_error
 			l_count:={GAME_SDL_EXTERNAL}.SDL_GetNumDisplayModes(index)
+
 			if not (l_count > 0) then
-				io.error.put_string ("An error occured while retriving the number of display modes.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
+				manage_error_code(l_count, "An error occured while retriving the number of display modes.")
 				l_count:=0
 			end
 			create {ARRAYED_LIST[GAME_DISPLAY_MODE]} Result.make (l_count)
@@ -190,9 +174,7 @@ feature -- Access
 				l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 				l_error:= {GAME_SDL_EXTERNAL}.SDL_GetDisplayMode(index, l_i, l_mode)
 				if l_error<0 then
-					io.error.put_string ("An error occured while retriving the display mode with the index "+ l_i.out +".%N")
-					io.error.put_string (get_error.to_string_8+"%N")
-					has_error:=True
+					manage_error_code(l_count, "An error occured while retriving the display mode with the index "+ l_i.out +".")
 					l_mode.memory_free
 				else
 					Result.extend (create {GAME_DISPLAY_MODE}.own_from_pointer (l_mode))

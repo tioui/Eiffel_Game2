@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_PIXEL_FORMAT_READABLE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Read-only version of a pixel internal representation for a drawable."
+	author: "Louis Marchand"
+	date: "2015, Febuary 19"
+	revision: "0.1"
 
 class
 	GAME_PIXEL_FORMAT_READABLE
@@ -41,6 +41,7 @@ feature {NONE} -- Initialisation
 			-- Initialization for `Current' by copying `a_other's values.
 		do
 			make_from_flags(a_other.internal_index)
+			set_color_palette(a_other.color_palette)
 		end
 
 	make_from_structure_pointer(a_structure:POINTER)
@@ -48,9 +49,15 @@ feature {NONE} -- Initialisation
 			-- `a_structure' is not freed by `Current'
 		require
 			Pixel_Format_Info_Structure_Not_Null: not a_structure.is_default_pointer
+		local
+			l_temp_palette:detachable GAME_COLOR_PALETTE
 		do
 			share_from_structure_pointer(a_structure)
-			free_structure
+			l_temp_palette := color_palette
+			internal_structure:= create {POINTER}
+			if attached l_temp_palette then
+				set_color_palette(l_temp_palette)
+			end
 		end
 
 	own_from_structure_pointer(a_structure:POINTER)
@@ -161,6 +168,12 @@ feature -- Access
 				Result:=""
 				check False end
 			end
+		end
+
+	is_indexed : BOOLEAN
+			-- The pixel format of `Current' used an indexed color system
+		do
+			Result := is_index1lsb or is_index1msb or is_index4lsb or is_index4msb or is_index8
 		end
 
 	is_unknown : BOOLEAN
@@ -385,17 +398,12 @@ feature -- Access
 		 	Result:=internal_index=a_other.internal_index
 		 end
 
-	bit_per_pixel:INTEGER
+	bits_per_pixel:INTEGER
 			-- The number of significant bits in a pixel value
 		local
 			l_structure:POINTER
 		do
-			l_structure:=structure
-			if l_structure.is_default_pointer then
-				Result:=0
-			else
-				Result:={GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bits_per_pixel(structure).to_integer_32
-			end
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bits_per_pixel(structure).to_integer_32
 		end
 
 	masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
@@ -418,6 +426,41 @@ feature -- Access
 			end
 		end
 
+	color_palette:detachable GAME_COLOR_PALETTE assign set_color_palette
+			-- The palette of color used in the indexed pixel format
+		require
+			Is_Indexed: is_indexed
+		local
+			l_palette:POINTER
+		do
+			Result := Void
+			if not internal_structure.is_default_pointer then
+				l_palette := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_palette(structure)
+				create Result.make_shared(l_palette)
+			end
+		end
+
+	set_color_palette(a_color_palette:detachable GAME_COLOR_PALETTE)
+			-- Assign the `color_palette' with the value of `a_color_palette'
+		require
+			Is_Indexed: is_indexed
+			Has_Valid_Color_number: attached a_color_palette implies 
+									a_color_palette.count = (1).bit_shift_left(bits_per_pixel)
+		local
+			l_error: INTEGER
+		do
+			if attached a_color_palette then
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(structure,
+							a_color_palette.internal_pointer)
+			else
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(structure,
+							create {POINTER})
+			end
+			manage_error_code(l_error, "Cannot assign color palette.")
+		ensure
+			Is_Set: not has_error implies color_palette ~ a_color_palette
+		end
+
 feature {GAME_SDL_ANY} -- Implementation
 
 	internal_index:NATURAL_32
@@ -428,11 +471,7 @@ feature {GAME_SDL_ANY} -- Implementation
 			if internal_structure.is_default_pointer then
 				clear_error
 				internal_structure:={GAME_SDL_EXTERNAL}.SDL_AllocFormat(internal_index)
-				if internal_structure.is_default_pointer then
-					io.error.put_string ("An error occured while getting the structure of a Pixel Format.%N")
-					io.error.put_string (get_error.to_string_8+"%N")
-					has_error:=True
-				end
+				manage_error_pointer(internal_structure, "An error occured while getting the structure of a Pixel Format.")
 				must_free_structure:=True
 			end
 			Result:=internal_structure
@@ -445,8 +484,10 @@ feature {NONE} -- Implementation
 		require
 			Pixel_Formt_Set_Flags_Valid:is_internal_index_valid(a_internal_index)
 		do
-			internal_index:=a_internal_index
-			free_structure
+			if a_internal_index /= internal_index then
+				internal_index:=a_internal_index
+				free_structure
+			end
 		ensure
 			Pixel_Format_flags_Changed: internal_index = a_internal_index
 		end

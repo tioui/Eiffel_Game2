@@ -44,9 +44,7 @@ feature -- Access
 		do
 			clear_error
 			joy_ptr:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(index)
-			if joy_ptr.is_default_pointer then
-				has_error := True
-			end
+			manage_error_pointer(joy_ptr, "Error while opening the Joystick.")
 		ensure
 			Is_Open_Or_Error: not has_error implies is_opened
 		end
@@ -75,7 +73,7 @@ feature -- Access
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumAxes(joy_ptr)
-			has_error := Result < 0
+			manage_error_code(Result, "Error while querying the number of joystick axes.")
 		end
 
 	axis_value(a_axis_id:INTEGER):INTEGER_16
@@ -95,7 +93,7 @@ feature -- Access
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumBalls(joy_ptr)
-			has_error := Result < 0
+			manage_error_code(Result, "Error while querying the number of joystick balls.")
 		end
 
 	ball_change(a_ball_id:INTEGER):TUPLE[x_relative, y_relative:INTEGER]
@@ -111,7 +109,7 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.SDL_JoystickUpdate
 			l_error:={GAME_SDL_EXTERNAL}.SDL_JoystickGetBall(joy_ptr,a_ball_id,$l_dx,$l_dy)
 			Result:=[l_dx,l_dy]
-			has_error := l_error < 0
+			manage_error_code(l_error, "Error while querying the state change of joystick ball.")
 		end
 
 	buttons_number:INTEGER
@@ -121,7 +119,7 @@ feature -- Access
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumButtons(joy_ptr)
-			has_error := Result < 0
+			manage_error_code(Result, "Error while querying the number of joystick buttons.")
 		end
 
 	is_button_pressed(a_button_id:INTEGER):BOOLEAN
@@ -141,7 +139,7 @@ feature -- Access
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumHats(joy_ptr)
-			has_error := Result < 0
+			manage_error_code(Result, "Error while querying the number of joystick hats.")
 		end
 
 	hat_state(a_hat_id:INTEGER):GAME_JOYSTICK_HAT_STATE
@@ -177,7 +175,7 @@ feature -- Access
 		do
 			clear_error
 			Result := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID(joy_ptr)
-			has_error := Result < 0
+			manage_error_code(Result, "Error while querying the joystick's instance ID.")
 		end
 
 	is_haptic_capable:BOOLEAN
@@ -187,8 +185,8 @@ feature -- Access
 		do
 			clear_error
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickIsHaptic(joy_ptr)
+			manage_error_code(l_error, "Error while querying if the joystick has haptic functionnalities.")
 			Result := l_error = 1
-			has_error := l_error < 0
 		end
 
 	haptic_controller:GAME_JOYSTICK_HAPTIC_CONTROLLER

@@ -26,25 +26,16 @@ feature {NONE} -- Implementation
 		local
 			l_error:NATURAL_32
 		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_GetGlobalMouseState($x,$y)
-			state := {GAME_SDL_EXTERNAL}.SDL_GetMouseState($x_in_window,$y_in_window)
+			state := {GAME_SDL_EXTERNAL}.SDL_GetMouseState($x,$y)
 		end
 
 feature -- Access
 
 	x:INTEGER_32
-			-- Horizontal position of the mouse represented by `Current'
+			-- Horizontal position of the mouse represented by `Current' relative to the focussed window
 
 	y:INTEGER_32
-			-- Vertical position of the mouse represented by `Current'
-
-	x_in_window:INTEGER_32
-			-- Horizontal position of the mouse represented
-			-- by `Current' relative to the focussed window
-
-	y_in_window:INTEGER_32
-			-- Vertical position of the mouse represented
-			-- by `Current' relative to the focussed window
+			-- Vertical position of the mouse represented by `Current' relative to the focussed window
 
 	is_left_button_pressed:BOOLEAN
 			-- Is the left button of the mouse represented

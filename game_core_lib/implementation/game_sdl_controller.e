@@ -152,6 +152,38 @@ feature -- Subs Systems
 
 feature -- Video methods
 
+	renderer_drivers_count:INTEGER
+			-- Return the number of renderer driver. 0 if error.
+		require
+			Video_Enabled: is_video_enable
+		do
+			clear_error
+			Result:={GAME_SDL_EXTERNAL}.SDL_GetNumRenderDrivers
+			if Result<0 then
+				manage_error_code(Result, "An error occured while retriving the number of renderer drivers.")
+				Result:=0
+			end
+		end
+
+	renderer_drivers:LIST[GAME_RENDERER_DRIVER]
+			-- All renderer driver of the system. 0 driver on error.
+		require
+			Displays_Is_Video_Enabled: is_video_enable
+		local
+			l_count, l_i, l_error:INTEGER
+		do
+			l_count:=renderer_drivers_count
+			create {ARRAYED_LIST[GAME_RENDERER_DRIVER]} Result.make (l_count)
+			from
+				l_i:=0
+			until
+				l_i>=l_count
+			loop
+				Result.extend (create {GAME_RENDERER_DRIVER}.make (l_i))
+				l_i:=l_i+1
+			end
+		end
+
 	displays_count:INTEGER
 			-- Return the number of display. 0 if error.
 		require
@@ -160,9 +192,7 @@ feature -- Video methods
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetNumVideoDisplays
 			if Result<0 then
-				io.error.put_string ("An error occured while retriving the number of displays.%N")
-				io.error.put_string (get_error.to_string_8+"%N")
-				has_error:=True
+				manage_error_code(Result, "An error occured while retriving the number of displays.")
 				Result:=0
 			end
 		end
@@ -381,6 +411,26 @@ feature -- Other methods
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
+		end
+
+	print_on_error:BOOLEAN
+			-- When an error occured, the library will print
+			-- informations about the error on the error console
+			-- output (default is True).
+		do
+			Result := print_on_error_internal.item
+		end
+
+	enable_print_on_error
+			-- Active the `print_on_error' functionnality.
+		do
+			print_on_error_internal.put(True)
+		end
+
+	disable_print_on_error
+			-- Desactive the `print_on_error' functionnality.
+		do
+			print_on_error_internal.put(False)
 		end
 
 

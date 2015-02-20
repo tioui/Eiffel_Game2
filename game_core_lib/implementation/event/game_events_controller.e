@@ -841,7 +841,7 @@ feature -- Access
 		do
 			clear_error
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_enable)
-			has_error := l_error < 0
+			manage_error_code(l_error, "Error while enabling joystick events.")
 		ensure
 			Is_Events_Enabled: 	is_joy_axis_motion_event_enable and is_joy_ball_motion_event_enable and
 								is_joy_hat_motion_event_enable and is_joy_button_down_event_enable and
@@ -857,7 +857,7 @@ feature -- Access
 		do
 			clear_error
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_disable)
-			has_error := l_error < 0
+			manage_error_code(l_error, "Error while disabling joystick events.")
 		ensure
 			Is_Events_Disabled:	not (is_joy_axis_motion_event_enable or is_joy_ball_motion_event_enable or
 								is_joy_hat_motion_event_enable or is_joy_button_down_event_enable or
@@ -873,7 +873,8 @@ feature -- Access
 		do
 			clear_error
 			l_query := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_query)
-			has_error := l_query < 0
+			manage_error_code(l_query, "Error while querying joystick events activation.")
+			Result := l_query = 1
 		end
 
 	enable_finger_down_event
@@ -1320,7 +1321,7 @@ feature {NONE} -- Implementation
 
 --To Remember:
 
---Common:
+--Common (See: {GAME_COMMON_EVENTS}):
 
 --On_Iteration					X
 --SDL_QuitEvent					X
@@ -1328,15 +1329,15 @@ feature {NONE} -- Implementation
 --SDL_ControllerDeviceEvent		Not used
 --SDL_DropEvent					X
 
---Window Events:
+--Window Events (See: {GAME_WINDOW_EVENTS}):
 
 --SDL_WindowEvent				X
---SDL_KeyboardEvent
---SDL_TextEditingEvent
---SDL_TextInputEvent
---SDL_MouseMotionEvent
---SDL_MouseButtonEvent
---SDL_MouseWheelEvent
+--SDL_KeyboardEvent				X
+--SDL_TextEditingEvent			X
+--SDL_TextInputEvent			X
+--SDL_MouseMotionEvent			X
+--SDL_MouseButtonEvent			X
+--SDL_MouseWheelEvent			X
 
 --Joystick Events:
 
@@ -1347,8 +1348,8 @@ feature {NONE} -- Implementation
 
 --Controller Events:
 
---SDL_ControllerAxisEvent
---SDL_ControllerButtonEvent
+--SDL_ControllerAxisEvent		Not Used
+--SDL_ControllerButtonEvent		Not Used
 
 --To Test:
 

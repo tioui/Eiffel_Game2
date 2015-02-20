@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 			l_window.surface.draw_surface (l_background, 0, 0)		-- Drawing a background on the window surface
 			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird on the window surface (over the background)
-			l_window.update_surface		-- Show the modifications of the window surface
+			l_window.update-- Show the modifications of the window surface
 
 			game_library.delay (3000)	-- Wait 3 seconds before closing
 		end

@@ -11,7 +11,7 @@ inherit
 	GAME_SDL_ANY
 		redefine
 			clear_error,
-			get_error
+			last_error
 		end
 
 feature {NONE} -- Implementation
@@ -21,12 +21,16 @@ feature {NONE} -- Implementation
 			has_error := False
 		end
 
-	get_error: READABLE_STRING_GENERAL
+	last_error: READABLE_STRING_GENERAL
 		local
 			l_string: C_STRING
 		do
-			create l_string.make_by_pointer ({GAME_SDL_IMAGE_EXTERNAL}.IMG_GetError)
-			Result := l_string.string
+			if is_manual_error then
+				Result := Precursor
+			else
+				create l_string.make_by_pointer ({GAME_SDL_IMAGE_EXTERNAL}.IMG_GetError)
+				Result := l_string.string
+			end
 		end
 
 end

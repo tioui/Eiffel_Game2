@@ -44,12 +44,12 @@ feature -- Function SDL.h
 			"SDL_WasInit"
 		end
 
-	frozen SDL_GetGlobalMouseState(x,y:POINTER):NATURAL_32
-		external
-			"C (int*, int*) : Uint32 | <SDL.h>"
-		alias
-			"SDL_GetGlobalMouseState"
-		end
+--	frozen SDL_GetGlobalMouseState(x,y:POINTER):NATURAL_32
+--		external
+--			"C (int*, int*) : Uint32 | <SDL.h>"
+--		alias
+--			"SDL_GetGlobalMouseState"
+--		end
 
 	frozen SDL_GetMouseState(x,y:POINTER):NATURAL_32
 		external
@@ -135,6 +135,20 @@ feature -- Function SDL.h
 			"C (SDL_Joystick*) : int | <SDL.h>"
 		alias
 			"SDL_JoystickNumAxes"
+		end
+
+	frozen SDL_CreateRenderer(window:POINTER; index:INTEGER; flags:NATURAL_32) : POINTER
+		external
+			"C (SDL_Window*, int, Uint32) : SDL_Renderer* | <SDL.h>"
+		alias
+			"SDL_CreateRenderer"
+		end
+
+	frozen SDL_DestroyRenderer(renderer:POINTER)
+		external
+			"C (SDL_Renderer*) | <SDL.h>"
+		alias
+			"SDL_DestroyRenderer"
 		end
 
 	frozen SDL_JoystickGetAxis(joystick:POINTER; axis:INTEGER) : INTEGER_16
@@ -494,6 +508,41 @@ feature -- Function SDL.h
 			"SDL_ConvertSurfaceFormat"
 		end
 
+	frozen SDL_SetRenderTarget(renderer, texture:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, SDL_Texture*) :int | <SDL.h>"
+		alias
+			"SDL_SetRenderTarget"
+		end
+
+	frozen SDL_RenderClear(renderer:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*) :int | <SDL.h>"
+		alias
+			"SDL_RenderClear"
+		end
+
+	frozen SDL_RenderPresent(renderer:POINTER)
+		external
+			"C (SDL_Renderer*) | <SDL.h>"
+		alias
+			"SDL_RenderPresent"
+		end
+
+	frozen SDL_RenderCopy(renderer, texture, srcrect, dstrect:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, SDL_Texture*, const SDL_Rect*, const SDL_Rect*) :int | <SDL.h>"
+		alias
+			"SDL_RenderCopy"
+		end
+
+	frozen SDL_RenderCopyEx(renderer, texture, srcrect, dstrect:POINTER; angle: REAL_64; center: POINTER; flip: INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, SDL_Texture*, const SDL_Rect*, const SDL_Rect*, const double, const SDL_Point*, const SDL_RendererFlip) :int | <SDL.h>"
+		alias
+			"SDL_RenderCopyEx"
+		end
+
 	frozen SDL_ConvertSurface(src, fmt:POINTER;flags:NATURAL_32):POINTER
 		external
 			"C (SDL_Surface*, const SDL_PixelFormat*, Uint32) :SDL_Surface* | <SDL.h>"
@@ -620,6 +669,90 @@ feature -- Function SDL.h
 			"SDL_SetSurfaceBlendMode"
 		end
 
+	frozen SDL_GetRenderDrawBlendMode(renderer, blendMode:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, SDL_BlendMode*) : int | <SDL.h>"
+		alias
+			"SDL_GetRenderDrawBlendMode"
+		end
+
+	frozen SDL_SetRenderDrawBlendMode(renderer:POINTER; blendMode:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, SDL_BlendMode) : int | <SDL.h>"
+		alias
+			"SDL_SetRenderDrawBlendMode"
+		end
+
+	frozen SDL_GetRenderDrawColor(renderer, r, g, b, a:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, Uint8*, Uint8*, Uint8*, Uint8*) : int | <SDL.h>"
+		alias
+			"SDL_GetRenderDrawColor"
+		end
+
+	frozen SDL_SetRenderDrawColor(renderer:POINTER; r, g, b, a:NATURAL_8):INTEGER
+		external
+			"C (SDL_Renderer*, Uint8, Uint8, Uint8, Uint8) : int | <SDL.h>"
+		alias
+			"SDL_SetRenderDrawColor"
+		end
+
+	frozen SDL_RenderDrawPoints(renderer, points:POINTER; count:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Point*, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawPoints"
+		end
+
+	frozen SDL_RenderDrawPoint(renderer:POINTER; x, y:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, int, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawPoint"
+		end
+
+	frozen SDL_RenderDrawLine(renderer:POINTER; x1, y1, x2, y2:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, int, int, int, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawLine"
+		end
+
+	frozen SDL_RenderDrawLines(renderer, points:POINTER; count:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Point*, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawLines"
+		end
+
+	frozen SDL_RenderDrawRect(renderer, rect:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawRect"
+		end
+
+	frozen SDL_RenderDrawRects(renderer, rects:POINTER; count:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderDrawRects"
+		end
+
+	frozen SDL_RenderFillRect(renderer, rect:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*) : int | <SDL.h>"
+		alias
+			"SDL_RenderFillRect"
+		end
+
+	frozen SDL_RenderFillRects(renderer, rects:POINTER; count:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderFillRects"
+		end
+
 	frozen SDL_GetSurfaceAlphaMod(surface, alpha:POINTER):INTEGER
 		external
 			"C (SDL_Surface*, Uint8*) : int | <SDL.h>"
@@ -653,6 +786,174 @@ feature -- Function SDL.h
 			"C (SDL_Surface*, int) : int | <SDL.h>"
 		alias
 			"SDL_SetSurfaceRLE"
+		end
+
+	frozen SDL_GetNumRenderDrivers:INTEGER
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_GetNumRenderDrivers"
+		end
+
+	frozen SDL_GetRenderDriverInfo(index: INTEGER; info:POINTER):INTEGER
+		external
+			"C (int, SDL_RendererInfo*) : int | <SDL.h>"
+		alias
+			"SDL_GetRenderDriverInfo"
+		end
+
+	frozen SDL_CreateTexture(renderer:POINTER; format:NATURAL_32; access, w, h:INTEGER):POINTER
+		external
+			"C (SDL_Renderer*, Uint32, int, int, int) : SDL_Texture* | <SDL.h>"
+		alias
+			"SDL_CreateTexture"
+		end
+
+	frozen SDL_CreateTextureFromSurface(renderer, surface:POINTER):POINTER
+		external
+			"C (SDL_Renderer*, SDL_Surface*) : SDL_Texture* | <SDL.h>"
+		alias
+			"SDL_CreateTextureFromSurface"
+		end
+
+	frozen SDL_DestroyTexture(texture:POINTER)
+		external
+			"C (SDL_Texture*) | <SDL.h>"
+		alias
+			"SDL_DestroyTexture"
+		end
+
+	frozen SDL_GetTextureBlendMode(texture, blendMode:POINTER): INTEGER
+		external
+			"C (SDL_Texture*, SDL_BlendMode*) : int | <SDL.h>"
+		alias
+			"SDL_GetTextureBlendMode"
+		end
+
+	frozen SDL_SetTextureBlendMode(texture:POINTER; blendMode:INTEGER_32):INTEGER
+		external
+			"C (SDL_Texture*, SDL_BlendMode) : int | <SDL.h>"
+		alias
+			"SDL_SetTextureBlendMode"
+		end
+
+	frozen SDL_GetTextureAlphaMod(texture, alpha:POINTER):INTEGER
+		external
+			"C (SDL_Texture*, Uint8*) : int | <SDL.h>"
+		alias
+			"SDL_GetTextureAlphaMod"
+		end
+
+	frozen SDL_SetTextureAlphaMod(texture:POINTER; blendMode:NATURAL_8):INTEGER
+		external
+			"C (SDL_Texture*, Uint8) : int | <SDL.h>"
+		alias
+			"SDL_SetTextureAlphaMod"
+		end
+
+	frozen SDL_GetTextureColorMod(texture, r, g, b:POINTER):INTEGER
+		external
+			"C (SDL_Texture*, Uint8*, Uint8*, Uint8*) : int | <SDL.h>"
+		alias
+			"SDL_GetTextureColorMod"
+		end
+
+	frozen SDL_SetTextureColorMod(texture:POINTER; r, g, b:NATURAL_8):INTEGER
+		external
+			"C (SDL_Texture*, Uint8, Uint8, Uint8) : int | <SDL.h>"
+		alias
+			"SDL_SetTextureColorMod"
+		end
+
+	frozen SDL_GetRendererOutputSize(renderer, w, h:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, int*, int*) : int | <SDL.h>"
+		alias
+			"SDL_GetRendererOutputSize"
+		end
+
+	frozen SDL_RenderGetClipRect(renderer, rect:POINTER)
+		external
+			"C (SDL_Renderer*, SDL_Rect*) | <SDL.h>"
+		alias
+			"SDL_RenderGetClipRect"
+		end
+
+	frozen SDL_RenderSetClipRect(renderer, rect:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*) : int | <SDL.h>"
+		alias
+			"SDL_RenderSetClipRect"
+		end
+
+	frozen SDL_RenderGetLogicalSize(renderer, w, h:POINTER)
+		external
+			"C (SDL_Renderer*, int*, int*) | <SDL.h>"
+		alias
+			"SDL_RenderGetLogicalSize"
+		end
+
+	frozen SDL_RenderSetLogicalSize(renderer:POINTER; w, h:INTEGER):INTEGER
+		external
+			"C (SDL_Renderer*, int, int) : int | <SDL.h>"
+		alias
+			"SDL_RenderSetLogicalSize"
+		end
+
+	frozen SDL_RenderGetScale(renderer, scaleX, scaleY:POINTER)
+		external
+			"C (SDL_Renderer*, float*, float*) | <SDL.h>"
+		alias
+			"SDL_RenderGetScale"
+		end
+
+	frozen SDL_RenderSetScale(renderer:POINTER; scaleX, scaleY:REAL_32):INTEGER
+		external
+			"C (SDL_Renderer*, float, float) : int | <SDL.h>"
+		alias
+			"SDL_RenderSetScale"
+		end
+
+	frozen SDL_RenderGetViewport(renderer, rect:POINTER)
+		external
+			"C (SDL_Renderer*, SDL_Rect*) | <SDL.h>"
+		alias
+			"SDL_RenderGetViewport"
+		end
+
+	frozen SDL_RenderSetViewport(renderer, rect:POINTER):INTEGER
+		external
+			"C (SDL_Renderer*, const SDL_Rect*) : int | <SDL.h>"
+		alias
+			"SDL_RenderSetViewport"
+		end
+
+	frozen SDL_AllocPalette(ncolors:INTEGER):POINTER
+		external
+			"C (int) : SDL_Palette* | <SDL.h>"
+		alias
+			"SDL_AllocPalette"
+		end
+
+	frozen SDL_FreePalette(palette:POINTER)
+		external
+			"C (SDL_Palette*) | <SDL.h>"
+		alias
+			"SDL_FreePalette"
+		end
+
+	frozen SDL_SetPixelFormatPalette(format, palette:POINTER):INTEGER
+		external
+			"C (SDL_PixelFormat*, SDL_Palette*) : int | <SDL.h>"
+		alias
+			"SDL_SetPixelFormatPalette"
+		end
+
+	frozen SDL_QueryTexture(texture, format, access, w, h:POINTER):INTEGER
+		external
+			"C (SDL_Texture*, Uint32*, int*, int*, int*) : int | <SDL.h>"
+		alias
+			"SDL_QueryTexture"
 		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
@@ -812,6 +1113,48 @@ feature -- Structure SDL_Rect SDL.h
 			"C [struct <SDL.h>] (SDL_Rect):int"
 		alias
 			"h"
+		end
+
+feature -- Structure SDL_Point SDL.h
+
+	frozen c_sizeof_sdl_point:INTEGER
+			-- Size of an SDL_Point C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_Point)"
+		end
+
+	frozen set_point_struct_x (point: POINTER; x:INTEGER)
+			-- X location of the point
+		external
+			"C [struct <SDL.h>] (SDL_Point, int)"
+		alias
+			"x"
+		end
+
+	frozen get_point_struct_x(point:POINTER):INTEGER
+			-- X location of the point
+		external
+			"C [struct <SDL.h>] (SDL_Point):int"
+		alias
+			"x"
+		end
+
+	frozen set_point_struct_y (point: POINTER; y:INTEGER)
+			-- Y location of the point
+		external
+			"C [struct <SDL.h>] (SDL_Point, int)"
+		alias
+			"y"
+		end
+
+	frozen get_point_struct_y(point:POINTER):INTEGER
+			-- Y location of the point
+		external
+			"C [struct <SDL.h>] (SDL_Point):int"
+		alias
+			"y"
 		end
 
 feature -- Structure SDL_Event SDL.h
@@ -3126,6 +3469,67 @@ feature -- Structure SDL_Surface SDL.h
 			"refcount"
 		end
 
+
+feature -- Structure SDL_RendererInfo SDL.h
+
+	frozen c_sizeof_sdl_renderer_info:INTEGER
+			-- Size of an SDL_RendererInfo C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_RendererInfo)"
+		end
+
+	frozen get_sdl_renderer_info_name(ptr:POINTER):POINTER
+			-- Retreive the name of the renderer driver
+		external
+			"C [struct <SDL.h>] (SDL_RendererInfo):const char*"
+		alias
+			"name"
+		end
+
+	frozen get_sdl_renderer_info_flags(ptr:POINTER):NATURAL_32
+			-- Every supported renderer flags
+		external
+			"C [struct <SDL.h>] (SDL_RendererInfo):Uint32"
+		alias
+			"flags"
+		end
+
+	frozen get_sdl_renderer_info_num_texture_formats(ptr:POINTER):NATURAL_32
+			-- The number of available texture formats
+		external
+			"C [struct <SDL.h>] (SDL_RendererInfo):Uint32"
+		alias
+			"num_texture_formats"
+		end
+
+	frozen get_sdl_renderer_info_texture_formats(ptr:POINTER; index:INTEGER):NATURAL_32
+			-- The i-th texture format
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((Uint32*)(((SDL_RendererInfo*)$ptr)->texture_formats))[(int)$index]"
+		end
+
+	frozen get_sdl_renderer_info_max_texture_width(ptr:POINTER):INTEGER
+			-- The maximum width of texture that the renderer driver can manage
+			-- (0 for unknown)
+		external
+			"C [struct <SDL.h>] (SDL_RendererInfo):int"
+		alias
+			"max_texture_width"
+		end
+
+	frozen get_sdl_renderer_info_max_texture_height(ptr:POINTER):INTEGER
+			-- The maximum height of texture that the renderer driver can manage
+			-- (0 for unknown)
+		external
+			"C [struct <SDL.h>] (SDL_RendererInfo):int"
+		alias
+			"max_texture_height"
+		end
+
 feature -- Structure SDL_Color SDL.h
 
 	frozen c_sizeof_sdl_color:INTEGER
@@ -3198,6 +3602,32 @@ feature -- Structure SDL_Color SDL.h
 			"C [struct <SDL.h>] (SDL_Color):Uint8"
 		alias
 			"a"
+		end
+
+feature -- Structure SDL_Palette SDL.h
+
+	frozen set_sdl_palette_struct_ncolors (ptr: POINTER; value:INTEGER)
+			-- the number of colors in the palette
+		external
+			"C [struct <SDL.h>] (SDL_Palette, int)"
+		alias
+			"ncolors"
+		end
+
+	frozen get_sdl_palette_struct_ncolors(ptr:POINTER):INTEGER
+			-- the number of colors in the palette
+		external
+			"C [struct <SDL.h>] (SDL_Palette):int"
+		alias
+			"ncolors"
+		end
+
+	frozen get_sdl_palette_struct_color_i (ptr: POINTER; index:INTEGER):POINTER
+			-- SDL_Color at `index'
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_Palette*)$ptr)->colors[(int) $index])"
 		end
 
 feature -- Constants
@@ -5210,31 +5640,6 @@ feature -- Constants
 		alias
 			"SDL_SCANCODE_VOLUMEDOWN"
 		end
-
-
-	frozen SDL_SCANCODE_LOCKINGCAPSLOCK : INTEGER_32
-		external
-			"C [macro <SDL.h>] : EIF_INTEGER_32"
-		alias
-			"SDL_SCANCODE_LOCKINGCAPSLOCK"
-		end
-
-
-	frozen SDL_SCANCODE_LOCKINGNUMLOCK : INTEGER_32
-		external
-			"C [macro <SDL.h>] : EIF_INTEGER_32"
-		alias
-			"SDL_SCANCODE_LOCKINGNUMLOCK"
-		end
-
-
-	frozen SDL_SCANCODE_LOCKINGSCROLLLOCK : INTEGER_32
-		external
-			"C [macro <SDL.h>] : EIF_INTEGER_32"
-		alias
-			"SDL_SCANCODE_LOCKINGSCROLLLOCK"
-		end
-
 
 	frozen SDL_SCANCODE_KP_COMMA : INTEGER_32
 		external
@@ -8088,7 +8493,7 @@ feature -- Constants
 		external
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
-			" SDL_BUTTON_LEFT"
+			"SDL_BUTTON_LEFT"
 		end
 
 
@@ -8096,7 +8501,7 @@ feature -- Constants
 		external
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
-			" SDL_BUTTON_RIGHT"
+			"SDL_BUTTON_RIGHT"
 		end
 
 
@@ -8104,7 +8509,7 @@ feature -- Constants
 		external
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
-			" SDL_BUTTON_MIDDLE"
+			"SDL_BUTTON_MIDDLE"
 		end
 
 
@@ -8112,7 +8517,7 @@ feature -- Constants
 		external
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
-			" SDL_BUTTON_X1"
+			"SDL_BUTTON_X1"
 		end
 
 
@@ -8120,10 +8525,84 @@ feature -- Constants
 		external
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
-			" SDL_BUTTON_X2"
+			"SDL_BUTTON_X2"
 		end
 
 
+	frozen  SDL_RENDERER_ACCELERATED : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_RENDERER_ACCELERATED"
+		end
 
+
+	frozen  SDL_RENDERER_SOFTWARE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_RENDERER_SOFTWARE"
+		end
+
+
+	frozen  SDL_RENDERER_TARGETTEXTURE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_RENDERER_TARGETTEXTURE"
+		end
+
+
+	frozen  SDL_RENDERER_PRESENTVSYNC : NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_RENDERER_PRESENTVSYNC"
+		end
+
+
+	frozen  SDL_FLIP_NONE : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_FLIP_NONE"
+		end
+
+
+	frozen  SDL_FLIP_HORIZONTAL : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_FLIP_HORIZONTAL"
+		end
+
+
+	frozen  SDL_FLIP_VERTICAL : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_FLIP_VERTICAL"
+		end
+
+	frozen  SDL_TEXTUREACCESS_STATIC : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_TEXTUREACCESS_STATIC"
+		end
+
+	frozen  SDL_TEXTUREACCESS_STREAMING : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_TEXTUREACCESS_STREAMING"
+		end
+
+	frozen  SDL_TEXTUREACCESS_TARGET : INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_TEXTUREACCESS_TARGET"
+		end
 
 end

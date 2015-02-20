@@ -7,150 +7,148 @@ note
 class
 	GAME_SURFACE_8_BPP
 
---inherit
---	GAME_SURFACE
---	rename
---		make as make_base,
---		make_video_memory as make_video_memory_base,
---		make_from_surface as make_from_surface_base,
---		make_from_pointer as make_from_pointer_base
---	redefine
---		pixel_color, put_pixel_color
---	end
+inherit
+	GAME_SURFACE
+	rename
+		share_from_image_source as share_from_image_source_surface,
+		make_from_image_source as make_from_image_source_surface,
+		share_from_other as share_from_other_surface,
+		make_from_other as make_from_other_surface,
+		make_with_masks as make_with_masks_surface,
+		make_for_pixel_format as make_for_pixel_format_surface,
+		make_for_display_mode as make_for_display_mode_surface,
+		make_for_display as make_for_display_surface,
+		make_for_window as make_for_window_surface
+	end
 
---create
---	make,
---	make_video_memory,
---	make_from_surface,
---	make_from_pointer
+create
+	share_from_image_source,
+	make_from_image_source,
+	share_from_other,
+	make_from_other,
+	make_with_masks,
+	make_for_pixel_format,
+	make_for_display_mode,
+	make_for_display,
+	make_for_window
 
---feature {NONE} -- Initialization
+feature {NONE} -- Initialization
 
---	make(a_width,a_height:INTEGER)
---			-- Initialization for `Current'.
---		do
---			make_with_bit_per_pixel (a_width, a_height,8, False)
---		end
+	share_from_image_source(a_image_source:GAME_IMAGE_SOURCE)
+			-- Create a `Current' from `a_image_source'.
+			-- The image source in memory is not copied.
+			-- If multiple surface is done with the same `a_image_source',
+			-- every modification to surface will affect all.
+		require
+			Video_Enabled: game_library.is_video_enable
+			Image_Source_Is_Open: a_image_source.is_open
+			Image_Source_Is_8_Bpp: a_image_source.is_8_bpp
+		do
+			share_from_image_source_surface(a_image_source)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---	make_video_memory(a_width,a_height:INTEGER)
---			-- Initialization for `Current' on video memory.
---		do
---			make_with_bit_per_pixel (a_width, a_height,8, True)
---		end
---	make_from_surface(a_surface:GAME_SURFACE)
---			-- Initialization for `Current'.
---			-- Create a new surface from `a_surface' (the memory surface will ne be duplicated).
---		require else
---			Sdl_Surface_8_Make_From_Surface_Is_Not_Void: a_surface /= Void
---			Sdl_Surface_8_Make_From_Surface_Is_8_Bits: a_surface.bits_per_pixel=8
---		do
---			make_from_pointer(a_surface.internal_pointer)
---		end
+	make_from_image_source(a_image_source:GAME_IMAGE_SOURCE)
+			-- Create a `Current' from `a_image_source'.
+			-- The image source in memory is copied.
+			-- Slower than `share_from_image_source' and use more memory.
+			-- If multiple surface is done with the same `a_image_source',
+			-- every modification to surface will affect all.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_From_Image_Source_Is_Open: a_image_source.is_open
+			Image_Source_Is_8_Bpp: a_image_source.is_8_bpp
+		do
+			make_from_image_source_surface(a_image_source)	
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---	make_from_pointer(a_pointer:POINTER)
---			-- Initialization for `Current'.
---			-- Create a new surface from the SDL pointer `a_pointer' (the memory surface will ne be duplicated).
---		require
---			Make_From_Pointer_Pointer_Valid: a_pointer /= Void and then not a_pointer.is_default_pointer
---		do
---			make_from_pointer_base (a_pointer)
---		ensure
---			Make_From_Pointer_8_Is_8_Bits: bits_per_pixel=8
---		end
+	share_from_other(a_other:GAME_SURFACE)
+			-- Create a `Current' from `a_other'.
+			-- The image source in memory is not copied.
+			-- If multiple surface is done with the same `a_image_source',
+			-- every modification to surface will affect all.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Other_Opened: a_other.is_open
+			Surface_Make_Other_8_bpp: a_other.pixel_format.bits_per_pixel = 8
+		do
+			share_from_other_surface(a_other)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
+	make_from_other(a_other:GAME_SURFACE)
+			-- Create a `Current' from `a_other'.
+			-- The image source in memory will be copied.
+			-- Slower than `share_from_other' and use more memory.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Other_Opened: a_other.is_open
+			Surface_Make_Other_8_bpp: a_other.pixel_format.bits_per_pixel = 8
+		do
+			make_from_other_surface(a_other)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
+	make_for_window(a_window:GAME_WINDOW; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height'
+			-- conforming to `a_window'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Window_8_bpp: a_window.pixel_format.bits_per_pixel = 8
+		do
+			make_for_window_surface(a_window, a_width, a_height)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---feature -- Access
+	make_for_display(a_display:GAME_DISPLAY; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height'
+			-- conforming to `a_display'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Display_8_bpp: a_display.current_mode.pixel_format.bits_per_pixel = 8
+		do
+			make_for_display_surface(a_display, a_width, a_height)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---	palette_nb_color:NATURAL_8
---		-- Return the number of colors in the palette.
---	local
---		l_palette_pointer:POINTER
---	do
---		l_palette_pointer:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_palette(format_pointer)
---		Result:={GAME_SDL_EXTERNAL}.get_palette_struct_ncolors(l_palette_pointer).to_natural_8
---	end
+	make_for_display_mode(a_display_mode:GAME_DISPLAY_MODE; a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height'
+			-- conforming to `a_display_mode'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Display_Mode_8_bpp: a_display_mode.pixel_format.bits_per_pixel = 8
+		do
+			make_for_display_mode_surface(a_display_mode, a_width, a_height)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---	get_palette_color(a_index:NATURAL_8):GAME_COLOR
---		-- Change a color of the palette.
---		-- `a_index' start at 1
---		-- The modification of the resulting color change the color in the palette
---	require
---		Get_Palette_Color_Index_Valid: a_index <=palette_nb_color
---	do
---		create {GAME_SDL_COLOR} Result.make_from_pointer (get_palette_color_pointer(a_index.to_integer_32))
---	end
+	make_for_pixel_format(a_pixel_format:GAME_PIXEL_FORMAT_READABLE;a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height' conforming to `a_pixel_format'.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+			Surface_Make_Pixel_Format_8_bpp: a_pixel_format.bits_per_pixel = 8
+		do
+			make_for_pixel_format_surface(a_pixel_format, a_width, a_height)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 
---	get_Pixel_index(a_x,a_y:INTEGER):NATURAL_8
---		-- Get the index of the pixel at `a_x', `a_y'.
---	do
---		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
---			if {GAME_SDL_EXTERNAL}.SDL_LockSurface(internal_pointer)=-1 then
---				check false end
---			end
---		end
---		Result:={GAME_SDL_EXTERNAL}.getPixel(internal_pointer,a_x,a_y).to_natural_8
---		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
---			{GAME_SDL_EXTERNAL}.SDL_UnlockSurface(internal_pointer)
---		end
---	end
-
---	put_pixel_index(a_x,a_y:INTEGER;a_index_color:NATURAL_8)
---		-- Replace the index of the pixel at `a_x', `a_y' by the palette index `a_index_color'.
---		-- Innefficient to put lots of pixel.
---		-- ToDo: Create a put_pixels that put lots of pixel with only one lock.
---	require
---		Put_Pixel_Index_Index_Color_Valid: a_index_color <=palette_nb_color
---	do
---		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
---			if {GAME_SDL_EXTERNAL}.SDL_LockSurface(internal_pointer)=-1 then
---				check false end
---			end
---		end
---		{GAME_SDL_EXTERNAL}.putpixel(internal_pointer,a_x,a_y,a_index_color.to_natural_32)
---		if {GAME_SDL_EXTERNAL}.SDL_MUSTLOCK(internal_pointer)/=0 then
---			{GAME_SDL_EXTERNAL}.SDL_UnlockSurface(internal_pointer)
---		end
---	end
-
---	pixel_color(a_x,a_y:INTEGER):GAME_COLOR
---			-- Get the color of the pixel at `a_x', `a_y'.
---		do
---			Result:=get_palette_color(get_Pixel_index(a_x,a_y))
---		end
-
---	put_pixel_color(a_x,a_y:INTEGER;a_color:GAME_COLOR)
---			-- The color must be in the palette.
---			-- Innefficient to put lots of pixel
---			-- ToDo: Create a put_pixels that put lots of pixel with only one lock
---		local
---			i:NATURAL_8
---		do
---			from
---				i:=1
---			until
---				i>palette_nb_color
---			loop
---				if get_palette_color(i).color_is_equal(a_color) then
---					put_pixel_index(a_x,a_y,i)
---				end
---				i:=i+1
---			end
---		end
-
-
---feature {NONE} -- Implementation
-
---	get_palette_color_pointer(a_index:INTEGER):POINTER
---	require
---		Get_Palette_Color_Index_Valid: a_index>0 and a_index <=palette_nb_color
---	local
---		l_col:GAME_SDL_COLOR
---		l_palette_pointer,l_color_pointer:POINTER
---	do
---		l_palette_pointer:={GAME_SDL_EXTERNAL}.get_pixel_format_struct_palette(format_pointer)
---		l_color_pointer:={GAME_SDL_EXTERNAL}.get_palette_struct_color_from_index(l_palette_pointer,a_index-1)
---		Result:=l_color_pointer
---	end
-
+	make_with_masks(a_width,a_height:INTEGER;a_Rmask,a_Gmask,a_Bmask,a_Amask:NATURAL_32)
+			-- Initialization for `Current'.
+			-- Create a new empty surface with RGBA mask and flags.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		do
+			make_with_masks_surface(a_width, a_height, 8,a_Rmask, a_Gmask, a_Bmask, a_Amask)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
 end

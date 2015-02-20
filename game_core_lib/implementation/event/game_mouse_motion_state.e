@@ -9,14 +9,6 @@ class
 
 inherit
 	GAME_MOUSE_STATE
-		rename
-			x as x_in_desktop,
-			y as y_in_desktop,
-			x_in_window as x,
-			y_in_window as y
-		export
-			{NONE} x_in_desktop, y_in_desktop
-		end
 	GAME_MOUSE_EVENTS_STATE
 		rename
 			make as make_events_state
@@ -38,7 +30,6 @@ feature {NONE} -- Initialization
 			state := a_state
 			x := a_x
 			y := a_y
-			l_error := {GAME_SDL_EXTERNAL}.SDL_GetGlobalMouseState($x_in_desktop,$y_in_desktop)
 		end
 
 
