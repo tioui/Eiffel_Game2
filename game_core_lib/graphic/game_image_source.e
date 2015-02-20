@@ -92,17 +92,6 @@ feature -- Access
 		do
 			Result := not item.is_default_pointer
 		end
-	
-	is_8_bpp:BOOLEAN
-			-- Is `Current' internal format is 8 bits per pixel
-		require
-			Is_Open: is_open
-		local
-			l_format_pointer:POINTER
-		do
-			l_format_pointer := {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_format(item)
-			Result := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bytes_per_pixel(l_format_pointer) = 1
-		end
 
 feature {GAME_SDL_ANY}
 

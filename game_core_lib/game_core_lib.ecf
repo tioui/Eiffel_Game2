@@ -104,8 +104,10 @@
 				<exclude>/implementation$</exclude>
 				<exclude>/graphic$</exclude>
 				<exclude>/input$</exclude>
+				<exclude>/event$</exclude>
 			</file_rule>
 			<cluster name="input" location=".\input\"/>
+			<cluster name="event" location=".\event\"/>
 			<cluster name="graphic" location=".\graphic\"/>
 			<cluster name="implementation" location=".\implementation\" recursive="true"/>
 		</cluster>
