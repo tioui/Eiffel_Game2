@@ -8,12 +8,17 @@ class
 	GAME_DISPLAY_MODE
 
 inherit
-	DISPOSABLE
+	GAME_SDL_ANY
 		redefine
 			out,
 			is_equal
 		end
-	GAME_SDL_ANY
+	MEMORY_STRUCTURE
+		rename
+			make as make_structure
+		export
+			{NONE} make_structure, make_by_pointer
+			{GAME_SDL_ANY} item
 		redefine
 			out,
 			is_equal
@@ -48,12 +53,11 @@ feature {NONE} -- Initialization
 		local
 			l_pixel_format:GAME_PIXEL_FORMAT
 		do
-			internal_pointer:=internal_pointer.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_display_mode)
+			make_structure
 			set_pixel_format (create {GAME_PIXEL_FORMAT}.make)
 			set_width (a_width)
 			set_height (a_height)
 			set_refresh_rate (a_refresh_rate)
-			must_free:=True
 		end
 
 	shared_from_pointer(a_mode:POINTER)
@@ -62,10 +66,9 @@ feature {NONE} -- Initialization
 		require
 			Display_Mode_Own_Pointer_Not_Null: not a_mode.is_default_pointer
 		do
-			internal_pointer:=a_mode
-			must_free:=False
+			make_by_pointer(a_mode)
 		ensure
-			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
+			Display_Mode_Own_Internal_Pointer_Not_Null: not item.is_default_pointer
 		end
 
 	own_from_pointer(a_mode:POINTER)
@@ -74,10 +77,9 @@ feature {NONE} -- Initialization
 		require
 			Display_Mode_Own_Pointer_Not_Null: not a_mode.is_default_pointer
 		do
-			internal_pointer:=a_mode
-			must_free:=True
-		ensure
-			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
+			create internal_item
+			create managed_pointer.own_from_pointer (a_mode, structure_size)
+			shared := True
 		end
 
 	make_from_pointer(a_mode:POINTER)
@@ -96,16 +98,16 @@ feature {NONE} -- Initialization
 									{GAME_SDL_EXTERNAL}.get_display_mode_struct_format(a_mode)
 								)
 					)
-		ensure
-			Display_Mode_Own_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
 		end
 
 feature -- Access
 
 	width:INTEGER assign set_width
 			-- The width of `Current'
+		require
+			Pointer_Exists: exists
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_w(internal_pointer)
+			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_w(item)
 		ensure
 			Display_Mode_Width_Not_Changed: width=old width
 			Display_Mode_Height_Not_Changed: height=old height
@@ -115,8 +117,10 @@ feature -- Access
 
 	set_width(a_width:INTEGER)
 			-- Assign `width' with the value of `a_width'.
+		require
+			Pointer_Exists: exists
 		do
-			{GAME_SDL_EXTERNAL}.set_display_mode_struct_w(internal_pointer, a_width)
+			{GAME_SDL_EXTERNAL}.set_display_mode_struct_w(item, a_width)
 		ensure
 			Display_Mode_Width_Changed: width=a_width
 			Display_Mode_Height_Not_Changed: height=old height
@@ -126,8 +130,10 @@ feature -- Access
 
 	height:INTEGER assign set_height
 			-- The height of `Current
+		require
+			Pointer_Exists: exists
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_h(internal_pointer)
+			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_h(item)
 		ensure
 			Display_Mode_Width_Not_Changed: width=old width
 			Display_Mode_Height_Not_Changed: height=old height
@@ -137,8 +143,10 @@ feature -- Access
 
 	set_height(a_height:INTEGER)
 			-- Assign `height' with the value of `a_height'.
+		require
+			Pointer_Exists: exists
 		do
-			{GAME_SDL_EXTERNAL}.set_display_mode_struct_h(internal_pointer, a_height)
+			{GAME_SDL_EXTERNAL}.set_display_mode_struct_h(item, a_height)
 		ensure
 			Display_Mode_Width_Not_Changed: width=old width
 			Display_Mode_Height_Changed: height=a_height
@@ -148,8 +156,10 @@ feature -- Access
 
 	refresh_rate:INTEGER assign set_refresh_rate
 			-- The frame_rate of `Current'
+		require
+			Pointer_Exists: exists
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_refresh_rate (internal_pointer)
+			Result:={GAME_SDL_EXTERNAL}.get_display_mode_struct_refresh_rate (item)
 		ensure
 			Display_Mode_Width_Not_Changed: width=old width
 			Display_Mode_Height_Not_Changed: height=old height
@@ -159,8 +169,10 @@ feature -- Access
 
 	set_refresh_rate(a_refresh_rate:INTEGER)
 			-- Assign `refresh_rate' with the value of `a_refresh_rate'.
+		require
+			Pointer_Exists: exists
 		do
-			{GAME_SDL_EXTERNAL}.set_display_mode_struct_refresh_rate(internal_pointer, a_refresh_rate)
+			{GAME_SDL_EXTERNAL}.set_display_mode_struct_refresh_rate(item, a_refresh_rate)
 		ensure
 			Display_Mode_Width_Not_Changed: width=old width
 			Display_Mode_Height_Not_Changed: height=old height
@@ -170,43 +182,50 @@ feature -- Access
 
 	pixel_format:GAME_PIXEL_FORMAT_READABLE assign set_pixel_format
 			-- The internal format of the pixel representation in memory.
+		require
+			Pointer_Exists: exists
 		do
-			create Result.make_from_flags ({GAME_SDL_EXTERNAL}.get_display_mode_struct_format(internal_pointer))
+			create Result.make_from_flags ({GAME_SDL_EXTERNAL}.get_display_mode_struct_format(item))
 		end
 
 	set_pixel_format(a_pixel_format:like pixel_format)
 			-- Assign the `pixel_format' of the pixel representation in memory to the value of `a_pixel_format'.
+		require
+			Pointer_Exists: exists
 		do
-			{GAME_SDL_EXTERNAL}.set_display_mode_struct_format(internal_pointer, pixel_format.internal_index)
+			{GAME_SDL_EXTERNAL}.set_display_mode_struct_format(item, pixel_format.internal_index)
 		end
 
 	out:STRING_8
 			-- <Precursor>
+		require else
+			Pointer_Exists: exists
 		do
-			Result:=width.out+"x"+height.out+", "+refresh_rate.out+"Hz, Format:"+pixel_format.out
+			if exists then
+				Result:=width.out+"x"+height.out+", "+refresh_rate.out+"Hz, Format:"+pixel_format.out
+			else
+				Result := ""
+			end
 		end
 
 	is_equal (a_other: like Current): BOOLEAN
 			-- <Precursor>
+		require else
+			Pointer_Exists: exists
 		do
-			Result:= (width=a_other.width) and (height=a_other.height) and (refresh_rate=a_other.refresh_rate) and (pixel_format~a_other.pixel_format)
+			if exists then
+				Result:= (width=a_other.width) and (height=a_other.height) and (refresh_rate=a_other.refresh_rate) and (pixel_format~a_other.pixel_format)
+			else
+				Result := not a_other.exists
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	must_free:BOOLEAN
-
-	dispose
+	structure_size: INTEGER_32
+			-- <Precursor>
 		do
-			internal_pointer.memory_free
+			Result := {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_display_mode
 		end
-
-
-feature {GAME_DISPLAY}
-
-	internal_pointer:POINTER
-
-invariant
-	Display_Mode_Internal_Pointer_Not_Null: not internal_pointer.is_default_pointer
 
 end

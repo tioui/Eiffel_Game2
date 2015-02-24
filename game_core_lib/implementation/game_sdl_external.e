@@ -956,6 +956,195 @@ feature -- Function SDL.h
 			"SDL_QueryTexture"
 		end
 
+	frozen SDL_HideWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_HideWindow"
+		end
+
+	frozen SDL_ShowWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_ShowWindow"
+		end
+
+	frozen SDL_MinimizeWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_MinimizeWindow"
+		end
+
+	frozen SDL_MaximizeWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_MaximizeWindow"
+		end
+
+	frozen SDL_RestoreWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_RestoreWindow"
+		end
+
+	frozen SDL_RaiseWindow(window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_RaiseWindow"
+		end
+
+	frozen SDL_SetWindowBordered(window:POINTER; bordered:BOOLEAN)
+		external
+			"C (SDL_Window*, SDL_bool) | <SDL.h>"
+		alias
+			"SDL_SetWindowBordered"
+		end
+
+	frozen SDL_SetWindowDisplayMode(window, mode:POINTER):INTEGER
+		external
+			"C (SDL_Window*, const SDL_DisplayMode*) : int | <SDL.h>"
+		alias
+			"SDL_SetWindowDisplayMode"
+		end
+
+	frozen SDL_GetWindowDisplayMode(window, mode:POINTER):INTEGER
+		external
+			"C (SDL_Window*, SDL_DisplayMode*) : int | <SDL.h>"
+		alias
+			"SDL_GetWindowDisplayMode"
+		end
+
+	frozen SDL_SetWindowFullscreen(window:POINTER; flags:NATURAL_32):INTEGER
+		external
+			"C (SDL_Window*, Uint32) : int | <SDL.h>"
+		alias
+			"SDL_SetWindowFullscreen"
+		end
+
+	frozen SDL_GetWindowFlags(window:POINTER) : NATURAL_32
+		external
+			"C (SDL_Window*) : Uint32 | <SDL.h>"
+		alias
+			"SDL_GetWindowFlags"
+		end
+
+	frozen SDL_SetWindowGammaRamp(window, red, green, blue:POINTER) : INTEGER
+		external
+			"C (SDL_Window*, const Uint16*, const Uint16*, const Uint16*) : int | <SDL.h>"
+		alias
+			"SDL_SetWindowGammaRamp"
+		end
+
+	frozen SDL_GetWindowGammaRamp(window, red, green, blue:POINTER) : INTEGER
+		external
+			"C (SDL_Window*, Uint16*, Uint16*, Uint16*) : int | <SDL.h>"
+		alias
+			"SDL_GetWindowGammaRamp"
+		end
+
+	frozen SDL_GetWindowGrab(window:POINTER) : BOOLEAN
+		external
+			"C (SDL_Window*) : SDL_bool | <SDL.h>"
+		alias
+			"SDL_GetWindowGrab"
+		end
+
+	frozen SDL_SetWindowGrab(window:POINTER; grabbed:BOOLEAN)
+		external
+			"C (SDL_Window*, SDL_bool) | <SDL.h>"
+		alias
+			"SDL_SetWindowGrab"
+		end
+
+	frozen SDL_GetWindowMaximumSize(window, w, h:POINTER)
+		external
+			"C (SDL_Window*, int*, int*) | <SDL.h>"
+		alias
+			"SDL_GetWindowMaximumSize"
+		end
+
+	frozen SDL_SetWindowMaximumSize(window:POINTER; max_w, max_h:INTEGER)
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_SetWindowMaximumSize"
+		end
+
+	frozen SDL_GetWindowMinimumSize(window, w, h:POINTER)
+		external
+			"C (SDL_Window*, int*, int*) | <SDL.h>"
+		alias
+			"SDL_GetWindowMinimumSize"
+		end
+
+	frozen SDL_SetWindowMinimumSize(window:POINTER; min_w, min_h:INTEGER)
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_SetWindowMinimumSize"
+		end
+
+	frozen SDL_GetWindowSize(window, w, h:POINTER)
+		external
+			"C (SDL_Window*, int*, int*) | <SDL.h>"
+		alias
+			"SDL_GetWindowSize"
+		end
+
+	frozen SDL_SetWindowSize(window:POINTER; w, h:INTEGER)
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_SetWindowSize"
+		end
+
+	frozen SDL_GetWindowPosition(window, x, y:POINTER)
+		external
+			"C (SDL_Window*, int*, int*) | <SDL.h>"
+		alias
+			"SDL_GetWindowPosition"
+		end
+
+	frozen SDL_SetWindowPosition(window:POINTER; x, y:INTEGER)
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_SetWindowPosition"
+		end
+
+	frozen SDL_GetWindowTitle(window:POINTER) : POINTER
+		external
+			"C (SDL_Window*): const char* | <SDL.h>"
+		alias
+			"SDL_GetWindowTitle"
+		end
+
+	frozen SDL_SetWindowTitle(window, title:POINTER)
+		external
+			"C (SDL_Window*, const char*) | <SDL.h>"
+		alias
+			"SDL_SetWindowTitle"
+		end
+
+	frozen SDL_WarpMouseInWindow(window: POINTER; x, y:INTEGER)
+		external
+			"C (SDL_Window*, int, int) | <SDL.h>"
+		alias
+			"SDL_WarpMouseInWindow"
+		end
+
+	frozen SDL_SetWindowIcon(window, icon: POINTER)
+		external
+			"C (SDL_Window*, SDL_Surface*) | <SDL.h>"
+		alias
+			"SDL_SetWindowIcon"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
@@ -8604,5 +8793,47 @@ feature -- Constants
 		alias
 			"SDL_TEXTUREACCESS_TARGET"
 		end
+
+	frozen SDL_WINDOW_SHOWN : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_WINDOW_SHOWN"
+		end
+
+	frozen SDL_WINDOW_INPUT_FOCUS : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_WINDOW_INPUT_FOCUS"
+		end
+
+	frozen SDL_WINDOW_MOUSE_FOCUS : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_WINDOW_MOUSE_FOCUS"
+		end
+
+	frozen SDL_WINDOW_FOREIGN : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_WINDOW_FOREIGN"
+		end
+
+	frozen SDL_WINDOWPOS_CENTERED : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_WINDOWPOS_CENTERED"
+		end
+
+--	frozen SDL_WINDOW_ALLOW_HIGHDPI : NATURAL_32
+--		external
+--			"C [macro <SDL.h>] : Uint32"
+--		alias
+--			"SDL_WINDOW_ALLOW_HIGHDPI"
+--		end
 
 end

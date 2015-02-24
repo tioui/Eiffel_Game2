@@ -9,5 +9,6 @@ EIFGENs
 *.lib
 */Clib/Makefile
 */Clib/config.sh
+*.swp
 custom_package_file_app/tests/*
 !custom_package_file_app/tests/tests.sh

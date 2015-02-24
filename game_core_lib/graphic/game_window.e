@@ -1,8 +1,9 @@
 note
-	description: "A window. You need a renderer to put thing on the window."
+	description: "A window. You need a renderer or a window surface to put thing on the window."
 	author: "Louis Marchand"
 	date: "january 5, 2014"
 	revision: "1.0"
+	ToDo: "HighDPI"
 
 deferred class
 	GAME_WINDOW
@@ -28,6 +29,8 @@ feature {NONE} -- Initialisation
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
 			make(a_title, a_width, a_height, False, False, False, False, False)
+		ensure
+			Make_Window_Is_Open: exists
 		end
 
 	make(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
@@ -42,7 +45,7 @@ feature {NONE} -- Initialisation
 		do
 			make_on_display(a_title, a_width, a_height, game_library.displays.first, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 	make_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
@@ -58,7 +61,7 @@ feature {NONE} -- Initialisation
 			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), a_width, a_height,
 								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 	make_with_position(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
@@ -73,7 +76,7 @@ feature {NONE} -- Initialisation
 		do
 			make_with_extra_flags(a_title, a_x, a_y, a_width, a_height, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, 0)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 
@@ -90,7 +93,7 @@ feature {NONE} -- Initialisation
 		do
 			make_centered_on_display(a_title, a_width, a_height, game_library.displays.first ,a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 	make_centered_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
@@ -106,7 +109,7 @@ feature {NONE} -- Initialisation
 			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
 								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_keep_resolution, a_hide, a_minimize, a_grab_input:BOOLEAN)
@@ -128,7 +131,7 @@ feature {NONE} -- Initialisation
 			make_with_extra_flags(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
 						a_hide, False, a_minimize, False, a_grab_input, l_flags)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 	make_with_extra_flags(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN; a_flags:NATURAL_32)
@@ -169,19 +172,22 @@ feature {NONE} -- Initialisation
 			make_events
 			game_library.internal_windows.extend (Current)
 		ensure
-			Make_Window_Is_Open: not is_closed
+			Make_Window_Is_Open: exists
 		end
 
 feature -- Access
 
 	update
+			-- Print the visual buffer modification to the screen
+		require
+			Window_Not_Closed: exists
 		deferred
 		end
 
 	brightness:REAL_32 assign set_brightness
 			-- The Gamma correction where 0.0 is completely dark and 1.0 is normal.
 		require
-			Window_Not_Closed: not is_closed
+			Window_Not_Closed: exists
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowBrightness(item)
 		ensure
@@ -192,7 +198,7 @@ feature -- Access
 			-- Set the `brightness' (gamma correction) to `a_brightness' for `Current' where 0.0 is completely dark and 1.0 is normal.
 			-- Set has_error when an error occured.
 		require
-			Window_Not_Closed: not is_closed
+			Window_Not_Closed: exists
 			Window_Set_Brightness_Valid: a_brightness>=0.0 and a_brightness<=1
 		local
 			l_error:INTEGER
@@ -207,6 +213,8 @@ feature -- Access
 
 	get_display_index:INTEGER
 			-- Index of the display containing the center of the window.
+		require
+			Window_Not_Closed: exists
 		do
 			clear_error
 			has_error:=False
@@ -219,27 +227,31 @@ feature -- Access
 	close
 			-- Close `Current' (you cannot open it again).
 		require
-			Window_Not_Closed: not is_closed
+			Window_Not_Closed: exists
 		do
 			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(item)
 			item := create {POINTER}.default_create
 			game_library.internal_windows.prune_all (Current)
 		end
 
-	is_closed:BOOLEAN
+	exists:BOOLEAN
 			-- Is `Current' has been `close'd
 		do
-			Result:=item.is_default_pointer
+			Result:=not item.is_default_pointer
 		end
 
 	pixel_format:GAME_PIXEL_FORMAT_READABLE
 			-- The internal format of the pixel representation in memory.
+		require
+			Window_Not_Closed: exists
 		do
 			create Result.make_from_flags({GAME_SDL_EXTERNAL}.SDL_GetWindowPixelFormat(item))
 		end
 
 	window_manager:GAME_WINDOW_MANAGER
 			-- The window manager managing `Current'.
+		require
+			Window_Not_Closed: exists
 		local
 			l_wm_info:POINTER
 			l_valid:BOOLEAN
@@ -255,76 +267,584 @@ feature -- Access
 	id:NATURAL_32
 			-- The internal identifier of the Window (For logging purpose)
 		require else
-			Window_Not_Closed: not is_closed
+			Window_Not_Closed: exists
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetWindowID(item)
 		end
 
----------------------------------------------------------------------------------------------------------------------------
---------------------------------------------  Travail pour Luc  -----------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
+	hide
+			-- Remove the visibility of `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_HideWindow(item)
+		end
+
+	show
+			-- Active the visibility of `Current' (previously removed by `hide')
+		do
+			{GAME_SDL_EXTERNAL}.SDL_ShowWindow(item)
+		end
+
+	maximize
+			-- Change the dimension of `Current' to fill the screen
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_MaximizeWindow(item)
+		end
+
+	minimize
+			-- Put `Current' in an iconic representation
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_MinimizeWindow(item)
+		end
+
+	restore
+			-- Get the original dimension of `Current' (previously change with `maximize' or `minimize')
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_RestoreWindow(item)
+		end
+
+	raise
+			-- Put `Current' to the front
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_RaiseWindow(item)
+		end
+
+	put_border
+			-- Put border decoration to `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowBordered(item, True)
+		end
+
+	remove_border
+			-- Remove border decoration to `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowBordered(item, False)
+		end
+
+	display_mode:GAME_DISPLAY_MODE assign set_display_mode
+			-- The display mode of `Current' in fullscreen mode
+		require
+			Window_Not_Closed: exists
+		local
+			l_error:INTEGER
+		do
+			create Result.make(1,1)
+			l_error := {GAME_SDL_EXTERNAL}.SDL_GetWindowDisplayMode(item, Result.item)
+			manage_error_code(l_error, "Cannot retreive the display mode of a window.")
+		end
+
+	set_display_mode(a_display_mode:GAME_DISPLAY_MODE)
+			-- Assign `display_mode' with the value of `a_display_mode'
+		require
+			Window_Not_Closed: exists
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetWindowDisplayMode(item, a_display_mode.item)
+			manage_error_code(l_error, "Cannot assign a display mode to a window.")
+		end
+
+	set_fullscreen
+			-- Activate the "true" fullscreen mode (changing resolution if necessary)
+		require
+			Window_Not_Closed: exists
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetWindowFullscreen(item, {GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN)
+			manage_error_code(l_error, "Cannot set window to full screen (true)")
+		end
+
+	set_fake_fullscreen
+			-- Activate the "fake" fullscreen mode (setting a not bordered maximized window)
+		require
+			Window_Not_Closed: exists
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetWindowFullscreen(item, {GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN_DESKTOP)
+			manage_error_code(l_error, "Cannot set window to full screen (fake)")
+		end
+
+	set_windowed
+			-- Desactivate any fullscreen mode
+		require
+			Window_Not_Closed: exists
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetWindowFullscreen(item, 0)
+			manage_error_code(l_error, "Cannot set window to not fullscreen")
+		end
+
+	is_fullscreen:BOOLEAN
+			-- Is `Current' in fullscreen mode
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN) /= 0
+		end
+
+	is_fake_fullscreen:BOOLEAN
+			-- Is `Current' in fullscreen mode
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_FULLSCREEN_DESKTOP) /= 0
+		end
+
+	is_opengl_compatible:BOOLEAN
+			-- Is `Current' can be used in an OpenGL context
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_OPENGL) /= 0
+		end
+
+	is_visible:BOOLEAN
+			-- Is `Current' in can be seen in the screen (not hidden)
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_SHOWN) /= 0
+		end
+
+	is_hidden:BOOLEAN
+			-- Is `Current' in invisible
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_HIDDEN) /= 0
+		end
+
+	has_border:BOOLEAN
+			-- Is `Current' has border decoration
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_BORDERLESS) = 0
+		end
+
+	is_resizable:BOOLEAN
+			-- Can `Current' be resized by the user
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_RESIZABLE) /= 0
+		end
+
+	is_minimized:BOOLEAN
+			-- Is `Current' in iconized representation
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_MINIMIZED) /= 0
+		end
+
+	is_maximized:BOOLEAN
+			-- Is `Current' in maximized mode (to fill the screen)
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_MAXIMIZED) /= 0
+		end
+
+	has_input_focus:BOOLEAN
+			-- Is `Current' having the focus for keyboard input
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_INPUT_FOCUS) /= 0
+		end
+
+	is_mouse_focus:BOOLEAN
+			-- Is `Current' having the focus of the mouse
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_MOUSE_FOCUS) /= 0
+		end
+
+	is_foreign:BOOLEAN
+			-- Is `Current' not created by the present library
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_FOREIGN) /= 0
+		end
+
+	gamma_correction:TUPLE[red, green, blue:ARRAYED_LIST[NATURAL_16]]
+			-- The gamma encoding of `Current'
+		require
+			Window_Not_Closed: exists
+		local
+			l_red, l_green, l_blue:ARRAY[NATURAL_16]
+			l_error:INTEGER
+		do
+			create l_red.make(1, 256)
+			create l_green.make(1, 256)
+			create l_blue.make(1, 256)
+			l_error := {GAME_SDL_EXTERNAL}.SDL_GetWindowGammaRamp(item, $l_red, $l_green, $l_blue)
+			manage_error_code(l_error, "Cannot get gamma correction values.")
+			Result := [create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_red), create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_green), create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_blue)]
+		end
+
+	set_gamma_correction(a_red, a_green, a_blue:ARRAYED_LIST[NATURAL_16])
+			-- Assign the `gamma_correction' values using `a_red', `a_green', `a_blue'.
+		require
+			Window_Not_Closed: exists
+			Red_Arrays_Count_Valid: a_red.count = 256
+			Green_Arrays_Count_Valid: a_green.count = 256
+			Blue_Arrays_Count_Valid: a_blue.count = 256
+		local
+			l_red, l_green, l_blue:ARRAY[NATURAL_16]
+			l_error:INTEGER
+		do
+			l_red := a_red.to_array
+			l_green := a_green.to_array
+			l_blue := a_blue.to_array
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetWindowGammaRamp(item, $l_red, $l_green, $l_blue)
+			manage_error_code(l_error, "Cannot set gamma correction values.")
+		ensure
+			Is_Assign: attached gamma_correction as la_gamma_correction and then (
+							la_gamma_correction.red ~ a_red and
+							la_gamma_correction.green ~ a_green and
+							la_gamma_correction.blue ~ a_blue
+						)
+		end
+
+	is_input_grabbed:BOOLEAN
+			-- Is `Current' grabbing all input
+		require
+			Window_Not_Closed: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowGrab(item)
+		end
+
+	grab_input
+			-- Force every input in `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowGrab(item, True)
+		ensure
+			Is_Grabbed: is_input_grabbed
+		end
+
+	release_input
+			-- Release the input previously forced into `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowGrab(item, False)
+		ensure
+			Is_Not_Grabbed: not is_input_grabbed
+		end
+
+	maximum_size:TUPLE[width, height:INTEGER]
+			-- The maximum dimension that `Current' can take
+		require
+			Window_Not_Closed: exists
+		local
+			l_width, l_height:INTEGER
+		do
+			 {GAME_SDL_EXTERNAL}.SDL_GetWindowMaximumSize(item,$l_width, $l_height)
+			 Result := [l_width, l_height]
+		end
+
+	set_maximum_size(a_width, a_height:INTEGER)
+			-- Assign the values of `maximum_size' with the values `a_width', `a_height'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowMaximumSize(item, a_width, a_height)
+		end
+
+	minimum_size:TUPLE[width, height:INTEGER]
+			-- The minimum dimension that `Current' can take
+		require
+			Window_Not_Closed: exists
+		local
+			l_width, l_height:INTEGER
+		do
+			 {GAME_SDL_EXTERNAL}.SDL_GetWindowMinimumSize(item,$l_width, $l_height)
+			 Result := [l_width, l_height]
+		end
+
+	set_minimum_size(a_width, a_height:INTEGER)
+			-- Assign the values of `minimum_size' with the values `a_width', `a_height'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowMinimumSize(item, a_width, a_height)
+		end
+
+	size:TUPLE[width, height:INTEGER]
+			-- The present dimension of `Current'
+		require
+			Window_Not_Closed: exists
+		local
+			l_width, l_height:INTEGER
+		do
+			 {GAME_SDL_EXTERNAL}.SDL_GetWindowSize(item,$l_width, $l_height)
+			 Result := [l_width, l_height]
+		end
+
+	set_size(a_width, a_height:INTEGER)
+			-- Assign the values of `size' with the values `a_width', `a_height'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowSize(item, a_width, a_height)
+		ensure
+			Is_Assign: attached size as la_size and then (
+							la_size.width ~ a_width and
+							la_size.height ~ a_height
+						)
+		end
+
+	height:INTEGER assign set_height
+			-- The vertical length of `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			Result := size.height
+		end
+
+	set_height(a_height:INTEGER)
+			-- Assign `height' with the value of `a_height'
+		require
+			Window_Not_Closed: exists
+		do
+			set_size(width, a_height)
+		ensure
+			Is_Assign: height = a_height
+			Width_Not_Changed: width = old width
+		end
+
+	width:INTEGER assign set_width
+			-- The horizontal length of `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			Result := size.width
+		end
+
+	set_width(a_width:INTEGER)
+			-- Assign `width' with the value of `a_width'
+		require
+			Window_Not_Closed: exists
+		do
+			set_size(a_width, height)
+		ensure
+			Is_Assign: width = a_width
+			Height_Not_Changed: height = old height
+		end
+
+	position:TUPLE[x, y:INTEGER]
+			-- The coordinate (`x',`y') of the position of `Current' in the screen.
+		require
+			Window_Not_Closed: exists
+		local
+			l_x, l_y:INTEGER
+		do
+			{GAME_SDL_EXTERNAL}. SDL_GetWindowPosition(item, $l_x, $l_y)
+			Result := [l_x, l_y]
+		end
+
+	set_position(a_x, a_y:INTEGER)
+			-- Assign `position' with the values `a_x' and `a_y'
+		require
+			Window_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowPosition(item, a_x, a_y)
+		end
+
+	x:INTEGER assign set_x
+			-- The horizontal coordinate of the position of `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			Result := position.x
+		end
+
+	set_x(a_x:INTEGER)
+			-- assign `x' with the value of `a_x'
+		require
+			Window_Not_Closed: exists
+		do
+			set_position(a_x, y)
+		ensure
+			Is_Assign: x = a_x
+		end
+
+	center_horizontally
+			-- Change `x' so that `Current' became centered in the screen
+		require
+			Window_Not_Closed: exists
+		do
+			set_x({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED)
+		end
+
+	center_horizontally_on_display_index(a_index:INTEGER)
+			-- Change `x' so that `Current' became centered in the screen number `a_index'
+		require
+			Window_Not_Closed: exists
+			Index_Valid: a_index >= 0 and a_index < Game_library.displays_count
+		do
+			set_x({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_index))
+		end
+
+	center_horizontally_on_display(a_display:GAME_DISPLAY)
+			-- Change `x' so that `Current' became centered in the screen `a_display'
+		require
+			Window_Not_Closed: exists
+		do
+			center_horizontally_on_display_index(a_display.index)
+		end
+
+	y:INTEGER assign set_y
+			-- The vertical coordinate of the position of `Current'
+		require
+			Window_Not_Closed: exists
+		do
+			Result := position.x
+		end
+
+	set_y(a_y:INTEGER)
+			-- assign `y' with the value of `a_y'
+		require
+			Window_Not_Closed: exists
+		do
+			set_position(x, a_y)
+		ensure
+			Is_Assign: y = a_y
+		end
+
+	center_vertically
+			-- Change `y' so that `Current' became centered in the screen
+		require
+			Window_Not_Closed: exists
+		do
+			set_y({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED)
+		end
+
+	center_vertically_on_display_index(a_index:INTEGER)
+			-- Change `y' so that `Current' became centered in the screen number `a_index'
+		require
+			Window_Not_Closed: exists
+			Index_Valid: a_index >= 0 and a_index < Game_library.displays_count
+		do
+			set_y({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_index))
+		end
+
+	center_vertically_on_display(a_display:GAME_DISPLAY)
+			-- Change `y' so that `Current' became centered in the screen `a_display'
+		require
+			Window_Not_Closed: exists
+		do
+			center_vertically_on_display_index(a_display.index)
+		end
+
+	center_position
+			-- Change `position' so that `Current' became centered on the screen
+		require
+			Window_Not_Closed: exists
+		do
+			set_position({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED, {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED)
+		end
+
+	center_on_display_index(a_index:INTEGER)
+			-- Change `position' so that `Current' became centered in the screen number `a_index'
+		require
+			Window_Not_Closed: exists
+			Index_Valid: a_index >= 0 and a_index < Game_library.displays_count
+		do
+			set_position({GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_index), {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_index))
+		end
+
+	center_on_display(a_display:GAME_DISPLAY)
+			-- Change `position' so that `Current' became centered in the screen `a_display'
+		require
+			Window_Not_Closed: exists
+		do
+			center_on_display_index(a_display.index)
+		end
 
 
-	-- http://wiki.libsdl.org/SDL_HideWindow
+	title: READABLE_STRING_GENERAL assign set_title
+			-- The text to write in the title bar of `Current' (part of the decoration)
+		require
+			Window_Not_Closed: exists
+		local
+			l_text_ptr:POINTER
+			l_text_c:C_STRING
+			l_utf_converter:UTF_CONVERTER
+		do
+			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_GetWindowTitle(item)
+			create l_text_c.make_by_pointer(l_text_ptr)
+			create l_utf_converter
+			Result := l_utf_converter.utf_8_string_8_to_string_32(l_text_c.string)
+		end
 
-	-- http://wiki.libsdl.org/SDL_ShowWindow
+	set_title(a_title: READABLE_STRING_GENERAL)
+			-- Assign `title' using the value of `a_title'
+		require
+			Window_Not_Closed: exists
+		local
+			l_utf_converter:UTF_CONVERTER
+			l_text_m_ptr:MANAGED_POINTER
+			l_count:INTEGER
+			l_text_ptr:POINTER
+		do
+			create l_utf_converter
+			l_count := l_utf_converter.utf_8_bytes_count(a_title, 1, a_title.count) + 1
+			l_text_ptr := l_text_ptr.memory_calloc(l_count, 1)
+			create l_text_m_ptr.share_from_pointer(l_text_ptr, l_count)
+			l_utf_converter.string_32_into_utf_8_0_pointer(a_title.as_string_32, l_text_m_ptr, 0, Void)
+			check
+				Pointer_Not_Null: l_text_m_ptr.item.is_default_pointer
+				Pointer_Shared: l_text_m_ptr.is_shared
+			end
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowTitle(item, l_text_m_ptr.item)
+		end
 
-	-- http://wiki.libsdl.org/SDL_MaximizeWindow
+	move_mouse_to_position(a_x, a_y:INTEGER)
+			-- Place the mouse at position (`a_x',`a_y') into `Current'
+		require
+			Windows_Not_Closed: exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_WarpMouseInWindow(item, a_x, a_y)
+		end
 
-	-- http://wiki.libsdl.org/SDL_MinimizeWindow
-
-	-- http://wiki.libsdl.org/SDL_RestoreWindow
-
-	-- http://wiki.libsdl.org/SDL_RaiseWindow
-
-	-- http://wiki.libsdl.org/SDL_SetWindowBordered
-
-	-- http://wiki.libsdl.org/SDL_SetWindowDisplayMode
-
-	-- http://wiki.libsdl.org/SDL_GetWindowDisplayMode
-
-	-- http://wiki.libsdl.org/SDL_SetWindowFullscreen
-
-	-- http://wiki.libsdl.org/SDL_GetWindowFlags
-			-- is_full_screen
-			-- is_hidden
-			-- etc.
-
-	-- http://wiki.libsdl.org/SDL_GetWindowGammaRamp
-
-	-- http://wiki.libsdl.org/SDL_SetWindowGammaRamp
-
-	-- http://wiki.libsdl.org/SDL_GetWindowGrab
-
-	-- http://wiki.libsdl.org/SDL_SetWindowGrab
-
-	-- http://wiki.libsdl.org/SDL_GetWindowMaximumSize
-
-	-- http://wiki.libsdl.org/SDL_SetWindowMaximumSize
-
-	-- http://wiki.libsdl.org/SDL_SetWindowMinimumSize
-
-	-- http://wiki.libsdl.org/SDL_GetWindowMinimumSize
-
-	-- http://wiki.libsdl.org/SDL_GetWindowPosition
-
-	-- http://wiki.libsdl.org/SDL_SetWindowPosition
-
-	-- http://wiki.libsdl.org/SDL_GetWindowSize
-
-	-- http://wiki.libsdl.org/SDL_SetWindowSize
-
-	-- http://wiki.libsdl.org/SDL_GetWindowTitle
-
-	-- http://wiki.libsdl.org/SDL_SetWindowTitle
-
-	-- http://wiki.libsdl.org/SDL_WarpMouseInWindow
+	set_icon(a_surface:GAME_SURFACE)
+			-- Place the icon represented by `a_surface' as `Current' icon (in the decoration)
+		require
+			Windows_Not_Closed: exists
+			Surface_Exists: a_surface.is_open
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetWindowIcon(item, a_surface.item)
+		end
 
 
----------------------------------------------------------------------------------------------------------------------------
------------------------------------------  Fin du travail pour Luc  -------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
-
+--	is_high_dpi_compatible:BOOLEAN
+--			-- Can `Current' be used in a High DPI display
+--		do
+--			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_ALLOW_HIGHDPI) /= 0
+--		end
 
 -- Todo:
 		-- http://wiki.libsdl.org/SDL_SetWindowIcon
@@ -337,7 +857,7 @@ feature -- Access
 			Result := game_library.events_controller
 		end
 
-feature{GAME_RENDERER}
+feature {GAME_RENDERER}
 
 	item:POINTER
 
@@ -346,7 +866,7 @@ feature {NONE} -- Implementation
 	dispose
 			-- Close
 		do
-			if not is_closed then
+			if exists then
 				close
 			end
 		end

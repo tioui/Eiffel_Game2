@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_DISPLAY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Informations about a display (a display is generally a screen)"
+	author: "Louis Marchand"
+	date: "Tue, 24 Feb 2015 00:07:14 +0000"
+	revision: "0.1"
 
 class
 	GAME_DISPLAY
@@ -18,6 +18,8 @@ feature {NONE} -- Initialization
 
 	make(a_index:INTEGER)
 			-- Initialization for `Current'.
+		require
+			Index_Valid: a_index >= 0 and a_index < Game_library.displays_count
 		do
 			index:=a_index
 		end
@@ -145,7 +147,7 @@ feature -- Access
 		do
 			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error
-			l_result:={GAME_SDL_EXTERNAL}.SDL_GetClosestDisplayMode(index, a_mode.internal_pointer, l_mode)
+			l_result:={GAME_SDL_EXTERNAL}.SDL_GetClosestDisplayMode(index, a_mode.item, l_mode)
 			manage_error_pointer(l_result, "An error occured while retriving the closest display mode.")
 			create Result.own_from_pointer (l_mode)
 		end
@@ -183,4 +185,7 @@ feature -- Access
 			end
 		end
 
+
+invariant
+	Index_Valid: index >= 0 and index < Game_library.displays_count
 end
