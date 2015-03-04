@@ -73,7 +73,7 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
-			refresh_joyticks
+			refresh_joysticks
 		ensure
 			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enable
 		end
@@ -104,6 +104,7 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Haptic_Already_Enabled: not is_haptic_enable
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
+			refresh_haptics
 		ensure
 			SDL_Controller_Enable_Haptic_Enabled: is_haptic_enable
 		end
@@ -113,6 +114,8 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Haptic_Not_Enabled: is_haptic_enable
 		do
+			close_all_haptics
+			internal_haptics.wipe_out
 			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
 		ensure
 			SDL_Controller_Disable_Haptic_Disabled: not is_haptic_enable
@@ -263,7 +266,7 @@ feature -- Joystick methods
 			create Result.make (internal_joysticks)
 		end
 
-	refresh_joyticks
+	refresh_joysticks
 		-- Update the joystiks list (if joysticks as been add or remove)
 		-- Warning: This will close all opened joysticks
 	require
@@ -302,7 +305,7 @@ feature {NONE} -- Joystick implementation
 			Joysticks_is_enabled: is_joystick_enable
 		do
 			internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
-								if not a_joystick.is_opened then
+								if not a_joystick.is_open then
 									a_joystick.open
 								end
 							end)
@@ -316,8 +319,118 @@ feature {NONE} -- Joystick implementation
 		Close_All_Joystick_Attach: internal_joysticks /= Void
 	do
 		internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
-								if a_joystick.is_opened then
+								if a_joystick.is_open then
 									a_joystick.close
+								end
+							end)
+	end
+
+feature -- Haptic methods
+
+	haptics:CHAIN_INDEXABLE_ITERATOR[GAME_HAPTIC_DEVICE]
+			-- Every haptic devices on the system
+		require
+			Haptic_is_Haptic_Enabled: is_haptic_enable
+		do
+			create Result.make (internal_haptics)
+		end
+
+	refresh_haptics
+			-- Update the haptics list (if haptics as been add or remove)
+			-- Warning: This will close all opened haptics
+		require
+			Controller_Update_Haptics_Haptic_Enabled: is_haptic_enable
+		local
+			i, l_haptic_count:INTEGER
+		do
+			close_all_haptics
+			internal_haptics.wipe_out
+			l_haptic_count := {GAME_SDL_EXTERNAL}.SDL_NumHaptics
+			from i:=0
+			until i>=l_haptic_count
+			loop
+				internal_haptics.extend(create {GAME_HAPTIC_DEVICE}.make(i))
+				i:=i+1
+			end
+		end
+
+	haptic_maximum_gain:INTEGER assign set_haptic_maximum_gain
+			-- The maximum gain used by haptics in the system.
+			-- The {GAME_HAPTIC}.`set_gain' always take 0-100
+			-- gain value, but the real value is scaled
+		require
+			Haptic_Enabled: is_haptic_enable
+		local
+			l_c_name, l_c_value:C_STRING
+			l_value:READABLE_STRING_GENERAL
+			l_text_ptr:POINTER
+		do
+			create l_c_name.make("SDL_HAPTIC_GAIN_MAX")
+			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_getenv(l_c_name.item)
+			if l_text_ptr.is_default_pointer then
+				Result := 100
+			else
+				create l_c_value.make_by_pointer(l_text_ptr)
+				l_value := l_c_value.string
+				if l_value.is_integer then
+					Result := l_value.to_integer
+					if Result < 0 then
+						Result := 0
+					elseif Result > 100 then
+						Result := 100
+					end
+				else
+					Result := 100
+				end
+			end
+		ensure
+			Result_Valid: Result >= 0 and Result <= 100
+		end
+
+	set_haptic_maximum_gain(a_gain:INTEGER)
+			-- Assign `haptic_maximum_gain' with the value of `a_gain'
+		require
+			Haptic_Enabled: is_haptic_enable
+		local
+			l_c_name, l_c_value:C_STRING
+			l_error:INTEGER
+		do
+			clear_error
+			create l_c_name.make("SDL_HAPTIC_GAIN_MAX")
+			create l_c_value.make(a_gain.out)
+			l_error := {GAME_SDL_EXTERNAL}.SDL_setenv(l_c_name.item, l_c_value.item, True)
+			manage_error_code(l_error, "Cannot set the haptics maximum gain.")
+		ensure
+			Is_Assign: not has_error implies haptic_maximum_gain = a_gain
+		end
+
+feature {NONE} -- Haptic implementation
+
+	internal_haptics:ARRAYED_LIST[GAME_HAPTIC_DEVICE]
+			-- Every {GAME_HAPTIC} connected to the system.
+
+	open_all_haptic
+			-- Open all haptic that is not already open.
+		require
+			Haptic_is_enabled: is_haptic_enable
+		do
+			internal_haptics.do_all (agent (a_haptic:GAME_HAPTIC_DEVICE) do
+								if not a_haptic.is_open then
+									a_haptic.open
+								end
+							end)
+		end
+
+
+	close_all_haptics
+		-- Close the haptic that has been opened
+	require
+		Controller_Close_All_Haptics_Haptic_Enabled: is_haptic_enable
+		Close_All_Haptic_Attach: internal_haptics /= Void
+	do
+		internal_haptics.do_all (agent (a_haptic:GAME_HAPTIC_DEVICE) do
+								if a_haptic.is_open then
+									a_haptic.close
 								end
 							end)
 	end
@@ -433,6 +546,25 @@ feature -- Other methods
 			print_on_error_internal.put(False)
 		end
 
+	mouse_has_haptic:BOOLEAN
+			-- Has the mouse have an internal haptic device
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_MouseIsHaptic
+		end
+
+	mouse_haptic:GAME_HAPTIC_MOUSE
+			-- The haptic device inside the mouse
+		require
+			Mouse_Has_Haptic: mouse_has_haptic
+		do
+			if attached internal_mouse_haptic as la_internal_mouse_haptic then
+				Result := la_internal_mouse_haptic
+			else
+				create Result.make
+				internal_mouse_haptic := Result
+			end
+		end
+
 
 feature {GAME_SDL_ANY}
 
@@ -450,6 +582,7 @@ feature{NONE} -- Implementation - Methods
 			has_error:=False
 			set_iteration_per_second(60)
 			create internal_joysticks.make (0)
+			create internal_haptics.make(0)
 			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
 			if l_error < 0 then
 				has_error:=True
@@ -500,5 +633,8 @@ feature {NONE} -- Implementation - Variables
 
 	ticks_per_iteration:NATURAL_32
 			-- Minimum number of ticks to pass between each iteration
+
+	internal_mouse_haptic: detachable GAME_HAPTIC_MOUSE
+			-- The haptic mouse
 
 end

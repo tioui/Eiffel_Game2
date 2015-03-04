@@ -7,7 +7,7 @@ note
 class
 	GAME_JOYSTICK_HAT_STATE
 
-create {GAME_JOYSTICK}
+create {GAME_SDL_ANY}
 	make
 
 feature {NONE} -- Initialization

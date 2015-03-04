@@ -1,7 +1,12 @@
 note
-	description: "A window. You need a renderer or a window surface to put thing on the window."
+	description: "[
+					A window.
+					You need a renderer (see: {GAME_WINDOW_RENDERED})
+					or a window surface (see: {GAME_WINDOW_SURFACED})
+					to put thing on the window.
+				]"
 	author: "Louis Marchand"
-	date: "january 5, 2014"
+	date: "Fri, 27 Feb 2015 14:42:17 +0000"
 	revision: "1.0"
 	ToDo: "HighDPI"
 
@@ -808,16 +813,14 @@ feature -- Access
 			l_utf_converter:UTF_CONVERTER
 			l_text_m_ptr:MANAGED_POINTER
 			l_count:INTEGER
-			l_text_ptr:POINTER
 		do
 			create l_utf_converter
 			l_count := l_utf_converter.utf_8_bytes_count(a_title, 1, a_title.count) + 1
-			l_text_ptr := l_text_ptr.memory_calloc(l_count, 1)
-			create l_text_m_ptr.share_from_pointer(l_text_ptr, l_count)
+			create l_text_m_ptr.make (l_count)
 			l_utf_converter.string_32_into_utf_8_0_pointer(a_title.as_string_32, l_text_m_ptr, 0, Void)
 			check
 				Pointer_Not_Null: l_text_m_ptr.item.is_default_pointer
-				Pointer_Shared: l_text_m_ptr.is_shared
+				Pointer_Not_Shared: l_text_m_ptr.is_shared
 			end
 			{GAME_SDL_EXTERNAL}.SDL_SetWindowTitle(item, l_text_m_ptr.item)
 		end
@@ -845,12 +848,6 @@ feature -- Access
 --		do
 --			Result := {GAME_SDL_EXTERNAL}.SDL_GetWindowFlags(item).bit_and({GAME_SDL_EXTERNAL}.SDL_WINDOW_ALLOW_HIGHDPI) /= 0
 --		end
-
--- Todo:
-		-- http://wiki.libsdl.org/SDL_SetWindowIcon
-
-
-
 
 	events_controller:GAME_EVENTS_CONTROLLER
 		do

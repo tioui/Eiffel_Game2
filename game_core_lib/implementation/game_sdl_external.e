@@ -7,6 +7,7 @@ note
 class
 	GAME_SDL_EXTERNAL
 
+
 feature -- Function SDL.h
 
 	frozen SDL_Init(flags:NATURAL_32):INTEGER
@@ -1143,6 +1144,202 @@ feature -- Function SDL.h
 			"C (SDL_Window*, SDL_Surface*) | <SDL.h>"
 		alias
 			"SDL_SetWindowIcon"
+		end
+
+	frozen SDL_NumHaptics:INTEGER
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_NumHaptics"
+		end
+
+	frozen SDL_HapticOpen(device_index:INTEGER):POINTER
+		external
+			"C (int) : SDL_Haptic* | <SDL.h>"
+		alias
+			"SDL_HapticOpen"
+		end
+
+	frozen SDL_HapticOpenFromJoystick(joystick:POINTER):POINTER
+		external
+			"C (SDL_Joystick*) : SDL_Haptic* | <SDL.h>"
+		alias
+			"SDL_HapticOpenFromJoystick"
+		end
+
+	frozen SDL_HapticClose(haptic:POINTER)
+		external
+			"C (SDL_Haptic*) | <SDL.h>"
+		alias
+			"SDL_HapticClose"
+		end
+
+	frozen SDL_HapticOpenFromMouse:POINTER
+		external
+			"C : SDL_Haptic* | <SDL.h>"
+		alias
+			"SDL_HapticOpenFromMouse"
+		end
+
+	frozen SDL_MouseIsHaptic:BOOLEAN
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_MouseIsHaptic"
+		end
+
+	frozen SDL_HapticNumAxes(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticNumAxes"
+		end
+
+	frozen SDL_HapticName(device_index:INTEGER):POINTER
+		external
+			"C (int) : const char* | <SDL.h>"
+		alias
+			"SDL_HapticName"
+		end
+
+	frozen SDL_HapticQuery(haptic:POINTER):NATURAL
+		external
+			"C (SDL_Haptic*) : unsigned int | <SDL.h>"
+		alias
+			"SDL_HapticQuery"
+		end
+
+	frozen SDL_HapticPause(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticPause"
+		end
+
+	frozen SDL_HapticUnpause(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticUnpause"
+		end
+
+	frozen SDL_HapticRumbleSupported(haptic:POINTER):BOOLEAN
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticRumbleSupported"
+		end
+
+	frozen SDL_HapticOpened(device_index:INTEGER):BOOLEAN
+		external
+			"C (int) : int | <SDL.h>"
+		alias
+			"SDL_HapticOpened"
+		end
+
+	frozen SDL_HapticRumbleInit(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticRumbleInit"
+		end
+
+	frozen SDL_HapticNumEffects(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticNumEffects"
+		end
+
+	frozen SDL_HapticNumEffectsPlaying(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticNumEffectsPlaying"
+		end
+
+	frozen SDL_HapticRumblePlay(haptic:POINTER; strength:REAL_32; length:NATURAL_32):INTEGER
+		external
+			"C (SDL_Haptic*, float, Uint32) : int | <SDL.h>"
+		alias
+			"SDL_HapticRumblePlay"
+		end
+
+	frozen SDL_HapticRumbleStop(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticRumbleStop"
+		end
+
+	frozen SDL_HapticSetGain(haptic:POINTER; gain:INTEGER):INTEGER
+		external
+			"C (SDL_Haptic*, int) : int | <SDL.h>"
+		alias
+			"SDL_HapticSetGain"
+		end
+
+	frozen SDL_getenv(name:POINTER):POINTER
+		external
+			"C (const char *) : char * | <SDL.h>"
+		alias
+			"SDL_getenv"
+		end
+
+	frozen SDL_setenv(name, value:POINTER; overwrite:BOOLEAN):INTEGER
+		external
+			"C (const char *, const char *, int) : int | <SDL.h>"
+		alias
+			"SDL_setenv"
+		end
+
+	frozen SDL_HapticStopAll(haptic:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*) : int | <SDL.h>"
+		alias
+			"SDL_HapticStopAll"
+		end
+
+	frozen SDL_HapticEffectSupported(haptic, effect:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*, SDL_HapticEffect*) : int | <SDL.h>"
+		alias
+			"SDL_HapticEffectSupported"
+		end
+
+	frozen SDL_HapticNewEffect(haptic, effect:POINTER):INTEGER
+		external
+			"C (SDL_Haptic*, SDL_HapticEffect*) : int | <SDL.h>"
+		alias
+			"SDL_HapticNewEffect"
+		end
+
+	frozen SDL_HapticDestroyEffect(hapti:POINTER; effect:INTEGER)
+		external
+			"C (SDL_Haptic*, int) | <SDL.h>"
+		alias
+			"SDL_HapticDestroyEffect"
+		end
+
+	frozen SDL_HapticGetEffectStatus(hapti:POINTER; effect:INTEGER):INTEGER
+		external
+			"C (SDL_Haptic*, int) : int | <SDL.h>"
+		alias
+			"SDL_HapticGetEffectStatus"
+		end
+
+	frozen SDL_HapticRunEffect(hapti:POINTER; effect:INTEGER; iteration:NATURAL_32):INTEGER
+		external
+			"C (SDL_Haptic*, int, Uint32) : int | <SDL.h>"
+		alias
+			"SDL_HapticRunEffect"
+		end
+
+	frozen SDL_HapticStopEffect(hapti:POINTER; effect:INTEGER):INTEGER
+		external
+			"C (SDL_Haptic*, int) : int | <SDL.h>"
+		alias
+			"SDL_HapticStopEffect"
 		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
@@ -3818,6 +4015,1066 @@ feature -- Structure SDL_Palette SDL.h
 		alias
 			"&(((SDL_Palette*)$ptr)->colors[(int) $index])"
 		end
+
+feature -- Structure SDL_HapticEffect SDL.h
+
+	frozen c_sizeof_sdl_haptic_effect:INTEGER
+			-- Size of an SDL_HapticEffect C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_HapticEffect)"
+		end
+
+	frozen set_sdl_haptic_effect_type (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticEffect, Uint16)"
+		alias
+			"type"
+		end
+
+	frozen get_sdl_haptic_effect_type(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticEffect):Uint16"
+		alias
+			"type"
+		end
+
+	frozen get_sdl_haptic_effect_constant(ptr:POINTER):POINTER
+			-- constant effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->constant)"
+		end
+
+	frozen get_sdl_haptic_effect_periodic(ptr:POINTER):POINTER
+			-- periodic effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->periodic)"
+		end
+
+	frozen get_sdl_haptic_effect_condition(ptr:POINTER):POINTER
+			-- condition effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->condition)"
+		end
+
+	frozen get_sdl_haptic_effect_ramp(ptr:POINTER):POINTER
+			-- ramp effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->ramp)"
+		end
+
+	frozen get_sdl_haptic_effect_leftright(ptr:POINTER):POINTER
+			-- leftright effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->leftright)"
+		end
+
+	frozen get_sdl_haptic_effect_custom(ptr:POINTER):POINTER
+			-- custom effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticEffect*)$ptr)->custom)"
+		end
+
+
+feature -- Structure SDL_HapticConstant SDL.h
+
+	frozen get_sdl_haptic_constant_direction(ptr:POINTER):POINTER
+			-- direction of the effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticConstant*)$ptr)->direction)"
+		end
+
+	frozen set_sdl_haptic_constant_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_constant_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_constant_delay (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"delay"
+		end
+
+	frozen get_sdl_haptic_constant_delay(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"delay"
+		end
+
+	frozen set_sdl_haptic_constant_button (ptr: POINTER; value:NATURAL_16)
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"button"
+		end
+
+	frozen get_sdl_haptic_constant_button(ptr:POINTER):NATURAL_16
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"button"
+		end
+
+	frozen set_sdl_haptic_constant_interval (ptr: POINTER; value:NATURAL_16)
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"interval"
+		end
+
+	frozen get_sdl_haptic_constant_interval(ptr:POINTER):NATURAL_16
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"interval"
+		end
+
+	frozen set_sdl_haptic_constant_level (ptr: POINTER; value:INTEGER_16)
+			-- strength of the constant effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Sint16)"
+		alias
+			"level"
+		end
+
+	frozen get_sdl_haptic_constant_level(ptr:POINTER):INTEGER_16
+			-- strength of the constant effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Sint16"
+		alias
+			"level"
+		end
+
+	frozen set_sdl_haptic_constant_attack_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"attack_length"
+		end
+
+	frozen get_sdl_haptic_constant_attack_length(ptr:POINTER):NATURAL_16
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"attack_length"
+		end
+
+	frozen set_sdl_haptic_constant_attack_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"attack_level"
+		end
+
+	frozen get_sdl_haptic_constant_attack_level(ptr:POINTER):NATURAL_16
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"attack_level"
+		end
+
+	frozen set_sdl_haptic_constant_fade_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"fade_length"
+		end
+
+	frozen get_sdl_haptic_constant_fade_length(ptr:POINTER):NATURAL_16
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"fade_length"
+		end
+
+	frozen set_sdl_haptic_constant_fade_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant, Uint16)"
+		alias
+			"fade_level"
+		end
+
+	frozen get_sdl_haptic_constant_fade_level(ptr:POINTER):NATURAL_16
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticConstant):Uint16"
+		alias
+			"fade_level"
+		end
+
+feature -- Structure SDL_HapticPeriodic SDL.h
+
+	frozen get_sdl_haptic_periodic_direction(ptr:POINTER):POINTER
+			-- direction of the effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticPeriodic*)$ptr)->direction)"
+		end
+
+	frozen set_sdl_haptic_periodic_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_periodic_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_periodic_delay (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"delay"
+		end
+
+	frozen get_sdl_haptic_periodic_delay(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"delay"
+		end
+
+	frozen set_sdl_haptic_periodic_button (ptr: POINTER; value:NATURAL_16)
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"button"
+		end
+
+	frozen get_sdl_haptic_periodic_button(ptr:POINTER):NATURAL_16
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"button"
+		end
+
+	frozen set_sdl_haptic_periodic_interval (ptr: POINTER; value:NATURAL_16)
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"interval"
+		end
+
+	frozen get_sdl_haptic_periodic_interval(ptr:POINTER):NATURAL_16
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"interval"
+		end
+
+	frozen set_sdl_haptic_periodic_period (ptr: POINTER; value:NATURAL_16)
+			-- period of the wave
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"period"
+		end
+
+	frozen get_sdl_haptic_periodic_period(ptr:POINTER):NATURAL_16
+			-- period of the wave
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"period"
+		end
+
+	frozen set_sdl_haptic_periodic_magnitude (ptr: POINTER; value:INTEGER_16)
+			-- peak value; if negative, equivalent to 180 degrees extra phase shift
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Sint16)"
+		alias
+			"magnitude"
+		end
+
+	frozen get_sdl_haptic_periodic_magnitude(ptr:POINTER):INTEGER_16
+			-- peak value; if negative, equivalent to 180 degrees extra phase shift
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Sint16"
+		alias
+			"magnitude"
+		end
+
+	frozen set_sdl_haptic_periodic_offset (ptr: POINTER; value:INTEGER_16)
+			-- mean value of the wave
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Sint16)"
+		alias
+			"offset"
+		end
+
+	frozen get_sdl_haptic_periodic_offset(ptr:POINTER):INTEGER_16
+			-- mean value of the wave
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Sint16"
+		alias
+			"offset"
+		end
+
+	frozen set_sdl_haptic_periodic_phase (ptr: POINTER; value:NATURAL_16)
+			-- positive phase shift given by hundredth of a degree
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"phase"
+		end
+
+	frozen get_sdl_haptic_periodic_phase(ptr:POINTER):NATURAL_16
+			-- positive phase shift given by hundredth of a degree
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"phase"
+		end
+
+	frozen set_sdl_haptic_periodic_attack_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"attack_length"
+		end
+
+	frozen get_sdl_haptic_periodic_attack_length(ptr:POINTER):NATURAL_16
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"attack_length"
+		end
+
+	frozen set_sdl_haptic_periodic_attack_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"attack_level"
+		end
+
+	frozen get_sdl_haptic_periodic_attack_level(ptr:POINTER):NATURAL_16
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"attack_level"
+		end
+
+	frozen set_sdl_haptic_periodic_fade_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"fade_length"
+		end
+
+	frozen get_sdl_haptic_periodic_fade_length(ptr:POINTER):NATURAL_16
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"fade_length"
+		end
+
+	frozen set_sdl_haptic_periodic_fade_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic, Uint16)"
+		alias
+			"fade_level"
+		end
+
+	frozen get_sdl_haptic_periodic_fade_level(ptr:POINTER):NATURAL_16
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticPeriodic):Uint16"
+		alias
+			"fade_level"
+		end
+
+feature -- Structure SDL_HapticCondition SDL.h
+
+	frozen set_sdl_haptic_condition_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_condition_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_condition_delay (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition, Uint16)"
+		alias
+			"delay"
+		end
+
+	frozen get_sdl_haptic_condition_delay(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition):Uint16"
+		alias
+			"delay"
+		end
+
+	frozen set_sdl_haptic_condition_button (ptr: POINTER; value:NATURAL_16)
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition, Uint16)"
+		alias
+			"button"
+		end
+
+	frozen get_sdl_haptic_condition_button(ptr:POINTER):NATURAL_16
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition):Uint16"
+		alias
+			"button"
+		end
+
+	frozen set_sdl_haptic_condition_interval (ptr: POINTER; value:NATURAL_16)
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition, Uint16)"
+		alias
+			"interval"
+		end
+
+	frozen get_sdl_haptic_condition_interval(ptr:POINTER):NATURAL_16
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticCondition):Uint16"
+		alias
+			"interval"
+		end
+
+	frozen set_sdl_haptic_condition_struct_right_sat_i (ptr: POINTER; index:INTEGER; value:NATURAL_16)
+			-- level when joystick is to the positive side; max 0xFFFF
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->right_sat[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_right_sat_i(ptr:POINTER; index:INTEGER):NATURAL_16
+			-- level when joystick is to the positive side; max 0xFFFF
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->right_sat[((int)$index)]"
+		end
+
+	frozen set_sdl_haptic_condition_struct_left_sat_i (ptr: POINTER; index:INTEGER; value:NATURAL_16)
+			-- level when joystick is to the negative side; max 0xFFFF
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->left_sat[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_left_sat_i(ptr:POINTER; index:INTEGER):NATURAL_16
+			-- level when joystick is to the negative side; max 0xFFFF
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->left_sat[((int)$index)]"
+		end
+
+	frozen set_sdl_haptic_condition_struct_right_coeff_i (ptr: POINTER; index:INTEGER; value:INTEGER_16)
+			-- how fast to increase the force towards the positive side
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->right_coeff[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_right_coeff_i(ptr:POINTER; index:INTEGER):INTEGER_16
+			-- how fast to increase the force towards the positive side
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->right_coeff[((int)$index)]"
+		end
+
+	frozen set_sdl_haptic_condition_struct_left_coeff_i (ptr: POINTER; index:INTEGER; value:INTEGER_16)
+			-- how fast to increase the force towards the negative side
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->left_coeff[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_left_coeff_i(ptr:POINTER; index:INTEGER):INTEGER_16
+			-- how fast to increase the force towards the negative side
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->left_coeff[((int)$index)]"
+		end
+
+	frozen set_sdl_haptic_condition_struct_deadband_i (ptr: POINTER; index:INTEGER; value:NATURAL_16)
+			-- size of the dead zone; max 0xFFFF: whole axis-range when 0-centered
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->deadband[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_deadband_i(ptr:POINTER; index:INTEGER):NATURAL_16
+			-- size of the dead zone; max 0xFFFF: whole axis-range when 0-centered
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->deadband[((int)$index)]"
+		end
+
+	frozen set_sdl_haptic_condition_struct_center_i (ptr: POINTER; index:INTEGER; value:INTEGER_16)
+			-- position of the dead zone
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->center[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_condition_struct_center_i(ptr:POINTER; index:INTEGER):INTEGER_16
+			-- position of the dead zone
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticCondition*)$ptr)->center[((int)$index)]"
+		end
+
+feature -- Structure SDL_HapticRamp SDL.h
+
+	frozen get_sdl_haptic_ramp_direction(ptr:POINTER):POINTER
+			-- direction of the effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticRamp*)$ptr)->direction)"
+		end
+
+	frozen set_sdl_haptic_ramp_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_ramp_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_ramp_delay (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"delay"
+		end
+
+	frozen get_sdl_haptic_ramp_delay(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"delay"
+		end
+
+	frozen set_sdl_haptic_ramp_button (ptr: POINTER; value:NATURAL_16)
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"button"
+		end
+
+	frozen get_sdl_haptic_ramp_button(ptr:POINTER):NATURAL_16
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"button"
+		end
+
+	frozen set_sdl_haptic_ramp_interval (ptr: POINTER; value:NATURAL_16)
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"interval"
+		end
+
+	frozen get_sdl_haptic_ramp_interval(ptr:POINTER):NATURAL_16
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"interval"
+		end
+
+	frozen set_sdl_haptic_ramp_start (ptr: POINTER; value:INTEGER_16)
+			-- strength of the ramp effect at the start
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Sint16)"
+		alias
+			"start"
+		end
+
+	frozen get_sdl_haptic_ramp_start(ptr:POINTER):INTEGER_16
+			-- strength of the ramp effect at the start
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Sint16"
+		alias
+			"start"
+		end
+
+	frozen set_sdl_haptic_ramp_end (ptr: POINTER; value:INTEGER_16)
+			-- strength of the ramp effect at the end
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Sint16)"
+		alias
+			"end"
+		end
+
+	frozen get_sdl_haptic_ramp_end(ptr:POINTER):INTEGER_16
+			-- strength of the ramp effect at the end
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Sint16"
+		alias
+			"end"
+		end
+
+	frozen set_sdl_haptic_ramp_attack_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"attack_length"
+		end
+
+	frozen get_sdl_haptic_ramp_attack_length(ptr:POINTER):NATURAL_16
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"attack_length"
+		end
+
+	frozen set_sdl_haptic_ramp_attack_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"attack_level"
+		end
+
+	frozen get_sdl_haptic_ramp_attack_level(ptr:POINTER):NATURAL_16
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"attack_level"
+		end
+
+	frozen set_sdl_haptic_ramp_fade_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"fade_length"
+		end
+
+	frozen get_sdl_haptic_ramp_fade_length(ptr:POINTER):NATURAL_16
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"fade_length"
+		end
+
+	frozen set_sdl_haptic_ramp_fade_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp, Uint16)"
+		alias
+			"fade_level"
+		end
+
+	frozen get_sdl_haptic_ramp_fade_level(ptr:POINTER):NATURAL_16
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticRamp):Uint16"
+		alias
+			"fade_level"
+		end
+
+feature -- Structure SDL_HapticLeftRight SDL.h
+
+	frozen set_sdl_haptic_leftright_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_leftright_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_leftright_large_magnitude (ptr: POINTER; value:NATURAL_16)
+			-- control of the large controller motor
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight, Uint16)"
+		alias
+			"large_magnitude"
+		end
+
+	frozen get_sdl_haptic_leftright_large_magnitude(ptr:POINTER):NATURAL_16
+			-- control of the large controller motor
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight):Uint16"
+		alias
+			"large_magnitude"
+		end
+
+	frozen set_sdl_haptic_leftright_small_magnitude (ptr: POINTER; value:NATURAL_16)
+			-- control of the large controller motor
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight, Uint16)"
+		alias
+			"small_magnitude"
+		end
+
+	frozen get_sdl_haptic_leftright_small_magnitude(ptr:POINTER):NATURAL_16
+			-- control of the large controller motor
+		external
+			"C [struct <SDL.h>] (SDL_HapticLeftRight):Uint16"
+		alias
+			"small_magnitude"
+		end
+
+feature -- Structure SDL_HapticCustom SDL.h
+
+	frozen get_sdl_haptic_custom_direction(ptr:POINTER):POINTER
+			-- direction of the effect
+		external
+			"C inline use <SDL.h>"
+		alias
+			"&(((SDL_HapticCustom*)$ptr)->direction)"
+		end
+
+	frozen set_sdl_haptic_custom_length (ptr: POINTER; value:NATURAL_32)
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint32)"
+		alias
+			"length"
+		end
+
+	frozen get_sdl_haptic_custom_length(ptr:POINTER):NATURAL_32
+			-- duration of effect (ms)
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint32"
+		alias
+			"length"
+		end
+
+	frozen set_sdl_haptic_custom_delay (ptr: POINTER; value:NATURAL_16)
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"delay"
+		end
+
+	frozen get_sdl_haptic_custom_delay(ptr:POINTER):NATURAL_16
+			-- delay before starting effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"delay"
+		end
+
+	frozen set_sdl_haptic_custom_button (ptr: POINTER; value:NATURAL_16)
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"button"
+		end
+
+	frozen get_sdl_haptic_custom_button(ptr:POINTER):NATURAL_16
+			-- button that triggers effect
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"button"
+		end
+
+	frozen set_sdl_haptic_custom_interval (ptr: POINTER; value:NATURAL_16)
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"interval"
+		end
+
+	frozen get_sdl_haptic_custom_interval(ptr:POINTER):NATURAL_16
+			-- how soon before effect can be triggered again
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"interval"
+		end
+
+	frozen set_sdl_haptic_custom_channels (ptr: POINTER; value:NATURAL_8)
+			-- axes to use, minimum of 1
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint8)"
+		alias
+			"channels"
+		end
+
+	frozen get_sdl_haptic_custom_channels(ptr:POINTER):NATURAL_8
+			-- axes to use, minimum of 1
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint8"
+		alias
+			"channels"
+		end
+
+	frozen set_sdl_haptic_custom_period (ptr: POINTER; value:NATURAL_16)
+			-- period of the samples
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"period"
+		end
+
+	frozen get_sdl_haptic_custom_period(ptr:POINTER):NATURAL_16
+			-- period of the samples
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"period"
+		end
+
+	frozen set_sdl_haptic_custom_samples (ptr: POINTER; value:NATURAL_16)
+			-- number of samples
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"samples"
+		end
+
+	frozen get_sdl_haptic_custom_samples(ptr:POINTER):NATURAL_16
+			-- number of samples
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"samples"
+		end
+
+	frozen set_sdl_haptic_custom_data (ptr, value: POINTER)
+			-- should contain channels*samples items
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16*)"
+		alias
+			"data"
+		end
+
+	frozen get_sdl_haptic_custom_data(ptr:POINTER):POINTER
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16*"
+		alias
+			"data"
+		end
+
+
+	frozen set_sdl_haptic_custom_attack_length (ptr: POINTER; value:NATURAL_16)
+			-- should contain channels*samples items
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"attack_length"
+		end
+
+	frozen get_sdl_haptic_custom_attack_length(ptr:POINTER):NATURAL_16
+			-- duration of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"attack_length"
+		end
+
+	frozen set_sdl_haptic_custom_attack_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"attack_level"
+		end
+
+	frozen get_sdl_haptic_custom_attack_level(ptr:POINTER):NATURAL_16
+			-- level at the start of the attack
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"attack_level"
+		end
+
+	frozen set_sdl_haptic_custom_fade_length (ptr: POINTER; value:NATURAL_16)
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"fade_length"
+		end
+
+	frozen get_sdl_haptic_custom_fade_length(ptr:POINTER):NATURAL_16
+			-- duration of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"fade_length"
+		end
+
+	frozen set_sdl_haptic_custom_fade_level (ptr: POINTER; value:NATURAL_16)
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom, Uint16)"
+		alias
+			"fade_level"
+		end
+
+	frozen get_sdl_haptic_custom_fade_level(ptr:POINTER):NATURAL_16
+			-- level at the end of the fade
+		external
+			"C [struct <SDL.h>] (SDL_HapticCustom):Uint16"
+		alias
+			"fade_level"
+		end
+
+
+feature -- Structure SDL_HapticDirection SDL.h
+
+	frozen c_sizeof_sdl_haptic_direction:INTEGER
+			-- Size of an SDL_HapticDirection C structure.
+		external
+			"C inline use <SDL.h>"
+		alias
+			"sizeof(SDL_HapticDirection)"
+		end
+
+	frozen set_sdl_haptic_direction_struct_type (ptr: POINTER; value:NATURAL_8)
+			-- the type of encoding
+		external
+			"C [struct <SDL.h>] (SDL_HapticDirection, Uint8)"
+		alias
+			"type"
+		end
+
+	frozen get_sdl_haptic_direction_struct_type(ptr:POINTER):NATURAL_8
+			-- the type of encoding
+		external
+			"C [struct <SDL.h>] (SDL_HapticDirection):Uint8"
+		alias
+			"type"
+		end
+
+	frozen set_sdl_haptic_direction_struct_dir_i (ptr: POINTER; index:INTEGER; value:INTEGER_32)
+			-- the encoded direction
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticDirection*)$ptr)->dir[((int)$index)] = ((Sint32)$value)"
+		end
+
+	frozen get_sdl_haptic_direction_struct_dir_i(ptr:POINTER; index:INTEGER):INTEGER_32
+			-- the type of encoding
+		external
+			"C inline use <SDL.h>"
+		alias
+			"((SDL_HapticDirection*)$ptr)->dir[((int)$index)]"
+		end
+
 
 feature -- Constants
 
@@ -8835,5 +10092,145 @@ feature -- Constants
 --		alias
 --			"SDL_WINDOW_ALLOW_HIGHDPI"
 --		end
+
+	frozen SDL_HAPTIC_CONSTANT : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_CONSTANT"
+		end
+
+	frozen SDL_HAPTIC_SINE : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_SINE"
+		end
+
+	frozen SDL_HAPTIC_LEFTRIGHT : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_LEFTRIGHT"
+		end
+
+	frozen SDL_HAPTIC_TRIANGLE : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_TRIANGLE"
+		end
+
+	frozen SDL_HAPTIC_SAWTOOTHUP : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_SAWTOOTHUP"
+		end
+
+	frozen SDL_HAPTIC_SAWTOOTHDOWN : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_SAWTOOTHDOWN"
+		end
+
+	frozen SDL_HAPTIC_RAMP : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_RAMP"
+		end
+
+	frozen SDL_HAPTIC_SPRING : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_SPRING"
+		end
+
+	frozen SDL_HAPTIC_DAMPER : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_DAMPER"
+		end
+
+	frozen SDL_HAPTIC_INERTIA : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_INERTIA"
+		end
+
+	frozen SDL_HAPTIC_FRICTION : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_FRICTION"
+		end
+
+	frozen SDL_HAPTIC_CUSTOM : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_CUSTOM"
+		end
+
+	frozen SDL_HAPTIC_GAIN : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_GAIN"
+		end
+
+	frozen SDL_HAPTIC_AUTOCENTER : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_AUTOCENTER"
+		end
+
+	frozen SDL_HAPTIC_STATUS : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_STATUS"
+		end
+
+	frozen SDL_HAPTIC_PAUSE : NATURAL
+		external
+			"C [macro <SDL.h>] : unsigned int"
+		alias
+			"SDL_HAPTIC_PAUSE"
+		end
+
+	frozen SDL_HAPTIC_INFINITY : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_HAPTIC_INFINITY"
+		end
+
+	frozen SDL_HAPTIC_CARTESIAN : NATURAL_8
+		external
+			"C [macro <SDL.h>] : Uint8"
+		alias
+			"SDL_HAPTIC_CARTESIAN"
+		end
+
+	frozen SDL_HAPTIC_POLAR : NATURAL_8
+		external
+			"C [macro <SDL.h>] : Uint8"
+		alias
+			"SDL_HAPTIC_POLAR"
+		end
+
+	frozen SDL_HAPTIC_SPHERICAL : NATURAL_8
+		external
+			"C [macro <SDL.h>] : Uint8"
+		alias
+			"SDL_HAPTIC_SPHERICAL"
+		end
 
 end

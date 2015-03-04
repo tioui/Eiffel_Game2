@@ -18,13 +18,13 @@ feature {NONE} -- Initialisation
 			window_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32) do
 											window_events_dispatcher(a_timestamp, a_window_id, a_event_type, a_data1, a_data2)
 										end
-			key_down_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+			key_pressed_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
-											key_down_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
+											key_pressed_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
-			key_up_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+			key_released_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
-											key_up_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
+											key_released_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
 			text_editing_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32;
 													a_start,a_lenght:INTEGER_32) do
@@ -38,14 +38,14 @@ feature {NONE} -- Initialisation
 												mouse_motion_events_dispatcher(a_timestamp,a_window_id, a_mouse_id, a_state,
 																				a_x,a_y,a_x_relative,a_y_relative)
 											end
-			mouse_button_down_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+			mouse_button_pressed_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 														a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32) do
-												mouse_button_down_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
+												mouse_button_pressed_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
 																					a_button,a_clicks, a_x,a_y)
 											end
-			mouse_button_up_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+			mouse_button_released_events_callback := agent (a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 														a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32) do
-												mouse_button_up_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
+												mouse_button_released_events_dispatcher(a_timestamp,a_window_id, a_mouse_id,
 																					a_button,a_clicks, a_x,a_y)
 											end
 			mouse_wheel_move_events_callback := agent (a_timestamp,a_window_id,a_mouse_id:NATURAL_32;a_x,a_y:INTEGER_32) do
@@ -65,12 +65,12 @@ feature -- Access
 		do
 			is_running:=False
 			events_controller.window_event_actions.prune_all (window_events_callback)
-			events_controller.key_down_actions.prune_all (key_down_events_callback)
+			events_controller.key_pressed_actions.prune_all (key_pressed_events_callback)
 			events_controller.text_editing_actions.prune_all (text_editing_events_callback)
 			events_controller.text_input_actions.prune_all (text_input_events_callback)
 			events_controller.mouse_motion_actions.prune_all (mouse_motion_events_callback)
-			events_controller.mouse_button_down_actions.prune_all (mouse_button_down_events_callback)
-			events_controller.mouse_button_up_actions.prune_all (mouse_button_up_events_callback)
+			events_controller.mouse_button_pressed_actions.prune_all (mouse_button_pressed_events_callback)
+			events_controller.mouse_button_released_actions.prune_all (mouse_button_released_events_callback)
 			events_controller.mouse_wheel_move_actions.prune_all (mouse_wheel_move_events_callback)
 		end
 
@@ -98,11 +98,11 @@ feature -- Access
 			then
 				events_controller.window_event_actions.extend (window_events_callback)
 			end
-			if attached key_down_actions_internal then
-				events_controller.key_down_actions.extend (key_down_events_callback)
+			if attached key_pressed_actions_internal then
+				events_controller.key_pressed_actions.extend (key_pressed_events_callback)
 			end
-			if attached key_up_actions_internal then
-				events_controller.key_up_actions.extend (key_up_events_callback)
+			if attached key_released_actions_internal then
+				events_controller.key_released_actions.extend (key_released_events_callback)
 			end
 			if attached text_editing_actions_internal then
 				events_controller.text_editing_actions.extend (text_editing_events_callback)
@@ -113,11 +113,11 @@ feature -- Access
 			if attached mouse_motion_actions_internal then
 				events_controller.mouse_motion_actions.extend (mouse_motion_events_callback)
 			end
-			if attached mouse_button_down_actions_internal then
-				events_controller.mouse_button_down_actions.extend (mouse_button_down_events_callback)
+			if attached mouse_button_pressed_actions_internal then
+				events_controller.mouse_button_pressed_actions.extend (mouse_button_pressed_events_callback)
 			end
-			if attached mouse_button_up_actions_internal then
-				events_controller.mouse_button_up_actions.extend (mouse_button_up_events_callback)
+			if attached mouse_button_released_actions_internal then
+				events_controller.mouse_button_released_actions.extend (mouse_button_released_events_callback)
 			end
 			if attached mouse_wheel_move_actions_internal then
 				events_controller.mouse_wheel_move_actions.extend (mouse_wheel_move_events_callback)
@@ -147,13 +147,13 @@ feature -- Access
 			keyboard_focus_gain_actions_internal := Void
 			keyboard_focus_lost_actions_internal := Void
 			close_request_actions_internal := Void
-			key_down_actions_internal := Void
-			key_up_actions_internal := Void
+			key_pressed_actions_internal := Void
+			key_released_actions_internal := Void
 			text_editing_actions_internal := Void
 			text_input_actions_internal := Void
 			mouse_motion_actions_internal := Void
-			mouse_button_down_actions_internal := Void
-			mouse_button_up_actions_internal := Void
+			mouse_button_pressed_actions_internal := Void
+			mouse_button_released_actions_internal := Void
 			mouse_wheel_move_actions_internal := Void
 			if l_was_running then
 				run
@@ -393,35 +393,35 @@ feature -- Access
 			end
 		end
 
-	key_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+	key_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
 			-- When a key (represented by `key_state') has been pressed.
 		require
-			Key_Down_Events_Enabled: events_controller.is_key_down_event_enable
+			Key_Released_Events_Enabled: events_controller.is_key_pressed_event_enable
 		do
-			if attached key_down_actions_internal as la_key_down_actions_internal then
-				Result := la_key_down_actions_internal
+			if attached key_pressed_actions_internal as la_key_pressed_actions_internal then
+				Result := la_key_pressed_actions_internal
 			else
 				create Result
-				if is_running and not events_controller.key_down_actions.has (key_down_events_callback) then
-					events_controller.key_down_actions.extend (key_down_events_callback)
+				if is_running and not events_controller.key_pressed_actions.has (key_pressed_events_callback) then
+					events_controller.key_pressed_actions.extend (key_pressed_events_callback)
 				end
-				key_down_actions_internal := Result
+				key_pressed_actions_internal := Result
 			end
 		end
 
-	key_up_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+	key_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
 			-- When a key (represented by `key_state') has been released.
 		require
-			Key_Up_Events_Enabled: events_controller.is_key_up_event_enable
+			Key_Released_Events_Enabled: events_controller.is_key_released_event_enable
 		do
-			if attached key_up_actions_internal as la_key_up_actions_internal then
-				Result := la_key_up_actions_internal
+			if attached key_released_actions_internal as la_key_released_actions_internal then
+				Result := la_key_released_actions_internal
 			else
 				create Result
-				if is_running and not events_controller.key_up_actions.has (key_up_events_callback) then
-					events_controller.key_up_actions.extend (key_up_events_callback)
+				if is_running and not events_controller.key_released_actions.has (key_released_events_callback) then
+					events_controller.key_released_actions.extend (key_released_events_callback)
 				end
-				key_up_actions_internal := Result
+				key_released_actions_internal := Result
 			end
 		end
 
@@ -476,37 +476,37 @@ feature -- Access
 			end
 		end
 
-	mouse_button_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
 																	nb_clicks:NATURAL_8]]
 			-- When a mouse represented by `mouse_state' has been pressed for the `nb_clicks' times
 		require
-			Mouse_Button_Down_Events_Enabled: events_controller.is_mouse_button_down_event_enable
+			Mouse_Button_Pressed_Events_Enabled: events_controller.is_mouse_button_pressed_event_enable
 		do
-			if attached mouse_button_down_actions_internal as la_mouse_button_down_actions_internal then
-				Result := la_mouse_button_down_actions_internal
+			if attached mouse_button_pressed_actions_internal as la_mouse_button_pressed_actions_internal then
+				Result := la_mouse_button_pressed_actions_internal
 			else
 				create Result
-				if is_running and not events_controller.mouse_button_down_actions.has (mouse_button_down_events_callback) then
-					events_controller.mouse_button_down_actions.extend (mouse_button_down_events_callback)
+				if is_running and not events_controller.mouse_button_pressed_actions.has (mouse_button_pressed_events_callback) then
+					events_controller.mouse_button_pressed_actions.extend (mouse_button_pressed_events_callback)
 				end
-				mouse_button_down_actions_internal := Result
+				mouse_button_pressed_actions_internal := Result
 			end
 		end
 
-	mouse_button_up_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
 																	nb_clicks:NATURAL_8]]
 			-- When a mouse represented by `mouse_state' has been released for the `nb_clicks' times
 		require
-			Mouse_Button_Up_Events_Enabled: events_controller.is_mouse_button_up_event_enable
+			Mouse_Button_Released_Events_Enabled: events_controller.is_mouse_button_released_event_enable
 		do
-			if attached mouse_button_up_actions_internal as la_mouse_button_up_actions_internal then
-				Result := la_mouse_button_up_actions_internal
+			if attached mouse_button_released_actions_internal as la_mouse_button_released_actions_internal then
+				Result := la_mouse_button_released_actions_internal
 			else
 				create Result
-				if is_running and not events_controller.mouse_button_up_actions.has (mouse_button_up_events_callback) then
-					events_controller.mouse_button_up_actions.extend (mouse_button_up_events_callback)
+				if is_running and not events_controller.mouse_button_released_actions.has (mouse_button_released_events_callback) then
+					events_controller.mouse_button_released_actions.extend (mouse_button_released_events_callback)
 				end
-				mouse_button_up_actions_internal := Result
+				mouse_button_released_actions_internal := Result
 			end
 		end
 
@@ -630,36 +630,36 @@ feature {NONE} -- Implementation
 
 		end
 
-	key_down_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+	key_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
 
-	key_down_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+	key_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
 
-	key_down_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+	key_pressed_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
 			if a_window_id =internal_id then
-				if attached key_down_actions_internal as actions then
+				if attached key_pressed_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
 				end
 			end
 		end
 
-	key_up_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+	key_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
 
-	key_up_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+	key_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
 
-	key_up_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
+	key_released_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
 			if a_window_id =internal_id then
-				if attached key_up_actions_internal as actions then
+				if attached key_released_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
 				end
@@ -714,38 +714,38 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_button_down_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
 																	nb_clicks:NATURAL_8]]
 
-	mouse_button_down_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
+	mouse_button_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
 
-	mouse_button_down_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+	mouse_button_pressed_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE
 		do
 			if a_window_id =internal_id then
-				if attached mouse_button_down_actions_internal as actions then
+				if attached mouse_button_pressed_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
 				end
 			end
 		end
 
-	mouse_button_up_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
 																	nb_clicks:NATURAL_8]]
 
-	mouse_button_up_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
+	mouse_button_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
 
-	mouse_button_up_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
+	mouse_button_released_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE
 		do
 			if a_window_id =internal_id then
-				if attached mouse_button_up_actions_internal as actions then
+				if attached mouse_button_released_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
 				end

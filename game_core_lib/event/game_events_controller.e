@@ -1,5 +1,9 @@
 note
-	description: "Controler for the event. It is important to call poll_event or wait_event regularly if you want events to be launch."
+	description: "[
+					Controler for the event. 
+					It is important to call poll_event or wait_event regularly 
+					if you want events to be launch.
+				]"
 	author: "Louis Marchand"
 	date: "May 24, 2012"
 	revision: "1.2.1.1"
@@ -29,26 +33,26 @@ feature {NONE} -- Initialization
 			create quit_signal_actions
 			create dollar_gesture_actions
 			create window_event_actions
-			create key_down_actions
-			create key_up_actions
+			create key_pressed_actions
+			create key_released_actions
 			create text_editing_actions
 			create text_input_actions
 			create mouse_motion_actions
-			create mouse_button_down_actions
-			create mouse_button_up_actions
+			create mouse_button_pressed_actions
+			create mouse_button_released_actions
 			create mouse_wheel_move_actions
 			create joy_axis_motion_actions
 			create joy_ball_motion_actions
 			create joy_hat_motion_actions
-			create joy_button_up_actions
-			create joy_button_down_actions
-			create joy_device_found_actions
-			create joy_device_remove_actions
+			create joy_button_released_actions
+			create joy_button_pressed_actions
+			create joy_device_founded_actions
+			create joy_device_removed_actions
 			create finger_motion_actions
-			create finger_up_actions
-			create finger_down_actions
+			create finger_released_actions
+			create finger_touched_actions
 			create finger_gesture_actions
-			create file_drop_actions
+			create file_dropped_actions
 		end
 
 
@@ -102,14 +106,14 @@ feature -- Access
 			-- SDL_WINDOWEVENT_FOCUS_LOST: window has lost keyboard focus
 			-- SDL_WINDOWEVENT_CLOSE: the window manager requests that the window be closed
 
-	key_down_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+	key_pressed_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
 			-- When a user presses a button on a keyboard. The current focused window
 			-- is identified by `window_id'. `repeat' is non zero if the event is a key repeat.
 			-- The key pressed has the physical code `scancode', the virtual code `keycode' and
 			-- has the current `modifier' (CTRL, SHIFT, ALT, etc.) in effect.
 
-	key_up_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
+	key_released_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
 			-- When a user releases a button on a keyboard. The current focused window
 			-- is identified by `window_id'. `repeat' is non zero if the event is a key repeat.
@@ -138,7 +142,7 @@ feature -- Access
 			-- SDL_BUTTON_X2MASK: Second optionnal button
 			-- Note: `mouse_id' may be SDL_TOUCH_MOUSEID
 
-	mouse_button_down_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
+	mouse_button_pressed_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
 			-- When a button of the mouse identified by `mouse_id' at coordinate (`x',`y') in the window
 			-- identified by `window_id' has been pressed. The `clicks' show how much successive clicks
@@ -151,7 +155,7 @@ feature -- Access
 			-- SDL_BUTTON_X2: Second optionnal button
 			-- Note: `mouse_id' may be SDL_TOUCH_MOUSEID
 
-	mouse_button_up_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
+	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id,mouse_id:NATURAL_32;
 													button, clicks: NATURAL_8;x,y:INTEGER_32]]
 			-- When a button of the mouse identified by `mouse_id' at coordinate (`x',`y') in the window
 			-- identified by `window_id' has been released. The `clicks' show how much successive clicks
@@ -193,18 +197,18 @@ feature -- Access
 			-- SDL_HAT_DOWN
 			-- SDL_HAT_RIGHTDOWN
 
-	joy_button_down_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
+	joy_button_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
 			-- When the button identified by `button_id' of the joystick identified by `joystick_id' has
 			-- been pressed.
 
-	joy_button_up_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
+	joy_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;button_id:NATURAL_8]]
 			-- When the button identified by `button_id' of the joystick identified by `joystick_id' has
 			-- been released.
 
-	joy_device_found_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+	joy_device_founded_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- When a new joystick device identified by `joystick_id' has been founded.
 
-	joy_device_remove_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+	joy_device_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- When a new joystick device identified by `joystick_id' has been removed.
 
 	finger_motion_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
@@ -216,7 +220,7 @@ feature -- Access
 			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
 			-- between 0 and 1.
 
-	finger_up_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
+	finger_released_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
 											x, y, x_relative, y_relative, pressure:REAL_32]]
 			-- When a finger identified by `finger_id' in the touch device identified by
 			-- `touch_id' has been released at (`x',`y') with a certain `pressure'. The
@@ -225,7 +229,7 @@ feature -- Access
 			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
 			-- between 0 and 1.
 
-	finger_down_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
+	finger_touched_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
 											x, y, x_relative, y_relative, pressure:REAL_32]]
 			-- When a finger identified by `finger_id' in the touch device identified by
 			-- `touch_id' has been pressed at (`x',`y') with a certain `pressure'. The
@@ -250,9 +254,9 @@ feature -- Access
 			-- The `error' indicate the difference between the current gesture and the template.
 			-- Todo: templating (SDL_RecordGesture, SDL_DOLLARRECORD event, SDL_SaveDollarTemplate, etc.)
 
-	file_drop_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
+	file_dropped_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 			-- The file pointed by `filename' has been dropped on a window of the game.
-			-- This event is disabled by default. use {GAME_EVENTS_CONTROLLER}.`enable_file_drop_event'
+			-- This event is disabled by default. use {GAME_EVENTS_CONTROLLER}.`enable_file_dropped_event'
 			-- to activate it.
 
 	enable_quit_signal_event
@@ -323,8 +327,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_key_down_event
-			-- Process the `key_down_actions' event.
+	enable_key_pressed_event
+			-- Process the `key_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -332,11 +336,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keydown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_key_down_event_enable
+			Is_Event_Enabled: is_key_pressed_event_enable
 		end
 
-	disable_key_down_event
-			-- Ignore the `key_down_actions' event.
+	disable_key_pressed_event
+			-- Ignore the `key_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -344,11 +348,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keydown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_key_down_event_enable
+			Is_Event_Disabled: not is_key_pressed_event_enable
 		end
 
-	is_key_down_event_enable:BOOLEAN
-			-- Is the `key_down_actions' event has to be process.
+	is_key_pressed_event_enable:BOOLEAN
+			-- Is the `key_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -357,8 +361,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_key_up_event
-			-- Process the `key_up_actions' event.
+	enable_key_released_event
+			-- Process the `key_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -366,11 +370,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keyup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_key_up_event_enable
+			Is_Event_Enabled: is_key_released_event_enable
 		end
 
-	disable_key_up_event
-			-- Ignore the `key_up_actions' event.
+	disable_key_released_event
+			-- Ignore the `key_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -378,11 +382,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keyup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_key_up_event_enable
+			Is_Event_Disabled: not is_key_released_event_enable
 		end
 
-	is_key_up_event_enable:BOOLEAN
-			-- Is the `key_up_actions' event has to be process.
+	is_key_released_event_enable:BOOLEAN
+			-- Is the `key_released_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -493,8 +497,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_mouse_button_down_event
-			-- Process the `mouse_button_down_actions' event.
+	enable_mouse_button_pressed_event
+			-- Process the `mouse_button_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -502,11 +506,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttondown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_mouse_button_down_event_enable
+			Is_Event_Enabled: is_mouse_button_pressed_event_enable
 		end
 
-	disable_mouse_button_down_event
-			-- Ignore the `mouse_button_down_actions' event.
+	disable_mouse_button_pressed_event
+			-- Ignore the `mouse_button_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -514,11 +518,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttondown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_mouse_button_down_event_enable
+			Is_Event_Disabled: not is_mouse_button_pressed_event_enable
 		end
 
-	is_mouse_button_down_event_enable:BOOLEAN
-			-- Is the `mouse_button_down_actions' event has to be process.
+	is_mouse_button_pressed_event_enable:BOOLEAN
+			-- Is the `mouse_button_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -527,8 +531,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_mouse_button_up_event
-			-- Process the `mouse_button_up_actions' event.
+	enable_mouse_button_released_event
+			-- Process the `mouse_button_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -536,11 +540,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttonup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_mouse_button_up_event_enable
+			Is_Event_Enabled: is_mouse_button_released_event_enable
 		end
 
-	disable_mouse_button_up_event
-			-- Ignore the `mouse_button_up_actions' event.
+	disable_mouse_button_released_event
+			-- Ignore the `mouse_button_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -548,11 +552,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttonup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_mouse_button_up_event_enable
+			Is_Event_Disabled: not is_mouse_button_released_event_enable
 		end
 
-	is_mouse_button_up_event_enable:BOOLEAN
-			-- Is the `mouse_button_up_actions' event has to be process.
+	is_mouse_button_released_event_enable:BOOLEAN
+			-- Is the `mouse_button_released_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -697,8 +701,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_button_down_event
-			-- Process the `joy_button_down_actions' event.
+	enable_joy_button_pressed_event
+			-- Process the `joy_button_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -706,11 +710,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttondown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_joy_button_down_event_enable
+			Is_Event_Enabled: is_joy_button_pressed_event_enable
 		end
 
-	disable_joy_button_down_event
-			-- Ignore the `joy_button_down_actions' event.
+	disable_joy_button_pressed_event
+			-- Ignore the `joy_button_pressed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -718,11 +722,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttondown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_joy_button_down_event_enable
+			Is_Event_Disabled: not is_joy_button_pressed_event_enable
 		end
 
-	is_joy_button_down_event_enable:BOOLEAN
-			-- Is the `joy_button_down_actions' event has to be process.
+	is_joy_button_pressed_event_enable:BOOLEAN
+			-- Is the `joy_button_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -731,8 +735,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_button_up_event
-			-- Process the `joy_button_up_actions' event.
+	enable_joy_button_released_event
+			-- Process the `joy_button_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -740,11 +744,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttonup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_joy_button_up_event_enable
+			Is_Event_Enabled: is_joy_button_released_event_enable
 		end
 
-	disable_joy_button_up_event
-			-- Ignore the `joy_button_up_actions' event.
+	disable_joy_button_released_event
+			-- Ignore the `joy_button_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -752,11 +756,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttonup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_joy_button_up_event_enable
+			Is_Event_Disabled: not is_joy_button_released_event_enable
 		end
 
-	is_joy_button_up_event_enable:BOOLEAN
-			-- Is the `joy_button_up_actions' event has to be process.
+	is_joy_button_released_event_enable:BOOLEAN
+			-- Is the `joy_button_released_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -765,8 +769,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_device_found_event
-			-- Process the `joy_device_found_actions' event.
+	enable_joy_device_founded_event
+			-- Process the `joy_device_founded_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -774,11 +778,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceadded, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_joy_device_found_event_enable
+			Is_Event_Enabled: is_joy_device_founded_event_enable
 		end
 
-	disable_joy_device_found_event
-			-- Ignore the `joy_device_found_actions' event.
+	disable_joy_device_founded_event
+			-- Ignore the `joy_device_founded_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -786,11 +790,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceadded, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_joy_device_found_event_enable
+			Is_Event_Disabled: not is_joy_device_founded_event_enable
 		end
 
-	is_joy_device_found_event_enable:BOOLEAN
-			-- Is the `joy_device_found_actions' event has to be process.
+	is_joy_device_founded_event_enable:BOOLEAN
+			-- Is the `joy_device_founded_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -799,8 +803,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_joy_device_remove_event
-			-- Process the `joy_device_remove_actions' event.
+	enable_joy_device_removed_event
+			-- Process the `joy_device_removed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -808,11 +812,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceremoved, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_joy_device_remove_event_enable
+			Is_Event_Enabled: is_joy_device_removed_event_enable
 		end
 
-	disable_joy_device_remove_event
-			-- Ignore the `joy_device_remove_actions' event.
+	disable_joy_device_removed_event
+			-- Ignore the `joy_device_removed_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -820,11 +824,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceremoved, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_joy_device_remove_event_enable
+			Is_Event_Disabled: not is_joy_device_removed_event_enable
 		end
 
-	is_joy_device_remove_event_enable:BOOLEAN
-			-- Is the `joy_device_remove_actions' event has to be process.
+	is_joy_device_removed_event_enable:BOOLEAN
+			-- Is the `joy_device_removed_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -844,9 +848,9 @@ feature -- Access
 			manage_error_code(l_error, "Error while enabling joystick events.")
 		ensure
 			Is_Events_Enabled: 	is_joy_axis_motion_event_enable and is_joy_ball_motion_event_enable and
-								is_joy_hat_motion_event_enable and is_joy_button_down_event_enable and
-								is_joy_button_up_event_enable and is_joy_device_found_event_enable and
-								is_joy_device_remove_event_enable
+								is_joy_hat_motion_event_enable and is_joy_button_pressed_event_enable and
+								is_joy_button_released_event_enable and is_joy_device_founded_event_enable and
+								is_joy_device_removed_event_enable
 		end
 
 	disable_every_joy_events
@@ -860,9 +864,9 @@ feature -- Access
 			manage_error_code(l_error, "Error while disabling joystick events.")
 		ensure
 			Is_Events_Disabled:	not (is_joy_axis_motion_event_enable or is_joy_ball_motion_event_enable or
-								is_joy_hat_motion_event_enable or is_joy_button_down_event_enable or
-								is_joy_button_up_event_enable or is_joy_device_found_event_enable or
-								is_joy_device_remove_event_enable)
+								is_joy_hat_motion_event_enable or is_joy_button_pressed_event_enable or
+								is_joy_button_released_event_enable or is_joy_device_founded_event_enable or
+								is_joy_device_removed_event_enable)
 		end
 
 	is_any_joy_event_enable:BOOLEAN
@@ -877,8 +881,8 @@ feature -- Access
 			Result := l_query = 1
 		end
 
-	enable_finger_down_event
-			-- Process the `finger_down_actions' event.
+	enable_finger_touched_event
+			-- Process the `finger_touched_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -886,11 +890,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerdown, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_finger_down_event_enable
+			Is_Event_Enabled: is_finger_touched_event_enable
 		end
 
-	disable_finger_down_event
-			-- Ignore the `finger_down_actions' event.
+	disable_finger_touched_event
+			-- Ignore the `finger_touched_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -898,11 +902,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerdown, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_finger_down_event_enable
+			Is_Event_Disabled: not is_finger_touched_event_enable
 		end
 
-	is_finger_down_event_enable:BOOLEAN
-			-- Is the `finger_down_actions' event has to be process.
+	is_finger_touched_event_enable:BOOLEAN
+			-- Is the `finger_touched_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -911,8 +915,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_finger_up_event
-			-- Process the `finger_up_actions' event.
+	enable_finger_released_event
+			-- Process the `finger_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -920,11 +924,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerup, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_finger_up_event_enable
+			Is_Event_Enabled: is_finger_released_event_enable
 		end
 
-	disable_finger_up_event
-			-- Ignore the `finger_up_actions' event.
+	disable_finger_released_event
+			-- Ignore the `finger_released_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -932,11 +936,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerup, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_finger_up_event_enable
+			Is_Event_Disabled: not is_finger_released_event_enable
 		end
 
-	is_finger_up_event_enable:BOOLEAN
-			-- Is the `finger_up_actions' event has to be process.
+	is_finger_released_event_enable:BOOLEAN
+			-- Is the `finger_released_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -1047,8 +1051,8 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	enable_file_drop_event
-			-- Process the `file_drop_actions' event.
+	enable_file_dropped_event
+			-- Process the `file_dropped_actions' event.
 			-- Disable by default
 		local
 			l_error:NATURAL_8
@@ -1056,11 +1060,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dropfile, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_file_drop_event_enable
+			Is_Event_Enabled: is_file_dropped_event_enable
 		end
 
-	disable_file_drop_event
-			-- Ignore the `file_drop_actions' event.
+	disable_file_dropped_event
+			-- Ignore the `file_dropped_actions' event.
 			-- Disable by default
 		local
 			l_error:NATURAL_8
@@ -1068,11 +1072,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dropfile, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_file_drop_event_enable
+			Is_Event_Disabled: not is_file_dropped_event_enable
 		end
 
-	is_file_drop_event_enable:BOOLEAN
-			-- Is the `file_drop_actions' event has to be process.
+	is_file_dropped_event_enable:BOOLEAN
+			-- Is the `file_dropped_actions' event has to be process.
 			-- Disable by default
 		local
 			l_query:NATURAL_8
@@ -1110,8 +1114,8 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_data1(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_window_event_struct_data2(event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keydown and then not key_down_actions.is_empty then
-			key_down_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keydown and then not key_pressed_actions.is_empty then
+			key_pressed_actions.call ([
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(event_ptr),
@@ -1119,8 +1123,8 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
 										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr))
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keyup and then not key_up_actions.is_empty then
-			key_up_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keyup and then not key_released_actions.is_empty then
+			key_released_actions.call ([
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(event_ptr),
@@ -1153,8 +1157,8 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttondown and then not mouse_button_down_actions.is_empty then
-			mouse_button_down_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttondown and then not mouse_button_pressed_actions.is_empty then
+			mouse_button_pressed_actions.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
@@ -1163,8 +1167,8 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttonup and then not mouse_button_up_actions.is_empty then
-			mouse_button_up_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttonup and then not mouse_button_released_actions.is_empty then
+			mouse_button_released_actions.call ([
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
 										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
@@ -1203,25 +1207,25 @@ feature {NONE} -- Implementation
 											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_hat (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_value (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttondown and then not joy_button_down_actions.is_empty  then
-			joy_button_down_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttondown and then not joy_button_pressed_actions.is_empty  then
+			joy_button_pressed_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttonup and then not joy_button_up_actions.is_empty  then
-			joy_button_up_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttonup and then not joy_button_released_actions.is_empty  then
+			joy_button_released_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceadded and then not joy_device_found_actions.is_empty  then
-			joy_device_found_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceadded and then not joy_device_founded_actions.is_empty  then
+			joy_device_founded_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceremoved and then not joy_device_remove_actions.is_empty  then
-			joy_device_remove_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceremoved and then not joy_device_removed_actions.is_empty  then
+			joy_device_removed_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (event_ptr)
 									])
@@ -1246,8 +1250,8 @@ feature {NONE} -- Implementation
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerup and then not finger_up_actions.is_empty  then
-			finger_up_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerup and then not finger_released_actions.is_empty  then
+			finger_released_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (event_ptr),
@@ -1257,8 +1261,8 @@ feature {NONE} -- Implementation
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (event_ptr)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerdown and then not finger_down_actions.is_empty  then
-			finger_down_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerdown and then not finger_touched_actions.is_empty  then
+			finger_touched_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (event_ptr),
 											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (event_ptr),
@@ -1289,9 +1293,9 @@ feature {NONE} -- Implementation
 			l_string_pointer:POINTER
 		do
 			l_string_pointer := {GAME_SDL_EXTERNAL}.get_drop_event_struct_file (event_ptr)
-			if not file_drop_actions.is_empty then
+			if not file_dropped_actions.is_empty then
 				create l_string.make_from_c (l_string_pointer)
-				file_drop_actions.call ([
+				file_dropped_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_drop_event_struct_timestamp (event_ptr),
 											create {STRING_8}.make_from_string (l_string)
 									])
@@ -1341,9 +1345,9 @@ feature {NONE} -- Implementation
 
 --Joystick Events:
 
---SDL_JoyAxisEvent
---SDL_JoyBallEvent
---SDL_JoyHatEvent
+--SDL_JoyAxisEvent				X
+--SDL_JoyBallEvent				X
+--SDL_JoyHatEvent				X
 --SDL_JoyButtonEvent
 
 --Controller Events:
