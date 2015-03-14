@@ -5,10 +5,10 @@ note
 	revision: "2.0.0.0"
 
 class
-	GAME_IMG_IMAGE_SOURCE_CPF
+	IMG_IMAGE_CPF
 
 inherit
-	GAME_IMG_IMAGE_SOURCE_FILE
+	IMG_IMAGE_FILE
 		rename
 			make as make_file
 		redefine
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
 			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
-			{GAME_SDL_EXTERNAL}.setSDLRWops(l_rwop,cpf.get_current_cpf_infos_ptr)
+			{GAME_SDL_EXTERNAL}.setSDLRWops(l_rwop,cpf.internal_pointer)
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -47,7 +47,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -57,7 +57,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -67,7 +67,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -77,7 +77,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -87,7 +87,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -97,7 +97,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -107,7 +107,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -117,7 +117,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -127,7 +127,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -137,7 +137,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -147,7 +147,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -157,7 +157,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -167,7 +167,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Result:=Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Result:=Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -177,7 +177,7 @@ feature -- Access
 		do
 			cpf.lock_mutex
 			cpf.go (last_position)
-			Precursor {GAME_IMG_IMAGE_SOURCE_FILE}
+			Precursor {IMG_IMAGE_FILE}
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end

@@ -1,17 +1,18 @@
 note
 	description: "[
-		A sound source in a 3d environment.
+					A sound source in a 3d environment.
+					
+					If a stereo sound is queued in the source, the 3d environment
+					is not applied.
+					
+					16 bit buffers are signed and 0 is the silent position
+					8 bit buffers are unsigned and 128 is the silent position
+					for stereo formats the left channel comes first
 		
-		If a stereo sound is queued in the source, the 3d environment
-		is not applied.
-		]"
+				]"
 	author: "Louis Marchand"
 	date: "May 24, 2012"
 	revision: "0.1"
-
--- 16 bit buffers are signed and 0 is the silent position
--- 8 bit buffers are unsigned and 128 is the silent position
--- for stereo formats the left channel comes first
 
 class
 	AUDIO_SOURCE
@@ -127,7 +128,7 @@ feature -- Access
 --			Result:=(get_int_param_c(Al_source_state)=Al_stopped)
 --		end
 
-	get_gain:REAL_32 assign set_gain
+	gain:REAL_32 assign set_gain
 			-- Get the current sound source gain (volume). The gain will always be a REAL between 0 and 1.
 			-- If the gain is set at 0, the source is mute. If the gain is set at 1, it is at it's max volume.
 		require
@@ -145,7 +146,7 @@ feature -- Access
 		do
 			set_param_float_c(Al_gain,a_value)
 		ensure
-			Source_Set_Gain_Is_Set: get_gain = a_value
+			Source_Set_Gain_Is_Set: gain = a_value
 		end
 
 	queue_sound_loop(a_sound:AUDIO_SOUND;a_nb_loop:INTEGER)

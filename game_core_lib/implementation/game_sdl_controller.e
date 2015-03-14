@@ -9,6 +9,9 @@ class
 
 inherit
 	GAME_SDL_ANY
+		redefine
+			default_create
+		end
 	GAME_COMMON_EVENTS
 		rename
 			make as make_events,
@@ -16,15 +19,17 @@ inherit
 			run as run_events,
 			is_running as is_events_running,
 			clear as clear_events
+		redefine
+			default_create
 		end
 
 create
-	make,
+	default_create,
 	make_no_parachute
 
 feature {NONE} -- Initialization
 
-	make
+	default_create
 			-- Initialization for `Current'.
 			-- Clean up library on segfault
 		do
@@ -36,6 +41,28 @@ feature {NONE} -- Initialization
 			-- Don't clean up library on segfault
 		do
 			initialise_library({GAME_SDL_EXTERNAL}.Sdl_init_noparachute)
+		end
+
+	initialise_library(a_flags:NATURAL_32)
+			-- Initialise the library.
+		local
+			l_error:INTEGER
+		do
+			instance_count.put (instance_count.item + 1)
+			has_error:=False
+			set_iteration_per_second(60)
+			create internal_joysticks.make (0)
+			create internal_haptics.make(0)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
+			if l_error < 0 then
+				has_error:=True
+				io.error.put_string ("Cannot initialise the game library.%N")
+			end
+			check l_error = 0 end
+			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
+			create events_controller
+			make_events
+			events_controller.set_game_library (Current)
 		end
 
 feature -- Subs Systems
@@ -452,7 +479,7 @@ feature -- Other methods
 			{GAME_SDL_EXTERNAL}.SDL_Delay(a_millisecond)
 		end
 
-	ticks:NATURAL_32
+	time_since_create:NATURAL_32
 			-- Number of millisecond since the initialisation of the library.
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetTicks
@@ -466,19 +493,19 @@ feature -- Other methods
 		do
 			from
 				must_stop:=false
-				last_tick:=ticks
+				last_tick:=time_since_create
 			until
 				must_stop
 			loop
 				update_events
 				l_delay:=ticks_per_iteration
-				l_delay:=l_delay-(ticks-last_tick).to_integer_32
+				l_delay:=l_delay-(time_since_create-last_tick).to_integer_32
 				if l_delay<1 then
 					delay (1)
 				else
 					delay(l_delay.to_natural_32)
 				end
-				last_tick:=ticks
+				last_tick:=time_since_create
 			end
 		end
 
@@ -574,43 +601,20 @@ feature {GAME_SDL_ANY}
 
 feature{NONE} -- Implementation - Methods
 
-	initialise_library(a_flags:NATURAL_32)
-			-- Initialise the library.
-		local
-			l_error:INTEGER
-		do
-			has_error:=False
-			set_iteration_per_second(60)
-			create internal_joysticks.make (0)
-			create internal_haptics.make(0)
-			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
-			if l_error < 0 then
-				has_error:=True
-				io.error.put_string ("Cannot initialise the game library.%N")
-			end
-			check l_error = 0 end
-			create {LINKED_LIST[GAME_WINDOW]} internal_windows.make
-			create events_controller
-			make_events
-			events_controller.set_game_library (Current)
-		end
-
 	initialise_sub_system(a_flags:NATURAL_32)
 			-- Initialise SDL sub-systems defined by `a_flags'.
 		local
 			l_error:INTEGER
 		do
+			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
-			check l_error = 0 end
+			manage_error_code (l_error, "Cannot initialize library sub system.")
 		end
 
 	quit_sub_system(a_flags:NATURAL_32)
 			-- Disable all SDL sub-system defined by `a_flags'.
-		local
-			l_error:INTEGER
 		do
-			l_error:={GAME_SDL_EXTERNAL}.SDL_InitSubSystem(a_flags)
-			check l_error = 0 end
+			{GAME_SDL_EXTERNAL}.SDL_QuitSubSystem(a_flags)
 		end
 
 	is_sub_system_enable(a_flags:NATURAL_32):BOOLEAN
@@ -629,12 +633,20 @@ feature {NONE} -- Implementation - Variables
 			-- When true, the launching process must stop
 
 	last_tick:NATURAL_32
-			-- The `ticks' value on the last iteration
+			-- The `time_since_create' value on the last iteration
 
 	ticks_per_iteration:NATURAL_32
 			-- Minimum number of ticks to pass between each iteration
 
 	internal_mouse_haptic: detachable GAME_HAPTIC_MOUSE
 			-- The haptic mouse
+
+	instance_count:CELL[INTEGER]
+		once
+			create Result.put(0)
+		end
+
+invariant
+	Is_Singleton: instance_count.item = 1
 
 end

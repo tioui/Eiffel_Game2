@@ -5,7 +5,7 @@ note
 	revision: "1.0.0.0"
 
 class
-	GAME_SDL_IMAGE_EXTERNAL
+	IMG_SDL_IMAGE_EXTERNAL
 
 feature -- Fonction SDL_image
 

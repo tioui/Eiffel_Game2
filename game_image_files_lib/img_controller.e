@@ -5,14 +5,27 @@ note
 	revision: "1.0.0.0"
 
 class
-	GAME_IMG_CONTROLLER
+	IMG_CONTROLLER
 
 inherit
-	GAME_IMG_CONSTANTS
-	GAME_IMG_ANY
+	IMG_CONSTANTS
+		redefine
+			default_create
+		end
+	IMG_ANY
+		redefine
+			default_create
+		end
 
 create
 	default_create
+
+feature {NONE} -- Initialization
+
+	default_create
+		do
+			instance_count.put (instance_count.item + 1)
+		end
 
 feature -- Access
 
@@ -36,7 +49,7 @@ feature -- Access
 			if a_enable_tif then
 				l_flags:=l_flags.bit_or (Img_init_tif)
 			end
-			l_flags:={GAME_SDL_IMAGE_EXTERNAL}.IMG_Init(l_flags)
+			l_flags:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Init(l_flags)
 			if a_enable_png and l_flags.bit_and (Img_init_png)=0 then
 				io.error.put_string ("Error while loading PNG library%N")
 				io.error.put_string (last_error.as_string_8+"%N")
@@ -54,7 +67,7 @@ feature -- Access
 	disable_image
 			-- Close the images files library.
 		do
-			{GAME_SDL_IMAGE_EXTERNAL}.IMG_Quit
+			{IMG_SDL_IMAGE_EXTERNAL}.IMG_Quit
 		end
 
 	quit_library
@@ -62,5 +75,15 @@ feature -- Access
 		do
 			disable_image
 		end
+
+feature {NONE} -- Implementation
+
+	instance_count:CELL[INTEGER]
+		once
+			create Result.put(0)
+		end
+
+invariant
+	Is_Singleton: instance_count.item = 1
 
 end

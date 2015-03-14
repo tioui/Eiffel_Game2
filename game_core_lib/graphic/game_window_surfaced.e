@@ -30,7 +30,7 @@ feature -- Access
 	surface:GAME_SURFACE
 		local
 			l_surface_pointer:POINTER
-			l_source:GAME_IMAGE_SOURCE
+			l_source:GAME_IMAGE
 		do
 			if attached internal_surface as la_surface then
 				Result:=la_surface

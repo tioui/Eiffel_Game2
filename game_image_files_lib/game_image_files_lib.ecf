@@ -41,6 +41,7 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game\cpf_lib\cpf_lib.ecf"/>
 		<library name="game_core_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_core_lib\game_core_lib.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared.ecf"/>
 		<cluster name="game_image_files_lib" location=".\" recursive="true">
 			<description>An extension to the Eiffel Game Library to use PNG, JPEG, TIFF, GIF, etc. images files.</description>
 			<file_rule>

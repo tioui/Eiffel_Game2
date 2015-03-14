@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {GAME_IMG_ANY}."
+	description: "Summary description for {IMG_ANY}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 deferred class
-	GAME_IMG_ANY
+	IMG_ANY
 
 inherit
 	GAME_SDL_ANY
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			if is_manual_error then
 				Result := Precursor
 			else
-				create l_string.make_by_pointer ({GAME_SDL_IMAGE_EXTERNAL}.IMG_GetError)
+				create l_string.make_by_pointer ({IMG_SDL_IMAGE_EXTERNAL}.IMG_GetError)
 				Result := l_string.string
 			end
 		end

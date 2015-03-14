@@ -5,10 +5,10 @@ note
 	revision: "2.0.0.0"
 
 class
-	GAME_IMAGE_SOURCE_BMP_FILE
+	GAME_IMAGE_BMP_FILE
 
 inherit
-	GAME_IMAGE_SOURCE
+	GAME_IMAGE
 		redefine
 			is_openable,
 			open

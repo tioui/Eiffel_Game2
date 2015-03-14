@@ -69,7 +69,7 @@ feature -- Access
 		do
 			if not iteration_actions.is_empty then
 				if attached game_library as la_game_library then
-					iteration_actions.call ([la_game_library.ticks])
+					iteration_actions.call ([la_game_library.time_since_create])
 				else
 					iteration_actions.call ([(0).as_natural_32])
 				end

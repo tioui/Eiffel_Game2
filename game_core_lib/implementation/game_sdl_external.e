@@ -66,6 +66,13 @@ feature -- Function SDL.h
 			"SDL_InitSubSystem"
 		end
 
+	frozen SDL_QuitSubSystem(flags:NATURAL_32)
+		external
+			"C (Uint32) | <SDL.h>"
+		alias
+			"SDL_QuitSubSystem"
+		end
+
 	frozen SDL_GetKeyName(key:INTEGER_32):POINTER
 		external
 			"C (SDL_Keycode) : const char* | <SDL.h>"

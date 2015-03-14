@@ -13,7 +13,7 @@ class
 
 inherit
 	GAME_LIBRARY_SHARED
-	GAME_IMG_LIBRARY_SHARED
+	IMG_LIBRARY_SHARED
 	EXCEPTIONS
 
 create
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 	create_surface(a_filename:STRING):GAME_SURFACE
 			-- Create the surface that will be use for background.
 		local
-			l_image:GAME_IMG_IMAGE_SOURCE_FILE
+			l_image:IMG_IMAGE_FILE
 		do
 			create l_image.make (a_filename)	-- When created, the image source is not open
 			if l_image.is_openable then		-- Look if the file can be open. In the present case, if the file exist and is readable.

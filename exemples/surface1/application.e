@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 		local
 			l_window:GAME_WINDOW_SURFACED
 			l_background, l_bird:GAME_SURFACE
-			l_bk_source, l_bird_source:GAME_IMAGE_SOURCE_BMP_FILE
+			l_bk_source, l_bird_source:GAME_IMAGE_BMP_FILE
 			l_bird_transparent_color:GAME_COLOR
 		do
 			create l_window.make_default ("Hello Bird", 800, 600)		-- Create the window

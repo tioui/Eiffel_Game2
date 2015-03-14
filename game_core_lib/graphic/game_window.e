@@ -117,10 +117,10 @@ feature {NONE} -- Initialisation
 			Make_Window_Is_Open: exists
 		end
 
-	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_keep_resolution, a_hide, a_minimize, a_grab_input:BOOLEAN)
+	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_fake, a_hide, a_minimize, a_grab_input:BOOLEAN)
 			-- Create a fullscreen Window titled with `a_title' of dimension (`a_width'x`a_height') on the `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
-			-- If `a_keep_resolution' is `True', The resolution of the display is not change to fit the `a_width' and `a_height' of `Current'.
+			-- If `a_fake' is `True', The resolution of the display is not change to fit the `a_width' and `a_height' of `Current'.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
 		require
@@ -128,7 +128,7 @@ feature {NONE} -- Initialisation
 		local
 			l_flags:NATURAL_32
 		do
-			if a_keep_resolution then
+			if a_fake then
 				l_flags:={GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop
 			else
 				l_flags:={GAME_SDL_EXTERNAL}.Sdl_window_fullscreen
@@ -216,7 +216,7 @@ feature -- Access
 			Window_Set_Brightness_Changed: brightness = a_brightness
 		end
 
-	get_display_index:INTEGER
+	display_index:INTEGER
 			-- Index of the display containing the center of the window.
 		require
 			Window_Not_Closed: exists
@@ -228,6 +228,22 @@ feature -- Access
 		ensure
 			Window_Display_Index_Valid: not has_error implies Result>=0
 		end
+
+	display:GAME_DISPLAY
+			-- display containing the center of the window.
+		require
+			Window_Not_Closed: exists
+		local
+			l_index:INTEGER
+		do
+			l_index := display_index
+			if l_index >= 0 then
+				create Result.make (l_index)
+			else
+				create Result.make (0)
+			end
+		end
+
 
 	close
 			-- Close `Current' (you cannot open it again).

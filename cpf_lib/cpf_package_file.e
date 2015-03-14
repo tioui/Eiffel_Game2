@@ -221,7 +221,7 @@ feature -- CPF informations
 
 feature {CPF_RESSOURCE_MANAGER} -- The C pointer to the file infos structure
 
-	get_current_cpf_infos_ptr:POINTER
+	internal_pointer:POINTER
 			-- The internal pointer of the package file C structure
 		require
 			CPF_File_Is_Valid: is_valid

@@ -5,10 +5,10 @@ note
 	revision: "2.0.0.0"
 
 class
-	GAME_IMG_IMAGE_SOURCE_FILE
+	IMG_IMAGE_FILE
 
 inherit
-	GAME_IMAGE_SOURCE
+	GAME_IMAGE
 		rename
 			clear_error as clear_sdl_error,
 			last_error as last_sdl_error
@@ -17,7 +17,7 @@ inherit
 			open,
 			dispose
 		end
-	GAME_IMG_ANY
+	IMG_ANY
 		select
 			clear_error,
 			last_error
@@ -44,80 +44,80 @@ feature -- Access
 	is_cur:BOOLEAN
 			-- The internal library support BMP format and the file is a valid CUR file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isCUR(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isCUR(rwop)=1)
 		end
 
 	is_ico:BOOLEAN
 			-- The internal library support BMP format and the file is a valid ICO file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isICO(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isICO(rwop)=1)
 		end
 
 	is_bmp:BOOLEAN
 			-- The internal library support BMP format and the file is a valid BMP file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isBMP(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isBMP(rwop)=1)
 		end
 
 	is_pnm:BOOLEAN
 			-- The internal library support PNM format and the file is a valid PNM file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isPNM(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isPNM(rwop)=1)
 		end
 
 	is_xpm:BOOLEAN
 			-- The internal library support XPM format and the file is a valid XPM file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isXPM(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isXPM(rwop)=1)
 		end
 
 	is_xcf:BOOLEAN
 			-- The internal library support XCF format and the file is a valid XCF file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isXCF(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isXCF(rwop)=1)
 		end
 
 	is_pcx:BOOLEAN
 			-- The internal library support PCX format and the file is a valid PCX file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isPCX(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isPCX(rwop)=1)
 		end
 
 	is_gif:BOOLEAN
 			-- The internal library support GIF format and the file is a valid GIF file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isGIF(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isGIF(rwop)=1)
 		end
 
 	is_jpg:BOOLEAN
 			-- The internal library support JPG format and the file is a valid JPG file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isJPG(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isJPG(rwop)=1)
 			Result:=True
 		end
 
 	is_tif:BOOLEAN
 			-- The internal library support TIF format and the file is a valid TIF file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isTIF(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isTIF(rwop)=1)
 		end
 
 	is_png:BOOLEAN
 			-- The internal library support PNG format and the file is a valid PNG file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isPNG(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isPNG(rwop)=1)
 		end
 
 	is_lbm:BOOLEAN
 			-- The internal library support LBM format and the file is a valid LBM file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isLBM(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isLBM(rwop)=1)
 		end
 
 	is_xv:BOOLEAN
 			-- The internal library support XV format and the file is a valid XV file.
 		do
-			Result:=({GAME_SDL_IMAGE_EXTERNAL}.IMG_isXV(rwop)=1)
+			Result:=({IMG_SDL_IMAGE_EXTERNAL}.IMG_isXV(rwop)=1)
 		end
 
 	is_openable:BOOLEAN
@@ -138,7 +138,7 @@ feature -- Access
 			l_internal_pointer:POINTER
 		do
 			clear_error
-			l_internal_pointer:={GAME_SDL_IMAGE_EXTERNAL}.IMG_Load_RW(rwop, 0)
+			l_internal_pointer:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Load_RW(rwop, 0)
 			if l_internal_pointer.is_default_pointer then
 				io.error.put_string ("An error occured while opening the image.%N")
 				io.error.put_string (last_error.to_string_8+"%N")
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation - Variable
 			if not rwop.is_default_pointer then
 				{GAME_SDL_EXTERNAL}.SDL_FreeRW(rwop)
 			end
-			Precursor {GAME_IMAGE_SOURCE}
+			Precursor {GAME_IMAGE}
 		end
 
 end

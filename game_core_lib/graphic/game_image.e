@@ -1,11 +1,11 @@
 note
-	description: "Summary description for {GAME_IMAGE_SOURCE}."
+	description: "Summary description for {GAME_IMAGE}."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	GAME_IMAGE_SOURCE
+	GAME_IMAGE
 
 inherit
 	GAME_RESSOURCE
@@ -65,7 +65,7 @@ feature {NONE} -- Initialisation
 			own_from_pointer (l_image_pointer)
 		end
 
-	make_from_other(a_other: GAME_IMAGE_SOURCE)
+	make_from_other(a_other: GAME_IMAGE)
 			-- Initialization for `Current' by copying the memory value of `a_other'.
 		require
 			Image_Source_Video_Is_Enable:game_library.is_video_enable

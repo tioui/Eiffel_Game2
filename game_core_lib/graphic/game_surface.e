@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialisation
 
-	share_from_image_source(a_image_source:GAME_IMAGE_SOURCE)
+	share_from_image_source(a_image_source:GAME_IMAGE)
 			-- Create a `Current' from `a_image_source'.
 			-- The image source in memory is not copied.
 			-- If multiple surface is done with the same `a_image_source',
@@ -43,7 +43,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_is_open: has_error or is_open
 		end
 
-	make_from_image_source(a_image_source:GAME_IMAGE_SOURCE)
+	make_from_image_source(a_image_source:GAME_IMAGE)
 			-- Create a `Current' from `a_image_source'.
 			-- The image source in memory is copied.
 			-- Slower than `share_from_image_source' and use more memory.
@@ -53,7 +53,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_From_Image_Source_Is_Open: a_image_source.is_open
 		local
-			l_source:GAME_IMAGE_SOURCE
+			l_source:GAME_IMAGE
 		do
 			has_error:=False
 			create l_source.make_from_other (a_image_source)
@@ -62,11 +62,11 @@ feature {NONE} -- Initialisation
 				if l_source.is_open then
 					share_from_image_source(l_source)
 				else
-					image_source:=create {GAME_IMAGE_SOURCE}.own_from_pointer (create {POINTER})
+					image_source:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
 					has_error:=True
 				end
 			else
-				image_source:=create {GAME_IMAGE_SOURCE}.own_from_pointer (create {POINTER})
+				image_source:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
 				has_error:=True
 			end
 		ensure
@@ -172,7 +172,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 		local
 			l_surface_pointer:POINTER
-			l_image_source:GAME_IMAGE_SOURCE
+			l_image_source:GAME_IMAGE
 		do
 			clear_error
 			l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(0,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask)
@@ -196,7 +196,7 @@ feature {NONE} -- Initialisation
 
 feature {GAME_SURFACE} -- Implementation
 
-	image_source:GAME_IMAGE_SOURCE
+	image_source:GAME_IMAGE
 
 feature -- Access
 
@@ -209,7 +209,7 @@ feature -- Access
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Convert_is_open: is_open
 		local
-			l_source:GAME_IMAGE_SOURCE
+			l_source:GAME_IMAGE
 		do
 			has_error:=False
 			create l_source.own_from_pointer ({GAME_SDL_EXTERNAL}.SDL_ConvertSurfaceFormat(item, a_pixel_format.internal_index, 0))
@@ -524,7 +524,7 @@ feature {NONE} -- Implementation
 
 	new_similar_from_pointer(a_internal_pointer:POINTER):GAME_SURFACE
 		local
-			l_image_source:GAME_IMAGE_SOURCE
+			l_image_source:GAME_IMAGE
 			l_multiplier:TUPLE[red_multipier, green_multipier, blue_multipier:NATURAL_8]
 		do
 			create l_image_source.own_from_pointer (a_internal_pointer)

@@ -7,12 +7,18 @@ note
 class
 	GAME_RANDOM_CONTROLLER
 
+inherit
+	ANY
+		redefine
+			default_create
+		end
+
 create
-	make
+	default_create
 
 feature {NONE} -- Initialization
 
-	make
+	default_create
 			-- Initialization for `Current'.
 		local
 			l_time: TIME
