@@ -388,25 +388,15 @@ feature -- Haptic methods
 		require
 			Haptic_Enabled: is_haptic_enable
 		local
-			l_c_name, l_c_value:C_STRING
-			l_value:READABLE_STRING_GENERAL
-			l_text_ptr:POINTER
+			l_value_text:READABLE_STRING_GENERAL
 		do
-			create l_c_name.make("SDL_HAPTIC_GAIN_MAX")
-			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_getenv(l_c_name.item)
-			if l_text_ptr.is_default_pointer then
-				Result := 100
-			else
-				create l_c_value.make_by_pointer(l_text_ptr)
-				l_value := l_c_value.string
-				if l_value.is_integer then
-					Result := l_value.to_integer
-					if Result < 0 then
-						Result := 0
-					elseif Result > 100 then
-						Result := 100
-					end
-				else
+			l_value_text := library_variable("SDL_HAPTIC_GAIN_MAX")
+			Result := 100
+			if l_value_text.is_integer_32 then
+				Result := l_value_text.to_integer_32
+				if Result < 0 then
+					Result := 0
+				elseif Result > 100 then
 					Result := 100
 				end
 			end
@@ -418,15 +408,9 @@ feature -- Haptic methods
 			-- Assign `haptic_maximum_gain' with the value of `a_gain'
 		require
 			Haptic_Enabled: is_haptic_enable
-		local
-			l_c_name, l_c_value:C_STRING
-			l_error:INTEGER
+			Gain_Is_Valid: a_gain >= 0 and a_gain <= 100
 		do
-			clear_error
-			create l_c_name.make("SDL_HAPTIC_GAIN_MAX")
-			create l_c_value.make(a_gain.out)
-			l_error := {GAME_SDL_EXTERNAL}.SDL_setenv(l_c_name.item, l_c_value.item, True)
-			manage_error_code(l_error, "Cannot set the haptics maximum gain.")
+			set_library_variable ("SDL_HAPTIC_GAIN_MAX", a_gain.out)
 		ensure
 			Is_Assign: not has_error implies haptic_maximum_gain = a_gain
 		end
@@ -463,6 +447,35 @@ feature {NONE} -- Haptic implementation
 	end
 
 feature -- Other methods
+
+	library_variable(a_variable:READABLE_STRING_GENERAL):READABLE_STRING_GENERAL assign set_library_variable
+			-- Retreive the internal variable `a_variable' or an empty text if it does not exist.
+		local
+			l_c_name, l_c_value:C_STRING
+			l_value:READABLE_STRING_GENERAL
+			l_text_ptr:POINTER
+		do
+			create l_c_name.make(a_variable)
+			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_getenv(l_c_name.item)
+			if l_text_ptr.is_default_pointer then
+				Result := ""
+			else
+				create l_c_value.make_by_pointer(l_text_ptr)
+				Result := l_c_value.string
+			end
+		end
+
+	set_library_variable(a_variable, a_value:READABLE_STRING_GENERAL)
+			-- Assign the internal variable `a_variable' with the value `a_value'.
+		local
+			l_c_name, l_c_value:C_STRING
+			l_error:INTEGER
+		do
+			create l_c_name.make(a_variable)
+			create l_c_value.make(a_value)
+			l_error := {GAME_SDL_EXTERNAL}.SDL_setenv(l_c_name.item, l_c_value.item, True)
+			manage_error_code(l_error, "Cannot set the environment variable " + a_variable + " with value " + a_value + ".")
+		end
 
 	events_controller:GAME_EVENTS_CONTROLLER
 			-- <Precursor>

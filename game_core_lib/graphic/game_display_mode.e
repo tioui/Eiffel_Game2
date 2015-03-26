@@ -79,7 +79,7 @@ feature {NONE} -- Initialization
 		do
 			create internal_item
 			create managed_pointer.own_from_pointer (a_mode, structure_size)
-			shared := True
+			shared := False
 		end
 
 	make_from_pointer(a_mode:POINTER)
