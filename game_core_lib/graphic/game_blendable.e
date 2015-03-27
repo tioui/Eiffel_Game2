@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_BLENDABLE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "An object that can use alpha blending"
+	author: "Louis Marchand"
+	date: "Thu, 26 Mar 2015 20:59:26 +0000"
+	revision: "1.0"
 
 deferred class
 	GAME_BLENDABLE
@@ -132,12 +132,12 @@ feature {NONE} -- Implementation
 		end
 
 	blend_mode:INTEGER assign set_blend_mode
+			-- The alpha blending mode of `Current'
 		local
 			l_error, l_blending_mode:INTEGER
 		do
 			clear_error
 			l_error := c_get_blend_mode(item, $l_blending_mode)
-			--l_error:={GAME_SDL_EXTERNAL}.SDL_GetRenderDrawBlendMode(item, $l_blending_mode)
 			if l_error<0 then
 				manage_error_code(l_error, "An error occured while retrieving the blending mode.")
 				Result:=0
@@ -146,22 +146,24 @@ feature {NONE} -- Implementation
 		end
 
 	set_blend_mode(a_blend_mode:INTEGER)
+			-- The alpha blending mode of `Current'
 		local
 			l_error:INTEGER
 		do
 			clear_error
 			l_error := c_set_blend_mode(item, a_blend_mode)
-		--	l_error:={GAME_SDL_EXTERNAL}.SDL_SetRenderDrawBlendMode(item, a_blend_mode)
 			manage_error_code(l_error, "An error occured while enabling color modulate blending on the renderer.")
 		end
 
 feature {NONE} -- External
 
 	c_get_blend_mode(a_item, a_blend_mode:POINTER):INTEGER
+			-- Internal getter for blend mode
 		deferred
 		end
 
 	c_set_blend_mode(a_item:POINTER; a_blend_mode:INTEGER):INTEGER
+			-- Internal setter for blend mode
 		deferred
 		end
 end

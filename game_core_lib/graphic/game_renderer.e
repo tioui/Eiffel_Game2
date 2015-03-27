@@ -14,6 +14,8 @@ inherit
 		export
 			{NONE} shared, make_structure, make_by_pointer
 			{GAME_SDL_ANY} item
+		redefine
+			exists
 		end
 	GAME_BLENDABLE
 		rename
@@ -22,52 +24,64 @@ inherit
 	DISPOSABLE
 
 create {GAME_WINDOW_RENDERED}
-	make_hardware,
-	make_software,
-	make_with_rendering_driver
+	make,
+	make_with_flags,
+	make_with_renderer_driver
 
 feature {NONE} -- Initialization
 
-	make_hardware(a_window:GAME_WINDOW_RENDERED;a_can_target_texture, a_update_at_vsync:BOOLEAN)
-			-- Initialization for `Current' using hardware acceleration,
-			-- targeting `a_window' and optionnaly `a_can_target_texture'
-		do
-			make_with_rendering_driver(a_window, -1, False, a_can_target_texture, a_update_at_vsync)
-		ensure
-			Is_Created: has_error or exists
-		end
-
-	make_software(a_window:GAME_WINDOW_RENDERED;a_can_target_texture, a_update_at_vsync:BOOLEAN)
-			-- Initialization for `Current' without using hardware acceleration,
-			-- targeting `a_window' and optionnaly `a_can_target_texture'
-		do
-			make_with_rendering_driver(a_window, -1, True, a_can_target_texture, a_update_at_vsync)
-		ensure
-			Is_Created: has_error or exists
-		end
-
-	make_with_rendering_driver(a_window:GAME_WINDOW_RENDERED; a_renderer_driver_index:INTEGER;
-								a_use_sofware_rendering, a_can_target_texture, a_update_at_vsync:BOOLEAN)
+	make_with_flags(a_window:GAME_WINDOW_RENDERED;a_must_support_target_texture,
+					a_must_sync_update, a_must_be_software_rendering,
+					a_must_be_hardware_accelerated:BOOLEAN)
+			-- Initialization for `Current'. If `a_must_support_target_texture' is True,
+			-- the rendering context must permit to target to a texture instead of `Current'.
+			-- If `a_must_sync_update' is True, the `present' will wait for vsync before finishing.
+			-- If `a_must_be_software_rendering' is True, the renderer will always
 		local
 			l_flags:NATURAL_32
 		do
 			l_flags := 0
-			if a_use_sofware_rendering then
+			if a_must_be_software_rendering then
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RENDERER_SOFTWARE)
-			else
+			end
+			if a_must_be_hardware_accelerated then
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RENDERER_ACCELERATED)
 			end
-			if a_can_target_texture then
+			if a_must_support_target_texture then
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RENDERER_TARGETTEXTURE)
 			end
-			if a_update_at_vsync then
+			if a_must_sync_update then
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_RENDERER_PRESENTVSYNC)
 			end
+			make_with_renderer_driver_and_flags(a_window, -1, l_flags)
+		ensure
+			Is_Created: has_error or exists
+		end
+
+	make(a_window:GAME_WINDOW_RENDERED)
+			-- Initialization for `Current' without using hardware acceleration,
+			-- targeting `a_window' and optionnaly `a_can_target_texture'
+		do
+			make_with_renderer_driver_and_flags(a_window, -1, 0)
+		ensure
+			Is_Created: has_error or exists
+		end
+
+	make_with_renderer_driver(a_window:GAME_WINDOW_RENDERED; a_renderer_driver:GAME_RENDERER_DRIVER)
+		do
+			make_with_renderer_driver_and_flags(a_window, a_renderer_driver.index, 0)
+		ensure
+			Is_Created: has_error or exists
+		end
+
+	make_with_renderer_driver_and_flags(a_window:GAME_WINDOW_RENDERED; a_renderer_driver_index:INTEGER; a_flags:NATURAL_32)
+		do
 			original_target := a_window
 			target := a_window
 			clear_error
-			make_by_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRenderer(a_window.item,a_renderer_driver_index,l_flags))
+			make_by_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRenderer(a_window.item,a_renderer_driver_index,a_flags))
 			manage_error_pointer (item, "Error while creating rendering context.")
+			is_dispose := False
 		ensure
 			Is_Created: has_error or exists
 		end
@@ -515,7 +529,8 @@ feature -- Access
 
 	logical_size:TUPLE[width, height:INTEGER]
 			-- Get the device independant logical size of the output of `Current'
-			-- [0,0] if never set.
+			-- [0,0] if never set..
+			-- Modifying this value may change the `scale' and `viewport' values.
 		require
 			Renderer_exists: exists
 		local
@@ -526,7 +541,8 @@ feature -- Access
 		end
 
 	set_logical_size(a_width, a_height:INTEGER)
-			-- Assign `logical_size' using values in `a_width' and `a_height'
+			-- Assign `logical_size' using values in `a_width' and `a_height'.
+			-- Using this feature may change the `scale' and `viewport' values.
 		require
 			Renderer_exists: exists
 		local
@@ -592,7 +608,8 @@ feature -- Access
 
 	set_viewport(a_x, a_y, a_width, a_height:INTEGER)
 			-- Assign `viewport' using values in `a_x', `a_y', `a_width'
-			-- and `a_height'
+			-- and `a_height'. Note that depending on the `scale' values,
+			-- the `viewport' may be round to another close value.
 		require
 			Renderer_exists: exists
 		local
@@ -609,12 +626,22 @@ feature -- Access
 			l_rect.memory_free
 			manage_error_code(l_error, "Cannot set the viewport of the renderer.")
 		ensure
-			Is_Set: attached viewport as la_viewport implies (
-							la_viewport.x = a_x and
-							la_viewport.y = a_y and
-							la_viewport.width = a_width and
-							la_viewport.height = a_height
+			Is_Set: (attached viewport as la_viewport and attached scale as la_scale) implies (
+							la_viewport.x >= a_x - (1.0 / la_scale.x) and
+							la_viewport.x <= a_x + (1.0 / la_scale.x) and
+							la_viewport.y >= a_y - (1.0 / la_scale.y) and
+							la_viewport.y <= a_y + (1.0 / la_scale.y) and
+							la_viewport.width >= a_width - (1.0 / la_scale.x) and
+							la_viewport.width <= a_width + (1.0 / la_scale.x) and
+							la_viewport.height >= a_height - (1.0 / la_scale.y) and
+							la_viewport.height <= a_height + (1.0 / la_scale.y)
 						)
+		end
+
+	exists: BOOLEAN
+			-- <Precursor>
+		do
+			Result := Precursor {MEMORY_STRUCTURE} and not is_dispose
 		end
 
 feature {GAME_WINDOW_RENDERED}
@@ -624,20 +651,12 @@ feature {GAME_WINDOW_RENDERED}
 		do
 			if exists then
 				{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(item)
-				internal_item := create {POINTER}
+				is_dispose := True
 			end
 		end
 
-feature -- Status report
-
---	item : POINTER
---			-- Access to memory area.
-
---	exists: BOOLEAN
---			-- Is allocated memory still allocated?
---		do
---			Result := item /= default_pointer
---		end
+	is_dispose:BOOLEAN
+			-- As `Current' has been dispose
 
 feature {NONE} -- Implementation
 
@@ -654,11 +673,13 @@ feature {NONE} -- Implementation
 feature {NONE} -- External
 
 	c_get_blend_mode(a_item, a_blend_mode:POINTER):INTEGER
+			-- <Precursor>
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetRenderDrawBlendMode(a_item, a_blend_mode)
 		end
 
 	c_set_blend_mode(a_item:POINTER; a_blend_mode:INTEGER):INTEGER
+			-- <Precursor>
 		do
 			Result := {GAME_SDL_EXTERNAL}.SDL_SetRenderDrawBlendMode(a_item, a_blend_mode)
 		end

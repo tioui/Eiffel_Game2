@@ -152,6 +152,13 @@ feature -- Function SDL.h
 			"SDL_CreateRenderer"
 		end
 
+	frozen SDL_GetRenderer(window:POINTER) : POINTER
+		external
+			"C (SDL_Window*) : SDL_Renderer* | <SDL.h>"
+		alias
+			"SDL_GetRenderer"
+		end
+
 	frozen SDL_DestroyRenderer(renderer:POINTER)
 		external
 			"C (SDL_Renderer*) | <SDL.h>"

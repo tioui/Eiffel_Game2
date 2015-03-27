@@ -29,100 +29,113 @@ inherit
 feature {NONE} -- Initialisation
 
 	make_default(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER)
-			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height'). The other options are the default one.
+			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height').
+			-- Every other options are disabled.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make(a_title, a_width, a_height, False, False, False, False, False)
+			make(a_title, a_width, a_height, False, False, False, False, False, False)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+	make(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER;
+			a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create `Current' titled with `a_title' of dimension (`a_width'x`a_height').
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_on_display(a_title, a_width, a_height, game_library.displays.first, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+			make_on_display(a_title, a_width, a_height, game_library.displays.first, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+	make_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY;
+					a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create `Current' titled with `a_title' of dimension (`a_width'x`a_height') on `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
 			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_undefined_display(a_display.index), a_width, a_height,
-								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make_with_position(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+	make_with_position(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER;
+						a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') at position (`a_x',`a_y').
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_with_extra_flags(a_title, a_x, a_y, a_width, a_height, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, 0)
+			make_with_extra_flags(a_title, a_x, a_y, a_width, a_height, a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable, 0)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
 
 
-	make_centered(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+	make_centered(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER;
+					a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') centered on the primary display (sceen).
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
-			make_centered_on_display(a_title, a_width, a_height, game_library.displays.first ,a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+			make_centered_on_display(a_title, a_width, a_height, game_library.displays.first ,a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make_centered_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN)
+	make_centered_on_display(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY;
+								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') centered on `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		do
 			make_with_position(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
-								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input)
+								a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY; a_fake, a_hide, a_minimize, a_grab_input:BOOLEAN)
+	make_fullscreen(a_title:READABLE_STRING_GENERAL; a_width, a_height: INTEGER; a_display:GAME_DISPLAY;
+					a_fake, a_hide, a_minimize, a_grab_input, a_resizable:BOOLEAN)
 			-- Create a fullscreen Window titled with `a_title' of dimension (`a_width'x`a_height') on the `a_display'.
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_fake' is `True', The resolution of the display is not change to fit the `a_width' and `a_height' of `Current'.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size (usefull if the fullscreen mode is disabled).
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
 		local
@@ -134,18 +147,21 @@ feature {NONE} -- Initialisation
 				l_flags:={GAME_SDL_EXTERNAL}.Sdl_window_fullscreen
 			end
 			make_with_extra_flags(a_title, {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), {GAME_SDL_EXTERNAL}.Sdl_windowpos_centered_display(a_display.index), a_width, a_height,
-						a_hide, False, a_minimize, False, a_grab_input, l_flags)
+						a_hide, False, a_minimize, False, a_grab_input, a_resizable, l_flags)
 		ensure
 			Make_Window_Is_Open: exists
 		end
 
-	make_with_extra_flags(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER; a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input:BOOLEAN; a_flags:NATURAL_32)
+	make_with_extra_flags(a_title:READABLE_STRING_GENERAL; a_x, a_y, a_width, a_height: INTEGER;
+							a_hide, a_remove_border, a_minimize, a_maximize, a_grab_input, a_resizable:BOOLEAN;
+							a_flags:NATURAL_32)
 			-- Create a Window titled with `a_title' of dimension (`a_width'x`a_height') at position (`a_x',`a_y').
 			-- If `a_hide' is `True', `Current' is hidden at the momment of creation.
 			-- If `a_remove_border' is `True', `Current' has no decorative border at the momment of creation.
 			-- If `a_minimize' is `True', `Current' is minimized at the momment of creation.
 			-- If `a_maximize' is `True', `Current' is maximized at the momment of creation.
 			-- If `a_grab_input' is `True', All input are grab by `Current' at the momment of creation.
+			-- If `a_resizable' is `True', the user can change the window size.
 			-- `a_flags' is the initial flags to start with.
 		require
 			Game_Screen_Video_Enabled: game_library.is_video_enable
@@ -170,6 +186,9 @@ feature {NONE} -- Initialisation
 			end
 			if a_grab_input then
 				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.sdl_window_input_grabbed)
+			end
+			if a_resizable then
+				l_flags := l_flags.bit_or ({GAME_SDL_EXTERNAL}.SDL_WINDOW_RESIZABLE)
 			end
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
 			item:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
