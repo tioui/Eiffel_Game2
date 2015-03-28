@@ -1,12 +1,13 @@
 note
 	description : "[
 						Show how to use a {GAME_WINDOW_SURFACED}.
-						Note that {GAME_WINDOW_SURFACED} don't use hardware acceleration and is very slow.
-						It should be use for slow application only. To use hardware acceleration, 
-						use {GAME_WINDOW_RENDERED} type.
+						Note that with {GAME_WINDOW_SURFACED} you have less control and less
+						possible effect. But it is easyer to use. For enabling every feature
+						of the game library, you must use the renderer system with a
+						{GAME_WINDOW_RENDERED}.
 					]"
-	date        : "$Date$"
-	revision    : "$Revision$"
+	date        : "Sat, 28 Mar 2015 02:58:50 +0000"
+	revision    : "1.0"
 
 class
 	APPLICATION
@@ -26,13 +27,13 @@ feature {NONE} -- Initialization
 		do
 			game_library.enable_video	-- Enable the video functionnality of the library
 
-			image_files_library.enable_image (True, True, False)	-- Enable image loading from PNG and JPEG files.
+			image_file_library.enable_image (True, True, False)	-- Enable image loading from PNG and JPEG files.
 
 
 			run_standard				-- Run another routine to be able to collect every object of type GAME_*
 										-- Those object are all local object.
 
-			image_files_library.quit_library	-- Must be call before the {GAME_LIBRARY_CONTROLLER}.`quit_library'
+			image_file_library.quit_library	-- Must be call before the {GAME_LIBRARY_CONTROLLER}.`quit_library'
 
 			game_library.quit_library	-- Must be done before quitting
 										-- The garbage colector must be able to collect every object of type GAME_*
@@ -54,7 +55,7 @@ feature {NONE} -- Initialization
 			l_window.surface.draw_sub_surface (l_bird, 12, 0, 28, 30, 600, 300)	-- A bird head
 			l_window.update
 
-			game_library.quit_signal_actions.extend (agent on_quit) -- Tell the library whatto do when a quit signal come.
+			game_library.quit_signal_actions.extend (agent on_quit) -- Tell the library what to do when a quit signal come.
 			game_library.launch		-- Launch the game loop (the application block here).
 		end
 

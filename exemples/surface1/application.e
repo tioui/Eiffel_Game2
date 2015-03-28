@@ -1,12 +1,13 @@
 note
 	description : "[
 						Show how to use a {GAME_WINDOW_SURFACED}.
-						Note that {GAME_WINDOW_SURFACED} don't use hardware acceleration and is very slow.
-						It should be use for slow application only. To use hardware acceleration, 
-						use {GAME_WINDOW_RENDERED} type.
+						Note that with {GAME_WINDOW_SURFACED} you have less control and less
+						possible effect. But it is easyer to use. For enabling every feature
+						of the game library, you must use the renderer system with a
+						{GAME_WINDOW_RENDERED}.
 					]"
-	date        : "$Date$"
-	revision    : "$Revision$"
+	date        : "Sat, 28 Mar 2015 03:05:36 +0000"
+	revision    : "1.0"
 
 class
 	APPLICATION

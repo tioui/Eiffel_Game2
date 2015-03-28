@@ -6,26 +6,25 @@ note
 class
 	APPLICATION
 
+inherit
+	GAME_LIBRARY_SHARED
+	IMG_LIBRARY_SHARED
+
 create
 	make
 
 feature {NONE} -- Initialization
 
 	make
-		local
-			controller:GAME_LIB_CONTROLLER
-			img_controller:GAME_IMG_CONTROLLER
 		do
-			create controller.make
-			create img_controller.make
-			controller.enable_video -- Enable the video functionalities
-			img_controller.enable_image (true, false, false)  -- Enable PNG image (but not TIF or JPG).
-			run_game(controller)  -- Run the core creator of the game.
-			img_controller.quit_library  -- Correctly unlink image files library
-			controller.quit_library  -- Clear the library before quitting
+			game_library.enable_video -- Enable the video functionalities
+			img_library.enable_image (true, false, false)  -- Enable PNG image (but not TIF or JPG).
+			run_game  -- Run the core creator of the game.
+			img_library.quit_library  -- Correctly unlink image files library
+			game_library.quit_library  -- Clear the library before quitting
 		end
 
-	run_game(controller:GAME_LIB_CONTROLLER)
+	run_game
 		local
 			bk,desert:GAME_SURFACE
 			maryo_anim:LIST[GAME_SURFACE]

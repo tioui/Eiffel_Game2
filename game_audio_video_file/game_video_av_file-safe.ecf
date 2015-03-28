@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="game_video_av_file" uuid="B63EECDB-A9BD-4711-8EC9-CC5CAC4B2A74" library_target="game_video_av_file">
+	<description>An add-on for the game library for reading video files (images only).</description>
+	<target name="game_video_av_file">
+		<description>An add-on for the game library for reading video files (images only)</description>
+		<root all_classes="true"/>
+
+		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Video_AV_File" copyright="Louis Marchand"/>
+		<option full_class_checking="false" is_attached_by_default="false" void_safety="all" syntax="standard">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+
+
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/game_audio_video_file/spec/include"/>
+
+		
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/game_audio_video_file/spec/$(ISE_PLATFORM)/lib/av_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game/game_audio_video_file/spec/$(ISE_PLATFORM)/lib/MTav_additions.o">
+			<condition>
+				<platform excluded_value="windows"/>
+				<concurrency excluded_value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\game_audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\av_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\game_audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<concurrency excluded_value="none"/>
+				<dotnet value="false"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\game_audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+				<dotnet value="true"/>
+			</condition>
+		</external_object>
+
+
+		<external_include location="/usr/include/libavcodec">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/include/libavformat">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/include/libswscale">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/usr/include/libavutil">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavcodec">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavformat">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libswscale">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/include/libavutil">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libavcodec">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libavformat">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libswscale">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include\libavutil">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avcodec.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\swscale.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avformat.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\libav\lib\avutil.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_linker_flag value="-L/opt/local/lib -lavcodec -lavformat -lswscale -lavutil">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_linker_flag>
+		<external_linker_flag value="-lavcodec -lavformat -lswscale -lavutil">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+
+
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game\cpf\cpf-safe.ecf"/>
+		<library name="thread" location="$ISE_LIBRARY\library\thread\thread-safe.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core-safe.ecf"/>
+		<cluster name="game_video_av_file" location=".\" recursive="true">
+			<description>An add-on for the game library for reading video files (images only)</description>
+			<file_rule>
+				<exclude>/audio_av_file$</exclude>
+				<exclude>/game_audio_video_av_file$</exclude>
+				<exclude>/EIFGENs$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

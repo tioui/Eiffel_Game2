@@ -8,7 +8,7 @@
 		<setting name="console_application" value="true"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core_lib" location="$ISE_LIBRARY\contrib\library\game\game_core_lib\game_core_lib-safe.ecf"/>
+		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game\game_core\game_core-safe.ecf"/>
 		<cluster name="logical_size" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
