@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="game_image_utils" uuid="DDF5A7F1-9692-44B6-B77B-C29F0541A165" library_target="game_image_utils">
-	<description>An addon for the Eiffel Game Library for doing graphical effects on images</description>
-	<target name="game_image_utils">
-		<description>An addon for the Eiffel Game Library for doing graphical effects on images</description>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="game_effects" uuid="DDF5A7F1-9692-44B6-B77B-C29F0541A165" library_target="game_effects">
+	<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>
+	<target name="game_effects">
+		<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>
 		<root all_classes="true"/>
-		<option is_attached_by_default="false" syntax="transitional">
+		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Surface_Utils" copyright="Louis Marchand"/>
+		<option full_class_checking="false" void_safety="none" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL_gfx\include">
@@ -22,11 +23,16 @@
 				<platform value="windows"/>
 			</condition>
 		</external_object>
-		<external_library location="-lSDL_gfx">
+		<external_cflag value="`pkg-config --cflags SDL2_gfx`">
 			<condition>
 				<platform value="unix"/>
 			</condition>
-		</external_library>
+		</external_cflag>
+		<external_linker_flag value="`pkg-config --libs SDL2_gfx`">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
 		<external_linker_flag value="-framework SDL_gfx">
 			<condition>
 				<platform value="macintosh"/>
@@ -34,8 +40,8 @@
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core.ecf" readonly="true"/>
-		<cluster name="game_image_utils" location=".\" recursive="true">
-			<description>An addon for the Eiffel Game Library for doing graphical effects on images</description>
+		<cluster name="game_effects" location=".\" recursive="true">
+			<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 			</file_rule>

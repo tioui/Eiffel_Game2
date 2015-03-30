@@ -85,6 +85,9 @@ feature -- Access
 			-- <Precursor>
 		do
 			is_open:=True
+		ensure then
+			Exists: not has_error implies exists
+			Is_Open: not has_error implies is_open
 		end
 
 	exists:BOOLEAN

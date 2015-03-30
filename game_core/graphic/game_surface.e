@@ -1,8 +1,8 @@
 note
 	description: "Representation of an image that can be paste on other image."
 	author: "Louis Marchand"
-	date: "January 18, 2014"
-	revision: "2.0.0.0"
+	date: "Sat, 28 Mar 2015 14:00:33 +0000"
+	revision: "2.1"
 
 class
 	GAME_SURFACE
@@ -16,8 +16,9 @@ inherit
 
 
 create
-	share_from_image_source,
-	make_from_image_source,
+	make,
+	share_from_image,
+	make_from_image,
 	share_from_other,
 	make_from_other,
 	make_for_window,
@@ -28,45 +29,45 @@ create
 
 feature {NONE} -- Initialisation
 
-	share_from_image_source(a_image_source:GAME_IMAGE)
+	share_from_image(a_image:GAME_IMAGE)
 			-- Create a `Current' from `a_image_source'.
 			-- The image source in memory is not copied.
-			-- If multiple surface is done with the same `a_image_source',
+			-- If multiple surface is done with the same `a_image',
 			-- every modification to surface will affect all.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
-			Surface_Make_From_Image_Source_Is_Open: a_image_source.is_open
+			Surface_Make_From_Image_Source_Is_Open: a_image.is_open
 		do
-			image_source:=a_image_source
+			image:=a_image
 			is_open:=not has_error
 		ensure
 			Surface_Make_is_open: has_error or is_open
 		end
 
-	make_from_image_source(a_image_source:GAME_IMAGE)
-			-- Create a `Current' from `a_image_source'.
+	make_from_image(a_image:GAME_IMAGE)
+			-- Create a `Current' from `a_image'.
 			-- The image source in memory is copied.
-			-- Slower than `share_from_image_source' and use more memory.
-			-- If multiple surface is done with the same `a_image_source',
+			-- Slower than `share_from_image' and use more memory.
+			-- If multiple surface is done with the same `a_image',
 			-- every modification to surface will affect all.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
-			Surface_Make_From_Image_Source_Is_Open: a_image_source.is_open
+			Surface_Make_From_Image_Source_Is_Open: a_image.is_open
 		local
 			l_source:GAME_IMAGE
 		do
 			has_error:=False
-			create l_source.make_from_other (a_image_source)
+			create l_source.make_from_other (a_image)
 			if l_source.is_openable then
 				l_source.open
 				if l_source.is_open then
-					share_from_image_source(l_source)
+					share_from_image(l_source)
 				else
-					image_source:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
+					image:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
 					has_error:=True
 				end
 			else
-				image_source:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
+				image:=create {GAME_IMAGE}.own_from_pointer (create {POINTER})
 				has_error:=True
 			end
 		ensure
@@ -76,13 +77,13 @@ feature {NONE} -- Initialisation
 	share_from_other(a_other:GAME_SURFACE)
 			-- Create a `Current' from `a_other'.
 			-- The image source in memory is not copied.
-			-- If multiple surface is done with the same `a_image_source',
+			-- If multiple surface is done with the same `image',
 			-- every modification to surface will affect all.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_Other_Opened: a_other.is_open
 		do
-			share_from_image_source(a_other.image_source)
+			share_from_image(a_other.image)
 		ensure
 			Surface_Make_is_open: has_error or is_open
 		end
@@ -95,7 +96,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_Other_Opened: a_other.is_open
 		do
-			make_from_image_source(a_other.image_source)
+			make_from_image(a_other.image)
 		ensure
 			Surface_Make_is_open: has_error or is_open
 		end
@@ -118,6 +119,21 @@ feature {NONE} -- Initialisation
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 		do
 			make_for_display_mode(a_display.current_mode,a_width,a_height)
+		ensure
+			Surface_Make_is_open: has_error or is_open
+		end
+
+	make(a_width,a_height:INTEGER)
+			-- Create an empty `Current' of dimension `a_width' x `a_height'
+			-- conforming to the first founded {GAME_DISPLAY}.
+		require
+			Surface_Make_Video_Enabled: game_library.is_video_enable
+		do
+			if not game_library.displays.is_empty then
+				make_for_display_mode(game_library.displays.first.current_mode,a_width,a_height)
+			else
+				create image.own_from_pointer (create {POINTER})
+			end
 		ensure
 			Surface_Make_is_open: has_error or is_open
 		end
@@ -148,14 +164,14 @@ feature {NONE} -- Initialisation
 				io.error.put_string ("An error occured while creating the surface.%N")
 				io.error.put_string (last_error.to_string_8+"%N")
 				has_error:=True
-				create image_source.own_from_pointer (create {POINTER})
+				create image.own_from_pointer (create {POINTER})
 			else
 				l_masks:=a_pixel_format.masks
 				if a_pixel_format.has_error then
 					io.error.put_string ("An error occured while creating the surface.%N")
 					io.error.put_string (last_error.to_string_8+"%N")
 					has_error:=True
-					create image_source.own_from_pointer (create {POINTER})
+					create image.own_from_pointer (create {POINTER})
 				else
 					make_with_masks(a_width, a_height, l_bpp, l_masks.red_mask, l_masks.green_mask, l_masks.blue_mask, l_masks.alpha_mask)
 				end
@@ -178,15 +194,15 @@ feature {NONE} -- Initialisation
 			l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(0,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask)
 			if l_surface_pointer.is_default_pointer then
 				manage_error_pointer(l_surface_pointer, "An error occured while creating the surface.")
-				create image_source.own_from_pointer (create {POINTER})
+				create image.own_from_pointer (create {POINTER})
 			else
 				create l_image_source.own_from_pointer (l_surface_pointer)
 				if l_image_source.is_openable then
 					l_image_source.open
-					share_from_image_source(l_image_source)
+					share_from_image(l_image_source)
 				else
 					put_manual_error("An error occured while creating the surface.", "Cannot read file.")
-					create image_source.own_from_pointer (create {POINTER})
+					create image.own_from_pointer (create {POINTER})
 				end
 
 			end
@@ -194,11 +210,10 @@ feature {NONE} -- Initialisation
 			Surface_Make_is_open: has_error or is_open
 		end
 
-feature {GAME_SDL_ANY} -- Implementation
-
-	image_source:GAME_IMAGE
-
 feature -- Access
+
+	image:GAME_IMAGE
+		-- The {GAME_IMAGE} that has served for creating `Current'
 
 	is_open:BOOLEAN
 			-- `Current' has been opened properly
@@ -216,7 +231,7 @@ feature -- Access
 			if l_source.is_openable then
 				l_source.open
 				if l_source.is_open then
-					create Result.share_from_image_source (l_source)
+					create Result.share_from_image (l_source)
 				else
 					create Result.make_for_pixel_format (a_pixel_format, width, height)
 					if Result.is_open then
@@ -284,7 +299,7 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,a_width_destination)
 			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,a_height_destination)
 			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_BlitScaled(a_other.image_source.item ,l_rect_src, item, l_rect_dst)
+			l_error:={GAME_SDL_EXTERNAL}.SDL_BlitScaled(a_other.image.item ,l_rect_src, item, l_rect_dst)
 			manage_error_code(l_error, "An error occured while drawing to the surface.")
 			l_rect_dst.memory_free
 			l_rect_src.memory_free
@@ -500,80 +515,26 @@ feature -- Access
 feature {GAME_SDL_ANY} -- Implementation
 
 	item:POINTER
+			-- The internal pointer to the image
 		do
-			Result := image_source.item
-		end
-
-feature {NONE} -- Implementation
-
-	as_surface_8_16_or_32_bpp:GAME_SURFACE
-		local
-			l_bpp:INTEGER
-			l_masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
-			l_pixel_fromat:GAME_PIXEL_FORMAT
-		do
-			l_bpp:=pixel_format.bits_per_pixel
-			if l_bpp = 8 or l_bpp = 16 or l_bpp =32 then
-				Result:=Current
-			else
-				l_masks:=pixel_format.masks
-				create l_pixel_fromat.make_from_bits_per_pixel_and_masks (32, l_masks.red_mask, l_masks.green_mask, l_masks.blue_mask, l_masks.alpha_mask)
-				Result:=as_converted_to_pixel_format (l_pixel_fromat)
-			end
-		end
-
-	new_similar_from_pointer(a_internal_pointer:POINTER):GAME_SURFACE
-		local
-			l_image_source:GAME_IMAGE
-			l_multiplier:TUPLE[red_multipier, green_multipier, blue_multipier:NATURAL_8]
-		do
-			create l_image_source.own_from_pointer (a_internal_pointer)
-			if l_image_source.is_openable then
-				l_image_source.open
-				if l_image_source.is_open then
-					create Result.share_from_image_source(l_image_source)
-				else
-					io.error.put_string ("An error ocured while rotating the surface.%N")
-					create Result.make_from_other (Current)
-					has_error:=True
-				end
-			else
-				io.error.put_string ("An error ocured while rotating the surface.%N")
-				create Result.make_from_other (Current)
-				has_error:=True
-			end
-			if not has_error then
-				if is_transparent_enable then
-					Result.transparent_color:=transparent_color
-				end
-				if is_alpha_blending_enabled then
-					Result.enable_alpha_blending
-				elseif is_modulate_blending_enabled then
-					Result.enable_modulate_blending
-				elseif is_additive_blending_enabled then
-					Result.enable_additive_blending
-				else
-					Result.disable_blending
-				end
-				Result.overall_alpha:=overall_alpha
-				l_multiplier:=color_multiplier
-				Result.set_color_multiplier (l_multiplier.red_multipier, l_multiplier.green_multipier, l_multiplier.blue_multipier)
-			end
+			Result := image.item
 		end
 
 feature {NONE} -- External
 
 	c_get_blend_mode(a_item, a_blend_mode:POINTER):INTEGER
+			-- <Precursor>
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_GetSurfaceBlendMode(a_item, a_blend_mode)
 		end
 
 	c_set_blend_mode(a_item:POINTER; a_blend_mode:INTEGER):INTEGER
+			-- <Precursor>
 		do
 			Result := {GAME_SDL_EXTERNAL}.SDL_SetSurfaceBlendMode(a_item, a_blend_mode)
 		end
 
 invariant
-	Surface_Valid: is_open implies image_source.is_open
+	Surface_Valid: is_open implies image.is_open
 
 end

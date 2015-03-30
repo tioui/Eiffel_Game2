@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 			-- Initialization of `Current' for use on `a_renderer' and using
 			-- the data of `a_surface' (pixel format, picture, etc.)
 		do
-			make_from_image(a_renderer, a_surface.image_source)
+			make_from_image(a_renderer, a_surface.image)
 		ensure
 			Error_Or_Exist: not has_error implies exists
 		end

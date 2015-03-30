@@ -1,17 +1,21 @@
 note
-	description: "Font manager to use with object of type GAME_SURFACE_TEXT."
+	description: "A font that can be use to draw text with a {TEXT_IMAGE}."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	date: "Mon, 30 Mar 2015 01:06:37 +0000"
+	revision: "2.0"
 
 class
 	TEXT_FONT
 
 inherit
+	GAME_RESSOURCE
+		rename
+			make as make_ressource,
+			has_error as has_ressource_error
+		end
 	DISPOSABLE
-	export
-		{NONE} all
-	end
+	TEXT_LIBRARY_SHARED
+	GAME_SDL_ANY
 
 create
 	make,
@@ -19,106 +23,512 @@ create
 
 feature {NONE} -- Initialization
 
-	make(a_filename:STRING;a_size:INTEGER)
+	make(a_filename:READABLE_STRING_GENERAL;a_size:INTEGER)
 			-- Initialization for `Current'.
 		require
-			Make_Font_Text_Enabled: {GAME_TEXT_EXTERNAL}.TTF_WasInit=1
-			Make_Font_Filename_Not_Void: a_filename /= Void
+			Is_Text_Enable: test_library.is_text_enable
+			Filename_Not_Empty: not a_filename.is_empty
+			Size_Stricly_Positive: a_size > 1
 		do
 			make_with_index(a_filename,a_size,0)
-		ensure
-			Make_Font_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
 		end
 
-	make_with_index(a_filename:STRING;a_size:INTEGER;a_index:INTEGER_32)
+	make_with_index(a_filename:READABLE_STRING_GENERAL;a_size:INTEGER;a_index:INTEGER_32)
 			-- Initialization for `Current'.
 			-- The index is use if there is more than one font in a ttf file.
 		require
-			Make_Font_Text_Enabled: {GAME_TEXT_EXTERNAL}.TTF_WasInit=1
-			Make_Font_Filename_Not_Void: a_filename /= Void
+			Is_Text_Enable: test_library.is_text_enable
+			Filename_Not_Empty: not a_filename.is_empty
+			Size_Stricly_Positive: a_size > 1
+			Index_Positive: a_index >= 0
 		local
-			l_filename_c:C_STRING
+			l_filename_c, l_mode_c:C_STRING
 		do
-			filename:=a_filename
-			size:=a_size
-			index:=a_index
-			create l_filename_c.make (filename)
-			c_sdl_font_pointer:={GAME_TEXT_EXTERNAL}.TTF_OpenFontIndex(l_filename_c.item,size,index)
-		ensure
-			Make_Font_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
+			make_ressource
+			create l_filename_c.make (a_filename)
+			create l_mode_c.make ("rb")
+			rwop:={GAME_SDL_EXTERNAL}.SDL_RWFromFile(l_filename_c.item, l_mode_c.item)
 		end
 
 feature -- Access
 
-	filename:STRING
-		-- The name of the file containing the current font.
-	size:INTEGER assign modify_size
+	size:INTEGER
 		-- The font height.
-	index:INTEGER_32 assign modify_index
+
+	index:INTEGER_32
 		-- The index of the font in the file.
 
+	is_openable:BOOLEAN
+			-- <Precursor>
+		local
+			l_file:RAW_FILE
+		do
+			Result := not rwop.is_default_pointer
+		end
+
+	open
+			-- <Precursor>
+		do
+			clear_error
+			internal_pointer:={GAME_TEXT_EXTERNAL}.TTF_OpenFontIndexRW(rwop, 0, size, index)
+			manage_error_pointer (internal_pointer, "Cannot open the font")
+			has_ressource_error := has_error
+			is_open := not has_error
+		ensure then
+			Exists: not has_error implies exists
+			Is_Open: not has_error implies is_open
+		end
+
+
+	exists:BOOLEAN
+			-- Is allocated memory still allocated?
+		do
+			Result := not item.is_default_pointer
+		end
+
+	has_style_modifier:BOOLEAN
+			-- Is `Current' has a style modifier (underline, bold, italic or strike through)
+		require
+			exists
+		do
+			Result := is_underline or is_bold or is_italic or is_strike_through
+		end
+
+	disable_style_modifier
+			-- Disable all style modifier (underline, bold, italic and strike through)
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item, {GAME_TEXT_EXTERNAL}.TTF_STYLE_NORMAL)
+		end
+
 	is_underline:BOOLEAN
-		-- Return true if the font is underlined
-	do
-		result:=({GAME_TEXT_EXTERNAL}.TTF_GetFontStyle(c_sdl_font_pointer).bit_and({GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE) /= 0)
-	end
+			-- Is `Current' has an underline style modifier
+		require
+			exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE) /= 0
+		end
 
 	enable_underline
-		-- Add an underline effect to the font
-	do
-		{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(c_sdl_font_pointer,{GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE)
-	ensure
-		Font_Add_Underline_Is_Underlined: is_underline
-	end
+			-- Add an underline style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_or ({GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE)
+					)
+		ensure
+			Is_Enabled: is_underline
+		end
 
 	disable_underline
-		-- Remove the underline effect from the font
-	do
-		{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(c_sdl_font_pointer,{GAME_TEXT_EXTERNAL}.TTF_STYLE_NORMAL)
-	ensure
-		Font_Remove_Underline_Is_Removed: not is_underline
-	end
-
-feature {GAME_SURFACE_TEXT} -- Internal
-
-	sdl_font_pointer:POINTER
+			-- remove an underline style modifier to `Current'
+		require
+			exists
 		do
-			Result:=c_sdl_font_pointer
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE.bit_not)
+					)
+		ensure
+			Is_Disabled: not is_underline
+		end
+
+	is_bold:BOOLEAN
+			-- Is `Current' has a bold style modifier
+		require
+			exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_BOLD) /= 0
+		end
+
+	enable_bold
+			-- Add a bold style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_or ({GAME_TEXT_EXTERNAL}.TTF_STYLE_BOLD)
+					)
+		ensure
+			Is_Enabled: is_bold
+		end
+
+	disable_bold
+			-- remove a bold style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_BOLD.bit_not)
+					)
+		ensure
+			Is_Disabled: not is_bold
+		end
+
+	is_italic:BOOLEAN
+			-- Is `Current' has an italic style modifier
+		require
+			exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_ITALIC) /= 0
+		end
+
+	enable_italic
+			-- Add an italic style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_or ({GAME_TEXT_EXTERNAL}.TTF_STYLE_ITALIC)
+					)
+		ensure
+			Is_Enabled: is_italic
+		end
+
+	disable_italic
+			-- remove an italic style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_ITALIC.bit_not)
+					)
+		ensure
+			Is_Disabled: not is_italic
+		end
+
+	is_strike_through:BOOLEAN
+			-- Is `Current' has a strike through style modifier
+		require
+			exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_STRIKETHROUGH) /= 0
+		end
+
+	enable_strike_through
+			-- Add a strike through style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_or ({GAME_TEXT_EXTERNAL}.TTF_STYLE_STRIKETHROUGH)
+					)
+		ensure
+			Is_Enabled: is_strike_through
+		end
+
+	disable_strike_through
+			-- remove a strike through style modifier to `Current'
+		require
+			exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item,
+						{GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_STRIKETHROUGH.bit_not)
+					)
+		ensure
+			Is_Disabled: not is_strike_through
+		end
+
+	has_outline:BOOLEAN
+			-- Is `Current' has an outline size.
+		require
+			exists
+		do
+			Result := outline_size > 0
+		end
+
+	outline_size:INTEGER assign set_outline_size
+			-- The ouline width of `Current' (0 for disabled)
+		require
+			exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontOutline(item)
+		end
+
+	set_outline_size(a_outline_size:INTEGER)
+			-- Assign `outline_size' with the value of `outline_size'
+		require
+			Exists: exists
+			Outline_Size_Valid: a_outline_size >= 0
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontOutline(item, a_outline_size)
+		ensure
+			Is_Assign: outline_size = a_outline_size
+		end
+
+	disable_outline
+			-- Disable the outline size in `Current'
+		require
+			Exists
+		do
+			set_outline_size(0)
+		ensure
+			Is_Disabled: not has_outline
+		end
+
+	has_hinting:BOOLEAN
+			-- Has the library a hint about how to draw `Current'
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontHinting(item) /= {GAME_TEXT_EXTERNAL}.TTF_HINTING_NONE
+		end
+
+	disable_hinting
+			-- Disable the draw hinting of `Current'
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontHinting(item, {GAME_TEXT_EXTERNAL}.TTF_HINTING_NONE)
+		end
+
+	has_normal_hinting:BOOLEAN
+			-- The library has the normal hinting to draw `Current
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontHinting(item) /= {GAME_TEXT_EXTERNAL}.TTF_HINTING_NORMAL
+		end
+
+	enable_normal_hinting
+			-- Use the normal hinting to draw `Current'
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontHinting(item, {GAME_TEXT_EXTERNAL}.TTF_HINTING_NORMAL)
+		ensure
+			Is_Enable: has_normal_hinting
+		end
+
+	has_light_hinting:BOOLEAN
+			-- The library has the light hinting to draw `Current'
+
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontHinting(item) /= {GAME_TEXT_EXTERNAL}.TTF_HINTING_LIGHT
+		end
+
+	enable_light_hinting
+			-- Use the light hinting to draw `Current'
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontHinting(item, {GAME_TEXT_EXTERNAL}.TTF_HINTING_LIGHT)
+		ensure
+			Is_Enable: has_light_hinting
+		end
+
+	has_monochrome_hinting:BOOLEAN
+			-- The library has the monochrome hinting to draw `Current'.
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontHinting(item) /= {GAME_TEXT_EXTERNAL}.TTF_HINTING_MONO
+		end
+
+	enable_monochrome_hinting
+			-- Use the monochrome hinting to draw `Current'.
+			-- Must only be use with monochrome display
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontHinting(item, {GAME_TEXT_EXTERNAL}.TTF_HINTING_MONO)
+		ensure
+			Is_Enable: has_monochrome_hinting
+		end
+
+	is_kerning_enabled:BOOLEAN
+			-- If True, the library can use kerning when drawing a text with `Current'
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontKerning(item) /= 0
+		end
+
+	enable_kerning
+			-- Allow the library to use kerning when drawing a text with `Current'
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontKerning(item, 1)
+		ensure
+			Is_Enabled: is_kerning_enabled
+		end
+
+	disable_kerning
+			-- Does not allow the library to use kerning when drawing a text with `Current'
+		require
+			Exists
+		do
+			{GAME_TEXT_EXTERNAL}.TTF_SetFontKerning(item, 0)
+		ensure
+			Is_Disabled: not is_kerning_enabled
+		end
+
+	maximum_height:INTEGER
+			-- The maximum height that a gliph can take in pixel using `Current'
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_FontHeight(item)
+		end
+
+	ascent:INTEGER
+			-- distance from the top of the drawing area to the baseline in pixel.
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_FontAscent (item)
+		end
+
+	descent:INTEGER
+			-- distance from the baseline to the bottom of the drawing area in pixel.
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_FontDescent (item)
+		end
+
+	line_skip_height:INTEGER
+			-- the recommended pixel height of a rendered line of text using `Current'
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_FontLineSkip (item)
+		end
+
+	is_monospace:BOOLEAN
+			-- True if every character that exists in `Current' is the same width
+		require
+			Exists
+		do
+			Result := {GAME_TEXT_EXTERNAL}.TTF_FontFaceIsFixedWidth (item) > 0
+		end
+
+	face_family_name:READABLE_STRING_GENERAL
+			-- The name of the face family of `Curent'
+		require
+			Exists
+		local
+			l_name_ptr:POINTER
+			l_name_c:C_STRING
+		do
+			l_name_ptr := {GAME_TEXT_EXTERNAL}.TTF_FontFaceFamilyName(item)
+			if l_name_ptr.is_default_pointer then
+				Result := ""
+			else
+				create l_name_c.make_by_pointer (l_name_ptr)
+				Result := l_name_c.string
+			end
+		end
+
+	face_style_name:READABLE_STRING_GENERAL
+			-- The name of the face style of `Curent'
+		require
+			Exists
+		local
+			l_name_ptr:POINTER
+			l_name_c:C_STRING
+		do
+			l_name_ptr := {GAME_TEXT_EXTERNAL}.TTF_FontFaceStyleName(item)
+			if l_name_ptr.is_default_pointer then
+				Result := ""
+			else
+				create l_name_c.make_by_pointer (l_name_ptr)
+				Result := l_name_c.string
+			end
+		end
+
+	is_glyph_provided(a_character:CHARACTER_32):BOOLEAN
+			-- Is `Current' can draw a glyph representing `a_character'
+		require
+			Exists
+		local
+			l_prototype:NATURAL_32
+		do
+			if a_character.natural_32_code > l_prototype.max_value then
+				Result := False
+			else
+				Result := {GAME_TEXT_EXTERNAL}.TTF_GlyphIsProvided(item, a_character.natural_32_code.as_natural_16) /= 0
+			end
+		end
+
+	glyph_metrics(a_character:CHARACTER_32):TUPLE[minimal_x, maximal_x, minimal_y, maximal_y, advance:INTEGER]
+			-- The informations about the glyph representing `a_character' generated with `Current'.
+			-- Set `has_error' on error.
+		require
+			Exists
+			Is_Character_Valid: is_glyph_provided(a_character)
+		local
+			l_error, l_minimal_x, l_maximal_x, l_minimal_y, l_maximal_y, l_advance: INTEGER
+		do
+			clear_error
+			l_error := {GAME_TEXT_EXTERNAL}.TTF_GlyphMetrics(item, a_character.natural_32_code.as_natural_16,
+						$l_minimal_x, $l_maximal_x, $l_minimal_y, $l_maximal_y, $l_advance)
+			if l_error < 0 then
+				manage_error_code (l_error, "Cannot get the glyph information.")
+				Result := [0,0,0,0,0]
+			else
+				Result := [l_minimal_x, l_maximal_x, l_minimal_y, l_maximal_y, l_advance]
+			end
+		end
+
+	text_dimension(a_text:READABLE_STRING_GENERAL):TUPLE[width, height:INTEGER]
+			-- The dimension of the `a_text' drawed with `Current'
+		require
+			Exists
+		local
+			l_error, l_width, l_height:INTEGER
+			l_text_c:C_STRING
+			l_utf_converter: UTF_CONVERTER
+		do
+			clear_error
+			if a_text.is_string_8 then
+				create l_text_c.make (a_text)
+				l_error := {GAME_TEXT_EXTERNAL}.TTF_SizeText(item, l_text_c.item, $l_width, $l_height)
+			else
+				create l_utf_converter
+				create l_text_c.make (l_utf_converter.string_32_to_utf_8_string_8 (a_text.as_string_32))
+				l_error := {GAME_TEXT_EXTERNAL}.TTF_SizeUTF8(item, l_text_c.item, $l_width, $l_height)
+			end
+			if l_error < 0 then
+				manage_error_code (l_error, "Cannot get the text size once drawed.")
+				Result := [0,0]
+			else
+				Result := [l_width, l_height]
+			end
+		end
+
+feature {GAME_SDL_ANY} -- Implementation
+
+	item:POINTER
+			-- Access to memory area.
+		do
+			Result := internal_pointer
 		end
 
 feature {NONE} -- Implementation
 
-	modify_font(l_size:INTEGER;l_index:INTEGER_32)
-	local
-		old_font_pointer:POINTER
-	do
-		old_font_pointer:=c_sdl_font_pointer
-		make_with_index(filename,l_size,l_index)
-		{GAME_TEXT_EXTERNAL}.TTF_CloseFont(old_font_pointer)
-	end
+	internal_pointer:POINTER
 
-	modify_size(l_size:INTEGER)
-	local
-	do
-		modify_font(l_size,index)
-
-	end
-
-	modify_index(l_index:INTEGER_32)
-	do
-		modify_font(size,l_index)
-	end
+	rwop:POINTER
 
 	dispose
+			-- <Precursor>
 	do
-		if {GAME_TEXT_EXTERNAL}.TTF_WasInit=1 then
-			{GAME_TEXT_EXTERNAL}.TTF_CloseFont(c_sdl_font_pointer)
+		if not rwop.is_default_pointer then
+			{GAME_SDL_EXTERNAL}.SDL_FreeRW(rwop)
 		end
-
+		if exists then
+			{GAME_TEXT_EXTERNAL}.ttf_closefont (item)
+			is_open := False
+			create internal_pointer
+		end
 	end
 
-	c_sdl_font_pointer:POINTER
-
 invariant
-	Font_Pointer_Valid: c_sdl_font_pointer /= void and then not c_sdl_font_pointer.is_default_pointer
+	Is_Open_Exists: is_open implies exists
+
 end

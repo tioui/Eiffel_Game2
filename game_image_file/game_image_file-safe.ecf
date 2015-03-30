@@ -39,6 +39,7 @@
 			</condition>
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="cpf" location="\home\louis\prog\eiffel_game_lib_v2\cpf\cpf-safe.ecf"/>
 		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core-safe.ecf"/>
 		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game\game_shared\game_shared-safe.ecf"/>
 		<cluster name="game_image_file" location=".\" recursive="true">

@@ -14,9 +14,11 @@ inherit
 		redefine
 			open, is_cur, is_ico, is_bmp, is_pnm, is_xpm,
 			is_xcf, is_pcx, is_gif, is_jpg, is_tif, is_png, is_lbm, is_xv
-
 		end
 	CPF_RESSOURCE_MANAGER
+		redefine
+			make
+		end
 
 create
 	make
@@ -24,18 +26,13 @@ create
 feature {NONE} -- Initialization
 
 	make(a_cpf:CPF_PACKAGE_FILE;a_cpf_index:INTEGER)
-			-- make `Current' from the BMP image in the custom package file `a_cpf' at `a_cpf_index'.
-		require
-			Img_Cpf_Index_Valid:a_cpf.is_readable and then a_cpf_index>0 and then a_cpf_index<=a_cpf.sub_files_count
-		local
-			l_rwop:POINTER
+			-- make `Current' from the image in the custom package file `a_cpf' at `a_cpf_index'.
 		do
-			cpf:=a_cpf
-			cpf_index:=a_cpf_index
+			Precursor {CPF_RESSOURCE_MANAGER}(a_cpf, a_cpf_index)
 			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
 			cpf.lock_mutex
 			cpf.select_sub_file (cpf_index)
-			{GAME_SDL_EXTERNAL}.setSDLRWops(l_rwop,cpf.internal_pointer)
+			{GAME_SDL_EXTERNAL}.setSDLRWops(rwop,cpf.internal_pointer)
 			last_position:=cpf.position
 			cpf.unlock_mutex
 		end
@@ -184,8 +181,6 @@ feature -- Access
 
 feature {NONE}
 
-	cpf:CPF_PACKAGE_FILE
-	cpf_index:INTEGER
 	last_position:INTEGER
 
 end

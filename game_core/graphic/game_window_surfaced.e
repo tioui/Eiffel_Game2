@@ -40,7 +40,7 @@ feature -- Access
 				if l_source.is_openable then
 					l_source.open
 					if l_source.is_open then
-						create internal_surface.share_from_image_source (l_source)
+						create internal_surface.share_from_image (l_source)
 						Result:=surface
 					else
 						io.error.put_string ("An error occured while creating the surfaced window.%N")
