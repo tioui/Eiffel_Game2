@@ -493,7 +493,7 @@ feature -- Access
 			end
 		end
 
-	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE;
 																	nb_clicks:NATURAL_8]]
 			-- When a mouse represented by `mouse_state' has been released for the `nb_clicks' times
 		require
@@ -733,7 +733,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE;
 																	nb_clicks:NATURAL_8]]
 
 	mouse_button_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;

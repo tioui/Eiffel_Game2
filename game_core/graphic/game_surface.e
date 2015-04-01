@@ -9,6 +9,7 @@ class
 
 inherit
 	GAME_LIBRARY_SHARED
+	GAME_DRAWING_TOOLS
 	GAME_BLENDABLE
 		rename
 			is_valid as is_open
@@ -260,7 +261,7 @@ feature -- Access
 		end
 
 	draw_surface(a_other:GAME_SURFACE;a_x,a_y:INTEGER)
-			-- Draw the whole surface `a_other' on the present surface at (`a_x',`a_y').
+			-- Draw the whole surface `a_other' on `Current' at (`a_x',`a_y').
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
@@ -269,43 +270,29 @@ feature -- Access
 		end
 
 	draw_sub_surface(a_other:GAME_SURFACE;a_x_source,a_y_source,a_width,a_height,a_x_destination,a_y_destination:INTEGER)
-			-- Draw on the present surface at (`a_x_destination',`a_y_destination') the sub surface of `a_other'
+			-- Draw on `Current' at (`a_x_destination',`a_y_destination') the portion of `a_other'
 			-- starting at (`a_x_source',`a_y_source') with dimension `a_width' x `a_height'.
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
 		do
-			draw_sub_surface_with_scale(a_other, a_x_source,a_y_source,a_width,a_height,a_x_destination,a_y_destination, a_width, a_height)
+			internal_draw_surface(a_other, a_x_source,a_y_source,a_width,a_height,a_x_destination,a_y_destination, a_width, a_height, False)
 		end
 
 	draw_sub_surface_with_scale(a_other:GAME_SURFACE;a_x_source,a_y_source,a_width_source,a_height_source,a_x_destination,a_y_destination, a_width_destination, a_height_destination:INTEGER)
-			-- Draw on the present surface at (`a_x_destination',`a_y_destination') the sub surface of `a_other'
+			-- Draw on `Current' at (`a_x_destination',`a_y_destination') the portion of `a_other'
 			-- starting at (`a_x_source',`a_y_source') with dimension `a_width' x `a_height'.
+			-- Will scale `a_other' using `a_width_destination' and `a_height_destination'
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
-		local
-			l_rect_src, l_rect_dst:POINTER
-			l_error:INTEGER
 		do
-			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,a_x_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,a_y_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,a_width_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,a_height_destination)
-			clear_error
-			l_error:={GAME_SDL_EXTERNAL}.SDL_BlitScaled(a_other.image.item ,l_rect_src, item, l_rect_dst)
-			manage_error_code(l_error, "An error occured while drawing to the surface.")
-			l_rect_dst.memory_free
-			l_rect_src.memory_free
+			internal_draw_surface(a_other, a_x_source, a_y_source, a_width_source, a_height_source,
+									a_x_destination,a_y_destination, a_width_destination,
+									a_height_destination, True)
 		end
 
-	fill_rect(a_color:GAME_COLOR;a_x,a_y,a_width,a_height:INTEGER)
+	draw_rectangle(a_color:GAME_COLOR;a_x,a_y,a_width,a_height:INTEGER)
 			-- Draw a `a_color' rectangle of dimension `a_width' x `a_height' on `Current' at (`a_x',`a_y').
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
@@ -314,32 +301,63 @@ feature -- Access
 			l_rect_src, l_format:POINTER
 			l_error:INTEGER
 			l_color_key:NATURAL_32
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
 			clear_error
-			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			if a_width<0 then
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x+a_width)
-			else
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x)
-			end
-			if a_height<0 then
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y+a_height)
-			else
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y)
-			end
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width.abs)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height.abs)
 			l_format:=pixel_format.structure
 			if pixel_format.has_error then
-				has_error:=True
+				manage_error_boolean (False, "Cannot retreive the pixel format of the surface.")
 			else
+				l_normalized_rectangle := normalize_rectangle(a_x, a_y, a_width, a_height)
+				l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,l_normalized_rectangle.x)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,l_normalized_rectangle.y)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,l_normalized_rectangle.width)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,l_normalized_rectangle.height)
 				l_color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(l_format,a_color.red,a_color.green,a_color.blue,a_color.alpha)
 				l_error:={GAME_SDL_EXTERNAL}.SDL_FillRect(item,l_rect_src,l_color_key)
 				manage_error_code(l_error, "An error occured while drawing rectangle to the surface.")
+				l_rect_src.memory_free
 			end
-			l_rect_src.memory_free
+
 		end
 
+	draw_rectangles(a_color:GAME_COLOR;a_rectangles:CHAIN[TUPLE[x, y, width, height:INTEGER]])
+			-- Drawing every `a_color' rectangle in `a_rectangles'
+			-- that has it's left frontier at
+			-- `x', it's top frontier at `y', with
+			-- dimension `width'x`height'
+		require
+			Surface_Is_Video_Enable:game_library.is_video_enable
+			Surface_Draw_is_open: is_open
+		local
+			l_array_rectangles, l_rectangle, l_format:POINTER
+			l_rectangle_size, l_error:INTEGER
+			l_color_key:NATURAL_32
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
+		do
+			clear_error
+			l_format:=pixel_format.structure
+			if pixel_format.has_error then
+				manage_error_boolean (False, "Cannot retreive the pixel format of the surface.")
+			else
+				l_rectangle_size := {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect
+				l_array_rectangles := l_array_rectangles.memory_alloc (l_rectangle_size * a_rectangles.count)
+				l_rectangle := l_array_rectangles
+				across a_rectangles as la_rectangles loop
+					l_normalized_rectangle := normalize_rectangle(la_rectangles.item.x, la_rectangles.item.y, la_rectangles.item.width, la_rectangles.item.height)
+					{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,l_normalized_rectangle.x)
+					{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,l_normalized_rectangle.y)
+					{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,l_normalized_rectangle.width)
+					{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,l_normalized_rectangle.height)
+					l_rectangle := l_rectangle.plus (l_rectangle_size)
+				end
+				l_color_key:={GAME_SDL_EXTERNAL}.SDL_MapRGBA(l_format,a_color.red,a_color.green,a_color.blue,a_color.alpha)
+				l_error:={GAME_SDL_EXTERNAL}.SDL_FillRects(item,l_array_rectangles, a_rectangles.count, l_color_key)
+				manage_error_code(l_error, "An error occured while drawing rectangles to the surface.")
+				l_array_rectangles.memory_free
+			end
+		end
 
 	transparent_color:GAME_COLOR_READABLE assign set_transparent_color
 			-- The color that will be remove in the surface (the transparent color).
@@ -518,6 +536,43 @@ feature {GAME_SDL_ANY} -- Implementation
 			-- The internal pointer to the image
 		do
 			Result := image.item
+		end
+
+feature {NONE} -- Implementation
+
+	internal_draw_surface(a_other:GAME_SURFACE;a_x_source,a_y_source,a_width_source,a_height_source,a_x_destination,a_y_destination, a_width_destination, a_height_destination:INTEGER; a_must_scale:BOOLEAN)
+			-- Draw on `Current' at (`a_x_destination',`a_y_destination') the portion of `a_other'
+			-- starting at (`a_x_source',`a_y_source') with dimension `a_width' x `a_height'.
+			-- If `a_must_scale' is set, will scale using `a_width_destination' and `a_height_destination'
+		require
+			Surface_Is_Video_Enable:game_library.is_video_enable
+			Surface_Draw_is_open: is_open
+		local
+			l_rect_src, l_rect_dst:POINTER
+			l_error:INTEGER
+			l_normalized_rectangle_source, l_normalized_rectangle_destination:TUPLE[x, y, width, height:INTEGER]
+		do
+			l_normalized_rectangle_source := normalize_rectangle (a_x_source, a_y_source, a_width_source, a_height_source)
+			l_normalized_rectangle_destination := normalize_rectangle (a_x_destination, a_y_destination, a_width_destination, a_height_destination)
+			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
+			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,l_normalized_rectangle_source.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,l_normalized_rectangle_source.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,l_normalized_rectangle_source.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,l_normalized_rectangle_source.height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,l_normalized_rectangle_destination.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,l_normalized_rectangle_destination.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,l_normalized_rectangle_destination.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,l_normalized_rectangle_destination.height)
+			clear_error
+			if a_must_scale then
+				l_error:={GAME_SDL_EXTERNAL}.SDL_BlitScaled(a_other.image.item ,l_rect_src, item, l_rect_dst)
+			else
+				l_error:={GAME_SDL_EXTERNAL}.SDL_BlitSurface(a_other.image.item ,l_rect_src, item, l_rect_dst)
+			end
+			manage_error_code(l_error, "An error occured while drawing to the surface.")
+			l_rect_dst.memory_free
+			l_rect_src.memory_free
 		end
 
 feature {NONE} -- External

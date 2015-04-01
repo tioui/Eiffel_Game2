@@ -17,6 +17,7 @@ inherit
 		redefine
 			exists
 		end
+	GAME_DRAWING_TOOLS
 	GAME_BLENDABLE
 		rename
 			is_valid as exists
@@ -184,17 +185,20 @@ feature -- Access
 		local
 			l_rect_src, l_rect_dst:POINTER
 			l_error:INTEGER
+			l_normalized_rectangle_source, l_normalized_rectangle_destination:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle_source := normalize_rectangle (a_x_source, a_y_source, a_width_source, a_height_source)
+			l_normalized_rectangle_destination := normalize_rectangle (a_x_destination, a_y_destination, a_width_destination, a_height_destination)
 			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,a_x_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,a_y_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,a_width_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,a_height_destination)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,l_normalized_rectangle_source.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,l_normalized_rectangle_source.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,l_normalized_rectangle_source.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,l_normalized_rectangle_source.height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,l_normalized_rectangle_destination.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,l_normalized_rectangle_destination.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,l_normalized_rectangle_destination.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,l_normalized_rectangle_destination.height)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_RenderCopy(item, a_texture.item, l_rect_src, l_rect_dst)
 			manage_error_code(l_error, "An error occured while drawing texture to the renderer.")
@@ -222,17 +226,20 @@ feature -- Access
 		local
 			l_rect_src, l_rect_dst, l_center_point:POINTER
 			l_error, l_flip:INTEGER
+			l_normalized_rectangle_source, l_normalized_rectangle_destination:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle_source := normalize_rectangle (a_x_source, a_y_source, a_width_source, a_height_source)
+			l_normalized_rectangle_destination := normalize_rectangle (a_x_destination, a_y_destination, a_width_destination, a_height_destination)
 			l_rect_src:=l_rect_src.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
 			l_rect_dst:=l_rect_dst.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,a_x_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,a_y_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,a_width_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,a_height_source)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,a_x_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,a_y_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,a_width_destination)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,a_height_destination)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_src,l_normalized_rectangle_source.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_src,l_normalized_rectangle_source.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_src,l_normalized_rectangle_source.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_src,l_normalized_rectangle_source.height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect_dst,l_normalized_rectangle_destination.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect_dst,l_normalized_rectangle_destination.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect_dst,l_normalized_rectangle_destination.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect_dst,l_normalized_rectangle_destination.height)
 			l_center_point := l_center_point.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_point)
 			{GAME_SDL_EXTERNAL}.set_point_struct_x(l_center_point,a_x_rotation_center)
 			{GAME_SDL_EXTERNAL}.set_point_struct_y(l_center_point,a_y_rotation_center)
@@ -370,12 +377,14 @@ feature -- Access
 		local
 			l_error:INTEGER
 			l_rect:POINTER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle := normalize_rectangle (a_x, a_y, a_width, a_height)
 			l_rect := l_rect.memory_alloc ({GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect,a_x)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect,a_y)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect,a_width)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect,a_height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect,l_normalized_rectangle.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect,l_normalized_rectangle.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect,l_normalized_rectangle.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect,l_normalized_rectangle.height)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_RenderDrawRect(item, l_rect)
 			manage_error_code(l_error, "An error occured while drawing on the renderer.")
 			l_rect.memory_free
@@ -391,15 +400,17 @@ feature -- Access
 		local
 			l_array_rectangles, l_rectangle:POINTER
 			l_rectangle_size, l_error:INTEGER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
 			l_rectangle_size := {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect
 			l_array_rectangles := l_array_rectangles.memory_alloc (l_rectangle_size * a_rectangles.count)
 			l_rectangle := l_array_rectangles
 			across a_rectangles as la_rectangles loop
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,la_rectangles.item.x)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,la_rectangles.item.y)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,la_rectangles.item.width)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,la_rectangles.item.height)
+				l_normalized_rectangle := normalize_rectangle (la_rectangles.item.x, la_rectangles.item.y, la_rectangles.item.width, la_rectangles.item.height)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,l_normalized_rectangle.x)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,l_normalized_rectangle.y)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,l_normalized_rectangle.width)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,l_normalized_rectangle.height)
 				l_rectangle := l_rectangle.plus (l_rectangle_size)
 			end
 			clear_error
@@ -417,12 +428,14 @@ feature -- Access
 		local
 			l_error:INTEGER
 			l_rect:POINTER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle := normalize_rectangle (a_x, a_y, a_width, a_height)
 			l_rect := l_rect.memory_alloc ({GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect,a_x)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect,a_y)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect,a_width)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect,a_height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect,l_normalized_rectangle.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect,l_normalized_rectangle.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect,l_normalized_rectangle.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect,l_normalized_rectangle.height)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_RenderFillRect(item, l_rect)
 			manage_error_code(l_error, "An error occured while drawing on the renderer.")
 			l_rect.memory_free
@@ -438,15 +451,17 @@ feature -- Access
 		local
 			l_array_rectangles, l_rectangle:POINTER
 			l_rectangle_size, l_error:INTEGER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
 			l_rectangle_size := {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect
 			l_array_rectangles := l_array_rectangles.memory_alloc (l_rectangle_size * a_rectangles.count)
 			l_rectangle := l_array_rectangles
 			across a_rectangles as la_rectangles loop
-				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,la_rectangles.item.x)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,la_rectangles.item.y)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,la_rectangles.item.width)
-				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,la_rectangles.item.height)
+				l_normalized_rectangle := normalize_rectangle (la_rectangles.item.x, la_rectangles.item.y, la_rectangles.item.width, la_rectangles.item.height)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,l_normalized_rectangle.x)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,l_normalized_rectangle.y)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,l_normalized_rectangle.width)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,l_normalized_rectangle.height)
 				l_rectangle := l_rectangle.plus (l_rectangle_size)
 			end
 			clear_error
@@ -478,6 +493,7 @@ feature -- Access
 		local
 			l_rect:POINTER
 		do
+
 			l_rect := l_rect.memory_calloc(1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
 			{GAME_SDL_EXTERNAL}.SDL_RenderGetClipRect(item, l_rect)
 			Result := [
@@ -497,23 +513,28 @@ feature -- Access
 		local
 			l_error:INTEGER
 			l_rect:POINTER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle := normalize_rectangle (a_x, a_y, a_width, a_height)
 			clear_error
 			l_rect := l_rect.memory_calloc(1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect, a_x)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect, a_y)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect, a_width)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect, a_height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect, l_normalized_rectangle.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect, l_normalized_rectangle.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect, l_normalized_rectangle.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect, l_normalized_rectangle.height)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_RenderSetClipRect(item, l_rect)
 			l_rect.memory_free
 			manage_error_code(l_error, "Cannot set renderer clip rectangle")
 		ensure
-			Is_Set: attached clip_rectangle as la_clip_rectangle implies (
-							la_clip_rectangle.x = a_x and
-							la_clip_rectangle.y = a_y and
-							la_clip_rectangle.width = a_width and
-							la_clip_rectangle.height = a_height
-						)
+			Is_Set: (
+						attached clip_rectangle as la_clip_rectangle and
+						attached normalize_rectangle (a_x, a_y, a_width, a_height) as la_normalized_rectangle
+					) implies (
+						la_clip_rectangle.x = la_normalized_rectangle.x and
+						la_clip_rectangle.y = la_normalized_rectangle.y and
+						la_clip_rectangle.width = la_normalized_rectangle.width and
+						la_clip_rectangle.height = la_normalized_rectangle.height
+					)
 		end
 
 	disable_clip_rectangle
@@ -546,6 +567,8 @@ feature -- Access
 			-- Using this feature may change the `scale' and `viewport' values.
 		require
 			Renderer_exists: exists
+			Width_Valid: a_width > 0
+			Height_Valid: a_height > 0
 		local
 			l_error:INTEGER
 		do
@@ -616,26 +639,32 @@ feature -- Access
 		local
 			l_error:INTEGER
 			l_rect:POINTER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
+			l_normalized_rectangle := normalize_rectangle (a_x, a_y, a_width, a_height)
 			clear_error
 			l_rect := l_rect.memory_calloc(1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect, a_x)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect, a_y)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect, a_width)
-			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect, a_height)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rect, l_normalized_rectangle.x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rect, l_normalized_rectangle.y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rect, l_normalized_rectangle.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rect, l_normalized_rectangle.height)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_RenderSetViewport(item, l_rect)
 			l_rect.memory_free
 			manage_error_code(l_error, "Cannot set the viewport of the renderer.")
 		ensure
-			Is_Set: (attached viewport as la_viewport and attached scale as la_scale) implies (
-							la_viewport.x >= a_x - (1.0 / la_scale.x) and
-							la_viewport.x <= a_x + (1.0 / la_scale.x) and
-							la_viewport.y >= a_y - (1.0 / la_scale.y) and
-							la_viewport.y <= a_y + (1.0 / la_scale.y) and
-							la_viewport.width >= a_width - (1.0 / la_scale.x) and
-							la_viewport.width <= a_width + (1.0 / la_scale.x) and
-							la_viewport.height >= a_height - (1.0 / la_scale.y) and
-							la_viewport.height <= a_height + (1.0 / la_scale.y)
+			Is_Set: (
+						attached viewport as la_viewport and
+						attached scale as la_scale and
+						attached normalize_rectangle (a_x, a_y, a_width, a_height) as la_normalized_rectangle
+					) implies (
+							la_viewport.x >= la_normalized_rectangle.x - (1.0 / la_scale.x) and
+							la_viewport.x <= la_normalized_rectangle.x + (1.0 / la_scale.x) and
+							la_viewport.y >= la_normalized_rectangle.y - (1.0 / la_scale.y) and
+							la_viewport.y <= la_normalized_rectangle.y + (1.0 / la_scale.y) and
+							la_viewport.width >= la_normalized_rectangle.width - (1.0 / la_scale.x) and
+							la_viewport.width <= la_normalized_rectangle.width + (1.0 / la_scale.x) and
+							la_viewport.height >= la_normalized_rectangle.height - (1.0 / la_scale.y) and
+							la_viewport.height <= la_normalized_rectangle.height + (1.0 / la_scale.y)
 						)
 		end
 

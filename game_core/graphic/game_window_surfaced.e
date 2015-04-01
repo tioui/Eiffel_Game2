@@ -14,6 +14,7 @@ class
 
 inherit
 	GAME_WINDOW
+	GAME_DRAWING_TOOLS
 
 
 create
@@ -63,6 +64,43 @@ feature -- Access
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_UpdateWindowSurface(item)
 			manage_error_code(l_error, "An error occured while updating the window surface.")
+		end
+
+	update_rectangle(a_x, a_y, a_width, a_height:INTEGER)
+		local
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
+		do
+			update_rectangles(create {ARRAYED_LIST[TUPLE[x, y, width, height:INTEGER]]}.make_from_array (
+					<<[a_x, a_y, a_width, a_height]>>))
+		end
+
+	update_rectangles(a_rectangles:CHAIN[TUPLE[x, y, width, height:INTEGER]])
+			-- Drawing every wire rectangle in `a_rectangles'
+			-- that has it's left frontier at
+			-- `x', it's top frontier at `y', with
+			-- dimension `width'x`height'
+		require
+			Renderer_exists: exists
+		local
+			l_array_rectangles, l_rectangle:POINTER
+			l_rectangle_size, l_error:INTEGER
+			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
+		do
+			l_rectangle_size := {GAME_SDL_EXTERNAL}.c_Sizeof_sdl_rect
+			l_array_rectangles := l_array_rectangles.memory_alloc (l_rectangle_size * a_rectangles.count)
+			l_rectangle := l_array_rectangles
+			across a_rectangles as la_rectangles loop
+				l_normalized_rectangle := normalize_rectangle (la_rectangles.item.x, la_rectangles.item.y, la_rectangles.item.width, la_rectangles.item.height)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_x(l_rectangle,l_normalized_rectangle.x)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_y(l_rectangle,l_normalized_rectangle.y)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_w(l_rectangle,l_normalized_rectangle.width)
+				{GAME_SDL_EXTERNAL}.set_rect_struct_h(l_rectangle,l_normalized_rectangle.height)
+				l_rectangle := l_rectangle.plus (l_rectangle_size)
+			end
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_UpdateWindowSurfaceRects(item, l_array_rectangles, a_rectangles.count)
+			manage_error_code (l_error, "An error occured while updating the screen.")
+			l_array_rectangles.memory_free
 		end
 
 feature {NONE} -- Implementation

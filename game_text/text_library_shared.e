@@ -9,7 +9,7 @@ deferred class
 
 feature -- Access
 
-	test_library:TEXT_CONTROLLER
+	text_library:TEXT_CONTROLLER
 			-- The main manager of the text library
 		once
 			create Result

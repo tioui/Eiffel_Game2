@@ -28,12 +28,12 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_object>
-		<external_cflag value="`pkg-config --cflags SDL2_image`">
+		<external_cflag value="`pkg-config --cflags SDL2_ttf`">
 			<condition>
 				<platform value="unix"/>
 			</condition>
 		</external_cflag>
-		<external_linker_flag value="`pkg-config --libs SDL2_image`">
+		<external_linker_flag value="`pkg-config --libs SDL2_ttf`">
 			<condition>
 				<platform value="unix"/>
 			</condition>

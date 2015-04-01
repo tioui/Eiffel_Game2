@@ -1,8 +1,8 @@
 note
-	description: "External of the SDL library."
+	description: "External of the SDL2 library."
 	author: "Louis Marchand"
 	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	revision: "2.0.0.0"
 
 class
 	GAME_SDL_EXTERNAL
@@ -577,6 +577,13 @@ feature -- Function SDL.h
 			"C (SDL_Surface*, const SDL_Rect*, Uint32) :int | <SDL.h>"
 		alias
 			"SDL_FillRect"
+		end
+
+	frozen SDL_FillRects(dst, rects:POINTER; count:INTEGER; collor:NATURAL_32):INTEGER
+		external
+			"C (SDL_Surface*, const SDL_Rect*, int, Uint32) :int | <SDL.h>"
+		alias
+			"SDL_FillRects"
 		end
 
 	frozen SDL_MapRGBA(format:POINTER; r,g,b,a:NATURAL_8):NATURAL_32

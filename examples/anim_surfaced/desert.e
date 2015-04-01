@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {DESERT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "The application background"
+	author: "Louis Marchand"
+	date: "Wed, 01 Apr 2015 18:46:46 +0000"
+	revision: "2.0"
 
 class
 	DESERT

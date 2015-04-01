@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			-- using the font `l_font' and color `a_forground_color'
 			-- with a background color `a_background_color'.
 		require
-			Text_Is_Enabled: test_library.is_text_enable
+			Text_Is_Enabled: text_library.is_text_enable
 			Font_Is_Open: a_font.is_open
 		do
 			background_color := a_background_color

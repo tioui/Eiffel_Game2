@@ -43,7 +43,7 @@ feature -- Initialisation
 			-- Initialization for `Current' contained in `a_cpf' at index
 			-- `a_cpf_index' and using `a_size' as `Current's size.
 		require
-			font_text_enabled: test_library.is_text_enable
+			font_text_enabled: text_library.is_text_enable
 			cpf_index_valid: a_cpf.is_readable and then a_cpf_index > 0 and then a_cpf_index <= a_cpf.sub_files_count
 		do
 			make_with_index(a_cpf, a_cpf_index, a_size, 0)
@@ -54,7 +54,7 @@ feature -- Initialisation
 			-- `a_cpf_index' and using `a_size' as `Current's size.
 			-- The `a_index' is use if there is more than one font in a ttf file.
 		require
-			font_text_enabled: test_library.is_text_enable
+			font_text_enabled: text_library.is_text_enable
 			cpf_index_valid: a_cpf.is_readable and then a_cpf_index > 0 and then a_cpf_index <= a_cpf.sub_files_count
 		do
 			make_ressource
@@ -462,14 +462,25 @@ feature -- Access
 
 feature {GAME_SDL_ANY} -- Implementation
 
-	item:POINTER
-			-- <Precursor>
+	lock_cpf_mutex
 		do
 			cpf.lock_mutex
+		end
+
+	unlock_cpf_mutex
+		do
+			cpf.unlock_mutex
+		end
+
+	item:POINTER
+			-- <Precursor>
+			-- Note that you must call `lock_cpf_mutex' before using
+			-- this routine and using `unlock_cpf_mutex' after
+		do
 			cpf.select_sub_file (cpf_index)
 			cpf.go (last_position)
-			Result:=internal_pointer
-			cpf.unlock_mutex
+			Result:=Precursor {TEXT_FONT}
+			last_position:=cpf.position
 		end
 
 feature {NONE} -- Implementation - Variables

@@ -57,16 +57,21 @@ feature {NONE} -- Implementation
 	on_iteration(a_timestamp:NATURAL_32; a_maryo:MARYO; a_desert:GAME_SURFACE; l_window:GAME_WINDOW_SURFACED)
 			-- Event that is launch at each iteration.
 		do
-			a_maryo.update (a_timestamp)
+			a_maryo.update (a_timestamp)	-- Update Maryo animation and coordinate
+			-- Be sure that Maryo does not get out of the screen
 			if a_maryo.x < 0 then
 				a_maryo.x := 0
 			elseif a_maryo.x + a_maryo.sub_image_width > a_desert.width then
 				a_maryo.x := a_desert.width - a_maryo.sub_image_width
 			end
-			l_window.surface.fill_rect (create {GAME_COLOR}.make_rgb (0, 128, 255), 0, 0, a_desert.width, a_desert.height)
+
+			-- Draw the scene
+			l_window.surface.draw_rectangle (create {GAME_COLOR}.make_rgb (0, 128, 255), 0, 0, a_desert.width, a_desert.height)
 			l_window.surface.draw_surface (a_desert, 0, 0)
 			l_window.surface.draw_sub_surface (a_maryo.surface, a_maryo.sub_image_x, a_maryo.sub_image_y,
 									a_maryo.sub_image_width, a_maryo.sub_image_height, a_maryo.x, a_maryo.y)
+
+			-- Update modification in the screen
 			l_window.update
 		end
 

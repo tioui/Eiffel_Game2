@@ -1,8 +1,11 @@
 note
-	description: "Our "
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "[
+					Our main character.
+					Using animation with 4 states using 3 sub images
+				]"
+	author: "Louis Marchand"
+	date: "Wed, 01 Apr 2015 18:46:46 +0000"
+	revision: "2.0"
 
 class
 	MARYO

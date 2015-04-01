@@ -33,6 +33,11 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+		<external_linker_flag value="-l SDL2_gfx">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
 		<external_linker_flag value="-framework SDL_gfx">
 			<condition>
 				<platform value="macintosh"/>

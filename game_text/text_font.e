@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 	make(a_filename:READABLE_STRING_GENERAL;a_size:INTEGER)
 			-- Initialization for `Current'.
 		require
-			Is_Text_Enable: test_library.is_text_enable
+			Is_Text_Enable: text_library.is_text_enable
 			Filename_Not_Empty: not a_filename.is_empty
 			Size_Stricly_Positive: a_size > 1
 		do
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 			-- The index is use if there is more than one font in a ttf file.
 		require
-			Is_Text_Enable: test_library.is_text_enable
+			Is_Text_Enable: text_library.is_text_enable
 			Filename_Not_Empty: not a_filename.is_empty
 			Size_Stricly_Positive: a_size > 1
 			Index_Positive: a_index >= 0
@@ -45,6 +45,8 @@ feature {NONE} -- Initialization
 			l_filename_c, l_mode_c:C_STRING
 		do
 			make_ressource
+			size := a_size
+			index := a_index
 			create l_filename_c.make (a_filename)
 			create l_mode_c.make ("rb")
 			rwop:={GAME_SDL_EXTERNAL}.SDL_RWFromFile(l_filename_c.item, l_mode_c.item)
