@@ -1,8 +1,8 @@
 note
 	description: "A ressource manager. Must be herited from."
 	author: "Louis Marchand"
-	date: "april 30, 2013"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 04:11:03 +0000"
+	revision: "2.0"
 
 deferred class
 	GAME_RESSOURCE_MANAGER

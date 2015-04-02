@@ -33,7 +33,7 @@ note
 				]"
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 15:22:37 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_DIRECTION
@@ -110,9 +110,10 @@ feature {GAME_HAPTIC_DIRECTION, GAME_HAPTIC_EFFECT} -- Implementation
 		end
 
 	set_type(a_type:NATURAL_8)
+			-- Assign `type' with the value of `a_type'
 		require
 			Exists:exists
-			Type_Valid: 
+			Type_Valid:
 						a_type = {GAME_SDL_EXTERNAL}.SDL_HAPTIC_CARTESIAN or
 						a_type = {GAME_SDL_EXTERNAL}.SDL_HAPTIC_POLAR or
 						a_type = {GAME_SDL_EXTERNAL}.SDL_HAPTIC_SPHERICAL

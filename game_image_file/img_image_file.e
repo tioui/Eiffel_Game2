@@ -1,8 +1,8 @@
 note
-	description: "Open a bmp image."
+	description: "An image from an image file"
 	author: "Louis Marchand"
-	date: "Jan 14, 2014"
-	revision: "2.0.0.0"
+	date: "Thu, 02 Apr 2015 03:46:04 +0000"
+	revision: "2.0"
 
 class
 	IMG_IMAGE_FILE
@@ -18,6 +18,8 @@ inherit
 			dispose
 		end
 	IMG_ANY
+		undefine
+			default_create
 		select
 			clear_error,
 			last_error
@@ -33,7 +35,7 @@ feature {NONE} -- Implementation
 		local
 			l_filename_c, l_mode_c:C_STRING
 		do
-			make_ressource
+			default_create
 			create l_filename_c.make (a_filename)
 			create l_mode_c.make ("rb")
 			rwop:={GAME_SDL_EXTERNAL}.SDL_RWFromFile(l_filename_c.item, l_mode_c.item)
@@ -122,8 +124,6 @@ feature -- Access
 
 	is_openable:BOOLEAN
 			-- <Precursor>
-		local
-			l_file:RAW_FILE
 		do
 			Result:=(not rwop.is_default_pointer) and then (
 								is_cur or is_ico or is_bmp or is_pnm or
@@ -152,8 +152,10 @@ feature -- Access
 feature {NONE} -- Implementation - Variable
 
 	rwop:POINTER
+			-- Pointer to the Read/Write C tool
 
 	dispose
+			-- <Precursor>
 		do
 			if not rwop.is_default_pointer then
 				{GAME_SDL_EXTERNAL}.SDL_FreeRW(rwop)

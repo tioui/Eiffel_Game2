@@ -1,8 +1,8 @@
 note
-	description: "External of the SDL_ttf library."
+	description: "External of the SDL2_ttf library."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 03:35:38 +0000"
+	revision: "2.0"
 
 class
 	GAME_TEXT_EXTERNAL

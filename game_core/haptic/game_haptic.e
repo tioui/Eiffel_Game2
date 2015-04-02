@@ -2,7 +2,7 @@ note
 	description: "Information and control of force feedback devices"
 	author: "Louis Marchand"
 	date: "Sat, 28 Feb 2015 19:20:47 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 deferred class
 	GAME_HAPTIC
@@ -36,13 +36,13 @@ feature -- Query
 		do
 			Result := not item.is_default_pointer
 		end
-	
+
 	is_constant_effect_supported:BOOLEAN
 			-- Is `Current' supported constant effect
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CONSTANT) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CONSTANT) /= 0
 		end
 
 	is_periodic_sine_effect_supported:BOOLEAN
@@ -53,7 +53,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SINE) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SINE) /= 0
 		end
 
 	is_periodic_triangle_effect_supported:BOOLEAN
@@ -64,7 +64,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_TRIANGLE) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_TRIANGLE) /= 0
 		end
 
 	is_periodic_saw_tooth_up_effect_supported:BOOLEAN
@@ -76,7 +76,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SAWTOOTHUP) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SAWTOOTHUP) /= 0
 		end
 
 	is_periodic_saw_tooth_down_effect_supported:BOOLEAN
@@ -84,11 +84,11 @@ feature -- Query
 			-- sawtooth with the openning at the top.
 			-- \  |\  |\  |\  |\  |\  |\  |
 			--  \ | \ | \ | \ | \ | \ | \ |
-			--   \|  \|  \|  \|  \|  \|  \| 
+			--   \|  \|  \|  \|  \|  \|  \|
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SAWTOOTHDOWN) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SAWTOOTHDOWN) /= 0
 		end
 
 	is_linear_ramp_effect_supported:BOOLEAN
@@ -96,7 +96,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_RAMP) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_RAMP) /= 0
 		end
 
 	is_conditionnal_spring_effect_supported:BOOLEAN
@@ -104,7 +104,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SPRING) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_SPRING) /= 0
 		end
 
 	is_conditionnal_damper_effect_supported:BOOLEAN
@@ -112,7 +112,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_DAMPER) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_DAMPER) /= 0
 		end
 
 	is_conditionnal_inertia_effect_supported:BOOLEAN
@@ -120,7 +120,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_INERTIA) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_INERTIA) /= 0
 		end
 
 	is_conditionnal_friction_effect_supported:BOOLEAN
@@ -128,7 +128,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_FRICTION) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_FRICTION) /= 0
 		end
 
 	is_left_right_effect_supported:BOOLEAN
@@ -137,7 +137,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_LEFTRIGHT) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_LEFTRIGHT) /= 0
 		end
 
 	is_custom_effect_supported:BOOLEAN
@@ -145,7 +145,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CUSTOM) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CUSTOM) /= 0
 		end
 
 	is_gain_control_supported:BOOLEAN
@@ -153,7 +153,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_GAIN) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_GAIN) /= 0
 		end
 
 	is_auto_center_supported:BOOLEAN
@@ -161,7 +161,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_AUTOCENTER) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_AUTOCENTER) /= 0
 		end
 
 	is_status_query_supported:BOOLEAN
@@ -169,7 +169,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_STATUS) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_STATUS) /= 0
 		end
 
 	is_pause_supported:BOOLEAN
@@ -177,7 +177,7 @@ feature -- Query
 		require
 			Is_Open: is_open
 		do
-			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_PAUSE) /= 0	
+			Result := {GAME_SDL_EXTERNAL}.SDL_HapticQuery(item).bit_and({GAME_SDL_EXTERNAL}.SDL_HAPTIC_PAUSE) /= 0
 		end
 
 	is_rumble_supported:BOOLEAN
@@ -190,7 +190,7 @@ feature -- Query
 
 	is_paused:BOOLEAN
 			-- Has `Current' presently stop with a `pause'.
-	
+
 	is_rumble:BOOLEAN
 			-- Is `Current' initialized as a rumble playback
 
@@ -347,7 +347,7 @@ feature -- Access
 		end
 
 	rumble_play(a_strength:REAL_32; a_length:NATURAL_32)
-			-- Start a rumble playback with a magnitude of `a_strength' 
+			-- Start a rumble playback with a magnitude of `a_strength'
 			-- and a duration `a_length' in millisecond
 		require
 			Is_Open: is_open
@@ -428,6 +428,7 @@ feature -- Access
 		end
 
 	compiled_effect_count:INTEGER
+			-- Number of `compiled_effects' in `Current'
 		do
 			Result := internal_compiled_effect.count
 		end
@@ -458,7 +459,7 @@ feature -- Access
 		ensure
 			Is_Count_valid: not has_error implies (compiled_effect_count = compiled_effect_count + 1)
 			Is_Count_Not_Null: not has_error implies (compiled_effect_count > 0)
-			Last_Compiled_Valid: not has_error implies 
+			Last_Compiled_Valid: not has_error implies
 									(last_compiled_effect.is_open and
 									last_compiled_effect.haptic = Current and
 									last_compiled_effect.effect = a_effect)
@@ -467,7 +468,7 @@ feature -- Access
 	last_compiled_effect:GAME_HAPTIC_EFFECT_COMPILED
 			-- Last compiled effect that has been compiled with `compile'
 		require
-			Element_Exist: compiled_effect_count > 0		
+			Element_Exist: compiled_effect_count > 0
 		do
 			Result := internal_compiled_effect.last
 		end

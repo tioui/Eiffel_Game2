@@ -20,7 +20,7 @@ note
 				]"
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 14:16:22 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_PERIODIC_EFFECT
@@ -147,7 +147,7 @@ feature -- Access
 	period:NATURAL_16 assign set_period
 			-- Time (in millisecond) between two wave.
 		require
-			Exists: exists	
+			Exists: exists
 		do
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_periodic_period(specific_item)
 		end
@@ -164,9 +164,9 @@ feature -- Access
 		end
 
 	magnitude:INTEGER_16 assign set_magnitude
-			-- peak value; if negative, equivalent to 180 degrees extra phase shift 
+			-- peak value; if negative, equivalent to 180 degrees extra phase shift
 		require
-			Exists: exists	
+			Exists: exists
 		do
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_periodic_magnitude(specific_item)
 		end
@@ -185,7 +185,7 @@ feature -- Access
 	offset:INTEGER_16 assign set_offset
 			-- Mean value of the wave
 		require
-			Exists: exists	
+			Exists: exists
 		do
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_periodic_offset(specific_item)
 		end
@@ -204,7 +204,7 @@ feature -- Access
 	phase:NATURAL_16 assign set_phase
 			-- Time (in millisecond) between two wave.
 		require
-			Exists: exists	
+			Exists: exists
 		do
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_periodic_phase(specific_item)
 		end

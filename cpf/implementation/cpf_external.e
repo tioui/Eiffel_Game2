@@ -1,8 +1,8 @@
 note
 	description: "External C function for the Custom Package File (CPF) Library."
 	author: "Louis Marchand"
-	date: "april 30, 2013"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 03:58:25 +0000"
+	revision: "2.0"
 
 class
 	CPF_EXTERNAL

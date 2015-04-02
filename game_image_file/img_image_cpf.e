@@ -1,8 +1,8 @@
 note
-	description: "Open a bmp image from a custom package file. It is recommanded to use {GAME_SURFACE_IMG_CPF} of the game images files library instead."
+	description: "An image from a custom package file."
 	author: "Louis Marchand"
-	date: "Jan 14, 2014"
-	revision: "2.0.0.0"
+	date: "Thu, 02 Apr 2015 03:46:04 +0000"
+	revision: "2.0"
 
 class
 	IMG_IMAGE_CPF
@@ -16,6 +16,8 @@ inherit
 			is_xcf, is_pcx, is_gif, is_jpg, is_tif, is_png, is_lbm, is_xv
 		end
 	CPF_RESSOURCE_MANAGER
+		undefine
+			default_create
 		redefine
 			make
 		end

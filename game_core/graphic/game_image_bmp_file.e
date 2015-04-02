@@ -1,8 +1,8 @@
 note
-	description: "Open a bmp image."
+	description: "A image from a bmp image."
 	author: "Louis Marchand"
-	date: "Jan 14, 2014"
-	revision: "2.0.0.0"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_IMAGE_BMP_FILE
@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 	make(a_filename:READABLE_STRING_GENERAL)
 			-- make `Current' from the BMP image file `filename'.
 		do
-			make_ressource
+			default_create
 			filename:=a_filename
 		end
 

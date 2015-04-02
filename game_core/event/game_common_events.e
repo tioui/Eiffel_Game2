@@ -5,11 +5,10 @@ note
 			]"
 	author: "Louis Marchand"
 	date: "Sat, 28 Feb 2015 19:01:23 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 deferred class
 	GAME_COMMON_EVENTS
-
 
 feature {NONE} -- Initialisation
 

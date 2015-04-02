@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {CPF_RESSOURCE_MANAGER}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Every class that used CPF facility must inherit from this class"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 03:58:25 +0000"
+	revision: "2.0"
 
 deferred class
 	CPF_RESSOURCE_MANAGER

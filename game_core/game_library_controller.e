@@ -200,17 +200,17 @@ feature -- Video methods
 		require
 			Displays_Is_Video_Enabled: is_video_enable
 		local
-			l_count, l_i, l_error:INTEGER
+			l_count, i:INTEGER
 		do
 			l_count:=renderer_drivers_count
 			create {ARRAYED_LIST[GAME_RENDERER_DRIVER]} Result.make (l_count)
 			from
-				l_i:=0
+				i := 0
 			until
-				l_i>=l_count
+				i >= l_count
 			loop
-				Result.extend (create {GAME_RENDERER_DRIVER}.make (l_i))
-				l_i:=l_i+1
+				Result.extend (create {GAME_RENDERER_DRIVER}.make (i))
+				i := i + 1
 			end
 		end
 
@@ -232,17 +232,17 @@ feature -- Video methods
 		require
 			Displays_Is_Video_Enabled: is_video_enable
 		local
-			l_count, l_i, l_error:INTEGER
+			l_count, i:INTEGER
 		do
 			l_count:=displays_count
 			create {ARRAYED_LIST[GAME_DISPLAY]} Result.make (l_count)
 			from
-				l_i:=0
+				i := 0
 			until
-				l_i>=l_count
+				i >= l_count
 			loop
-				Result.extend (create {GAME_DISPLAY}.make (l_i))
-				l_i:=l_i+1
+				Result.extend (create {GAME_DISPLAY}.make (i))
+				i := i + 1
 			end
 		end
 
@@ -287,6 +287,7 @@ feature -- Mouse
 feature -- Joystick methods
 
 	joysticks:CHAIN_INDEXABLE_ITERATOR[GAME_JOYSTICK]
+			-- Every {GAME_JOYSTICK} detected by `Current'
 		require
 			Joysticks_is_Joystick_Enabled: is_joystick_enable
 		do
@@ -452,7 +453,6 @@ feature -- Other methods
 			-- Retreive the internal variable `a_variable' or an empty text if it does not exist.
 		local
 			l_c_name, l_c_value:C_STRING
-			l_value:READABLE_STRING_GENERAL
 			l_text_ptr:POINTER
 		do
 			create l_c_name.make(a_variable)
@@ -655,6 +655,8 @@ feature {NONE} -- Implementation - Variables
 			-- The haptic mouse
 
 	instance_count:CELL[INTEGER]
+			-- The number of time the `Current's class has been created
+			-- Since it is a singleton, it must be always 0 or 1
 		once
 			create Result.put(0)
 		end

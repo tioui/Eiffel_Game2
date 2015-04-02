@@ -12,11 +12,14 @@ class
 	GAME_EVENTS_CONTROLLER
 
 inherit
-	DISPOSABLE
+	GAME_SDL_ANY
 		redefine
 			default_create
 		end
-	GAME_SDL_ANY
+	MEMORY_STRUCTURE
+		export
+			{GAME_SDL_ANY} item
+			{NONE} make, make_by_pointer, exists
 		redefine
 			default_create
 		end
@@ -27,8 +30,9 @@ create {GAME_LIBRARY_CONTROLLER}
 feature {NONE} -- Initialization
 
 	default_create
+			-- Initialization of `Current'
 		do
-			event_ptr:=event_ptr.memory_calloc (1, {GAME_SDL_EXTERNAL}.C_sizeof_sdl_event)
+			make
 			create iteration_actions
 			create quit_signal_actions
 			create dollar_gesture_actions
@@ -74,11 +78,11 @@ feature -- Access
 					iteration_actions.call ([(0).as_natural_32])
 				end
 			end
-			from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+			from l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(item)
 			until l_is_event=0
 			loop
 				decode_event
-				l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(event_ptr)
+				l_is_event:={GAME_SDL_EXTERNAL}.SDL_PollEvent(item)
 			end
 		end
 
@@ -1087,10 +1091,12 @@ feature -- Access
 
 
 	game_library: detachable GAME_LIBRARY_CONTROLLER
+			-- The library controller used by `Current'
 
 feature {GAME_LIBRARY_CONTROLLER}
 
 	set_game_library(a_game_library:GAME_LIBRARY_CONTROLLER)
+			-- Assign `game_library' with the provided `a_game_library'
 		do
 			game_library := a_game_library
 		end
@@ -1103,184 +1109,184 @@ feature {NONE} -- Implementation
 	local
 		l_event_type:NATURAL_32
 	do
-		l_event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(event_ptr)
+		l_event_type:={GAME_SDL_EXTERNAL}.get_event_struct_type(item)
 		if l_event_type={GAME_SDL_EXTERNAL}.Sdl_quit and not quit_signal_actions.is_empty then
-			quit_signal_actions.call ([{GAME_SDL_EXTERNAL}.get_quit_event_struct_timestamp(event_ptr)])
+			quit_signal_actions.call ([{GAME_SDL_EXTERNAL}.get_quit_event_struct_timestamp(item)])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_windowevent and then not window_event_actions.is_empty then
 			window_event_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_window_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_window_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_window_event_struct_event(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_window_event_struct_data1(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_window_event_struct_data2(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_window_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_window_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_window_event_struct_event(item),
+										{GAME_SDL_EXTERNAL}.get_window_event_struct_data1(item),
+										{GAME_SDL_EXTERNAL}.get_window_event_struct_data2(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keydown and then not key_pressed_actions.is_empty then
 			key_pressed_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr))
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(item),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item)),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item)),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item))
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_keyup and then not key_released_actions.is_empty then
 			key_released_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr)),
-										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(event_ptr))
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_keyboard_event_struct_repeat(item),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_scancode({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item)),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_sym({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item)),
+										{GAME_SDL_EXTERNAL}.get_key_sym_struct_mod({GAME_SDL_EXTERNAL}.get_keyboard_event_struct_keysym_pointer(item))
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_textediting and then not text_editing_actions.is_empty then
 			text_editing_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(event_ptr),
-										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(event_ptr)),
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_start(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_length(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(item),
+										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(item)),
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_start(item),
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_length(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_textinput and then not text_input_actions.is_empty then
 			text_input_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(event_ptr),
-										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(event_ptr))
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_text_editing_event_struct_window_id(item),
+										pointer_utf8_to_string_32({GAME_SDL_EXTERNAL}.get_text_editing_event_struct_text(item))
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousemotion and then not mouse_motion_actions.is_empty then
 			mouse_motion_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_which(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_state(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_x(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_y(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_which(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_state(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_x(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_y(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_xrel(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_motion_event_struct_yrel(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttondown and then not mouse_button_pressed_actions.is_empty then
 			mouse_button_pressed_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousebuttonup and then not mouse_button_released_actions.is_empty then
 			mouse_button_released_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_which(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_button(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_clicks(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_x(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_button_event_struct_y(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_mousewheel and then not mouse_wheel_move_actions.is_empty then
 			mouse_wheel_move_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_window_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_which(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_x(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_y(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_window_id(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_which(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_x(item),
+										{GAME_SDL_EXTERNAL}.get_mouse_wheel_event_struct_y(item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joyaxismotion and then not joy_axis_motion_actions.is_empty  then
 			joy_axis_motion_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_which (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_axis (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_value (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_which (item),
+											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_axis (item),
+											{GAME_SDL_EXTERNAL}.get_joy_axis_event_struct_value (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joyballmotion and then not joy_ball_motion_actions.is_empty  then
 			joy_ball_motion_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_which (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_ball (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_xrel (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_yrel (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_which (item),
+											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_ball (item),
+											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_xrel (item),
+											{GAME_SDL_EXTERNAL}.get_joy_ball_event_struct_yrel (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joyhatmotion and then not joy_hat_motion_actions.is_empty  then
 			joy_hat_motion_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_which (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_hat (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_value (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_which (item),
+											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_hat (item),
+											{GAME_SDL_EXTERNAL}.get_joy_hat_event_struct_value (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttondown and then not joy_button_pressed_actions.is_empty  then
 			joy_button_pressed_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (item),
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joybuttonup and then not joy_button_released_actions.is_empty  then
 			joy_button_released_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_which (item),
+											{GAME_SDL_EXTERNAL}.get_joy_button_event_struct_button (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceadded and then not joy_device_founded_actions.is_empty  then
 			joy_device_founded_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_joydeviceremoved and then not joy_device_removed_actions.is_empty  then
 			joy_device_removed_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_multigesture and then not finger_gesture_actions.is_empty  then
 			finger_gesture_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_touch_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_num_fingers (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_x (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_y (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_dtheta (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_ddist (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_touch_id (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_num_fingers (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_x (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_y (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_dtheta (item),
+											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_ddist (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingermotion and then not finger_motion_actions.is_empty  then
 			finger_motion_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerup and then not finger_released_actions.is_empty  then
 			finger_released_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_fingerdown and then not finger_touched_actions.is_empty  then
 			finger_touched_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (event_ptr),
-											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (event_ptr)
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_timestamp (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_touch_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_finger_id (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_x (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_y (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dx (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_dy (item),
+											{GAME_SDL_EXTERNAL}.get_touch_finger_event_struct_pressure (item)
 									])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.Sdl_dollargesture and not dollar_gesture_actions.is_empty then
 			dollar_gesture_actions.call ([
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_timestamp(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_touch_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_gesture_id(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_num_fingers(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_x(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_y(event_ptr),
-										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_error(event_ptr)
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_touch_id(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_gesture_id(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_num_fingers(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_x(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_y(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_error(item)
 										])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_dropfile then
 			manage_drop_file
@@ -1288,15 +1294,16 @@ feature {NONE} -- Implementation
 	end
 
 	manage_drop_file
+			-- Event that happen when a file is drag and dropped on the application
 		local
 			l_string:STRING_8
 			l_string_pointer:POINTER
 		do
-			l_string_pointer := {GAME_SDL_EXTERNAL}.get_drop_event_struct_file (event_ptr)
+			l_string_pointer := {GAME_SDL_EXTERNAL}.get_drop_event_struct_file (item)
 			if not file_dropped_actions.is_empty then
 				create l_string.make_from_c (l_string_pointer)
 				file_dropped_actions.call ([
-											{GAME_SDL_EXTERNAL}.get_drop_event_struct_timestamp (event_ptr),
+											{GAME_SDL_EXTERNAL}.get_drop_event_struct_timestamp (item),
 											create {STRING_8}.make_from_string (l_string)
 									])
 			end
@@ -1304,6 +1311,7 @@ feature {NONE} -- Implementation
 		end
 
 	pointer_utf8_to_string_32(l_utf8_pointer:POINTER):STRING_32
+			-- Generate a {STRING_32} from the UTF8 C string pointed by `l_utf8_pointer'
 		local
 			l_to_covert:STRING_8
 			l_utf_converter:UTF_CONVERTER
@@ -1313,12 +1321,12 @@ feature {NONE} -- Implementation
 			Result := l_utf_converter.utf_8_string_8_to_escaped_string_32 (l_to_covert)
 		end
 
-	dispose
-		do
-			event_ptr.memory_free
-		end
 
-	event_ptr:POINTER
+	structure_size: INTEGER_32
+			-- <Preucrsor>
+		do
+			Result := {GAME_SDL_EXTERNAL}.C_sizeof_sdl_event
+		end
 
 
 
@@ -1348,7 +1356,7 @@ feature {NONE} -- Implementation
 --SDL_JoyAxisEvent				X
 --SDL_JoyBallEvent				X
 --SDL_JoyHatEvent				X
---SDL_JoyButtonEvent
+--SDL_JoyButtonEvent			X
 
 --Controller Events:
 

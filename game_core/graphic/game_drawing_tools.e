@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_DRAWING_TOOLS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Some tools that can be used to drawers."
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_DRAWING_TOOLS

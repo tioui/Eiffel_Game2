@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_KEY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "A keyboard key."
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_KEY

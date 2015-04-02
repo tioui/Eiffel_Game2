@@ -1,17 +1,20 @@
 note
-	description: "Summary description for {GAME_PIXEL_FORMAT}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "The way the pixels are store in memory."
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_PIXEL_FORMAT
 
 inherit
 	GAME_PIXEL_FORMAT_READABLE
+		redefine
+			default_create
+		end
 
 create
-	make,
+	default_create,
 	make_from_other
 
 create {GAME_SDL_ANY}
@@ -23,7 +26,8 @@ create {GAME_SDL_ANY}
 
 feature {NONE} -- Initialisation
 
-	make
+	default_create
+			-- Initialization of `Current'
 		do
 			set_unknown
 		end

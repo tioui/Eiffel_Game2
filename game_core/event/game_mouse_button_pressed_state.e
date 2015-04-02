@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_MOUSE_BUTTON_PRESSED_STATE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "The state of a mouse button pressed event"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_MOUSE_BUTTON_PRESSED_STATE

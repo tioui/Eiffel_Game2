@@ -2,7 +2,7 @@ note
 	description: "A {GAME_HAPTIC_EFFECT} that play on a constant strength."
 	author: "Louis Marchand"
 	date: "Mon, 02 Mar 2015 20:24:45 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_CONSTANT_EFFECT
@@ -23,6 +23,7 @@ create
 feature {NONE} -- Initialization
 
 	make
+			-- Initialization of `Current'
 		do
 			Precursor
 			set_type({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CONSTANT.as_natural_16)
@@ -87,7 +88,7 @@ feature -- Access
 	level:INTEGER_16 assign set_level
 			-- Strength of `Current'
 		require
-			Exists: exists	
+			Exists: exists
 		do
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_constant_level(specific_item)
 		end

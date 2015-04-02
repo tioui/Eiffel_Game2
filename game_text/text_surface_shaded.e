@@ -25,7 +25,7 @@ create
 feature {NONE} -- Initialization
 
 	make(a_text:READABLE_STRING_GENERAL;a_font:TEXT_FONT;
-		a_forground_color, a_background_color:GAME_COLOR)
+		a_forground_color, a_background_color:GAME_COLOR_READABLE)
 			-- Initialization for `Current' from the text `l_text'
 			-- using the font `l_font' and color `a_forground_color'
 			-- with a background color `a_background_color'.
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	background_color:GAME_COLOR
+	background_color:GAME_COLOR_READABLE
 			-- The color to draw in the background of the text
 
 feature {NONE} -- Implementation

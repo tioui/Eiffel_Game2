@@ -15,15 +15,20 @@ deferred class
 
 inherit
 	GAME_LIBRARY_SHARED
+		undefine
+			default_create
+		end
 	DISPOSABLE
+		undefine
+			default_create
+		end
 	GAME_WINDOW_EVENTS
 		rename
-			make as make_events,
 			stop as stop_events,
 			run as run_events,
 			is_running as is_events_running,
-			clear as clear_events,
-			internal_id as id
+			clear as clear_events
+
 		end
 
 feature {NONE} -- Initialisation
@@ -193,7 +198,7 @@ feature {NONE} -- Initialisation
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))
 			item:={GAME_SDL_EXTERNAL}.SDL_CreateWindow (l_title_utf_8.item, a_x, a_y, a_width, a_height, l_flags)
 			has_error:=False
-			make_events
+			default_create
 			game_library.internal_windows.extend (Current)
 		ensure
 			Make_Window_Is_Open: exists
@@ -885,6 +890,7 @@ feature -- Access
 --		end
 
 	events_controller:GAME_EVENTS_CONTROLLER
+			-- The main event manager
 		do
 			Result := game_library.events_controller
 		end
@@ -892,6 +898,7 @@ feature -- Access
 feature {GAME_RENDERER}
 
 	item:POINTER
+			-- The internal C pointer to the internal representation of `Current'
 
 feature {NONE} -- Implementation
 

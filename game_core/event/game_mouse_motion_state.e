@@ -1,8 +1,8 @@
 note
 	description: "Summary description for {GAME_MOUSE_MOTION_STATE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_MOUSE_MOTION_STATE
@@ -23,8 +23,6 @@ feature {NONE} -- Initialization
 
 	make(a_mouse_id, a_state:NATURAL_32; a_x,a_y:INTEGER_32)
 			-- Initialization for `Current'.
-		local
-			l_error:NATURAL_32
 		do
 			make_events_state(a_mouse_id)
 			state := a_state

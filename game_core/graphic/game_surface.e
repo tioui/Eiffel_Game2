@@ -2,7 +2,7 @@ note
 	description: "Representation of an image that can be paste on other image."
 	author: "Louis Marchand"
 	date: "Sat, 28 Mar 2015 14:00:33 +0000"
-	revision: "2.1"
+	revision: "2.0"
 
 class
 	GAME_SURFACE
@@ -158,7 +158,6 @@ feature {NONE} -- Initialisation
 		local
 			l_bpp:INTEGER
 			l_masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
-			l_success:BOOLEAN
 		do
 			l_bpp:=a_pixel_format.bits_per_pixel
 			if a_pixel_format.has_error then
@@ -304,7 +303,7 @@ feature -- Access
 			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
 			clear_error
-			l_format:=pixel_format.structure
+			l_format:=pixel_format.item
 			if pixel_format.has_error then
 				manage_error_boolean (False, "Cannot retreive the pixel format of the surface.")
 			else
@@ -337,7 +336,7 @@ feature -- Access
 			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
 		do
 			clear_error
-			l_format:=pixel_format.structure
+			l_format:=pixel_format.item
 			if pixel_format.has_error then
 				manage_error_boolean (False, "Cannot retreive the pixel format of the surface.")
 			else
@@ -376,7 +375,7 @@ feature -- Access
 				manage_error_code(l_error, "An error occured while getting the transparent color of the surface.")
 				create Result.make (0, 0, 0,0)
 			else
-				{GAME_SDL_EXTERNAL}.SDL_GetRGBA(l_color_key,pixel_format.structure,$l_red,$l_green,$l_blue,$l_alpha)
+				{GAME_SDL_EXTERNAL}.SDL_GetRGBA(l_color_key,pixel_format.item,$l_red,$l_green,$l_blue,$l_alpha)
 				create Result.make (l_red, l_green, l_blue,l_alpha)
 			end
 
@@ -392,7 +391,7 @@ feature -- Access
 			l_key:NATURAL_32
 			l_error:INTEGER
 		do
-			l_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(pixel_format.structure,a_color.red, a_color.green, a_color.blue)
+			l_key:={GAME_SDL_EXTERNAL}.SDL_MapRGB(pixel_format.item,a_color.red, a_color.green, a_color.blue)
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_SetColorKey(item,{GAME_SDL_EXTERNAL}.Sdl_true,l_key)
 			if l_error<0 then

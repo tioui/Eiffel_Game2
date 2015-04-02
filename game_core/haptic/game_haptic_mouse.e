@@ -2,7 +2,7 @@ note
 	description: "An haptic device inside a mouse"
 	author: "Louis Marchand"
 	date: "Mon, 02 Mar 2015 01:51:33 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_MOUSE

@@ -2,7 +2,7 @@ note
 	description: "A hardware accelerated picture in memory"
 	author: "Louis Marchand"
 	date: "Fri, 27 Mar 2015 21:44:07 +0000"
-	revision: "0.2"
+	revision: "2.0"
 
 class
 	GAME_TEXTURE

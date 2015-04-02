@@ -1,8 +1,8 @@
 note
-	description: "A 3d object for the 3d audio library."
+	description: "A 3d object."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 04:11:03 +0000"
+	revision: "2.0"
 
 deferred class
 	GAME_3D_OBJECT

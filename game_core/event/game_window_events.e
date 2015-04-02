@@ -1,18 +1,22 @@
 note
-	description: "Summary description for {GAME_WINDOW_EVENTS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Every events that can happend on a {GAME_WINDOW}"
+	author: "Louis Marchand"
+	date: "Wed, 01 Apr 2015 19:04:20 +0000"
+	revision: "2.0"
 
 deferred class
 	GAME_WINDOW_EVENTS
 
 inherit
 	GAME_SDL_ANY
+		redefine
+			default_create
+		end
 
 feature {NONE} -- Initialisation
 
-	make
+	default_create
+			-- Initialization of `Current'
 		do
 			is_running:=True
 			window_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32) do
@@ -53,7 +57,7 @@ feature {NONE} -- Initialisation
 											end
 
 
-		ensure
+		ensure then
 			Make_Event_Is_Running: is_running
 		end
 feature -- Access
@@ -531,44 +535,69 @@ feature -- Access
 		end
 
 	events_controller:GAME_EVENTS_CONTROLLER
+			-- The used game event manager
 		deferred
 		end
 
 feature {NONE} -- Implementation
 
 	show_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `show_actions' lazy evaluated attribute
 
 	expose_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `expose_actions' lazy evaluated attribute
 
 	hide_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `hide_actions' lazy evaluated attribute
 
 	move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; x, y:INTEGER_32]]
+			-- Internal value of the `move_actions' lazy evaluated attribute
 
 	resize_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; width, height:INTEGER_32]]
+			-- Internal value of the `resize_actions' lazy evaluated attribute
 
 	size_change_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `size_change_actions' lazy evaluated attribute
 
 	minimize_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `minimize_actions' lazy evaluated attribute
 
 	maximize_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `maximize_actions' lazy evaluated attribute
 
 	restore_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `restore_actions' lazy evaluated attribute
 
 	mouse_enter_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `mouse_enter_actions' lazy evaluated attribute
 
 	mouse_leave_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `mouse_leave_actions' lazy evaluated attribute
 
 	keyboard_focus_gain_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `keyboard_focus_gain_actions' lazy evaluated attribute
 
 	keyboard_focus_lost_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `keyboard_focus_lost_actions' lazy evaluated attribute
 
 	close_request_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `close_request_actions' lazy evaluated attribute
 
 	window_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;event_type:NATURAL_8;data1,data2:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for those {ACTION_SEQUENCE}:
+			-- `show_actions', `expose_actions', `hide_actions', `move_actions', `resize_actions',
+			-- `size_change_actions', `minimize_actions', `maximize_actions', `restore_actions',
+			-- `mouse_enter_actions', `mouse_leave_actions', `keyboard_focus_gain_actions',
+			-- `keyboard_focus_lost_actions' and `close_request_actions'
 
 	window_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32)
+			-- The dispatcher receiving event from the `window_events_callback' and dispatch them to those
+			-- {ACTION_SEQUENCE}: `show_actions', `expose_actions', `hide_actions', `move_actions',
+			-- `resize_actions', `size_change_actions', `minimize_actions', `maximize_actions',
+			-- `restore_actions', `mouse_enter_actions', `mouse_leave_actions',
+			-- `keyboard_focus_gain_actions', `keyboard_focus_lost_actions' and `close_request_actions'
 		do
-			if a_window_id = internal_id then
+			if a_window_id = id then
 				if a_event_type = {GAME_SDL_EXTERNAL}.SDL_WINDOWEVENT_SHOWN then
 					if attached show_actions_internal as actions then
 						actions.call([a_timestamp])
@@ -631,16 +660,21 @@ feature {NONE} -- Implementation
 		end
 
 	key_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+			-- Internal value of the `key_pressed_actions' lazy evaluated attribute
 
 	key_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `key_pressed_actions' {ACTION_SEQUENCE}
 
 	key_pressed_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+			-- The dispatcher receiving event from the `key_pressed_events_callback' and dispatch them to
+			-- the `key_pressed_actions' {ACTION_SEQUENCE}
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached key_pressed_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
@@ -649,16 +683,21 @@ feature {NONE} -- Implementation
 		end
 
 	key_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+			-- Internal value of the `key_released_actions' lazy evaluated attribute
 
 	key_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
 												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `key_released_actions' {ACTION_SEQUENCE}
 
 	key_released_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
 								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+			-- The dispatcher receiving event from the `key_released_events_callback' and dispatch them to
+			-- the `key_released_actions' {ACTION_SEQUENCE}
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached key_released_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
@@ -668,14 +707,19 @@ feature {NONE} -- Implementation
 
 	text_editing_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32;
 																		start,lenght:INTEGER_32]]
+			-- Internal value of the `text_editing_actions' lazy evaluated attribute
 
 	text_editing_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;text:STRING_32;
 												start,lenght:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `text_editing_actions' {ACTION_SEQUENCE}
 
 	text_editing_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32;
 									a_start,a_lenght:INTEGER_32)
+			-- The dispatcher receiving event from the `text_editing_events_callback' and dispatch them to
+			-- the `text_editing_actions' {ACTION_SEQUENCE}
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached text_editing_actions_internal as actions then
 					actions.call (a_timestamp, a_text, a_start, a_lenght)
 				end
@@ -683,12 +727,17 @@ feature {NONE} -- Implementation
 		end
 
 	text_input_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32]]
+			-- Internal value of the `text_input_actions' lazy evaluated attribute
 
 	text_input_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;text:STRING_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `text_input_actions' {ACTION_SEQUENCE}
 
 	text_input_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32)
+			-- The dispatcher receiving event from the `text_input_events_callback' and dispatch them to
+			-- the `text_input_actions' {ACTION_SEQUENCE}
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached text_input_actions_internal as actions then
 					actions.call (a_timestamp, a_text)
 				end
@@ -697,16 +746,21 @@ feature {NONE} -- Implementation
 
 	mouse_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_STATE;
 																	delta_x, delta_y:INTEGER_32]]
+			-- Internal value of the `mouse_motion_actions' lazy evaluated attribute
 
 	mouse_motion_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id, state:NATURAL_32;
 														x,y,x_relative,y_relative:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `mouse_motion_actions' {ACTION_SEQUENCE}
 
 	mouse_motion_events_dispatcher(a_timestamp,a_window_id, a_mouse_id, a_state:NATURAL_32;
 									a_x,a_y,a_x_relative,a_y_relative:INTEGER_32)
+			-- The dispatcher receiving event from the `mouse_motion_events_callback' and dispatch them to
+			-- the `mouse_motion_actions' {ACTION_SEQUENCE}
 		local
 			l_mouse_state:GAME_MOUSE_MOTION_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached mouse_motion_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_state, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_x_relative, a_y_relative)
@@ -716,16 +770,21 @@ feature {NONE} -- Implementation
 
 	mouse_button_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
 																	nb_clicks:NATURAL_8]]
+			-- Internal value of the `mouse_button_pressed_actions' lazy evaluated attribute
 
 	mouse_button_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `mouse_button_pressed_actions' {ACTION_SEQUENCE}
 
 	mouse_button_pressed_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
+			-- The dispatcher receiving event from the `mouse_button_pressed_events_callback' and dispatch them to
+			-- the `mouse_button_pressed_actions' {ACTION_SEQUENCE}
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached mouse_button_pressed_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
@@ -735,16 +794,21 @@ feature {NONE} -- Implementation
 
 	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE;
 																	nb_clicks:NATURAL_8]]
+			-- Internal value of the `mouse_button_released_actions' lazy evaluated attribute
 
 	mouse_button_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;
 													button,clicks: NATURAL_8;x,y:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `mouse_button_released_actions' {ACTION_SEQUENCE}
 
 	mouse_button_released_events_dispatcher(a_timestamp,a_window_id, a_mouse_id:NATURAL_32;
 									a_button,a_clicks: NATURAL_8; a_x,a_y:INTEGER_32)
+			-- The dispatcher receiving event from the `mouse_button_released_events_callback' and dispatch them to
+			-- the `mouse_button_released_actions' {ACTION_SEQUENCE}
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached mouse_button_released_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
@@ -754,14 +818,19 @@ feature {NONE} -- Implementation
 
 	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENTS_STATE;
 																	delta_x,delta_y:INTEGER_32]]
+			-- Internal value of the `mouse_wheel_move_actions' lazy evaluated attribute
 
 	mouse_wheel_move_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id,mouse_id:NATURAL_32;x,y:INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `mouse_wheel_move_actions' {ACTION_SEQUENCE}
 
 	mouse_wheel_move_events_dispatcher(a_timestamp,a_window_id,a_mouse_id:NATURAL_32;a_x,a_y:INTEGER_32)
+			-- The dispatcher receiving event from the `mouse_wheel_move_events_callback' and dispatch them to
+			-- the `mouse_wheel_move_actions' {ACTION_SEQUENCE}
 		local
 			l_mouse_state:GAME_MOUSE_EVENTS_STATE
 		do
-			if a_window_id =internal_id then
+			if a_window_id =id then
 				if attached mouse_wheel_move_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id)
 					actions.call (a_timestamp, l_mouse_state, a_x, a_y)
@@ -769,7 +838,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_id:NATURAL_32
+	id:NATURAL_32
+			-- Internal event identifier of `Current'
 		deferred
 		end
 end

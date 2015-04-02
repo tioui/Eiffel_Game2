@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_DISPLAY_MODE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "A mode (width, height, refresh rate, etc.) of a {GAME_DISPLAY} (screen)"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_DISPLAY_MODE
@@ -50,11 +50,9 @@ feature {NONE} -- Initialization
 			Display_Mode_Make_Refresh_Rate_Valid: a_refresh_rate>=0
 			Display_Mode_Make_Width_Valid: a_width>0
 			Display_Mode_Make_Height_Valid: a_height>0
-		local
-			l_pixel_format:GAME_PIXEL_FORMAT
 		do
 			make_structure
-			set_pixel_format (create {GAME_PIXEL_FORMAT}.make)
+			set_pixel_format (create {GAME_PIXEL_FORMAT})
 			set_width (a_width)
 			set_height (a_height)
 			set_refresh_rate (a_refresh_rate)

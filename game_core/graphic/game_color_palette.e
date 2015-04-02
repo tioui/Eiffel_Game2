@@ -1,8 +1,8 @@
 note
 	description: "A color palette to be used in 8 bits per pixel surface"
 	author: "Louis Marchand"
-	date: "2015, Febuary 17"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_COLOR_PALETTE
@@ -27,13 +27,13 @@ inherit
 		redefine
 			is_equal
 		end
-	READABLE_INDEXABLE [GAME_COLOR]
+	READABLE_INDEXABLE [GAME_COLOR_READABLE]
 		rename
 			item as at alias "[]"
 		redefine
 			is_equal
 		end
-	BILINEAR [GAME_COLOR]
+	BILINEAR [GAME_COLOR_READABLE]
 		redefine
 			is_equal
 		end
@@ -105,31 +105,34 @@ feature -- Access
 			Result := (i >= index_set.lower) and (i <= index_set.upper)
 		end
 
-	at alias "[]" (a_index:INTEGER):GAME_COLOR assign put_i_th
+	at alias "[]" (a_index:INTEGER):GAME_COLOR_READABLE assign put_i_th
 			-- Retreive the color at `a_index'
 		require else
 			Palette_Exist: exists
 		local
 			l_color_pointer:POINTER
+			l_color:GAME_COLOR
 		do
 			if exists then
 				l_color_pointer := {GAME_SDL_EXTERNAL}.get_sdl_palette_struct_color_i(internal_pointer, a_index)
-				create {GAME_SDL_COLOR} Result.share_from_pointer(l_color_pointer)
+				create {GAME_SDL_COLOR} l_color.share_from_pointer(l_color_pointer)
 			else
-				create Result.make_rgb (0, 0, 0)
+				create l_color.make_rgb (0, 0, 0)
 			end
+			Result := l_color
 		end
 
-	put_i_th(a_color:GAME_COLOR; a_index:INTEGER)
+	put_i_th(a_color:GAME_COLOR_READABLE; a_index:INTEGER)
 			-- Put `a_color' at `a_index'-th position.
 		local
 			l_color:GAME_COLOR
 		do
-			l_color := at(a_index)
-			l_color.red := a_color.red
-			l_color.blue := a_color.blue
-			l_color.green := a_color.green
-			l_color.alpha := l_color.alpha
+			if attached {GAME_COLOR} at(a_index) as la_color then
+				la_color.red := a_color.red
+				la_color.blue := a_color.blue
+				la_color.green := a_color.green
+				la_color.alpha := a_color.alpha
+			end
 		ensure
 			Is_Set: at(a_index) ~ a_color
 		end
@@ -143,7 +146,7 @@ feature -- Access
 			index := 1
 		end
 
-	item: GAME_COLOR
+	item: GAME_COLOR_READABLE
 			-- <Precursor>
 		do
 			Result := at(index)
@@ -199,8 +202,6 @@ feature -- Access
 
 	is_equal(a_other: GAME_COLOR_PALETTE):BOOLEAN
 			-- <Precursor>
-		local
-			l_conflict:BOOLEAN
 		do
 			from
 				Result := count = a_other.count

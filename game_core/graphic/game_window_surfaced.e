@@ -6,8 +6,8 @@ note
 						use the {GAME_WINDOW_RENDERED} type.
 					]"
 	author: "Louis Marchand"
-	date: "January 14, 2014"
-	revision: "2.0.0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_WINDOW_SURFACED
@@ -15,6 +15,9 @@ class
 inherit
 	GAME_WINDOW
 	GAME_DRAWING_TOOLS
+		undefine
+			default_create
+		end
 
 
 create
@@ -29,6 +32,9 @@ create
 feature -- Access
 
 	surface:GAME_SURFACE
+			-- The surface that represent the drawable area of `Current'. After drawing on this
+			-- surface, you have to use `update', `update_rectangle' or `update_rectangles' to
+			-- actually show the modification in `Current'
 		local
 			l_surface_pointer:POINTER
 			l_source:GAME_IMAGE
@@ -58,6 +64,7 @@ feature -- Access
 		end
 
 	update
+			-- <Precursor>
 		local
 			l_error:INTEGER
 		do
@@ -67,18 +74,16 @@ feature -- Access
 		end
 
 	update_rectangle(a_x, a_y, a_width, a_height:INTEGER)
-		local
-			l_normalized_rectangle:TUPLE[x, y, width, height:INTEGER]
+			-- Only show the modification in the rectangle starting at (`a_x',`a_y')
+			-- of dimension `a_width'x`a_height'.
 		do
 			update_rectangles(create {ARRAYED_LIST[TUPLE[x, y, width, height:INTEGER]]}.make_from_array (
 					<<[a_x, a_y, a_width, a_height]>>))
 		end
 
 	update_rectangles(a_rectangles:CHAIN[TUPLE[x, y, width, height:INTEGER]])
-			-- Drawing every wire rectangle in `a_rectangles'
-			-- that has it's left frontier at
-			-- `x', it's top frontier at `y', with
-			-- dimension `width'x`height'
+			-- Only show the modification in the rectangles starting at each (`x',`y')
+			-- of dimension `a_width'x`a_height' in the `a_rectangles' sequence.
 		require
 			Renderer_exists: exists
 		local
@@ -106,6 +111,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	internal_surface:detachable GAME_SURFACE
+			-- The internal value of lazy evaluated `surface' attribute
 
 -- Todo:
 		-- http://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects

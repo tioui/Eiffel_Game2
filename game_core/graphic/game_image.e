@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_IMAGE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "An image source used to create a {GAME_SURFACE} or a {GAME_TEXTURE}"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_IMAGE
@@ -10,12 +10,20 @@ class
 inherit
 	GAME_RESSOURCE
 		rename
-			make as make_ressource,
 			has_error as has_ressource_error
 		end
 	DISPOSABLE
+		undefine
+			default_create
+		end
 	GAME_LIBRARY_SHARED
+		undefine
+			default_create
+		end
 	GAME_SDL_ANY
+		undefine
+			default_create
+		end
 
 create {GAME_SDL_ANY}
 	share_from_pointer,
@@ -104,8 +112,10 @@ feature {GAME_SDL_ANY}
 feature {NONE} -- Implementation
 
 	must_free:BOOLEAN
+			-- Is it the responsability of `Current' to free `item'
 
 	dispose
+			-- <Precursor>
 		do
 			if must_free and exists then
 				{GAME_SDL_EXTERNAL}.SDL_FreeSurface(item)

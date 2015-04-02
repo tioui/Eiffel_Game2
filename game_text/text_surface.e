@@ -15,7 +15,7 @@ inherit
 	TEXT_LIBRARY_SHARED
 feature {NONE} -- Initialization
 
-	make(a_text:READABLE_STRING_GENERAL;a_font:TEXT_FONT;a_color:GAME_COLOR)
+	make(a_text:READABLE_STRING_GENERAL;a_font:TEXT_FONT;a_color:GAME_COLOR_READABLE)
 			-- Initialization for `Current' from the text `l_text'
 			-- using the font `l_font' and color `l_color'.
 		require
@@ -69,7 +69,7 @@ feature -- Access
 
 	text:READABLE_STRING_GENERAL		-- The text use to create the surface.
 	font:TEXT_FONT			-- The font use to create the surface.
-	color:GAME_COLOR		-- The color used to write the text on the surface.
+	color:GAME_COLOR_READABLE		-- The color used to write the text on the surface.
 
 feature {NONE} -- Implementation
 

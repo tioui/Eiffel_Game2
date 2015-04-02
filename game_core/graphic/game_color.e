@@ -1,8 +1,8 @@
 note
 	description: "Representation of a RGBA color. Not for use with SDL. For SDL, use SDL_COLOR."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_COLOR
@@ -18,7 +18,7 @@ create
 	make_from_hexadecimal,
 	make_rgb_from_hexadecimal,
 	make_from_other
-	
+
 feature -- Access
 
 	red:NATURAL_8 assign set_red

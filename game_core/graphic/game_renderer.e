@@ -1,8 +1,8 @@
 note
 	description: "An object that do all image rendering on a {GAME_WINDOW}"
 	author: "Louis Marchand"
-	date: "2015, Febuary 16"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_RENDERER
@@ -60,8 +60,8 @@ feature {NONE} -- Initialization
 		end
 
 	make(a_window:GAME_WINDOW_RENDERED)
-			-- Initialization for `Current' without using hardware acceleration,
-			-- targeting `a_window' and optionnaly `a_can_target_texture'
+			-- Initialization for `Current' targeting `a_window' and
+			-- using the first {RENDERER_DRIVER} found
 		do
 			make_with_renderer_driver_and_flags(a_window, -1, 0)
 		ensure
@@ -69,6 +69,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_renderer_driver(a_window:GAME_WINDOW_RENDERED; a_renderer_driver:GAME_RENDERER_DRIVER)
+			-- Initialization for `Current' targeting `a_window' using a specific `a_renderer_driver'
 		do
 			make_with_renderer_driver_and_flags(a_window, a_renderer_driver.index, 0)
 		ensure
@@ -76,6 +77,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_with_renderer_driver_and_flags(a_window:GAME_WINDOW_RENDERED; a_renderer_driver_index:INTEGER; a_flags:NATURAL_32)
+			-- Initialization for `Current' targeting `a_window', using a specific `a_renderer_driver_index' if not -1
+			-- and using internal C `a_flags' if some provided.
 		do
 			original_target := a_window
 			target := a_window
@@ -616,7 +619,6 @@ feature -- Access
 		require
 			Renderer_exists: exists
 		local
-			l_x, l_y:INTEGER
 			l_rect:POINTER
 		do
 			l_rect := l_rect.memory_calloc(1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)

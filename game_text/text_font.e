@@ -10,12 +10,20 @@ class
 inherit
 	GAME_RESSOURCE
 		rename
-			make as make_ressource,
 			has_error as has_ressource_error
 		end
 	DISPOSABLE
+		undefine
+			default_create
+		end
 	TEXT_LIBRARY_SHARED
+		undefine
+			default_create
+		end
 	GAME_SDL_ANY
+		undefine
+			default_create
+		end
 
 create
 	make,
@@ -44,7 +52,7 @@ feature {NONE} -- Initialization
 		local
 			l_filename_c, l_mode_c:C_STRING
 		do
-			make_ressource
+			default_create
 			size := a_size
 			index := a_index
 			create l_filename_c.make (a_filename)
@@ -62,8 +70,6 @@ feature -- Access
 
 	is_openable:BOOLEAN
 			-- <Precursor>
-		local
-			l_file:RAW_FILE
 		do
 			Result := not rwop.is_default_pointer
 		end
@@ -514,8 +520,10 @@ feature {GAME_SDL_ANY} -- Implementation
 feature {NONE} -- Implementation
 
 	internal_pointer:POINTER
+			-- The pointer to the C structure representing `Current'
 
 	rwop:POINTER
+			-- The pointer to the SDL Read/Write handle
 
 	dispose
 			-- <Precursor>

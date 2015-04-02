@@ -5,7 +5,7 @@ note
 				]"
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 21:22:50 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_LEFT_RIGHT_EFFECT
@@ -22,6 +22,7 @@ create
 feature {NONE} -- Initialization
 
 	make
+			-- Initialization of `Current'
 		do
 			Precursor
 			set_type({GAME_SDL_EXTERNAL}.SDL_HAPTIC_LEFTRIGHT.as_natural_16)

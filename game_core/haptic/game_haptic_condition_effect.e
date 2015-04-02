@@ -2,7 +2,7 @@ note
 	description: "A {GAME_HAPTIC_EFFECT} that play depending on internal condition."
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 20:26:50 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_CONDITION_EFFECT

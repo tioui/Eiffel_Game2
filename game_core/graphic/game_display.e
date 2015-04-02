@@ -2,7 +2,7 @@ note
 	description: "Informations about a display (a display is generally a screen)"
 	author: "Louis Marchand"
 	date: "Tue, 24 Feb 2015 00:07:14 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_DISPLAY
@@ -27,6 +27,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	index:INTEGER
+			-- The internal index of `Current'
 
 	name:READABLE_STRING_GENERAL
 			-- The name of `Current'
@@ -143,7 +144,6 @@ feature -- Access
 			Displays_Bound_Is_Video_Enabled: game_library.is_video_enable
 		local
 			l_mode, l_result:POINTER
-			l_error:INTEGER
 		do
 			l_mode:=l_mode.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_display_mode)
 			clear_error

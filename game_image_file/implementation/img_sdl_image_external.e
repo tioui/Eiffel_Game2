@@ -1,8 +1,8 @@
 note
 	description: "External of the SDL_image library."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 03:46:04 +0000"
+	revision: "2.0"
 
 class
 	IMG_SDL_IMAGE_EXTERNAL
@@ -132,21 +132,21 @@ feature -- Constants SDL_Image
 
 	frozen IMG_INIT_JPG:INTEGER
 		external
-			"C inline use <SDL_image.h>"
+			"C [macro <SDL_image.h>] : int"
 		alias
 			"IMG_INIT_JPG"
 		end
 
 	frozen IMG_INIT_PNG:INTEGER
 		external
-			"C inline use <SDL_image.h>"
+			"C [macro <SDL_image.h>] : int"
 		alias
 			"IMG_INIT_PNG"
 		end
 
 	frozen IMG_INIT_TIF:INTEGER
 		external
-			"C inline use <SDL_image.h>"
+			"C [macro <SDL_image.h>] : int"
 		alias
 			"IMG_INIT_TIF"
 		end

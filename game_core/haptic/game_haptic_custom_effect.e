@@ -2,7 +2,7 @@ note
 	description: "{GAME_HAPTIC_EFFECT} that play at a custom strength."
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 14:16:22 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_CUSTOM_EFFECT
@@ -139,6 +139,7 @@ feature -- Access
 		end
 
 	samples:ARRAYED_LIST[NATURAL_16] assign set_samples
+			-- Value sequence to play `Current'
 		require
 			Exists: exists
 		local
@@ -160,6 +161,7 @@ feature -- Access
 		end
 
 	set_samples(a_samples:ARRAYED_LIST[NATURAL_16])
+			-- Assign `samples' with the values in `a_samples'
 		require
 			Exists: exists
 			Samples_For_All_Axes: a_samples.count.divisible (axes_number)

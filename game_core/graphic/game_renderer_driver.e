@@ -1,8 +1,8 @@
 note
 	description: "Information about a renderer driver."
 	author: "Louis Marchand"
-	date: "2015, febuary 15"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_RENDERER_DRIVER
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_renderer(a_renderer:GAME_RENDERER)
+			-- Initialization of `Current' using the internal driver used by `a_renderer'
 		local
 			l_error_code:INTEGER
 		do

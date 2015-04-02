@@ -2,7 +2,7 @@ note
 	description: "An haptic device uniquely identified with an index."
 	author: "Louis Marchand"
 	date: "Mon, 02 Mar 2015 14:20:07 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_DEVICE
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 feature -- Query
 
 	index:INTEGER
+			-- The unique identifier of `Current'
 
 	name:READABLE_STRING_GENERAL
 			-- A text to identified `Current'

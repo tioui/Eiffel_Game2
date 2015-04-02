@@ -14,6 +14,8 @@ inherit
 	CPF_RESSOURCE_MANAGER
 		rename
 			make as make_cpf_ressource
+		undefine
+			default_create
 		end
 	TEXT_FONT
 	rename
@@ -57,7 +59,7 @@ feature -- Initialisation
 			font_text_enabled: text_library.is_text_enable
 			cpf_index_valid: a_cpf.is_readable and then a_cpf_index > 0 and then a_cpf_index <= a_cpf.sub_files_count
 		do
-			make_ressource
+			default_create
 			make_cpf_ressource(a_cpf, a_cpf_index)
 			rwop:={GAME_SDL_EXTERNAL}.SDL_AllocRW
 			cpf.lock_mutex
@@ -463,11 +465,18 @@ feature -- Access
 feature {GAME_SDL_ANY} -- Implementation
 
 	lock_cpf_mutex
+			-- Lock the mutex of the CPF so that no object
+			-- can modify the CPF. Must used `unlock_cpf_mutex'
+			-- After the operation is done. If not, the
+			-- application may deadlock
 		do
 			cpf.lock_mutex
 		end
 
 	unlock_cpf_mutex
+			-- Unlock the mutex of the CPF. Must be used after
+			-- a `lock_cpf_mutex'. If not, the application may
+			-- deadlock
 		do
 			cpf.unlock_mutex
 		end
@@ -486,5 +495,6 @@ feature {GAME_SDL_ANY} -- Implementation
 feature {NONE} -- Implementation - Variables
 
 	last_position:INTEGER
+			-- The last known position inside the CPF used in that object.
 
 end

@@ -2,7 +2,7 @@ note
 	description: "An object that can use alpha blending"
 	author: "Louis Marchand"
 	date: "Thu, 26 Mar 2015 20:59:26 +0000"
-	revision: "1.0"
+	revision: "2.0"
 
 deferred class
 	GAME_BLENDABLE

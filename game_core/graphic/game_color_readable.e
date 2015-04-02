@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_COLOR_READABLE}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "A read only {GAME_COLOR}"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_COLOR_READABLE
@@ -77,7 +77,7 @@ feature {NONE} -- Initialization
 			make_from_hexadecimal(a_hexadecimal+"ff")
 		end
 
-	make_from_other(a_other:GAME_COLOR)
+	make_from_other(a_other:GAME_COLOR_READABLE)
 			-- Initialization for `Current' using primary color and opacity intensity of `a_other'.
 		do
 			make(a_other.red, a_other.green, a_other.blue, a_other.alpha)
@@ -156,8 +156,15 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	red_internal:NATURAL_8
+			-- The internal value of `red'
+
 	green_internal:NATURAL_8
+			-- The internal value of `green'
+
 	blue_internal:NATURAL_8
+			-- The internal value of `blue'
+
 	alpha_internal:NATURAL_8
+			-- The internal value of `alpha'
 
 end

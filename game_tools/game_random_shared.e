@@ -6,7 +6,7 @@ note
 				]"
 	author: "Louis Marchand"
 	date: "Sat, 28 Mar 2015 03:32:15 +0000"
-	revision: "1.0"
+	revision: "2.0"
 
 deferred class
 	GAME_RANDOM_SHARED

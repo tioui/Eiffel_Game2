@@ -2,7 +2,7 @@ note
 	description: "A {GAME_WINDOW} that is rendered by a {GAME_RENDERER_DRIVER}."
 	author: "Louis Marchand"
 	date: "Thu, 26 Mar 2015 19:48:35 +0000"
-	revision: "1.0"
+	revision: "2.0"
 
 class
 	GAME_WINDOW_RENDERED
@@ -13,6 +13,9 @@ inherit
 			dispose
 		end
 	GAME_RENDER_TARGET
+		undefine
+			default_create
+		end
 
 
 create

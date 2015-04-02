@@ -1,8 +1,8 @@
 note
 	description: "A {GAME_HAPTIC_EFFECT} that have a starting delay and a restarting interval.."
 	author: "Louis Marchand"
-	date: "$Date$"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 deferred class
 	GAME_HAPTIC_EFFECT_DELAYED

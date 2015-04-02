@@ -23,8 +23,6 @@ feature {NONE} -- Implementation
 
 	default_create
 			-- Initialization of `Current'
-		local
-			l_error:NATURAL_32
 		do
 			state := {GAME_SDL_EXTERNAL}.SDL_GetMouseState($x,$y)
 		end
@@ -76,4 +74,6 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	state:NATURAL_32
+			-- The internal state code.
+
 end

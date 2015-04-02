@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {IMG_ANY}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "A common ancestor for any image library classes"
+	author: "Louis Marchand"
+	date: "Thu, 02 Apr 2015 03:46:04 +0000"
+	revision: "2.0"
 
 deferred class
 	IMG_ANY
@@ -17,11 +17,13 @@ inherit
 feature {NONE} -- Implementation
 
 	clear_error
+			-- <Precursor>
 		do
 			has_error := False
 		end
 
 	last_error: READABLE_STRING_GENERAL
+			-- <Precursor>
 		local
 			l_string: C_STRING
 		do

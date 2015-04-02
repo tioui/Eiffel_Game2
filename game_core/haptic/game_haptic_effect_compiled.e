@@ -2,7 +2,7 @@ note
 	description: "A {GAME_HAPTIC_EFFECT} that has been compiled for a {GAME_HAPTIC}"
 	author: "Louis Marchand"
 	date: "Tue, 03 Mar 2015 15:22:37 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_EFFECT_COMPILED
@@ -14,7 +14,7 @@ create
 	make
 
 feature {NONE} -- Initialiation
-	
+
 	make(a_haptic:GAME_HAPTIC;a_effect:GAME_HAPTIC_EFFECT)
 			-- Initialization of `Current' using `a_effect' compiled for
 			-- `a_haptic'

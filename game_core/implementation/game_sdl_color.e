@@ -1,8 +1,8 @@
 note
 	description: "GAME_COLOR to use with SDL"
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_SDL_COLOR

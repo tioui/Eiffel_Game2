@@ -2,7 +2,7 @@ note
 	description: "An haptic included inside a Joystick"
 	author: "Louis Marchand"
 	date: "Mon, 02 Mar 2015 01:38:23 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 class
 	GAME_HAPTIC_JOYSTICK

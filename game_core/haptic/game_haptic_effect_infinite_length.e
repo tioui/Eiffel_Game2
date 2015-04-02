@@ -2,7 +2,7 @@ note
 	description: "A {GAME_HAPTIC_EFFECT} that can have an infinte length."
 	author: "Louis Marchand"
 	date: "Mon, 02 Mar 2015 16:23:11 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 deferred class
 	GAME_HAPTIC_EFFECT_INFINITE_LENGTH

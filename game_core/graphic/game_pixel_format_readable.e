@@ -1,8 +1,8 @@
 note
-	description: "Read-only version of a pixel internal representation for a drawable."
+	description: "Read-only version of a {GAME_PIXEL_FORMAT}."
 	author: "Louis Marchand"
-	date: "2015, Febuary 19"
-	revision: "0.1"
+	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	revision: "2.0"
 
 class
 	GAME_PIXEL_FORMAT_READABLE
@@ -54,7 +54,7 @@ feature {NONE} -- Initialisation
 		do
 			share_from_structure_pointer(a_structure)
 			l_temp_palette := color_palette
-			internal_structure:= create {POINTER}
+			internal_item:= create {POINTER}
 			if attached l_temp_palette then
 				set_color_palette(l_temp_palette)
 			end
@@ -77,7 +77,7 @@ feature {NONE} -- Initialisation
 			Pixel_Format_Info_Structure_Not_Null: not a_structure.is_default_pointer
 		do
 			make_from_flags ({GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_format(a_structure))
-			internal_structure:=a_structure
+			internal_item:=a_structure
 			must_free_structure:=False
 		end
 
@@ -417,10 +417,8 @@ feature -- Access
 
 	bits_per_pixel:INTEGER
 			-- The number of significant bits in a pixel value
-		local
-			l_structure:POINTER
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bits_per_pixel(structure).to_integer_32
+			Result:={GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bits_per_pixel(item).to_integer_32
 		end
 
 	masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
@@ -429,7 +427,7 @@ feature -- Access
 			l_structure:POINTER
 			l_dummy:NATURAL_32
 		do
-			l_structure:=structure
+			l_structure:=item
 			if l_structure.is_default_pointer then
 				l_dummy:=0
 				Result:=[l_dummy,l_dummy,l_dummy,l_dummy]
@@ -451,8 +449,8 @@ feature -- Access
 			l_palette:POINTER
 		do
 			Result := Void
-			if not internal_structure.is_default_pointer then
-				l_palette := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_palette(structure)
+			if not internal_item.is_default_pointer then
+				l_palette := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_palette(item)
 				create Result.make_shared(l_palette)
 			end
 		end
@@ -467,10 +465,10 @@ feature -- Access
 			l_error: INTEGER
 		do
 			if attached a_color_palette then
-				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(structure,
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
 							a_color_palette.internal_pointer)
 			else
-				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(structure,
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
 							create {POINTER})
 			end
 			manage_error_code(l_error, "Cannot assign color palette.")
@@ -483,15 +481,16 @@ feature {GAME_SDL_ANY} -- Implementation
 	internal_index:NATURAL_32
 			-- The internal C flags representing `Current'.
 
-	structure:POINTER
+	item:POINTER
+			-- A C structure pointer that is representing `Current'
 		do
-			if internal_structure.is_default_pointer then
+			if internal_item.is_default_pointer then
 				clear_error
-				internal_structure:={GAME_SDL_EXTERNAL}.SDL_AllocFormat(internal_index)
-				manage_error_pointer(internal_structure, "An error occured while getting the structure of a Pixel Format.")
+				internal_item:={GAME_SDL_EXTERNAL}.SDL_AllocFormat(internal_index)
+				manage_error_pointer(internal_item, "An error occured while getting the structure of a Pixel Format.")
 				must_free_structure:=True
 			end
-			Result:=internal_structure
+			Result:=internal_item
 		end
 
 feature {NONE} -- Implementation
@@ -501,19 +500,20 @@ feature {NONE} -- Implementation
 		do
 			if a_internal_index /= internal_index then
 				internal_index:=a_internal_index
-				free_structure
+				dispose
 			end
 		ensure
 			Pixel_Format_flags_Changed: internal_index = a_internal_index
 		end
 
-	free_structure
+	dispose
+			-- <Precursor>
 		do
-			if not internal_structure.is_default_pointer then
+			if not internal_item.is_default_pointer then
 				if must_free_structure then
-					{GAME_SDL_EXTERNAL}.SDL_FreeFormat(internal_structure)
+					{GAME_SDL_EXTERNAL}.SDL_FreeFormat(internal_item)
 				end
-				internal_structure:=create {POINTER}
+				internal_item:=create {POINTER}
 			end
 		end
 
@@ -558,14 +558,11 @@ feature {NONE} -- Implementation
 					a_internal_index = {GAME_SDL_EXTERNAL}.Sdl_pixelformat_yvyu
 		end
 
-	dispose
-		do
-			free_structure
-		end
-
-	internal_structure:POINTER
+	internal_item:POINTER
+			-- The internal value of the lazy evaluated `item' attribute
 
 	must_free_structure:BOOLEAN
+			-- Is the responsability or `Current' to free `item'
 
 
 end

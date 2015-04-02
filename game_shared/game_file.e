@@ -1,8 +1,8 @@
 note
 	description: "Represent a file. With this, you can read information from a file"
 	author: "Louis Marchand"
-	date: "april 30, 2013"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 04:11:03 +0000"
+	revision: "2.0"
 	todo: "can_read_16, can_read_32, can_read_64"
 
 class
@@ -57,6 +57,7 @@ feature -- Access
 		end
 
 	read_natural_8
+			-- <Precursor>
 		do
 			read_to_managed_pointer (integer_buffer, 0, 1)
 			last_natural_8 := integer_buffer.read_natural_8 (0)
@@ -77,6 +78,8 @@ feature -- Access
 		end
 
 	read_natural_16
+			-- Read the next 16 bits natural value (in Big-Endian) and make the
+			-- result available in `last_natural_16'
 		do
 			read_natural_16_big_endian
 		end
@@ -96,11 +99,15 @@ feature -- Access
 		end
 
 	read_natural_32
+			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_32'.
 		do
 			read_natural_32_big_endian
 		end
 
 	read_natural
+			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_32'.
 		do
 			read_natural_32_big_endian
 		end
@@ -120,6 +127,8 @@ feature -- Access
 		end
 
 	read_natural_64
+			-- Read the next 64-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_64'.
 		do
 			read_natural_64_big_endian
 		end
@@ -167,87 +176,113 @@ feature -- Access
 		end
 
 	readreal
+			-- Read a new real (Reading in Big-Endian order).
+			-- Make result available in last_real.
 		do
 			read_real
 		end
 
 	readdouble
+			-- Read a new double (Reading in Big-Endian order).
+			-- Make result available in last_double.
 		do
 			read_double
 		end
 
 	readint
+			-- Read a new integer (Reading in Big-Endian order).
+			-- Make result available in last_integer.
 		do
 			read_integer
 		end
 
 	support_storable: BOOLEAN
+			-- <Precursor>
 		do
 			Result:=false
 		end
 
 	read_real
+			-- Read a new real (Reading in Big-Endian order).
+			-- Make result available in last_real.
 		do
 			read_natural_32
 			last_real:={SHARED_EXTERNAL}.natural_32_to_real_32(last_natural_32)
 		end
 
 	read_double
+			-- Read a new double (Reading in Big-Endian order).
+			-- Make result available in last_double.
 		do
 			read_natural_64
 			last_double:={SHARED_EXTERNAL}.natural_64_to_real_64(last_natural_64)
 		end
 
 	read_integer
+			-- Read a new integer (Reading in Big-Endian order).
+			-- Make result available in last_integer.
 		do
 			read_integer_32
 		end
 
 	read_integer_8
+			-- Read a new 8-bit integer.
+			-- Make result available in last_integer_8.
 		do
 			read_natural_8
 			last_integer_8:=last_natural_8.as_integer_8
 		end
 
 	read_integer_16
+			-- Read a new 16-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_8.
 		do
 			read_natural_16
 			last_integer_16:=last_natural_16.as_integer_16
 		end
 
 	read_integer_32
+			-- Read a new 32-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_8.
 		do
 			read_natural_32
 			last_integer:=last_natural_32.as_integer_32
 		end
 
 	read_integer_64
+			-- Read a new 64-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_8.
 		do
 			read_natural_64
 			last_integer_64:=last_natural_64.as_integer_64
 		end
 
-	putint(i:INTEGER_32)
+	putint(a_int:INTEGER_32)
+			-- Write `a_int' at current position (Writing in Big-Endian order).
 		do
-			put_integer(i)
+			put_integer(a_int)
 		end
 
-	putbool(b:BOOLEAN)
+	putbool(a_bool:BOOLEAN)
+			-- Write `a_bool' at current position.
 		do
-			put_boolean(b)
+			put_boolean(a_bool)
 		end
 
-	putreal(r:REAL_32)
+	putreal(a_real:REAL_32)
+			-- Write `a_real' at current position (Writing in Big-Endian order).
 		do
-			put_real(r)
+			put_real(a_real)
 		end
 
-	putdouble(d:REAL_64)
+	putdouble(a_double:REAL_64)
+			-- Write `a_double' at current position (Writing in Big-Endian order).
 		do
-			put_double(d)
+			put_double(a_double)
 		end
 
 	read_to_string (a_string: STRING_8; a_pos, a_nb: INTEGER_32): INTEGER_32
+			-- <Precursor>
 		do
 			Result := file_gss (file_pointer, a_string.area.item_address (a_pos - 1), a_nb)
 			a_string.set_internal_hash_code (0)
@@ -269,147 +304,170 @@ feature -- Access
 		end
 
 
-	put_natural_16_big_endian(value:NATURAL_16)
+	put_natural_16_big_endian(a_value:NATURAL_16)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_16_big_endian(value)
+			internal_put_natural_16_big_endian(a_value)
 			unlock_mutex
 		end
 
-	put_natural_16_little_endian(value:NATURAL_16)
+	put_natural_16_little_endian(a_value:NATURAL_16)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_16_little_endian(value)
+			internal_put_natural_16_little_endian(a_value)
 			unlock_mutex
 		end
 
-	put_natural_32_big_endian(value:NATURAL_32)
+	put_natural_32_big_endian(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_32_big_endian(value)
+			internal_put_natural_32_big_endian(a_value)
 			unlock_mutex
 		end
 
-	put_natural_32_little_endian(value:NATURAL_32)
+	put_natural_32_little_endian(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_32_little_endian(value)
+			internal_put_natural_32_little_endian(a_value)
 			unlock_mutex
 		end
 
-	put_natural_64_big_endian(value:NATURAL_64)
+	put_natural_64_big_endian(a_value:NATURAL_64)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_32_big_endian(value.bit_shift_right (32).to_natural_32)
-			internal_put_natural_32_big_endian(value.bit_and (0xFFFFFFFF).to_natural_32)
+			internal_put_natural_32_big_endian(a_value.bit_shift_right (32).to_natural_32)
+			internal_put_natural_32_big_endian(a_value.bit_and (0xFFFFFFFF).to_natural_32)
 			unlock_mutex
 		end
 
-	put_natural_64_little_endian(value:NATURAL_64)
+	put_natural_64_little_endian(a_value:NATURAL_64)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		require
 			extendible: extendible
 		do
 			lock_mutex
-			internal_put_natural_32_little_endian(value.bit_and (0xFFFFFFFF).to_natural_32)
-			internal_put_natural_32_little_endian(value.bit_shift_right (32).to_natural_32)
+			internal_put_natural_32_little_endian(a_value.bit_and (0xFFFFFFFF).to_natural_32)
+			internal_put_natural_32_little_endian(a_value.bit_shift_right (32).to_natural_32)
 			unlock_mutex
 		end
 
-	put_natural_8 (i: NATURAL_8)
+	put_natural_8 (a_value: NATURAL_8)
+			-- Write `a_value' at current position.
 		do
-			integer_buffer.put_natural_8 (i, 0)
+			integer_buffer.put_natural_8 (a_value, 0)
 			put_managed_pointer (integer_buffer, 0, 1)
 		end
 
-	put_natural_16(i:NATURAL_16)
+	put_natural_16(a_value:NATURAL_16)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_16_big_endian (i)
+			put_natural_16_big_endian (a_value)
 		end
 
-	put_natural_32(i:NATURAL_32)
+	put_natural_32(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32_big_endian (i)
+			put_natural_32_big_endian (a_value)
 		end
 
-	put_natural(i:NATURAL_32)
+	put_natural(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32(i)
+			put_natural_32(a_value)
 		end
 
-	put_natural_64(i:NATURAL_64)
+	put_natural_64(a_value:NATURAL_64)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_64_big_endian (i)
+			put_natural_64_big_endian (a_value)
 		end
 
-	put_integer(i:INTEGER_32)
+	put_integer(a_value:INTEGER_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_integer_32 (i)
+			put_integer_32 (a_value)
 		end
 
-	put_integer_8(i:INTEGER_8)
+	put_integer_8(a_value:INTEGER_8)
+			-- Write `a_value' at current position.
 		do
-			put_natural_8 (i.as_natural_8)
+			put_natural_8 (a_value.as_natural_8)
 		end
 
-	put_integer_16(i:INTEGER_16)
+	put_integer_16(a_value:INTEGER_16)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_16 (i.as_natural_16)
+			put_natural_16 (a_value.as_natural_16)
 		end
 
-	put_integer_32(i:INTEGER_32)
+	put_integer_32(a_value:INTEGER_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32 (i.as_natural_32)
+			put_natural_32 (a_value.as_natural_32)
 		end
 
-	put_integer_64(i:INTEGER_64)
+	put_integer_64(a_value:INTEGER_64)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_64 (i.as_natural_64)
+			put_natural_64 (a_value.as_natural_64)
 		end
 
-	put_boolean (b: BOOLEAN)
+	put_boolean (a_value: BOOLEAN)
+			-- Write `a_value' at current position.
 		do
-			if b then
+			if a_value then
 				put_character ('%/1/')
 			else
 				put_character ('%U')
 			end
 		end
 
-	put_real(r:REAL_32)
+	put_real(a_value:REAL_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32 ({SHARED_EXTERNAL}.real_32_to_natural_32(r))
+			put_natural_32 ({SHARED_EXTERNAL}.real_32_to_natural_32(a_value))
 		end
 
-	put_double(d:REAL_64)
+	put_double(a_value:REAL_64)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_64 ({SHARED_EXTERNAL}.real_64_to_natural_64(d))
+			put_natural_64 ({SHARED_EXTERNAL}.real_64_to_natural_64(a_value))
 		end
 
 feature {GAME_RESSOURCE_MANAGER} -- Access
 
 	is_thread_safe:BOOLEAN
+			-- Is `Current' can be used in a multi-threaded system.
 
 	enable_thread_safe
+			-- Make `Current' usable in a multi-threaded system.
 		do
 			is_thread_safe:=true
 		end
 
 	disable_thread_safe
+			-- Make `Current' unusable in a multi-threaded system.
 		do
 			is_thread_safe:=true
 		end
 
 	internal_mutex:MUTEX
+			-- A mutex to sinchronize the file input/output and position
 
 	lock_mutex
 			-- Lock the internal mutex to prevent multiple access to the package file
@@ -433,49 +491,53 @@ feature {NONE} -- Implementation
 	integer_buffer: MANAGED_POINTER
 			-- Buffer used to read INTEGER_64, INTEGER_16, INTEGER_8
 		local
-			r: detachable MANAGED_POINTER
+			l_pointer: detachable MANAGED_POINTER
 		do
-			r := internal_integer_buffer
-			if r = Void then
-				create r.make (16)
-				internal_integer_buffer := r
+			l_pointer := internal_integer_buffer
+			if l_pointer = Void then
+				create l_pointer.make (16)
+				internal_integer_buffer := l_pointer
 			end
-			Result := r
+			Result := l_pointer
 		end
 
 	internal_integer_buffer: detachable MANAGED_POINTER
 			-- Internal integer buffer
 
-	internal_put_natural_16_big_endian(value:NATURAL_16)
+	internal_put_natural_16_big_endian(a_value:NATURAL_16)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		require
 			extendible: extendible
 		do
-			put_natural_8 (value.bit_shift_right (8).to_natural_8)
-			put_natural_8 (value.bit_and (0xFF).to_natural_8)
+			put_natural_8 (a_value.bit_shift_right (8).to_natural_8)
+			put_natural_8 (a_value.bit_and (0xFF).to_natural_8)
 		end
 
-	internal_put_natural_16_little_endian(value:NATURAL_16)
+	internal_put_natural_16_little_endian(a_value:NATURAL_16)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		require
 			extendible: extendible
 		do
-			put_natural_8 (value.bit_and (0xFF).to_natural_8)
-			put_natural_8 (value.bit_shift_right (8).to_natural_8)
+			put_natural_8 (a_value.bit_and (0xFF).to_natural_8)
+			put_natural_8 (a_value.bit_shift_right (8).to_natural_8)
 		end
 
-	internal_put_natural_32_big_endian(value:NATURAL_32)
+	internal_put_natural_32_big_endian(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Big-Endian order).
 		require
 			extendible: extendible
 		do
-			internal_put_natural_16_big_endian(value.bit_shift_right (16).to_natural_16)
-			internal_put_natural_16_big_endian(value.bit_and (0xFFFF).to_natural_16)
+			internal_put_natural_16_big_endian(a_value.bit_shift_right (16).to_natural_16)
+			internal_put_natural_16_big_endian(a_value.bit_and (0xFFFF).to_natural_16)
 		end
 
-	internal_put_natural_32_little_endian(value:NATURAL_32)
+	internal_put_natural_32_little_endian(a_value:NATURAL_32)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		require
 			extendible: extendible
 		do
-			internal_put_natural_16_little_endian(value.bit_and (0xFFFF).to_natural_16)
-			internal_put_natural_16_little_endian(value.bit_shift_right (16).to_natural_16)
+			internal_put_natural_16_little_endian(a_value.bit_and (0xFFFF).to_natural_16)
+			internal_put_natural_16_little_endian(a_value.bit_shift_right (16).to_natural_16)
 		end
 
 invariant

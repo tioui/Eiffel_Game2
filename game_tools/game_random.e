@@ -2,7 +2,7 @@ note
 	description: "A simple random generator"
 	author: "Louis Marchand inspire by Martin Seiler (http://community.eiffel.com/room/article/random_numbers)"
 	date: "Sat, 28 Mar 2015 03:24:57 +0000"
-	revision: "1.0"
+	revision: "2.0"
 
 class
 	GAME_RANDOM
@@ -88,5 +88,6 @@ feature -- Access
 feature {NONE}  -- Implementation variables
 
 	random_sequence:RANDOM
+			-- The random generator
 
 end

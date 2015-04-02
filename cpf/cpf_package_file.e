@@ -1,8 +1,8 @@
 note
 	description: "A package file."
 	author: "Louis Marchand"
-	date: "april 30, 2013"
-	revision: "1.0.0.0"
+	date: "Thu, 02 Apr 2015 03:58:25 +0000"
+	revision: "2.0"
 
 class
 	CPF_PACKAGE_FILE
@@ -71,6 +71,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	is_valid:BOOLEAN
+			-- Is `Current' a valid package file
 
 	open
 			-- Open the package file
@@ -102,6 +103,7 @@ feature -- Access
 		end
 
 	select_sub_file(a_index:INTEGER)
+			-- In `Current', go to the sub-file identified by `a_index'
 		require
 			CPF_File_Is_Valid: is_valid
 		do
@@ -117,6 +119,7 @@ feature -- Access
 		end
 
 	current_sub_file_index:INTEGER
+			-- Retreive the index of the sub-file that the cursor is presently in.
 		require
 			CPF_File_Is_Valid: is_valid
 		local
@@ -139,6 +142,7 @@ feature -- Access
 		end
 
 	is_position_in_selected_sub_file:BOOLEAN
+			-- True if the present position in `Current' is in the sub-file that is selected
 		require
 			CPF_File_Is_Valid: is_valid
 		do
@@ -188,8 +192,10 @@ feature -- Access
 		end
 
 	current_sub_file_first_position:INTEGER
+			-- The position in `Current' that the present sub-file start
 
 	current_sub_file_last_position:INTEGER
+			-- The position in `Current' that the present sub-file end
 		require
 			CPF_File_Is_Valid: is_valid
 		do
@@ -197,8 +203,10 @@ feature -- Access
 		end
 
 	current_sub_file_count:INTEGER
+			-- The number of byte of the present sub-file
 
 	file_index:INTEGER
+			-- The index identifier of the presently selected sub-file
 
 feature -- CPF informations
 
@@ -206,6 +214,7 @@ feature -- CPF informations
 			-- Position and length of every sub files in the package file
 
 	sub_files_count:INTEGER_32
+			-- The number of sub-file inside `Current'
 		require
 			CPF_File_Is_Valid: is_valid
 			-- Number of sub files in the package file
@@ -215,6 +224,7 @@ feature -- CPF informations
 
 
 	prunable: BOOLEAN
+			-- <Precursor>
 		do
 			Result:=False
 		end
@@ -234,6 +244,8 @@ feature {CPF_RESSOURCE_MANAGER} -- The C pointer to the file infos structure
 feature {NONE} -- Implementation - Routine
 
 	process_cpf_file
+			-- Valid that `Current' is a valid CPF file and retreive the informations
+			-- of the file.
 		local
 			nbr:NATURAL_16
 			pos,length:NATURAL_32
@@ -283,15 +295,15 @@ feature {NONE} -- Implementation - Routine
 feature {NONE} -- Implemetntation - Variables
 
 	cpf_infos:LIST[POINTER]
+			-- The internal CustomPackageFileInfos C structures
 
 	custom_package_file_infos_size:INTEGER
+			-- The size in byte of a CustomPackageFileInfos C structure
 		once
 			Result := {CPF_EXTERNAL}.c_sizeof_custom_package_file_infos
 		end
 
 invariant
 	File_Stream_Ptr_Not_Null: not file_pointer.is_default_pointer
-
-
 
 end

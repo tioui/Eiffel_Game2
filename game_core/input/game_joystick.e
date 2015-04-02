@@ -9,12 +9,17 @@ class
 
 inherit
 	DISPOSABLE
+		undefine
+			default_create
+		end
 	GAME_JOYSTICK_EVENTS
 		rename
-			make as make_events,
-			internal_id as index
+			id as index
 		end
 	GAME_LIBRARY_SHARED
+		undefine
+			default_create
+		end
 
 
 create {GAME_LIBRARY_CONTROLLER}
@@ -27,7 +32,7 @@ feature {NONE} -- Initialization
 		do
 			events_controller := game_library.events_controller
 			index:=a_from_index
-			make_events
+			default_create
 		end
 
 feature -- Access
@@ -207,6 +212,7 @@ feature -- Access
 		end
 
 	haptic_controller:GAME_HAPTIC_JOYSTICK
+			-- Used to manage the haptic (force feedback) of `Current'
 		require
 			Is_Buttons_Pressed_Opened: is_open
 			Is_Haptic_Capable: is_haptic_capable
@@ -221,16 +227,20 @@ feature -- Access
 		end
 
 	events_controller:GAME_EVENTS_CONTROLLER
+			-- Used main event manager
 
 feature {GAME_SDL_ANY} -- Implementation
 
 	item:POINTER
+			-- Point to the internal C structure of `Current'
 
 feature {NONE} -- Implementation
 
 	internal_haptic_controller: detachable GAME_HAPTIC_JOYSTICK
+			-- Value of the lazy evaluated attribute `haptic_controller'
 
 	dispose
+			-- <Pecursor>
 	do
 		if is_open then
 			close

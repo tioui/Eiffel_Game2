@@ -2,16 +2,20 @@ note
 	description: "Manage Joystick events"
 	author: "Louis Marchand"
 	date: "Tue, 24 Feb 2015 00:34:06 +0000"
-	revision: "0.1"
+	revision: "2.0"
 
 deferred class
 	GAME_JOYSTICK_EVENTS
 
 inherit
 	GAME_SDL_ANY
+		redefine
+			default_create
+		end
 
 feature {NONE} -- Initialisation
-	make
+	default_create
+			-- Initialization of `Current'
 		do
 			is_running := True
 			axis_motion_events_callback := agent (a_timestamp: NATURAL_32; a_joystick_id:INTEGER_32; a_axis_id:NATURAL_8; a_value:INTEGER_16)
@@ -38,7 +42,7 @@ feature {NONE} -- Initialisation
 				do
 					removed_events_dispatcher(a_timestamp, a_joystick_id)
 				end
-		ensure
+		ensure then
 			make_event_is_running: is_running
 		end
 
@@ -57,7 +61,7 @@ feature -- Access
 			events_controller.joy_button_released_actions.prune_all (button_released_events_callback)
 			events_controller.joy_device_removed_actions.prune_all (removed_events_callback)
 		end
-	
+
 	run
 			-- Put `Current' active.
 		require
@@ -204,18 +208,24 @@ feature -- Access
 		end
 
 	events_controller: GAME_EVENTS_CONTROLLER
+			-- The used game event manager
 		deferred
 		end
-	
+
 feature {NONE} -- Implementation
 
 	axis_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;axis_id:NATURAL_8;value:INTEGER_16]]
+			-- Internal value of the `axis_motion_actions' lazy evaluated attribute
 
 	axis_motion_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32; axis_id:NATURAL_8; value:INTEGER_16]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `axis_motion_actions' {ACTION_SEQUENCE}
 
 	axis_motion_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_axis_id:NATURAL_8; a_value:INTEGER_16)
+			-- The dispatcher receiving event from the `axis_motion_events_callback' and dispatch them to
+			-- the `axis_motion_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached axis_motion_actions_internal as la_actions then
 					la_actions.call (a_timestamp, a_axis_id, a_value)
 				end
@@ -223,12 +233,17 @@ feature {NONE} -- Implementation
 		end
 
 	ball_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;ball_id:NATURAL_8;x_relative, y_relative:INTEGER_16]]
+			-- Internal value of the `ball_motion_actions' lazy evaluated attribute
 
 	ball_motion_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32; ball_id:NATURAL_8; x_relative, y_relative:INTEGER_16]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `ball_motion_actions' {ACTION_SEQUENCE}
 
 	ball_motion_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_ball_id:NATURAL_8; a_x_relative, a_y_relative:INTEGER_16)
+			-- The dispatcher receiving event from the `ball_motion_events_callback' and dispatch them to
+			-- the `ball_motion_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached ball_motion_actions_internal as la_actions then
 					la_actions.call (a_timestamp, a_ball_id, a_x_relative, a_y_relative)
 				end
@@ -236,14 +251,19 @@ feature {NONE} -- Implementation
 		end
 
 	hat_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;hat_id:NATURAL_8; state: GAME_JOYSTICK_HAT_STATE]]
+			-- Internal value of the `hat_motion_actions' lazy evaluated attribute
 
 	hat_motion_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32; hat_id, value:NATURAL_8]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `hat_motion_actions' {ACTION_SEQUENCE}
 
 	hat_motion_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_hat_id, a_value:NATURAL_8)
+			-- The dispatcher receiving event from the `hat_motion_events_callback' and dispatch them to
+			-- the `hat_motion_actions' {ACTION_SEQUENCE}
 		local
 			l_hat_state: GAME_JOYSTICK_HAT_STATE
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached hat_motion_actions_internal as la_actions then
 					create l_hat_state.make(a_value)
 					la_actions.call (a_timestamp, a_hat_id, l_hat_state)
@@ -252,12 +272,17 @@ feature {NONE} -- Implementation
 		end
 
 	button_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;button_id:NATURAL_8]]
+			-- Internal value of the `button_pressed_actions' lazy evaluated attribute
 
 	button_pressed_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32; button_id:NATURAL_8]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `button_pressed_actions' {ACTION_SEQUENCE}
 
 	button_pressed_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_button_id:NATURAL_8)
+			-- The dispatcher receiving event from the `button_pressed_events_callback' and dispatch them to
+			-- the `button_pressed_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached button_pressed_actions_internal as la_actions then
 					la_actions.call (a_timestamp, a_button_id)
 				end
@@ -265,12 +290,17 @@ feature {NONE} -- Implementation
 		end
 
 	button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;button_id:NATURAL_8]]
+			-- Internal value of the `button_released_actions' lazy evaluated attribute
 
 	button_released_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32; button_id:NATURAL_8]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `button_released_actions' {ACTION_SEQUENCE}
 
 	button_released_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_button_id:NATURAL_8)
+			-- The dispatcher receiving event from the `button_released_events_callback' and dispatch them to
+			-- the `button_released_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached button_released_actions_internal as la_actions then
 					la_actions.call (a_timestamp, a_button_id)
 				end
@@ -278,12 +308,17 @@ feature {NONE} -- Implementation
 		end
 
 	removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `removed_actions' lazy evaluated attribute
 
 	removed_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `removed_actions' {ACTION_SEQUENCE}
 
 	removed_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER)
+			-- The dispatcher receiving event from the `removed_events_callback' and dispatch them to
+			-- the `removed_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = internal_id then
+			if a_joystick_id = id then
 				if attached removed_actions_internal as la_actions then
 					la_actions.call (a_timestamp)
 				end
@@ -291,7 +326,8 @@ feature {NONE} -- Implementation
 		end
 
 
-	internal_id: INTEGER
+	id: INTEGER
+			-- Internal event identifier of `Current'
 		deferred
 		end
 
