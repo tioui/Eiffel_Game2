@@ -9,7 +9,7 @@ class
 
 inherit
 	ARGUMENTS
-	AUDIO_LIBRARY_SHARED
+	AUDIO_LIBRARY_SHARED	-- To use `audio_library'
 
 create
 	make
@@ -30,6 +30,7 @@ feature {NONE} -- Initialization
 		end
 
 	run_standard
+			-- Execute the sound player
 		local
 			i:INTEGER
 			source:AUDIO_SOURCE

@@ -165,6 +165,7 @@ feature -- Access
 		require
 			Window_Not_Closed: exists
 		do
+			clear_events
 			{GAME_SDL_EXTERNAL}.SDL_DestroyWindow(item)
 			item := create {POINTER}.default_create
 			game_library.internal_windows.prune_all (Current)
