@@ -110,12 +110,24 @@ feature -- Access
 			{GAME_TEXT_EXTERNAL}.TTF_SetFontStyle(item, {GAME_TEXT_EXTERNAL}.TTF_STYLE_NORMAL)
 		end
 
-	is_underline:BOOLEAN
+	is_underline:BOOLEAN assign set_is_underline
 			-- Is `Current' has an underline style modifier
 		require
 			exists
 		do
 			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_UNDERLINE) /= 0
+		end
+
+	set_is_underline(a_value:BOOLEAN)
+			-- Assign to `is_underline' the value of `a_value'
+		do
+			if a_value then
+				enable_underline
+			else
+				disable_underline
+			end
+		ensure
+			Is_Assign: is_underline ~ a_value
 		end
 
 	enable_underline
@@ -142,12 +154,24 @@ feature -- Access
 			Is_Disabled: not is_underline
 		end
 
-	is_bold:BOOLEAN
+	is_bold:BOOLEAN assign set_is_bold
 			-- Is `Current' has a bold style modifier
 		require
 			exists
 		do
 			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_BOLD) /= 0
+		end
+
+	set_is_bold(a_value:BOOLEAN)
+			-- Assign to `is_bold' the value of `a_value'
+		do
+			if a_value then
+				enable_bold
+			else
+				disable_bold
+			end
+		ensure
+			Is_Assign: is_bold ~ a_value
 		end
 
 	enable_bold
@@ -174,12 +198,24 @@ feature -- Access
 			Is_Disabled: not is_bold
 		end
 
-	is_italic:BOOLEAN
+	is_italic:BOOLEAN assign set_is_italic
 			-- Is `Current' has an italic style modifier
 		require
 			exists
 		do
 			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_ITALIC) /= 0
+		end
+
+	set_is_italic(a_value:BOOLEAN)
+			-- Assign to `is_italic' the value of `a_value'
+		do
+			if a_value then
+				enable_italic
+			else
+				disable_italic
+			end
+		ensure
+			Is_Assign: is_italic ~ a_value
 		end
 
 	enable_italic
@@ -206,12 +242,24 @@ feature -- Access
 			Is_Disabled: not is_italic
 		end
 
-	is_strike_through:BOOLEAN
+	is_strike_through:BOOLEAN assign set_is_strike_through
 			-- Is `Current' has a strike through style modifier
 		require
 			exists
 		do
 			Result := {GAME_TEXT_EXTERNAL}.ttf_getfontstyle (item).bit_and ({GAME_TEXT_EXTERNAL}.TTF_STYLE_STRIKETHROUGH) /= 0
+		end
+
+	set_is_strike_through(a_value:BOOLEAN)
+			-- Assign to `is_strike_through' the value of `a_value'
+		do
+			if a_value then
+				enable_strike_through
+			else
+				disable_strike_through
+			end
+		ensure
+			Is_Assign: is_strike_through ~ a_value
 		end
 
 	enable_strike_through
@@ -347,12 +395,24 @@ feature -- Access
 			Is_Enable: has_monochrome_hinting
 		end
 
-	is_kerning_enabled:BOOLEAN
+	is_kerning_enabled:BOOLEAN assign set_is_kerning_enabled
 			-- If True, the library can use kerning when drawing a text with `Current'
 		require
 			Exists
 		do
 			Result := {GAME_TEXT_EXTERNAL}.TTF_GetFontKerning(item) /= 0
+		end
+
+	set_is_kerning_enabled(a_value:BOOLEAN)
+			-- Assign to `is_kerning_enabled' the value of `a_value'
+		do
+			if a_value then
+				enable_kerning
+			else
+				disable_kerning
+			end
+		ensure
+			Is_Assign: is_kerning_enabled ~ a_value
 		end
 
 	enable_kerning

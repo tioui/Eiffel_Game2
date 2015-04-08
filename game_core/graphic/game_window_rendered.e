@@ -17,16 +17,85 @@ inherit
 			default_create
 		end
 
-
 create
-	make,
-	make_default,
-	make_on_display,
-	make_with_position,
-	make_centered,
-	make_fullscreen,
-	make_with_extra_flags
+	make_from_constraint,
+	make_from_driver
 
+feature {NONE} -- Initialization
+
+	make_from_constraint(a_title:READABLE_STRING_GENERAL;a_display:detachable GAME_DISPLAY;
+				a_is_x_centered, a_is_y_centered, a_is_x_undefined, a_is_y_undefined:BOOLEAN;
+				a_x, a_y, a_width, a_height: INTEGER; a_flags:NATURAL_32;
+				a_must_renderer_support_target_texture, a_must_renderer_sync_update,
+				a_must_renderer_be_software_rendering, a_must_be_hardware_accelerated:BOOLEAN)
+			-- Initialization of a `a_width'x`height' `Current' at position
+			-- (`a_x',`a_y') using `a_title' as window caption, and
+			-- using `a_flags' as internal attributes flags. If `a_is_x_centered'
+			-- or `a_is_y_centered' are set, the position will be centered on
+			-- `a_display'. If `a_is_x_undefined' or `a_is_y_undefined' are
+			-- set, the position does not matter, but will be place on `a_display'
+			-- If `a_display' is Void, the first found display will be used.
+			-- `Current' will initially use `a_renderer' to draw image.
+			-- If `a_must_support_target_texture' is True, the rendering context
+			-- must permit to target to a texture instead of `Current'.
+			-- If `a_must_sync_update' is True, the `update' will wait for vsync before finishing.
+			-- If `a_must_be_software_rendering' is True, the renderer will always
+		require
+			Game_Screen_Video_Enabled: game_library.is_video_enable
+			Centered_Or_Undefine_X: a_is_x_centered implies not a_is_x_undefined
+			Centered_Or_Undefine_Y: a_is_y_centered implies not a_is_y_undefined
+			Width_Valid: a_width > 0
+			Height_Valid: a_height > 0
+		do
+			make (
+					a_title, a_display, a_is_x_centered, a_is_y_centered, a_is_x_undefined,
+					a_is_y_undefined, a_x, a_y, a_width, a_height, a_flags
+				)
+			if exists then
+				create_renderer(
+						a_must_renderer_support_target_texture, a_must_renderer_sync_update,
+						a_must_renderer_be_software_rendering, a_must_be_hardware_accelerated
+					)
+				if attached internal_renderer as la_renderer then
+					has_error := la_renderer.has_error
+				end
+			end
+		ensure
+			Make_Window_Is_Open: exists
+		end
+
+	make_from_driver(a_title:READABLE_STRING_GENERAL;a_display:detachable GAME_DISPLAY;
+				a_is_x_centered, a_is_y_centered, a_is_x_undefined, a_is_y_undefined:BOOLEAN;
+				a_x, a_y, a_width, a_height: INTEGER; a_flags:NATURAL_32;
+				a_renderer_driver:GAME_RENDERER_DRIVER)
+			-- Initialization of a `a_width'x`height' `Current' at position
+			-- (`a_x',`a_y') using `a_title' as window caption, and
+			-- using `a_flags' as internal attributes flags. If `a_is_x_centered'
+			-- or `a_is_y_centered' are set, the position will be centered on
+			-- `a_display'. If `a_is_x_undefined' or `a_is_y_undefined' are
+			-- set, the position does not matter, but will be place on `a_display'
+			-- If `a_display' is Void, the first found display will be used.
+			-- `Current' will initially use `a_renderer' to draw image.
+		require
+			Game_Screen_Video_Enabled: game_library.is_video_enable
+			Centered_Or_Undefine_X: a_is_x_centered implies not a_is_x_undefined
+			Centered_Or_Undefine_Y: a_is_y_centered implies not a_is_y_undefined
+			Width_Valid: a_width > 0
+			Height_Valid: a_height > 0
+		do
+			make (
+					a_title, a_display, a_is_x_centered, a_is_y_centered, a_is_x_undefined,
+					a_is_y_undefined, a_x, a_y, a_width, a_height, a_flags
+				)
+			if exists then
+				create_renderer_from_driver(a_renderer_driver)
+				if attached internal_renderer as la_renderer then
+					has_error := la_renderer.has_error
+				end
+			end
+		ensure
+			Make_Window_Is_Open: exists
+		end
 
 feature -- Access
 
@@ -44,6 +113,9 @@ feature -- Access
 	create_default_renderer
 			-- Assign `renderer' with the first found {GAME_RENDERER_DRIVER}
 		do
+			if attached internal_renderer as la_renderer then
+				la_renderer.dispose
+			end
 			create internal_renderer.make (Current)
 		end
 

@@ -1,7 +1,8 @@
 note
 	description : "This application play all files passed in argument. The arguments must be supported sound files."
-	date        : "$Date$"
-	revision    : "$Revision$"
+	author		: "Louis Marchand"
+	date        : "Tue, 07 Apr 2015 02:22:17 +0000"
+	revision    : "2.0"
 
 class
 	APPLICATION
@@ -32,7 +33,7 @@ feature {NONE} -- Initialization
 		local
 			i:INTEGER
 			source:AUDIO_SOURCE
-			sound:AUDIO_SOUND_SND_FILE
+			sound:AUDIO_SOUND_FILE
 			env:EXECUTION_ENVIRONMENT
 		do
 			create env

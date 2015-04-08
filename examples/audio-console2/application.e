@@ -1,7 +1,8 @@
 note
-	description : "test-audio application root class"
-	date        : "$Date$"
-	revision    : "$Revision$"
+	description : "A minimalist terminal audio player"
+	author		: "Louis Marchand"
+	date        : "Wed, 08 Apr 2015 00:55:34 +0000"
+	revision    : "2.0"
 
 class
 	APPLICATION
@@ -18,15 +19,18 @@ feature {NONE} -- Initialization
 			-- Run application.
 		do
 			audio_library.enable_sound		-- Initialise the audio library
-			run_standard
+			run_player
 			audio_library.quit_library		-- Free the sound sources and close the audio context.
 		end
 
-	run_standard
+	run_player
+			-- Execute the sound player
 		local
-			sound:AUDIO_SOUND_SND_FILE
-			line:STRING
+			l_sound:AUDIO_SOUND_FILE
+			l_line:STRING
 		do
+			audio_library.disable_print_on_error	-- If an error happen in the audio library, no debug
+													-- error message will be showed
 			audio_library.launch_in_thread	-- This feature update the sound context in another thread.
 							-- With this functionnality, the application is more performant
 							-- on multi-core computer. It is also more easy to program the other
@@ -34,24 +38,24 @@ feature {NONE} -- Initialization
 							-- the audio_library.update reguraly. If you use precompile library,
 							-- these library must be precompile with multi-thread enable.
 			from
-				line:=""
+				l_line:=""
 			until
-				line.is_equal ("quit")	-- Stop when the user write "quit" on the console
+				l_line.is_equal ("quit")	-- Stop when the user write "quit" on the console
 			loop
 				io.read_line
-				line:=io.last_string
-				if line.substring (1,4).is_equal ("open") then			-- When a user write "open <filename>"
-					create sound.make (line.substring (6,line.count))	-- Open the sound
-					if sound.is_openable then
-						sound.open
-						if sound.is_open then
+				l_line:=io.last_string
+				if l_line.substring (1,4).is_equal ("open") then			-- When a user write "open <filename>"
+					create l_sound.make (l_line.substring (6,l_line.count))	-- Open the sound
+					if l_sound.is_openable then
+						l_sound.open
+						if l_sound.is_open then
 							audio_library.sources_add					-- Create a new sound source
-							audio_library.last_source_added.queue_sound (sound)	-- Queued the sound in the newly created source
+							audio_library.last_source_added.queue_sound (l_sound)	-- Queued the sound in the newly created source
 							audio_library.last_source_added.play			-- Play the source.		
 						end
 					end
-					if not sound.is_open then
-						io.put_string ("The file " + line.substring (6,line.count) + " is not valid.%N")
+					if not l_sound.is_open then
+						io.put_string ("The file " + l_line.substring (6,l_line.count) + " is not valid.%N")
 					end
 
 				end

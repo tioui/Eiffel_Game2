@@ -21,14 +21,8 @@ inherit
 
 
 create
-	make,
-	make_default,
-	make_on_display,
-	make_with_position,
-	make_centered,
-	make_fullscreen,
-	make_with_extra_flags
-
+	make
+	
 feature -- Access
 
 	surface:GAME_SURFACE

@@ -36,10 +36,15 @@ feature {NONE} -- Initialization
 	run_game
 			-- Execute the game
 		local
+			l_window_builder: GAME_WINDOW_RENDERED_BUILDER
 			l_window:GAME_WINDOW_RENDERED
 		do
 			game_library.enable_video	-- You need to enable video sub system to create a window
-			create l_window.make ("Logical size example", 256, 256, False, False, False, False, False, True) -- Creating a resizble window
+			create l_window_builder
+			l_window_builder.set_title ("Logical size example")
+			l_window_builder.set_dimension (256, 256)
+			l_window_builder.enable_resizable		-- The Window can be resized
+			l_window := l_window_builder.generate_window
 			l_window.renderer.set_logical_size (1000, 1000)		-- Set the logical size to 1000x1000. When drawing on the renderer
 																-- we will always psition our elements as if the resolution was 1000x1000
 			game_library.quit_signal_actions.extend (agent on_quit)	-- Stopping the `game_library' main loop when closing the window
@@ -53,6 +58,8 @@ feature {NONE} -- Implementation
 	on_expose(timestamp: NATURAL_32; a_renderer:GAME_RENDERER)
 			-- Drawing the scene on `a_renderer'
 		do
+			a_renderer.set_drawing_color (create {GAME_COLOR}.make_rgb (0, 0, 0))
+			a_renderer.clear	-- Clear the renderer
 			a_renderer.set_drawing_color (create {GAME_COLOR}.make_rgb (255, 255, 255))
 			a_renderer.draw_filled_rectangle (0, 0, 1000, 1000)	-- Drawing a white background
 			a_renderer.set_drawing_color (create {GAME_COLOR}.make_rgb (0, 0, 0))

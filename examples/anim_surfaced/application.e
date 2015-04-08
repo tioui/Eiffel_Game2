@@ -27,6 +27,7 @@ feature {NONE} -- Initialization
 	run_game
 			-- Create ressources and launch the game
 		local
+			l_window_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_desert:DESERT
 			l_maryo:MARYO
 			l_window:GAME_WINDOW_SURFACED
@@ -37,7 +38,10 @@ feature {NONE} -- Initialization
 				l_maryo.y := 375
 				l_maryo.x := 200
 				if not l_maryo.has_error then
-					create l_window.make_default ("Example Animation", l_desert.width, l_desert.height)
+					create l_window_builder
+					l_window_builder.set_dimension (l_desert.width, l_desert.height)
+					l_window_builder.set_title ("Example Animation")
+					l_window := l_window_builder.generate_window
 					game_library.quit_signal_actions.extend (agent on_quit)
 					l_window.key_pressed_actions.extend (agent on_key_pressed(?, ?, l_maryo))
 					l_window.key_released_actions.extend (agent on_key_released(?,?,  l_maryo))

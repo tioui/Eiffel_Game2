@@ -48,6 +48,8 @@ feature -- Access
 			events_controller.joy_device_founded_actions.prune_all (joystick_founded_actions_callback)
 			events_controller.joy_device_removed_actions.prune_all (joystick_removed_actions_callback)
 			events_controller.file_dropped_actions.prune_all (file_dropped_actions_callback)
+		ensure
+			Is_Stopped: not is_running
 		end
 
 	run
@@ -71,6 +73,20 @@ feature -- Access
 			if attached file_dropped_actions_internal as la_on_file_drop_internal then
 				events_controller.file_dropped_actions.extend (file_dropped_actions_callback)
 			end
+		ensure
+			Is_Running: is_running
+		end
+		
+		set_is_running(a_value:BOOLEAN)
+			-- Assign to `is_running' the value of `a_value'
+		do
+			if a_value then
+				run
+			else
+				stop
+			end
+		ensure
+			Is_Assign: is_running ~ a_value
 		end
 
 	clear
@@ -92,7 +108,7 @@ feature -- Access
 			end
 		end
 
-	is_running:BOOLEAN
+	is_running:BOOLEAN assign set_is_running
 			-- Is `Current' active
 
 	quit_signal_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]

@@ -284,7 +284,7 @@ feature -- Access
 		ensure
 			Is_Close: not is_open
 		end
-
+		
 	pause
 			-- Mommentaly stop the playing effect. Use `resume' to restart it
 			-- where it was when paused.

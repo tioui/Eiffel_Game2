@@ -1,7 +1,8 @@
 note
 	description : "This application play all files passed in argument. The arguments must be supported sound files."
-	date        : "$Date$"
-	revision    : "$Revision$"
+	author		: "Louis Marchand"
+	date        : "Tue, 07 Apr 2015 01:35:17 +0000"
+	revision    : "2.0"
 
 class
 	APPLICATION
@@ -18,28 +19,29 @@ feature {NONE} -- Initialization
 			-- Run application.
 		do
 			audio_library.enable_sound	-- Permit to the Audio
-			run_standard
+			run_player
 			audio_library.quit_library	-- Properly quit the library
 		end
 
-	run_standard
+	run_player
+			-- Execute the audio player
 		local
-			source:AUDIO_SOURCE
-			sound:AUDIO_SOUND_WAV_FILE
-			env:EXECUTION_ENVIRONMENT
+			l_source:AUDIO_SOURCE
+			l_sound:AUDIO_SOUND_WAV_FILE
+			l_environment:EXECUTION_ENVIRONMENT
 		do
-			create env
+			create l_environment
 			audio_library.sources_add	-- Add a sound source in the audio context.
-			source:=audio_library.last_source_added
-			create sound.make ("sound.wav")
-			sound.open
-			source.queue_sound_loop (sound,1)
-			from source.play
-			until not source.is_playing
+			l_source:=audio_library.last_source_added
+			create l_sound.make ("sound.wav")
+			l_sound.open
+			l_source.queue_sound_loop (l_sound,1)
+			from l_source.play
+			until not l_source.is_playing
 			loop
-				env.sleep (10000000)	-- Put a loop delay to remove CPU time
+				l_environment.sleep (10000000)	-- Put a loop delay to remove CPU time
 				audio_library.update	-- This line is very important. If it is not execute reguraly,
-									-- the source will stop playing.
+										-- the source will stop playing.
 			end
 		end
 

@@ -1,14 +1,17 @@
 note
 	description: "Controller for de audio library."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "Tue, 07 Apr 2015 01:15:20 +0000"
+	revision: "2.0"
 
 class
 	AUDIO_LIBRARY_CONTROLLER
 
 inherit
 	AUDIO_OPENAL_ERROR_MANAGER
+		export
+			{ANY} print_on_error, set_print_on_error, enable_print_on_error, disable_print_on_error
+		end
 	THREAD
 	rename
 		make as make_thread,
@@ -31,63 +34,60 @@ feature {NONE} -- Initialization
 			is_thread_init:=false
 			create launch_mutex.make
 			create {LINKED_LIST[AUDIO_SOURCE]} internal_sources.make
-			create i_listener
+			create internal_listener
 		end
 
 feature -- Access
 
 	enable_sound
-			-- Active the sound context. After this call, you can use sound functionnalities.
+			-- Active the sound context.
+		require
+			Is_Not_Already_Enabled: not is_sound_enable
 		local
-			error:INTEGER
+			l_ok:BOOLEAN
 		do
-			if not is_sound_enable then
-				device:={AUDIO_EXTERNAL}.AL_open_device(create {POINTER})
-				if not device.is_default_pointer then
-					context:={AUDIO_EXTERNAL}.AL_Create_context(device,create {POINTER})
-					read_error
-					if not context.is_default_pointer then
-						{AUDIO_EXTERNAL}.AL_make_context_current(context)
-						read_error
-						if not is_error then
-							i_listener.initialize
-						else
-							io.error.put_string ("Error: Cannot initialize the Audio Library context.%N")
-							io.error.put_string (last_error_description+"%N")
-							check is_error_managable end
-							{AUDIO_EXTERNAL}.AL_destroy_context(context)
-							error:={AUDIO_EXTERNAL}.AL_close_device(device)
-							check error/=0 end
-						end
+			clear_error
+			device:={AUDIO_EXTERNAL}.ALC_open_device(null)
+			read_alc_error(null, "Cannot open audio device.")
+			if not device.is_default_pointer then
+				clear_alc_error (device)
+				context:={AUDIO_EXTERNAL}.ALC_create_context(device,null)
+				read_alc_error(device, "Cannot open audio context.")
+				if not context.is_default_pointer then
+					clear_alc_error (device)
+					l_ok := {AUDIO_EXTERNAL}.ALC_make_context_current(context)
+					if l_ok then
+						internal_listener.initialize
 					else
-						io.error.put_string ("Error: Cannot initialize the Audio Library context.%N")
-						io.error.put_string (last_error_description+"%N")
-						check is_error_managable end
-						error:={AUDIO_EXTERNAL}.AL_close_device(device)
-						check error/=0 end
+						read_alc_error(null, "Cannot make audio context current.")
+						{AUDIO_EXTERNAL}.ALC_destroy_context(context)
+						l_ok:={AUDIO_EXTERNAL}.ALC_close_device(device)
 					end
+				else
+					l_ok:={AUDIO_EXTERNAL}.ALC_close_device(device)
 				end
 			end
 		end
 
 	disable_sound
-			-- Close the sound context. You cannot use sound functionnality after this call.
+			-- Close the sound context.
 		local
-			error:INTEGER
+			l_ok:BOOLEAN
 		do
 			if is_sound_enable then
-				stop_thread
+				if is_thread_executing then
+					stop_thread
+				end
 				internal_sources.do_all (agent {AUDIO_SOURCE}.close)
 				internal_sources.wipe_out
-				read_error
-				{AUDIO_EXTERNAL}.AL_suspend_context(context)
-				read_error
-				check not is_error end
-				{AUDIO_EXTERNAL}.AL_destroy_context(context)
-				error:={AUDIO_EXTERNAL}.AL_close_device(device)
-				check error/=0 end
+				{AUDIO_EXTERNAL}.ALC_suspend_context(context)
+				{AUDIO_EXTERNAL}.ALC_destroy_context(context)
+				clear_error
+				l_ok:={AUDIO_EXTERNAL}.ALC_close_device(device)
+				if not l_ok then
+					read_alc_error (null,"Cannot close audio context.")
+				end
 			end
-
 		end
 
 	listener:AUDIO_LISTENER
@@ -95,12 +95,13 @@ feature -- Access
 		require
 			Get_Listener_Sound_Open:is_sound_enable
 		do
-			Result:=i_listener
+			Result:=internal_listener
 		end
 
-	is_sound_enable:BOOLEAN -- Return true when a sound context is activate. If true, you can use sound functionnalities.
+	is_sound_enable:BOOLEAN
+			-- True when a sound context is activate.
 		do
-			Result := not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer
+			Result := not {AUDIO_EXTERNAL}.ALC_get_current_context.is_default_pointer
 		end
 
 feature -- Sources management
@@ -127,8 +128,11 @@ feature -- Sources management
 
 
 	launch_in_thread
+			-- Make `Current' automatically `update' using another thread.
+			-- You have to manually call `stop_thread' before closing the application
 		require
 			Launch_in_Thread_Sound_Open:is_sound_enable
+			Not_Thread_Running: not is_thread_executing
 		do
 			if not is_thread_init then
 				internal_sources.do_all (agent {AUDIO_SOURCE}.set_thread_safe)
@@ -137,20 +141,24 @@ feature -- Sources management
 			end
 			is_thread_executing:=true
 			launch_thread
+		ensure
+			Is_Thread_Running: is_thread_executing
 		end
 
 	is_thread_executing:BOOLEAN
+			-- The `update' thread is running
 
 	stop_thread
+			-- Stop the thread previously called with `launch_in_thread'
+		require
+			Is_Thread_Running: is_thread_executing
 		do
-			if is_thread_executing then
-				must_stop_thread:=true
-				join
-				is_thread_executing:=false
-			end
-
+			must_stop_thread:=true
+			join
+			is_thread_executing:=false
+		ensure
+			Is_Thread_Not_Running: not is_thread_executing
 		end
-
 
 	sources_count:INTEGER
 			-- The current number of sound source in the sound context.
@@ -258,6 +266,7 @@ feature -- Sources management
 feature {AUDIO_SOURCE}
 
 	sources_extend(a_source:AUDIO_SOURCE)
+			-- add `a_source' in the `sources' chain
 		require
 			Sources_Push_Sound_Open:is_sound_enable
 		do
@@ -270,21 +279,35 @@ feature {AUDIO_SOURCE}
 				launch_mutex.unlock
 			end
 		ensure
-			internal_sources.count = old internal_sources.count+1
+			internal_sources.count = old internal_sources.count + 1
 		end
 
 feature {NONE} -- Implementation Class Variable
 
 	device:POINTER
+			-- Internal C Pointer to the audio device
+
 	context:POINTER
-	i_listener:AUDIO_LISTENER
+			-- Internal C pointer to the audio context
+
+	internal_listener:AUDIO_LISTENER
+			-- The audio listener to be return by `listener'
+
 	internal_sources:LIST[AUDIO_SOURCE]
+			-- Every audio `sources' initialized by the library
+
 	must_stop_thread:BOOLEAN
+			-- True when the principal thread asked the `update' thread to stop.
+
 	is_thread_init:BOOLEAN
+			-- Is thread initialization already done.
+
+	null:POINTER
 
 feature {NONE} -- Implementation Routine
 
 	execute
+			-- The thread main loop (started with `launch_in_thread')
 		local
 			env:EXECUTION_ENVIRONMENT
 		do
@@ -301,7 +324,7 @@ feature {NONE} -- Implementation Routine
 
 invariant
 	Is_Sound_Open_Context_Valid:
-		is_sound_enable implies (not {AUDIO_EXTERNAL}.AL_get_current_context.is_default_pointer)
+		is_sound_enable implies (not {AUDIO_EXTERNAL}.ALC_get_current_context.is_default_pointer)
 	Is_Sound_Open_Sources_Valid:
 		(not is_sound_enable) implies (internal_sources.count = 0)
 

@@ -36,20 +36,22 @@ feature {NONE} -- Initialization
 	run_standard
 			-- Run the application. Every local variable will be collected properly when calling the `quit_library' command in the `make' feature.
 		local
+			l_window_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_window:GAME_WINDOW_SURFACED
 			l_background, l_bird:GAME_SURFACE
 			l_bk_source, l_bird_source:GAME_IMAGE_BMP_FILE
 			l_bird_transparent_color:GAME_COLOR
 		do
-			create l_window.make_default ("Hello Bird", 800, 600)		-- Create the window
+			create l_window_builder		-- Used to generate {GAME_WINDOW}.
+			l_window := l_window_builder.generate_window		-- Create the {GAME_WINDOW} using default attributes
 
 			create l_bk_source.make ("bk.bmp")		-- Make the image background. The image is not loaded yet.
 			l_bk_source.open		-- Load the image
-			create l_background.share_from_image_source (l_bk_source)	-- Create the background surface using the image source.
+			create l_background.share_from_image (l_bk_source)		-- Create the background surface using the image source.
 
 			create l_bird_source.make ("pingus.bmp")	-- Make the image bird. The image is not loaded yet.
 			l_bird_source.open		-- Load the image
-			create l_bird.share_from_image_source (l_bird_source)	-- Create the bird surface using the image source.
+			create l_bird.share_from_image (l_bird_source)	-- Create the bird surface using the image source.
 
 			create l_bird_transparent_color.make_rgb (255, 0, 255)
 			l_bird.transparent_color:=l_bird_transparent_color		-- Remove the pink color from the image.

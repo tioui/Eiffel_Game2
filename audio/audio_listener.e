@@ -1,8 +1,8 @@
 note
 	description: "The 3d object that receive the sound emit by sound sources."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "Tue, 07 Apr 2015 01:15:20 +0000"
+	revision: "2.0"
 
 class
 	AUDIO_LISTENER
@@ -31,13 +31,13 @@ feature -- Access
 		require
 			Listener_Orientation_At_And_Up_Orthogonal: a_x_at*a_x_up+a_y_at*a_y_up+a_z_at*a_z_up=0
 		do
-			set_params_6_float(Al_orientation,a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up)
+			set_params_6_float({AUDIO_EXTERNAL}.Al_orientation,a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up)
 		end
 
 	orientation:TUPLE[a_x_at,a_y_at,a_z_at,a_x_up,a_y_up,a_z_up:REAL]
 			-- Get the listener orientation (UP and AT).
 		do
-			Result:=params_6_float(Al_orientation)
+			Result:=params_6_float({AUDIO_EXTERNAL}.Al_orientation)
 		end
 
 feature {NONE} -- Implementation
@@ -55,10 +55,9 @@ feature {NONE} -- Implementation
 			params_vector.at (5):=y_up
 			params_vector.at (6):=z_up
 			c_params:=params_vector.to_c
-			read_error
+			clear_error
 			set_params_float_pointer_c(id,$c_params)
-			read_error
-			check not is_error end
+			read_al_error("Cannot set audio float parameters (6).")
 		end
 
 
@@ -69,10 +68,9 @@ feature {NONE} -- Implementation
 		do
 			create l_params_vector.make_filled (0.0, 1, 6)
 			l_params_c:=l_params_vector.to_c
-			read_error
+			clear_error
 			assign_params_float_pointer_c(a_id,$l_params_c)
-			read_error
-			check not is_error end
+			read_al_error("Cannot get audio float parameters (6).")
 			Result:=[l_params_vector.at (1),l_params_vector.at (2),l_params_vector.at (3),l_params_vector.at (4),l_params_vector.at (5),l_params_vector.at (6)]
 		end
 

@@ -32,6 +32,8 @@ feature -- Access
 			-- Pass a true value to `a_enable_png', `a_enable_jpg' and `a_enable_tif' if you want the library to
 			-- be able to open respectively PNG, JPG and TIF files. The dynamic library (DLL, SO, etc.) must be
 			-- found to activate the functionnality.
+			-- Using this is not actually needed, but loading the needed dynamic library before your program
+			-- get buzy is a good idea.
 		local
 			l_flags:INTEGER
 		do
@@ -45,31 +47,72 @@ feature -- Access
 			if a_enable_tif then
 				l_flags:=l_flags.bit_or ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_tif)
 			end
+			clear_error
 			l_flags:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Init(l_flags)
-			if a_enable_png and l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_png)=0 then
-				io.error.put_string ("Error while loading PNG library%N")
-				io.error.put_string (last_error.as_string_8+"%N")
-			end
-			if a_enable_jpg and l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_jpg)=0 then
-				io.error.put_string ("Error while loading jpeg library%N")
-				io.error.put_string (last_error.as_string_8+"%N")
-			end
-			if a_enable_tif and l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_tif)=0 then
-				io.error.put_string ("Error while loading tif library%N")
-				io.error.put_string (last_error.as_string_8+"%N")
-			end
+			manage_error_boolean (a_enable_png implies is_png_enabled, "Error while loading PNG library")
+			manage_error_boolean (a_enable_jpg implies is_jpg_enabled, "Error while loading JPG library")
+			manage_error_boolean (a_enable_tif implies is_tif_enabled, "Error while loading TIF library")
+		ensure
+			PNG_Is_Enabled: (not has_error and a_enable_png) implies is_png_enabled
+			JPG_Is_Enabled: (not has_error and a_enable_jpg) implies is_jpg_enabled
+			TIF_Is_Enabled: (not has_error and a_enable_tif) implies is_tif_enabled
 		end
 
-	disable_image
-			-- Close the images files library.
+	enable_png
+			-- Load the PNG dynamic library
 		do
-			{IMG_SDL_IMAGE_EXTERNAL}.IMG_Quit
+			enable_image(True, False, False)
+		ensure
+			PNG_Is_Enabled: not has_error implies is_png_enabled
+		end
+
+	enable_jpg
+			-- Load the JPG dynamic library
+		do
+			enable_image(False, True, False)
+		ensure
+			JPG_Is_Enabled: not has_error implies is_jpg_enabled
+		end
+
+	enable_tif
+			-- Load the TIF dynamic library
+		do
+			enable_image(False, False, True)
+		ensure
+			TIF_Is_Enabled: not has_error implies is_tif_enabled
+		end
+
+	is_png_enabled:BOOLEAN
+			-- True if the PNG dynamic library is currently loaded
+		local
+			l_flags:INTEGER
+		do
+			l_flags:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Init(0)
+			Result := l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_png) /= 0
+		end
+
+	is_jpg_enabled:BOOLEAN
+			-- True if the JPG dynamic library is currently loaded
+		local
+			l_flags:INTEGER
+		do
+			l_flags:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Init(0)
+			Result := l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_jpg) /= 0
+		end
+
+	is_tif_enabled:BOOLEAN
+			-- True if the tif dynamic library is currently loaded
+		local
+			l_flags:INTEGER
+		do
+			l_flags:={IMG_SDL_IMAGE_EXTERNAL}.IMG_Init(0)
+			Result := l_flags.bit_and ({IMG_SDL_IMAGE_EXTERNAL}.Img_init_tif) /= 0
 		end
 
 	quit_library
 			-- Close the images files library.
 		do
-			disable_image
+			{IMG_SDL_IMAGE_EXTERNAL}.IMG_Quit
 		end
 
 feature {NONE} -- Implementation

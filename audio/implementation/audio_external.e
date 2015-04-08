@@ -1,8 +1,8 @@
 note
 	description: "External C feature for Audio libraries."
 	author: "Louis Marchand"
-	date: "May 24, 2012"
-	revision: "0.1"
+	date: "Tue, 07 Apr 2015 01:15:20 +0000"
+	revision: "2.0"
 
 class
 	AUDIO_EXTERNAL
@@ -18,28 +18,35 @@ feature -- OpenAL functions
 			"alGetError"
 		end
 
-	frozen AL_Create_context(device:POINTER;flags:POINTER):POINTER
+	frozen ALC_get_error(device:POINTER):INTEGER
+		external
+			"C (ALCdevice *) : ALCenum | <alc.h>"
+		alias
+			"alcGetError"
+		end
+
+	frozen ALC_create_context(device:POINTER;flags:POINTER):POINTER
 		external
 			"C (ALCdevice *,ALCint *) : ALCcontext * | <alc.h>"
 		alias
 			"alcCreateContext"
 		end
 
-	frozen AL_make_context_current(context:POINTER)
+	frozen ALC_make_context_current(context:POINTER) : BOOLEAN
 		external
-			"C (ALCcontext *) | <alc.h>"
+			"C (ALCcontext *) : ALCboolean | <alc.h>"
 		alias
 			"alcMakeContextCurrent"
 		end
 
-	frozen AL_get_current_context:POINTER
+	frozen ALC_get_current_context:POINTER
 		external
 			"C : ALCcontext * | <alc.h>"
 		alias
 			"alcGetCurrentContext"
 		end
 
-	frozen AL_destroy_context(context:POINTER)
+	frozen ALC_destroy_context(context:POINTER)
 		external
 			"C (ALCcontext *) | <alc.h>"
 		alias
@@ -47,22 +54,22 @@ feature -- OpenAL functions
 		end
 
 
-	frozen AL_suspend_context(context:POINTER)
+	frozen ALC_suspend_context(context:POINTER)
 		external
 			"C (ALCcontext *) | <alc.h>"
 		alias
 			"alcSuspendContext"
 		end
 
-	frozen AL_open_device(device_name:POINTER):POINTER
+	frozen ALC_open_device(device_name:POINTER):POINTER
 		external
-			"C (ALCchar	 *) : ALCdevice * | <alc.h>"
+			"C (const ALCchar *) : ALCdevice * | <alc.h>"
 		alias
 			"alcOpenDevice"
 		end
 
 
-	frozen AL_close_device(device:POINTER):INTEGER
+	frozen ALC_close_device(device:POINTER):BOOLEAN
 		external
 			"C (ALCdevice *) : ALCboolean | <alc.h>"
 		alias
@@ -106,6 +113,12 @@ feature -- OpenAL functions
 			"alGetSourcef"
 		end
 
+	frozen AL_is_source(source_id:NATURAL) : BOOLEAN
+		external
+			"C (ALuint) : ALboolean | <al.h>"
+		alias
+			"alIsSource"
+		end
 
 	frozen AL_set_source_fv(source_id:NATURAL;param:INTEGER;les_params:POINTER)
 		external
@@ -142,6 +155,13 @@ feature -- OpenAL functions
 			"C (ALsizei, ALuint *) | <al.h>"
 		alias
 			"alGenBuffers"
+		end
+
+	frozen AL_is_Buffer(buffer: NATURAL) :BOOLEAN
+		external
+			"C (ALuint) : ALboolean | <al.h>"
+		alias
+			"alIsBuffer"
 		end
 
 	frozen AL_source_queue_buffers(source:NATURAL;nb:INTEGER;buffers:POINTER)
@@ -195,19 +215,34 @@ feature -- OpenAL functions
 
 feature -- OpenAL Constantes
 
-	frozen AL_INVALID_VALUE :INTEGER
+	frozen ALC_invalid_value :INTEGER
 		external
 			"C inline use <alc.h>"
 		alias
 			"ALC_INVALID_VALUE"
 		end
 
-	frozen AL_INVALID_ENUM :INTEGER
+	frozen AL_invalid_value :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_INVALID_VALUE"
+		end
+
+	frozen AL_invalid_enum :INTEGER
 		external
 			"C inline use <al.h>"
 		alias
 			"AL_INVALID_ENUM"
 		end
+
+	frozen ALC_invalid_enum :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_INVALID_ENUM"
+		end
+
 	frozen AL_INVALID_OPERATION :INTEGER
 		external
 			"C inline use <al.h>"
@@ -229,7 +264,14 @@ feature -- OpenAL Constantes
 			"AL_OUT_OF_MEMORY"
 		end
 
-	frozen AL_INVALID_DEVICE :INTEGER
+	frozen ALC_OUT_OF_MEMORY :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_OUT_OF_MEMORY"
+		end
+
+	frozen ALC_invalid_device :INTEGER
 		external
 			"C inline use <alc.h>"
 		alias
@@ -237,7 +279,7 @@ feature -- OpenAL Constantes
 		end
 
 
-	frozen AL_INVALID_CONTEXT :INTEGER
+	frozen ALC_invalid_context :INTEGER
 		external
 			"C inline use <alc.h>"
 		alias
@@ -249,6 +291,13 @@ feature -- OpenAL Constantes
 			"C inline use <al.h>"
 		alias
 			"AL_NO_ERROR"
+		end
+
+	frozen ALC_NO_ERROR :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_NO_ERROR"
 		end
 
 	frozen AL_POSITION :INTEGER

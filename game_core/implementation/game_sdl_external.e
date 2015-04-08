@@ -348,6 +348,13 @@ feature -- Function SDL.h
 			"SDL_WINDOWPOS_CENTERED_DISPLAY"
 		end
 
+	frozen SDL_WINDOWPOS_UNDEFINED:INTEGER
+		external
+			"C [macro <SDL.h>] : EIF_INTEGER"
+		alias
+			"SDL_WINDOWPOS_UNDEFINED"
+		end
+
 	frozen SDL_GetNumVideoDisplays:INTEGER
 		external
 			"C : int | <SDL.h>"

@@ -29,12 +29,16 @@ feature {NONE} -- Initialization
 	run_game
 			-- Prepare and launch the game system
 		local
+			l_window_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_window:GAME_WINDOW_SURFACED
 			l_font:TEXT_FONT
 			bleh:TEXT_FONT_CPF
 		do
 			-- Creating used object
-			create l_window.make_default ("Example - Text and mouse move", 320, 240)
+			create l_window_builder
+			l_window_builder.set_dimension (320, 240)
+			l_window_builder.set_title ("Example - Text and mouse move")
+			l_window := l_window_builder.generate_window
 			create l_font.make ("font.ttf", 20)
 			if l_font.is_openable then
 				l_font.open
@@ -88,7 +92,6 @@ feature {NONE} -- Initialization
 			if a_font.is_open then
 				create l_text.make ("(" + last_x.out + "," + last_y.out + ")", a_font, create {GAME_COLOR}.make_rgb (0, 0, 0))
 				if not l_text.has_error then
-					print("l_text: (" + l_text.width.out + "," + l_text.height.out + ")%N")
 					a_window.surface.draw_surface (l_text, 20, 20)
 				end
 			end

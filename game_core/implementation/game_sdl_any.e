@@ -8,7 +8,15 @@ deferred class
 	GAME_SDL_ANY
 
 inherit
-	ANY
+	GAME_ERROR_MANAGER
+		rename
+			put_error as put_manual_error,
+			message as manual_error
+		redefine
+			clear_error,
+			put_manual_error,
+			last_error
+		end
 
 feature {NONE} -- Implementation
 
@@ -17,10 +25,10 @@ feature {NONE} -- Implementation
 			-- Remove error pending in `Current'
 		do
 			{GAME_SDL_EXTERNAL}.SDL_ClearError
-			has_error:=False
+			Precursor {GAME_ERROR_MANAGER}
 			is_manual_error := False
-		ensure
-			No_Error: has_error = False and is_manual_error = False
+		ensure then
+			No_Error: is_manual_error = False
 		end
 
 	manage_error_code(a_error_code:INTEGER; a_message:READABLE_STRING_GENERAL)
@@ -74,33 +82,13 @@ feature {NONE} -- Implementation
 			-- and `a_specific_error' for the lasting information
 		do
 			is_manual_error := True
-			manual_error := a_specific_error
-			has_error:=True
-			if print_on_error_internal.item then
-				io.error.put_string (a_general_message.to_string_8+"%N")
-				io.error.put_string (a_specific_error.to_string_8+"%N")
-			end
-		ensure
-			has_error
+			Precursor {GAME_ERROR_MANAGER} (a_general_message, a_specific_error)
 		end
 
 	is_manual_error:BOOLEAN
 			-- Is the current pending error is a manual error (using `manual_error' as message)
 
-	manual_error:detachable READABLE_STRING_GENERAL
-			-- The message for a manual error
-
-	print_on_error_internal:CELL[BOOLEAN]
-			-- When True, when an error occured,
-			-- The library will print it right away.
-		once
-			create Result.put (True)
-		end
-
 feature -- Access
-
-	has_error:BOOLEAN
-			-- Is the library has generate an error
 
 	last_error:READABLE_STRING_GENERAL
 			-- The last error generate by the library
@@ -108,11 +96,7 @@ feature -- Access
 			l_string:C_STRING
 		do
 			if is_manual_error then
-				if attached manual_error as la_message then
-					Result := la_message
-				else
-					Result := "" -- Should never happend
-				end
+				Result := Precursor {GAME_ERROR_MANAGER}
 			else
 				create l_string.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetError)
 				Result:=l_string.string

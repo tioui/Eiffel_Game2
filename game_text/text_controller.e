@@ -17,10 +17,22 @@ create
 
 feature -- Access
 
-	is_text_enable:BOOLEAN
+	is_text_enable:BOOLEAN assign set_is_text_enable
 			-- The library is enabled.
 		do
 			Result:={GAME_TEXT_EXTERNAL}.TTF_WasInit=1
+		end
+
+	set_is_text_enable(a_value:BOOLEAN)
+			-- Assign to `is_text_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_text
+			else
+				disable_text
+			end
+		ensure
+			Is_Assign: not has_error implies is_text_enable ~ a_value
 		end
 
 	enable_text

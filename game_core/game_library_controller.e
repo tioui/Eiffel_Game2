@@ -9,6 +9,8 @@ class
 
 inherit
 	GAME_SDL_ANY
+		export
+			{ANY} print_on_error, set_print_on_error, enable_print_on_error, disable_print_on_error
 		redefine
 			default_create
 		end
@@ -87,12 +89,23 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Video_Disabled: not is_video_enable
 		end
 
-	is_video_enable:BOOLEAN
+	is_video_enable:BOOLEAN assign set_is_video_enable
 			-- Return true if the text surface functionnality is enabled.
 		do
 			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		end
 
+	set_is_video_enable(a_value:BOOLEAN)
+			-- Assign to `is_video_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_video
+			else
+				disable_video
+			end
+		ensure
+			Is_Assign: is_video_enable ~ a_value
+		end
 
 	enable_joystick
 			-- Unable the joystick functionality
@@ -117,10 +130,22 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Joystick_Disabled: not is_joystick_enable
 		end
 
-	is_joystick_enable:BOOLEAN
+	is_joystick_enable:BOOLEAN assign set_is_joystick_enable
 			-- Return true if the joystick functionnality is enabled.
 		do
 			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
+		end
+
+	set_is_joystick_enable(a_value:BOOLEAN)
+			-- Assign to `is_joystick_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joystick
+			else
+				disable_joystick
+			end
+		ensure
+			Is_Assign: is_joystick_enable~ a_value
 		end
 
 
@@ -148,10 +173,22 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Haptic_Disabled: not is_haptic_enable
 		end
 
-	is_haptic_enable:BOOLEAN
+	is_haptic_enable:BOOLEAN assign set_is_haptic_enable
 			-- Return true if the haptic (force feedback) functionnality is enabled.
 		do
 			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_haptic)
+		end
+
+	set_is_haptic_enable(a_value:BOOLEAN)
+			-- Assign to `is_haptic_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_haptic
+			else
+				disable_haptic
+			end
+		ensure
+			Is_Assign: is_haptic_enable~ a_value
 		end
 
 	enable_events
@@ -174,10 +211,22 @@ feature -- Subs Systems
 			SDL_Controller_Disable_Events_Disabled: not is_events_enable
 		end
 
-	is_events_enable:BOOLEAN
+	is_events_enable:BOOLEAN assign set_is_events_enable
 			-- Return true if the events functionnality is enabled.
 		do
 			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.Sdl_init_events)
+		end
+
+	set_is_events_enable(a_value:BOOLEAN)
+			-- Assign to `is_events_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_events
+			else
+				disable_events
+			end
+		ensure
+			Is_Assign: is_events_enable~ a_value
 		end
 
 feature -- Video methods
@@ -274,7 +323,7 @@ feature -- Mouse
 		HIDE_MOUSE_CURSOR_VALID: not is_cursor_visible
 	end
 
-	is_cursor_visible:BOOLEAN
+	is_cursor_visible:BOOLEAN assign set_is_cursor_visible
 		-- Return true if the library is set to show the mous cursor when the mouse is on a window created by the library.
 	local
 		l_is_enable:INTEGER
@@ -283,6 +332,18 @@ feature -- Mouse
 		check l_is_enable={GAME_SDL_EXTERNAL}.Sdl_enable or l_is_enable={GAME_SDL_EXTERNAL}.Sdl_disable end
 		Result:= l_is_enable={GAME_SDL_EXTERNAL}.Sdl_enable
 	end
+
+	set_is_cursor_visible(a_value:BOOLEAN)
+			-- Assign to `is_cursor_visible' the value of `a_value'
+		do
+			if a_value then
+				show_mouse_cursor
+			else
+				hide_mouse_cursor
+			end
+		ensure
+			Is_Assign: is_cursor_visible ~ a_value
+		end
 
 feature -- Joystick methods
 
@@ -564,26 +625,6 @@ feature -- Other methods
 			create l_mem
 			l_mem.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
-		end
-
-	print_on_error:BOOLEAN
-			-- When an error occured, the library will print
-			-- informations about the error on the error console
-			-- output (default is True).
-		do
-			Result := print_on_error_internal.item
-		end
-
-	enable_print_on_error
-			-- Active the `print_on_error' functionnality.
-		do
-			print_on_error_internal.put(True)
-		end
-
-	disable_print_on_error
-			-- Desactive the `print_on_error' functionnality.
-		do
-			print_on_error_internal.put(False)
 		end
 
 	mouse_has_haptic:BOOLEAN

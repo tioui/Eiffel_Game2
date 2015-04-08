@@ -14,6 +14,12 @@ feature -- Access
 	set_position(a_x,a_y,a_z:REAL)
 			-- Set the object `position' in a 3D environment.
 		deferred
+		ensure
+			Is_Assign: attached position as la_position implies (
+							la_position.x ~ a_x and
+							la_position.y ~ a_y and
+							la_position.z ~ a_z
+						)
 		end
 
 	position:TUPLE[x,y,z:REAL]
@@ -31,6 +37,8 @@ feature -- Access
 			-- Assign the `x' coordinate of the `position'
 		do
 			set_position(a_x,y,z)
+		ensure
+			Is_Assign: x ~ a_x
 		end
 
 	y:REAL assign set_y
@@ -43,6 +51,8 @@ feature -- Access
 			-- Assign the `y' coordinate of the `position'
 		do
 			set_position(x,a_y,z)
+		ensure
+			Is_Assign: y ~ a_y
 		end
 
 	z:REAL assign set_z
@@ -55,6 +65,8 @@ feature -- Access
 			-- Assign the `z' coordinate of the `position'
 		do
 			set_position(x,y,a_z)
+		ensure
+			Is_Assign: z ~ a_z
 		end
 
 end

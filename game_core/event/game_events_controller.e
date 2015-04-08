@@ -287,7 +287,7 @@ feature -- Access
 			Is_Event_Disabled: not is_quit_signal_event_enable
 		end
 
-	is_quit_signal_event_enable:BOOLEAN
+	is_quit_signal_event_enable:BOOLEAN assign set_is_quit_signal_event_enable
 			-- Is the `quit_signal_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -295,6 +295,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_quit, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_quit_signal_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_quit_signal_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_quit_signal_event
+			else
+				disable_quit_signal_event
+			end
+		ensure
+			Is_Assign: is_quit_signal_event_enable ~ a_value
 		end
 
 	enable_window_event
@@ -321,7 +333,7 @@ feature -- Access
 			Is_Event_Disabled: not is_window_event_enable
 		end
 
-	is_window_event_enable:BOOLEAN
+	is_window_event_enable:BOOLEAN assign set_is_window_event_enable
 			-- Is the `window_event_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -329,6 +341,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_windowevent, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_window_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_window_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_window_event
+			else
+				disable_window_event
+			end
+		ensure
+			Is_Assign: is_window_event_enable ~ a_value
 		end
 
 	enable_key_pressed_event
@@ -355,7 +379,7 @@ feature -- Access
 			Is_Event_Disabled: not is_key_pressed_event_enable
 		end
 
-	is_key_pressed_event_enable:BOOLEAN
+	is_key_pressed_event_enable:BOOLEAN assign set_is_key_pressed_event_enable
 			-- Is the `key_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -363,6 +387,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keydown, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_key_pressed_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_key_pressed_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_key_pressed_event
+			else
+				disable_key_pressed_event
+			end
+		ensure
+			Is_Assign: is_key_pressed_event_enable ~ a_value
 		end
 
 	enable_key_released_event
@@ -389,7 +425,7 @@ feature -- Access
 			Is_Event_Disabled: not is_key_released_event_enable
 		end
 
-	is_key_released_event_enable:BOOLEAN
+	is_key_released_event_enable:BOOLEAN assign set_is_key_released_event_enable
 			-- Is the `key_released_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -397,6 +433,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_keyup, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_key_released_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_key_released_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_key_released_event
+			else
+				disable_key_released_event
+			end
+		ensure
+			Is_Assign: is_key_released_event_enable ~ a_value
 		end
 
 	enable_text_editing_event
@@ -423,7 +471,7 @@ feature -- Access
 			Is_Event_Disabled: not is_text_editing_event_enable
 		end
 
-	is_text_editing_event_enable:BOOLEAN
+	is_text_editing_event_enable:BOOLEAN assign set_is_text_editing_event_enable
 			-- Is the `text_editing_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -431,6 +479,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textediting, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_text_editing_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_text_editing_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_text_editing_event
+			else
+				disable_text_editing_event
+			end
+		ensure
+			Is_Assign: is_text_editing_event_enable ~ a_value
 		end
 
 	enable_text_input_event
@@ -457,7 +517,7 @@ feature -- Access
 			Is_Event_Disabled: not is_text_input_event_enable
 		end
 
-	is_text_input_event_enable:BOOLEAN
+	is_text_input_event_enable:BOOLEAN assign set_is_text_input_event_enable
 			-- Is the `text_input_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -465,6 +525,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_text_input_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_text_input_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_text_input_event
+			else
+				disable_text_input_event
+			end
+		ensure
+			Is_Assign: is_text_input_event_enable ~ a_value
 		end
 
 	enable_mouse_motion_event
@@ -491,7 +563,7 @@ feature -- Access
 			Is_Event_Disabled: not is_mouse_motion_event_enable
 		end
 
-	is_mouse_motion_event_enable:BOOLEAN
+	is_mouse_motion_event_enable:BOOLEAN assign set_is_mouse_motion_event_enable
 			-- Is the `mouse_motion_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -499,6 +571,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousemotion, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_mouse_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_text_input_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_mouse_motion_event
+			else
+				disable_mouse_motion_event
+			end
+		ensure
+			Is_Assign: is_mouse_motion_event_enable ~ a_value
 		end
 
 	enable_mouse_button_pressed_event
@@ -525,7 +609,7 @@ feature -- Access
 			Is_Event_Disabled: not is_mouse_button_pressed_event_enable
 		end
 
-	is_mouse_button_pressed_event_enable:BOOLEAN
+	is_mouse_button_pressed_event_enable:BOOLEAN assign set_is_mouse_button_pressed_event_enable
 			-- Is the `mouse_button_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -533,6 +617,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttondown, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_mouse_button_pressed_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_mouse_button_pressed_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_mouse_button_pressed_event
+			else
+				disable_mouse_button_pressed_event
+			end
+		ensure
+			Is_Assign: is_mouse_button_pressed_event_enable ~ a_value
 		end
 
 	enable_mouse_button_released_event
@@ -559,7 +655,7 @@ feature -- Access
 			Is_Event_Disabled: not is_mouse_button_released_event_enable
 		end
 
-	is_mouse_button_released_event_enable:BOOLEAN
+	is_mouse_button_released_event_enable:BOOLEAN assign set_is_mouse_button_released_event_enable
 			-- Is the `mouse_button_released_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -567,6 +663,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousebuttonup, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_mouse_button_released_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_mouse_button_released_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_mouse_button_released_event
+			else
+				disable_mouse_button_released_event
+			end
+		ensure
+			Is_Assign: is_mouse_button_released_event_enable ~ a_value
 		end
 
 	enable_mouse_wheel_event
@@ -593,7 +701,7 @@ feature -- Access
 			Is_Event_Disabled: not is_mouse_wheel_event_enable
 		end
 
-	is_mouse_wheel_event_enable:BOOLEAN
+	is_mouse_wheel_event_enable:BOOLEAN assign set_is_mouse_wheel_event_enable
 			-- Is the `mouse_wheel_move_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -601,6 +709,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_mousewheel, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_mouse_wheel_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_mouse_wheel_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_mouse_wheel_event
+			else
+				disable_mouse_wheel_event
+			end
+		ensure
+			Is_Assign: is_mouse_wheel_event_enable ~ a_value
 		end
 
 	enable_joy_axis_motion_event
@@ -627,7 +747,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_axis_motion_event_enable
 		end
 
-	is_joy_axis_motion_event_enable:BOOLEAN
+	is_joy_axis_motion_event_enable:BOOLEAN assign set_is_joy_axis_motion_event_enable
 			-- Is the `joy_axis_motion_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -635,6 +755,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyaxismotion, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_axis_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_axis_motion_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_axis_motion_event
+			else
+				disable_joy_axis_motion_event
+			end
+		ensure
+			Is_Assign: is_joy_axis_motion_event_enable ~ a_value
 		end
 
 	enable_joy_ball_motion_event
@@ -661,7 +793,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_ball_motion_event_enable
 		end
 
-	is_joy_ball_motion_event_enable:BOOLEAN
+	is_joy_ball_motion_event_enable:BOOLEAN assign set_is_joy_ball_motion_event_enable
 			-- Is the `joy_ball_motion_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -669,6 +801,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyballmotion, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_ball_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_ball_motion_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_ball_motion_event
+			else
+				disable_joy_ball_motion_event
+			end
+		ensure
+			Is_Assign: is_joy_ball_motion_event_enable ~ a_value
 		end
 
 	enable_joy_hat_motion_event
@@ -695,7 +839,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_hat_motion_event_enable
 		end
 
-	is_joy_hat_motion_event_enable:BOOLEAN
+	is_joy_hat_motion_event_enable:BOOLEAN assign set_is_joy_hat_motion_event_enable
 			-- Is the `joy_hat_motion_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -703,6 +847,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joyhatmotion, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_hat_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_hat_motion_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_hat_motion_event
+			else
+				disable_joy_hat_motion_event
+			end
+		ensure
+			Is_Assign: is_joy_hat_motion_event_enable ~ a_value
 		end
 
 	enable_joy_button_pressed_event
@@ -729,7 +885,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_button_pressed_event_enable
 		end
 
-	is_joy_button_pressed_event_enable:BOOLEAN
+	is_joy_button_pressed_event_enable:BOOLEAN assign set_is_joy_button_pressed_event_enable
 			-- Is the `joy_button_pressed_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -737,6 +893,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttondown, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_button_pressed_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_button_pressed_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_button_pressed_event
+			else
+				disable_joy_button_pressed_event
+			end
+		ensure
+			Is_Assign: is_joy_button_pressed_event_enable ~ a_value
 		end
 
 	enable_joy_button_released_event
@@ -763,7 +931,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_button_released_event_enable
 		end
 
-	is_joy_button_released_event_enable:BOOLEAN
+	is_joy_button_released_event_enable:BOOLEAN assign set_is_joy_button_released_event_enable
 			-- Is the `joy_button_released_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -771,6 +939,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joybuttonup, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_button_released_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_button_released_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_button_released_event
+			else
+				disable_joy_button_released_event
+			end
+		ensure
+			Is_Assign: is_joy_button_released_event_enable ~ a_value
 		end
 
 	enable_joy_device_founded_event
@@ -797,7 +977,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_device_founded_event_enable
 		end
 
-	is_joy_device_founded_event_enable:BOOLEAN
+	is_joy_device_founded_event_enable:BOOLEAN assign set_is_joy_device_founded_event_enable
 			-- Is the `joy_device_founded_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -805,6 +985,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceadded, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_device_founded_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_device_founded_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_device_founded_event
+			else
+				disable_joy_device_founded_event
+			end
+		ensure
+			Is_Assign: is_joy_device_founded_event_enable ~ a_value
 		end
 
 	enable_joy_device_removed_event
@@ -831,7 +1023,7 @@ feature -- Access
 			Is_Event_Disabled: not is_joy_device_removed_event_enable
 		end
 
-	is_joy_device_removed_event_enable:BOOLEAN
+	is_joy_device_removed_event_enable:BOOLEAN assign set_is_joy_device_removed_event_enable
 			-- Is the `joy_device_removed_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -839,6 +1031,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_joydeviceremoved, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_joy_device_removed_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_joy_device_removed_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_joy_device_removed_event
+			else
+				disable_joy_device_removed_event
+			end
+		ensure
+			Is_Assign: is_joy_device_removed_event_enable ~ a_value
 		end
 
 	enable_every_joy_events
@@ -851,7 +1055,7 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_enable)
 			manage_error_code(l_error, "Error while enabling joystick events.")
 		ensure
-			Is_Events_Enabled: 	is_joy_axis_motion_event_enable and is_joy_ball_motion_event_enable and
+			Is_Events_Enabled: is_joy_axis_motion_event_enable and is_joy_ball_motion_event_enable and
 								is_joy_hat_motion_event_enable and is_joy_button_pressed_event_enable and
 								is_joy_button_released_event_enable and is_joy_device_founded_event_enable and
 								is_joy_device_removed_event_enable
@@ -873,7 +1077,7 @@ feature -- Access
 								is_joy_device_removed_event_enable)
 		end
 
-	is_any_joy_event_enable:BOOLEAN
+	is_any_joy_event_enable:BOOLEAN assign set_is_any_joy_event_enable
 			-- Is there any joystick event that is enable
 			-- Enabled by default
 		local
@@ -883,6 +1087,18 @@ feature -- Access
 			l_query := {GAME_SDL_EXTERNAL}.SDL_JoystickEventState({GAME_SDL_EXTERNAL}.sdl_query)
 			manage_error_code(l_query, "Error while querying joystick events activation.")
 			Result := l_query = 1
+		end
+
+	set_is_any_joy_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_any_joy_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_every_joy_events
+			else
+				disable_every_joy_events
+			end
+		ensure
+			Is_Assign: is_any_joy_event_enable ~ a_value
 		end
 
 	enable_finger_touched_event
@@ -909,7 +1125,7 @@ feature -- Access
 			Is_Event_Disabled: not is_finger_touched_event_enable
 		end
 
-	is_finger_touched_event_enable:BOOLEAN
+	is_finger_touched_event_enable:BOOLEAN assign set_is_finger_touched_event_enable
 			-- Is the `finger_touched_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -917,6 +1133,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerdown, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_finger_touched_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_finger_touched_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_finger_touched_event
+			else
+				disable_finger_touched_event
+			end
+		ensure
+			Is_Assign: is_finger_touched_event_enable ~ a_value
 		end
 
 	enable_finger_released_event
@@ -943,7 +1171,7 @@ feature -- Access
 			Is_Event_Disabled: not is_finger_released_event_enable
 		end
 
-	is_finger_released_event_enable:BOOLEAN
+	is_finger_released_event_enable:BOOLEAN assign set_is_finger_released_event_enable
 			-- Is the `finger_released_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -951,6 +1179,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingerup, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_finger_released_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_finger_released_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_finger_released_event
+			else
+				disable_finger_released_event
+			end
+		ensure
+			Is_Assign: is_finger_released_event_enable ~ a_value
 		end
 
 	enable_finger_motion_event
@@ -977,7 +1217,7 @@ feature -- Access
 			Is_Event_Disabled: not is_finger_motion_event_enable
 		end
 
-	is_finger_motion_event_enable:BOOLEAN
+	is_finger_motion_event_enable:BOOLEAN assign set_is_finger_motion_event_enable
 			-- Is the `finger_motion_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -985,6 +1225,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_fingermotion, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_finger_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_finger_motion_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_finger_motion_event
+			else
+				disable_finger_motion_event
+			end
+		ensure
+			Is_Assign: is_finger_motion_event_enable ~ a_value
 		end
 
 	enable_finger_gesture_event
@@ -1011,7 +1263,7 @@ feature -- Access
 			Is_Event_Disabled: not is_finger_gesture_event_enable
 		end
 
-	is_finger_gesture_event_enable:BOOLEAN
+	is_finger_gesture_event_enable:BOOLEAN assign set_is_finger_gesture_event_enable
 			-- Is the `finger_gesture_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -1019,6 +1271,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_multigesture, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_finger_gesture_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_finger_gesture_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_finger_gesture_event
+			else
+				disable_finger_gesture_event
+			end
+		ensure
+			Is_Assign: is_finger_gesture_event_enable ~ a_value
 		end
 
 	enable_dollar_gesture_event
@@ -1045,7 +1309,7 @@ feature -- Access
 			Is_Event_Disabled: not is_dollar_gesture_event_enable
 		end
 
-	is_dollar_gesture_event_enable:BOOLEAN
+	is_dollar_gesture_event_enable:BOOLEAN assign set_is_dollar_gesture_event_enable
 			-- Is the `dollar_gesture_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -1053,6 +1317,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dollargesture, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_dollar_gesture_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_dollar_gesture_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_dollar_gesture_event
+			else
+				disable_dollar_gesture_event
+			end
+		ensure
+			Is_Assign: is_dollar_gesture_event_enable ~ a_value
 		end
 
 	enable_file_dropped_event
@@ -1079,7 +1355,7 @@ feature -- Access
 			Is_Event_Disabled: not is_file_dropped_event_enable
 		end
 
-	is_file_dropped_event_enable:BOOLEAN
+	is_file_dropped_event_enable:BOOLEAN assign set_is_file_dropped_event_enable
 			-- Is the `file_dropped_actions' event has to be process.
 			-- Disable by default
 		local
@@ -1087,6 +1363,18 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_dropfile, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_file_dropped_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_file_dropped_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_file_dropped_event
+			else
+				disable_file_dropped_event
+			end
+		ensure
+			Is_Assign: is_file_dropped_event_enable ~ a_value
 		end
 
 

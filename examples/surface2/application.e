@@ -61,8 +61,13 @@ feature {NONE} -- Initialization
 
 	create_window:GAME_WINDOW_SURFACED
 			-- Create the main window.
+		local
+			l_window_builder:GAME_WINDOW_SURFACED_BUILDER
 		do
-			create Result.make_default ("Hello Bird", 800, 600)	-- Create a window
+			create l_window_builder
+			l_window_builder.set_dimension (800, 600)
+			l_window_builder.set_title ("Hello Bird")
+			Result := l_window_builder.generate_window
 			if Result.has_error then	-- Valid that there is no error
 				die (1)	-- If an error occured, quit the application
 			end
@@ -77,7 +82,7 @@ feature {NONE} -- Initialization
 			if l_image.is_openable then		-- Look if the file can be open. In the present case, if the file exist and is readable.
 				l_image.open		--Try to open the image source
 				if l_image.is_open then		-- If the image source is not open, then the file is probably not a valid bmp file
-					create Result.share_from_image_source (l_image)		-- Create a surface containing the image
+					create Result.share_from_image (l_image)		-- Create a surface containing the image
 					if not Result.is_open then	-- If the surface has not open as it should be.
 						io.error.put_string ("The surface cannot be created.%N")
 						die(4)						-- Quit the application
