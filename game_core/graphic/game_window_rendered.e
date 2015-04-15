@@ -18,6 +18,7 @@ inherit
 		end
 
 create
+	make,
 	make_from_constraint,
 	make_from_driver
 
@@ -99,7 +100,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	renderer: GAME_RENDERER
+	renderer: GAME_RENDERER assign set_renderer
 			-- The rendering context of `Current'
 		do
 			if attached internal_renderer as la_renderer then
@@ -108,6 +109,16 @@ feature -- Access
 				create_default_renderer
 				Result := renderer
 			end
+		end
+
+	set_renderer(a_renderer:GAME_RENDERER)
+			-- Assign `a_renderer' to `renderer'
+		require
+			is_Current_Valid: a_renderer.original_target = Current
+		do
+			internal_renderer := a_renderer
+		ensure
+			Is_Assign: renderer = a_renderer
 		end
 
 	create_default_renderer

@@ -25,10 +25,12 @@ inherit
 
 
 create
+	make,
 	make_lockable,
 	make_not_lockable,
 	make_target,
-	make_from_surface
+	make_from_surface,
+	make_from_image
 
 feature {NONE} -- Initialization
 

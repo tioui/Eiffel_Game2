@@ -36,7 +36,7 @@ feature {NONE} -- Initialisation
 	make(a_title:READABLE_STRING_GENERAL;a_display:detachable GAME_DISPLAY;
 				a_is_x_centered, a_is_y_centered, a_is_x_undefined, a_is_y_undefined:BOOLEAN;
 				a_x, a_y, a_width, a_height: INTEGER; a_flags:NATURAL_32)
-			-- Initialization of a `a_width'x`height' `Current' at position
+			-- Initialization of a `a_width'x`a_height' `Current' at position
 			-- (`a_x',`a_y') using `a_title' as window caption, and
 			-- using `a_flags' as internal attributes flags. If `a_is_x_centered'
 			-- or `a_is_y_centered' are set, the position will be centered on

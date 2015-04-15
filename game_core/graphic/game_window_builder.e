@@ -284,7 +284,7 @@ feature -- Access
 			flags := flags.bit_or({GAME_SDL_EXTERNAL}.Sdl_window_fullscreen)
 		ensure
 			Is_Enabled: is_fullscreen
-			Fake_Fullscreen_Disabled: not is_fake_fullscreen
+			Is_Fake_Fullscreen_Disabled: not is_fake_fullscreen
 		end
 
 	disable_fullscreen
@@ -300,7 +300,7 @@ feature -- Access
 			-- (but without changing resolution)
 			-- Default: False
 		do
-			Result := flags.bit_and({GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop) /= 0
+			Result := flags.bit_and({GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop) = {GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop
 		end
 
 	set_is_fake_fullscreen(a_value:BOOLEAN)
@@ -324,7 +324,6 @@ feature -- Access
 			flags := flags.bit_or({GAME_SDL_EXTERNAL}.Sdl_window_fullscreen_desktop)
 		ensure
 			Is_Enabled: is_fake_fullscreen
-			FullScreen_Disabled: not is_fullscreen
 		end
 
 	disable_fake_fullscreen

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-10-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-10-0 http://www.eiffel.com/developers/xml/configuration-1-10-0.xsd" name="game_effects" uuid="DDF5A7F1-9692-44B6-B77B-C29F0541A165" library_target="game_effects">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-13-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd" name="game_effects" uuid="DDF5A7F1-9692-44B6-B77B-C29F0541A165" library_target="game_effects">
 	<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>
 	<target name="game_effects">
 		<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>

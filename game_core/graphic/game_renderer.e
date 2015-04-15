@@ -102,6 +102,10 @@ feature -- Access
 
 	target:GAME_RENDER_TARGET assign set_target
 			-- What {GAME_RENDER_TARGET} to use when using the `present'
+
+	original_target:GAME_WINDOW_RENDERED
+			-- The window that will be targetted
+			-- (if no `set_target' has been called)
 			-- command
 
 	set_target(a_target:GAME_RENDER_TARGET)
@@ -116,13 +120,18 @@ feature -- Access
 			if attached {GAME_TEXTURE} a_target as la_target then
 				l_error := {GAME_SDL_EXTERNAL}.SDL_SetRenderTarget(item, la_target.item)
 				if l_error /= 0 then
-					manage_error_code(l_error, "An error occured while setting the Renderer's target.")
+					manage_error_code(l_error, "An error occured while setting the Renderer's target to texture.")
 				else
 					target := la_target
 				end
 			else
 				if a_target = original_target then
-					target := original_target
+					l_error := {GAME_SDL_EXTERNAL}.SDL_SetRenderTarget(item, create {POINTER})
+					if l_error /= 0 then
+						manage_error_code(l_error, "An error occured while setting the Renderer's target to window.")
+					else
+						target := original_target
+					end
 				else
 					put_manual_error ("Render target error", "Cannot set another screen as render target.")
 				end
@@ -698,9 +707,7 @@ feature {GAME_WINDOW_RENDERED}
 
 feature {NONE} -- Implementation
 
-	original_target:GAME_WINDOW_RENDERED
-			-- The window that will be targetted
-			-- (if no `set_target' has been called)
+
 
 	structure_size: INTEGER_32
 			-- <Precursor>

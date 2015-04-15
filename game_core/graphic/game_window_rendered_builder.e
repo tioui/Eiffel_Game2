@@ -12,6 +12,60 @@ inherit
 
 feature -- Access
 
+	no_default_renderer:BOOLEAN assign set_no_default_renderer
+			-- The `generate_window' won't have any {GAME_RENDERER} initialized
+			-- at creation. If False, `renderer_driver',
+			-- `must_renderer_support_texture_target',
+			-- `must_renderer_synchronize_update',
+			-- `must_renderer_be_software_rendering' and
+			-- `must_renderer_be_hardware_accelerated' will be
+			-- ignored
+
+	set_no_default_renderer(a_value:BOOLEAN)
+			-- Assign to `no_default_renderer' the value of `a_value'
+		do
+			if a_value then
+				enable_no_default_renderer
+			else
+				disable_no_default_renderer
+			end
+		ensure
+			Is_Assign: no_default_renderer ~ a_value
+		end
+
+	enable_no_default_renderer
+			-- The initial `renderer' of the `generate_window' will
+			-- support texture as rendering target or trigger an error.
+			-- Note: Will unset `renderer_driver' and will disable
+			-- `must_renderer_support_texture_target',
+			-- `must_renderer_synchronize_update',
+			-- `must_renderer_be_software_rendering' and
+			-- `must_renderer_be_hardware_accelerated'
+		do
+			no_default_renderer := True
+			unset_renderer_driver
+			disable_must_renderer_support_texture_target
+			disable_must_renderer_synchronize_update
+			disable_must_renderer_be_software_rendering
+			disable_must_renderer_be_hardware_accelerated
+		ensure
+			Is_Set: no_default_renderer
+			Is_Renderer_Driver_Void: not attached renderer_driver
+			Is_Must_Renderer_Support_Texture_Target_Disabled: not must_renderer_support_texture_target
+			Is_Must_Renderer_Synchronize_Update_Disabled: not must_renderer_synchronize_update
+			Is_Must_Renderer_Be_Software_Rendering_Disabled: not must_renderer_be_software_rendering
+			Is_Must_Renderer_Be_Hardware_Accelerated_Disabled: not must_renderer_be_hardware_accelerated
+		end
+
+	disable_no_default_renderer
+			-- The initial `renderer' of the `generate_window' does not
+			-- have to support texture as rendering target or trigger an error.
+		do
+			no_default_renderer := False
+		ensure
+			Is_Unset: not no_default_renderer
+		end
+
 	must_renderer_support_texture_target:BOOLEAN assign set_must_renderer_support_texture_target
 			-- The initial `renderer' of the `generate_window'
 			-- must support texture as rendering target.
@@ -34,10 +88,12 @@ feature -- Access
 			-- Note: Will unset `renderer_driver'
 		do
 			must_renderer_support_texture_target := True
+			disable_no_default_renderer
 			unset_renderer_driver
 		ensure
 			Is_Set: must_renderer_support_texture_target
 			Is_Renderer_Driver_Void: not attached renderer_driver
+			Is_Default_Renderer_Disabled: not no_default_renderer
 		end
 
 	disable_must_renderer_support_texture_target
@@ -73,10 +129,12 @@ feature -- Access
 			-- Note: Will unset `renderer_driver'
 		do
 			must_renderer_synchronize_update := True
+			disable_no_default_renderer
 			unset_renderer_driver
 		ensure
 			Is_Set: must_renderer_synchronize_update
 			Is_Renderer_Driver_Void: not attached renderer_driver
+			Is_Default_Renderer_Disabled: not no_default_renderer
 		end
 
 	disable_must_renderer_synchronize_update
@@ -111,10 +169,12 @@ feature -- Access
 			-- Note: Will unset `renderer_driver'
 		do
 			must_renderer_be_software_rendering := True
+			disable_no_default_renderer
 			unset_renderer_driver
 		ensure
 			Is_Set: must_renderer_be_software_rendering
 			Is_Renderer_Driver_Void: not attached renderer_driver
+			Is_Default_Renderer_Disabled: not no_default_renderer
 		end
 
 	disable_must_renderer_be_software_rendering
@@ -148,10 +208,12 @@ feature -- Access
 			-- Note: Will unset `renderer_driver'
 		do
 			must_renderer_be_hardware_accelerated := True
+			disable_no_default_renderer
 			unset_renderer_driver
 		ensure
 			Is_Set: must_renderer_be_hardware_accelerated
 			Is_Renderer_Driver_Void: not attached renderer_driver
+			Is_Default_Renderer_Disabled: not no_default_renderer
 		end
 
 	disable_must_renderer_be_hardware_accelerated
@@ -190,7 +252,14 @@ feature -- Access
 			-- The {GAME_WINDOW_RENDERED} that fit all
 			-- attributes of `Current'
 		do
-			if attached renderer_driver as la_driver then
+			if no_default_renderer then
+				create Result.make(
+							title, display, is_position_x_centered,
+							is_position_y_centered, is_position_x_undefined,
+							is_position_y_undefined, position_x, position_y,
+							width, height, flags
+						)
+			elseif attached renderer_driver as la_driver then
 				create Result.make_from_driver (
 							title, display, is_position_x_centered,
 							is_position_y_centered, is_position_x_undefined,
