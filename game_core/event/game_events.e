@@ -1,8 +1,8 @@
 note
-	description: "Summary description for {GAME_EVENTS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "An abstract ancestor of every events managers"
+	author: "Louis Marchand"
+	date: "Fri, 17 Apr 2015 03:54:10 +0000"
+	revision: "2.0"
 
 deferred class
 	GAME_EVENTS
