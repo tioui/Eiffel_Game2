@@ -10,6 +10,9 @@ note
 deferred class
 	GAME_COMMON_EVENTS
 
+inherit
+	GAME_EVENTS
+
 feature {NONE} -- Initialisation
 
 	make
@@ -38,9 +41,7 @@ feature {NONE} -- Initialisation
 feature -- Access
 
 	stop
-			-- Put `Current' innactive.
-		require
-			Stop_Is_Running: is_running
+			-- <Precursor>
 		do
 			is_running:=False
 			events_controller.quit_signal_actions.prune_all (quit_signal_actions_callback)
@@ -48,14 +49,10 @@ feature -- Access
 			events_controller.joy_device_founded_actions.prune_all (joystick_founded_actions_callback)
 			events_controller.joy_device_removed_actions.prune_all (joystick_removed_actions_callback)
 			events_controller.file_dropped_actions.prune_all (file_dropped_actions_callback)
-		ensure
-			Is_Stopped: not is_running
 		end
 
 	run
-			-- Put `Current' active.
-		require
-			Run_Not_Already_Running: not is_running
+			-- <Precursor>
 		do
 			is_running:=True
 			if attached quit_signal_actions_internal as la_on_quit_signal_internal then
@@ -73,24 +70,10 @@ feature -- Access
 			if attached file_dropped_actions_internal as la_on_file_drop_internal then
 				events_controller.file_dropped_actions.extend (file_dropped_actions_callback)
 			end
-		ensure
-			Is_Running: is_running
-		end
-		
-		set_is_running(a_value:BOOLEAN)
-			-- Assign to `is_running' the value of `a_value'
-		do
-			if a_value then
-				run
-			else
-				stop
-			end
-		ensure
-			Is_Assign: is_running ~ a_value
 		end
 
 	clear
-			-- Remove all events.
+			-- <Precursor>
 		local
 			l_was_running:BOOLEAN
 		do
@@ -109,7 +92,7 @@ feature -- Access
 		end
 
 	is_running:BOOLEAN assign set_is_running
-			-- Is `Current' active
+			-- <Precursor>
 
 	quit_signal_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the application receive a quit signal.
@@ -192,11 +175,6 @@ feature -- Access
 				end
 				file_dropped_actions_internal := Result
 			end
-		end
-
-	events_controller:GAME_EVENTS_CONTROLLER
-			-- Manage every internal events
-		deferred
 		end
 
 feature {NONE} -- Implementation

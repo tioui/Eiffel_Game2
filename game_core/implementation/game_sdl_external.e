@@ -1377,6 +1377,34 @@ feature -- Function SDL.h
 			"SDL_HapticStopEffect"
 		end
 
+	frozen SDL_GetTouchFinger(touchid:INTEGER_64; index:INTEGER):POINTER
+		external
+			"C (SDL_TouchID, int) : SDL_Finger * | <SDL.h>"
+		alias
+			"SDL_GetTouchFinger"
+		end
+
+	frozen SDL_GetNumTouchDevices:INTEGER
+		external
+			"C  : int | <SDL.h>"
+		alias
+			"SDL_GetNumTouchDevices"
+		end
+
+	frozen SDL_GetTouchDevice(index:INTEGER):INTEGER_64
+		external
+			"C (int) : SDL_TouchID | <SDL.h>"
+		alias
+			"SDL_GetTouchDevice"
+		end
+
+	frozen SDL_GetNumTouchFingers(touchID:INTEGER_64):INTEGER
+		external
+			"C (SDL_TouchID) : int | <SDL.h>"
+		alias
+			"SDL_GetNumTouchFingers"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
@@ -5108,6 +5136,37 @@ feature -- Structure SDL_HapticDirection SDL.h
 			"C inline use <SDL.h>"
 		alias
 			"((SDL_HapticDirection*)$ptr)->dir[((int)$index)]"
+		end
+
+
+feature -- Structure SDL_Finger SDL.h
+
+	frozen get_sdl_finger_struct_id(ptr:POINTER):INTEGER_64
+		external
+			"C [struct <SDL.h>] (SDL_Finger):Sint64"
+		alias
+			"id"
+		end
+
+	frozen get_sdl_finger_struct_x(ptr:POINTER):REAL_32
+		external
+			"C [struct <SDL.h>] (SDL_Finger):float"
+		alias
+			"x"
+		end
+
+	frozen get_sdl_finger_struct_y(ptr:POINTER):REAL_32
+		external
+			"C [struct <SDL.h>] (SDL_Finger):float"
+		alias
+			"y"
+		end
+
+	frozen get_sdl_finger_struct_pressure(ptr:POINTER):REAL_32
+		external
+			"C [struct <SDL.h>] (SDL_Finger):float"
+		alias
+			"pressure"
 		end
 
 

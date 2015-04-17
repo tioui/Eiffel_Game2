@@ -8,12 +8,13 @@ deferred class
 	GAME_JOYSTICK_EVENTS
 
 inherit
-	GAME_SDL_ANY
+	GAME_EVENTS
 		redefine
 			default_create
 		end
 
 feature {NONE} -- Initialisation
+
 	default_create
 			-- Initialization of `Current'
 		do
@@ -49,9 +50,7 @@ feature {NONE} -- Initialisation
 feature -- Access
 
 	stop
-			-- Put `Current' innactive.
-		require
-			stop_is_running: is_running
+			-- <Precuror>
 		do
 			is_running := False
 			events_controller.joy_axis_motion_actions.prune_all (axis_motion_events_callback)
@@ -63,9 +62,7 @@ feature -- Access
 		end
 
 	run
-			-- Put `Current' active.
-		require
-			run_not_already_running: not is_running
+			-- <Precuror>
 		do
 			is_running := False
 			if attached axis_motion_actions_internal then
@@ -89,7 +86,7 @@ feature -- Access
 		end
 
 	clear
-			-- Remove all events.
+			-- <Precuror>
 		local
 			l_was_running: BOOLEAN
 		do
@@ -108,8 +105,8 @@ feature -- Access
 			end
 		end
 
-	is_running: BOOLEAN
-			-- Is `Current' active
+	is_running: BOOLEAN assign set_is_running
+			-- <Precursor>
 
 	axis_motion_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; axis_id:NATURAL_8; value:INTEGER_16]]
 			-- When an axis of `Current' has been moved at a certain `value'.
@@ -205,11 +202,6 @@ feature -- Access
 				end
 				removed_actions_internal := Result
 			end
-		end
-
-	events_controller: GAME_EVENTS_CONTROLLER
-			-- The used game event manager
-		deferred
 		end
 
 feature {NONE} -- Implementation
@@ -324,7 +316,6 @@ feature {NONE} -- Implementation
 				end
 			end
 		end
-
 
 	id: INTEGER
 			-- Internal event identifier of `Current'

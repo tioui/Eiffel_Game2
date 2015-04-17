@@ -508,6 +508,62 @@ feature {NONE} -- Haptic implementation
 							end)
 	end
 
+feature -- Touch devices
+
+	touch_device_count:INTEGER
+			-- The number of touch device detected on the system.
+			-- Note: Not necessary the same as `touch_devices'.`count'
+			-- because a touch device can have been added or remove
+			-- since the creation of the `touch_devices' list.
+			-- In that case, used `refresh_touch_devices' to update
+			-- the `touch_devices' (all touch events will have to be
+			-- reset)
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetNumTouchDevices
+		end
+
+	touch_devices:CHAIN_INDEXABLE_ITERATOR[GAME_TOUCH_DEVICE]
+			-- Every finger touch device detected in he system.
+			-- This list does not update itself, you have to call
+			-- `refresh_touch_devices' to update it (all touch
+			-- events will have to be reset)
+		local
+			i:INTEGER
+			l_touch_devices:CHAIN[GAME_TOUCH_DEVICE]
+		do
+			if attached internal_touch_devices as la_touch_devices then
+				l_touch_devices := la_touch_devices
+			else
+				create {ARRAYED_LIST[GAME_TOUCH_DEVICE]} l_touch_devices.make (touch_device_count)
+				from i := 1 until i > touch_device_count loop
+					l_touch_devices.extend (create {GAME_TOUCH_DEVICE}.make(i))
+				end
+				internal_touch_devices := l_touch_devices
+			end
+			create Result.make (l_touch_devices)
+		end
+
+	refresh_touch_devices
+			-- Update the `touch_devices' list. Note that
+			-- all touch events will have to be reset
+		do
+			clear_touch_devices
+			internal_touch_devices := Void
+		end
+
+feature {NONE} -- Touch devices implementation
+
+	internal_touch_devices:detachable CHAIN[GAME_TOUCH_DEVICE]
+			-- Internal values of the lazy evaluated `touch_devices'
+
+	clear_touch_devices
+			-- Clear every `touch_devices' events
+		do
+			if attached internal_touch_devices as la_devices then
+				la_devices.do_all (agent {GAME_TOUCH_DEVICE}.clear)
+			end
+		end
+
 feature -- Other methods
 
 	library_variable(a_variable:READABLE_STRING_GENERAL):READABLE_STRING_GENERAL assign set_library_variable
@@ -620,6 +676,7 @@ feature -- Other methods
 			if is_joystick_enable then
 				disable_joystick
 			end
+			refresh_touch_devices
 			create events_controller
 			events_controller.set_game_library (Current)
 			create l_mem

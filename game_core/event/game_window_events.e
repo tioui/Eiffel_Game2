@@ -8,7 +8,7 @@ deferred class
 	GAME_WINDOW_EVENTS
 
 inherit
-	GAME_SDL_ANY
+	GAME_EVENTS
 		redefine
 			default_create
 		end
@@ -63,9 +63,7 @@ feature {NONE} -- Initialisation
 feature -- Access
 
 	stop
-			-- Put `Current' innactive.
-		require
-			Stop_Is_Running: is_running
+			-- <Precursor>
 		do
 			is_running:=False
 			events_controller.window_event_actions.prune_all (window_events_callback)
@@ -79,9 +77,7 @@ feature -- Access
 		end
 
 	run
-			-- Put `Current' active.
-		require
-			Run_Not_Already_Running: not is_running
+			-- <Precursor>
 		do
 			is_running:=True
 			if
@@ -129,7 +125,7 @@ feature -- Access
 		end
 
 	clear
-			-- Remove all events.
+			-- <Precursor>
 		local
 			l_was_running:BOOLEAN
 		do
@@ -164,7 +160,7 @@ feature -- Access
 			end
 		end
 
-	is_running:BOOLEAN
+	is_running:BOOLEAN assign set_is_running
 			-- Is `Current' active
 
 	show_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
@@ -532,11 +528,6 @@ feature -- Access
 				end
 				mouse_wheel_move_actions_internal := Result
 			end
-		end
-
-	events_controller:GAME_EVENTS_CONTROLLER
-			-- The used game event manager
-		deferred
 		end
 
 feature {NONE} -- Implementation
