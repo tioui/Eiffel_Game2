@@ -684,6 +684,34 @@ feature -- Function SDL.h
 			"SDL_RWFromFile"
 		end
 
+	frozen SDL_RWFromConstMem(mem:POINTER; size:INTEGER):POINTER
+		external
+			"C (const void*, int) : SDL_RWops* | <SDL.h>"
+		alias
+			"SDL_RWFromConstMem"
+		end
+
+	frozen SDL_RWFromMem(mem:POINTER; size:INTEGER):POINTER
+		external
+			"C (void*, int) : SDL_RWops* | <SDL.h>"
+		alias
+			"SDL_RWFromMem"
+		end
+
+	frozen SDL_RWFromFP(mem:POINTER; autoclose:BOOLEAN):POINTER
+		external
+			"C (void*, SDL_bool) : SDL_RWops* | <SDL.h>"
+		alias
+			"SDL_RWFromFP"
+		end
+
+	frozen SDL_RWclose(context:POINTER):INTEGER
+		external
+			"C (struct SDL_RWops*) : int | <SDL.h>"
+		alias
+			"SDL_RWclose"
+		end
+
 	frozen SDL_GetSurfaceBlendMode(surface, blendMode:POINTER):INTEGER
 		external
 			"C (SDL_Surface*, SDL_BlendMode*) : int | <SDL.h>"
@@ -1404,6 +1432,35 @@ feature -- Function SDL.h
 		alias
 			"SDL_GetNumTouchFingers"
 		end
+
+	frozen SDL_RecordGesture(touchID:INTEGER_64):INTEGER
+		external
+			"C (SDL_TouchID) : int | <SDL.h>"
+		alias
+			"SDL_RecordGesture"
+		end
+
+	frozen SDL_SaveAllDollarTemplates(dst:POINTER):INTEGER
+		external
+			"C (SDL_RWops *) : int | <SDL.h>"
+		alias
+			"SDL_SaveAllDollarTemplates"
+		end
+
+	frozen SDL_SaveDollarTemplate(gestureId:INTEGER_64; dst:POINTER):INTEGER
+		external
+			"C (SDL_GestureID, SDL_RWops *) : int | <SDL.h>"
+		alias
+			"SDL_SaveDollarTemplate"
+		end
+
+	frozen SDL_LoadDollarTemplates(touchID:INTEGER_64; src:POINTER):INTEGER
+		external
+			"C (SDL_TouchID, SDL_RWops *) : int | <SDL.h>"
+		alias
+			"SDL_LoadDollarTemplates"
+		end
+
 
 feature -- Manual C function (implemented in sdl_additions.c)
 
@@ -3605,14 +3662,14 @@ feature -- Structure SDL_DollarGestureEvent SDL.h
 			"timestamp"
 		end
 
-	frozen set_dollar_gesture_event_struct_touch_id (ptr: POINTER; value:NATURAL_64)
+	frozen set_dollar_gesture_event_struct_touch_id (ptr: POINTER; value:INTEGER_64)
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent, SDL_TouchID)"
 		alias
 			"touchId"
 		end
 
-	frozen get_dollar_gesture_event_struct_touch_id(ptr:POINTER):NATURAL_64
+	frozen get_dollar_gesture_event_struct_touch_id(ptr:POINTER):INTEGER_64
 		external
 			"C [struct <SDL.h>] (SDL_DollarGestureEvent):SDL_TouchID"
 		alias
@@ -5373,6 +5430,13 @@ feature -- Constants
 			"C [macro <SDL.h>] : EIF_NATURAL_32"
 		alias
 			"SDL_DOLLARGESTURE"
+		end
+
+	frozen SDL_DOLLARRECORD:NATURAL_32
+		external
+			"C [macro <SDL.h>] : EIF_NATURAL_32"
+		alias
+			"SDL_DOLLARRECORD"
 		end
 
 	frozen SDL_INIT_TIMER:NATURAL_32

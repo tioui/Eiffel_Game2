@@ -16,6 +16,12 @@ inherit
 		undefine
 			default_create
 		end
+	GAME_DOLLAR_GESTURE_MANAGER
+		export
+			{NONE} save_all_dollar_gesture_template, append_all_dollar_gesture_template
+		undefine
+			default_create
+		end
 
 create
 	make

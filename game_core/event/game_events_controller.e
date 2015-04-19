@@ -55,7 +55,8 @@ feature {NONE} -- Initialization
 			create finger_motion_actions
 			create finger_released_actions
 			create finger_touched_actions
-			create finger_gesture_actions
+			create fingers_gesture_actions
+			create dollar_record_actions
 			create file_dropped_actions
 		end
 
@@ -242,21 +243,24 @@ feature -- Access
 			-- Note that `x', `y', `x_relative', `y_relative' and `pressure' are normalize
 			-- between 0 and 1.
 
-	finger_gesture_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id:INTEGER_64;
-												number_of_fingers:NATURAL_16; center_x, center_y,
+	fingers_gesture_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id:INTEGER_64;
+												fingers_count:NATURAL_16; center_x, center_y,
 												theta, distance:REAL_32]]
 			-- When a gesture has been made on the touch device identified by `touch_id'.
-			-- The gesture has a certain `number_of_fingers', is centered at (`center_x', `center_y').
+			-- The gesture has a certain `fingers_count', is centered at (`center_x', `center_y').
 			-- The fingers used a rotation of `theta' degree and have a `distance' of pinch.
 
-	dollar_gesture_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_device_id:NATURAL_64;
-												gesture_id:INTEGER_64;number_of_fingers:NATURAL_32;
+	dollar_gesture_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id:INTEGER_64;
+												gesture_id:INTEGER_64;fingers_count:NATURAL_32;
 												x,y,error:REAL_32]]
-			-- When a $1 gesture has been recognize on the touch device `touch_device_id'.
-			-- The gesture is uniquely identified by `gesture_id'. I use `number_of_fingers' fingers
+			-- When a $1 gesture has been recognize on the touch device `touch_id'.
+			-- The gesture is uniquely identified by `gesture_id'. I use `fingers_count' fingers
 			-- and is centered at (`x',`y') where `x' and `y' are normalized (between 0 and 1).
 			-- The `error' indicate the difference between the current gesture and the template.
-			-- Todo: templating (SDL_RecordGesture, SDL_DOLLARRECORD event, SDL_SaveDollarTemplate, etc.)
+
+	dollar_record_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, gesture_id:INTEGER_64]]
+			-- When a $1 gesture has been recorded on the touch device `touch_id'.
+			-- The gesture is uniquely identified by `gesture_id'.
 
 	file_dropped_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 			-- The file pointed by `filename' has been dropped on a window of the game.
@@ -1239,8 +1243,8 @@ feature -- Access
 			Is_Assign: is_finger_motion_event_enable ~ a_value
 		end
 
-	enable_finger_gesture_event
-			-- Process the `finger_gesture_actions' event.
+	enable_fingers_gesture_event
+			-- Process the `fingers_gesture_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -1248,11 +1252,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_multigesture, {GAME_SDL_EXTERNAL}.sdl_enable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
 		ensure
-			Is_Event_Enabled: is_finger_gesture_event_enable
+			Is_Event_Enabled: is_fingers_gesture_event_enable
 		end
 
-	disable_finger_gesture_event
-			-- Ignore the `finger_gesture_actions' event.
+	disable_fingers_gesture_event
+			-- Ignore the `fingers_gesture_actions' event.
 			-- Enabled by default
 		local
 			l_error:NATURAL_8
@@ -1260,11 +1264,11 @@ feature -- Access
 			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_multigesture, {GAME_SDL_EXTERNAL}.sdl_disable)
 			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
 		ensure
-			Is_Event_Disabled: not is_finger_gesture_event_enable
+			Is_Event_Disabled: not is_fingers_gesture_event_enable
 		end
 
-	is_finger_gesture_event_enable:BOOLEAN assign set_is_finger_gesture_event_enable
-			-- Is the `finger_gesture_actions' event has to be process.
+	is_fingers_gesture_event_enable:BOOLEAN assign set_is_fingers_gesture_event_enable
+			-- Is the `fingers_gesture_actions' event has to be process.
 			-- Enabled by default
 		local
 			l_query:NATURAL_8
@@ -1273,16 +1277,16 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	set_is_finger_gesture_event_enable(a_value:BOOLEAN)
-			-- Assign to `is_finger_gesture_event_enable' the value of `a_value'
+	set_is_fingers_gesture_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_fingers_gesture_event_enable' the value of `a_value'
 		do
 			if a_value then
-				enable_finger_gesture_event
+				enable_fingers_gesture_event
 			else
-				disable_finger_gesture_event
+				disable_fingers_gesture_event
 			end
 		ensure
-			Is_Assign: is_finger_gesture_event_enable ~ a_value
+			Is_Assign: is_fingers_gesture_event_enable ~ a_value
 		end
 
 	enable_dollar_gesture_event
@@ -1329,6 +1333,52 @@ feature -- Access
 			end
 		ensure
 			Is_Assign: is_dollar_gesture_event_enable ~ a_value
+		end
+
+	enable_dollar_record_event
+			-- Process the `dollar_record_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.SDL_DOLLARRECORD, {GAME_SDL_EXTERNAL}.sdl_enable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_dollar_record_event_enable
+		end
+
+	disable_dollar_record_event
+			-- Ignore the `dollar_record_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.SDL_DOLLARRECORD, {GAME_SDL_EXTERNAL}.sdl_disable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_dollar_record_event_enable
+		end
+
+	is_dollar_record_event_enable:BOOLEAN assign set_is_dollar_record_event_enable
+			-- Is the `dollar_record_actions' event has to be process.
+			-- Enabled by default
+		local
+			l_query:NATURAL_8
+		do
+			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.SDL_DOLLARRECORD, {GAME_SDL_EXTERNAL}.sdl_query)
+			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_dollar_record_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_dollar_record_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_dollar_record_event
+			else
+				disable_dollar_record_event
+			end
+		ensure
+			Is_Assign: is_dollar_record_event_enable ~ a_value
 		end
 
 	enable_file_dropped_event
@@ -1523,8 +1573,8 @@ feature {NONE} -- Implementation
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_timestamp (item),
 											{GAME_SDL_EXTERNAL}.get_joy_device_event_struct_which (item)
 									])
-		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_multigesture and then not finger_gesture_actions.is_empty  then
-			finger_gesture_actions.call ([
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_multigesture and then not fingers_gesture_actions.is_empty  then
+			fingers_gesture_actions.call ([
 											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_timestamp (item),
 											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_touch_id (item),
 											{GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_num_fingers (item),
@@ -1575,6 +1625,12 @@ feature {NONE} -- Implementation
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_x(item),
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_y(item),
 										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_error(item)
+										])
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.SDL_DOLLARRECORD and not dollar_record_actions.is_empty then
+			dollar_record_actions.call ([
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_timestamp(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_touch_id(item),
+										{GAME_SDL_EXTERNAL}.get_dollar_gesture_event_struct_gesture_id(item)
 										])
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_dropfile then
 			manage_drop_file

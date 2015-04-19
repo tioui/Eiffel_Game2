@@ -35,6 +35,22 @@ feature {NONE} -- Initialisation
 				do
 					finger_released_events_dispatcher (a_timestamp, a_touch_id, a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
 				end
+			fingers_gesture_events_callback := agent (a_timestamp:NATURAL_32;a_touch_id:INTEGER_64;
+														a_fingers_count:NATURAL_16; a_center_x, a_center_y,
+														a_theta, a_distance:REAL_32)
+				do
+					fingers_gesture_events_dispatcher (a_timestamp, a_touch_id, a_fingers_count, a_center_x, a_center_y, a_theta, a_distance)
+				end
+			dollar_gesture_events_callback := agent (a_timestamp:NATURAL_32;a_touch_id:INTEGER_64;
+													a_gesture_id:INTEGER_64;a_fingers_count:NATURAL_32;
+													a_center_x, a_center_y,a_error:REAL_32)
+				do
+					dollar_gesture_events_dispatcher (a_timestamp, a_touch_id, a_gesture_id, a_fingers_count, a_center_x, a_center_y, a_error)
+				end
+			dollar_record_events_callback := agent (a_timestamp:NATURAL_32;a_touch_id, a_gesture_id:INTEGER_64)
+				do
+					dollar_record_events_dispatcher (a_timestamp, a_touch_id, a_gesture_id)
+				end
 		ensure then
 			make_event_is_running: is_running
 		end
@@ -48,6 +64,9 @@ feature -- Access
 			events_controller.finger_motion_actions.prune_all (finger_motion_events_callback)
 			events_controller.finger_touched_actions.prune_all (finger_touched_events_callback)
 			events_controller.finger_released_actions.prune_all (finger_released_events_callback)
+			events_controller.fingers_gesture_actions.prune_all (fingers_gesture_events_callback)
+			events_controller.dollar_gesture_actions.prune_all (dollar_gesture_events_callback)
+			events_controller.dollar_record_actions.prune_all (dollar_record_events_callback)
 		end
 
 	run
@@ -56,8 +75,21 @@ feature -- Access
 			is_running := False
 			if attached finger_motion_actions_internal then
 				events_controller.finger_motion_actions.extend (finger_motion_events_callback)
+			end
+			if attached finger_touched_actions_internal then
 				events_controller.finger_touched_actions.extend (finger_touched_events_callback)
+			end
+			if attached finger_released_actions_internal then
 				events_controller.finger_released_actions.extend (finger_released_events_callback)
+			end
+			if attached fingers_gesture_actions_internal then
+				events_controller.fingers_gesture_actions.extend (fingers_gesture_events_callback)
+			end
+			if attached dollar_gesture_actions_internal then
+				events_controller.dollar_gesture_actions.extend (dollar_gesture_events_callback)
+			end
+			if attached dollar_record_actions_internal then
+				events_controller.dollar_record_actions.extend (dollar_record_events_callback)
 			end
 		end
 
@@ -73,6 +105,9 @@ feature -- Access
 			finger_motion_actions_internal := Void
 			finger_touched_actions_internal := Void
 			finger_released_actions_internal := Void
+			fingers_gesture_actions_internal := Void
+			dollar_gesture_actions_internal := Void
+			dollar_record_actions_internal := Void
 			if l_was_running then
 				run
 			end
@@ -127,6 +162,69 @@ feature -- Access
 				end
 				finger_released_actions_internal := Result
 			end
+		end
+
+	fingers_gesture_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; fingers_gesture:GAME_FINGERS_GESTURE]]
+			-- When a fingers simple gesture has been performed on `Current',
+			-- `fingers_gesture' is used to get the gesture informations
+		require
+			Fingers_Gesture_Event_Enable: events_controller.is_fingers_gesture_event_enable
+		do
+			if attached fingers_gesture_actions_internal as la_fingers_gesture_actions_internal then
+				Result := la_fingers_gesture_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.fingers_gesture_actions.has (fingers_gesture_events_callback) then
+					events_controller.fingers_gesture_actions.extend (fingers_gesture_events_callback)
+				end
+				fingers_gesture_actions_internal := Result
+			end
+		end
+
+	dollar_gesture_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; dollar_gesture:GAME_DOLLAR_GESTURE]]
+			-- When a $1 gesture has been performed on `Current',
+			-- `dollar_gesture' is used to get the gesture informations
+		require
+			Dollar_Gesture_Event_Enable: events_controller.is_dollar_gesture_event_enable
+		do
+			if attached dollar_gesture_actions_internal as la_dollar_gesture_actions_internal then
+				Result := la_dollar_gesture_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.dollar_gesture_actions.has (dollar_gesture_events_callback) then
+					events_controller.dollar_gesture_actions.extend (dollar_gesture_events_callback)
+				end
+				dollar_gesture_actions_internal := Result
+			end
+		end
+
+	dollar_record_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; template_hash:INTEGER_64]]
+			-- When a $1 gesture has been recorded on `Current' (using `record_dollar_gesture'),
+			-- `template_hash' is used to get the hash of the gesture. This hash will be used
+			-- to identified this tempate on future `dollar_gesture_actions' events
+		require
+			Dollar_Record_Event_Enable: events_controller.is_dollar_record_event_enable
+		do
+			if attached dollar_record_actions_internal as la_dollar_record_actions_internal then
+				Result := la_dollar_record_actions_internal
+			else
+				create Result
+				if is_running and not events_controller.dollar_record_actions.has (dollar_record_events_callback) then
+					events_controller.dollar_record_actions.extend (dollar_record_events_callback)
+				end
+				dollar_record_actions_internal := Result
+			end
+		end
+
+	record_dollar_gesture
+			-- Start a $1 gesture recording. The recording will be finish when a `dollar_record_actions' event
+			-- will trigger.
+		local
+			l_error : INTEGER
+		do
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_RecordGesture(id)
+			manage_error_code (l_error - 1, "Cannot record dollar gesture")
 		end
 
 feature {NONE} -- Implementation
@@ -196,6 +294,74 @@ feature {NONE} -- Implementation
 				if attached finger_released_actions_internal as la_actions then
 					create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
 					la_actions.call (a_timestamp, l_finger_state)
+				end
+			end
+		end
+
+	fingers_gesture_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;fingers_gesture:GAME_FINGERS_GESTURE]]
+			-- Internal value of the `fingers_gesture_actions' lazy evaluated attribute
+
+	fingers_gesture_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id:INTEGER_64;
+															fingers_count:NATURAL_16; center_x, center_y,
+															theta, distance:REAL_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `fingers_gesture_actions' {ACTION_SEQUENCE}
+
+	fingers_gesture_events_dispatcher (a_timestamp:NATURAL_32;a_touch_id:INTEGER_64;
+										a_fingers_count:NATURAL_16; a_center_x, a_center_y,
+										a_theta, a_distance:REAL_32)
+			-- The dispatcher receiving event from the `fingers_gesture_events_callback' and dispatch them to
+			-- the `fingers_gesture_actions' {ACTION_SEQUENCE}
+		local
+			l_fingers_gesture:GAME_FINGERS_GESTURE
+		do
+			if a_touch_id = id then
+				if attached fingers_gesture_actions_internal as la_actions then
+					create l_fingers_gesture.make (a_center_x, a_center_y, a_distance, a_theta, a_fingers_count)
+					la_actions.call (a_timestamp, l_fingers_gesture)
+				end
+			end
+		end
+
+	dollar_gesture_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;dollar_gesture:GAME_DOLLAR_GESTURE]]
+			-- Internal value of the `dollar_gesture_actions' lazy evaluated attribute
+
+	dollar_gesture_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id:INTEGER_64;
+										gesture_id:INTEGER_64;fingers_count:NATURAL_32;
+										center_x, center_y, error:REAL_32]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `dollar_gesture_actions' {ACTION_SEQUENCE}
+
+	dollar_gesture_events_dispatcher (a_timestamp:NATURAL_32;a_touch_id:INTEGER_64;
+										a_gesture_id:INTEGER_64;a_fingers_count:NATURAL_32;
+										a_center_x, a_center_y,a_error:REAL_32)
+			-- The dispatcher receiving event from the `dollar_gesture_events_callback' and dispatch them to
+			-- the `dollar_gesture_actions' {ACTION_SEQUENCE}
+		local
+			l_dollar_gesture:GAME_DOLLAR_GESTURE
+		do
+			if a_touch_id = id then
+				if attached dollar_gesture_actions_internal as la_actions then
+					create l_dollar_gesture.make (a_gesture_id, a_center_x, a_center_y, a_error, a_fingers_count)
+					la_actions.call (a_timestamp, l_dollar_gesture)
+				end
+			end
+		end
+
+	dollar_record_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; template_hash:INTEGER_64]]
+			-- Internal value of the `dollar_record_actions' lazy evaluated attribute
+
+	dollar_record_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id, gesture_id:INTEGER_64]]
+			-- Callback used to register `Current' in the `events_controller' for the
+			-- `dollar_record_actions' {ACTION_SEQUENCE}
+
+	dollar_record_events_dispatcher (a_timestamp:NATURAL_32;a_touch_id, a_gesture_id:INTEGER_64)
+			-- The dispatcher receiving event from the `dollar_record_events_callback' and dispatch them to
+			-- the `dollar_record_actions' {ACTION_SEQUENCE}
+		do
+			if a_touch_id = id then
+				if attached dollar_record_actions_internal as la_actions then
+					la_actions.call (a_timestamp, a_gesture_id)
 				end
 			end
 		end

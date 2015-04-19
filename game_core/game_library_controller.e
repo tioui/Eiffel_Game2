@@ -24,6 +24,12 @@ inherit
 		redefine
 			default_create
 		end
+	GAME_DOLLAR_GESTURE_MANAGER
+		rename
+			index as dollar_gesture_template_index
+		redefine
+			default_create
+		end
 
 create
 	default_create,
@@ -551,7 +557,7 @@ feature -- Touch devices
 			internal_touch_devices := Void
 		end
 
-feature {NONE} -- Touch devices implementation
+feature {GAME_SDL_ANY} -- Touch devices implementation
 
 	internal_touch_devices:detachable CHAIN[GAME_TOUCH_DEVICE]
 			-- Internal values of the lazy evaluated `touch_devices'
@@ -563,6 +569,8 @@ feature {NONE} -- Touch devices implementation
 				la_devices.do_all (agent {GAME_TOUCH_DEVICE}.clear)
 			end
 		end
+
+	dollar_gesture_template_index:INTEGER_64 = -1
 
 feature -- Other methods
 
