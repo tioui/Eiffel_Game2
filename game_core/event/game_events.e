@@ -10,6 +10,17 @@ deferred class
 inherit
 	GAME_SDL_ANY
 
+feature{NONE} -- Initialization
+
+	make
+			-- Initialization of `Current'
+		do
+			events_controller.clear_actions.extend(agent clear)
+			is_running:=True
+		ensure
+			Make_Event_Is_Running: is_running
+		end
+
 feature -- Access
 
 	stop
@@ -51,8 +62,6 @@ feature -- Access
 
 	is_running:BOOLEAN assign set_is_running
 			-- Is `Current' active
-		deferred
-		end
 
 	events_controller:GAME_EVENTS_CONTROLLER
 			-- Manage every internal events

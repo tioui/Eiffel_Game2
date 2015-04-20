@@ -10,7 +10,12 @@ class
 inherit
 	GAME_TOUCH_DEVICE_EVENTS
 		rename
-			id as index
+			make as make_events,
+			id as index,
+			stop as stop_events,
+			run as run_events,
+			is_running as is_events_running,
+			clear as clear_events
 		end
 	GAME_LIBRARY_SHARED
 		undefine
@@ -33,7 +38,7 @@ feature {NONE} -- Initialization
 		do
 			index := {GAME_SDL_EXTERNAL}.SDL_GetTouchDevice(a_number)
 			events_controller := game_library.events_controller
-			default_create
+			make_events
 		end
 
 feature -- Access

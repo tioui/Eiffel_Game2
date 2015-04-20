@@ -10,15 +10,14 @@ deferred class
 inherit
 	GAME_EVENTS
 		redefine
-			default_create
+			make
 		end
 
 feature {NONE} -- Initialisation
 
-	default_create
+	make
 			-- Initialization of `Current'
 		do
-			is_running:=True
 			window_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_event_type:NATURAL_8;a_data1,a_data2:INTEGER_32) do
 											window_events_dispatcher(a_timestamp, a_window_id, a_event_type, a_data1, a_data2)
 										end
@@ -55,10 +54,7 @@ feature {NONE} -- Initialisation
 			mouse_wheel_move_events_callback := agent (a_timestamp,a_window_id,a_mouse_id:NATURAL_32;a_x,a_y:INTEGER_32) do
 												mouse_wheel_move_events_dispatcher(a_timestamp,a_window_id,a_mouse_id,a_x,a_y)
 											end
-
-
-		ensure then
-			Make_Event_Is_Running: is_running
+			Precursor{GAME_EVENTS}
 		end
 feature -- Access
 
@@ -159,9 +155,6 @@ feature -- Access
 				run
 			end
 		end
-
-	is_running:BOOLEAN assign set_is_running
-			-- Is `Current' active
 
 	show_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When `Current' is show.

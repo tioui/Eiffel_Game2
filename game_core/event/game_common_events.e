@@ -12,13 +12,15 @@ deferred class
 
 inherit
 	GAME_EVENTS
+		redefine
+			make
+		end
 
 feature {NONE} -- Initialisation
 
 	make
 			-- Initialization of `Current'
 		do
-			is_running:=True
 			file_dropped_actions_callback := agent (a_timestamp:NATURAL_32; a_filename:READABLE_STRING_GENERAL) do
 											file_dropped_actions.call ([a_timestamp, a_filename])
 										end
@@ -34,8 +36,7 @@ feature {NONE} -- Initialisation
 			iteration_actions_callback:=agent (a_timestamp:NATURAL_32) do
 										iteration_actions.call ([a_timestamp])
 									end
-		ensure
-			Make_Event_Is_Running: is_running
+			Precursor{GAME_EVENTS}
 		end
 
 feature -- Access
@@ -90,9 +91,6 @@ feature -- Access
 				run
 			end
 		end
-
-	is_running:BOOLEAN assign set_is_running
-			-- <Precursor>
 
 	quit_signal_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- When the application receive a quit signal.

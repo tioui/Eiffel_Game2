@@ -23,6 +23,10 @@ inherit
 		redefine
 			default_create
 		end
+	MEMORY
+		redefine
+			default_create
+		end
 
 create {GAME_LIBRARY_CONTROLLER}
 	default_create
@@ -33,6 +37,12 @@ feature {NONE} -- Initialization
 			-- Initialization of `Current'
 		do
 			make
+			initialize_actions
+		end
+
+	initialize_actions
+			-- Create any `*_actions' attributes
+		do
 			create iteration_actions
 			create quit_signal_actions
 			create dollar_gesture_actions
@@ -58,11 +68,23 @@ feature {NONE} -- Initialization
 			create fingers_gesture_actions
 			create dollar_record_actions
 			create file_dropped_actions
+			create clear_actions
 		end
 
 
 
 feature -- Access
+
+	clear
+			-- Remove every event in the system
+		do
+			clear_actions.call
+			initialize_actions
+			full_collect
+		end
+
+	clear_actions:ACTION_SEQUENCE[TUPLE]
+			-- Trigger before `clear' is execute.
 
 	poll_event
 			-- Execute an event validation. If no event is pending, do nothing.

@@ -15,15 +15,10 @@ deferred class
 
 inherit
 	GAME_LIBRARY_SHARED
-		undefine
-			default_create
-		end
 	DISPOSABLE
-		undefine
-			default_create
-		end
 	GAME_WINDOW_EVENTS
 		rename
+			make as make_events,
 			stop as stop_events,
 			run as run_events,
 			is_running as is_events_running,
@@ -64,7 +59,7 @@ feature {NONE} -- Initialisation
 											a_width, a_height, a_flags
 										)
 			manage_error_pointer (item, "Could not create the window.")
-			default_create
+			make_events
 			game_library.internal_windows.extend (Current)
 		ensure
 			Make_Window_Is_Open: not has_error implies exists

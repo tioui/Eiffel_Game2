@@ -10,16 +10,15 @@ deferred class
 inherit
 	GAME_EVENTS
 		redefine
-			default_create
+			make
 		end
 
 
 feature {NONE} -- Initialisation
 
-	default_create
+	make
 			-- Initialization of `Current'
 		do
-			is_running := True
 			finger_motion_events_callback := agent (a_timestamp:NATURAL_32;a_touch_id, a_finger_id:INTEGER_64;
 												a_x, a_y, a_x_relative, a_y_relative, a_pressure:REAL_32)
 				do
@@ -51,8 +50,7 @@ feature {NONE} -- Initialisation
 				do
 					dollar_record_events_dispatcher (a_timestamp, a_touch_id, a_gesture_id)
 				end
-		ensure then
-			make_event_is_running: is_running
+			Precursor{GAME_EVENTS}
 		end
 
 feature -- Access
@@ -112,9 +110,6 @@ feature -- Access
 				run
 			end
 		end
-
-	is_running: BOOLEAN assign set_is_running
-			-- Is `Current' active
 
 	finger_motion_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT_STATE]]
 			-- When a finger has been moved on `Current', `finger_state' is used to get finger information

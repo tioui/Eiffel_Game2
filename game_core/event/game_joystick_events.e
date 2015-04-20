@@ -10,15 +10,14 @@ deferred class
 inherit
 	GAME_EVENTS
 		redefine
-			default_create
+			make
 		end
 
 feature {NONE} -- Initialisation
 
-	default_create
+	make
 			-- Initialization of `Current'
 		do
-			is_running := True
 			axis_motion_events_callback := agent (a_timestamp: NATURAL_32; a_joystick_id:INTEGER_32; a_axis_id:NATURAL_8; a_value:INTEGER_16)
 				do
 					axis_motion_events_dispatcher(a_timestamp, a_joystick_id, a_axis_id, a_value)
@@ -43,8 +42,7 @@ feature {NONE} -- Initialisation
 				do
 					removed_events_dispatcher(a_timestamp, a_joystick_id)
 				end
-		ensure then
-			make_event_is_running: is_running
+			Precursor{GAME_EVENTS}
 		end
 
 feature -- Access
@@ -104,9 +102,6 @@ feature -- Access
 				run
 			end
 		end
-
-	is_running: BOOLEAN assign set_is_running
-			-- <Precursor>
 
 	axis_motion_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; axis_id:NATURAL_8; value:INTEGER_16]]
 			-- When an axis of `Current' has been moved at a certain `value'.

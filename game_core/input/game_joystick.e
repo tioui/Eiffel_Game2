@@ -9,17 +9,16 @@ class
 
 inherit
 	DISPOSABLE
-		undefine
-			default_create
-		end
 	GAME_JOYSTICK_EVENTS
 		rename
-			id as index
+			make as make_events,
+			id as index,
+			stop as stop_events,
+			run as run_events,
+			is_running as is_events_running,
+			clear as clear_events
 		end
 	GAME_LIBRARY_SHARED
-		undefine
-			default_create
-		end
 
 
 create {GAME_LIBRARY_CONTROLLER}
@@ -32,7 +31,7 @@ feature {NONE} -- Initialization
 		do
 			events_controller := game_library.events_controller
 			index:=a_from_index
-			default_create
+			make_events
 		end
 
 feature -- Access

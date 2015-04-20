@@ -566,7 +566,7 @@ feature {GAME_SDL_ANY} -- Touch devices implementation
 			-- Clear every `touch_devices' events
 		do
 			if attached internal_touch_devices as la_devices then
-				la_devices.do_all (agent {GAME_TOUCH_DEVICE}.clear)
+				la_devices.do_all (agent {GAME_TOUCH_DEVICE}.clear_events)
 			end
 		end
 
@@ -604,6 +604,12 @@ feature -- Other methods
 
 	events_controller:GAME_EVENTS_CONTROLLER
 			-- <Precursor>
+
+	clear_all_events
+			-- Clear every events set in the system
+		do
+			events_controller.clear
+		end
 
 	update_events
 			-- Execute the event polling and throw the event handeler execution for each event.
