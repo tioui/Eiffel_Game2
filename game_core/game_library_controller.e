@@ -662,8 +662,24 @@ feature -- Other methods
 			launch
 		end
 
+	launch_no_delay
+			-- Start the main loop without any loop delay. Use it if you have
+			-- a synchronisation system (like vsync) included inside the event handler
+			-- Used to get a Event-driven programming only.
+			-- Don't forget to execute the method `stop' in an event handler.
+		do
+			from
+				must_stop:=false
+			until
+				must_stop
+			loop
+				update_events
+			end
+		end
+
 	iteration_per_second:NATURAL_32 assign set_iteration_per_second
 			-- An approximation of the number of event loop iteration per second.
+			-- Not used by `launch_no_delay'
 		do
 			Result:=1000//ticks_per_iteration
 		end
