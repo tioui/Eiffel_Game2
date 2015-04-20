@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 		do
 			make
 			initialize_actions
+			create clear_actions
 		end
 
 	initialize_actions
@@ -68,7 +69,6 @@ feature {NONE} -- Initialization
 			create fingers_gesture_actions
 			create dollar_record_actions
 			create file_dropped_actions
-			create clear_actions
 		end
 
 
@@ -80,11 +80,7 @@ feature -- Access
 		do
 			clear_actions.call
 			initialize_actions
-			full_collect
 		end
-
-	clear_actions:ACTION_SEQUENCE[TUPLE]
-			-- Trigger before `clear' is execute.
 
 	poll_event
 			-- Execute an event validation. If no event is pending, do nothing.
@@ -1453,7 +1449,12 @@ feature -- Access
 	game_library: detachable GAME_LIBRARY_CONTROLLER
 			-- The library controller used by `Current'
 
-feature {GAME_LIBRARY_CONTROLLER}
+feature {GAME_SDL_ANY} -- Implementation
+
+	clear_actions:ACTION_SEQUENCE[TUPLE]
+			-- Trigger before `clear' is execute.
+
+feature {GAME_LIBRARY_CONTROLLER} -- Implementation
 
 	set_game_library(a_game_library:GAME_LIBRARY_CONTROLLER)
 			-- Assign `game_library' with the provided `a_game_library'
@@ -1693,47 +1694,5 @@ feature {NONE} -- Implementation
 		do
 			Result := {GAME_SDL_EXTERNAL}.C_sizeof_sdl_event
 		end
-
-
-
-
---To Remember:
-
---Common (See: {GAME_COMMON_EVENTS}):
-
---On_Iteration					X
---SDL_QuitEvent					X
---SDL_JoyDeviceEvent			X
---SDL_ControllerDeviceEvent		Not used
---SDL_DropEvent					X
-
---Window Events (See: {GAME_WINDOW_EVENTS}):
-
---SDL_WindowEvent				X
---SDL_KeyboardEvent				X
---SDL_TextEditingEvent			X
---SDL_TextInputEvent			X
---SDL_MouseMotionEvent			X
---SDL_MouseButtonEvent			X
---SDL_MouseWheelEvent			X
-
---Joystick Events:
-
---SDL_JoyAxisEvent				X
---SDL_JoyBallEvent				X
---SDL_JoyHatEvent				X
---SDL_JoyButtonEvent			X
-
---Controller Events:
-
---SDL_ControllerAxisEvent		Not Used
---SDL_ControllerButtonEvent		Not Used
-
---To Test:
-
---SDL_TouchFingerEvent
---SDL_MultiGestureEvent
---SDL_DollarGestureEvent
-
 
 end
