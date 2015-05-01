@@ -13,9 +13,10 @@ inherit
 	GAME_RENDER_TARGET
 	MEMORY_STRUCTURE
 		rename
-			make as make_structure
+			make as make_structure,
+			shared as internal_item_exists
 		export
-			{NONE} shared, make_structure, make_by_pointer
+			{NONE} internal_item_exists, make_structure, make_by_pointer
 			{GAME_SDL_ANY} item
 		end
 	GAME_BLENDABLE
@@ -34,6 +35,20 @@ create
 
 feature {NONE} -- Initialization
 
+	share_from_other(a_other:GAME_TEXTURE)
+			-- Initialization of `Current' sharing the internal data of `Current'
+			-- Note that each modification of `Current' will affect `a_other' and
+			-- vice versa
+		require
+			Other_Exists: a_other.exists
+		do
+			make_by_pointer (a_other.item)
+			shared := True
+		ensure
+			Is_Created: exists
+			Is_Shared: shared
+		end
+
 	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
 				a_access_flags, a_width, a_height:INTEGER)
 			-- Initialization for `Current' of dimension (`a_width' , `a_height)
@@ -49,8 +64,10 @@ feature {NONE} -- Initialization
 								a_width, a_height)
 			manage_error_pointer(l_item, "Cannot create texture.")
 			make_by_pointer(l_item)
+			shared := False
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 	make_lockable(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
@@ -64,6 +81,7 @@ feature {NONE} -- Initialization
 				a_width, a_height)
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 	make_not_lockable(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
@@ -77,6 +95,7 @@ feature {NONE} -- Initialization
 				a_width, a_height)
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 	make_target(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
@@ -90,6 +109,7 @@ feature {NONE} -- Initialization
 				a_width, a_height)
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 	make_from_surface(a_renderer:GAME_RENDERER; a_surface:GAME_SURFACE)
@@ -99,6 +119,7 @@ feature {NONE} -- Initialization
 			make_from_image(a_renderer, a_surface.image)
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 	make_from_image(a_renderer:GAME_RENDERER; a_image:GAME_IMAGE)
@@ -114,11 +135,16 @@ feature {NONE} -- Initialization
 						a_renderer.item, a_image.item)
 			manage_error_pointer(l_item, "Cannot create texture.")
 			make_by_pointer(l_item)
+			shared := False
 		ensure
 			Error_Or_Exist: not has_error implies exists
+			Is_Not_Shared: not shared
 		end
 
 feature -- Access
+
+	shared:BOOLEAN
+			-- Is current memory area shared with others?
 
  	width:INTEGER
 			-- The horizontal length of `Current'
@@ -244,7 +270,7 @@ feature {NONE} -- Implementation
 	dispose
 			-- <Precursor>
 		do
-			if exists then
+			if exists and not shared then
 				{GAME_SDL_EXTERNAL}.SDL_DestroyTexture(item)
 				create internal_item
 			end

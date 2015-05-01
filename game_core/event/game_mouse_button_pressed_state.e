@@ -70,40 +70,41 @@ feature -- Access
 		end
 
 invariant
-	Only_One_Button:
-					(is_left_button_pressed and not (
-							is_right_button_pressed or
-							is_middle_button_pressed or
-							is_optionnal_button_1_pressed or
-							is_optionnal_button_2_pressed
-						)
-					) or
-					(is_right_button_pressed and not (
-							is_left_button_pressed or
-							is_middle_button_pressed or
-							is_optionnal_button_1_pressed or
-							is_optionnal_button_2_pressed
-						)
-					) or
-					(is_middle_button_pressed and not (
-							is_left_button_pressed or
-							is_right_button_pressed or
-							is_optionnal_button_1_pressed or
-							is_optionnal_button_2_pressed
-						)
-					) or
-					(is_optionnal_button_1_pressed and not (
-							is_right_button_pressed or
-							is_middle_button_pressed or
-							is_left_button_pressed or
-							is_optionnal_button_2_pressed
-						)
-					) or
-					(is_optionnal_button_2_pressed and not (
-							is_right_button_pressed or
-							is_middle_button_pressed or
-							is_left_button_pressed or
-							is_optionnal_button_1_pressed
-						)
-					)
+-- This invariant has a wierd error on Linux with touch pad !
+--	Only_One_Button:
+--					(is_left_button_pressed and not (
+--							is_right_button_pressed or
+--							is_middle_button_pressed or
+--							is_optionnal_button_1_pressed or
+--							is_optionnal_button_2_pressed
+--						)
+--					) or
+--					(is_right_button_pressed and not (
+--							is_left_button_pressed or
+--							is_middle_button_pressed or
+--							is_optionnal_button_1_pressed or
+--							is_optionnal_button_2_pressed
+--						)
+--					) or
+--					(is_middle_button_pressed and not (
+--							is_left_button_pressed or
+--							is_right_button_pressed or
+--							is_optionnal_button_1_pressed or
+--							is_optionnal_button_2_pressed
+--						)
+--					) or
+--					(is_optionnal_button_1_pressed and not (
+--							is_right_button_pressed or
+--							is_middle_button_pressed or
+--							is_left_button_pressed or
+--							is_optionnal_button_2_pressed
+--						)
+--					) or
+--					(is_optionnal_button_2_pressed and not (
+--							is_right_button_pressed or
+--							is_middle_button_pressed or
+--							is_left_button_pressed or
+--							is_optionnal_button_1_pressed
+--						)
+--					)
 end

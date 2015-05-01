@@ -74,7 +74,9 @@ feature -- Access
 		end
 
 	clear
-			-- <Precursor>
+			-- Remove common library event.
+			-- Note: does not clear other events like window events, joystick events, etc. To clear every events
+			-- in the system, used {GAME_LIBRARY_CONTROLLER}.`clear_all_events'.
 		local
 			l_was_running:BOOLEAN
 		do

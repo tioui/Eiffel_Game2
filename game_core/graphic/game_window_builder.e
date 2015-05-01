@@ -746,6 +746,5 @@ invariant
 	Position_X_Centered_Undefined_Valid: is_position_x_centered implies not is_position_x_undefined
 	Position_Y_Centered_Undefined_Valid: is_position_y_centered implies not is_position_y_undefined
 	Dimension_is_valid: dimension.width = width and dimension.height = height
-	Fullscreen_Valid: is_fullscreen implies not is_fake_fullscreen
 
 end
