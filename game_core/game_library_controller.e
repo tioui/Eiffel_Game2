@@ -351,6 +351,42 @@ feature -- Mouse
 			Is_Assign: is_cursor_visible ~ a_value
 		end
 
+	enable_relative_mouse
+			-- Set the `is_relative_mouse_enabled' mode
+		do
+			set_is_relative_mouse_enabled(True)
+		ensure
+			Is_Assign: not has_error implies is_relative_mouse_enabled
+		end
+
+	disable_relative_mouse
+			-- Unset the `is_relative_mouse_enabled' mode
+		do
+			set_is_relative_mouse_enabled(False)
+		ensure
+			Is_Assign: not has_error implies not is_relative_mouse_enabled
+		end
+
+	is_relative_mouse_enabled:BOOLEAN assign set_is_relative_mouse_enabled
+			-- While Enabled, the cursor is hidden, and only relative motion events (delta_x and delta_y)
+			-- will be delivered to the current window the mouse position will not change.
+			-- Note: This function will flush any pending mouse motion.
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_GetRelativeMouseMode
+		end
+
+	set_is_relative_mouse_enabled(a_value:BOOLEAN)
+			-- Assign `is_relative_mouse_enabled' with the value of `a_value'
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetRelativeMouseMode(a_value)
+			manage_error_code (l_error, "Relative mouse mode not supported.")
+		ensure
+			Is_Assign: not has_error implies is_relative_mouse_enabled ~ a_value
+		end
+
 feature -- Joystick methods
 
 	joysticks:CHAIN_INDEXABLE_ITERATOR[GAME_JOYSTICK]

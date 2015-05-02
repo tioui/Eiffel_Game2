@@ -59,6 +59,34 @@ feature -- Function SDL.h
 			"SDL_GetMouseState"
 		end
 
+	frozen SDL_GetRelativeMouseMode:BOOLEAN
+		external
+			"C : SDL_bool | <SDL.h>"
+		alias
+			"SDL_GetRelativeMouseMode"
+		end
+
+	frozen SDL_SetRelativeMouseMode(enable:BOOLEAN):INTEGER
+		external
+			"C (SDL_bool) : int | <SDL.h>"
+		alias
+			"SDL_SetRelativeMouseMode"
+		end
+
+	frozen SDL_CreateColorCursor(surface:POINTER; hot_x, hot_y:INTEGER):POINTER
+		external
+			"C (SDL_Surface*, int, int) : SDL_Cursor* | <SDL.h>"
+		alias
+			"SDL_CreateColorCursor"
+		end
+
+	frozen SDL_FreeCursor(cursor:POINTER)
+		external
+			"C (SDL_Cursor*) | <SDL.h>"
+		alias
+			"SDL_FreeCursor"
+		end
+
 	frozen SDL_InitSubSystem(flags:NATURAL_32):INTEGER
 		external
 			"C (Uint32) : int | <SDL.h>"
