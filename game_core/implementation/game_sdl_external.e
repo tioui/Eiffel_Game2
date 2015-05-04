@@ -73,11 +73,32 @@ feature -- Function SDL.h
 			"SDL_SetRelativeMouseMode"
 		end
 
+	frozen SDL_SetCursor(cursor:POINTER)
+		external
+			"C (SDL_Cursor*) | <SDL.h>"
+		alias
+			"SDL_SetCursor"
+		end
+
+	frozen SDL_GetCursor:POINTER
+		external
+			"C : SDL_Cursor* | <SDL.h>"
+		alias
+			"SDL_GetCursor"
+		end
+
 	frozen SDL_CreateColorCursor(surface:POINTER; hot_x, hot_y:INTEGER):POINTER
 		external
 			"C (SDL_Surface*, int, int) : SDL_Cursor* | <SDL.h>"
 		alias
 			"SDL_CreateColorCursor"
+		end
+
+	frozen SDL_CreateSystemCursor(id:INTEGER):POINTER
+		external
+			"C (SDL_SystemCursor) : SDL_Cursor* | <SDL.h>"
+		alias
+			"SDL_CreateSystemCursor"
 		end
 
 	frozen SDL_FreeCursor(cursor:POINTER)
@@ -10418,6 +10439,90 @@ feature -- Constants
 			"C [macro <SDL.h>] : Uint8"
 		alias
 			"SDL_HAPTIC_SPHERICAL"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_ARROW : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_ARROW"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_IBEAM : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_IBEAM"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_WAIT : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_WAIT"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_CROSSHAIR : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_CROSSHAIR"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_WAITARROW : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_WAITARROW"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_SIZENWSE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_SIZENWSE"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_SIZENESW : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_SIZENESW"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_SIZEWE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_SIZEWE"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_SIZENS : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_SIZENS"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_SIZEALL : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_SIZEALL"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_NO : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_NO"
+		end
+
+	frozen SDL_SYSTEM_CURSOR_HAND : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_SYSTEM_CURSOR_HAND"
 		end
 
 end

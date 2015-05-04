@@ -387,6 +387,22 @@ feature -- Mouse
 			Is_Assign: not has_error implies is_relative_mouse_enabled ~ a_value
 		end
 
+	cursor:GAME_CURSOR
+			-- The {GAME_CURSOR} presently used in `Current'
+		do
+			create Result.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetCursor)
+		end
+
+	set_cursor(a_cursor:GAME_CURSOR)
+			-- Assign `cursor' with the value of `a_cursor'
+		require
+			Cursor_Valid: a_cursor.exists
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetCursor(a_cursor.item)
+		ensure
+			Is_Assign: cursor ~ a_cursor
+		end
+
 feature -- Joystick methods
 
 	joysticks:CHAIN_INDEXABLE_ITERATOR[GAME_JOYSTICK]
