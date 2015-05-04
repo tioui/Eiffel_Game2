@@ -9,7 +9,7 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game/game_core/spec/include"/>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\include\SDL2">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\include">
 			<condition>
 				<platform value="windows"/>
 			</condition>
@@ -61,12 +61,12 @@
 				<dotnet value="true"/>
 			</condition>
 		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\lib\libSDL.dll.a">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
 		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\lib\libSDLmain.a">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2main.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>

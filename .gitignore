@@ -12,3 +12,6 @@ EIFGENs
 *.swp
 custom_package_file_app/tests/*
 !custom_package_file_app/tests/tests.sh
+C_lib_win
+*.dll
+*.rc
