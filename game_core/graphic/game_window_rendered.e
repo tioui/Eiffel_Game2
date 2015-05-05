@@ -102,6 +102,8 @@ feature -- Access
 
 	renderer: GAME_RENDERER assign set_renderer
 			-- The rendering context of `Current'
+		require
+			exists
 		do
 			if attached internal_renderer as la_renderer then
 				Result := la_renderer

@@ -595,6 +595,7 @@ feature -- Touch devices
 				create {ARRAYED_LIST[GAME_TOUCH_DEVICE]} l_touch_devices.make (touch_device_count)
 				from i := 1 until i > touch_device_count loop
 					l_touch_devices.extend (create {GAME_TOUCH_DEVICE}.make(i))
+					i := i + 1
 				end
 				internal_touch_devices := l_touch_devices
 			end
