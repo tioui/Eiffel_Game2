@@ -8,17 +8,12 @@
 		<option full_class_checking="false" void_safety="all" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL_gfx\include">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2_gfx\include">
 			<condition>
 				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL_gfx\bin\libSDL_gfx.dll.a">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL_gfx\bin\libSDL_gfx.a">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2_gfx\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2_gfx.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
