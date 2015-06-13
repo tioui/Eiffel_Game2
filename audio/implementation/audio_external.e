@@ -25,6 +25,13 @@ feature -- OpenAL functions
 			"alcGetError"
 		end
 
+	frozen ALC_get_string(deviceHandle:POINTER; token:INTEGER):POINTER
+		external
+			"C (ALCdevice *, ALCenum) : const ALCchar * | <alc.h>"
+		alias
+			"alcGetString"
+		end
+
 	frozen ALC_create_context(device:POINTER;flags:POINTER):POINTER
 		external
 			"C (ALCdevice *,ALCint *) : ALCcontext * | <alc.h>"
@@ -178,6 +185,13 @@ feature -- OpenAL functions
 			"alSourceUnqueueBuffers"
 		end
 
+	frozen AL_delete_buffers(nb:INTEGER;buffers:POINTER)
+		external
+			"C (ALsizei, ALuint *) | <al.h>"
+		alias
+			"alDeleteBuffers"
+		end
+
 	frozen AL_buffer_data(buffer_id:NATURAL;format:INTEGER;buffers:POINTER;size,freq:INTEGER)
 		external
 			"C (ALuint, ALenum, ALvoid *, ALsizei, ALsizei) | <al.h>"
@@ -214,6 +228,22 @@ feature -- OpenAL functions
 		end
 
 feature -- OpenAL Constantes
+
+
+
+	frozen ALC_all_device_specifier :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_ALL_DEVICES_SPECIFIER"
+		end
+
+	frozen ALC_device_specifier :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_DEVICE_SPECIFIER"
+		end
 
 	frozen ALC_invalid_value :INTEGER
 		external

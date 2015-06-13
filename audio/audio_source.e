@@ -436,13 +436,16 @@ feature {NONE} -- Implementation - Routines
 			-- <Precursor>
 		local
 			sources:ARRAY[NATURAL]
-			source_c:ANY
+			sources_c:ANY
+			l_sound_al_buffer_c:ANY
 		do
 			stop
 			temp_buffer.memory_free
+			l_sound_al_buffer_c:=sound_al_buffer.to_c
+			{AUDIO_EXTERNAL}.AL_delete_buffers(nb_buffer, $l_sound_al_buffer_c);
 			create sources.make_filled (index, 1, 1)
-			source_c:=sources.to_c
-			{AUDIO_EXTERNAL}.AL_delete_sources(1,$source_c)
+			sources_c:=sources.to_c
+			{AUDIO_EXTERNAL}.AL_delete_sources(1,$sources_c)
 		end
 
 

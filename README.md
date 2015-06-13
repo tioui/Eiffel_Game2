@@ -28,7 +28,7 @@ Installation on Linux (Ubuntu)
 
 ***
 
-	sudo apt-get install libsdl-dev libsdl-image1.2-dev libsdl-gfx1.2-dev libsdl-ttf2.0-dev libopenal-dev libsndfile1-dev libavcodec-dev libavformat-dev libswscale-dev  
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libavcodec-dev libavformat-dev libswscale-dev  
 
 ***
 
