@@ -39,6 +39,30 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	devices:LIST[READABLE_STRING_GENERAL]
+			-- List all possible device that `Current' may used
+		local
+			l_result:POINTER
+			l_c_string:C_STRING
+			l_item:READABLE_STRING_GENERAL
+		do
+			create {LINKED_LIST[READABLE_STRING_GENERAL]} Result.make
+			l_result := {AUDIO_EXTERNAL}.ALC_get_string(null, {AUDIO_EXTERNAL}.ALC_all_device_specifier)
+			if not l_result.is_default_pointer then
+				from
+					create l_c_string.make_by_pointer (l_result)
+					l_item := l_c_string.string
+				until
+					l_item.is_empty
+				loop
+					result.extend (l_item)
+					l_result := l_result.plus (l_item.count + 1)
+					create l_c_string.make_by_pointer (l_result)
+					l_item := l_c_string.string
+				end
+			end
+		end
+
 	enable_sound
 			-- Active the sound context.
 		require
@@ -88,6 +112,17 @@ feature -- Access
 					read_alc_error (null,"Cannot close audio context.")
 				end
 			end
+		end
+
+	device_specifier:READABLE_STRING_GENERAL
+			-- A text representation of the device used by `Current'
+		require
+			Sound_Enabled: is_sound_enable
+		local
+			l_result:C_STRING
+		do
+			create l_result.make_by_pointer ({AUDIO_EXTERNAL}.ALC_get_string(device, {AUDIO_EXTERNAL}.ALC_device_specifier))
+			Result := l_result.string
 		end
 
 	listener:AUDIO_LISTENER

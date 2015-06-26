@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			Font_Is_Open: a_font.is_open
 		do
 			background_color := a_background_color
-			make_text_surface (a_text, a_font, a_background_color)
+			make_text_surface (a_text, a_font, a_forground_color)
 		end
 
 feature -- Access

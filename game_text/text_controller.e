@@ -10,6 +10,9 @@ class
 inherit
 	GAME_SDL_ANY
 	MEMORY
+		export
+			{NONE} all
+		end
 
 create
 	default_create

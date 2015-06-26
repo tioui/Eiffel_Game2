@@ -32,7 +32,6 @@ feature {NONE} -- Initialization
 			l_desert:DESERT
 			l_maryo:MARYO
 			l_window:GAME_WINDOW_RENDERED
-			l_test1, l_test2, l_test3:TEST
 		do
 			create l_window_builder
 			l_window_builder.set_dimension (1024, 512)
@@ -51,12 +50,6 @@ feature {NONE} -- Initialization
 					l_window.key_pressed_actions.extend (agent on_key_pressed(?, ?, l_maryo))
 					l_window.key_released_actions.extend (agent on_key_released(?,?,  l_maryo))
 					game_library.iteration_actions.extend (agent on_iteration(?, l_maryo, l_desert, l_window.renderer))
-					create l_test1.make
-					l_test1.launch
-					create l_test2.make
-					l_test2.launch
-					create l_test3.make
-					l_test3.launch
 					game_library.launch_no_delay
 				else
 					print("Cannot create the Maryo surface.")

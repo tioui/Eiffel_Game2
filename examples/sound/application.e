@@ -24,7 +24,12 @@ feature {NONE} -- Initialization
 			-- Run application.
 		do
 			game_library.enable_video -- Enable the video functionalities
+			print("List of devices:%N")
+			across audio_library.devices as la_device loop
+				print("    " + la_device.item + "%N")
+			end
 			audio_library.enable_sound
+			print("Device: " + audio_library.device_specifier + "%N")
 			run_game	  -- Run the core creator of the game.
 			audio_library.quit_library
 			game_library.quit_library  -- Clear the library before quitting

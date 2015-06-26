@@ -10,7 +10,7 @@ class
 inherit
 	GAME_COLOR_READABLE
 		redefine
-			red, green, blue, alpha
+			make, red, green, blue, alpha
 		end
 create
 	make,
@@ -18,6 +18,17 @@ create
 	make_from_hexadecimal,
 	make_rgb_from_hexadecimal,
 	make_from_other
+
+feature {NONE} -- Initialization
+
+	make(a_red,a_green,a_blue,a_alpha:NATURAL_8)
+			-- <Precursor>
+		do
+			set_red (a_red)
+			set_green (a_green)
+			set_blue (a_blue)
+			set_alpha (a_alpha)
+		end
 
 feature -- Access
 
