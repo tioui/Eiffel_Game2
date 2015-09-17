@@ -15,14 +15,14 @@ inherit
 
 create
 	default_create,
-	make_from_other
+	make_from_other,
+	make_from_bits_per_pixel_and_masks
 
 create {GAME_SDL_ANY}
 	make_from_flags,
 	make_from_structure_pointer,
 	share_from_structure_pointer,
-	own_from_structure_pointer,
-	make_from_bits_per_pixel_and_masks
+	own_from_structure_pointer
 
 feature {NONE} -- Initialisation
 
