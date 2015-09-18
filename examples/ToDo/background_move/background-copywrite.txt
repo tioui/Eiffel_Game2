@@ -1,5 +1,0 @@
-The background image is a montage of two tiles from OpenGameArt (licenced CC0):
-Brick from http://opengameart.org/node/7669
-Grass from http://opengameart.org/node/16455
-
-The sprite image (the car) come from OpenGameArt (licenced CC0): http://opengameart.org/content/military-jeep
