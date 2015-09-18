@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 					l_window.key_released_actions.extend (agent on_key_released(?,?,  l_maryo))
 					game_library.iteration_actions.extend (agent on_iteration(?, l_maryo, l_desert, l_window, False))
 					on_iteration(0, l_maryo, l_desert, l_window, True)
+					last_redraw_time := game_library.time_since_create
 					game_library.launch
 				else
 					print("Cannot create the Maryo surface.")
@@ -66,9 +67,15 @@ feature {NONE} -- Implementation
 			-- Event that is launch at each iteration.
 		local
 			l_area_dirty:ARRAYED_LIST[TUPLE[x,y,width,height:INTEGER]]
+			l_must_redraw:BOOLEAN
 		do
+			l_must_redraw := a_must_redraw
+			if (game_library.time_since_create - last_redraw_time) > 1000 then	-- Once each second, redraw the entire screen
+				l_must_redraw := True
+				last_redraw_time := game_library.time_since_create
+			end
 			create l_area_dirty.make(2)
-			if a_must_redraw then
+			if l_must_redraw then
 				-- Force the redrawing of all the window
 				l_area_dirty.extend ([0, 0, l_window.width, l_window.height])
 			else
@@ -78,7 +85,7 @@ feature {NONE} -- Implementation
 
 			a_maryo.update (a_timestamp)	-- Update Maryo animation and coordinate
 
-			if a_maryo.is_dirty then	-- Only draw if there was some modification on Maryo
+			if a_maryo.is_dirty or l_must_redraw then	-- Only draw if there was some modification on Maryo
 				a_maryo.unset_dirty
 				-- Be sure that Maryo does not get out of the screen
 				if a_maryo.x < 0 then
@@ -142,5 +149,7 @@ feature {NONE} -- Implementation
 			game_library.stop  -- Stop the controller loop (allow game_library.launch to return)
 		end
 
+	last_redraw_time:NATURAL_32
+			-- The last time that the entire screen has been redraw
 
 end
