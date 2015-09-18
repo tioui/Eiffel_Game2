@@ -8,12 +8,12 @@
 		<option full_class_checking="false" void_safety="none" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2_gfx\include">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\SDL2_gfx\include">
 			<condition>
 				<platform value="windows"/>
 			</condition>
 		</external_include>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\SDL2_gfx\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2_gfx.lib">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\SDL2_gfx\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2_gfx.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
@@ -39,7 +39,7 @@
 			</condition>
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core.ecf" readonly="true"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf" readonly="true"/>
 		<cluster name="game_effects" location=".\" recursive="true">
 			<description>An addon for the Eiffel Game Library containing multiple utilities for surfaces</description>
 			<file_rule>

@@ -7,8 +7,8 @@
 		</option>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="eiffel_game" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core-safe.ecf"/>
-		<library name="game_image_file" location="$EIFFEL_LIBRARY\contrib\library\game\game_image_file\game_image_file-safe.ecf"/>
+		<library name="eiffel_game" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+		<library name="game_image_file" location="$EIFFEL_LIBRARY\contrib\library\game2\game_image_file\game_image_file-safe.ecf"/>
 		<cluster name="project" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/theme$</exclude>

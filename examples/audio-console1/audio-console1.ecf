@@ -5,8 +5,8 @@
 		<option full_class_checking="false" void_safety="all" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game\audio\audio-safe.ecf"/>
-		<library name="audio_sound_file" location="$EIFFEL_LIBRARY\contrib\library\game\audio_sound_file\audio_sound_file-safe.ecf"/>
+		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio-safe.ecf"/>
+		<library name="audio_sound_file" location="$EIFFEL_LIBRARY\contrib\library\game2\audio_sound_file\audio_sound_file-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<cluster name="audio-console" location=".\" recursive="true">

@@ -7,8 +7,8 @@
 		</option>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game\game_core\game_core-safe.ecf"/>
-		<library name="game_text" location="$EIFFEL_LIBRARY\contrib\library\game\game_text\game_text-safe.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+		<library name="game_text" location="$EIFFEL_LIBRARY\contrib\library\game2\game_text\game_text-safe.ecf"/>
 		<cluster name="project" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

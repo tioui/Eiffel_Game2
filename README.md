@@ -1,17 +1,17 @@
-eiffel_game_lib
-===============
+Eiffel Game 2
+=============
 
-Please note: The Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not accurate.
+Please note: The Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not necessery accurate.
 
 A Game library for ISE Eiffel.
 
-This is a library for game developping with the Eiffel Language. The library is compatible with the IDE EiffelStudio 7.3 from ISE.
+This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 7.3 and newer from ISE.
 
-The library is compatible with Linux, MAC OS X, Windows, GP2X Wiz and Caanoo.
+The library is compatible with Linux, MAC OS X, Windows. It should work with other operating system (FreeBSD, Android, IOS, etc.) but it is not supported.
 
-The library is under Eiffel Forum License v2.
+The Audio and Audio_Sound_File sub-libraries are under the LGPL license. Every other sub-libraries are under the zlib license. Every examples are under the GPL license.
 
-The project use those libraries: SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, Libsndfile and FFMPEG LibAV.
+The project use those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL and Libsndfile.
 
 [<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%40tioui%2ecom&lc=CA&item_name=Louis%20Marchand&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
@@ -21,151 +21,34 @@ Installation on Linux (Ubuntu)
 ------------------------------
 
 * I assume that you already have a fonctionnal EiffelStudio on your system. If not, install it.
-* Rename the "eiffel_game_lib" folder to "game".
-* You need to add the game library in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "/usr/lib/EiffelStudio73" or in "/usr/local/Eiffel73".
+* Rename the library folder (containing this README.md) to "game2".
+* You need to add the game2 folder library in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "/usr/lib/EiffelStudio_XX.XX" or in "/usr/local/Eiffel_XX.XX".
 
-* You need to install the C libraries SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, libsndfile and all their development tools kit and dependancies:  
-
-***
-
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libavcodec-dev libavformat-dev libswscale-dev  
+* You need to install the C libraries SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, libsndfile and all their development tools kit and dependancies:  
 
 ***
 
-* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game/game_core_lib/game_core_lib.ecf .
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev
+
+***
+
+* Execute the "compile_c_library.sh" script (from the "game2" directory).
+* Create a project and add the sub-libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
 
 
 Installation on Windows
 -----------------------
 
-* You must use an EiffelStudio 32 bits that use the MinGW compiler to work. If you don't have it already, install it.
-* Rename the "eiffel_game_lib" folder to "game".
-* You need to add the "game" library folder in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "c:\Program Files\Eiffel Software\".
-* You need to add the Msys and MinGW bin directory in the system PATH variable (Both are in the EiffelStudio program sub directory)
-* You need to install the C libraries dependancies. To get them, download the file [https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip](https://github.com/downloads/tioui/eiffel_game_lib/C_lib_win.zip) . When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel Game Lib repository directory.
-* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game/game_core_lib/game_core_lib.ecf .
-* Put all ".dll" files of the C_lib_win\DLL directory in the new project directory or in the C:\Windows\System32\ (or in SysWOW64 if you use a 64bits Windows).
-* Please note that the library does not work with the Microsoft C compiler for now.
-* Please note that the library does not work on an 64 bits compiler.
+* You must already have a working EiffelStudio. If you don't have it already, install it.
+* Rename the library folder (containing this README.md) to "game2".
+* You need to add the "game2" library folder in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "c:\Program Files\Eiffel Software\".
+* You need to install the C libraries dependancies. To get them, download the file [https://github.com/tioui/eiffel_game_lib/raw/Windows_Build/Eiffel_Game2/C_libraries.zip](https://github.com/tioui/eiffel_game_lib/raw/Windows_Build/Eiffel_Game2/C_libraries.zip). When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel Game Lib repository directory.
+* Using the "EiffelStudio command prompt" (look in the Windows "Start" menu), execute the "compile_c_library.bat" script of the "game2" directory.
+* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
+* Put all ".dll" files of the C_lib_win\DLLXX directory in the new project directory or in the C:\Windows\System32\.
+
 
 Installation on Mac OS X
 ------------------------
 
-* Install EiffelStudio 7.3.
-* You need to add the "game" library folder in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "/Applications/MacPorts/Eiffel73/".
-* You need to get some files to adjust SDL on Mac OS X. To get them, download the file [https://github.com/downloads/tioui/eiffel_game_lib/C_lib_mac.tar.gz](https://github.com/downloads/tioui/eiffel_game_lib/C_lib_mac.tar.gz) . When you extract the file, you should have a C_lib_mac directory. Put the C_lib_mac directory in the root directory of the Eiffel Game Lib repository directory.
-* You need to install the C libraries SDL, SDL_image, SDL_gfx, SDL_ttf, OpenAL, libsndfile, ffmpeg library and all their development tools kit and dependancies. You can install them with MacPort by installing the port libsdl-framework, libsdl_gfx-framework, libsdl_image-framework, libsdl_ttf-framework, libsndfile and ffmpeg-devel.
-* OpenAL must be install another way. For that, install cmake using MacPort. Extract the file "openal-soft-1.14.tar.bz2" found in the C_lib_mac.tar.gz archive downloaded in before. Once extract, open a terminal a go into the directory build of the created directory of the archive extraction. Compile the library and install it
-
-
-***
-
-    cd /path/to/openal-soft-1.14/build
-    cmake ..
-    make
-    sudo make install
-
-***
-
-* Now copy all SDL installed library from the /opt/local/Library/ to the /Library directory.
-
-***
-
-    sudo cp -rp /opt/local/Library/Frameworks/SDL*.framework /Library/Frameworks/
-
-***
-
-* Now, ready for the hard part? The SDL library need a specific Main in the C program and also need to have an "#include <SDL.h>" in the same C file that the on that contain the main. It is evident that EiffelStudio don't respect these necessities from SDL. We will have to do a little hack to allow EiffelStudio to use SDL. We will make the hack in a new EiffelStudio application (a copy), so don't worry, your EiffelStudio should not be harm by this hack.
-* Open a terminal a go to the directory Eiffel?? (most likely Eiffel73).
-* Copy the macosx-x86-64 specs to macosx-x86-64-SDL:
-
-***
-
-    sudo cp -rp studio/spec/macosx-x86-64 studio/spec/macosx-x86-64-SDL
-    sudo cp -rp studio/config/macosx-x86-64 studio/config/macosx-x86-64-SDL
-
-***
-
-* Modify the C file template to fit the SDL necessities. Use your favorite text editor (I use vim):
-
-***
-
-    sudo vim studio/config/macosx-x86-64-SDL/templates/emain.template
-
-***
-
-* Change the line 11:
-
-***
-
-    Before: (EMPTY)
-
-***
-
-***
-
-    After: #include "SDL.h"
-
-***
-
-* Change the line 13:
-
-***
-
-    Before: extern int main(int, char **, char **);
-
-***
-
-***
-
-    After: extern int main(int, char **);
-
-***
-
-* Change the line 18:
-
-***
-
-    Before: (EMPTY)
-
-***
-
-***
-
-    After: extern char **environ;
-
-***
-
-* Change the line 19:
-
-***
-
-    Before: int main (int argc, char ** argv, char ** envp)
-
-***
-
-***
-
-    After: int main (int argc, char ** argv)
-
-***
-
-* Change the line 21:
-
-***
-
-    Before: (EMPTY)
-
-***
-
-***
-
-    After: char **envp = environ;
-
-***
-
-* Save and quit the text editor.
-* Now, when you launch estudio, change the ISE_PLATFORM environment variable from macosx-x86-64 to macosx-x86-64-SDL.
-* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game/game_core_lib/game_core_lib.ecf .
-* Note that the spec that we create has no precompile library. It will be necessary to remove the default Precompile library in the project.
-
+To be created...

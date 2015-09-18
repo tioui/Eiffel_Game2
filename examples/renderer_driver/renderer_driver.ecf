@@ -8,7 +8,7 @@
 		<setting name="console_application" value="true"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP/base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY/library/base/base-safe.ecf"/>
-		<library name="game_core_lib" location="$EIFFEL_LIBRARY\contrib\library\game\game_core_lib\game_core_lib-safe.ecf"/>
+		<library name="game_core_lib" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core_lib\game_core_lib-safe.ecf"/>
 		<cluster name="renderer_driver" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

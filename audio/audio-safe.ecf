@@ -13,7 +13,7 @@
 				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\include">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\OpenAL\include">
 			<condition>
 				<platform value="windows"/>
 			</condition>
@@ -28,7 +28,7 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game\C_lib_win\OpenAL\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\OpenAL32.lib">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\OpenAL\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\OpenAL32.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
