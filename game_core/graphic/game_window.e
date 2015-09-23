@@ -841,6 +841,43 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.SDL_SetWindowIcon(item, a_surface.item)
 		end
 
+	start_text_input
+			-- Begin to read text in `Current'
+		do
+			{GAME_SDL_EXTERNAL}.SDL_StartTextInput
+		end
+
+	start_text_input_in_rectangle(a_x, a_y, a_width, a_height:INTEGER)
+			-- Begin to read text in `Current' displaying updated in the
+			-- rectangle starting at position (a_x, a_y) of dimention a_width X a_height.
+			-- Note: The library will not automatically draw the text in the rectangle.
+			-- The coordinate and dimention will be use to show the OS candidate list (if there is one).
+			-- See: http://wiki.libsdl.org/Tutorials/TextInput#CandidateList
+		local
+			l_rectangle:POINTER
+		do
+			l_rectangle := l_rectangle.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x (l_rectangle, a_x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y (l_rectangle, a_y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w (l_rectangle, a_width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h (l_rectangle, a_height)
+			{GAME_SDL_EXTERNAL}.SDL_SetTextInputRect(l_rectangle)
+			start_text_input
+			l_rectangle.memory_free
+		end
+
+	stop_text_input
+			-- Finish the reading of text in `Current'
+		do
+			{GAME_SDL_EXTERNAL}.SDL_StopTextInput
+		end
+
+	has_text_input:BOOLEAN
+			-- Is `Current' in text input mode (see: `start_text_input')
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_IsTextInputActive
+		end
+
 
 --	is_high_dpi_compatible:BOOLEAN
 --			-- Can `Current' be used in a High DPI display

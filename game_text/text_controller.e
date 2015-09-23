@@ -63,7 +63,11 @@ feature -- Access
 
 	quit_library
 			-- Close the library.
+		local
+			l_mem:MEMORY
 		do
+			create l_mem
+			l_mem.full_collect
 			if is_text_enable then
 				disable_text
 			end

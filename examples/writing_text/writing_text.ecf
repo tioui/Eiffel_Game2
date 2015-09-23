@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-13-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd" name="writing_text" uuid="2D7B6C32-E325-4BAE-BEC3-17BDBACBB0BC">
+	<target name="writing_text">
+		<root class="APPLICATION" feature="make"/>
+		<option warning="true">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<setting name="console_application" value="true"/>
+		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+		<library name="game_text" location="$ISE_LIBRARY\contrib\library\game2\game_text\game_text-safe.ecf"/>
+		<cluster name="writing_text" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

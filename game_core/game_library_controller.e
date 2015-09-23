@@ -307,7 +307,6 @@ feature -- Video methods
 			create Result.make (internal_windows)
 		end
 
-
 feature -- Mouse		
 	show_mouse_cursor
 		-- Show the mouse cursor when the mouse is on a window created by the library.

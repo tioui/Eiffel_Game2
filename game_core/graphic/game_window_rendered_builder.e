@@ -4,7 +4,7 @@ note
 	date: "Sat, 04 Apr 2015 00:24:50 +0000"
 	revision: "2.0"
 
-class
+expanded class
 	GAME_WINDOW_RENDERED_BUILDER
 
 inherit

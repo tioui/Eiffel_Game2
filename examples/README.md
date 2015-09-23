@@ -40,6 +40,9 @@ Keyboard event:
 	- sound
 	- anim_*
 
+Text input handeling:
+	- writing_text
+
 Window icon and caption:
 	- sound
 

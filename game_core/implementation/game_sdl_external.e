@@ -1510,6 +1510,34 @@ feature -- Function SDL.h
 			"SDL_LoadDollarTemplates"
 		end
 
+	frozen SDL_StartTextInput
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_StartTextInput"
+		end
+
+	frozen SDL_StopTextInput
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_StopTextInput"
+		end
+
+	frozen SDL_SetTextInputRect(rect:POINTER)
+		external
+			"C (SDL_Rect*)| <SDL.h>"
+		alias
+			"SDL_SetTextInputRect"
+		end
+
+	frozen SDL_IsTextInputActive:BOOLEAN
+		external
+			"C : SDL_bool | <SDL.h>"
+		alias
+			"SDL_IsTextInputActive"
+		end
+
 
 feature -- Manual C function (implemented in sdl_additions.c)
 
