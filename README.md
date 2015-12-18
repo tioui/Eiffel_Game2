@@ -39,11 +39,11 @@ Installation on Linux (Ubuntu)
 Installation on Windows
 -----------------------
 
-* Note: For an easy installation, see: [https://github.com/tioui/Eiffel_Game2/tree/windows_build].
+* Note: For an easy installation, see: https://github.com/tioui/Eiffel_Game2/tree/windows_build.
 * You must already have a working EiffelStudio. If you don't have it already, install it.
 * Rename the library folder (containing this README.md) to "game2".
 * You need to add the "game2" library folder in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "c:\Program Files\Eiffel Software\".
-* You need to install the C libraries dependancies. To get them, download the file [https://github.com/tioui/Eiffel_Game2/raw/windows_build/C_libraries.zip]. When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel_Game2 repository directory.
+* You need to install the C libraries dependancies. To get them, download the file https://github.com/tioui/Eiffel_Game2/raw/windows_build/C_libraries.zip. When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel_Game2 repository directory.
 * Using the "EiffelStudio command prompt" (look in the Windows "Start" menu), execute the "compile_c_library.bat" script of the "game2" directory.
 * Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
 * Put all ".dll" files of the C_lib_win\DLLXX directory in the new project directory or in the C:\Windows\System32\.
