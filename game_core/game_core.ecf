@@ -104,8 +104,10 @@
 				<exclude>/input$</exclude>
 				<exclude>/haptic$</exclude>
 				<exclude>/event$</exclude>
+				<exclude>/gl$</exclude>
 			</file_rule>
 			<cluster name="input" location=".\input\"/>
+			<cluster name="gl" location=".\gl\"/>
 			<cluster name="event" location=".\event\"/>
 			<cluster name="graphic" location=".\graphic\"/>
 			<cluster name="haptic" location=".\haptic\"/>

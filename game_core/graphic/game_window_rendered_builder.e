@@ -247,7 +247,7 @@ feature -- Access
 		ensure
 			Is_Unset: not attached renderer_driver
 		end
-
+	
 	generate_window:GAME_WINDOW_RENDERED
 			-- The {GAME_WINDOW_RENDERED} that fit all
 			-- attributes of `Current'

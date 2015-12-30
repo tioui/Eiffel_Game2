@@ -1538,6 +1538,83 @@ feature -- Function SDL.h
 			"SDL_IsTextInputActive"
 		end
 
+	frozen SDL_GL_SwapWindow(a_window:POINTER)
+		external
+			"C (SDL_Window*) | <SDL.h>"
+		alias
+			"SDL_GL_SwapWindow"
+		end
+
+	frozen SDL_GL_SetAttribute(a_attr, a_value:INTEGER):INTEGER
+		external
+			"C (SDL_GLattr, int) : int | <SDL.h>"
+		alias
+			"SDL_GL_SetAttribute"
+		end
+
+	frozen SDL_GL_GetAttribute(a_attr:INTEGER; a_value:POINTER):INTEGER
+		external
+			"C (SDL_GLattr, int *) : int | <SDL.h>"
+		alias
+			"SDL_GL_GetAttribute"
+		end
+
+	frozen SDL_GL_ResetAttributes
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_GL_ResetAttributes"
+		end
+
+	frozen SDL_GL_LoadLibrary(a_path:POINTER):INTEGER
+		external
+			"C (char *) : int | <SDL.h>"
+		alias
+			"SDL_GL_LoadLibrary"
+		end
+
+	frozen SDL_GL_UnloadLibrary
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_GL_UnloadLibrary"
+		end
+
+	frozen SDL_GL_CreateContext(a_window:POINTER):POINTER
+		external
+			"C (SDL_Window*) : SDL_GLContext | <SDL.h>"
+		alias
+			"SDL_GL_CreateContext"
+		end
+
+	frozen SDL_GL_DeleteContext(a_context:POINTER)
+		external
+			"C (SDL_GLContext) | <SDL.h>"
+		alias
+			"SDL_GL_DeleteContext"
+		end
+
+	frozen SDL_GL_SetSwapInterval(a_interval:INTEGER):INTEGER
+		external
+			"C (int) : int | <SDL.h>"
+		alias
+			"SDL_GL_SetSwapInterval"
+		end
+
+	frozen SDL_GL_GetSwapInterval:INTEGER
+		external
+			"C : int | <SDL.h>"
+		alias
+			"SDL_GL_GetSwapInterval"
+		end
+
+	frozen SDL_GL_GetDrawableSize(a_window, a_width, a_height:POINTER)
+		external
+			"C (SDL_Window*, int *, int *) | <SDL.h>"
+		alias
+			"SDL_GL_GetDrawableSize"
+		end
+
 
 feature -- Manual C function (implemented in sdl_additions.c)
 
@@ -10551,6 +10628,216 @@ feature -- Constants
 			"C [macro <SDL.h>] : int"
 		alias
 			"SDL_SYSTEM_CURSOR_HAND"
+		end
+
+	frozen SDL_GL_RED_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_RED_SIZE"
+		end
+
+	frozen SDL_GL_GREEN_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_GREEN_SIZE"
+		end
+
+	frozen SDL_GL_BLUE_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_BLUE_SIZE"
+		end
+
+	frozen SDL_GL_ALPHA_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ALPHA_SIZE"
+		end
+
+	frozen SDL_GL_BUFFER_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_BUFFER_SIZE"
+		end
+
+	frozen SDL_GL_DOUBLEBUFFER : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_DOUBLEBUFFER"
+		end
+
+	frozen SDL_GL_DEPTH_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_DEPTH_SIZE"
+		end
+
+	frozen SDL_GL_STENCIL_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_STENCIL_SIZE"
+		end
+
+	frozen SDL_GL_ACCUM_RED_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ACCUM_RED_SIZE"
+		end
+
+	frozen SDL_GL_ACCUM_GREEN_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ACCUM_GREEN_SIZE"
+		end
+
+	frozen SDL_GL_ACCUM_BLUE_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ACCUM_BLUE_SIZE"
+		end
+
+	frozen SDL_GL_ACCUM_ALPHA_SIZE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ACCUM_ALPHA_SIZE"
+		end
+
+	frozen SDL_GL_STEREO : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_STEREO"
+		end
+
+	frozen SDL_GL_MULTISAMPLEBUFFERS : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_MULTISAMPLEBUFFERS"
+		end
+
+	frozen SDL_GL_MULTISAMPLESAMPLES : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_MULTISAMPLESAMPLES"
+		end
+
+	frozen SDL_GL_ACCELERATED_VISUAL : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_ACCELERATED_VISUAL"
+		end
+
+	frozen SDL_GL_CONTEXT_MAJOR_VERSION : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_MAJOR_VERSION"
+		end
+
+	frozen SDL_GL_CONTEXT_MINOR_VERSION : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_MINOR_VERSION"
+		end
+
+	frozen SDL_GL_CONTEXT_FLAGS : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_FLAGS"
+		end
+
+	frozen SDL_GL_CONTEXT_PROFILE_MASK : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_PROFILE_MASK"
+		end
+
+	frozen SDL_GL_SHARE_WITH_CURRENT_CONTEXT : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_SHARE_WITH_CURRENT_CONTEXT"
+		end
+
+	frozen SDL_GL_FRAMEBUFFER_SRGB_CAPABLE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_FRAMEBUFFER_SRGB_CAPABLE"
+		end
+
+--	frozen SDL_GL_CONTEXT_RELEASE_BEHAVIOR : INTEGER
+--		external
+--			"C [macro <SDL.h>] : int"
+--		alias
+--			"SDL_GL_CONTEXT_RELEASE_BEHAVIOR"
+--		end
+
+	frozen SDL_GL_CONTEXT_DEBUG_FLAG : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_DEBUG_FLAG"
+		end
+
+	frozen SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG"
+		end
+
+	frozen SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG"
+		end
+
+	frozen SDL_GL_CONTEXT_RESET_ISOLATION_FLAG : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_RESET_ISOLATION_FLAG"
+		end
+
+	frozen SDL_GL_CONTEXT_PROFILE_CORE : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_PROFILE_CORE"
+		end
+
+	frozen SDL_GL_CONTEXT_PROFILE_COMPATIBILITY : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_PROFILE_COMPATIBILITY"
+		end
+
+	frozen SDL_GL_CONTEXT_PROFILE_ES : INTEGER
+		external
+			"C [macro <SDL.h>] : int"
+		alias
+			"SDL_GL_CONTEXT_PROFILE_ES"
 		end
 
 end

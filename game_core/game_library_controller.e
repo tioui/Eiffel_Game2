@@ -56,6 +56,7 @@ feature {NONE} -- Initialization
 		local
 			l_error:INTEGER
 		do
+			is_gl_enabled := False
 			instance_count.put (instance_count.item + 1)
 			has_error:=False
 			set_iteration_per_second(60)
@@ -89,7 +90,14 @@ feature -- Subs Systems
 			-- Disable the video functionalities
 		require
 			SDL_Controller_Disable_Video_Not_Enabled: is_video_enable
+		local
+			l_mem:MEMORY
 		do
+			across windows as la_windows loop
+				la_windows.item.close
+			end
+			create l_mem
+			l_mem.full_collect
 			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		ensure
 			SDL_Controller_Disable_Video_Disabled: not is_video_enable
@@ -609,6 +617,59 @@ feature -- Touch devices
 			internal_touch_devices := Void
 		end
 
+feature -- OpenGL
+
+	is_gl_enabled:BOOLEAN
+			-- The OpenGL library has been loaded
+
+	enable_gl
+			-- Load the OpenGL library
+		require
+			Not_Already_Enabled: not is_gl_enabled
+			Video_Must_Be_Loaded: is_video_enable
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_GL_LoadLibrary(create {POINTER})
+			is_gl_enabled := l_error = 0
+			manage_error_code (l_error, "Cannot enable the GL library")
+		end
+
+	enable_gl_from_file(a_file_name:READABLE_STRING_GENERAL)
+			-- Load the OpenGL library contained in file at `a_file_name'
+		require
+			Not_Already_Enabled: not is_gl_enabled
+			Video_Must_Be_Loaded: is_video_enable
+			File_Valid: attached (create {RAW_FILE}.make_with_name (a_file_name)) as la_file and then
+							(la_file.exists and la_file.is_access_readable)
+		local
+			l_error:INTEGER
+			l_c_file_name:C_STRING
+		do
+			create l_c_file_name.make (a_file_name)
+			l_error := {GAME_SDL_EXTERNAL}.SDL_GL_LoadLibrary(l_c_file_name.item)
+			is_gl_enabled := l_error = 0
+			manage_error_code (l_error, "Cannot enable the GL library")
+		end
+
+	disable_gl
+			-- Unload the OpenGL library
+		require
+			Is_GL_Enabled: is_gl_enabled
+		local
+			l_mem:MEMORY
+		do
+			across windows as la_windows loop
+				if attached {GAME_WINDOW_GL} la_windows.item then
+					la_windows.item.close
+				end
+			end
+			create l_mem
+			l_mem.full_collect
+			{GAME_SDL_EXTERNAL}.sdl_gl_unloadlibrary
+			is_gl_enabled := False
+		end
+
 feature {GAME_SDL_ANY} -- Touch devices implementation
 
 	internal_touch_devices:detachable CHAIN[GAME_TOUCH_DEVICE]
@@ -754,6 +815,10 @@ feature -- Other methods
 		local
 			l_mem:MEMORY
 		do
+			internal_windows.wipe_out
+			if is_gl_enabled then
+				disable_gl
+			end
 			clear_events
 			if is_joystick_enable then
 				disable_joystick

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="glu" uuid="CE821C4F-C70A-4A57-AA7E-B65A33E2E2BF" library_target="glu">
+	<description>An OpenGL utility Wrapper for the Eiffel Game Library.</description>
+	<target name="glu">
+		<description>An OpenGL utility Wrapper for the Eiffel Game Library.</description>
+		<root all_classes="true"/>
+		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Audio" copyright="Louis Marchand"/>
+		<option full_class_checking="false" void_safety="all" syntax="standard">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="-lGLU">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_linker_flag value="-lGLU">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<cluster name="glu" location=".\" recursive="true">
+			<description>An OpenGL utility Wrapper for the Eiffel Game Library.</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>
