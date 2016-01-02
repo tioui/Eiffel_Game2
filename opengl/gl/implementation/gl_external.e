@@ -53,79 +53,80 @@ feature -- C external
 			"GL_TRUE"
 		end
 
-	frozen GL_BYTE : INTEGER
+
+	frozen GL_BYTE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_BYTE"
 		end
 
-	frozen GL_UNSIGNED_BYTE : INTEGER
+	frozen GL_UNSIGNED_BYTE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_UNSIGNED_BYTE"
 		end
 
-	frozen GL_SHORT : INTEGER
+	frozen GL_SHORT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_SHORT"
 		end
 
-	frozen GL_UNSIGNED_SHORT : INTEGER
+	frozen GL_UNSIGNED_SHORT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_UNSIGNED_SHORT"
 		end
 
-	frozen GL_INT : INTEGER
+	frozen GL_INT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_INT"
 		end
 
-	frozen GL_UNSIGNED_INT : INTEGER
+	frozen GL_UNSIGNED_INT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_UNSIGNED_INT"
 		end
 
-	frozen GL_FLOAT : INTEGER
+	frozen GL_FLOAT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_FLOAT"
 		end
 
-	frozen GL_2_BYTES : INTEGER
+	frozen GL_2_BYTES : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_2_BYTES"
 		end
 
-	frozen GL_3_BYTES : INTEGER
+	frozen GL_3_BYTES : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_3_BYTES"
 		end
 
-	frozen GL_4_BYTES : INTEGER
+	frozen GL_4_BYTES : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_4_BYTES"
 		end
 
-	frozen GL_DOUBLE : INTEGER
+	frozen GL_DOUBLE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_DOUBLE"
 		end
@@ -1229,100 +1230,101 @@ feature -- C external
 			"GL_ALPHA_TEST_FUNC"
 		end
 
-	frozen GL_BLEND : INTEGER
+
+	frozen GL_BLEND : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_BLEND"
 		end
 
-	frozen GL_BLEND_SRC : INTEGER
+	frozen GL_BLEND_SRC : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_BLEND_SRC"
 		end
 
-	frozen GL_BLEND_DST : INTEGER
+	frozen GL_BLEND_DST : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_BLEND_DST"
 		end
 
-	frozen GL_ZERO : INTEGER
+	frozen GL_ZERO : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ZERO"
 		end
 
-	frozen GL_ONE : INTEGER
+	frozen GL_ONE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ONE"
 		end
 
-	frozen GL_SRC_COLOR : INTEGER
+	frozen GL_SRC_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_SRC_COLOR"
 		end
 
-	frozen GL_ONE_MINUS_SRC_COLOR : INTEGER
+	frozen GL_ONE_MINUS_SRC_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ONE_MINUS_SRC_COLOR"
 		end
 
-	frozen GL_SRC_ALPHA : INTEGER
+	frozen GL_SRC_ALPHA : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_SRC_ALPHA"
 		end
 
-	frozen GL_ONE_MINUS_SRC_ALPHA : INTEGER
+	frozen GL_ONE_MINUS_SRC_ALPHA : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ONE_MINUS_SRC_ALPHA"
 		end
 
-	frozen GL_DST_ALPHA : INTEGER
+	frozen GL_DST_ALPHA : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_DST_ALPHA"
 		end
 
-	frozen GL_ONE_MINUS_DST_ALPHA : INTEGER
+	frozen GL_ONE_MINUS_DST_ALPHA : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ONE_MINUS_DST_ALPHA"
 		end
 
-	frozen GL_DST_COLOR : INTEGER
+	frozen GL_DST_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_DST_COLOR"
 		end
 
-	frozen GL_ONE_MINUS_DST_COLOR : INTEGER
+	frozen GL_ONE_MINUS_DST_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_ONE_MINUS_DST_COLOR"
 		end
 
-	frozen GL_SRC_ALPHA_SATURATE : INTEGER
+	frozen GL_SRC_ALPHA_SATURATE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_SRC_ALPHA_SATURATE"
 		end
@@ -2909,180 +2911,182 @@ feature -- C external
 			"GL_ZOOM_Y"
 		end
 
-	frozen GL_TEXTURE_ENV : INTEGER
+
+	frozen GL_TEXTURE_ENV : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_ENV"
 		end
 
-	frozen GL_TEXTURE_ENV_MODE : INTEGER
+	frozen GL_TEXTURE_ENV_MODE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_ENV_MODE"
 		end
 
-	frozen GL_TEXTURE_1D : INTEGER
+	frozen GL_TEXTURE_1D : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_1D"
 		end
 
-	frozen GL_TEXTURE_2D : INTEGER
+	frozen GL_TEXTURE_2D : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_2D"
 		end
 
-	frozen GL_TEXTURE_WRAP_S : INTEGER
+	frozen GL_TEXTURE_WRAP_S : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_WRAP_S"
 		end
 
-	frozen GL_TEXTURE_WRAP_T : INTEGER
+	frozen GL_TEXTURE_WRAP_T : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_WRAP_T"
 		end
 
-	frozen GL_TEXTURE_MAG_FILTER : INTEGER
+	frozen GL_TEXTURE_MAG_FILTER : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_MAG_FILTER"
 		end
 
-	frozen GL_TEXTURE_MIN_FILTER : INTEGER
+	frozen GL_TEXTURE_MIN_FILTER : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_MIN_FILTER"
 		end
 
-	frozen GL_TEXTURE_ENV_COLOR : INTEGER
+	frozen GL_TEXTURE_ENV_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_ENV_COLOR"
 		end
 
-	frozen GL_TEXTURE_GEN_S : INTEGER
+	frozen GL_TEXTURE_GEN_S : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GEN_S"
 		end
 
-	frozen GL_TEXTURE_GEN_T : INTEGER
+	frozen GL_TEXTURE_GEN_T : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GEN_T"
 		end
 
-	frozen GL_TEXTURE_GEN_R : INTEGER
+	frozen GL_TEXTURE_GEN_R : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GEN_R"
 		end
 
-	frozen GL_TEXTURE_GEN_Q : INTEGER
+	frozen GL_TEXTURE_GEN_Q : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GEN_Q"
 		end
 
-	frozen GL_TEXTURE_GEN_MODE : INTEGER
+	frozen GL_TEXTURE_GEN_MODE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GEN_MODE"
 		end
 
-	frozen GL_TEXTURE_BORDER_COLOR : INTEGER
+	frozen GL_TEXTURE_BORDER_COLOR : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_BORDER_COLOR"
 		end
 
-	frozen GL_TEXTURE_WIDTH : INTEGER
+	frozen GL_TEXTURE_WIDTH : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_WIDTH"
 		end
 
-	frozen GL_TEXTURE_HEIGHT : INTEGER
+	frozen GL_TEXTURE_HEIGHT : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_HEIGHT"
 		end
 
-	frozen GL_TEXTURE_BORDER : INTEGER
+	frozen GL_TEXTURE_BORDER : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_BORDER"
 		end
 
-	frozen GL_TEXTURE_COMPONENTS : INTEGER
+	frozen GL_TEXTURE_COMPONENTS : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_COMPONENTS"
 		end
 
-	frozen GL_TEXTURE_RED_SIZE : INTEGER
+	frozen GL_TEXTURE_RED_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_RED_SIZE"
 		end
 
-	frozen GL_TEXTURE_GREEN_SIZE : INTEGER
+	frozen GL_TEXTURE_GREEN_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_GREEN_SIZE"
 		end
 
-	frozen GL_TEXTURE_BLUE_SIZE : INTEGER
+	frozen GL_TEXTURE_BLUE_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_BLUE_SIZE"
 		end
 
-	frozen GL_TEXTURE_ALPHA_SIZE : INTEGER
+	frozen GL_TEXTURE_ALPHA_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_ALPHA_SIZE"
 		end
 
-	frozen GL_TEXTURE_LUMINANCE_SIZE : INTEGER
+	frozen GL_TEXTURE_LUMINANCE_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_LUMINANCE_SIZE"
 		end
 
-	frozen GL_TEXTURE_INTENSITY_SIZE : INTEGER
+	frozen GL_TEXTURE_INTENSITY_SIZE : NATURAL
 		external
-			"C [macro <GL/gl.h>] : int"
+			"C [macro <GL/gl.h>] : unsigned int"
 		alias
 			"GL_TEXTURE_INTENSITY_SIZE"
 		end
+
 
 	frozen GL_NEAREST_MIPMAP_NEAREST : INTEGER
 		external

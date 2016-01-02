@@ -1615,6 +1615,27 @@ feature -- Function SDL.h
 			"SDL_GL_GetDrawableSize"
 		end
 
+	frozen SDL_MUSTLOCK(surface:POINTER):BOOLEAN
+		external
+			"C [macro <SDL.h>] (SDL_Surface *) : SDL_bool"
+		alias
+			"SDL_MUSTLOCK"
+		end
+
+	frozen SDL_LockSurface(a_surface:POINTER):INTEGER
+		external
+			"C (SDL_Surface*) : int | <SDL.h>"
+		alias
+			"SDL_LockSurface"
+		end
+
+	frozen SDL_UnlockSurface(a_surface:POINTER)
+		external
+			"C (SDL_Surface*) | <SDL.h>"
+		alias
+			"SDL_UnlockSurface"
+		end
+
 
 feature -- Manual C function (implemented in sdl_additions.c)
 

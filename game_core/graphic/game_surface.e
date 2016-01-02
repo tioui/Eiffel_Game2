@@ -212,6 +212,59 @@ feature {NONE} -- Initialisation
 
 feature -- Access
 
+	is_lock:BOOLEAN
+			-- `Current' is locked to access `pixels'. `Current' cannot be used until `unlock'.
+		do
+			Result := attached internal_pixels
+		end
+
+	must_lock:BOOLEAN
+			-- `Current' must be locked for pixel access
+		do
+			Result := {GAME_SDL_EXTERNAL}.sdl_mustlock (item)
+		end
+
+	lock
+			-- Lock `Current' to access `pixels'.
+		require
+			Must_Be_Locked: must_lock
+		local
+			l_error:INTEGER
+		do
+			l_error := {GAME_SDL_EXTERNAL}.sdl_locksurface (item)
+			if l_error = 0 then
+				create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item) , width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+			else
+				manage_error_code (l_error, "Cannot lock surface.")
+			end
+
+		ensure
+			Is_Locked: not has_error implies is_lock
+		end
+
+	unlock
+			-- Unlock `Current' after access `pixels'.
+		require
+			Is_Locked: is_lock
+		do
+			{GAME_SDL_EXTERNAL}.sdl_unlocksurface (item)
+			if attached internal_pixels as la_pixels then
+				la_pixels.close
+			end
+			internal_pixels := Void
+		end
+
+	pixels:GAME_PIXEL_BUFFER
+		require
+			Locked_If_Needed: must_lock implies is_lock
+		do
+			if attached internal_pixels as la_pixels then
+				Result := la_pixels
+			else
+				create Result.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item) , width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+			end
+		end
+
 	image:GAME_IMAGE
 		-- The {GAME_IMAGE} that has served for creating `Current'
 
@@ -574,6 +627,8 @@ feature {NONE} -- Implementation
 			l_rect_src.memory_free
 		end
 
+	internal_pixels:detachable GAME_PIXEL_BUFFER
+
 feature {NONE} -- External
 
 	c_get_blend_mode(a_item, a_blend_mode:POINTER):INTEGER
@@ -590,5 +645,6 @@ feature {NONE} -- External
 
 invariant
 	Surface_Valid: is_open implies image.is_open
+	Surface_Lock_Valid: attached internal_pixels implies must_lock
 
 end
