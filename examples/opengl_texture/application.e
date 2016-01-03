@@ -8,8 +8,8 @@ class
 	APPLICATION
 
 inherit
-	GL
 	GLU
+	GL
 	GAME_LIBRARY_SHARED
 
 create
@@ -150,9 +150,9 @@ feature {NONE} -- Initialization
 	update_screen(a_timestamp:NATURAL_32; a_window:GAME_WINDOW)
 			-- Redraw the scene
 		do
-			glClear (gl_color_buffer_bit)
-			glBindTexture(GL_TEXTURE_2D, texture_id)
-			glBegin (gl_quads)
+			glClear (gl_color_buffer_bit.as_natural_32)
+			glBindTexture(GL_TEXTURE_2D.as_natural_32, texture_id)
+			glBegin (gl_quads.as_natural_32)
 			glTexCoord2f (1, 1)
 			glvertex2f (-0.5, -0.5)
 			glTexCoord2f (0, 1)
