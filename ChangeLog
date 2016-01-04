@@ -1,3 +1,17 @@
+v2.2
+2016-01-03
+ * Adding support for OpenGL
+
+v2.1
+2015-09-18
+ * Replacing game to game2
+
+v2.0
+2015-01-01
+ * Completely replacing SDL1.2 to SDL2.0
+ * Add better error management
+ * Object Oriented like event
+   
 v1.3.1.1
 2013-11-25
  * Remove the EIF_GAME_LIB environment variable dependancy.

@@ -18,6 +18,23 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\glew32.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_library location="-lopengl32">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_library>
+		<external_library location="OpenGL32.lib">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="msc"/>
+			</condition>
+		</external_library>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<cluster name="gl" location=".\" recursive="true">
 			<description>An OpenGL Wrapper for the Eiffel Game Library.</description>
@@ -26,6 +43,17 @@
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
 			</file_rule>
+			<cluster name="implementation" location=".\implementation" recursive="false"/>
+			<cluster name="implementation_windows" location=".\implementation\windows" recursive="false">
+				<condition>
+					<platform value="windows"/>
+				</condition>
+			</cluster>
+			<cluster name="implementation_unix" location=".\implementation\unix" recursive="false">
+				<condition>
+					<platform value="unix"/>
+				</condition>
+			</cluster>
 		</cluster>
 	</target>
 </system>

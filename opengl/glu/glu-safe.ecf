@@ -18,6 +18,18 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+		<external_library location="-lglu32">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_library>
+		<external_library location="GlU32.lib">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="msc"/>
+			</condition>
+		</external_library>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<cluster name="glu" location=".\" recursive="true">
 			<description>An OpenGL utility Wrapper for the Eiffel Game Library.</description>
@@ -25,7 +37,19 @@
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
+				<exclude>/implementation$</exclude>
 			</file_rule>
+			<cluster name="implementation" location=".\implementation" recursive="false"/>
+			<cluster name="implementation_windows" location=".\implementation\windows" recursive="false">
+				<condition>
+					<platform value="windows"/>
+				</condition>
+			</cluster>
+			<cluster name="implementation_unix" location=".\implementation\unix" recursive="false">
+				<condition>
+					<platform value="unix"/>
+				</condition>
+			</cluster>
 		</cluster>
 	</target>
 </system>
