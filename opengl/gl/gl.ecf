@@ -42,6 +42,7 @@
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
+				<exclude>/.implementation$</exclude>
 			</file_rule>
 			<cluster name="implementation" location=".\implementation" recursive="false"/>
 			<cluster name="implementation_windows" location=".\implementation\windows" recursive="false">

@@ -9,812 +9,812 @@ class
     GLU_EXTERNAL
 
 inherit
-	GLU_PLATFORM
+    GLU_PLATFORM
 
 feature -- C external
 
 
-	frozen GLU_FALSE : INTEGER
+	frozen GLU_FALSE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_FALSE"
 		end
 
-	frozen GLU_TRUE : INTEGER
+	frozen GLU_TRUE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TRUE"
 		end
 
-	frozen GLU_VERSION_1_1 : INTEGER
+	frozen GLU_VERSION_1_1 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_VERSION_1_1"
 		end
 
-	frozen GLU_VERSION_1_2 : INTEGER
+	frozen GLU_VERSION_1_2 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_VERSION_1_2"
 		end
 
-	frozen GLU_VERSION : INTEGER
+	frozen GLU_VERSION : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_VERSION"
 		end
 
-	frozen GLU_EXTENSIONS : INTEGER
+	frozen GLU_EXTENSIONS : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_EXTENSIONS"
 		end
 
-	frozen GLU_INVALID_ENUM : INTEGER
+	frozen GLU_INVALID_ENUM : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_INVALID_ENUM"
 		end
 
-	frozen GLU_INVALID_VALUE : INTEGER
+	frozen GLU_INVALID_VALUE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_INVALID_VALUE"
 		end
 
-	frozen GLU_OUT_OF_MEMORY : INTEGER
+	frozen GLU_OUT_OF_MEMORY : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_OUT_OF_MEMORY"
 		end
 
-	frozen GLU_INCOMPATIBLE_GL_VERSION : INTEGER
+	frozen GLU_INCOMPATIBLE_GL_VERSION : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_INCOMPATIBLE_GL_VERSION"
 		end
 
-	frozen GLU_OUTLINE_POLYGON : INTEGER
+	frozen GLU_OUTLINE_POLYGON : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_OUTLINE_POLYGON"
 		end
 
-	frozen GLU_OUTLINE_PATCH : INTEGER
+	frozen GLU_OUTLINE_PATCH : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_OUTLINE_PATCH"
 		end
 
-	frozen GLU_ERROR : INTEGER
+	frozen GLU_ERROR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_ERROR"
 		end
 
-	frozen GLU_NURBS_ERROR1 : INTEGER
+	frozen GLU_NURBS_ERROR1 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR1"
 		end
 
-	frozen GLU_NURBS_ERROR2 : INTEGER
+	frozen GLU_NURBS_ERROR2 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR2"
 		end
 
-	frozen GLU_NURBS_ERROR3 : INTEGER
+	frozen GLU_NURBS_ERROR3 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR3"
 		end
 
-	frozen GLU_NURBS_ERROR4 : INTEGER
+	frozen GLU_NURBS_ERROR4 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR4"
 		end
 
-	frozen GLU_NURBS_ERROR5 : INTEGER
+	frozen GLU_NURBS_ERROR5 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR5"
 		end
 
-	frozen GLU_NURBS_ERROR6 : INTEGER
+	frozen GLU_NURBS_ERROR6 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR6"
 		end
 
-	frozen GLU_NURBS_ERROR7 : INTEGER
+	frozen GLU_NURBS_ERROR7 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR7"
 		end
 
-	frozen GLU_NURBS_ERROR8 : INTEGER
+	frozen GLU_NURBS_ERROR8 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR8"
 		end
 
-	frozen GLU_NURBS_ERROR9 : INTEGER
+	frozen GLU_NURBS_ERROR9 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR9"
 		end
 
-	frozen GLU_NURBS_ERROR10 : INTEGER
+	frozen GLU_NURBS_ERROR10 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR10"
 		end
 
-	frozen GLU_NURBS_ERROR11 : INTEGER
+	frozen GLU_NURBS_ERROR11 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR11"
 		end
 
-	frozen GLU_NURBS_ERROR12 : INTEGER
+	frozen GLU_NURBS_ERROR12 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR12"
 		end
 
-	frozen GLU_NURBS_ERROR13 : INTEGER
+	frozen GLU_NURBS_ERROR13 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR13"
 		end
 
-	frozen GLU_NURBS_ERROR14 : INTEGER
+	frozen GLU_NURBS_ERROR14 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR14"
 		end
 
-	frozen GLU_NURBS_ERROR15 : INTEGER
+	frozen GLU_NURBS_ERROR15 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR15"
 		end
 
-	frozen GLU_NURBS_ERROR16 : INTEGER
+	frozen GLU_NURBS_ERROR16 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR16"
 		end
 
-	frozen GLU_NURBS_ERROR17 : INTEGER
+	frozen GLU_NURBS_ERROR17 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR17"
 		end
 
-	frozen GLU_NURBS_ERROR18 : INTEGER
+	frozen GLU_NURBS_ERROR18 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR18"
 		end
 
-	frozen GLU_NURBS_ERROR19 : INTEGER
+	frozen GLU_NURBS_ERROR19 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR19"
 		end
 
-	frozen GLU_NURBS_ERROR20 : INTEGER
+	frozen GLU_NURBS_ERROR20 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR20"
 		end
 
-	frozen GLU_NURBS_ERROR21 : INTEGER
+	frozen GLU_NURBS_ERROR21 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR21"
 		end
 
-	frozen GLU_NURBS_ERROR22 : INTEGER
+	frozen GLU_NURBS_ERROR22 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR22"
 		end
 
-	frozen GLU_NURBS_ERROR23 : INTEGER
+	frozen GLU_NURBS_ERROR23 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR23"
 		end
 
-	frozen GLU_NURBS_ERROR24 : INTEGER
+	frozen GLU_NURBS_ERROR24 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR24"
 		end
 
-	frozen GLU_NURBS_ERROR25 : INTEGER
+	frozen GLU_NURBS_ERROR25 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR25"
 		end
 
-	frozen GLU_NURBS_ERROR26 : INTEGER
+	frozen GLU_NURBS_ERROR26 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR26"
 		end
 
-	frozen GLU_NURBS_ERROR27 : INTEGER
+	frozen GLU_NURBS_ERROR27 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR27"
 		end
 
-	frozen GLU_NURBS_ERROR28 : INTEGER
+	frozen GLU_NURBS_ERROR28 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR28"
 		end
 
-	frozen GLU_NURBS_ERROR29 : INTEGER
+	frozen GLU_NURBS_ERROR29 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR29"
 		end
 
-	frozen GLU_NURBS_ERROR30 : INTEGER
+	frozen GLU_NURBS_ERROR30 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR30"
 		end
 
-	frozen GLU_NURBS_ERROR31 : INTEGER
+	frozen GLU_NURBS_ERROR31 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR31"
 		end
 
-	frozen GLU_NURBS_ERROR32 : INTEGER
+	frozen GLU_NURBS_ERROR32 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR32"
 		end
 
-	frozen GLU_NURBS_ERROR33 : INTEGER
+	frozen GLU_NURBS_ERROR33 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR33"
 		end
 
-	frozen GLU_NURBS_ERROR34 : INTEGER
+	frozen GLU_NURBS_ERROR34 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR34"
 		end
 
-	frozen GLU_NURBS_ERROR35 : INTEGER
+	frozen GLU_NURBS_ERROR35 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR35"
 		end
 
-	frozen GLU_NURBS_ERROR36 : INTEGER
+	frozen GLU_NURBS_ERROR36 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR36"
 		end
 
-	frozen GLU_NURBS_ERROR37 : INTEGER
+	frozen GLU_NURBS_ERROR37 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NURBS_ERROR37"
 		end
 
-	frozen GLU_AUTO_LOAD_MATRIX : INTEGER
+	frozen GLU_AUTO_LOAD_MATRIX : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_AUTO_LOAD_MATRIX"
 		end
 
-	frozen GLU_CULLING : INTEGER
+	frozen GLU_CULLING : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_CULLING"
 		end
 
-	frozen GLU_SAMPLING_TOLERANCE : INTEGER
+	frozen GLU_SAMPLING_TOLERANCE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_SAMPLING_TOLERANCE"
 		end
 
-	frozen GLU_DISPLAY_MODE : INTEGER
+	frozen GLU_DISPLAY_MODE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_DISPLAY_MODE"
 		end
 
-	frozen GLU_PARAMETRIC_TOLERANCE : INTEGER
+	frozen GLU_PARAMETRIC_TOLERANCE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_PARAMETRIC_TOLERANCE"
 		end
 
-	frozen GLU_SAMPLING_METHOD : INTEGER
+	frozen GLU_SAMPLING_METHOD : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_SAMPLING_METHOD"
 		end
 
-	frozen GLU_U_STEP : INTEGER
+	frozen GLU_U_STEP : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_U_STEP"
 		end
 
-	frozen GLU_V_STEP : INTEGER
+	frozen GLU_V_STEP : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_V_STEP"
 		end
 
-	frozen GLU_PATH_LENGTH : INTEGER
+	frozen GLU_PATH_LENGTH : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_PATH_LENGTH"
 		end
 
-	frozen GLU_PARAMETRIC_ERROR : INTEGER
+	frozen GLU_PARAMETRIC_ERROR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_PARAMETRIC_ERROR"
 		end
 
-	frozen GLU_DOMAIN_DISTANCE : INTEGER
+	frozen GLU_DOMAIN_DISTANCE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_DOMAIN_DISTANCE"
 		end
 
-	frozen GLU_MAP1_TRIM_2 : INTEGER
+	frozen GLU_MAP1_TRIM_2 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_MAP1_TRIM_2"
 		end
 
-	frozen GLU_MAP1_TRIM_3 : INTEGER
+	frozen GLU_MAP1_TRIM_3 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_MAP1_TRIM_3"
 		end
 
-	frozen GLU_POINT : INTEGER
+	frozen GLU_POINT : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_POINT"
 		end
 
-	frozen GLU_LINE : INTEGER
+	frozen GLU_LINE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_LINE"
 		end
 
-	frozen GLU_FILL : INTEGER
+	frozen GLU_FILL : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_FILL"
 		end
 
-	frozen GLU_SILHOUETTE : INTEGER
+	frozen GLU_SILHOUETTE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_SILHOUETTE"
 		end
 
-	frozen GLU_SMOOTH : INTEGER
+	frozen GLU_SMOOTH : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_SMOOTH"
 		end
 
-	frozen GLU_FLAT : INTEGER
+	frozen GLU_FLAT : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_FLAT"
 		end
 
-	frozen GLU_NONE : INTEGER
+	frozen GLU_NONE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_NONE"
 		end
 
-	frozen GLU_OUTSIDE : INTEGER
+	frozen GLU_OUTSIDE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_OUTSIDE"
 		end
 
-	frozen GLU_INSIDE : INTEGER
+	frozen GLU_INSIDE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_INSIDE"
 		end
 
-	frozen GLU_TESS_BEGIN : INTEGER
+	frozen GLU_TESS_BEGIN : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_BEGIN"
 		end
 
-	frozen GLU_BEGIN : INTEGER
+	frozen GLU_BEGIN : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_BEGIN"
 		end
 
-	frozen GLU_TESS_VERTEX : INTEGER
+	frozen GLU_TESS_VERTEX : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_VERTEX"
 		end
 
-	frozen GLU_VERTEX : INTEGER
+	frozen GLU_VERTEX : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_VERTEX"
 		end
 
-	frozen GLU_TESS_END : INTEGER
+	frozen GLU_TESS_END : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_END"
 		end
 
-	frozen GLU_END : INTEGER
+	frozen GLU_END : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_END"
 		end
 
-	frozen GLU_TESS_ERROR : INTEGER
+	frozen GLU_TESS_ERROR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR"
 		end
 
-	frozen GLU_TESS_EDGE_FLAG : INTEGER
+	frozen GLU_TESS_EDGE_FLAG : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_EDGE_FLAG"
 		end
 
-	frozen GLU_EDGE_FLAG : INTEGER
+	frozen GLU_EDGE_FLAG : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_EDGE_FLAG"
 		end
 
-	frozen GLU_TESS_COMBINE : INTEGER
+	frozen GLU_TESS_COMBINE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_COMBINE"
 		end
 
-	frozen GLU_TESS_BEGIN_DATA : INTEGER
+	frozen GLU_TESS_BEGIN_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_BEGIN_DATA"
 		end
 
-	frozen GLU_TESS_VERTEX_DATA : INTEGER
+	frozen GLU_TESS_VERTEX_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_VERTEX_DATA"
 		end
 
-	frozen GLU_TESS_END_DATA : INTEGER
+	frozen GLU_TESS_END_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_END_DATA"
 		end
 
-	frozen GLU_TESS_ERROR_DATA : INTEGER
+	frozen GLU_TESS_ERROR_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR_DATA"
 		end
 
-	frozen GLU_TESS_EDGE_FLAG_DATA : INTEGER
+	frozen GLU_TESS_EDGE_FLAG_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_EDGE_FLAG_DATA"
 		end
 
-	frozen GLU_TESS_COMBINE_DATA : INTEGER
+	frozen GLU_TESS_COMBINE_DATA : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_COMBINE_DATA"
 		end
 
-	frozen GLU_CW : INTEGER
+	frozen GLU_CW : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_CW"
 		end
 
-	frozen GLU_CCW : INTEGER
+	frozen GLU_CCW : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_CCW"
 		end
 
-	frozen GLU_INTERIOR : INTEGER
+	frozen GLU_INTERIOR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_INTERIOR"
 		end
 
-	frozen GLU_EXTERIOR : INTEGER
+	frozen GLU_EXTERIOR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_EXTERIOR"
 		end
 
-	frozen GLU_UNKNOWN : INTEGER
+	frozen GLU_UNKNOWN : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_UNKNOWN"
 		end
 
-	frozen GLU_TESS_WINDING_RULE : INTEGER
+	frozen GLU_TESS_WINDING_RULE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_RULE"
 		end
 
-	frozen GLU_TESS_BOUNDARY_ONLY : INTEGER
+	frozen GLU_TESS_BOUNDARY_ONLY : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_BOUNDARY_ONLY"
 		end
 
-	frozen GLU_TESS_TOLERANCE : INTEGER
+	frozen GLU_TESS_TOLERANCE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_TOLERANCE"
 		end
 
-	frozen GLU_TESS_ERROR1 : INTEGER
+	frozen GLU_TESS_ERROR1 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR1"
 		end
 
-	frozen GLU_TESS_ERROR2 : INTEGER
+	frozen GLU_TESS_ERROR2 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR2"
 		end
 
-	frozen GLU_TESS_ERROR3 : INTEGER
+	frozen GLU_TESS_ERROR3 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR3"
 		end
 
-	frozen GLU_TESS_ERROR4 : INTEGER
+	frozen GLU_TESS_ERROR4 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR4"
 		end
 
-	frozen GLU_TESS_ERROR5 : INTEGER
+	frozen GLU_TESS_ERROR5 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR5"
 		end
 
-	frozen GLU_TESS_ERROR6 : INTEGER
+	frozen GLU_TESS_ERROR6 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR6"
 		end
 
-	frozen GLU_TESS_ERROR7 : INTEGER
+	frozen GLU_TESS_ERROR7 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR7"
 		end
 
-	frozen GLU_TESS_ERROR8 : INTEGER
+	frozen GLU_TESS_ERROR8 : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_ERROR8"
 		end
 
-	frozen GLU_TESS_MISSING_BEGIN_POLYGON : INTEGER
+	frozen GLU_TESS_MISSING_BEGIN_POLYGON : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_MISSING_BEGIN_POLYGON"
 		end
 
-	frozen GLU_TESS_MISSING_BEGIN_CONTOUR : INTEGER
+	frozen GLU_TESS_MISSING_BEGIN_CONTOUR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_MISSING_BEGIN_CONTOUR"
 		end
 
-	frozen GLU_TESS_MISSING_END_POLYGON : INTEGER
+	frozen GLU_TESS_MISSING_END_POLYGON : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_MISSING_END_POLYGON"
 		end
 
-	frozen GLU_TESS_MISSING_END_CONTOUR : INTEGER
+	frozen GLU_TESS_MISSING_END_CONTOUR : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_MISSING_END_CONTOUR"
 		end
 
-	frozen GLU_TESS_COORD_TOO_LARGE : INTEGER
+	frozen GLU_TESS_COORD_TOO_LARGE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_COORD_TOO_LARGE"
 		end
 
-	frozen GLU_TESS_NEED_COMBINE_CALLBACK : INTEGER
+	frozen GLU_TESS_NEED_COMBINE_CALLBACK : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_NEED_COMBINE_CALLBACK"
 		end
 
-	frozen GLU_TESS_WINDING_ODD : INTEGER
+	frozen GLU_TESS_WINDING_ODD : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_ODD"
 		end
 
-	frozen GLU_TESS_WINDING_NONZERO : INTEGER
+	frozen GLU_TESS_WINDING_NONZERO : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_NONZERO"
 		end
 
-	frozen GLU_TESS_WINDING_POSITIVE : INTEGER
+	frozen GLU_TESS_WINDING_POSITIVE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_POSITIVE"
 		end
 
-	frozen GLU_TESS_WINDING_NEGATIVE : INTEGER
+	frozen GLU_TESS_WINDING_NEGATIVE : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_NEGATIVE"
 		end
 
-	frozen GLU_TESS_WINDING_ABS_GEQ_TWO : INTEGER
+	frozen GLU_TESS_WINDING_ABS_GEQ_TWO : NATURAL
 		external
-			"C [macro <GL/glu.h>] : int"
+			"C [macro <GL/glu.h>] : unsigned int"
 		alias
 			"GLU_TESS_WINDING_ABS_GEQ_TWO"
 		end
@@ -1003,7 +1003,7 @@ feature -- C external
 
 	frozen gluNurbsCallback(a_nurb: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUnurbs *,GLenum,void *) | <GL/glu.h>"
+			"C(GLUnurbs *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
 		alias
 			"gluNurbsCallback"
 		end
@@ -1073,7 +1073,7 @@ feature -- C external
 
 	frozen gluQuadricCallback(a_quad: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUquadric *,GLenum,void *) | <GL/glu.h>"
+			"C(GLUquadric *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
 		alias
 			"gluQuadricCallback"
 		end
@@ -1136,7 +1136,7 @@ feature -- C external
 
 	frozen gluTessCallback(a_tess: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUtesselator *,GLenum,void *) | <GL/glu.h>"
+			"C(GLUtesselator *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
 		alias
 			"gluTessCallback"
 		end
@@ -1182,7 +1182,6 @@ feature -- C external
 		alias
 			"gluUnProject"
 		end
-
 
 end
 
