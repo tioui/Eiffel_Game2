@@ -9,8 +9,10 @@ class
 
 inherit
 	GAME_PIXEL_FORMAT_READABLE
+		export
+			{ANY} set_color_palette
 		redefine
-			default_create
+			default_create, color_palette
 		end
 
 create
@@ -320,6 +322,12 @@ feature -- Access
 			set_internal_index({GAME_SDL_EXTERNAL}.Sdl_pixelformat_yvyu)
 		ensure
 			Pixel_Format_Changed: is_yvyu
+		end
+
+	color_palette:detachable GAME_COLOR_PALETTE assign set_color_palette
+			-- <Precursor>
+		do
+			Result := Precursor {GAME_PIXEL_FORMAT_READABLE}
 		end
 
 end

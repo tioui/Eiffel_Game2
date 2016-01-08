@@ -1636,6 +1636,62 @@ feature -- Function SDL.h
 			"SDL_UnlockSurface"
 		end
 
+	frozen SDL_PIXELTYPE(format:NATURAL_32):NATURAL
+		external
+			"C [macro <SDL.h>] (Uint32) : Uint32"
+		alias
+			"SDL_PIXELTYPE"
+		end
+
+	frozen SDL_PIXELORDER(format:NATURAL_32):NATURAL
+		external
+			"C [macro <SDL.h>] (Uint32) : Uint32"
+		alias
+			"SDL_PIXELORDER"
+		end
+
+	frozen SDL_PIXELLAYOUT(format:NATURAL_32):NATURAL
+		external
+			"C [macro <SDL.h>] (Uint32) : Uint32"
+		alias
+			"SDL_PIXELLAYOUT"
+		end
+
+	frozen SDL_BITSPERPIXEL(format:NATURAL_32):INTEGER
+		external
+			"C [macro <SDL.h>] (Uint32) : int"
+		alias
+			"SDL_BITSPERPIXEL"
+		end
+
+	frozen SDL_BYTESPERPIXEL(format:NATURAL_32):INTEGER
+		external
+			"C [macro <SDL.h>] (Uint32) : int"
+		alias
+			"SDL_BYTESPERPIXEL"
+		end
+
+	frozen SDL_ISPIXELFORMAT_INDEXED(format:NATURAL_32):BOOLEAN
+		external
+			"C [macro <SDL.h>] (Uint32) : SDL_bool"
+		alias
+			"SDL_ISPIXELFORMAT_INDEXED"
+		end
+
+	frozen SDL_ISPIXELFORMAT_FOURCC(format:NATURAL_32):BOOLEAN
+		external
+			"C [macro <SDL.h>] (Uint32) : SDL_bool"
+		alias
+			"SDL_ISPIXELFORMAT_FOURCC"
+		end
+
+	frozen SDL_ISPIXELFORMAT_ALPHA(format:NATURAL_32):BOOLEAN
+		external
+			"C [macro <SDL.h>] (Uint32) : SDL_bool"
+		alias
+			"SDL_ISPIXELFORMAT_ALPHA"
+		end
+
 
 feature -- Manual C function (implemented in sdl_additions.c)
 
@@ -10861,4 +10917,289 @@ feature -- Constants
 			"SDL_GL_CONTEXT_PROFILE_ES"
 		end
 
+	frozen SDL_PIXELTYPE_INDEX1 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_INDEX1"
+		end
+
+	frozen SDL_PIXELTYPE_INDEX4 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_INDEX4"
+		end
+
+	frozen SDL_PIXELTYPE_INDEX8 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_INDEX8"
+		end
+
+	frozen SDL_PIXELTYPE_PACKED8 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_PACKED8"
+		end
+
+	frozen SDL_PIXELTYPE_PACKED16 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_PACKED16"
+		end
+
+	frozen SDL_PIXELTYPE_PACKED32 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_PACKED32"
+		end
+
+	frozen SDL_PIXELTYPE_ARRAYU8 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_ARRAYU8"
+		end
+
+	frozen SDL_PIXELTYPE_ARRAYU16 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_ARRAYU16"
+		end
+
+	frozen SDL_PIXELTYPE_ARRAYU32 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_ARRAYU32"
+		end
+
+	frozen SDL_PIXELTYPE_ARRAYF16 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_ARRAYF16"
+		end
+
+	frozen SDL_PIXELTYPE_ARRAYF32 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_ARRAYF32"
+		end
+
+	frozen SDL_PIXELTYPE_UNKNOWN : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PIXELTYPE_UNKNOWN"
+		end
+
+	frozen SDL_BITMAPORDER_NONE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_BITMAPORDER_NONE"
+		end
+
+	frozen SDL_BITMAPORDER_4321 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_BITMAPORDER_4321"
+		end
+
+	frozen SDL_BITMAPORDER_1234 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_BITMAPORDER_1234"
+		end
+
+	frozen SDL_PACKEDORDER_NONE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_NONE"
+		end
+
+	frozen SDL_PACKEDORDER_XRGB : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_XRGB"
+		end
+
+	frozen SDL_PACKEDORDER_RGBX : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_RGBX"
+		end
+
+	frozen SDL_PACKEDORDER_ARGB : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_ARGB"
+		end
+
+	frozen SDL_PACKEDORDER_RGBA : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_RGBA"
+		end
+
+	frozen SDL_PACKEDORDER_XBGR : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_XBGR"
+		end
+
+	frozen SDL_PACKEDORDER_BGRX : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_BGRX"
+		end
+
+	frozen SDL_PACKEDORDER_ABGR : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_ABGR"
+		end
+
+	frozen SDL_PACKEDORDER_BGRA : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDORDER_BGRA"
+		end
+
+	frozen SDL_ARRAYORDER_NONE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_NONE"
+		end
+
+	frozen SDL_ARRAYORDER_RGB : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_RGB"
+		end
+
+	frozen SDL_ARRAYORDER_RGBA : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_RGBA"
+		end
+
+	frozen SDL_ARRAYORDER_ARGB : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_ARGB"
+		end
+
+	frozen SDL_ARRAYORDER_BGR : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_BGR"
+		end
+
+	frozen SDL_ARRAYORDER_BGRA : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_BGRA"
+		end
+
+	frozen SDL_ARRAYORDER_ABGR : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_ARRAYORDER_ABGR"
+		end
+
+	frozen SDL_PACKEDLAYOUT_NONE : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_NONE"
+		end
+
+	frozen SDL_PACKEDLAYOUT_332 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_332"
+		end
+
+	frozen SDL_PACKEDLAYOUT_4444 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_4444"
+		end
+
+	frozen SDL_PACKEDLAYOUT_1555 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_1555"
+		end
+
+
+	frozen SDL_PACKEDLAYOUT_5551 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_5551"
+		end
+
+
+	frozen SDL_PACKEDLAYOUT_565 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_565"
+		end
+
+
+	frozen SDL_PACKEDLAYOUT_8888 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_8888"
+		end
+
+
+	frozen SDL_PACKEDLAYOUT_2101010 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_2101010"
+		end
+
+
+	frozen SDL_PACKEDLAYOUT_1010102 : NATURAL_32
+		external
+			"C [macro <SDL.h>] : Uint32"
+		alias
+			"SDL_PACKEDLAYOUT_1010102"
+		end
+		
 end

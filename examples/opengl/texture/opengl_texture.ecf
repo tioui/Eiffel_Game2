@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-14-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-14-0 http://www.eiffel.com/developers/xml/configuration-1-14-0.xsd" name="opengl_example" uuid="90E21542-BA21-41D7-A225-2B0CCA1F2DCE">
-	<target name="opengl_example">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-14-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-14-0 http://www.eiffel.com/developers/xml/configuration-1-14-0.xsd" name="opengl_texture" uuid="90E21542-BA21-41D7-A225-2B0CCA1F2DCE">
+	<target name="opengl_texture">
 		<root class="APPLICATION" feature="make"/>
 		<option warning="true">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
@@ -11,7 +11,7 @@
 		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
 		<library name="gl" location="$ISE_LIBRARY\contrib\library\game2\opengl\gl\gl-safe.ecf"/>
 		<library name="glu" location="$ISE_LIBRARY\contrib\library\game2\opengl\glu\glu-safe.ecf"/>
-		<cluster name="opengl_example" location=".\" recursive="true">
+		<cluster name="opengl_texture" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>

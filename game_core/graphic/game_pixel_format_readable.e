@@ -170,15 +170,303 @@ feature -- Access
 		end
 
 	is_indexed : BOOLEAN
-			-- The pixel format of `Current' used an indexed color system
+			-- `Current' used an indexed color system
 		do
-			Result := is_index1lsb or is_index1msb or is_index4lsb or is_index4msb or is_index8
+			Result := {GAME_SDL_EXTERNAL}.SDL_ISPIXELFORMAT_INDEXED(internal_index)
+		end
+
+	has_alpha : BOOLEAN
+			-- `Current' used a color system with alpha channel
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_ISPIXELFORMAT_INDEXED(internal_index)
+		end
+
+	is_four_cc : BOOLEAN
+			-- `Current' used a color system that represent a FourCC format (Like YUV)
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_ISPIXELFORMAT_INDEXED(internal_index)
 		end
 
 	is_unknown : BOOLEAN
 			-- the pixel format of `Current' is unknown
 		do
 			Result:=internal_index={GAME_SDL_EXTERNAL}.Sdl_pixelformat_unknown
+		end
+
+	is_type_index_1:BOOLEAN
+			-- the pixel format of `Current' is of type index 1 bit
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_INDEX1
+		end
+
+	is_type_index_4:BOOLEAN
+			-- the pixel format of `Current' is of type index 4 bits
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_INDEX4
+		end
+
+	is_type_index_8:BOOLEAN
+			-- the pixel format of `Current' is of type index 8 bits
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_INDEX8
+		end
+
+	is_type_packed_8:BOOLEAN
+			-- the pixel format of `Current' is of type packed 8 bits
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_PACKED8
+		end
+
+	is_type_packed_16:BOOLEAN
+			-- the pixel format of `Current' is of type packed 16 bits
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_PACKED16
+		end
+
+	is_type_packed_32:BOOLEAN
+			-- the pixel format of `Current' is of type packed 32 bits
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_PACKED32
+		end
+
+	is_type_array_natural_8:BOOLEAN
+			-- the pixel format of `Current' is of type array of 8 bits natural number (ARRAYU8)
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_ARRAYU8
+		end
+
+	is_type_array_natural_16:BOOLEAN
+			-- the pixel format of `Current' is of type array of 16 bits natural number (ARRAYU16)
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_ARRAYU16
+		end
+
+	is_type_array_natural_32:BOOLEAN
+			-- the pixel format of `Current' is of type array of 32 bits natural number (ARRAYU16)
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_ARRAYU32
+		end
+
+	is_type_unknown:BOOLEAN
+			-- the pixel format of `Current' is not of a known type
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PIXELTYPE_UNKNOWN
+		end
+
+	is_order_bitmap_1234:BOOLEAN
+			-- The bitmap pixel order (high bit -> low bit) or `Current' is 1234
+		require
+			Is_Bitmaped: is_type_index_1 or is_type_index_4
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_BITMAPORDER_1234
+		end
+
+	is_order_bitmap_4321:BOOLEAN
+			-- The bitmap pixel order (high bit -> low bit) or `Current' is 4321
+		require
+			Is_Bitmaped: is_type_index_1 or is_type_index_4
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_BITMAPORDER_4321
+		end
+
+	is_order_bitmap_unknow:BOOLEAN
+			-- The bitmap pixel order (high bit -> low bit) or `Current' is unknown
+		require
+			Is_Bitmaped: is_type_index_1 or is_type_index_4
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_BITMAPORDER_4321
+		end
+
+	is_order_packed_XRGB:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is XRGB
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_XRGB
+		end
+
+	is_order_packed_RGBX:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is RGBX
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_RGBX
+		end
+
+	is_order_packed_ARGB:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is ARGB
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_ARGB
+		end
+
+	is_order_packed_RGBA:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is RGBA
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_RGBA
+		end
+
+	is_order_packed_XBGR:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is XBGR
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_XBGR
+		end
+
+	is_order_packed_BGRX:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is BGRX
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_BGRX
+		end
+
+	is_order_packed_ABGR:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is ABGR
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_ABGR
+		end
+
+	is_order_packed_BGRA:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is BGRA
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_BGRA
+		end
+
+	is_order_packed_unknown:BOOLEAN
+			-- The packed component order (high bit -> low bit) or `Current' is not known
+		require
+			Is_Packed: is_type_packed_8 or is_type_packed_16 or is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDORDER_NONE
+		end
+
+	is_order_array_RGB:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is RGB
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_RGB
+		end
+
+	is_order_array_RGBA:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is RGBA
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_RGBA
+		end
+
+	is_order_array_ARGB:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is ARGB
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_ARGB
+		end
+
+	is_order_array_BGR:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is BGR
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_BGR
+		end
+
+	is_order_array_BGRA:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is BGRA
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_BGRA
+		end
+
+	is_order_array_ABGR:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is ABGR
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_ABGR
+		end
+
+	is_order_array_unknown:BOOLEAN
+			-- The arrayed component order (low byte -> high byte) or `Current' is not known
+		require
+			Is_Arrayed: is_type_array_natural_8 or is_type_array_natural_16 or is_type_array_natural_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELORDER(internal_index) = {GAME_SDL_EXTERNAL}.SDL_ARRAYORDER_NONE
+		end
+
+	is_packed_layout_332:BOOLEAN
+			-- `Current' have the channel layouts 332
+		require
+			Is_Packed: is_type_packed_8
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_332
+		end
+
+	is_packed_layout_4444:BOOLEAN
+			-- `Current' have the channel layouts 4444
+		require
+			Is_Packed: is_type_packed_16
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_4444
+		end
+
+	is_packed_layout_1555:BOOLEAN
+			-- `Current' have the channel layouts 1555
+		require
+			Is_Packed: is_type_packed_16
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_1555
+		end
+
+	is_packed_layout_5551:BOOLEAN
+			-- `Current' have the channel layouts 5551
+		require
+			Is_Packed: is_type_packed_16
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_5551
+		end
+
+	is_packed_layout_565:BOOLEAN
+			-- `Current' have the channel layouts 565
+		require
+			Is_Packed: is_type_packed_16
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_565
+		end
+
+	is_packed_layout_8888:BOOLEAN
+			-- `Current' have the channel layouts 8888
+		require
+			Is_Packed: is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_8888
+		end
+
+	is_packed_layout_2101010:BOOLEAN
+			-- `Current' have the channel layouts 2101010
+		require
+			Is_Packed: is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_2101010
+		end
+
+	is_packed_layout_1010102:BOOLEAN
+			-- `Current' have the channel layouts 1010102
+		require
+			Is_Packed: is_type_packed_32
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_PIXELLAYOUT(internal_index) = {GAME_SDL_EXTERNAL}.SDL_PACKEDLAYOUT_1010102
 		end
 
 	is_index1lsb : BOOLEAN
@@ -418,7 +706,13 @@ feature -- Access
 	bits_per_pixel:INTEGER
 			-- The number of significant bits in a pixel value
 		do
-			Result:={GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_bits_per_pixel(item).to_integer_32
+			Result:={GAME_SDL_EXTERNAL}.SDL_BITSPERPIXEL(internal_index)
+		end
+
+	bytes_per_pixel:INTEGER
+			-- The number of bytes in a pixel value
+		do
+			Result:={GAME_SDL_EXTERNAL}.SDL_BYTESPERPIXEL(internal_index)
 		end
 
 	masks:TUPLE[red_mask, green_mask,blue_mask, alpha_mask:NATURAL_32]
@@ -441,7 +735,7 @@ feature -- Access
 			end
 		end
 
-	color_palette:detachable GAME_COLOR_PALETTE assign set_color_palette
+	color_palette:detachable GAME_COLOR_PALETTE
 			-- The palette of color used in the indexed pixel format
 		require
 			Is_Indexed: is_indexed
@@ -453,27 +747,6 @@ feature -- Access
 				l_palette := {GAME_SDL_EXTERNAL}.get_sdl_pixel_format_struct_palette(item)
 				create Result.make_shared(l_palette)
 			end
-		end
-
-	set_color_palette(a_color_palette:detachable GAME_COLOR_PALETTE)
-			-- Assign the `color_palette' with the value of `a_color_palette'
-		require
-			Is_Indexed: is_indexed
-			Has_Valid_Color_number: attached a_color_palette implies
-									a_color_palette.count = (1).bit_shift_left(bits_per_pixel)
-		local
-			l_error: INTEGER
-		do
-			if attached a_color_palette then
-				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
-							a_color_palette.internal_pointer)
-			else
-				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
-							create {POINTER})
-			end
-			manage_error_code(l_error, "Cannot assign color palette.")
-		ensure
-			Is_Set: not has_error implies color_palette ~ a_color_palette
 		end
 
 feature {GAME_SDL_ANY} -- Implementation
@@ -504,6 +777,27 @@ feature {NONE} -- Implementation
 			end
 		ensure
 			Pixel_Format_flags_Changed: internal_index = a_internal_index
+		end
+
+	set_color_palette(a_color_palette:detachable GAME_COLOR_PALETTE)
+			-- Assign the `color_palette' with the value of `a_color_palette'
+		require
+			Is_Indexed: is_indexed
+			Has_Valid_Color_number: attached a_color_palette implies
+									a_color_palette.count = (1).bit_shift_left(bits_per_pixel)
+		local
+			l_error: INTEGER
+		do
+			if attached a_color_palette then
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
+							a_color_palette.internal_pointer)
+			else
+				l_error := {GAME_SDL_EXTERNAL}.SDL_SetPixelFormatPalette(item,
+							create {POINTER})
+			end
+			manage_error_code(l_error, "Cannot assign color palette.")
+		ensure
+			Is_Set: not has_error implies color_palette ~ a_color_palette
 		end
 
 	dispose

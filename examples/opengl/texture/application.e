@@ -88,15 +88,16 @@ feature {NONE} -- Initialization
 					glGenTextures(1, $l_texture_id)
 					texture_id := l_texture_id
 					glBindTexture(GL_TEXTURE_2D, l_texture_id)
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR.as_integer_32)
 					if la_surface.must_lock then
 						la_surface.lock
 					end
 					if la_surface.must_lock implies la_surface.is_lock then
-						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, la_surface.width, la_surface.height, 0, GL_BGRA.as_natural_32, gl_unsigned_int_8_8_8_8.as_natural_32, la_surface.pixels.item);
+						check la_surface.pixel_format.is_packed_layout_8888 and la_surface.pixel_format.is_order_packed_bgra end
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA.as_integer_32, la_surface.width, la_surface.height, 0, GL_BGRA, gl_unsigned_int_8_8_8_8, la_surface.pixels.item);
 						manage_gl_error
 					end
 					if la_surface.is_lock then
@@ -158,9 +159,9 @@ feature {NONE} -- Initialization
 			glTexCoord2f (0, 1)
 			glvertex2f (0.5, -0.5)
 			glTexCoord2f (0, 0)
-			glvertex2f (0.5, 0.5)
+			glvertex2f (0.2, 0.5)
 			glTexCoord2f (1, 0)
-			glvertex2f (-0.5, 0.5)
+			glvertex2f (-0.2, 0.5)
 			glEnd
 			a_window.update
 		end
