@@ -51,11 +51,11 @@ feature {NONE} -- Initialization
 						end
 					end
 				else
-					io.error.put_string ("Cannot generate GL window%N")
+					io.error.put_string ("Cannot generate GL window.%N")
 					has_error := True
 				end
 			else
-				io.error.put_string ("Cannot generate GL window%N")
+				io.error.put_string ("Cannot generate GL window.%N")
 				has_error := True
 			end
 		end

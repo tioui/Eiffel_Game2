@@ -21,4 +21,14 @@ feature -- Access
 			Result := l_c_string.string
 		end
 
+	glew_is_supported(a_name:READABLE_STRING_GENERAL):BOOLEAN
+			-- The OpenGL module represented by `a_name' is supported by the current openGL Context
+		local
+			l_c_string:C_STRING
+		do
+			create l_c_string.make (a_name)
+			Result := glewIsSupported (l_c_string.item)
+		end
+
+
 end

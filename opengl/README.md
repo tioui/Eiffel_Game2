@@ -22,7 +22,7 @@ GLEW library
 
 Contain functionnalities of OpenGL up to 4.4 and GLU up to 1.2 and GLEW.
 Even if the video card of the system does not support a functionnality, the program will
-still compile but the call to the functionnality will fail. You can use glewIsSupported
+still compile but the call to the functionnality will fail. You can use glew_is_supported
 to see if a functionnality is supported by the video card at runtime. glewInit must be used
 after the creation of a {GAME_WINDOW_GL}.
 
