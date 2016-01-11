@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			l_window:GAME_WINDOW_GL
 		do
 			has_error := False
-			l_window_builder.set_gl_version (2, 1)
+			l_window_builder.set_gl_version (1, 1)
 			l_window_builder.enable_resizable
 			if not l_window_builder.has_error then
 				l_window := l_window_builder.generate_window

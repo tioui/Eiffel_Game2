@@ -9,8 +9,7 @@
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
-		<library name="gl" location="$ISE_LIBRARY\contrib\library\game2\opengl\gl\gl-safe.ecf"/>
-		<library name="glu" location="$ISE_LIBRARY\contrib\library\game2\opengl\glu\glu-safe.ecf"/>
+		<library name="glew" location="$ISE_LIBRARY\contrib\library\game2\opengl\glew\glew-safe.ecf"/>
 		<cluster name="opengl_texture" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

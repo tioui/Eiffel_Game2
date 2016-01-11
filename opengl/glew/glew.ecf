@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="glew" uuid="8B44ACBA-B553-4BC8-A148-58EA81B08C9D" library_target="glew">
+	<description>An OpenGL extension wrangler Wrapper for the Eiffel Game Library.</description>
+	<target name="glew">
+		<description>An OpenGL extension wrangler Wrapper for the Eiffel Game Library.</description>
+		<root all_classes="true"/>
+		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_GL" copyright="Louis Marchand"/>
+		<option full_class_checking="false" is_attached_by_default="false" void_safety="none" syntax="standard">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\include">
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/opengl/glew/spec/include"/>
+		<external_include location="-lGLEW">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_linker_flag value="-lGLEW">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<external_include location="-lGL">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_linker_flag value="-lGL">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+		<external_include location="-lGLU">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_linker_flag value="-lGLU">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_linker_flag>
+
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\glew32.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<cluster name="glew" location=".\" recursive="true">
+			<description>An OpenGL Extension wrangler Wrapper for the Eiffel Game Library.</description>
+			<file_rule>
+				<exclude>/EIFGENs$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/.svn$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

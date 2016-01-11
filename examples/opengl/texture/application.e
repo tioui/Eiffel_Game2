@@ -1,5 +1,5 @@
 note
-	description : "An OpenGL example using Texture loaded from SDL_Surface"
+	description : "An OpenGL example using Texture loaded from a {GAME_Surface}"
 	author: "Louis Marchand"
 	date: "Sat, 02 Jan 2016 21:31:37 +0000"
 	revision    : "1.0"
@@ -8,8 +8,9 @@ class
 	APPLICATION
 
 inherit
-	GLU
 	GL
+	GLU
+	GLEW
 	GAME_LIBRARY_SHARED
 
 create
@@ -34,7 +35,7 @@ feature {NONE} -- Initialization
 			l_window:GAME_WINDOW_GL
 		do
 			has_error := False
-			l_window_builder.set_gl_version (2, 1)
+			l_window_builder.set_gl_version (1, 2)
 			l_window_builder.enable_resizable
 			if not l_window_builder.has_error then
 				l_window := l_window_builder.generate_window
@@ -57,24 +58,32 @@ feature {NONE} -- Initialization
 				io.error.put_string ("Cannot generate GL window%N")
 				has_error := True
 			end
-
 		end
 
 	init_gl
 			-- Initialize OpenGL
+		local
+			l_error:NATURAL
 		do
-			glMatrixMode (gl_projection)
-			glLoadIdentity
-			manage_gl_error
-			if not has_error then
-				glMatrixMode (gl_ModelView)
+			l_error := glewInit
+			if l_error = glew_ok then
+				glMatrixMode (gl_projection)
 				glLoadIdentity
 				manage_gl_error
 				if not has_error then
-					glClearColor (0.0, 0.0, 0.0, 0.0)
+					glMatrixMode (gl_ModelView)
+					glLoadIdentity
 					manage_gl_error
+					if not has_error then
+						glClearColor (0.0, 0.0, 0.0, 0.0)
+						manage_gl_error
+					end
 				end
+			else
+				io.error.put_string ("Cannot Initialized GLEW: " + glew_error_text(l_error) + "%N")
+				has_error := True
 			end
+
 		end
 
 	init_gl_texture
@@ -104,9 +113,11 @@ feature {NONE} -- Initialization
 						la_surface.unlock
 					end
 				else
+					io.error.put_string("Cannot initialize Texture.%N")
 					has_error := True
 				end
 			else
+				io.error.put_string("Cannot load texture image.%N")
 				has_error := True
 			end
 		end
@@ -115,11 +126,10 @@ feature {NONE} -- Initialization
 			-- When an OpenGL error is detected, set `has_error' and print the error string
 		local
 			l_error_code:NATURAL
-			l_error_string:C_STRING
 		do
+			l_error_code := glGetError
 			if l_error_code /~ gl_no_error then
-				create l_error_string.make_by_pointer (gluErrorString(l_error_code))
-				io.error.put_string ("OpenGL error: " + l_error_string.string + "%N")
+				io.error.put_string ("OpenGL error: " + glu_error_text(l_error_code) + "%N")
 				has_error := True
 			end
 		end

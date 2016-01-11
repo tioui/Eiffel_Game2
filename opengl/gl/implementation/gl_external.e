@@ -8,9 +8,6 @@ note
 class
     GL_EXTERNAL
 
-inherit
-    GL_PLATFORM
-
 feature -- C external
 
 
