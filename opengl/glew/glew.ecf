@@ -9,6 +9,10 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
 		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/opengl/glew/spec/include"/>
 		<external_include location="-lGLEW">
 			<condition>
@@ -40,12 +44,41 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
-
+		<external_cflag value="-DGLEW_STATIC">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_cflag>
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\glew32.lib">
 			<condition>
 				<platform value="windows"/>
 			</condition>
 		</external_object>
+		<external_library location="-lopengl32">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_library>
+		<external_library location="OpenGL32.lib">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="msc"/>
+			</condition>
+		</external_library>
+		<external_library location="-lglu32">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_library>
+		<external_library location="GlU32.lib">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="msc"/>
+			</condition>
+		</external_library>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<cluster name="glew" location=".\" recursive="true">
 			<description>An OpenGL Extension wrangler Wrapper for the Eiffel Game Library.</description>

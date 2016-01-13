@@ -9,6 +9,7 @@ class
 
 inherit
 	GL
+	GLU
 	GAME_LIBRARY_SHARED
 
 create
@@ -53,30 +54,33 @@ feature {NONE} -- Initialization
 				io.error.put_string ("Cannot generate GL window%N")
 				has_error := True
 			end
-
 		end
 
 	init_gl
 			-- Initialize OpenGL
+		local
+			l_error_code:NATURAL_32
 		do
 			glMatrixMode (gl_projection)
 			glLoadIdentity
-			if glGetError ~ gl_no_error then
+			l_error_code := glGetError
+			if l_error_code ~ gl_no_error then
 				glMatrixMode (gl_ModelView)
 				glLoadIdentity
-				if glGetError ~ gl_no_error then
+				l_error_code := glGetError
+				if l_error_code ~ gl_no_error then
 					glClearColor (0.0, 0.0, 0.0, 0.0)
-					if not (glGetError ~ gl_no_error) then
-						io.error.put_string ("Cannot Error initializing OpenGL%N")
+					l_error_code := glGetError
+					if not (l_error_code ~ gl_no_error) then
+						io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
 						has_error := True
 					end
 				else
-					io.error.put_string ("Cannot Error initializing OpenGL%N")
+					io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
 					has_error := True
 				end
-
 			else
-				io.error.put_string ("Cannot Error initializing OpenGL%N")
+				io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
 				has_error := True
 			end
 		end

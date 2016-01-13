@@ -1000,7 +1000,7 @@ feature -- C external
 
 	frozen gluNurbsCallback(a_nurb: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUnurbs *,GLenum,_GLUfuncptr *) | <glew_order.h>"
+			"C(GLUnurbs *,GLenum,void *) | <glew_order.h>"
 		alias
 			"gluNurbsCallback"
 		end
@@ -1070,7 +1070,7 @@ feature -- C external
 
 	frozen gluQuadricCallback(a_quad: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUquadric *,GLenum,_GLUfuncptr *) | <glew_order.h>"
+			"C(GLUquadric *,GLenum,void *) | <glew_order.h>"
 		alias
 			"gluQuadricCallback"
 		end
@@ -1133,7 +1133,7 @@ feature -- C external
 
 	frozen gluTessCallback(a_tess: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUtesselator *,GLenum,_GLUfuncptr *) | <glew_order.h>"
+			"C(GLUtesselator *,GLenum,void *) | <glew_order.h>"
 		alias
 			"gluTessCallback"
 		end

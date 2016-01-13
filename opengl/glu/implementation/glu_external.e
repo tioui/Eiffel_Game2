@@ -1003,7 +1003,7 @@ feature -- C external
 
 	frozen gluNurbsCallback(a_nurb: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUnurbs *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
+			"C(GLUnurbs *,GLenum,void *) | <GL/glu.h>"
 		alias
 			"gluNurbsCallback"
 		end
@@ -1073,7 +1073,7 @@ feature -- C external
 
 	frozen gluQuadricCallback(a_quad: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUquadric *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
+			"C(GLUquadric *,GLenum,void *) | <GL/glu.h>"
 		alias
 			"gluQuadricCallback"
 		end
@@ -1136,7 +1136,7 @@ feature -- C external
 
 	frozen gluTessCallback(a_tess: POINTER; a_which: NATURAL; a_CallBackFunc: POINTER)
 		external
-			"C(GLUtesselator *,GLenum,_GLUfuncptr *) | <GL/glu.h>"
+			"C(GLUtesselator *,GLenum,void *) | <GL/glu.h>"
 		alias
 			"gluTessCallback"
 		end
