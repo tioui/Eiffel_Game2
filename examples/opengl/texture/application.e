@@ -10,7 +10,6 @@ class
 inherit
 	GL
 	GLU
-	GLEW
 	GAME_LIBRARY_SHARED
 
 create
@@ -65,25 +64,18 @@ feature {NONE} -- Initialization
 		local
 			l_error:NATURAL
 		do
-			l_error := glewInit
-			if l_error = glew_ok then
-				glMatrixMode (gl_projection)
+			glMatrixMode (gl_projection)
+			glLoadIdentity
+			manage_gl_error
+			if not has_error then
+				glMatrixMode (gl_ModelView)
 				glLoadIdentity
 				manage_gl_error
 				if not has_error then
-					glMatrixMode (gl_ModelView)
-					glLoadIdentity
+					glClearColor (0.0, 0.0, 0.0, 0.0)
 					manage_gl_error
-					if not has_error then
-						glClearColor (0.0, 0.0, 0.0, 0.0)
-						manage_gl_error
-					end
 				end
-			else
-				io.error.put_string ("Cannot Initialized GLEW: " + glew_error_text(l_error) + "%N")
-				has_error := True
 			end
-
 		end
 
 	init_gl_texture

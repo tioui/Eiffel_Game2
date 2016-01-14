@@ -8,5 +8,7 @@ class
 	GL
 
 inherit
-	GL_EXTERNAL
+	GL_1_1_EXTERNAL
+	GL_EXT_EXTERNAL
+
 end
