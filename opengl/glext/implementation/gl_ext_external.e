@@ -17125,12 +17125,12 @@ feature -- C external
 			"GL_VIRTUAL_PAGE_SIZE_INDEX_ARB"
 		end
 
-	frozen GL_MIN_SPARSE_LEVEL_ARB : NATURAL
-		external
-			"C [macro <gl_ext_order.h>] : unsigned int"
-		alias
-			"GL_MIN_SPARSE_LEVEL_ARB"
-		end
+--	frozen GL_MIN_SPARSE_LEVEL_ARB : NATURAL
+--		external
+--			"C [macro <gl_ext_order.h>] : unsigned int"
+--		alias
+--			"GL_MIN_SPARSE_LEVEL_ARB"
+--		end
 
 	frozen GL_NUM_VIRTUAL_PAGE_SIZES_ARB : NATURAL
 		external
@@ -19925,12 +19925,12 @@ feature -- C external
 			"glTexCoord4bvOES"
 		end
 
-	frozen glVertex2bOES(a_x: INTEGER_8)
-		external
-			"C(GLbyte) | <gl_ext_order.h>"
-		alias
-			"glVertex2bOES"
-		end
+--	frozen glVertex2bOES(a_x: INTEGER_8)
+--		external
+--			"C(GLbyte) | <gl_ext_order.h>"
+--		alias
+--			"glVertex2bOES"
+--		end
 
 	frozen glVertex2bvOES(a_coords: POINTER)
 		external
@@ -19939,12 +19939,12 @@ feature -- C external
 			"glVertex2bvOES"
 		end
 
-	frozen glVertex3bOES(a_x: INTEGER_8; a_y: INTEGER_8)
-		external
-			"C(GLbyte,GLbyte) | <gl_ext_order.h>"
-		alias
-			"glVertex3bOES"
-		end
+--	frozen glVertex3bOES(a_x: INTEGER_8; a_y: INTEGER_8)
+--		external
+--			"C(GLbyte,GLbyte) | <gl_ext_order.h>"
+--		alias
+--			"glVertex3bOES"
+--		end
 
 	frozen glVertex3bvOES(a_coords: POINTER)
 		external
@@ -19953,12 +19953,12 @@ feature -- C external
 			"glVertex3bvOES"
 		end
 
-	frozen glVertex4bOES(a_x: INTEGER_8; a_y: INTEGER_8; a_z: INTEGER_8)
-		external
-			"C(GLbyte,GLbyte,GLbyte) | <gl_ext_order.h>"
-		alias
-			"glVertex4bOES"
-		end
+--	frozen glVertex4bOES(a_x: INTEGER_8; a_y: INTEGER_8; a_z: INTEGER_8)
+--		external
+--			"C(GLbyte,GLbyte,GLbyte) | <gl_ext_order.h>"
+--		alias
+--			"glVertex4bOES"
+--		end
 
 	frozen glVertex4bvOES(a_coords: POINTER)
 		external
@@ -20261,12 +20261,12 @@ feature -- C external
 			"glRotatexOES"
 		end
 
-	frozen glSampleCoverageOES(a_value: INTEGER; a_invert: BOOLEAN)
-		external
-			"C(GLfixed,GLboolean) | <gl_ext_order.h>"
-		alias
-			"glSampleCoverageOES"
-		end
+--	frozen glSampleCoverageOES(a_value: INTEGER; a_invert: BOOLEAN)
+--		external
+--			"C(GLfixed,GLboolean) | <gl_ext_order.h>"
+--		alias
+--			"glSampleCoverageOES"
+--		end
 
 	frozen glScalexOES(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER)
 		external
