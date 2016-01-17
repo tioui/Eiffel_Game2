@@ -35,6 +35,15 @@ Installation on Linux (Ubuntu)
 * Execute the "compile_c_library.sh" script (from the "game2" directory).
 * Create a project and add the sub-libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
 
+Note: If you have an error in the apt-get command telling libsdl2-dev depending of libgles2-mesa-dev. Just install the latest and retry like this:
+
+***
+
+	sudo apt-get install libgles2-mesa-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
+
+***
+
 
 Installation on Windows
 -----------------------
