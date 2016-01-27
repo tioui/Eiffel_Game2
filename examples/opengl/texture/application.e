@@ -61,8 +61,6 @@ feature {NONE} -- Initialization
 
 	init_gl
 			-- Initialize OpenGL
-		local
-			l_error:NATURAL
 		do
 			glMatrixMode (gl_projection)
 			glLoadIdentity
@@ -96,12 +94,12 @@ feature {NONE} -- Initialization
 					if la_surface.must_lock then
 						la_surface.lock
 					end
-					if la_surface.must_lock implies la_surface.is_lock then
+					if la_surface.must_lock implies la_surface.is_locked then
 						check la_surface.pixel_format.is_packed_layout_8888 and la_surface.pixel_format.is_order_packed_bgra end
 						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA.as_integer_32, la_surface.width, la_surface.height, 0, GL_BGRA, gl_unsigned_int_8_8_8_8, la_surface.pixels.item);
 						manage_gl_error
 					end
-					if la_surface.is_lock then
+					if la_surface.is_locked then
 						la_surface.unlock
 					end
 				else

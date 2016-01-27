@@ -1692,6 +1692,47 @@ feature -- Function SDL.h
 			"SDL_ISPIXELFORMAT_ALPHA"
 		end
 
+	frozen SDL_GetClipboardText:POINTER
+		external
+			"C : char* | <SDL.h>"
+		alias
+			"SDL_GetClipboardText"
+		end
+
+	frozen SDL_SetClipboardText(text:POINTER):INTEGER
+		external
+			"C (char*) : int | <SDL.h>"
+		alias
+			"SDL_SetClipboardText"
+		end
+
+	frozen SDL_HasClipboardText:BOOLEAN
+		external
+			"C : SDL_bool | <SDL.h>"
+		alias
+			"SDL_HasClipboardText"
+		end
+
+	frozen SDL_LockTexture(texture, rect, pixels, pitch:POINTER):INTEGER
+		external
+			"C (SDL_Texture*, SDL_Rect*, void**, int*) : int | <SDL.h>"
+		alias
+			"SDL_LockTexture"
+		end
+
+	frozen SDL_UpdateTexture(texture, rect, pixels:POINTER; pitch:INTEGER):INTEGER
+		external
+			"C (SDL_Texture*, SDL_Rect*, void*, int) : int | <SDL.h>"
+		alias
+			"SDL_UpdateTexture"
+		end
+
+	frozen SDL_UnlockTexture(texture:POINTER)
+		external
+			"C (SDL_Texture*) | <SDL.h>"
+		alias
+			"SDL_UnlockTexture"
+		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
 
@@ -11201,5 +11242,5 @@ feature -- Constants
 		alias
 			"SDL_PACKEDLAYOUT_1010102"
 		end
-		
+
 end

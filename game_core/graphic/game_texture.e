@@ -27,29 +27,13 @@ inherit
 
 create
 	make,
-	make_lockable,
-	make_not_lockable,
 	make_target,
 	make_from_surface,
 	make_from_image
 
 feature {NONE} -- Initialization
 
-	share_from_other(a_other:GAME_TEXTURE)
-			-- Initialization of `Current' sharing the internal data of `Current'
-			-- Note that each modification of `Current' will affect `a_other' and
-			-- vice versa
-		require
-			Other_Exists: a_other.exists
-		do
-			make_by_pointer (a_other.item)
-			shared := True
-		ensure
-			Is_Created: exists
-			Is_Shared: shared
-		end
-
-	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
+	make_with_flags(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
 				a_access_flags, a_width, a_height:INTEGER)
 			-- Initialization for `Current' of dimension (`a_width' , `a_height)
 			-- for use on `a_renderer', having `a_pixel_format' and
@@ -65,32 +49,19 @@ feature {NONE} -- Initialization
 			manage_error_pointer(l_item, "Cannot create texture.")
 			make_by_pointer(l_item)
 			shared := False
+			is_locked := False
 		ensure
 			Error_Or_Exist: not has_error implies exists
 			Is_Not_Shared: not shared
 		end
 
-	make_lockable(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
-				a_width, a_height:INTEGER)
-			-- Initialization for `Current' of dimension (`a_width' , `a_height)
-			-- for use on `a_renderer', having `a_pixel_format'. `Current'
-			-- can be locked to be modified (less speedy but more flexible)
-		do
-			make(a_renderer, a_pixel_format,
-				{GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_STREAMING,
-				a_width, a_height)
-		ensure
-			Error_Or_Exist: not has_error implies exists
-			Is_Not_Shared: not shared
-		end
-
-	make_not_lockable(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
+	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
 				a_width, a_height:INTEGER)
 			-- Initialization for `Current' of dimension (`a_width' , `a_height)
 			-- for use on `a_renderer', having `a_pixel_format'. `Current'
 			-- can not be locked to be modified (best performance)
 		do
-			make(a_renderer, a_pixel_format,
+			make_with_flags(a_renderer, a_pixel_format,
 				{GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_STATIC,
 				a_width, a_height)
 		ensure
@@ -103,8 +74,10 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current' of dimension (`a_width' , `a_height)
 			-- for use on `a_renderer', having `a_pixel_format'. `Current'
 			-- can be used as rendering target (see: {GAME_RENDERER}.`render_target')
+		obsolete
+			"Use the class {GAME_TEXTURE_TARGET} instead."
 		do
-			make(a_renderer, a_pixel_format,
+			make_with_flags(a_renderer, a_pixel_format,
 				{GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_TARGET,
 				a_width, a_height)
 		ensure
@@ -117,6 +90,7 @@ feature {NONE} -- Initialization
 			-- the data of `a_surface' (pixel format, picture, etc.)
 		do
 			make_from_image(a_renderer, a_surface.image)
+			is_locked := False
 		ensure
 			Error_Or_Exist: not has_error implies exists
 			Is_Not_Shared: not shared
@@ -136,6 +110,7 @@ feature {NONE} -- Initialization
 			manage_error_pointer(l_item, "Cannot create texture.")
 			make_by_pointer(l_item)
 			shared := False
+			is_locked := False
 		ensure
 			Error_Or_Exist: not has_error implies exists
 			Is_Not_Shared: not shared
@@ -162,20 +137,56 @@ feature -- Access
 			Result := informations.height
 		end
 
-	is_lockable:BOOLEAN
-			-- Can `Current' be locked for modification
-		require
-			Texture_Exist: exists
-		do
-			Result := informations.access = {GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_STREAMING
-		end
-
 	is_targetable:BOOLEAN
 			-- Can `Current' be use as render target
 		require
 			Texture_Exist: exists
 		do
 			Result := informations.access = {GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_TARGET
+		end
+
+	is_streamable:BOOLEAN
+			-- Can `Current' be modified by locking
+		require
+			Texture_Exist: exists
+		do
+			Result := informations.access = {GAME_SDL_EXTERNAL}.SDL_TEXTUREACCESS_STREAMING
+		end
+
+	is_locked:BOOLEAN
+			-- `Current' is locked to access `pixels'. `Current' cannot be used until `unlock' is called.
+
+	update_pixels(a_pixels:GAME_PIXEL_BUFFER)
+			-- Modify the pixels colors in the section of `Current' starting at `a_x',`a_y' using data in `a_pixels'
+		require
+			Is_Format_Valid: a_pixels.pixel_format ~ pixel_format
+			Is_Dimension_Valid: width ~ a_pixels.width and height ~ a_pixels.height
+		local
+			l_error:INTEGER
+		do
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_UpdateTexture(item, create {POINTER}, a_pixels.item, a_pixels.pitch)
+			manage_error_code (l_error, "Cannot update texture pixels.")
+		end
+
+	update_pixels_with_rect(a_x, a_y:INTEGER; a_pixels:GAME_PIXEL_BUFFER)
+			-- Modify the pixels colors in the section of `Current' starting at `a_x',`a_y' using data in `a_pixels'
+		require
+			Is_Format_Valid: a_pixels.pixel_format ~ pixel_format
+			Is_Dimension_Valid: width >= a_x + a_pixels.width and height >= a_y + a_pixels.height
+		local
+			l_rectangle:POINTER
+			l_error:INTEGER
+		do
+			l_rectangle := l_rectangle.memory_calloc (1, {GAME_SDL_EXTERNAL}.c_sizeof_sdl_rect)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_x (l_rectangle, a_x)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_y (l_rectangle, a_y)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_w (l_rectangle, a_pixels.width)
+			{GAME_SDL_EXTERNAL}.set_rect_struct_h (l_rectangle, a_pixels.height)
+			clear_error
+			l_error := {GAME_SDL_EXTERNAL}.SDL_UpdateTexture(item, l_rectangle, a_pixels.item, a_pixels.pitch)
+			manage_error_code (l_error, "Cannot update texture pixels.")
+			l_rectangle.memory_free
 		end
 
 	pixel_format:GAME_PIXEL_FORMAT_READABLE

@@ -99,6 +99,48 @@ feature -- Access
 		deferred
 		end
 
+	has_clipboard_text:BOOLEAN
+			-- True if the system clipboard has some text
+		do
+			Result := {GAME_SDL_EXTERNAL}.SDL_HasClipboardText
+		end
+
+	clipboard_text:READABLE_STRING_GENERAL assign set_clipboard_text
+			-- The text contained by the system clipboard
+		require
+			Has_Text: has_clipboard_text
+		local
+			l_converter:UTF_CONVERTER
+			l_c_pointer:POINTER
+			l_c_string:C_STRING
+		do
+			clear_error
+			l_c_pointer := {GAME_SDL_EXTERNAL}.SDL_GetClipboardText
+			if not l_c_pointer.is_default_pointer then
+				create l_c_string.make_shared_from_pointer (l_c_pointer)
+				Result := l_converter.utf_8_string_8_to_string_32(l_c_string.string)
+				{GAME_SDL_EXTERNAL}.sdl_free (l_c_pointer)
+			else
+				manage_error_pointer (l_c_pointer, "Cannot fetch clipboard text.")
+				Result := ""
+			end
+		end
+
+	set_clipboard_text(a_text:READABLE_STRING_GENERAL)
+			-- Put `a_text' into the system clipboard
+		local
+			l_converter:UTF_CONVERTER
+			l_error:INTEGER
+			l_c_string:C_STRING
+		do
+			clear_error
+			create l_c_string.make (l_converter.string_32_to_utf_8_string_8(a_text.to_string_32))
+			l_error := {GAME_SDL_EXTERNAL}.SDL_SetClipboardText(l_c_string.item)
+			manage_error_code (l_error, "Cannot put text into the system clipboard.")
+		ensure
+			Is_Assign: -- not has_error implies (has_clipboard_text and then clipboard_text ~ a_text)
+		end
+
 	brightness:REAL_32 assign set_brightness
 			-- The Gamma correction where 0.0 is completely dark and 1.0 is normal.
 		require

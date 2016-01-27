@@ -212,8 +212,8 @@ feature {NONE} -- Initialisation
 
 feature -- Access
 
-	is_lock:BOOLEAN
-			-- `Current' is locked to access `pixels'. `Current' cannot be used until `unlock'.
+	is_locked:BOOLEAN
+			-- `Current' is locked to access `pixels'. `Current' cannot be used until `unlock' is called.
 		do
 			Result := attached internal_pixels
 		end
@@ -226,42 +226,53 @@ feature -- Access
 
 	lock
 			-- Lock `Current' to access `pixels'.
-		require
-			Must_Be_Locked: must_lock
+			-- Must used `unlock' after the edition.
+			-- You cannot draw on `Current' while locked.
 		local
 			l_error:INTEGER
 		do
-			l_error := {GAME_SDL_EXTERNAL}.sdl_locksurface (item)
-			if l_error = 0 then
-				create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item) , width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+			clear_error
+			if must_lock then
+				l_error := {GAME_SDL_EXTERNAL}.sdl_locksurface (item)
+				if l_error = 0 then
+					create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+				else
+					manage_error_code (l_error, "Cannot lock surface.")
+				end
 			else
-				manage_error_code (l_error, "Cannot lock surface.")
+				create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
 			end
 
 		ensure
-			Is_Locked: not has_error implies is_lock
+			Is_Locked: not has_error implies is_locked
 		end
 
 	unlock
 			-- Unlock `Current' after access `pixels'.
 		require
-			Is_Locked: is_lock
+			Is_Locked: is_locked
 		do
-			{GAME_SDL_EXTERNAL}.sdl_unlocksurface (item)
+			if must_lock then
+				{GAME_SDL_EXTERNAL}.sdl_unlocksurface (item)
+			end
 			if attached internal_pixels as la_pixels then
 				la_pixels.close
 			end
 			internal_pixels := Void
+		ensure
+			Not_Locked: not is_locked
 		end
 
-	pixels:GAME_PIXEL_BUFFER
+	pixels:GAME_PIXEL_READER_WRITER
+			-- Used to fetch and edit pixels in `Current'
+			-- Use `lock' before to access multiple pixels
 		require
-			Locked_If_Needed: must_lock implies is_lock
+			Locked_If_Needed: must_lock implies is_locked
 		do
 			if attached internal_pixels as la_pixels then
 				Result := la_pixels
 			else
-				create Result.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item) , width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+				create Result.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
 			end
 		end
 
@@ -276,6 +287,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Convert_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_source:GAME_IMAGE
 		do
@@ -317,6 +329,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		do
 			draw_sub_surface(a_other,0,0,a_other.width,a_other.height,a_x,a_y)
 		end
@@ -327,6 +340,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		do
 			internal_draw_surface(a_other, a_x_source,a_y_source,a_width,a_height,a_x_destination,a_y_destination, a_width, a_height, False)
 		end
@@ -338,6 +352,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		do
 			internal_draw_surface(a_other, a_x_source, a_y_source, a_width_source, a_height_source,
 									a_x_destination,a_y_destination, a_width_destination,
@@ -349,6 +364,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_rect_src, l_format:POINTER
 			l_error:INTEGER
@@ -382,6 +398,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_array_rectangles, l_rectangle, l_format:POINTER
 			l_rectangle_size, l_error:INTEGER
@@ -417,6 +434,7 @@ feature -- Access
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_is_open: is_open
 			Surface_Transparent_Color_Is_Enable: is_transparent_enable
+			Not_Locked: not is_locked
 		local
 			l_red,l_green,l_blue,l_alpha:NATURAL_8
 			l_color_key:NATURAL_32
@@ -440,6 +458,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_key:NATURAL_32
 			l_error:INTEGER
@@ -459,6 +478,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 			l_color_key:NATURAL_32
@@ -476,6 +496,7 @@ feature -- Access
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -510,6 +531,7 @@ feature -- Access
 			-- The Additionnal alpha value to use in drawing operation.
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -522,6 +544,7 @@ feature -- Access
 			-- Assign the Additionnal `overall_alpha' value to use in drawing operation to `a_overall_alpha'.
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -534,6 +557,7 @@ feature -- Access
 			-- The additional color value multiplied into drawing operations
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 			l_red, l_green, l_blue:NATURAL_8
@@ -549,6 +573,7 @@ feature -- Access
 			-- `a_green_multiplier', `a_blue_multiplier'.
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -561,6 +586,7 @@ feature -- Access
 			-- Enable possible optimisation when using drawing with `transparent_color' enabled or `enable_alpha_blending'.
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -573,6 +599,7 @@ feature -- Access
 			-- Disable the possible optimisation when using drawing with `transparent_color' enabled or `enable_alpha_blending'.
 		require
 			Surface_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_error:INTEGER
 		do
@@ -599,6 +626,7 @@ feature {NONE} -- Implementation
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
 			Surface_Draw_is_open: is_open
+			Not_Locked: not is_locked
 		local
 			l_rect_src, l_rect_dst:POINTER
 			l_error:INTEGER
@@ -627,7 +655,8 @@ feature {NONE} -- Implementation
 			l_rect_src.memory_free
 		end
 
-	internal_pixels:detachable GAME_PIXEL_BUFFER
+	internal_pixels:detachable GAME_PIXEL_READER_WRITER
+			-- Internal representation of the `pixels' feature
 
 feature {NONE} -- External
 
@@ -645,6 +674,5 @@ feature {NONE} -- External
 
 invariant
 	Surface_Valid: is_open implies image.is_open
-	Surface_Lock_Valid: attached internal_pixels implies must_lock
 
 end
