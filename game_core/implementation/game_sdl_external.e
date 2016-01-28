@@ -1734,6 +1734,14 @@ feature -- Function SDL.h
 			"SDL_UnlockTexture"
 		end
 
+	frozen SDL_GetPowerInfo(secs, pct:POINTER):NATURAL
+		external
+			"C (int*, int*) : SDL_PowerState | <SDL.h>"
+		alias
+			"SDL_GetPowerInfo"
+		end
+
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
@@ -11241,6 +11249,46 @@ feature -- Constants
 			"C [macro <SDL.h>] : Uint32"
 		alias
 			"SDL_PACKEDLAYOUT_1010102"
+		end
+
+
+	frozen SDL_POWERSTATE_UNKNOWN : NATURAL
+		external
+			"C [macro <SDL.h>] : SDL_PowerState"
+		alias
+			"SDL_POWERSTATE_UNKNOWN"
+		end
+
+
+	frozen SDL_POWERSTATE_ON_BATTERY : NATURAL
+		external
+			"C [macro <SDL.h>] : SDL_PowerState"
+		alias
+			"SDL_POWERSTATE_ON_BATTERY"
+		end
+
+
+	frozen SDL_POWERSTATE_NO_BATTERY : NATURAL
+		external
+			"C [macro <SDL.h>] : SDL_PowerState"
+		alias
+			"SDL_POWERSTATE_NO_BATTERY"
+		end
+
+
+	frozen SDL_POWERSTATE_CHARGING : NATURAL
+		external
+			"C [macro <SDL.h>] : SDL_PowerState"
+		alias
+			"SDL_POWERSTATE_CHARGING"
+		end
+
+
+	frozen SDL_POWERSTATE_CHARGED : NATURAL
+		external
+			"C [macro <SDL.h>] : SDL_PowerState"
+		alias
+			"SDL_POWERSTATE_CHARGED"
 		end
 
 end
