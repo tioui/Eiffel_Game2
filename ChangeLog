@@ -1,3 +1,10 @@
+v2.3
+2016-01-28
+ * Adding Read/Write pixel access on GAME_SURFACE
+ * Adding Write/only pixel access on GAME_TEXTURE
+ * Adding GAME_TEXTURE_STREAMABLE
+ * Adding battery/power information with GAME_BATTERY
+
 v2.2
 2016-01-03
  * Adding support for OpenGL
