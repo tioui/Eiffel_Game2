@@ -235,12 +235,12 @@ feature -- Access
 			if must_lock then
 				l_error := {GAME_SDL_EXTERNAL}.sdl_locksurface (item)
 				if l_error = 0 then
-					create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+					create internal_pixels.make_from_pointer ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
 				else
 					manage_error_code (l_error, "Cannot lock surface.")
 				end
 			else
-				create internal_pixels.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+				create internal_pixels.make_from_pointer ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
 			end
 
 		ensure
@@ -272,7 +272,7 @@ feature -- Access
 			if attached internal_pixels as la_pixels then
 				Result := la_pixels
 			else
-				create Result.make ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
+				create Result.make_from_pointer ({GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pixels (item), pixel_format, width, height, {GAME_SDL_EXTERNAL}.get_sdl_surface_struct_pitch (item))
 			end
 		end
 

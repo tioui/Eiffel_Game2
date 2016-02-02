@@ -82,6 +82,6 @@ feature {NONE} -- Implementation
 	bytes_per_pixel:INTEGER_32
 
 invariant
-	Exists: not item.is_default_pointer
+	Exists: not has_error implies not item.is_default_pointer
 
 end
