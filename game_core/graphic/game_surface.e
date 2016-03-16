@@ -608,6 +608,19 @@ feature -- Access
 			manage_error_code(l_error, "An error occured when disabling RLE acceleration on the surface.")
 		end
 
+	save_bmp(a_filename:READABLE_STRING_GENERAL)
+			-- Save `Current' into a BMP image file
+		require
+			Surface_is_open: is_open
+		local
+			l_error:INTEGER
+			l_filename_c:C_STRING
+		do
+			create l_filename_c.make(a_filename)
+			clear_error
+			l_error:={GAME_SDL_EXTERNAL}.SDL_SaveBMP(item, l_filename_c.item)
+			manage_error_code(l_error, "An error occured when saving Surface to bmp file.")
+		end
 
 feature {GAME_SDL_ANY} -- Implementation
 

@@ -400,14 +400,34 @@ feature -- Mouse
 			create Result.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetCursor)
 		end
 
+	default_cursor:GAME_CURSOR
+			-- The {GAME_CURSOR} used in the creation of `Current'
+		do
+			create Result.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_GetDefaultCursor)
+		end
+
 	set_cursor(a_cursor:GAME_CURSOR)
 			-- Assign `cursor' with the value of `a_cursor'
 		require
 			Cursor_Valid: a_cursor.exists
 		do
+			clear_error
 			{GAME_SDL_EXTERNAL}.SDL_SetCursor(a_cursor.item)
+			manage_error_boolean (cursor ~ a_cursor, "Cannot set the cursor.")
 		ensure
-			Is_Assign: cursor ~ a_cursor
+			Is_Assign: not has_error implies cursor ~ a_cursor
+		end
+
+	redraw_cursor
+			-- Redraw the `cursor'
+		do
+			{GAME_SDL_EXTERNAL}.SDL_SetCursor(create {POINTER})
+		end
+
+	set_default_cursor
+			-- Put back the default {GAME_CURSOR}
+		do
+			set_cursor(default_cursor)
 		end
 
 feature -- Joystick methods

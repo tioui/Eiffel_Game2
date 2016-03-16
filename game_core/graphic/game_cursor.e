@@ -8,14 +8,6 @@ class
 	GAME_CURSOR
 
 inherit
-	MEMORY_STRUCTURE
-		export
-			{NONE} all
-			{GAME_LIBRARY_CONTROLLER, GAME_CURSOR} item
-			{ANY} exists
-		redefine
-			is_equal
-		end
 	GAME_SDL_ANY
 		redefine
 			is_equal
@@ -46,6 +38,17 @@ create {GAME_LIBRARY_CONTROLLER}
 
 feature {NONE} -- Initialization
 
+	make_by_pointer(a_pointer:POINTER)
+			-- Initialization of `Current' using `a_pointer' as `item'
+		require
+			Pointer_Exists: not a_pointer.is_default_pointer
+		do
+			item := a_pointer
+			shared := True
+		ensure
+			Exists: exists and shared
+		end
+
 	make_from_image(a_image:GAME_IMAGE; hot_point_x, hot_point_y:INTEGER)
 			-- Initialization for `Current'.
 		require
@@ -62,9 +65,10 @@ feature {NONE} -- Initialization
 				manage_error_pointer (l_item, "Cannot create cursor")
 			else
 				make_by_pointer (l_item)
+				shared := False
 			end
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and not shared)
 		end
 
 	make_from_surface(a_surface:GAME_SURFACE; hot_point_x, hot_point_y:INTEGER)
@@ -75,7 +79,7 @@ feature {NONE} -- Initialization
 		do
 			make_from_image(a_surface.image, hot_point_x, hot_point_y)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and not shared)
 		end
 
 	make_arrow
@@ -83,7 +87,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_ARROW)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_i_beam
@@ -91,7 +95,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_IBEAM)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_wait
@@ -99,7 +103,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_WAIT)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_crosshair
@@ -107,7 +111,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_CROSSHAIR)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_wait_arrow
@@ -115,7 +119,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_WAITARROW )
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_resize_north_west_south_east
@@ -123,7 +127,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_SIZENWSE)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_resize_north_east_south_west
@@ -131,7 +135,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_SIZENESW)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_resize_north_south
@@ -139,7 +143,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_SIZENS)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_resize_west_east
@@ -147,7 +151,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_SIZEWE)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_resize_all
@@ -155,7 +159,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_SIZEWE)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_unavailable
@@ -163,7 +167,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_NO)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_hand
@@ -171,7 +175,7 @@ feature {NONE} -- Initialization
 		do
 			make_system({GAME_SDL_EXTERNAL}.SDL_SYSTEM_CURSOR_HAND)
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 	make_system(a_system_cursor_id:INTEGER)
@@ -187,10 +191,16 @@ feature {NONE} -- Initialization
 				make_by_pointer (l_item)
 			end
 		ensure
-			Is_Created: not has_error implies exists
+			Is_Created: not has_error implies (exists and shared)
 		end
 
 feature -- Access
+
+	exists:BOOLEAN
+			-- Is `item' reprensenting valid memory structure
+		do
+			Result := not item.is_default_pointer
+		end
 
 	is_equal(a_other:like Current):BOOLEAN
 			-- <Precursor>
@@ -198,19 +208,20 @@ feature -- Access
 			Result := item = a_other.item
 		end
 
-feature {NONE} -- Implementation
+feature {GAME_LIBRARY_CONTROLLER, GAME_CURSOR} -- Access
 
-	structure_size:INTEGER
-			-- <Precursor>
-			-- Should never be used
-		do
-			Result := 0
-		end
+	item:POINTER
+			-- Internal {POINTER} of `Current'
+
+	shared:BOOLEAN
+			-- Must not free `item' when `Current' is collected
+
+feature {NONE} -- Implementation
 
 	dispose
 			-- <Precursor>
 		do
-			if exists then
+			if exists and not shared then
 				{GAME_SDL_EXTERNAL}.SDL_FreeCursor(item)
 			end
 		end

@@ -87,6 +87,13 @@ feature -- Function SDL.h
 			"SDL_GetCursor"
 		end
 
+	frozen SDL_GetDefaultCursor:POINTER
+		external
+			"C : SDL_Cursor* | <SDL.h>"
+		alias
+			"SDL_GetDefaultCursor"
+		end
+
 	frozen SDL_CreateColorCursor(surface:POINTER; hot_x, hot_y:INTEGER):POINTER
 		external
 			"C (SDL_Surface*, int, int) : SDL_Cursor* | <SDL.h>"
@@ -1740,6 +1747,14 @@ feature -- Function SDL.h
 		alias
 			"SDL_GetPowerInfo"
 		end
+
+	frozen SDL_SaveBMP(surface, file:POINTER):INTEGER
+		external
+			"C (SDL_Surface*, const char*) : int | <SDL.h>"
+		alias
+			"SDL_SaveBMP"
+		end
+
 
 
 feature -- Manual C function (implemented in sdl_additions.c)
