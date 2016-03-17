@@ -27,7 +27,8 @@ feature {NONE} -- Initialization
 			if not l_engine.has_error then
 				l_engine.run
 			end
-			l_engine := Void
+			l_engine := Void				-- To be sure that the garbage collector can collect everything before quitting the libraries
+			game_library.clear_all_events	-- To be sure that an object is not stocked inside an event agent
 			image_file_library.quit_library  -- Correctly unlink image files library
 			game_library.quit_library  -- Clear the library before quitting
 		end

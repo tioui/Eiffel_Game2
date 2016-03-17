@@ -1,5 +1,5 @@
 note
-	description : "Viewing rendering drivers"
+	description : "Listing rendering drivers"
 	date        : "Sat, 14 Mar 2015 02:22:50 +0000"
 	revision    : "1.0"
 
@@ -22,6 +22,7 @@ feature {NONE} -- Initialization
 			across game_library.renderer_drivers as l_drivers loop
 				print(l_drivers.item.out + "%N%N")
 			end
+			game_library.quit_library
 		end
 
 end
