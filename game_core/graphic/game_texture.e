@@ -29,7 +29,8 @@ create
 	make,
 	make_target,
 	make_from_surface,
-	make_from_image
+	make_from_image,
+	share_from_other
 
 feature {NONE} -- Initialization
 
@@ -53,6 +54,22 @@ feature {NONE} -- Initialization
 		ensure
 			Error_Or_Exist: not has_error implies exists
 			Is_Not_Shared: not shared
+		end
+
+	share_from_other(a_other:like Current)
+			-- Initialization of `Current' sharing the internal data of `Current'
+			-- Note that each modification of `Current' will affect `a_other' and
+			-- vice versa
+		require
+			Other_Exists: a_other.exists
+		do
+			make_by_pointer (a_other.item)
+			other := a_other
+			shared := True
+		ensure
+			Is_Created: exists
+			Is_Shared: shared
+			Other_Assign: attached other
 		end
 
 	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
@@ -286,6 +303,13 @@ feature {NONE} -- Implementation
 				create internal_item
 			end
 		end
+
+
+	other:detachable GAME_TEXTURE
+			-- If `Current' has been created with `share_from_other',
+			-- Keep the origin {GAME_TEXTURE} to prevent the Garbage
+			-- Collector from collect it and free the internal
+			-- memory pointed by `item'
 
 feature {NONE} -- External
 

@@ -14,7 +14,8 @@ inherit
 		end
 
 create
-	make
+	make,
+	share_from_other
 
 feature {NONE} -- Initialization
 

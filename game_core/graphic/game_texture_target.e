@@ -15,7 +15,8 @@ inherit
 	GAME_RENDER_TARGET
 
 create
-	make
+	make,
+	share_from_other
 
 feature {NONE} -- Initialization
 

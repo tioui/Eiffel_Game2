@@ -1,3 +1,11 @@
+v2.4
+???
+ * Bug fix for the Cursor system
+ * Put back and improve 'share_from_other' in {GAME_TEXTURE}
+ * Manual creation and edition of pixel in {GAME_SURFACE} and {GAME_TEXTURE}
+ * Save to BMP feature in {GAME_SURFACE}
+ * Creating {ENGINE} class in examples to remove argument in agents
+
 v2.3
 2016-01-28
  * Adding Read/Write pixel access on GAME_SURFACE
