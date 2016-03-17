@@ -218,13 +218,97 @@ feature -- Access
 			l_rect_src.memory_free
 		end
 
-	draw_sub_texture_with_scale_rotation_and_mirror(a_texture:GAME_TEXTURE; a_x_source,a_y_source,
-													a_width_source,a_height_source,a_x_destination,
-													a_y_destination, a_width_destination,
-													a_height_destination, a_x_rotation_center,
-													a_y_rotation_center:INTEGER; a_rotation_angle:REAL_64;
-													a_vertical_mirror, a_horizontal_mirror:BOOLEAN
-				)
+	draw_texture_with_rotation(
+							a_texture:GAME_TEXTURE;a_x,a_y:INTEGER; a_x_rotation_center,
+							a_y_rotation_center:INTEGER; a_rotation_angle:REAL_64
+						)
+			-- Draw the whole `a_texture' on `Current' at (`a_x',`a_y') rotate
+			-- of `a_rotation_angle' degree with the rotation center at
+			-- (`a_x_rotation_center',`a_y_rotation_center')
+		require
+			Renderer_exists: exists
+		do
+			draw_sub_texture_with_rotation(
+							a_texture, 0, 0, a_texture.width,a_texture.height,
+							a_x, a_y, a_x_rotation_center, a_y_rotation_center,
+							a_rotation_angle
+						)
+		end
+	
+	draw_sub_texture_with_rotation(
+							a_texture:GAME_TEXTURE; a_x_source,a_y_source,
+							a_width_source,a_height_source,a_x_destination,
+							a_y_destination, a_x_rotation_center,
+							a_y_rotation_center:INTEGER; a_rotation_angle:REAL_64
+					)
+			-- Draw the part of `a_texture' from (`a_x_source',`a_y_source')
+			-- of size `a_width_source'x`a_height_source' on the part of `Current'
+			-- at (`a_x_destination',`a_y_destination') of size
+			-- `a_width_destination'x`a_height_destination'.
+			-- Also, rotate the draw of `a_rotation_angle' degree using the rotation center
+			-- (`a_x_rotation_center',`a_y_rotation_center')
+		require
+			Renderer_exists: exists
+		do
+			draw_sub_texture_with_scale_rotation_and_mirror(
+										a_texture, a_x_source, a_y_source,
+										a_width_source,a_height_source,a_x_destination,
+										a_y_destination, a_width_source,
+										a_height_source, a_x_rotation_center,
+										a_y_rotation_center, a_rotation_angle, False, False
+							)
+		end
+
+	draw_texture_with_mirror(
+						a_texture:GAME_TEXTURE;a_x,a_y:INTEGER;
+						a_vertical_mirror, a_horizontal_mirror:BOOLEAN)
+			-- Draw the whole `a_texture' on `Current' at (`a_x',`a_y')
+			-- Also, use a vertical mirror on the drawed image if `a_vertical_mirror'
+			-- is True and an horizontal one if `a_horizontal_mirror' is True.
+		require
+			Renderer_exists: exists
+		do
+			draw_sub_texture_with_mirror(
+								a_texture, 0, 0, a_texture.width, a_texture.height,
+								a_x, a_y, a_vertical_mirror, a_horizontal_mirror
+						)
+		end
+
+
+	draw_sub_texture_with_mirror(
+							a_texture:GAME_TEXTURE; a_x_source,a_y_source,
+							a_width_source,a_height_source,a_x_destination,
+							a_y_destination:INTEGER; a_vertical_mirror,
+							a_horizontal_mirror:BOOLEAN
+						)
+			-- Draw the part of `a_texture' from (`a_x_source',`a_y_source')
+			-- of size `a_width_source'x`a_height_source' on the part of `Current'
+			-- at (`a_x_destination',`a_y_destination') of size
+			-- `a_width_destination'x`a_height_destination'.
+			-- Also, use a vertical mirror on the drawed image if `a_vertical_mirror'
+			-- is True and an horizontal one if `a_horizontal_mirror' is True.
+		require
+			Renderer_exists: exists
+		do
+			draw_sub_texture_with_scale_rotation_and_mirror(
+									a_texture, a_x_source,a_y_source,
+									a_width_source,a_height_source,a_x_destination,
+									a_y_destination, a_width_source,
+									a_height_source, 0, 0, 0.0,
+									a_vertical_mirror, a_horizontal_mirror
+							)
+		end
+
+
+
+	draw_sub_texture_with_scale_rotation_and_mirror(
+									a_texture:GAME_TEXTURE; a_x_source,a_y_source,
+									a_width_source,a_height_source,a_x_destination,
+									a_y_destination, a_width_destination,
+									a_height_destination, a_x_rotation_center,
+									a_y_rotation_center:INTEGER; a_rotation_angle:REAL_64;
+									a_vertical_mirror, a_horizontal_mirror:BOOLEAN
+							)
 			-- Draw the part of `a_texture' from (`a_x_source',`a_y_source')
 			-- of size `a_width_source'x`a_height_source' on the part of `Current'
 			-- at (`a_x_destination',`a_y_destination') of size
