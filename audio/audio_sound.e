@@ -21,7 +21,8 @@ feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 			-- Fill the next data samples in `a_buffer' (no more than `a_max_length' byte)
-			-- Warning, side effect on buffer (buffer will be modified by this method)
+			-- The actual number of byte placed in `a_buffer' will be available in `last_buffer_size'
+			-- Warning: side effect on buffer
 		require
 			Sound_Is_open: is_open
 		deferred
