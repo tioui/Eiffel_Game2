@@ -61,7 +61,6 @@ feature
 		local
 			l_custom_image:IMG_IMAGE_FILE
 		do
-			print("Create cursor%N")
 			create {ARRAYED_LIST[TUPLE[cursor:GAME_CURSOR; text:STRING]]}cursors.make (13)
 			cursors.extend (game_library.default_cursor, "Default")
 			cursors.extend (create {GAME_CURSOR}.make_arrow, "Arrow")				-- Standard system cursor can be
