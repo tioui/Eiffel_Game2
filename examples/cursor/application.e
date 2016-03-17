@@ -1,5 +1,5 @@
 note
-	description : "An exemple to show how to manage cursors"
+	description : "Root class for the cursors example."
 	author		: "Louis Marchand"
 	date        : "Wed, 16 Mar 2016 23:29:16 +0000"
 	revision    : "1.1"

@@ -1,5 +1,5 @@
 note
-	description: "The mecanics of the present game"
+	description: "An exemple to show how to manage cursors"
 	author: "Louis Marchand"
 	date: "Wed, 16 Mar 2016 23:29:16 +0000"
 	revision: "1.0"
@@ -84,20 +84,43 @@ feature
 			end
 		end
 
-	update_scene(a_timestamp:NATURAL_32)
-			-- Redraw the scene
-		do
-			window.surface.draw_rectangle (create {GAME_COLOR}.make_rgb (255, 255, 255), 0, 0, window.surface.width, window.surface.height)
-			window.surface.draw_surface (text, 100, 100)
-			window.update
-		end
-
 	change_cursor
 			-- Alternate the {GAME_CURSOR} to show
 		do
 			cursor_index := (cursor_index \\ cursor_count) + 1
 			create {TEXT_SURFACE_BLENDED}text.make (cursors.at (cursor_index).text, font, create {GAME_COLOR}.make_rgb (0, 0, 0))
 			game_library.set_cursor (cursors.at (cursor_index).cursor)		-- Change the cursor
+		end
+
+	cursor_index:INTEGER
+			-- The index of the cursor to draw in `cursors'
+
+	cursor_count:INTEGER
+			-- The number of element in `cursors'
+
+	has_error:BOOLEAN
+			-- `True' if an error occured during the creation of `Current'
+
+	window:GAME_WINDOW_SURFACED
+			-- The window to draw the scene
+
+	font:TEXT_FONT
+			-- used to create the `text'
+
+	cursors:LIST[TUPLE[cursor:GAME_CURSOR; text:STRING]]
+			-- Every {GAME_CURSOR} that must alternate
+
+	text:GAME_SURFACE
+			-- An image representing the name of the presently used cursor
+
+feature {NONE} -- Implementation
+
+	update_scene(a_timestamp:NATURAL_32)
+			-- Redraw the scene
+		do
+			window.surface.draw_rectangle (create {GAME_COLOR}.make_rgb (255, 255, 255), 0, 0, window.surface.width, window.surface.height)
+			window.surface.draw_surface (text, 100, 100)
+			window.update
 		end
 
 	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_BUTTON_PRESSED_STATE; a_nb_clicks: NATURAL_8)
@@ -111,26 +134,5 @@ feature
 		do
 			game_library.stop
 		end
-
-	cursor_index:INTEGER
-			-- The index of the cursor to draw in `cursors'
-
-	cursor_count:INTEGER
-			-- The number of element in `cursors'
-
-	has_error:BOOLEAN
-			-- `True' if an error occured during the creation of `Current'
-
-	window:GAME_WINDOW_SURFACED
-			-- The window containing the scene
-
-	font:TEXT_FONT
-			-- used to create the `text'
-
-	cursors:LIST[TUPLE[cursor:GAME_CURSOR; text:STRING]]
-			-- Every {GAME_CURSOR} that must alternate
-
-	text:GAME_SURFACE
-			-- An image representing the name of the presently used cursor
 
 end

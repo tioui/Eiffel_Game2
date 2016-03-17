@@ -22,7 +22,7 @@ create
 feature {NONE} -- Initialization
 
 	make(a_renderer:GAME_RENDERER)
-			-- Initialization of `Current'
+			-- Initialization of `Current' to used with `a_renderer'
 		local
 			l_image:IMG_IMAGE_FILE
 		do

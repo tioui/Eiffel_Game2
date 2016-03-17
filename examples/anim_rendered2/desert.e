@@ -1,5 +1,5 @@
 note
-	description: "The application background"
+	description: "The game background"
 	author: "Louis Marchand"
 	date: "Wed, 01 Apr 2015 18:46:46 +0000"
 	revision: "2.0"
@@ -19,6 +19,7 @@ create
 feature {NONE} -- Initialization
 
 	make(a_renderer:GAME_RENDERER)
+			-- Initialization of `Current' for used with `a_renderer'
 		local
 			l_image: IMG_IMAGE_FILE
 		do
