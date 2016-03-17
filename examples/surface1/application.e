@@ -6,6 +6,7 @@ note
 						of the game library, you must use the renderer system with a
 						{GAME_WINDOW_RENDERED}.
 					]"
+	author		: "Louis Marchand"
 	date        : "Sat, 28 Mar 2015 03:05:36 +0000"
 	revision    : "1.0"
 
