@@ -139,7 +139,7 @@ feature {NONE} -- Implementation
 				sound_source.stop					-- Be sure that the queue buffer is empty on the sound_source object (when stop, the source queue is clear)
 				sound.restart						-- Be sure that the sound is at the beginning
 				sound_source.queue_sound (sound)	-- Queud the sound into the source queue
-				sound_source.play					-- Play the source
+				sound_source.play
 			end
 		end
 

@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 			l_sources:ARRAY[NATURAL]
 			l_source_c:ANY
 		do
+			has_been_stop := True
 			create l_sources.make_filled (0, 1, 1)
 			create g_mutex.make
 			create sound_queued.make
@@ -110,6 +111,7 @@ feature -- Access
 		require
 			Source_Is_Open: is_open
 		do
+			has_been_stop := False
 			clear_error
 			update_playing
 			if not has_error then
@@ -125,6 +127,7 @@ feature -- Access
 		require
 			Source_Is_Open: is_open
 		do
+			has_been_stop := False
 			clear_error
 			{AUDIO_EXTERNAL}.AL_source_pause(index)
 			if not is_pause then
@@ -137,6 +140,7 @@ feature -- Access
 		require
 			Source_Is_Open: is_open
 		do
+			has_been_stop := True
 			clear_error
 			{AUDIO_EXTERNAL}.AL_source_stop(index)
 			if not is_stop then
@@ -174,7 +178,7 @@ feature -- Access
 		require
 			Source_Is_Open: is_open
 		do
-			Result:=(param_int_c({AUDIO_EXTERNAL}.Al_source_state) = {AUDIO_EXTERNAL}.AL_STOPPED)
+			Result := has_been_stop and is_al_stop
 		end
 
 	is_initial:BOOLEAN
@@ -243,7 +247,7 @@ feature -- Access
 
 	update_playing
 			-- This methode must be execute at regular interval. If it is not execute enough in a certain time lap, the sounds will stop before finishing.
-			-- If this append, you can call this methode more often or use bigger `buffer_size'. You can use the routine `update_sound_playing' on the game controller
+			-- If this append, you can call this methode more often or use bigger `buffer_size'. You can use the routine `update' on the {AUDIO_LIBRARY_CONTROLLER}
 			-- and it will do the same effect.
 		require
 			Source_Is_Open: is_open
@@ -252,6 +256,9 @@ feature -- Access
 		do
 			if is_thread_safe then
 				g_mutex.lock
+			end
+			if is_al_stop and not has_been_stop then
+				{AUDIO_EXTERNAL}.AL_source_play(index)
 			end
 			from
 			until processed_buffers_number < 1
@@ -279,6 +286,9 @@ feature -- Access
 						sound_queued.item.sound.restart
 						if sound_queued.item.nb_loop = 0 then
 							sound_queued.remove
+							if sound_queued.is_empty then
+								stop
+							end
 						else
 							if sound_queued.item.nb_loop > 0 then
 								sound_queued.item.nb_loop := sound_queued.item.nb_loop-1
@@ -480,5 +490,16 @@ feature {NONE} -- Implementation - Variables
 
 	g_mutex:MUTEX
 			-- The mutex used to manage thread synchronisation inside `Current'
+
+	is_al_stop:BOOLEAN
+			-- True if the sound source has been stoped.
+		require
+			Source_Is_Open: is_open
+		do
+			Result:=(param_int_c({AUDIO_EXTERNAL}.Al_source_state) = {AUDIO_EXTERNAL}.AL_STOPPED)
+		end
+
+	has_been_stop:BOOLEAN
+			-- True if `Current' has been stoped by the Eiffel library (not the OpenAL library)
 
 end
