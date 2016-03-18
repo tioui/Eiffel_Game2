@@ -1,8 +1,6 @@
 Eiffel Game 2
 =============
 
-Please note: The Eiffel Game Library v2.0 is not entirely functionnal at the moment. The Howto below is not necessery accurate.
-
 A Game library for ISE Eiffel.
 
 This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 7.3 and newer from ISE.
