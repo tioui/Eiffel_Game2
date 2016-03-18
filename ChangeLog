@@ -1,10 +1,12 @@
 v2.4
-???
+2016-03-17
  * Bug fix for the Cursor system
  * Put back and improve 'share_from_other' in {GAME_TEXTURE}
  * Manual creation and edition of pixel in {GAME_SURFACE} and {GAME_TEXTURE}
  * Save to BMP feature in {GAME_SURFACE}
  * Creating {ENGINE} class in examples to remove argument in agents
+ * Correcting the stop at the end of buffer bug in {AUDIO_SOURCE}
+ * Adding some routine to easily draw {GAME_TEXTURE} on {GAME_RENDERER}
 
 v2.3
 2016-01-28
