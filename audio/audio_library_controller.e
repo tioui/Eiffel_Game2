@@ -279,8 +279,7 @@ feature -- Sources management
 		end
 
 	sources:CHAIN_INDEXABLE_ITERATOR[AUDIO_SOURCE]
-		require
-			-- All audio sources.
+			-- All {AUDIO_SOURCE} of the system.
 		do
 			create Result.make(internal_sources)
 		end
