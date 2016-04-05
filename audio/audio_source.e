@@ -98,10 +98,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	buffer_size:INTEGER assign set_buffer_size
-		-- The buffer size for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
+		-- The buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
 
 	set_buffer_size(a_buffer_size:INTEGER)
-			-- Set the buffer size to `a_buffer_size' for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
+			-- Set the buffer size to `a_buffer_size' for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
 		do
 			buffer_size:=a_buffer_size
 		end
@@ -162,7 +162,10 @@ feature -- Access
 		require
 			Source_Is_Open: is_open
 		do
-			Result:=(param_int_c({AUDIO_EXTERNAL}.Al_source_state) = {AUDIO_EXTERNAL}.Al_playing)
+			Result :=
+							(param_int_c({AUDIO_EXTERNAL}.Al_source_state) = {AUDIO_EXTERNAL}.Al_playing)
+						or
+							(not has_been_stop and is_al_stop)
 		end
 
 	is_pause:BOOLEAN
@@ -251,8 +254,6 @@ feature -- Access
 			-- and it will do the same effect.
 		require
 			Source_Is_Open: is_open
-		local
-			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq,l_byte_per_buffer_sample:INTEGER
 		do
 			if is_thread_safe then
 				g_mutex.lock
@@ -270,37 +271,7 @@ feature -- Access
 				buffer_tail = (buffer_head + 1) \\ nb_buffer or else
 				sound_queued.is_empty
 			loop
-				from
-					l_last_fill_buffer_size := 0
-				until
-					l_last_fill_buffer_size /= 0 or else
-					sound_queued.is_empty
-				loop
-					sound_queued.item.sound.fill_buffer (temp_buffer,buffer_size)
-					l_last_fill_buffer_size := sound_queued.item.sound.last_buffer_size
-					l_channel := sound_queued.item.sound.channel_count
-					bits_resolution := sound_queued.item.sound.bits_per_sample
-					l_freq := sound_queued.item.sound.frequency
-					l_byte_per_buffer_sample := sound_queued.item.sound.byte_per_buffer_sample
-					if l_last_fill_buffer_size = 0 then
-						sound_queued.item.sound.restart
-						if sound_queued.item.nb_loop = 0 then
-							sound_queued.remove
-							if sound_queued.is_empty then
-								stop
-							end
-						else
-							if sound_queued.item.nb_loop > 0 then
-								sound_queued.item.nb_loop := sound_queued.item.nb_loop-1
-							end
-						end
-
-					end
-				end
-				if not sound_queued.is_empty then
-					queue_buffer(temp_buffer,l_last_fill_buffer_size,l_channel,bits_resolution,l_freq)
-				end
-
+				queue_next_buffer
 			end
 			if is_thread_safe then
 				g_mutex.unlock
@@ -345,6 +316,43 @@ feature {AUDIO_LIBRARY_CONTROLLER}
 		end
 
 feature {NONE} -- Implementation - Routines
+
+	queue_next_buffer
+			-- Queue the next C buffer returned from the next sound of the `sound_queued'
+		local
+			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq,l_byte_per_buffer_sample:INTEGER
+		do
+			from
+				l_last_fill_buffer_size := 0
+			until
+				l_last_fill_buffer_size /= 0 or else
+				sound_queued.is_empty
+			loop
+				sound_queued.item.sound.fill_buffer (temp_buffer,buffer_size)
+				l_last_fill_buffer_size := sound_queued.item.sound.last_buffer_size
+				l_channel := sound_queued.item.sound.channel_count
+				bits_resolution := sound_queued.item.sound.bits_per_sample
+				l_freq := sound_queued.item.sound.frequency
+				l_byte_per_buffer_sample := sound_queued.item.sound.byte_per_buffer_sample
+				if l_last_fill_buffer_size = 0 then
+					sound_queued.item.sound.restart
+					if sound_queued.item.nb_loop = 0 then
+						sound_queued.remove
+						if sound_queued.is_empty then
+							has_been_stop := True
+						end
+					else
+						if sound_queued.item.nb_loop > 0 then
+							sound_queued.item.nb_loop := sound_queued.item.nb_loop - 1
+						end
+					end
+
+				end
+			end
+			if not sound_queued.is_empty then
+				queue_buffer(temp_buffer,l_last_fill_buffer_size,l_channel,bits_resolution,l_freq)
+			end
+		end
 
 
 	processed_buffers_number:INTEGER

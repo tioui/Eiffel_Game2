@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 			-- Initialization for `Current'.
 			-- Active the sound context.
 		do
-			sound_buffer_size:=64000
+			sound_buffer_size:=65536
 			is_thread_init:=false
 			create launch_mutex.make
 			create {LINKED_LIST[AUDIO_SOURCE]} internal_sources.make
@@ -143,10 +143,10 @@ feature -- Sources management
 
 
 	sound_buffer_size:INTEGER assign set_sound_buffer_size
-		-- The buffer size for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
+		-- The buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
 
 	set_sound_buffer_size(a_buffer_size:INTEGER)
-			-- Set the buffer size for the sound streaming (default is 64000). Allocate too little memory to buffer can cause sound to stop before finishing.
+			-- Set the buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
 		do
 			sound_buffer_size:=a_buffer_size
 		end

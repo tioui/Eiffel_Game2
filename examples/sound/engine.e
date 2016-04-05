@@ -136,8 +136,11 @@ feature {NONE} -- Implementation
 			-- When the space button is pressed (in `a_key_state'), play `sount' in `sound_source'
 		do
 			if a_key_state.is_space and sound.is_open then			-- If the space key as been pressed, play the space sound
-				sound_source.stop					-- Be sure that the queue buffer is empty on the sound_source object (when stop, the source queue is clear)
-				sound.restart						-- Be sure that the sound is at the beginning
+				if sound_source.is_playing then
+					sound_source.stop					-- Be sure that the queue buffer is empty on the sound_source object (when stop, the source queue is clear)
+					sound.restart						-- Be sure that the sound is at the beginning
+				end
+
 				sound_source.queue_sound (sound)	-- Queud the sound into the source queue
 				sound_source.play
 			end

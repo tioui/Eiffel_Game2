@@ -1,0 +1,3 @@
+Motor.ogg is under the Sampling Plus 1.0 License (http://freesound.org/people/BlacKSacrificE/sounds/31908/)
+bike.png is under CC0 (http://openclipart.org/detail/91927/bike-by-netalloy)
+player.png come from the SMC game. The SMC game is under GPL 3.0 license.

@@ -33,8 +33,9 @@ feature {NONE} -- Initialization
 				l_engine.run
 			end
 			l_engine := Void
-			audio_library.quit_library
+			game_library.clear_all_events
 			game_library.quit_library  -- Clear the library before quitting
+			audio_library.quit_library
 		end
 
 
