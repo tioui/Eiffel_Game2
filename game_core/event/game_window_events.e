@@ -421,8 +421,6 @@ feature -- Access
 	text_editing_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32;
 												start,lenght:INTEGER_32]]
 			-- When a text has been edited in `Current'.
-		require
-			Text_Editing_Events_Enabled: events_controller.is_text_editing_event_enable
 		do
 			if attached text_editing_actions_internal as la_text_editing_actions_internal then
 				Result := la_text_editing_actions_internal
@@ -437,8 +435,6 @@ feature -- Access
 
 	text_input_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32]]
 			-- When a new text has been entered in `Current'.
-		require
-			Text_Input_Events_Enabled: events_controller.is_text_input_event_enable
 		do
 			if attached text_input_actions_internal as la_text_input_actions_internal then
 				Result := la_text_input_actions_internal

@@ -469,31 +469,7 @@ feature -- Access
 			Is_Assign: is_key_released_event_enable ~ a_value
 		end
 
-	enable_text_editing_event
-			-- Process the `text_editing_actions' event.
-			-- Enabled by default
-		local
-			l_error:NATURAL_8
-		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textediting, {GAME_SDL_EXTERNAL}.sdl_enable)
-			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
-		ensure
-			Is_Event_Enabled: is_text_editing_event_enable
-		end
-
-	disable_text_editing_event
-			-- Ignore the `text_editing_actions' event.
-			-- Enabled by default
-		local
-			l_error:NATURAL_8
-		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textediting, {GAME_SDL_EXTERNAL}.sdl_disable)
-			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
-		ensure
-			Is_Event_Disabled: not is_text_editing_event_enable
-		end
-
-	is_text_editing_event_enable:BOOLEAN assign set_is_text_editing_event_enable
+	is_text_editing_event_enable:BOOLEAN
 			-- Is the `text_editing_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -503,43 +479,7 @@ feature -- Access
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
 		end
 
-	set_is_text_editing_event_enable(a_value:BOOLEAN)
-			-- Assign to `is_text_editing_event_enable' the value of `a_value'
-		do
-			if a_value then
-				enable_text_editing_event
-			else
-				disable_text_editing_event
-			end
-		ensure
-			Is_Assign: is_text_editing_event_enable ~ a_value
-		end
-
-	enable_text_input_event
-			-- Process the `text_input_actions' event.
-			-- Enabled by default
-		local
-			l_error:NATURAL_8
-		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_enable)
-			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
-		ensure
-			Is_Event_Enabled: is_text_input_event_enable
-		end
-
-	disable_text_input_event
-			-- Ignore the `text_input_actions' event.
-			-- Enabled by default
-		local
-			l_error:NATURAL_8
-		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_disable)
-			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
-		ensure
-			Is_Event_Disabled: not is_text_input_event_enable
-		end
-
-	is_text_input_event_enable:BOOLEAN assign set_is_text_input_event_enable
+	is_text_input_event_enable:BOOLEAN
 			-- Is the `text_input_actions' event has to be process.
 			-- Enabled by default
 		local
@@ -547,18 +487,6 @@ feature -- Access
 		do
 			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_textinput, {GAME_SDL_EXTERNAL}.sdl_query)
 			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
-		end
-
-	set_is_text_input_event_enable(a_value:BOOLEAN)
-			-- Assign to `is_text_input_event_enable' the value of `a_value'
-		do
-			if a_value then
-				enable_text_input_event
-			else
-				disable_text_input_event
-			end
-		ensure
-			Is_Assign: is_text_input_event_enable ~ a_value
 		end
 
 	enable_mouse_motion_event
