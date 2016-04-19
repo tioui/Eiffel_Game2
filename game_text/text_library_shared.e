@@ -11,7 +11,7 @@ feature -- Access
 
 	text_library:TEXT_CONTROLLER
 			-- The main manager of the text library
-		once
+		once ("PROCESS")
 			create Result
 		end
 end

@@ -120,7 +120,7 @@ feature {NONE} -- Implementation
 	instance_count:CELL[INTEGER]
 			-- The number of times this class has been created
 			-- It is a singleton, so it should always be 0 or 1
-		once
+		once  ("PROCESS")
 			create Result.put(0)
 		end
 

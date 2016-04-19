@@ -11,7 +11,7 @@ feature -- Access
 
 	game_library:GAME_LIBRARY_CONTROLLER
 			-- The main controller of the game library
-		once
+		once ("PROCESS")
 			if attached internal_game_library as la_game_library then
 				Result := la_game_library
 			else

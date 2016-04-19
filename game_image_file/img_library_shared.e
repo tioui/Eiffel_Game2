@@ -14,7 +14,7 @@ feature -- Access
 
 	image_file_library: IMG_CONTROLLER
 			-- The image library controller singleton
-		once
+		once ("PROCESS")
 			create Result
 		end
 

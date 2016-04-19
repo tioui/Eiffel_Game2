@@ -922,7 +922,7 @@ feature {NONE} -- Implementation - Variables
 	instance_count:CELL[INTEGER]
 			-- The number of time the `Current's class has been created
 			-- Since it is a singleton, it must be always 0 or 1
-		once
+		once ("PROCESS")
 			create Result.put(0)
 		end
 

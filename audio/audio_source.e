@@ -489,7 +489,7 @@ feature {NONE} -- Implementation - Variables
 
 	nb_buffer:INTEGER
 			-- The number of internal buffer in `Current'
-		once
+		once ("PROCESS")
 			Result:=4
 		end
 

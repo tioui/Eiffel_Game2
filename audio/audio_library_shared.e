@@ -10,7 +10,7 @@ deferred class
 feature -- Access
 
 	audio_library:AUDIO_LIBRARY_CONTROLLER
-		once
+		once  ("PROCESS")
 			create Result.make
 		end
 

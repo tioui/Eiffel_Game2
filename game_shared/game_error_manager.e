@@ -36,9 +36,9 @@ feature {NONE} -- Implementation
 			-- The specific message for the last error
 
 	print_on_error_internal:CELL[BOOLEAN]
-			-- When True, when an error occured,
+			-- True when an error occured,
 			-- The library will print it right away.
-		once
+		once ("PROCESS")
 			create Result.put (True)
 		end
 	
