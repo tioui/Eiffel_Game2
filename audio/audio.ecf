@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="audio" uuid="B50BE2F6-EA2C-412C-AF06-4A7DB035D783" library_target="audio">
-	<description>An audio add-on for The Eiffel Game Library.</description>
+	<description>A 3d audio environment for The Eiffel Game Library.</description>
 	<target name="audio">
-		<description>An audio add-on for The Eiffel Game Library.</description>
+		<description>A 3d audio environment for The Eiffel Game Library.</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Audio" copyright="Louis Marchand"/>
 		<option full_class_checking="false" is_attached_by_default="false" void_safety="none" syntax="standard">
@@ -48,8 +48,8 @@
 		<library name="chain_indexable_iterator" location="..\eiffel_chain_indexable_iterator\chain_indexable_iterator.ecf"/>
 		<library name="game_shared" location="..\game_shared\game_shared.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
-		<cluster name="audio" location=".\" recursive="true">
-			<description>An audio add-on for The Eiffel Game Library.</description>
+		<cluster name="audio_3d" location=".\" recursive="true">
+			<description>A 3d audio environment for The Eiffel Game Library.</description>
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/CVS$</exclude>

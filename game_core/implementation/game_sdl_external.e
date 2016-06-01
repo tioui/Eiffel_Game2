@@ -152,6 +152,20 @@ feature -- Function SDL.h
 			"SDL_GetScancodeFromKey"
 		end
 
+	frozen SDL_GetScancodeFromName(name:POINTER):INTEGER_32
+		external
+			"C (const char *) : SDL_Scancode | <SDL.h>"
+		alias
+			"SDL_GetScancodeFromName"
+		end
+
+	frozen SDL_GetKeyFromName(name:POINTER):INTEGER_32
+		external
+			"C (const char *) : SDL_Keycode | <SDL.h>"
+		alias
+			"SDL_GetKeyFromName"
+		end
+
 	frozen SDL_JoystickOpen(device_index:INTEGER):POINTER
 		external
 			"C (int) : SDL_Joystick* | <SDL.h>"

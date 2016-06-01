@@ -12,7 +12,7 @@ inherit
 		rename
 			make as make_from_pointer
 		redefine
-			pixel
+			pixel, index
 		end
 
 	GAME_PIXEL_WRITER
@@ -29,8 +29,6 @@ feature {NONE} -- Implementation
 	make(a_format:GAME_PIXEL_FORMAT_READABLE; a_width, a_height:INTEGER)
 			-- Initialization for `Current' allocating `item' using `a_format' as `pixel_format',
 			-- `a_width' as `width' and `a_height' as `height'
-		require
-			Not_Indexed: not a_format.is_indexed
 		do
 			bytes_per_pixel := a_format.bytes_per_pixel
 			pixel_format := a_format
@@ -49,6 +47,12 @@ feature {NONE} -- Implementation
 feature -- Access
 
 	pixel(a_line, a_column:INTEGER):GAME_COLOR_READABLE assign set_pixel
+			-- <Precursor>
+		do
+			Result := Precursor(a_line, a_column)
+		end
+
+	index(a_line, a_column:INTEGER):NATURAL_8 assign set_index
 			-- <Precursor>
 		do
 			Result := Precursor(a_line, a_column)

@@ -12,6 +12,16 @@ feature -- Access
 	audio_library:AUDIO_LIBRARY_CONTROLLER
 		once  ("PROCESS")
 			create Result.make
+			if attached internal_audio_library as la_audio_library then
+				Result := la_audio_library
+			else
+				create Result.make
+			end
 		end
+
+feature {NONE} -- Implementation
+
+	internal_audio_library:detachable AUDIO_LIBRARY_CONTROLLER
+			-- Assign to this attribute prior to use `audio_library' to inject a specific {AUDIO_LIBRARY_CONTROLLER} singleton.
 
 end

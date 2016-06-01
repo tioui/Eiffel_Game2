@@ -134,7 +134,7 @@ feature -- Access
 				la_color.alpha := a_color.alpha
 			end
 		ensure
-			Is_Set: at(a_index) ~ a_color
+			Is_Set: create {GAME_COLOR}.make_from_other (at(a_index)) ~ a_color
 		end
 
 	index: INTEGER

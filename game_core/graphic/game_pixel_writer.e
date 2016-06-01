@@ -21,6 +21,7 @@ feature -- Access
 			Is_Item_Valid: is_valid
 			Is_Line_Valid: a_line >= 1 and then a_line <= height
 			Is_Column_Valid: a_line >= 1 and then a_column <= width
+			Not_Indexed: not pixel_format.is_indexed
 		local
 			l_color_index:NATURAL_32
 			l_red, l_green, l_blue, l_alpha:NATURAL_8
@@ -46,6 +47,19 @@ feature -- Access
 				internal_item.put_natural_32 (l_color_index, l_position)
 			end
 		end
+
+	set_index(a_index:NATURAL_8; a_line, a_column:INTEGER)
+			-- Set the index of the indexed pixel at line `a_line' and column `a_column' to `a_index'
+		require
+			Is_Item_Valid: is_valid
+			Is_Line_Valid: a_line >= 1 and then a_line <= height
+			Is_Column_Valid: a_line >= 1 and then a_column <= width
+			Indexed: pixel_format.is_indexed
+			bits_per_pixel_valid: pixel_format.bits_per_pixel = 8
+		do
+			internal_item.put_natural_8 (a_index, (a_line - 1) * pitch + (a_column - 1))
+		end
+
 
 
 end

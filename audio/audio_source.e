@@ -40,14 +40,14 @@ feature {NONE} -- Initialization
 			has_been_stop := True
 			create l_sources.make_filled (0, 1, 1)
 			create g_mutex.make
-			create sound_queued.make
+			create internal_sound_queued.make
 			create sound_al_buffer.make_filled (0, 0, nb_buffer-1)
 			l_source_c:=l_sources.to_c
 			clear_error
 			{AUDIO_EXTERNAL}.AL_gen_sources(1,$l_source_c)
 			index:=l_sources.at (1)
 			if {AUDIO_EXTERNAL}.AL_is_source(index) then
-				set_buffer_size(a_buffer_size)
+				buffer_size := a_buffer_size
 				buffer_tail:=0
 				buffer_head:=0
 				initialize_buffers
@@ -97,14 +97,8 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	buffer_size:INTEGER assign set_buffer_size
+	buffer_size:INTEGER
 		-- The buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
-
-	set_buffer_size(a_buffer_size:INTEGER)
-			-- Set the buffer size to `a_buffer_size' for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
-		do
-			buffer_size:=a_buffer_size
-		end
 
 	play
 			-- Start the sound streaming.
@@ -147,7 +141,7 @@ feature -- Access
 				read_al_error ("Cannot stop audio source.")
 			end
 			if not has_error then
-				sound_queued.wipe_out
+				internal_sound_queued.wipe_out
 				update_playing
 				{AUDIO_EXTERNAL}.AL_source_rewind(index)
 				if not is_initial then
@@ -215,7 +209,7 @@ feature -- Access
 
 	queue_sound_loop(a_sound:AUDIO_SOUND;a_nb_loop:INTEGER)
 			-- Add a `a_sound' to the playing queue.
-			-- Put `a_nb_loop' to 0 for no loop and to -1 to infinite loop
+			-- Put `a_nb_loop' to 0 for no loop and to -1 for infinite loop
 		require
 			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
@@ -225,7 +219,7 @@ feature -- Access
 			create l_sound_tuple
 			l_sound_tuple.sound:=a_sound
 			l_sound_tuple.nb_loop:=a_nb_loop
-			sound_queued.put (l_sound_tuple)
+			internal_sound_queued.put (l_sound_tuple)
 		end
 
 	queue_sound(a_sound:AUDIO_SOUND)
@@ -241,6 +235,7 @@ feature -- Access
 	queue_sound_infinite_loop(a_sound:AUDIO_SOUND)
 			-- Add a `a_sound' to the playing queue.
 			-- Loop the `a_sound' until the source is stopped.
+			-- Note: Use this for a streaming sound
 		require
 			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
@@ -248,18 +243,24 @@ feature -- Access
 			queue_sound_loop(a_sound,-1)
 		end
 
+	sound_queued:CHAIN_INDEXABLE_ITERATOR[TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]]
+			-- The queue containing every sound to play
+		do
+			create Result.make (internal_sound_queued)
+		end
+
+
 	update_playing
 			-- This methode must be execute at regular interval. If it is not execute enough in a certain time lap, the sounds will stop before finishing.
 			-- If this append, you can call this methode more often or use bigger `buffer_size'. You can use the routine `update' on the {AUDIO_LIBRARY_CONTROLLER}
 			-- and it will do the same effect.
 		require
 			Source_Is_Open: is_open
+		local
+			last_position:INTEGER
 		do
 			if is_thread_safe then
 				g_mutex.lock
-			end
-			if is_al_stop and not has_been_stop then
-				{AUDIO_EXTERNAL}.AL_source_play(index)
 			end
 			from
 			until processed_buffers_number < 1
@@ -267,11 +268,17 @@ feature -- Access
 				unqueue_buffer
 			end
 			from
+				last_position := buffer_head - 1
 			until
-				buffer_tail = (buffer_head + 1) \\ nb_buffer or else
-				sound_queued.is_empty
+				buffer_tail = (buffer_head + 1) \\ nb_buffer or
+				internal_sound_queued.is_empty or
+				last_position = buffer_head
 			loop
+				last_position := buffer_head
 				queue_next_buffer
+			end
+			if is_al_stop and not has_been_stop then
+				{AUDIO_EXTERNAL}.AL_source_play(index)
 			end
 			if is_thread_safe then
 				g_mutex.unlock
@@ -317,41 +324,10 @@ feature {AUDIO_LIBRARY_CONTROLLER}
 
 feature {NONE} -- Implementation - Routines
 
-	queue_next_buffer
-			-- Queue the next C buffer returned from the next sound of the `sound_queued'
-		local
-			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq,l_byte_per_buffer_sample:INTEGER
+	queuded_buffers_number:INTEGER
+			-- The number of buffer in the internal queue that has not been processed yet.
 		do
-			from
-				l_last_fill_buffer_size := 0
-			until
-				l_last_fill_buffer_size /= 0 or else
-				sound_queued.is_empty
-			loop
-				sound_queued.item.sound.fill_buffer (temp_buffer,buffer_size)
-				l_last_fill_buffer_size := sound_queued.item.sound.last_buffer_size
-				l_channel := sound_queued.item.sound.channel_count
-				bits_resolution := sound_queued.item.sound.bits_per_sample
-				l_freq := sound_queued.item.sound.frequency
-				l_byte_per_buffer_sample := sound_queued.item.sound.byte_per_buffer_sample
-				if l_last_fill_buffer_size = 0 then
-					sound_queued.item.sound.restart
-					if sound_queued.item.nb_loop = 0 then
-						sound_queued.remove
-						if sound_queued.is_empty then
-							has_been_stop := True
-						end
-					else
-						if sound_queued.item.nb_loop > 0 then
-							sound_queued.item.nb_loop := sound_queued.item.nb_loop - 1
-						end
-					end
-
-				end
-			end
-			if not sound_queued.is_empty then
-				queue_buffer(temp_buffer,l_last_fill_buffer_size,l_channel,bits_resolution,l_freq)
-			end
+			Result:=param_int_c({AUDIO_EXTERNAL}.Al_buffers_queued)
 		end
 
 
@@ -361,9 +337,58 @@ feature {NONE} -- Implementation - Routines
 			Result:=param_int_c({AUDIO_EXTERNAL}.Al_buffers_processed)
 		end
 
+	queue_next_buffer
+			-- Queue the next C buffer returned from the next sound of the `internal_sound_queued'
+		local
+			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq,l_byte_per_buffer_sample:INTEGER
+			l_infinite_loop_restarted, l_streaming_sound_null:BOOLEAN
+		do
+			from
+				l_last_fill_buffer_size := 0
+				l_infinite_loop_restarted := False
+				l_streaming_sound_null := False
+			until
+				l_last_fill_buffer_size /= 0 or
+				internal_sound_queued.is_empty or
+				l_streaming_sound_null
+			loop
+				internal_sound_queued.item.sound.fill_buffer (temp_buffer,buffer_size)
+				l_last_fill_buffer_size := internal_sound_queued.item.sound.last_buffer_size
+				l_channel := internal_sound_queued.item.sound.channel_count
+				bits_resolution := internal_sound_queued.item.sound.bits_per_sample
+				l_freq := internal_sound_queued.item.sound.frequency
+				l_byte_per_buffer_sample := internal_sound_queued.item.sound.byte_per_buffer_sample
+				if l_last_fill_buffer_size = 0 then
+					if l_infinite_loop_restarted then
+						l_streaming_sound_null := True
+					end
+					internal_sound_queued.item.sound.restart
+					if internal_sound_queued.item.nb_loop = 0 then
+						internal_sound_queued.remove
+						if internal_sound_queued.is_empty then
+							has_been_stop := True
+						end
+					else
+						if internal_sound_queued.item.nb_loop > 0 then
+							internal_sound_queued.item.nb_loop := internal_sound_queued.item.nb_loop - 1
+						else
+							l_infinite_loop_restarted := True
+						end
+					end
+				else
+					l_infinite_loop_restarted := False
+				end
+			end
+			if l_last_fill_buffer_size > 0 then
+				queue_buffer(temp_buffer,l_last_fill_buffer_size,l_channel,bits_resolution,l_freq)
+			end
+		end
+
 	queue_buffer(a_buffer:POINTER;a_length,a_channel,a_bits_resolution,a_frequency:INTEGER)
 			-- Queue `a_buffer' in the internal C queue. `a_buffer' has a size of `a_lenght'
 			-- has `a_channel' to play at `a_frequency' hz using `a_bit_resolution'.
+		require
+			Has_Place: buffer_tail /= (buffer_head + 1) \\ nb_buffer
 		local
 			l_buffer_name:ARRAY[NATURAL]
 			l_buffer_name_c:ANY
@@ -382,8 +407,6 @@ feature {NONE} -- Implementation - Routines
 					l_format:={AUDIO_EXTERNAL}.Al_format_stereo16
 				end
 			end
-
-			check buffer_tail /= (buffer_head + 1) \\ nb_buffer end
 			clear_error
 			{AUDIO_EXTERNAL}.AL_buffer_data(sound_al_buffer.at (buffer_head),l_format,a_buffer,a_length,a_frequency)
 			read_al_error("Cannot read buffer audio data.")
@@ -484,7 +507,7 @@ feature {NONE} -- Implementation - Variables
 	temp_buffer:POINTER
 			-- The temporary buffer used to transfert data in the real buffer
 
-	sound_queued:LINKED_QUEUE[TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]]
+	internal_sound_queued:LINKED_QUEUE[TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]]
 			-- The queue containing every sound to play
 
 	nb_buffer:INTEGER

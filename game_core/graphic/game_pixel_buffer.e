@@ -25,7 +25,6 @@ feature {NONE} -- Initialization
 			-- `a_width' as `width', `a_height' as `height' and `a_pitch' as `pitch'
 		require
 			Exists: not a_item.is_default_pointer
-			Not_Indexed: not a_format.is_indexed
 		local
 			l_mask_information:TUPLE[position, bit_count:INTEGER]
 			l_masks:TUPLE[red, green, blue, alpha:NATURAL_32]

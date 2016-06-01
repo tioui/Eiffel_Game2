@@ -21,6 +21,7 @@ feature -- Access
 			Is_Item_Valid: is_valid
 			Is_Line_Valid: a_line >= 1 and then a_line <= height
 			Is_Column_Valid: a_line >= 1 and then a_column <= width
+			Not_Indexed: not pixel_format.is_indexed
 		local
 			l_color_index:NATURAL_32
 			l_red, l_green, l_blue, l_alpha:NATURAL_8
@@ -42,5 +43,18 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.SDL_GetRGBA(l_color_index, pixel_format.item, $l_red, $l_green, $l_blue, $l_alpha)
 			create Result.make(l_red, l_green, l_blue, l_alpha)
 		end
+
+	index(a_line, a_column:INTEGER):NATURAL_8
+			-- Get the index of the indexed pixel at line `a_line' and column `a_column'
+		require
+			Is_Item_Valid: is_valid
+			Is_Line_Valid: a_line >= 1 and then a_line <= height
+			Is_Column_Valid: a_line >= 1 and then a_column <= width
+			Indexed: pixel_format.is_indexed
+			bits_per_pixel_valid: pixel_format.bits_per_pixel = 8
+		do
+			Result := internal_item.read_natural_8 ((a_line - 1) * pitch + (a_column - 1))
+		end
+
 
 end

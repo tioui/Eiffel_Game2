@@ -22,7 +22,7 @@ inherit
 
 create
 	make
-	
+
 feature -- Access
 
 	surface:GAME_SURFACE
@@ -32,8 +32,9 @@ feature -- Access
 		local
 			l_surface_pointer:POINTER
 			l_source:GAME_IMAGE
+			l_surface:GAME_SURFACE
 		do
-			if attached internal_surface as la_surface then
+			if attached internal_surface as la_surface and then (width = internal_surface_width and height = internal_surface_height) then
 				Result:=la_surface
 			else
 				l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_GetWindowSurface(item)
@@ -41,8 +42,11 @@ feature -- Access
 				if l_source.is_openable then
 					l_source.open
 					if l_source.is_open then
-						create internal_surface.share_from_image (l_source)
-						Result:=surface
+						create l_surface.share_from_image (l_source)
+						internal_surface := l_surface
+						internal_surface_height := height
+						internal_surface_width := width
+						Result:=l_surface
 					else
 						io.error.put_string ("An error occured while creating the surfaced window.%N")
 						has_error:=True
@@ -107,7 +111,7 @@ feature {NONE} -- Implementation
 	internal_surface:detachable GAME_SURFACE
 			-- The internal value of lazy evaluated `surface' attribute
 
--- Todo:
-		-- http://wiki.libsdl.org/SDL_UpdateWindowSurfaceRects
+	internal_surface_width, internal_surface_height:INTEGER
+			-- The dimension of `Current' when `internal_surface' was created
 
 end

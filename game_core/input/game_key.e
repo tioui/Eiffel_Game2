@@ -15,7 +15,8 @@ inherit
 
 create
 	make_from_physical_code,
-	make_from_virtual_code
+	make_from_virtual_code,
+	make_from_name
 
 feature {NONE} -- Initialization
 
@@ -33,6 +34,24 @@ feature {NONE} -- Initialization
 		do
 			virtual_code := a_virtual_code
 			physical_code := {GAME_SDL_EXTERNAL}.SDL_GetScancodeFromKey(virtual_code)
+		end
+
+	make_from_name(a_name:READABLE_STRING_GENERAL)
+			-- Initialize `Current' using a text representation.
+		local
+			l_code:INTEGER_32
+			l_utf_converter:UTF_CONVERTER
+			l_text_c:C_STRING
+		do
+			create l_utf_converter
+			create l_text_c.make(l_utf_converter.string_32_to_utf_8_string_8 (a_name.to_string_32))
+			l_code := {GAME_SDL_EXTERNAL}.SDL_GetScancodeFromName(l_text_c.item)
+			if l_code /= {GAME_SDL_EXTERNAL}.SDL_SCANCODE_UNKNOWN  then
+				make_from_physical_code(l_code)
+			else
+				l_code := {GAME_SDL_EXTERNAL}.SDL_GetKeyFromName(l_text_c.item)
+				make_from_virtual_code(l_code)
+			end
 		end
 
 

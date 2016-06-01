@@ -366,6 +366,14 @@ feature -- OpenAL Constantes
 			"AL_BUFFERS_PROCESSED"
 		end
 
+
+	frozen AL_BUFFERS_QUEUED :INTEGER
+		external
+			"C inline use <al.h>"
+		alias
+			"AL_BUFFERS_QUEUED"
+		end
+
 	frozen AL_FORMAT_MONO8 :INTEGER
 		external
 			"C inline use <al.h>"

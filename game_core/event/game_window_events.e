@@ -577,7 +577,7 @@ feature {NONE} -- Implementation
 			-- `restore_actions', `mouse_enter_actions', `mouse_leave_actions',
 			-- `keyboard_focus_gain_actions', `keyboard_focus_lost_actions' and `close_request_actions'
 		do
-			if a_window_id = id then
+			if a_window_id = id or a_window_id = 0 then
 				if a_event_type = {GAME_SDL_EXTERNAL}.SDL_WINDOWEVENT_SHOWN then
 					if attached show_actions_internal as actions then
 						actions.call([a_timestamp])
@@ -654,7 +654,7 @@ feature {NONE} -- Implementation
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached key_pressed_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
@@ -677,7 +677,7 @@ feature {NONE} -- Implementation
 		local
 			l_keyboard_state:GAME_KEY_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached key_released_actions_internal as actions then
 					create l_keyboard_state.make(a_scancode, a_keycode, a_modifier, a_repeat)
 					actions.call (a_timestamp, l_keyboard_state)
@@ -699,7 +699,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `text_editing_events_callback' and dispatch them to
 			-- the `text_editing_actions' {ACTION_SEQUENCE}
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached text_editing_actions_internal as actions then
 					actions.call (a_timestamp, a_text, a_start, a_lenght)
 				end
@@ -717,7 +717,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `text_input_events_callback' and dispatch them to
 			-- the `text_input_actions' {ACTION_SEQUENCE}
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached text_input_actions_internal as actions then
 					actions.call (a_timestamp, a_text)
 				end
@@ -740,7 +740,7 @@ feature {NONE} -- Implementation
 		local
 			l_mouse_state:GAME_MOUSE_MOTION_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_motion_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_state, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_x_relative, a_y_relative)
@@ -764,7 +764,7 @@ feature {NONE} -- Implementation
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_button_pressed_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
@@ -788,7 +788,7 @@ feature {NONE} -- Implementation
 		local
 			l_mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_button_released_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id, a_button, a_x, a_y)
 					actions.call (a_timestamp, l_mouse_state, a_clicks)
@@ -810,7 +810,7 @@ feature {NONE} -- Implementation
 		local
 			l_mouse_state:GAME_MOUSE_EVENTS_STATE
 		do
-			if a_window_id =id then
+			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_wheel_move_actions_internal as actions then
 					create l_mouse_state.make (a_mouse_id)
 					actions.call (a_timestamp, l_mouse_state, a_x, a_y)

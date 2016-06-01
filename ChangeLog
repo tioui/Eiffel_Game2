@@ -1,3 +1,12 @@
+v2.5
+2016-06-01
+ * Bugfixe in the {GAME_WINDOW_SURFACED} resize management.
+ * Adding pixel editing of palleted {GAME_PIXEL_BUFFER}
+ * Permit overwrite of Audio library singleton
+ * Adding features to {AUDIO_SOURCE}
+ * Bug fix in Window events management
+ * Singleton per process instead of per thread.
+
 v2.4
 2016-03-17
  * Bug fix for the Cursor system

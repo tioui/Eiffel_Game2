@@ -297,7 +297,7 @@ feature -- Sources management
 			end
 		end
 
-feature {AUDIO_SOURCE}
+feature {NONE}
 
 	sources_extend(a_source:AUDIO_SOURCE)
 			-- add `a_source' in the `sources' chain
