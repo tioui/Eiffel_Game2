@@ -1,5 +1,6 @@
 v2.5
 2016-06-01
+ * Compatibility with EiffelStudio 16.05
  * Bugfixe in the {GAME_WINDOW_SURFACED} resize management.
  * Adding pixel editing of palleted {GAME_PIXEL_BUFFER}
  * Permit overwrite of Audio library singleton

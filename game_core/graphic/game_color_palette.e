@@ -84,19 +84,6 @@ feature -- Access
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_palette_struct_ncolors(internal_pointer)
 		end
 
-	index_set: INTEGER_INTERVAL
-			-- <Precursor>
-		require else
-			Palette_Exist: exists
-		do
-			if exists then
-				create Result.make (1, count)
-			else
-				create Result.make (1, 0)
-			end
-
-		end
-
 	valid_index (i: INTEGER): BOOLEAN
 			-- <Precursor>
 		require else
@@ -213,6 +200,28 @@ feature -- Access
 				Result := Result and item ~ a_other.item
 				forth
 				a_other.forth
+			end
+		end
+
+feature -- Measurement
+
+	lower: INTEGER
+			-- <Precursor>
+		require else
+			Palette_Exist: exists
+		do
+			Result := 1
+		end
+
+	upper: INTEGER
+			-- <Precursor>
+		require else
+			Palette_Exist: exists
+		do
+			if exists then
+				Result := count
+			else
+				Result := 1
 			end
 		end
 

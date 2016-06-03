@@ -3,7 +3,7 @@ Eiffel Game 2
 
 A Game library for ISE Eiffel.
 
-This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 7.3 and newer from ISE.
+This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 16.05 and newer from ISE.
 
 The library is compatible with Linux, MAC OS X, Windows. It should work with other operating system (FreeBSD, Android, IOS, etc.) but it is not supported.
 
