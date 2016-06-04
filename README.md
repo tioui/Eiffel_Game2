@@ -2,7 +2,7 @@ Eiffel Game 2
 =============
 
 A Game library for ISE Eiffel.
-This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 16.01 and newer from ISE.
+This is a library for game development with the Eiffel Language. The library is compatible with the IDE EiffelStudio 16.05 and newer from ISE.
 
 This branch has every thing you need to make it work on Windows. It should work using the Microsoft C compiler and the MinGW compiler for 32 and 64 bits.
 
