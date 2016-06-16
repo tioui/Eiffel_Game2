@@ -122,5 +122,5 @@ invariant
 	buffer_index_even: buffer_index \\ 2 = 0
 note
 	license: "GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007 | Copyright (c) 2016 Émilio Gonzalez and Guillaume Jean"
-	source: "[file: LICENSE]"
+	source: "[url: https://www.gnu.org/licenses/gpl-3.0.html]"
 end
