@@ -10,6 +10,7 @@ deferred class
 feature -- Access
 
 	audio_library:AUDIO_LIBRARY_CONTROLLER
+			-- Access to the audio library internal fonctionnality
 		once  ("PROCESS")
 			create Result.make
 			if attached internal_audio_library as la_audio_library then

@@ -1,6 +1,7 @@
 note
 	description: "Class that holds information for a sound and fills a buffer to play it."
 	author: "Émilio G!"
+	adaptation: "Louis Marchand"
 	date: "16-02-23"
 	revision: "16w09a"
 	legal: "See notice at end of class."
@@ -17,8 +18,8 @@ create
 
 feature {NONE}
 	make (a_sound_data : CHAIN[INTEGER_16])
-		-- Initialization for `Current'.
-		-- Sets sound data with `a_sound_data' and initializes features.
+			-- Initialization for `Current'.
+			-- Sets sound data with `a_sound_data' and initializes features.
 		local
 			i: INTEGER_32
 		do
@@ -38,7 +39,7 @@ feature {NONE}
 		end
 
 	make_from_other (a_sound: SOUND)
-		-- Initialization for `Current' using another sound.
+			-- Initialization for `Current' using another sound.
 		do
 			buffer_index:= 0
 			byte_per_buffer_sample:= a_sound.channel_count * (a_sound.bits_per_sample // 8)
@@ -50,43 +51,43 @@ feature {NONE}
 feature
 
 	buffer_index: INTEGER_32
-		--usefull in fill_buffer
+			--usefull in fill_buffer
 
 	sound_data: MANAGED_POINTER
-		--data that is readable by the library
+			--data that is readable by the library
 
 	sound_length: INTEGER_32
-		--length in samples
+			--length in samples
 
 	channel_count:INTEGER_32 = 1
-		-- <Precursor>
+			-- <Precursor>
 
 	frequency: INTEGER_32 = 44100
-		-- in samples per second
+			-- in samples per second
 
 	bits_per_sample: INTEGER_32 = 16
-		-- <Precursor>
+			-- <Precursor>
 
 	is_signed: BOOLEAN = True
-		-- is sound_data signed
+			-- is sound_data signed
 
 	byte_per_buffer_sample: INTEGER_32
-		-- equals to number_of_channels * (bits_per_sample // 8)
+			-- equals to number_of_channels * (bits_per_sample // 8)
 
 	is_seekable: BOOLEAN = False
-		-- Useless in this class, but needed to inherit from AUDIO_SOUND
+			-- Useless in this class, but needed to inherit from AUDIO_SOUND
 
 	restart
-		--sets buffer_index to 0 so the sound plays normally when prompted again
+			--sets buffer_index to 0 so the sound plays normally when prompted again
 		do
 			buffer_index := 0
 		end
 
-	is_openable: BOOLEAN = False
-		-- <Precursor>
+	is_openable: BOOLEAN = True
+			-- <Precursor>
 
 	open
-		--nothing. This is actually useless but necessary to inherit from AUDIO_SOUND.
+			--nothing. This is actually useless but necessary to inherit from AUDIO_SOUND.
 		do
 
 		end
@@ -94,8 +95,8 @@ feature
 feature {AUDIO_LIBRARY_CONTROLLER}
 
 	fill_buffer(a_buffer: POINTER; a_max_length: INTEGER_32)
-		--This method should only be called by AUDIO_LIBRARY_CONTROLLER.
-		--Side effect on a_buffer.
+			--This method should only be called by AUDIO_LIBRARY_CONTROLLER.
+			--Side effect on a_buffer.
 		local
 			l_buffer_size: INTEGER_32
 			l_index_max: INTEGER_32
