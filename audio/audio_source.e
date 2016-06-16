@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 			create l_sources.make_filled (0, 1, 1)
 			create g_mutex.make
 			create internal_sound_queued.make
-			create sound_al_buffer.make_filled (0, 0, nb_buffer-1)
+			create sound_al_buffer.make_filled (0, 0, buffers_count-1)
 			l_source_c:=l_sources.to_c
 			clear_error
 			{AUDIO_EXTERNAL}.AL_gen_sources(1,$l_source_c)
@@ -79,7 +79,7 @@ feature {NONE} -- Initialization
 			l_sound_al_buffer_c:ANY
 		do
 			l_sound_al_buffer_c:=sound_al_buffer.to_c
-			{AUDIO_EXTERNAL}.AL_Gen_Buffers(nb_buffer,$l_sound_al_buffer_c)
+			{AUDIO_EXTERNAL}.AL_Gen_Buffers(buffers_count,$l_sound_al_buffer_c)
 			from
 				l_are_buffers := True
 				i := sound_al_buffer.lower
@@ -263,14 +263,14 @@ feature -- Access
 				g_mutex.lock
 			end
 			from
-			until processed_buffers_number < 1
+			until processed_buffers_count < 1
 			loop
 				unqueue_buffer
 			end
 			from
 				last_position := buffer_head - 1
 			until
-				buffer_tail = (buffer_head + 1) \\ nb_buffer or
+				buffer_tail = (buffer_head + 1) \\ buffers_count or
 				internal_sound_queued.is_empty or
 				last_position = buffer_head
 			loop
@@ -324,10 +324,25 @@ feature {AUDIO_LIBRARY_CONTROLLER}
 
 feature {NONE} -- Implementation - Routines
 
-	queuded_buffers_number:INTEGER
+	queuded_buffers_count:INTEGER
 			-- The number of buffer in the internal queue that has not been processed yet.
 		do
 			Result:=param_int_c({AUDIO_EXTERNAL}.Al_buffers_queued)
+		end
+
+	queuded_buffers_number:INTEGER
+			-- The number of buffer in the internal queue that has not been processed yet.
+		obsolete
+			"Use `queuded_buffers_count' instead"
+		do
+			Result:=param_int_c({AUDIO_EXTERNAL}.Al_buffers_queued)
+		end
+
+
+	processed_buffers_count:INTEGER
+			-- The number of buffer in the internal queue that has been processed
+		do
+			Result:=param_int_c({AUDIO_EXTERNAL}.Al_buffers_processed)
 		end
 
 
@@ -388,7 +403,7 @@ feature {NONE} -- Implementation - Routines
 			-- Queue `a_buffer' in the internal C queue. `a_buffer' has a size of `a_lenght'
 			-- has `a_channel' to play at `a_frequency' hz using `a_bit_resolution'.
 		require
-			Has_Place: buffer_tail /= (buffer_head + 1) \\ nb_buffer
+			Has_Place: buffer_tail /= (buffer_head + 1) \\ buffers_count
 		local
 			l_buffer_name:ARRAY[NATURAL]
 			l_buffer_name_c:ANY
@@ -412,7 +427,7 @@ feature {NONE} -- Implementation - Routines
 			read_al_error("Cannot read buffer audio data.")
 			if not has_error then
 				create l_buffer_name.make_filled (sound_al_buffer.at (buffer_head), 1, 1)
-				buffer_head := (buffer_head + 1) \\ nb_buffer
+				buffer_head := (buffer_head + 1) \\ buffers_count
 				l_buffer_name_c:=l_buffer_name.to_c
 				clear_error
 				{AUDIO_EXTERNAL}.AL_source_queue_buffers(index,1,$l_buffer_name_c)
@@ -423,14 +438,14 @@ feature {NONE} -- Implementation - Routines
 	unqueue_buffer
 			-- Remove the top buffer in the C internal queue
 		require
-			Unqueue_Buffer_Nb_Processed_Valid: processed_buffers_number>0
+			Unqueue_Buffer_Nb_Processed_Valid: processed_buffers_count>0
 		local
 			l_buffer_name:ARRAY[NATURAL]
 			l_buffer_name_c:ANY
 		do
 			check buffer_tail/=buffer_head end
 			create l_buffer_name.make_filled (sound_al_buffer.at (buffer_tail), 1, 1)
-			buffer_tail := (buffer_tail + 1) \\ nb_buffer
+			buffer_tail := (buffer_tail + 1) \\ buffers_count
 			l_buffer_name_c:=l_buffer_name.to_c
 			clear_error
 			{AUDIO_EXTERNAL}.AL_source_unqueue_buffers(index,1,$l_buffer_name_c)
@@ -483,7 +498,7 @@ feature {NONE} -- Implementation - Routines
 			stop
 			temp_buffer.memory_free
 			l_sound_al_buffer_c:=sound_al_buffer.to_c
-			{AUDIO_EXTERNAL}.AL_delete_buffers(nb_buffer, $l_sound_al_buffer_c);
+			{AUDIO_EXTERNAL}.AL_delete_buffers(buffers_count, $l_sound_al_buffer_c);
 			create sources.make_filled (index, 1, 1)
 			sources_c:=sources.to_c
 			{AUDIO_EXTERNAL}.AL_delete_sources(1,$sources_c)
@@ -510,8 +525,16 @@ feature {NONE} -- Implementation - Variables
 	internal_sound_queued:LINKED_QUEUE[TUPLE[sound:AUDIO_SOUND;nb_loop:INTEGER]]
 			-- The queue containing every sound to play
 
+	buffers_count:INTEGER
+			-- The number of internal buffer in `Current'
+		once ("PROCESS")
+			Result:=4
+		end
+
 	nb_buffer:INTEGER
 			-- The number of internal buffer in `Current'
+		obsolete
+			"Use `buffers_count' instead"
 		once ("PROCESS")
 			Result:=4
 		end

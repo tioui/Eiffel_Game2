@@ -20,6 +20,7 @@ feature {NONE} -- Initialization
 		local
 			l_builder:GAME_WINDOW_SURFACED_BUILDER
 		do
+			create l_builder
 			l_builder.set_dimension (200, 200)
 			window := l_builder.generate_window
 			create font.make ("font.ttf", 10)

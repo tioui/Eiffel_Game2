@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 		local
 			l_builder:GAME_WINDOW_RENDERED_BUILDER
 		do
+			create l_builder
 			l_builder.set_dimension (600, 200)
 			window := l_builder.generate_window
 			if not window.has_error then

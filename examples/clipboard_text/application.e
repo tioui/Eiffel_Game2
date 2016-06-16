@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 			l_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_window:GAME_WINDOW
 		do
+			create l_builder
 			l_window := l_builder.generate_window
 			if l_window.has_clipboard_text then
 				print("What was in the system clipboard: " + l_window.clipboard_text + "%N")

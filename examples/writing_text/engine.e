@@ -21,6 +21,7 @@ feature {NONE} -- Initialization
 			l_builder:GAME_WINDOW_SURFACED_BUILDER
 		do
 			create texts.make
+			create l_builder
 			window := l_builder.generate_window
 			create font.make ("font.ttf", 16)
 			if font.is_openable then

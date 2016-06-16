@@ -62,7 +62,7 @@ feature -- Access
 	run
 			-- <Precuror>
 		do
-			is_running := False
+			is_running := True
 			if attached axis_motion_actions_internal then
 				events_controller.joy_axis_motion_actions.extend (axis_motion_events_callback)
 			end

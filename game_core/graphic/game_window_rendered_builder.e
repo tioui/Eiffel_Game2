@@ -4,7 +4,7 @@ note
 	date: "Sat, 04 Apr 2015 00:24:50 +0000"
 	revision: "2.0"
 
-expanded class
+class
 	GAME_WINDOW_RENDERED_BUILDER
 
 inherit
@@ -247,7 +247,7 @@ feature -- Access
 		ensure
 			Is_Unset: not attached renderer_driver
 		end
-	
+
 	generate_window:GAME_WINDOW_RENDERED
 			-- The {GAME_WINDOW_RENDERED} that fit all
 			-- attributes of `Current'

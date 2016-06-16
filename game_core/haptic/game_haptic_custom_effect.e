@@ -97,7 +97,7 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.set_sdl_haptic_custom_interval(specific_item, a_interval)
 		end
 
-	axes_number:NATURAL_8 assign set_axes_number
+	axes_count:NATURAL_8 assign set_axes_number
 			-- The number of axes to use
 		require
 			Exists: exists
@@ -105,9 +105,35 @@ feature -- Access
 			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_channels(specific_item)
 		end
 
-	set_axes_number(a_number:NATURAL_8)
-			-- Assign `axes' with the value of `a_axes'
+	set_axes_count(a_count:NATURAL_8)
+			-- Assign `axes_count' with the value of `a_count'
 			-- Note: Callig this routine will clear the `samples' (to satisfied invariant)
+		require
+			Exists: exists
+			Number_Valid: a_count >= 1
+		do
+			{GAME_SDL_EXTERNAL}.set_sdl_haptic_custom_channels(specific_item, a_count)
+			set_samples(create {ARRAYED_LIST[NATURAL_16]}.make(0))
+		ensure
+			Is_Assign: axes_number = a_count
+			Samples_Valid_For_Every_Axes: samples.count.divisible (axes_count)
+		end
+
+	axes_number:NATURAL_8 assign set_axes_number
+			-- The number of axes to use
+		obsolete
+			"Use `axes_count' instead"
+		require
+			Exists: exists
+		do
+			Result := {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_channels(specific_item)
+		end
+
+	set_axes_number(a_number:NATURAL_8)
+			-- Assign `axes_number' with the value of `a_number'
+			-- Note: Callig this routine will clear the `samples' (to satisfied invariant)
+		obsolete
+			"Use `set_axes_count' instead"
 		require
 			Exists: exists
 			Number_Valid: a_number >= 1

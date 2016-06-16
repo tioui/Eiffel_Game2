@@ -31,6 +31,7 @@ feature {NONE} -- Initialization
 			l_window:GAME_WINDOW_SURFACED
 			l_surface:GAME_SURFACE
 		do
+			create l_builder
 			l_window := l_builder.generate_window
 			create l_surface.make_for_window (l_window, 100, 100)
 			initialize_surface(l_surface)

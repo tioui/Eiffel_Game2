@@ -84,8 +84,20 @@ feature -- Access
 	index:INTEGER
 		-- The internal `index' representing `Current'
 
+	axes_count:INTEGER
+			-- Get the number of axes on the joystick.
+		require
+			Get_Axes_Number_Opened: is_open
+		do
+			clear_error
+			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumAxes(item)
+			manage_error_code(Result, "Error while querying the number of joystick axes.")
+		end
+
 	axes_number:INTEGER
 			-- Get the number of axes on the joystick.
+		obsolete
+			"Use `axes_count' instead"
 		require
 			Get_Axes_Number_Opened: is_open
 		do
@@ -104,8 +116,20 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetAxis(item,a_axis_id)
 		end
 
+	balls_count:INTEGER
+			-- Return the number of balls on the joystick.
+		require
+			Get_Balls_Number_Opened: is_open
+		do
+			clear_error
+			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumBalls(item)
+			manage_error_code(Result, "Error while querying the number of joystick balls.")
+		end
+
 	balls_number:INTEGER
 			-- Return the number of balls on the joystick.
+		obsolete
+			"Use `balls_count' instead"
 		require
 			Get_Balls_Number_Opened: is_open
 		do
@@ -130,8 +154,20 @@ feature -- Access
 			manage_error_code(l_error, "Error while querying the state change of joystick ball.")
 		end
 
+	buttons_count:INTEGER
+			-- Return the number of buttons on the joystick.
+		require
+			Get_Buttons_Number_Opened: is_open
+		do
+			clear_error
+			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumButtons(item)
+			manage_error_code(Result, "Error while querying the number of joystick buttons.")
+		end
+
 	buttons_number:INTEGER
 			-- Return the number of buttons on the joystick.
+		obsolete
+			"Use `buttons_count' instead"
 		require
 			Get_Buttons_Number_Opened: is_open
 		do
@@ -150,8 +186,20 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetButton(item, a_button_id)
 		end
 
+	hats_count:INTEGER
+			-- Return the number of hats on the joystick.
+		require
+			Get_Hats_Number_Opened: is_open
+		do
+			clear_error
+			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumHats(item)
+			manage_error_code(Result, "Error while querying the number of joystick hats.")
+		end
+
 	hats_number:INTEGER
 			-- Return the number of hats on the joystick.
+		obsolete
+			"Use `hats_count' instead"
 		require
 			Get_Hats_Number_Opened: is_open
 		do
