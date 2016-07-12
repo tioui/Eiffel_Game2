@@ -860,8 +860,7 @@ feature -- Access
 			create l_text_m_ptr.make (l_count)
 			l_utf_converter.string_32_into_utf_8_0_pointer(a_title.as_string_32, l_text_m_ptr, 0, Void)
 			check
-				Pointer_Not_Null: l_text_m_ptr.item.is_default_pointer
-				Pointer_Not_Shared: l_text_m_ptr.is_shared
+				Pointer_Not_Null: not l_text_m_ptr.item.is_default_pointer
 			end
 			{GAME_SDL_EXTERNAL}.SDL_SetWindowTitle(item, l_text_m_ptr.item)
 		end
