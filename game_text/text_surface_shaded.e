@@ -25,16 +25,16 @@ create
 feature {NONE} -- Initialization
 
 	make(a_text:READABLE_STRING_GENERAL;a_font:TEXT_FONT;
-		a_forground_color, a_background_color:GAME_COLOR_READABLE)
+		a_foreground_color, a_background_color:GAME_COLOR_READABLE)
 			-- Initialization for `Current' from the text `l_text'
-			-- using the font `l_font' and color `a_forground_color'
+			-- using the font `l_font' and color `a_foreground_color'
 			-- with a background color `a_background_color'.
 		require
 			Text_Is_Enabled: text_library.is_text_enable
 			Font_Is_Open: a_font.is_open
 		do
 			background_color := a_background_color
-			make_text_surface (a_text, a_font, a_forground_color)
+			make_text_surface (a_text, a_font, a_foreground_color)
 		end
 
 feature -- Access
