@@ -1,7 +1,7 @@
 note
 	description: "[
 					A {GAME_SURFACE} that represent a text.
-					Rendering from a {TEXT_SURFACE_SOLID}
+					Rendering from a {TEXT_SURFACE_BLENDED}
 					look better that from this class, but
 					take longer to generate.
 				]"

@@ -10,7 +10,7 @@ class
 inherit
 	GAME_FILE
 		rename
-			make as make_with_name
+			make as make_obsolete
 		export
 			{NONE} 	append, basic_store, copy_to, create_read_write, extend,fill, force, general_store, independent_store,
 					make_create_read_write, make_obsolete, make_open_append, make_open_read, make_open_read_append,

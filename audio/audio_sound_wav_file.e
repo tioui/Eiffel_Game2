@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 			-- Initialization of `Current' using `a_filename' to load data.
 		do
 			default_create
-			create file.make (a_filename)
+			create file.make_with_name (a_filename)
 		end
 
 	process_header
@@ -125,9 +125,12 @@ feature {AUDIO_SOURCE}
 
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 			-- <Precursor>
+		local
+			l_managed_pointer:MANAGED_POINTER
 		do
 			if file.readable then
-				file.read_to_pointer (a_buffer,0,a_max_length)
+				create l_managed_pointer.share_from_pointer (a_buffer, a_max_length)
+				file.read_to_managed_pointer (l_managed_pointer,0,a_max_length)
 				last_buffer_size:=file.bytes_read
 			else
 				last_buffer_size:=0
