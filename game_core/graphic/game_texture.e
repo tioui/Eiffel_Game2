@@ -268,7 +268,7 @@ feature -- Access
 											a_additionnal_color.blue)
 			manage_error_code(l_error, "Cannot set the texture additionnal alpha value")
 		ensure
-			Is_Set: additionnal_color ~ a_additionnal_color
+			Is_Set: additionnal_color.is_equal(a_additionnal_color)
 		end
 
 feature {NONE} -- Measurement
