@@ -1,5 +1,5 @@
 note
-	description: "An object that do all image rendering on a {GAME_WINDOW}"
+	description: "An object which does all the image rendering on a {GAME_WINDOW}"
 	author: "Louis Marchand"
 	date: "Thu, 02 Apr 2015 02:40:10 +0000"
 	revision: "2.0"
@@ -109,7 +109,7 @@ feature -- Access
 			-- command
 
 	set_target(a_target:GAME_RENDER_TARGET)
-			-- Assing what {GAME_RENDER_TARGET} to use when using the `present'
+			-- Assign what {GAME_RENDER_TARGET} to use when using the `present'
 			-- command
 		require
 			Renderer_exists: exists

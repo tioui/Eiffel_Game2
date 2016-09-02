@@ -5,7 +5,7 @@
 
 typedef struct CustomPackageFileInfos
     {
-	FILE *	filePtr;
+	void*	filePtr;
 	int64_t StartOffset;
         int64_t	TotalSize;
     } CustomPackageFileInfos;

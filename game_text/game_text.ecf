@@ -41,7 +41,7 @@
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>
 		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared.ecf"/>
 		<cluster name="game_text" location=".\" recursive="true">
 			<description>An addon for the Eiffel Game Library to print text on image surface.</description>
 			<file_rule>

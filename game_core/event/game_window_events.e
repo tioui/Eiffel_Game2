@@ -419,7 +419,7 @@ feature -- Access
 		end
 
 	text_editing_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; text:STRING_32;
-												start,lenght:INTEGER_32]]
+												start,length:INTEGER_32]]
 			-- When a text has been edited in `Current'.
 		do
 			if attached text_editing_actions_internal as la_text_editing_actions_internal then

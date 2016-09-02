@@ -9,24 +9,34 @@ class
 	GAME_FILE
 
 inherit
-	FILE
-	rename
-		make as make_obsolete,
-		index as position,
-		make_with_name as make
+	RAW_FILE
 	redefine
-		make
+		make_with_name, make_with_path
 	end
 
 create
-	make
+	make_with_name,
+	make_with_path,
+	make_open_read,
+	make_open_write,
+	make_open_append,
+	make_open_read_write,
+	make_create_read_write,
+	make_open_read_append
 
 feature {NONE} -- Implementation
 
-	make(a_name: READABLE_STRING_GENERAL)
+	make_with_name(a_name: READABLE_STRING_GENERAL)
 			-- <Precursor>
 		do
 			Precursor(a_name)
+			create internal_mutex.make
+		end
+
+	make_with_path (a_path: PATH)
+			-- <Precursor>
+		do
+			Precursor(a_path)
 			create internal_mutex.make
 		end
 
@@ -56,60 +66,28 @@ feature -- Access
 			Result:=count-position>7
 		end
 
-	read_natural_8
-			-- <Precursor>
-		do
-			read_to_managed_pointer (integer_buffer, 0, 1)
-			last_natural_8 := integer_buffer.read_natural_8 (0)
-		end
-
 	read_natural_16_big_endian
 			-- Read the next 16-bit natural in the file (Reading in Big-Endian order).
 			-- Make the result available in `last_natural_16'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_16
+			Can_Read: can_read_16
 		do
-			read_natural_8
-			l_temp:=last_natural_8.to_natural_16.bit_shift_left (8)
-			read_natural_8
-			last_natural_16:=last_natural_8.to_natural_16.bit_or (l_temp)
+			lock_mutex
+			internal_read_natural_16_big_endian
+			unlock_mutex
 		end
 
-	read_natural_16
-			-- Read the next 16 bits natural value (in Big-Endian) and make the
-			-- result available in `last_natural_16'
-		do
-			read_natural_16_big_endian
-		end
-
-	read_natural_32_big_endian
+	read_natural_32_big_endian, read_natural_big_endian
 			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
 			-- Make the result available in `last_natural_32'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_32
+			Can_Read: can_read_32
 		do
-			read_natural_16_big_endian
-			l_temp:=last_natural_16.to_natural_32.bit_shift_left (16)
-			read_natural_16_big_endian
-			last_natural:=last_natural_16.to_natural_32.bit_or (l_temp)
-		end
-
-	read_natural_32
-			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
-			-- Make the result available in `last_natural_32'.
-		do
-			read_natural_32_big_endian
-		end
-
-	read_natural
-			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
-			-- Make the result available in `last_natural_32'.
-		do
-			read_natural_32_big_endian
+			lock_mutex
+			internal_read_natural_32_big_endian
+			unlock_mutex
 		end
 
 	read_natural_64_big_endian
@@ -117,20 +95,11 @@ feature -- Access
 			-- Make the result available in `last_natural_64'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_64
+			Can_Read: can_read_64
 		do
-			read_natural_32_big_endian
-			l_temp:=last_natural_32.to_natural_64.bit_shift_left (16)
-			read_natural_32_big_endian
-			last_natural_64:=last_natural_32.to_natural_64.bit_or (l_temp)
-		end
-
-	read_natural_64
-			-- Read the next 64-bit natural in the file (Reading in Big-Endian order).
-			-- Make the result available in `last_natural_64'.
-		do
-			read_natural_64_big_endian
+			lock_mutex
+			internal_read_natural_64_big_endian
+			unlock_mutex
 		end
 
 	read_natural_16_little_endian
@@ -138,27 +107,23 @@ feature -- Access
 			-- Make the result available in `last_natural_16'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_16
+			Can_Read: can_read_16
 		do
-			read_natural_8
-			l_temp:=last_natural_8.to_natural_16
-			read_natural_8
-			last_natural_16:=l_temp.bit_or (last_natural_8.to_natural_16.bit_shift_left (8))
+			lock_mutex
+			internal_read_natural_16_little_endian
+			unlock_mutex
 		end
 
-	read_natural_32_little_endian
+	read_natural_32_little_endian, read_natural_little_endian
 			-- Read the next 32-bit natural in the file (Reading in Little-Endian order).
 			-- Make the result available in `last_natural_32'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_32
+			Can_Read: can_read_32
 		do
-			read_natural_16_little_endian
-			l_temp:=last_natural_16.to_natural_32
-			read_natural_16_little_endian
-			last_natural:=l_temp.bit_or (last_natural_16.to_natural_32.bit_shift_left (16))
+			lock_mutex
+			internal_read_natural_32_little_endian
+			unlock_mutex
 		end
 
 	read_natural_64_little_endian
@@ -166,143 +131,182 @@ feature -- Access
 			-- Make the result available in `last_natural_64'.
 		require
 			File_Readable:is_readable
-		local
-			l_temp:NATURAL_64
+			Can_Read: can_read_64
 		do
-			read_natural_32_little_endian
-			l_temp:=last_natural_32.to_natural_64
-			read_natural_32_little_endian
-			last_natural_64:=l_temp.bit_or (last_natural_32.to_natural_64.bit_shift_left (16))
+			lock_mutex
+			internal_read_natural_64_little_endian
+			unlock_mutex
 		end
 
-	readreal
+	read_real_big_endian, readreal_big_endian
 			-- Read a new real (Reading in Big-Endian order).
 			-- Make result available in last_real.
-		do
-			read_real
-		end
-
-	readdouble
-			-- Read a new double (Reading in Big-Endian order).
-			-- Make result available in last_double.
-		do
-			read_double
-		end
-
-	readint
-			-- Read a new integer (Reading in Big-Endian order).
-			-- Make result available in last_integer.
-		do
-			read_integer
-		end
-
-	support_storable: BOOLEAN
-			-- <Precursor>
-		do
-			Result:=false
-		end
-
-	read_real
-			-- Read a new real (Reading in Big-Endian order).
-			-- Make result available in last_real.
-		do
-			read_natural_32
-			last_real:={SHARED_EXTERNAL}.natural_32_to_real_32(last_natural_32)
-		end
-
-	read_double
-			-- Read a new double (Reading in Big-Endian order).
-			-- Make result available in last_double.
-		do
-			read_natural_64
-			last_double:={SHARED_EXTERNAL}.natural_64_to_real_64(last_natural_64)
-		end
-
-	read_integer
-			-- Read a new integer (Reading in Big-Endian order).
-			-- Make result available in last_integer.
-		do
-			read_integer_32
-		end
-
-	read_integer_8
-			-- Read a new 8-bit integer.
-			-- Make result available in last_integer_8.
-		do
-			read_natural_8
-			last_integer_8:=last_natural_8.as_integer_8
-		end
-
-	read_integer_16
-			-- Read a new 16-bit integer (Reading in Big-Endian order).
-			-- Make result available in last_integer_8.
-		do
-			read_natural_16
-			last_integer_16:=last_natural_16.as_integer_16
-		end
-
-	read_integer_32
-			-- Read a new 32-bit integer (Reading in Big-Endian order).
-			-- Make result available in last_integer_8.
-		do
-			read_natural_32
-			last_integer:=last_natural_32.as_integer_32
-		end
-
-	read_integer_64
-			-- Read a new 64-bit integer (Reading in Big-Endian order).
-			-- Make result available in last_integer_8.
-		do
-			read_natural_64
-			last_integer_64:=last_natural_64.as_integer_64
-		end
-
-	putint(a_int:INTEGER_32)
-			-- Write `a_int' at current position (Writing in Big-Endian order).
-		do
-			put_integer(a_int)
-		end
-
-	putbool(a_bool:BOOLEAN)
-			-- Write `a_bool' at current position.
-		do
-			put_boolean(a_bool)
-		end
-
-	putreal(a_real:REAL_32)
-			-- Write `a_real' at current position (Writing in Big-Endian order).
-		do
-			put_real(a_real)
-		end
-
-	putdouble(a_double:REAL_64)
-			-- Write `a_double' at current position (Writing in Big-Endian order).
-		do
-			put_double(a_double)
-		end
-
-	read_to_string (a_string: STRING_8; a_pos, a_nb: INTEGER_32): INTEGER_32
-			-- <Precursor>
-		do
-			Result := file_gss (file_pointer, a_string.area.item_address (a_pos - 1), a_nb)
-			a_string.set_internal_hash_code (0)
-		end
-
-	read_to_pointer (a_pointer: POINTER; a_start_pos, a_nb_bytes: INTEGER_32)
-			-- Read at most `a_nb_bytes' bound bytes and make result
-			-- available in `a_pointer' at position `a_start_pos'.
 		require
-			a_pointer_not_null: not a_pointer.is_default_pointer
-			nb_bytes_non_negative: a_nb_bytes >= 0
-			is_readable: readable
+			File_Readable:is_readable
+			Can_Read: can_read_32
+		local
+			l_old_natural:NATURAL_32
 		do
-			bytes_read := file_gss (file_pointer, a_pointer + a_start_pos, a_nb_bytes)
-
-		ensure
-			bytes_read_non_negative: bytes_read >= 0
-			bytes_read_not_too_big: bytes_read <= a_nb_bytes
+			lock_mutex
+			l_old_natural := last_natural
+			internal_read_natural_32_big_endian
+			last_real:={SHARED_EXTERNAL}.natural_32_to_real_32(last_natural_32)
+			last_natural := l_old_natural
+			unlock_mutex
 		end
 
+	read_double_big_endian, readdouble_big_endian
+			-- Read a new double (Reading in Big-Endian order).
+			-- Make result available in last_double.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_64
+		local
+			l_old_natural_64:NATURAL_64
+		do
+			lock_mutex
+			l_old_natural_64 := last_natural_64
+			internal_read_natural_64_big_endian
+			last_double:={SHARED_EXTERNAL}.natural_64_to_real_64(last_natural_64)
+			last_natural_64 := l_old_natural_64
+			unlock_mutex
+		end
+
+	read_real_little_endian, readreal_little_endian
+			-- Read a new real (Reading in Little-Endian order).
+			-- Make result available in last_real.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_32
+		local
+			l_old_natural:NATURAL_32
+		do
+			lock_mutex
+			l_old_natural := last_natural
+			internal_read_natural_32_little_endian
+			last_real:={SHARED_EXTERNAL}.natural_32_to_real_32(last_natural_32)
+			last_natural := l_old_natural
+			unlock_mutex
+		end
+
+	read_double_little_endian, readdouble_little_endian
+			-- Read a new double (Reading in Little-Endian order).
+			-- Make result available in last_double.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_64
+		local
+			l_old_natural_64:NATURAL_64
+		do
+			lock_mutex
+			l_old_natural_64 := last_natural_64
+			internal_read_natural_64_little_endian
+			last_double:={SHARED_EXTERNAL}.natural_64_to_real_64(last_natural_64)
+			last_natural_64 := l_old_natural_64
+			unlock_mutex
+		end
+
+	read_integer_16_big_endian
+			-- Read a new 16-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_16.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_16
+		local
+			l_old_natural_16:NATURAL_16
+		do
+			lock_mutex
+			l_old_natural_16 := last_natural_16
+			internal_read_natural_16_big_endian
+			last_integer_16:=last_natural_16.as_integer_16
+			last_natural_16 := l_old_natural_16
+			unlock_mutex
+		end
+
+	read_integer_32_big_endian, read_integer_big_endian
+			-- Read a new 32-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_32.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_32
+		local
+			l_old_natural:NATURAL_32
+		do
+			lock_mutex
+			l_old_natural := last_natural
+			internal_read_natural_32_big_endian
+			last_integer:=last_natural_32.as_integer_32
+			last_natural := l_old_natural
+			unlock_mutex
+		end
+
+	read_integer_64_big_endian
+			-- Read a new 64-bit integer (Reading in Big-Endian order).
+			-- Make result available in last_integer_64.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_64
+		local
+			l_old_natural_64:NATURAL_64
+		do
+			lock_mutex
+			l_old_natural_64 := last_natural_64
+			internal_read_natural_64_big_endian
+			last_integer_64:=last_natural_64.as_integer_64
+			last_natural_64 := l_old_natural_64
+			unlock_mutex
+		end
+
+	read_integer_16_little_endian
+			-- Read a new 16-bit integer (Reading in Little-Endian order).
+			-- Make result available in last_integer_16.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_16
+		local
+			l_old_natural_16:NATURAL_16
+		do
+			lock_mutex
+			l_old_natural_16 := last_natural_16
+			internal_read_natural_16_little_endian
+			last_integer_16:=last_natural_16.as_integer_16
+			last_natural_16 := l_old_natural_16
+			unlock_mutex
+		end
+
+	read_integer_32_little_endian, read_integer_little_endian
+			-- Read a new 32-bit integer (Reading in Little-Endian order).
+			-- Make result available in last_integer_32.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_32
+		local
+			l_old_natural:NATURAL_32
+		do
+			lock_mutex
+			l_old_natural := last_natural
+			internal_read_natural_32_little_endian
+			last_integer:=last_natural_32.as_integer_32
+			last_natural := l_old_natural
+			unlock_mutex
+		end
+
+	read_integer_64_little_endian
+			-- Read a new 64-bit integer (Reading in Little-Endian order).
+			-- Make result available in last_integer_64.
+		require
+			File_Readable:is_readable
+			Can_Read: can_read_64
+		local
+			l_old_natural_64:NATURAL_64
+		do
+			lock_mutex
+			l_old_natural_64 := last_natural_64
+			internal_read_natural_64_little_endian
+			last_integer_64:=last_natural_64.as_integer_64
+			last_natural_64 := l_old_natural_64
+			unlock_mutex
+		end
 
 	put_natural_16_big_endian(a_value:NATURAL_16)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
@@ -366,87 +370,64 @@ feature -- Access
 			unlock_mutex
 		end
 
-	put_natural_8 (a_value: NATURAL_8)
-			-- Write `a_value' at current position.
-		do
-			integer_buffer.put_natural_8 (a_value, 0)
-			put_managed_pointer (integer_buffer, 0, 1)
-		end
-
-	put_natural_16(a_value:NATURAL_16)
+	put_integer_16_big_endian(a_value:INTEGER_16)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_16_big_endian (a_value)
+			put_natural_16_big_endian (a_value.as_natural_16)
 		end
 
-	put_natural_32(a_value:NATURAL_32)
+	put_integer_32_big_endian, put_integer_big_endian, putint_big_endian(a_value:INTEGER_32)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32_big_endian (a_value)
+			put_natural_32_big_endian (a_value.as_natural_32)
 		end
 
-	put_natural(a_value:NATURAL_32)
+	put_integer_64_big_endian(a_value:INTEGER_64)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_32(a_value)
+			put_natural_64_big_endian (a_value.as_natural_64)
 		end
 
-	put_natural_64(a_value:NATURAL_64)
+	put_real_big_endian, putreal_big_endian(a_value:REAL_32)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_natural_64_big_endian (a_value)
+			put_natural_32_big_endian ({SHARED_EXTERNAL}.real_32_to_natural_32(a_value))
 		end
 
-	put_integer(a_value:INTEGER_32)
+	put_double_big_endian, putdouble_big_endian(a_value:REAL_64)
 			-- Write `a_value' at current position (Writing in Big-Endian order).
 		do
-			put_integer_32 (a_value)
+			put_natural_64_big_endian ({SHARED_EXTERNAL}.real_64_to_natural_64(a_value))
 		end
 
-	put_integer_8(a_value:INTEGER_8)
-			-- Write `a_value' at current position.
+	put_integer_16_little_endian(a_value:INTEGER_16)
+			-- Write `a_value' at current position (Writing in little-Endian order).
 		do
-			put_natural_8 (a_value.as_natural_8)
+			put_natural_16_little_endian (a_value.as_natural_16)
 		end
 
-	put_integer_16(a_value:INTEGER_16)
-			-- Write `a_value' at current position (Writing in Big-Endian order).
+	put_integer_32_little_endian, put_integer_little_endian, putint_little_endian(a_value:INTEGER_32)
+			-- Write `a_value' at current position (Writing in little-Endian order).
 		do
-			put_natural_16 (a_value.as_natural_16)
+			put_natural_32_little_endian (a_value.as_natural_32)
 		end
 
-	put_integer_32(a_value:INTEGER_32)
-			-- Write `a_value' at current position (Writing in Big-Endian order).
+	put_integer_64_little_endian(a_value:INTEGER_64)
+			-- Write `a_value' at current position (Writing in little-Endian order).
 		do
-			put_natural_32 (a_value.as_natural_32)
+			put_natural_64_little_endian (a_value.as_natural_64)
 		end
 
-	put_integer_64(a_value:INTEGER_64)
-			-- Write `a_value' at current position (Writing in Big-Endian order).
+	put_real_little_endian, putreal_little_endian(a_value:REAL_32)
+			-- Write `a_value' at current position (Writing in little-Endian order).
 		do
-			put_natural_64 (a_value.as_natural_64)
+			put_natural_32_little_endian ({SHARED_EXTERNAL}.real_32_to_natural_32(a_value))
 		end
 
-	put_boolean (a_value: BOOLEAN)
-			-- Write `a_value' at current position.
+	put_double_little_endian, putdouble_little_endian(a_value:REAL_64)
+			-- Write `a_value' at current position (Writing in Little-Endian order).
 		do
-			if a_value then
-				put_character ('%/1/')
-			else
-				put_character ('%U')
-			end
-		end
-
-	put_real(a_value:REAL_32)
-			-- Write `a_value' at current position (Writing in Big-Endian order).
-		do
-			put_natural_32 ({SHARED_EXTERNAL}.real_32_to_natural_32(a_value))
-		end
-
-	put_double(a_value:REAL_64)
-			-- Write `a_value' at current position (Writing in Big-Endian order).
-		do
-			put_natural_64 ({SHARED_EXTERNAL}.real_64_to_natural_64(a_value))
+			put_natural_64_little_endian ({SHARED_EXTERNAL}.real_64_to_natural_64(a_value))
 		end
 
 feature {GAME_RESSOURCE_MANAGER} -- Access
@@ -488,21 +469,107 @@ feature {GAME_RESSOURCE_MANAGER} -- Access
 
 feature {NONE} -- Implementation
 
-	integer_buffer: MANAGED_POINTER
-			-- Buffer used to read INTEGER_64, INTEGER_16, INTEGER_8
+	internal_read_natural_16_big_endian
+			-- Read the next 16-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_16'.
+		require
+			File_Readable:is_readable
 		local
-			l_pointer: detachable MANAGED_POINTER
+			l_temp:NATURAL_16
+			l_old_natural_8:NATURAL_8
 		do
-			l_pointer := internal_integer_buffer
-			if l_pointer = Void then
-				create l_pointer.make (16)
-				internal_integer_buffer := l_pointer
-			end
-			Result := l_pointer
+			l_old_natural_8 := last_natural_8
+			read_natural_8
+			l_temp:=last_natural_8.to_natural_16.bit_shift_left (8)
+			read_natural_8
+			last_natural_16:=last_natural_8.to_natural_16.bit_or (l_temp)
+			last_natural_8 := l_old_natural_8
 		end
 
-	internal_integer_buffer: detachable MANAGED_POINTER
-			-- Internal integer buffer
+	internal_read_natural_32_big_endian
+			-- Read the next 32-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_32'.
+		require
+			File_Readable:is_readable
+		local
+			l_temp:NATURAL_32
+			l_old_natural_16:NATURAL_16
+		do
+			l_old_natural_16 := last_natural_16
+			internal_read_natural_16_big_endian
+			l_temp:=last_natural_16.to_natural_32.bit_shift_left (16)
+			internal_read_natural_16_big_endian
+			last_natural:=last_natural_16.to_natural_32.bit_or (l_temp)
+			last_natural_16 := l_old_natural_16
+		end
+
+	internal_read_natural_64_big_endian
+			-- Read the next 64-bit natural in the file (Reading in Big-Endian order).
+			-- Make the result available in `last_natural_64'.
+		require
+			File_Readable:is_readable
+		local
+			l_temp:NATURAL_64
+			l_old_natural:NATURAL_32
+		do
+			l_old_natural := last_natural
+			internal_read_natural_32_big_endian
+			l_temp:=last_natural_32.to_natural_64.bit_shift_left (16)
+			internal_read_natural_32_big_endian
+			last_natural_64:=last_natural_32.to_natural_64.bit_or (l_temp)
+			last_natural := l_old_natural
+		end
+
+	internal_read_natural_16_little_endian
+			-- Read the next 16-bit natural in the file (Reading in Little-Endian order).
+			-- Make the result available in `last_natural_16'.
+		require
+			File_Readable:is_readable
+		local
+			l_temp:NATURAL_16
+			l_old_natural_8:NATURAL_8
+		do
+			l_old_natural_8 := last_natural_8
+			read_natural_8
+			l_temp:=last_natural_8.to_natural_16
+			read_natural_8
+			last_natural_16:=l_temp.bit_or (last_natural_8.to_natural_16.bit_shift_left (8))
+			last_natural_8 := l_old_natural_8
+		end
+
+	internal_read_natural_32_little_endian
+			-- Read the next 32-bit natural in the file (Reading in Little-Endian order).
+			-- Make the result available in `last_natural_32'.
+		require
+			File_Readable:is_readable
+		local
+			l_temp:NATURAL_32
+			l_old_natural_16:NATURAL_16
+		do
+			l_old_natural_16 := last_natural_16
+			internal_read_natural_16_little_endian
+			l_temp:=last_natural_16.to_natural_32
+			internal_read_natural_16_little_endian
+			last_natural:=l_temp.bit_or (last_natural_16.to_natural_32.bit_shift_left (16))
+			last_natural_16 := l_old_natural_16
+		end
+
+	internal_read_natural_64_little_endian
+			-- Read the next 64-bit natural in the file (Reading in Little-Endian order).
+			-- Make the result available in `last_natural_64'.
+		require
+			File_Readable:is_readable
+		local
+			l_temp:NATURAL_64
+			l_old_natural:NATURAL_32
+		do
+			l_old_natural := last_natural
+			internal_read_natural_32_little_endian
+			l_temp:=last_natural_32.to_natural_64
+			internal_read_natural_32_little_endian
+			last_natural_64:=l_temp.bit_or (last_natural_32.to_natural_64.bit_shift_left (16))
+			last_natural := l_old_natural
+		end
 
 	internal_put_natural_16_big_endian(a_value:NATURAL_16)
 			-- Write `a_value' at current position (Writing in Big-Endian order).

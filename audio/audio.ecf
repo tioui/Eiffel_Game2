@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="audio" uuid="B50BE2F6-EA2C-412C-AF06-4A7DB035D783" library_target="audio">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="audio_3d" uuid="B50BE2F6-EA2C-412C-AF06-4A7DB035D783" library_target="audio_3d">
 	<description>A 3d audio environment for The Eiffel Game Library.</description>
-	<target name="audio">
+	<target name="audio_3d">
 		<description>A 3d audio environment for The Eiffel Game Library.</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Audio" copyright="Louis Marchand"/>

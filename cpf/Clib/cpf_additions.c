@@ -19,7 +19,7 @@ int64_t cpfFileTell(void* UserData)
 {
 	CustomPackageFileInfos* cpfInfos = (CustomPackageFileInfos*)UserData;
 
-	return ftell(cpfInfos->filePtr)-cpfInfos->StartOffset;
+	return ftell((FILE *)(cpfInfos->filePtr))-cpfInfos->StartOffset;
 }
 
 
@@ -50,7 +50,7 @@ int64_t cpfFileSeek(int64_t Offset, int Whence, void* UserData)
 	else if (Position < 0)
 		Position = 0;
 
-	fseek(cpfInfos->filePtr,Position+cpfInfos->StartOffset,SEEK_SET);
+	fseek((FILE *)(cpfInfos->filePtr),Position+cpfInfos->StartOffset,SEEK_SET);
 
 	return Position;
 }
@@ -68,7 +68,7 @@ int64_t cpfFileRead(void* Ptr, int64_t Count, void* UserData)
 		Count = cpfInfos->TotalSize-currentOffset;
 	}
 
-	Count=fread(Ptr,1,Count,cpfInfos->filePtr);
+	Count=fread(Ptr,1,Count,(FILE *)(cpfInfos->filePtr));
 
 	return Count;
 }

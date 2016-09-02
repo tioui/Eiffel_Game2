@@ -1,5 +1,6 @@
-The intro.ogg and loop.flac files came from the Pingus game (see: http://pingus.seul.org/). The 
-pings game is under GPL license (see: GPL.license.txt).
+The intro.ogg and loop.flac files came from the Pingus game (see: http://pingus.seul.org/).
+
+The pingus game is under GPL license (see: GPL.license.txt).
 
 The sound.aif file came from then freesound.org web. The sound has been send to the web
 site by the user ianhall (see: http://www.freesound.org/people/ianhall/sounds/13244/). 
