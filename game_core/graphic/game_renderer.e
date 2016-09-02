@@ -359,7 +359,7 @@ feature -- Access
 		end
 
 
-	drawing_color:GAME_COLOR assign set_drawing_color
+	drawing_color:GAME_COLOR_READABLE assign set_drawing_color
 			-- All performed drawing on `Current' is done
 			-- using this color (including `clear')
 		require
@@ -378,7 +378,7 @@ feature -- Access
 			end
 		end
 
-	set_drawing_color(a_drawing_color:GAME_COLOR)
+	set_drawing_color(a_drawing_color:GAME_COLOR_READABLE)
 			-- Assign the value of the `drawing_color'
 		require
 			Renderer_exists: exists
