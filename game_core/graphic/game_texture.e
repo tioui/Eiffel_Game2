@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 			Is_Not_Shared: not shared
 		end
 
-	share_from_other(a_other:like Current)
+	share_from_other(a_other: GAME_TEXTURE)
 			-- Initialization of `Current' sharing the internal data of `Current'
 			-- Note that each modification of `Current' will affect `a_other' and
 			-- vice versa
