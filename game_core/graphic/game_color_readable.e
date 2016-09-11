@@ -117,7 +117,13 @@ feature -- Access
 	is_equal(a_color:like Current):BOOLEAN
 			-- <Precursor>
 		do
-			result:=a_color.red=red and a_color.green=green and a_color.blue=blue and a_color.alpha=alpha
+			result:=is_equal_ignore_alpha(a_color) and a_color.alpha=alpha
+		end
+
+	is_equal_ignore_alpha(a_color:like Current):BOOLEAN
+			-- Are `Current' and `a_other' identical, regardless of alpha?
+		do
+			result:=a_color.red=red and a_color.green=green and a_color.blue=blue
 		end
 
 	out:STRING_8
