@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 			Is_Not_Shared: not shared
 		end
 
-	share_from_other(a_other:like Current)
+	share_from_other(a_other: GAME_TEXTURE)
 			-- Initialization of `Current' sharing the internal data of `Current'
 			-- Note that each modification of `Current' will affect `a_other' and
 			-- vice versa
@@ -266,9 +266,9 @@ feature -- Access
 											a_additionnal_color.red,
 											a_additionnal_color.green,
 											a_additionnal_color.blue)
-			manage_error_code(l_error, "Cannot set the texture additionnal alpha value")
+			manage_error_code(l_error, "Cannot set the texture additionnal color value")
 		ensure
-			Is_Set: additionnal_color ~ a_additionnal_color
+			Is_Set: additionnal_color.is_equal_ignore_alpha(a_additionnal_color)
 		end
 
 feature {NONE} -- Measurement
