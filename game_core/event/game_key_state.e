@@ -128,7 +128,7 @@ feature -- Access
 			Result := modifier.bit_or ({GAME_SDL_EXTERNAL}.KMOD_GUI) /= 0
 		end
 
-feature {NONE} -- Implementation
+feature -- Implementation
 
 	repeat:NATURAL_8
 			-- Not 0 when the key event is an automatic repeted event
