@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="mp3_player" uuid="C4E7AD2A-8964-42FB-917C-D7765BF98B30">
+	<target name="mp3_player">
+		<root class="APPLICATION" feature="make"/>
+		<option warning="true">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+		</option>
+		<setting name="console_application" value="true"/>
+		<setting name="concurrency" value="none"/>
+		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
+		<library name="audio_3d" location="$ISE_LIBRARY\contrib\library\game2\audio\audio_3d-safe.ecf"/>
+		<library name="audio_mpg_file" location="$ISE_LIBRARY\contrib\library\game2\audio_mpg_file\audio_mpg_file-safe.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<cluster name="mp3_player" location=".\" recursive="true">
+			<file_rule>
+				<exclude>/.svn$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/EIFGENs$</exclude>
+			</file_rule>
+		</cluster>
+	</target>
+</system>

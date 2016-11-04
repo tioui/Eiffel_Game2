@@ -9,7 +9,7 @@ The library is compatible with Linux, MAC OS X, Windows. It should work with oth
 
 The Audio and Audio_Sound_File sub-libraries are under the LGPL license. Every other sub-libraries are under the zlib license. Every examples are under the GPL license.
 
-The project use those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL and Libsndfile.
+The project use those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile and libmpg123.
 
 [<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%40tioui%2ecom&lc=CA&item_name=Louis%20Marchand&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
@@ -22,11 +22,11 @@ Installation on Linux (Ubuntu)
 * Rename the library folder (containing this README.md) to "game2".
 * You need to add the game2 folder library in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "/usr/lib/EiffelStudio_XX.XX" or in "/usr/local/Eiffel_XX.XX".
 
-* You need to install the C libraries SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, libsndfile, OpenGL, GLU, libepoxy and all their development tools kit and dependancies:  
+* You need to install the C libraries SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, libsndfile, libmpg123, OpenGL, GLU, libepoxy and all their development tools kit and dependancies:  
 
 ***
 
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
 
 ***
 
@@ -38,7 +38,7 @@ Note: If you have an error in the apt-get command telling libsdl2-dev depending 
 ***
 
 	sudo apt-get install libgles2-mesa-dev
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
 
 ***
 
