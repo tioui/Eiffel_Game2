@@ -7,7 +7,7 @@ note
 	legal: "See notice at end of class."
 
 class
-	SOUND_GENERATOR
+	AUDIO_SOUND_GENERATOR
 
 inherit
 	DOUBLE_MATH

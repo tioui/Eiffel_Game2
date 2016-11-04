@@ -7,7 +7,7 @@ note
 	legal: "See notice at end of class."
 
 class
-	SOUND
+	AUDIO_SOUND_CUSTOM
 
 inherit
 	AUDIO_SOUND
