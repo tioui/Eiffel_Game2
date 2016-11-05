@@ -1769,7 +1769,19 @@ feature -- Function SDL.h
 			"SDL_SaveBMP"
 		end
 
+	frozen SDL_GetBasePath:POINTER
+		external
+			"C : char * | <SDL.h>"
+		alias
+			"SDL_GetBasePath"
+		end
 
+	frozen SDL_GetPrefPath(org, app:POINTER):POINTER
+		external
+			"C (const char*, const char*) : char * | <SDL.h>"
+		alias
+			"SDL_GetPrefPath"
+		end
 
 feature -- Manual C function (implemented in sdl_additions.c)
 

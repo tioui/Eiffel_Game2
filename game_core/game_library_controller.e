@@ -870,6 +870,56 @@ feature -- Other methods
 			end
 		end
 
+	base_path:PATH
+			-- The {PATH} of the executable. This {PATH} is not safe for writing file.
+		local
+			l_converter:UTF_CONVERTER
+			l_path_c:C_STRING
+			l_pointer:POINTER
+		do
+			create l_converter
+			l_pointer := {GAME_SDL_EXTERNAL}.SDL_GetBasePath
+			create l_path_c.make_shared_from_pointer (l_pointer)
+			create Result.make_from_string (l_converter.utf_8_string_8_to_escaped_string_32 (l_path_c.string))
+			{GAME_SDL_EXTERNAL}.SDL_free(l_pointer)
+		end
+
+	get_preference_path(a_organisation, a_application_name:READABLE_STRING_GENERAL)
+			-- Retreive the `preference_path'. Create the directory if it does not already exist.
+		local
+			l_converter:UTF_CONVERTER
+			l_path_c, l_organisation_c, l_application_name_c:C_STRING
+			l_pointer:POINTER
+		do
+			create l_converter
+			create l_organisation_c.make (l_converter.utf_32_string_to_utf_8_string_8 (a_organisation.to_string_32))
+			create l_application_name_c.make (l_converter.utf_32_string_to_utf_8_string_8 (a_application_name.to_string_32))
+			l_pointer := {GAME_SDL_EXTERNAL}.SDL_GetPrefPath(l_organisation_c.item, l_application_name_c.item)
+			create l_path_c.make_shared_from_pointer (l_pointer)
+			create internal_preference_path.make_from_string (l_converter.utf_8_string_8_to_escaped_string_32 (l_path_c.string))
+			{GAME_SDL_EXTERNAL}.SDL_free(l_pointer)
+		end
+
+	preference_path:PATH
+			-- The {PATH} to save preference files. Is retreived (or created) by `get_preference_path'
+			-- The directory pointed by this {PATH} should be writable
+			-- Do not use the `base_path' to write files
+		require
+			Path_Retreived: is_preference_path_retreived
+		do
+			if attached internal_preference_path as la_path then
+				Result := la_path
+			else
+				create Result.make_empty
+			end
+		end
+
+	is_preference_path_retreived:BOOLEAN
+			-- Is `preference_path' has been correctly retreived by `get_preference_path'
+		do
+			Result := attached internal_preference_path
+		end
+
 
 feature {GAME_SDL_ANY}
 
@@ -918,6 +968,9 @@ feature {NONE} -- Implementation - Variables
 
 	internal_mouse_haptic: detachable GAME_HAPTIC_MOUSE
 			-- The haptic mouse
+
+	internal_preference_path:detachable PATH
+			-- internal storage for the `preference_path' attribute
 
 	instance_count:CELL[INTEGER]
 			-- The number of time the `Current's class has been created
