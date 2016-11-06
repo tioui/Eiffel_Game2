@@ -1,3 +1,8 @@
+v2.6
+2016-11-05
+ * Adding MP3 support
+ * Adding Base directory and Preference directory in {GAME_LIBRARY_CONTROLLER}
+
 v2.5
 2016-06-01
  * Compatibility with EiffelStudio 16.05

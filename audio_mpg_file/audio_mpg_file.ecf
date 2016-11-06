@@ -18,11 +18,6 @@
 				<platform value="macintosh"/>
 			</condition>
 		</external_include>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\mpg123\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\libsndfile-1.lib">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
 		<external_linker_flag value="-L/opt/local/lib -lmpg123">
 			<condition>
 				<platform value="macintosh"/>
@@ -33,6 +28,11 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\MPG123\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\libmpg123-0.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
 		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="game_shared" location="..\game_shared\game_shared.ecf"/>
