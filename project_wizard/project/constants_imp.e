@@ -68,101 +68,6 @@ feature -- Access
 		do
 			initialized_cell.put (False)
 			initialize_constants
-			edit_project_window_title_cell.put(string_constant_by_name ("edit_project_window_title"))
-			file_menu_text_cell.put(string_constant_by_name ("file_menu_text"))
-			file_new_menu_item_text_cell.put(string_constant_by_name ("file_new_menu_item_text"))
-			file_open_menu_item_text_cell.put(string_constant_by_name ("file_open_menu_item_text"))
-			file_recent_menu_text_cell.put(string_constant_by_name ("file_recent_menu_text"))
-			file_save_menu_item_text_cell.put(string_constant_by_name ("file_save_menu_item_text"))
-			file_quit_menu_item_text_cell.put(string_constant_by_name ("file_quit_menu_item_text"))
-			project_menu_text_cell.put(string_constant_by_name ("project_menu_text"))
-			project_change_folder_menu_item_text_cell.put(string_constant_by_name ("project_change_folder_menu_item_text"))
-			project_generate_menu_item_text_cell.put(string_constant_by_name ("project_generate_menu_item_text"))
-			help_menu_text_cell.put(string_constant_by_name ("help_menu_text"))
-			help_about_menu_item_text_cell.put(string_constant_by_name ("help_about_menu_item_text"))
-			new_tool_bar_button_tooltip_cell.put(string_constant_by_name ("new_tool_bar_button_tooltip"))
-			open_tool_bar_button_tooltip_cell.put(string_constant_by_name ("open_tool_bar_button_tooltip"))
-			save_tool_bar_button_tooltip_cell.put(string_constant_by_name ("save_tool_bar_button_tooltip"))
-			change_project_folder_tool_bar_button_tooltip_cell.put(string_constant_by_name ("change_project_folder_tool_bar_button_tooltip"))
-			generate_code_tool_bar_button_tooltip_cell.put(string_constant_by_name ("generate_code_tool_bar_button_tooltip"))
-			regenerate_config_file_check_button_tooltip_cell.put(string_constant_by_name ("regenerate_config_file_check_button_tooltip"))
-			regenerate_config_file_check_button_text_cell.put(string_constant_by_name ("regenerate_config_file_check_button_text"))
-			generate_code_button_text_cell.put(string_constant_by_name ("generate_code_button_text"))
-			window_border_cell.put(integer_constant_by_name ("window_border"))
-			project_path_label_text_cell.put(string_constant_by_name ("project_path_label_text"))
-			project_path_tooltip_cell.put(string_constant_by_name ("project_path_tooltip"))
-			padding_width_cell.put(integer_constant_by_name ("padding_width"))
-			padding_height_cell.put(integer_constant_by_name ("padding_height"))
-			target_name_tooltip_cell.put(string_constant_by_name ("target_name_tooltip"))
-			target_name_label_text_cell.put(string_constant_by_name ("target_name_label_text"))
-			cluster_name_label_text_cell.put(string_constant_by_name ("cluster_name_label_text"))
-			cluster_name_tooltip_cell.put(string_constant_by_name ("cluster_name_tooltip"))
-			root_class_label_text_cell.put(string_constant_by_name ("root_class_label_text"))
-			root_class_tooltip_cell.put(string_constant_by_name ("root_class_tooltip"))
-			libraries_frame_text_cell.put(string_constant_by_name ("libraries_frame_text"))
-			project_name_label_text_cell.put(string_constant_by_name ("project_name_label_text"))
-			project_name_tooltip_cell.put(string_constant_by_name ("project_name_tooltip"))
-			core_library_check_button_text_cell.put(string_constant_by_name ("core_library_check_button_text"))
-			core_library_check_button_tooltip_cell.put(string_constant_by_name ("core_library_check_button_tooltip"))
-			effects_library_check_button_tooltip_cell.put(string_constant_by_name ("effects_library_check_button_tooltip"))
-			effects_library_check_button_text_cell.put(string_constant_by_name ("effects_library_check_button_text"))
-			image_file_library_check_button_text_cell.put(string_constant_by_name ("image_file_library_check_button_text"))
-			image_file_library_check_button_tooltip_cell.put(string_constant_by_name ("image_file_library_check_button_tooltip"))
-			text_library_check_button_text_cell.put(string_constant_by_name ("text_library_check_button_text"))
-			text_library_check_button_tooltip_cell.put(string_constant_by_name ("text_library_check_button_tooltip"))
-			audio_library_check_button_text_cell.put(string_constant_by_name ("audio_library_check_button_text"))
-			audio_library_check_button_tooltip_cell.put(string_constant_by_name ("audio_library_check_button_tooltip"))
-			sound_file_library_check_button_text_cell.put(string_constant_by_name ("sound_file_library_check_button_text"))
-			sound_file_library_check_button_tooltip_cell.put(string_constant_by_name ("sound_file_library_check_button_tooltip"))
-			mpg_file_library_check_button_text_cell.put(string_constant_by_name ("mpg_file_library_check_button_text"))
-			mpg_file_library_check_button_tooltip_cell.put(string_constant_by_name ("mpg_file_library_check_button_tooltip"))
-			cpf_library_check_button_text_cell.put(string_constant_by_name ("cpf_library_check_button_text"))
-			cpf_library_check_button_tooltip_cell.put(string_constant_by_name ("cpf_library_check_button_tooltip"))
-			shared_library_check_button_text_cell.put(string_constant_by_name ("shared_library_check_button_text"))
-			shared_library_check_button_tooltip_cell.put(string_constant_by_name ("shared_library_check_button_tooltip"))
-			opengl_library_check_button_text_cell.put(string_constant_by_name ("opengl_library_check_button_text"))
-			opengl_library_check_button_tooltip_cell.put(string_constant_by_name ("opengl_library_check_button_tooltip"))
-			file_save_as_menu_item_text_cell.put(string_constant_by_name ("file_save_as_menu_item_text"))
-			save_dialog_title_cell.put(string_constant_by_name ("save_dialog_title"))
-			project_path_text_field_default_text_cell.put(string_constant_by_name ("project_path_text_field_default_text"))
-			project_name_text_field_default_text_cell.put(string_constant_by_name ("project_name_text_field_default_text"))
-			root_class_text_field_default_text_cell.put(string_constant_by_name ("root_class_text_field_default_text"))
-			core_library_check_button_default_selected_cell.put(integer_constant_by_name ("core_library_check_button_default_selected"))
-			image_file_library_check_button_default_selected_cell.put(integer_constant_by_name ("image_file_library_check_button_default_selected"))
-			text_library_check_button_default_selected_cell.put(integer_constant_by_name ("text_library_check_button_default_selected"))
-			effects_library_check_button_default_selected_cell.put(integer_constant_by_name ("effects_library_check_button_default_selected"))
-			audio_library_check_button_default_selected_cell.put(integer_constant_by_name ("audio_library_check_button_default_selected"))
-			sound_file_library_check_button_default_selected_cell.put(integer_constant_by_name ("sound_file_library_check_button_default_selected"))
-			mpg_file_library_check_button_default_selected_cell.put(integer_constant_by_name ("mpg_file_library_check_button_default_selected"))
-			opengl_library_check_button_default_selected_cell.put(integer_constant_by_name ("opengl_library_check_button_default_selected"))
-			new_project_confirmation_text_cell.put(string_constant_by_name ("new_project_confirmation_text"))
-			regenerate_config_file_check_button_default_selected_cell.put(integer_constant_by_name ("regenerate_config_file_check_button_default_selected"))
-			open_project_confirmation_text_cell.put(string_constant_by_name ("open_project_confirmation_text"))
-			quit_confirmation_text_cell.put(string_constant_by_name ("quit_confirmation_text"))
-			open_dialog_title_cell.put(string_constant_by_name ("open_dialog_title"))
-			project_path_browse_dialog_cell.put(string_constant_by_name ("project_path_browse_dialog"))
-			field_not_valid_cell.put(string_constant_by_name ("field_not_valid"))
-			root_class_same_as_game2_cell.put(string_constant_by_name ("root_class_same_as_game2"))
-			root_feature_label_text_cell.put(string_constant_by_name ("root_feature_label_text"))
-			root_feature_label_tooltip_cell.put(string_constant_by_name ("root_feature_label_tooltip"))
-			root_feature_text_field_default_text_cell.put(string_constant_by_name ("root_feature_text_field_default_text"))
-			multi_thread_check_button_text_cell.put(string_constant_by_name ("multi_thread_check_button_text"))
-			multi_thread_check_button_tooltip_cell.put(string_constant_by_name ("multi_thread_check_button_tooltip"))
-			game2_root_class_cell.put(string_constant_by_name ("game2_root_class"))
-			game2_root_feature_cell.put(string_constant_by_name ("game2_root_feature"))
-			code_indicator_cell.put(string_constant_by_name ("code_indicator"))
-			feature_section_cell.put(string_constant_by_name ("feature_section"))
-			root_class_feature_documentation_cell.put(string_constant_by_name ("root_class_feature_documentation"))
-			game2_root_class_feature_documentation_cell.put(string_constant_by_name ("game2_root_class_feature_documentation"))
-			root_class_game_documentation_cell.put(string_constant_by_name ("root_class_game_documentation"))
-			game2_root_class_game_documentation_cell.put(string_constant_by_name ("game2_root_class_game_documentation"))
-			game2_root_class_no_modification_cell.put(string_constant_by_name ("game2_root_class_no_modification"))
-			generate_confirmation_cell.put(string_constant_by_name ("generate_confirmation"))
-			generate_confirmation_with_override_cell.put(string_constant_by_name ("generate_confirmation_with_override"))
-			void_safe_check_button_text_cell.put(string_constant_by_name ("void_safe_check_button_text"))
-			void_safe_check_button_tooltip_cell.put(string_constant_by_name ("void_safe_check_button_tooltip"))
-			void_safe_check_button_default_selected_cell.put(integer_constant_by_name ("void_safe_check_button_default_selected"))
-			multi_thread_check_button_default_selected_cell.put(integer_constant_by_name ("multi_thread_check_button_default_selected"))
 		end
 
 	edit_project_window_title: STRING_32
@@ -174,7 +79,7 @@ feature -- Access
 	edit_project_window_title_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `edit_project_window_title'.
 		once
-			create Result.put (string_constant_by_name ("edit_project_window_title"))
+			create Result.put ("Eiffel Game2 Wizard")
 		end
 
 	file_menu_text: STRING_32
@@ -186,7 +91,7 @@ feature -- Access
 	file_menu_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_menu_text'.
 		once
-			create Result.put (string_constant_by_name ("file_menu_text"))
+			create Result.put ("&File")
 		end
 
 	file_new_menu_item_text: STRING_32
@@ -198,7 +103,7 @@ feature -- Access
 	file_new_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_new_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("file_new_menu_item_text"))
+			create Result.put ("&New Project")
 		end
 
 	file_open_menu_item_text: STRING_32
@@ -210,7 +115,7 @@ feature -- Access
 	file_open_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_open_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("file_open_menu_item_text"))
+			create Result.put ("&Open Project")
 		end
 
 	file_recent_menu_text: STRING_32
@@ -222,7 +127,7 @@ feature -- Access
 	file_recent_menu_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_recent_menu_text'.
 		once
-			create Result.put (string_constant_by_name ("file_recent_menu_text"))
+			create Result.put ("&Recent")
 		end
 
 	file_save_menu_item_text: STRING_32
@@ -234,7 +139,7 @@ feature -- Access
 	file_save_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_save_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("file_save_menu_item_text"))
+			create Result.put ("&Save Project")
 		end
 
 	file_quit_menu_item_text: STRING_32
@@ -246,7 +151,7 @@ feature -- Access
 	file_quit_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_quit_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("file_quit_menu_item_text"))
+			create Result.put ("&Quit")
 		end
 
 	project_menu_text: STRING_32
@@ -258,7 +163,7 @@ feature -- Access
 	project_menu_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_menu_text'.
 		once
-			create Result.put (string_constant_by_name ("project_menu_text"))
+			create Result.put ("&Project")
 		end
 
 	project_change_folder_menu_item_text: STRING_32
@@ -270,7 +175,7 @@ feature -- Access
 	project_change_folder_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_change_folder_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("project_change_folder_menu_item_text"))
+			create Result.put ("&Change Project Folder")
 		end
 
 	project_generate_menu_item_text: STRING_32
@@ -282,7 +187,7 @@ feature -- Access
 	project_generate_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_generate_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("project_generate_menu_item_text"))
+			create Result.put ("&Generate code")
 		end
 
 	help_menu_text: STRING_32
@@ -294,7 +199,7 @@ feature -- Access
 	help_menu_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `help_menu_text'.
 		once
-			create Result.put (string_constant_by_name ("help_menu_text"))
+			create Result.put ("&Help")
 		end
 
 	help_about_menu_item_text: STRING_32
@@ -306,7 +211,7 @@ feature -- Access
 	help_about_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `help_about_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("help_about_menu_item_text"))
+			create Result.put ("Abou&t")
 		end
 
 	new_tool_bar_button_tooltip: STRING_32
@@ -318,7 +223,7 @@ feature -- Access
 	new_tool_bar_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `new_tool_bar_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("new_tool_bar_button_tooltip"))
+			create Result.put ("New project")
 		end
 
 	open_tool_bar_button_tooltip: STRING_32
@@ -330,7 +235,7 @@ feature -- Access
 	open_tool_bar_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `open_tool_bar_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("open_tool_bar_button_tooltip"))
+			create Result.put ("Open project")
 		end
 
 	save_tool_bar_button_tooltip: STRING_32
@@ -342,7 +247,7 @@ feature -- Access
 	save_tool_bar_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `save_tool_bar_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("save_tool_bar_button_tooltip"))
+			create Result.put ("Save project")
 		end
 
 	change_project_folder_tool_bar_button_tooltip: STRING_32
@@ -354,7 +259,7 @@ feature -- Access
 	change_project_folder_tool_bar_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `change_project_folder_tool_bar_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("change_project_folder_tool_bar_button_tooltip"))
+			create Result.put ("Change project folder")
 		end
 
 	generate_code_tool_bar_button_tooltip: STRING_32
@@ -366,7 +271,7 @@ feature -- Access
 	generate_code_tool_bar_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `generate_code_tool_bar_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("generate_code_tool_bar_button_tooltip"))
+			create Result.put ("Generate code")
 		end
 
 	regenerate_config_file_check_button_tooltip: STRING_32
@@ -378,7 +283,7 @@ feature -- Access
 	regenerate_config_file_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `regenerate_config_file_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("regenerate_config_file_check_button_tooltip"))
+			create Result.put ("The config file (.ecf) if the EiffelStudio configuration file. To add or remove libraries, it have to be overrite.")
 		end
 
 	regenerate_config_file_check_button_text: STRING_32
@@ -390,7 +295,7 @@ feature -- Access
 	regenerate_config_file_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `regenerate_config_file_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("regenerate_config_file_check_button_text"))
+			create Result.put ("Regenerate config file")
 		end
 
 	generate_code_button_text: STRING_32
@@ -402,7 +307,7 @@ feature -- Access
 	generate_code_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `generate_code_button_text'.
 		once
-			create Result.put (string_constant_by_name ("generate_code_button_text"))
+			create Result.put ("Generate Code")
 		end
 
 	window_border: INTEGER
@@ -414,7 +319,7 @@ feature -- Access
 	window_border_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `window_border'.
 		once
-			create Result.put (integer_constant_by_name ("window_border"))
+			create Result.put (20)
 		end
 
 	project_path_label_text: STRING_32
@@ -426,7 +331,7 @@ feature -- Access
 	project_path_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_path_label_text'.
 		once
-			create Result.put (string_constant_by_name ("project_path_label_text"))
+			create Result.put ("Project path")
 		end
 
 	project_path_tooltip: STRING_32
@@ -438,7 +343,7 @@ feature -- Access
 	project_path_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_path_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("project_path_tooltip"))
+			create Result.put ("The path that the code will be generated. Can be relative to the project save file.")
 		end
 
 	padding_width: INTEGER
@@ -450,7 +355,7 @@ feature -- Access
 	padding_width_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `padding_width'.
 		once
-			create Result.put (integer_constant_by_name ("padding_width"))
+			create Result.put (5)
 		end
 
 	padding_height: INTEGER
@@ -462,7 +367,7 @@ feature -- Access
 	padding_height_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `padding_height'.
 		once
-			create Result.put (integer_constant_by_name ("padding_height"))
+			create Result.put (5)
 		end
 
 	target_name_tooltip: STRING_32
@@ -474,7 +379,7 @@ feature -- Access
 	target_name_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `target_name_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("target_name_tooltip"))
+			create Result.put ("The name of the project target")
 		end
 
 	target_name_label_text: STRING_32
@@ -486,7 +391,7 @@ feature -- Access
 	target_name_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `target_name_label_text'.
 		once
-			create Result.put (string_constant_by_name ("target_name_label_text"))
+			create Result.put ("Target name")
 		end
 
 	cluster_name_label_text: STRING_32
@@ -498,7 +403,7 @@ feature -- Access
 	cluster_name_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `cluster_name_label_text'.
 		once
-			create Result.put (string_constant_by_name ("cluster_name_label_text"))
+			create Result.put ("Cluster name")
 		end
 
 	cluster_name_tooltip: STRING_32
@@ -510,7 +415,7 @@ feature -- Access
 	cluster_name_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `cluster_name_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("cluster_name_tooltip"))
+			create Result.put ("The name of the main cluster")
 		end
 
 	root_class_label_text: STRING_32
@@ -522,7 +427,7 @@ feature -- Access
 	root_class_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_label_text'.
 		once
-			create Result.put (string_constant_by_name ("root_class_label_text"))
+			create Result.put ("Root class")
 		end
 
 	root_class_tooltip: STRING_32
@@ -534,7 +439,7 @@ feature -- Access
 	root_class_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("root_class_tooltip"))
+			create Result.put ("The name of the Root class of your project. Note that it will net be the true root class, but the class that you mes consider as root. The true root class will be auto-generated each time the %"generate code%" button will be use.")
 		end
 
 	libraries_frame_text: STRING_32
@@ -546,7 +451,7 @@ feature -- Access
 	libraries_frame_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `libraries_frame_text'.
 		once
-			create Result.put (string_constant_by_name ("libraries_frame_text"))
+			create Result.put ("Libraries")
 		end
 
 	project_name_label_text: STRING_32
@@ -558,7 +463,7 @@ feature -- Access
 	project_name_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_name_label_text'.
 		once
-			create Result.put (string_constant_by_name ("project_name_label_text"))
+			create Result.put ("Project name")
 		end
 
 	project_name_tooltip: STRING_32
@@ -570,7 +475,7 @@ feature -- Access
 	project_name_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_name_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("project_name_tooltip"))
+			create Result.put ("The name of the project (will be use to name the config file)")
 		end
 
 	core_library_check_button_text: STRING_32
@@ -582,7 +487,7 @@ feature -- Access
 	core_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `core_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("core_library_check_button_text"))
+			create Result.put ("Core")
 		end
 
 	core_library_check_button_tooltip: STRING_32
@@ -594,7 +499,7 @@ feature -- Access
 	core_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `core_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("core_library_check_button_tooltip"))
+			create Result.put ("This librarie is used to manage the visual and the event system.")
 		end
 
 	effects_library_check_button_tooltip: STRING_32
@@ -606,7 +511,7 @@ feature -- Access
 	effects_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `effects_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("effects_library_check_button_tooltip"))
+			create Result.put ("This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).")
 		end
 
 	effects_library_check_button_text: STRING_32
@@ -618,7 +523,7 @@ feature -- Access
 	effects_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `effects_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("effects_library_check_button_text"))
+			create Result.put ("Effects librarie")
 		end
 
 	image_file_library_check_button_text: STRING_32
@@ -630,7 +535,7 @@ feature -- Access
 	image_file_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `image_file_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("image_file_library_check_button_text"))
+			create Result.put ("Image file librarie")
 		end
 
 	image_file_library_check_button_tooltip: STRING_32
@@ -642,7 +547,7 @@ feature -- Access
 	image_file_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `image_file_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("image_file_library_check_button_tooltip"))
+			create Result.put ("The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.")
 		end
 
 	text_library_check_button_text: STRING_32
@@ -654,7 +559,7 @@ feature -- Access
 	text_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `text_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("text_library_check_button_text"))
+			create Result.put ("Text librarie")
 		end
 
 	text_library_check_button_tooltip: STRING_32
@@ -666,7 +571,7 @@ feature -- Access
 	text_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `text_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("text_library_check_button_tooltip"))
+			create Result.put ("This librarie is use to load true type font file (.ttf) and generate images from texts.")
 		end
 
 	audio_library_check_button_text: STRING_32
@@ -678,7 +583,7 @@ feature -- Access
 	audio_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `audio_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("audio_library_check_button_text"))
+			create Result.put ("Audio")
 		end
 
 	audio_library_check_button_tooltip: STRING_32
@@ -690,7 +595,7 @@ feature -- Access
 	audio_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `audio_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("audio_library_check_button_tooltip"))
+			create Result.put ("This librarie manage the audio mixing functionnality.")
 		end
 
 	sound_file_library_check_button_text: STRING_32
@@ -702,7 +607,7 @@ feature -- Access
 	sound_file_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `sound_file_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("sound_file_library_check_button_text"))
+			create Result.put ("Sound File")
 		end
 
 	sound_file_library_check_button_tooltip: STRING_32
@@ -714,7 +619,7 @@ feature -- Access
 	sound_file_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `sound_file_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("sound_file_library_check_button_tooltip"))
+			create Result.put ("This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.")
 		end
 
 	mpg_file_library_check_button_text: STRING_32
@@ -726,7 +631,7 @@ feature -- Access
 	mpg_file_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `mpg_file_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("mpg_file_library_check_button_text"))
+			create Result.put ("MPG file")
 		end
 
 	mpg_file_library_check_button_tooltip: STRING_32
@@ -738,7 +643,7 @@ feature -- Access
 	mpg_file_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `mpg_file_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("mpg_file_library_check_button_tooltip"))
+			create Result.put ("With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).")
 		end
 
 	cpf_library_check_button_text: STRING_32
@@ -750,7 +655,7 @@ feature -- Access
 	cpf_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `cpf_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("cpf_library_check_button_text"))
+			create Result.put ("Custom package file")
 		end
 
 	cpf_library_check_button_tooltip: STRING_32
@@ -762,7 +667,7 @@ feature -- Access
 	cpf_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `cpf_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("cpf_library_check_button_tooltip"))
+			create Result.put ("This library is use to encapsulate multiple ressources (images, audio, etc.) in a single file.")
 		end
 
 	shared_library_check_button_text: STRING_32
@@ -774,7 +679,7 @@ feature -- Access
 	shared_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `shared_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("shared_library_check_button_text"))
+			create Result.put ("Shared library")
 		end
 
 	shared_library_check_button_tooltip: STRING_32
@@ -786,7 +691,7 @@ feature -- Access
 	shared_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `shared_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("shared_library_check_button_tooltip"))
+			create Result.put ("This library contain some classes used in multiple of other Eiffel Game2 libraries.")
 		end
 
 	opengl_library_check_button_text: STRING_32
@@ -798,7 +703,7 @@ feature -- Access
 	opengl_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `opengl_library_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("opengl_library_check_button_text"))
+			create Result.put ("OpenGL low level wrapper (experimental)")
 		end
 
 	opengl_library_check_button_tooltip: STRING_32
@@ -810,7 +715,7 @@ feature -- Access
 	opengl_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `opengl_library_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("opengl_library_check_button_tooltip"))
+			create Result.put ("Create hardware accelerated 3D scene.")
 		end
 
 	file_save_as_menu_item_text: STRING_32
@@ -822,7 +727,7 @@ feature -- Access
 	file_save_as_menu_item_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `file_save_as_menu_item_text'.
 		once
-			create Result.put (string_constant_by_name ("file_save_as_menu_item_text"))
+			create Result.put ("Save Project &As...")
 		end
 
 	save_dialog_title: STRING_32
@@ -834,7 +739,7 @@ feature -- Access
 	save_dialog_title_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `save_dialog_title'.
 		once
-			create Result.put (string_constant_by_name ("save_dialog_title"))
+			create Result.put ("Save as...")
 		end
 
 	project_path_text_field_default_text: STRING_32
@@ -846,7 +751,7 @@ feature -- Access
 	project_path_text_field_default_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_path_text_field_default_text'.
 		once
-			create Result.put (string_constant_by_name ("project_path_text_field_default_text"))
+			create Result.put (".")
 		end
 
 	project_name_text_field_default_text: STRING_32
@@ -858,7 +763,7 @@ feature -- Access
 	project_name_text_field_default_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_name_text_field_default_text'.
 		once
-			create Result.put (string_constant_by_name ("project_name_text_field_default_text"))
+			create Result.put ("game")
 		end
 
 	root_class_text_field_default_text: STRING_32
@@ -870,7 +775,7 @@ feature -- Access
 	root_class_text_field_default_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_text_field_default_text'.
 		once
-			create Result.put (string_constant_by_name ("root_class_text_field_default_text"))
+			create Result.put ("APPLICATION")
 		end
 
 	core_library_check_button_default_selected: INTEGER
@@ -882,7 +787,7 @@ feature -- Access
 	core_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `core_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("core_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	image_file_library_check_button_default_selected: INTEGER
@@ -894,7 +799,7 @@ feature -- Access
 	image_file_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `image_file_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("image_file_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	text_library_check_button_default_selected: INTEGER
@@ -906,7 +811,7 @@ feature -- Access
 	text_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `text_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("text_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	effects_library_check_button_default_selected: INTEGER
@@ -918,7 +823,7 @@ feature -- Access
 	effects_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `effects_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("effects_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	audio_library_check_button_default_selected: INTEGER
@@ -930,7 +835,7 @@ feature -- Access
 	audio_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `audio_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("audio_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	sound_file_library_check_button_default_selected: INTEGER
@@ -942,7 +847,7 @@ feature -- Access
 	sound_file_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `sound_file_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("sound_file_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	mpg_file_library_check_button_default_selected: INTEGER
@@ -954,7 +859,7 @@ feature -- Access
 	mpg_file_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `mpg_file_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("mpg_file_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	opengl_library_check_button_default_selected: INTEGER
@@ -966,7 +871,7 @@ feature -- Access
 	opengl_library_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `opengl_library_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("opengl_library_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 	new_project_confirmation_text: STRING_32
@@ -978,7 +883,7 @@ feature -- Access
 	new_project_confirmation_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `new_project_confirmation_text'.
 		once
-			create Result.put (string_constant_by_name ("new_project_confirmation_text"))
+			create Result.put ("Are you sure? Every unsaved modification will be lost.")
 		end
 
 	regenerate_config_file_check_button_default_selected: INTEGER
@@ -990,7 +895,7 @@ feature -- Access
 	regenerate_config_file_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `regenerate_config_file_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("regenerate_config_file_check_button_default_selected"))
+			create Result.put (1)
 		end
 
 	open_project_confirmation_text: STRING_32
@@ -1002,7 +907,7 @@ feature -- Access
 	open_project_confirmation_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `open_project_confirmation_text'.
 		once
-			create Result.put (string_constant_by_name ("open_project_confirmation_text"))
+			create Result.put ("Are you sure? Every unsaved modification will be lost.")
 		end
 
 	quit_confirmation_text: STRING_32
@@ -1014,7 +919,7 @@ feature -- Access
 	quit_confirmation_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `quit_confirmation_text'.
 		once
-			create Result.put (string_constant_by_name ("quit_confirmation_text"))
+			create Result.put ("Are you sure? Every unsaved modification will be lost.")
 		end
 
 	open_dialog_title: STRING_32
@@ -1026,7 +931,7 @@ feature -- Access
 	open_dialog_title_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `open_dialog_title'.
 		once
-			create Result.put (string_constant_by_name ("open_dialog_title"))
+			create Result.put ("Open project...")
 		end
 
 	project_path_browse_dialog: STRING_32
@@ -1038,7 +943,7 @@ feature -- Access
 	project_path_browse_dialog_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `project_path_browse_dialog'.
 		once
-			create Result.put (string_constant_by_name ("project_path_browse_dialog"))
+			create Result.put ("Project path...")
 		end
 
 	field_not_valid: STRING_32
@@ -1050,7 +955,7 @@ feature -- Access
 	field_not_valid_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `field_not_valid'.
 		once
-			create Result.put (string_constant_by_name ("field_not_valid"))
+			create Result.put ("The field '{$field/}' is not valid.")
 		end
 
 	root_class_same_as_game2: STRING_32
@@ -1062,7 +967,7 @@ feature -- Access
 	root_class_same_as_game2_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_same_as_game2'.
 		once
-			create Result.put (string_constant_by_name ("root_class_same_as_game2"))
+			create Result.put ("The root class '{$field/}' cannot be '{$name/}'.")
 		end
 
 	root_feature_label_text: STRING_32
@@ -1074,7 +979,7 @@ feature -- Access
 	root_feature_label_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_feature_label_text'.
 		once
-			create Result.put (string_constant_by_name ("root_feature_label_text"))
+			create Result.put ("Root feature")
 		end
 
 	root_feature_label_tooltip: STRING_32
@@ -1086,7 +991,7 @@ feature -- Access
 	root_feature_label_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_feature_label_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("root_feature_label_tooltip"))
+			create Result.put ("The name of the root feature in the root class")
 		end
 
 	root_feature_text_field_default_text: STRING_32
@@ -1098,7 +1003,7 @@ feature -- Access
 	root_feature_text_field_default_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_feature_text_field_default_text'.
 		once
-			create Result.put (string_constant_by_name ("root_feature_text_field_default_text"))
+			create Result.put ("make")
 		end
 
 	multi_thread_check_button_text: STRING_32
@@ -1110,7 +1015,7 @@ feature -- Access
 	multi_thread_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `multi_thread_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("multi_thread_check_button_text"))
+			create Result.put ("Multi-thread?")
 		end
 
 	multi_thread_check_button_tooltip: STRING_32
@@ -1122,7 +1027,7 @@ feature -- Access
 	multi_thread_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `multi_thread_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("multi_thread_check_button_tooltip"))
+			create Result.put ("This will add multithread functionnality to your project. You have to be extra-careful with this. You cannot manage video memory or input event using multi-thread.")
 		end
 
 	game2_root_class: STRING_32
@@ -1134,7 +1039,7 @@ feature -- Access
 	game2_root_class_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `game2_root_class'.
 		once
-			create Result.put (string_constant_by_name ("game2_root_class"))
+			create Result.put ("GAME2_APPLICATION")
 		end
 
 	game2_root_feature: STRING_32
@@ -1146,7 +1051,7 @@ feature -- Access
 	game2_root_feature_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `game2_root_feature'.
 		once
-			create Result.put (string_constant_by_name ("game2_root_feature"))
+			create Result.put ("make")
 		end
 
 	code_indicator: STRING_32
@@ -1158,7 +1063,7 @@ feature -- Access
 	code_indicator_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `code_indicator'.
 		once
-			create Result.put (string_constant_by_name ("code_indicator"))
+			create Result.put ("Your code here.")
 		end
 
 	feature_section: STRING_32
@@ -1170,7 +1075,7 @@ feature -- Access
 	feature_section_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `feature_section'.
 		once
-			create Result.put (string_constant_by_name ("feature_section"))
+			create Result.put ("Initialization")
 		end
 
 	root_class_feature_documentation: STRING_32
@@ -1182,7 +1087,7 @@ feature -- Access
 	root_class_feature_documentation_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_feature_documentation'.
 		once
-			create Result.put (string_constant_by_name ("root_class_feature_documentation"))
+			create Result.put ("Running the game.")
 		end
 
 	game2_root_class_feature_documentation: STRING_32
@@ -1194,7 +1099,7 @@ feature -- Access
 	game2_root_class_feature_documentation_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `game2_root_class_feature_documentation'.
 		once
-			create Result.put (string_constant_by_name ("game2_root_class_feature_documentation"))
+			create Result.put ("Initialize the libraries and run the game.")
 		end
 
 	root_class_game_documentation: STRING_32
@@ -1206,7 +1111,7 @@ feature -- Access
 	root_class_game_documentation_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `root_class_game_documentation'.
 		once
-			create Result.put (string_constant_by_name ("root_class_game_documentation"))
+			create Result.put ("A game created in Eiffel.")
 		end
 
 	game2_root_class_game_documentation: STRING_32
@@ -1218,7 +1123,7 @@ feature -- Access
 	game2_root_class_game_documentation_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `game2_root_class_game_documentation'.
 		once
-			create Result.put (string_constant_by_name ("game2_root_class_game_documentation"))
+			create Result.put ("Internal Root class of the game.")
 		end
 
 	game2_root_class_no_modification: STRING_32
@@ -1230,7 +1135,7 @@ feature -- Access
 	game2_root_class_no_modification_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `game2_root_class_no_modification'.
 		once
-			create Result.put (string_constant_by_name ("game2_root_class_no_modification"))
+			create Result.put ("The content of this file is auto-generated and must not be modified. Every modification will be lost when regenerated.")
 		end
 
 	generate_confirmation: STRING_32
@@ -1242,7 +1147,7 @@ feature -- Access
 	generate_confirmation_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `generate_confirmation'.
 		once
-			create Result.put (string_constant_by_name ("generate_confirmation"))
+			create Result.put ("The project files has been created.")
 		end
 
 	generate_confirmation_with_override: STRING_32
@@ -1254,7 +1159,7 @@ feature -- Access
 	generate_confirmation_with_override_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `generate_confirmation_with_override'.
 		once
-			create Result.put (string_constant_by_name ("generate_confirmation_with_override"))
+			create Result.put ("The project files has been created and old files has been renamed with .old extension.")
 		end
 
 	void_safe_check_button_text: STRING_32
@@ -1266,7 +1171,7 @@ feature -- Access
 	void_safe_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `void_safe_check_button_text'.
 		once
-			create Result.put (string_constant_by_name ("void_safe_check_button_text"))
+			create Result.put ("Void-Safe?")
 		end
 
 	void_safe_check_button_tooltip: STRING_32
@@ -1278,7 +1183,7 @@ feature -- Access
 	void_safe_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `void_safe_check_button_tooltip'.
 		once
-			create Result.put (string_constant_by_name ("void_safe_check_button_tooltip"))
+			create Result.put ("Is void-safe enabled for this project?")
 		end
 
 	void_safe_check_button_default_selected: INTEGER
@@ -1290,7 +1195,7 @@ feature -- Access
 	void_safe_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `void_safe_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("void_safe_check_button_default_selected"))
+			create Result.put (1)
 		end
 
 	multi_thread_check_button_default_selected: INTEGER
@@ -1302,7 +1207,7 @@ feature -- Access
 	multi_thread_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `multi_thread_check_button_default_selected'.
 		once
-			create Result.put (integer_constant_by_name ("multi_thread_check_button_default_selected"))
+			create Result.put (0)
 		end
 
 feature -- Access

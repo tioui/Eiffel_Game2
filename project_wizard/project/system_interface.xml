@@ -732,7 +732,7 @@
   </item>
   <item type="EV_VERTICAL_BOX">
    <Internal_properties>
-    <id>66</id>
+    <id>68</id>
     <Expanded>1</Expanded>
    </Internal_properties>
    <EV_COLORIZABLE>
@@ -953,7 +953,7 @@
    </item>
    <item type="EV_HORIZONTAL_BOX">
     <Internal_properties>
-     <id>60</id>
+     <id>62</id>
      <Expanded>1</Expanded>
     </Internal_properties>
     <EV_COLORIZABLE>
@@ -988,7 +988,7 @@
     </item>
     <item type="EV_VERTICAL_BOX">
      <Internal_properties>
-      <id>58</id>
+      <id>60</id>
       <Expanded>1</Expanded>
      </Internal_properties>
      <EV_COLORIZABLE>
@@ -1481,7 +1481,7 @@
      </item>
      <item type="EV_HORIZONTAL_BOX">
       <Internal_properties>
-       <id>67</id>
+       <id>49</id>
        <Expanded>1</Expanded>
       </Internal_properties>
       <EV_COLORIZABLE>
@@ -1529,7 +1529,7 @@
       </item>
       <item type="EV_CHECK_BUTTON">
        <Internal_properties>
-        <id>68</id>
+        <id>48</id>
         <name>void_safe_check_button</name>
         <Expanded>0</Expanded>
        </Internal_properties>
@@ -1565,7 +1565,7 @@
      </item>
      <item type="EV_FRAME">
       <Internal_properties>
-       <id>57</id>
+       <id>59</id>
        <name>libraries_frame</name>
        <Expanded>1</Expanded>
       </Internal_properties>
@@ -1590,7 +1590,7 @@
       </EV_CONTAINER>
       <item type="EV_TABLE">
        <Internal_properties>
-        <id>56</id>
+        <id>58</id>
         <Expanded>1</Expanded>
        </Internal_properties>
        <EV_COLORIZABLE>
@@ -1613,7 +1613,7 @@
        </EV_CONTAINER>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>48</id>
+         <id>50</id>
          <name>core_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1643,7 +1643,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>49</id>
+         <id>51</id>
          <name>image_file_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1673,7 +1673,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>50</id>
+         <id>52</id>
          <name>text_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1703,7 +1703,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>51</id>
+         <id>53</id>
          <name>effects_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1733,7 +1733,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>52</id>
+         <id>54</id>
          <name>audio_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1763,7 +1763,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>53</id>
+         <id>55</id>
          <name>sound_file_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1793,7 +1793,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>54</id>
+         <id>56</id>
          <name>mpg_file_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1823,7 +1823,7 @@
        </item>
        <item type="EV_CHECK_BUTTON">
         <Internal_properties>
-         <id>55</id>
+         <id>57</id>
          <name>opengl_library_check_button</name>
          <Expanded>0</Expanded>
         </Internal_properties>
@@ -1856,7 +1856,7 @@
     </item>
     <item type="EV_CELL">
      <Internal_properties>
-      <id>59</id>
+      <id>61</id>
       <Expanded>0</Expanded>
      </Internal_properties>
      <EV_COLORIZABLE>
@@ -1874,7 +1874,7 @@
    </item>
    <item type="EV_HORIZONTAL_BOX">
     <Internal_properties>
-     <id>64</id>
+     <id>66</id>
      <Expanded>1</Expanded>
     </Internal_properties>
     <EV_COLORIZABLE>
@@ -1892,7 +1892,7 @@
     </EV_CONTAINER>
     <item type="EV_CELL">
      <Internal_properties>
-      <id>61</id>
+      <id>63</id>
       <Expanded>0</Expanded>
      </Internal_properties>
      <EV_COLORIZABLE>
@@ -1908,7 +1908,7 @@
     </item>
     <item type="EV_BUTTON">
      <Internal_properties>
-      <id>62</id>
+      <id>64</id>
       <name>generate_code_button</name>
       <Expanded>0</Expanded>
      </Internal_properties>
@@ -1935,7 +1935,7 @@
     </item>
     <item type="EV_CELL">
      <Internal_properties>
-      <id>63</id>
+      <id>65</id>
       <Expanded>0</Expanded>
      </Internal_properties>
      <EV_COLORIZABLE>
@@ -1953,7 +1953,7 @@
    </item>
    <item type="EV_CELL">
     <Internal_properties>
-     <id>65</id>
+     <id>67</id>
      <Expanded>0</Expanded>
     </Internal_properties>
     <EV_COLORIZABLE>
