@@ -8,7 +8,7 @@
 		<setting name="console_application" value="true"/>
 		<setting name="concurrency" value="none"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="audio_3d" location="$ISE_LIBRARY\contrib\library\game2\audio\audio_3d-safe.ecf"/>
+		<library name="audio" location="$ISE_LIBRARY\contrib\library\game2\audio\audio-safe.ecf"/>
 		<library name="audio_mpg_file" location="$ISE_LIBRARY\contrib\library\game2\audio_mpg_file\audio_mpg_file-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<cluster name="mp3_player" location=".\" recursive="true">
