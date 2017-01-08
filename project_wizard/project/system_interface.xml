@@ -1,0 +1,1973 @@
+<?xml version="1.0" encoding="UTF-8"?><application xsi="http://www.w3.org/1999/XMLSchema-instance">
+ <item type="Constants">
+  <Constant>
+   <type>STRING</type>
+   <Name>edit_project_window_title</Name>
+   <Value>Eiffel Game2 Wizard</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_menu_text</Name>
+   <Value>&amp;File</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_new_menu_item_text</Name>
+   <Value>&amp;New Project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_open_menu_item_text</Name>
+   <Value>&amp;Open Project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_recent_menu_text</Name>
+   <Value>&amp;Recent</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_save_menu_item_text</Name>
+   <Value>&amp;Save Project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_quit_menu_item_text</Name>
+   <Value>&amp;Quit</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_menu_text</Name>
+   <Value>&amp;Project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_change_folder_menu_item_text</Name>
+   <Value>&amp;Change Project Folder</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_generate_menu_item_text</Name>
+   <Value>&amp;Generate code</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>help_menu_text</Name>
+   <Value>&amp;Help</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>help_about_menu_item_text</Name>
+   <Value>Abou&amp;t</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>new_tool_bar_button_tooltip</Name>
+   <Value>New project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>open_tool_bar_button_tooltip</Name>
+   <Value>Open project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>save_tool_bar_button_tooltip</Name>
+   <Value>Save project</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>change_project_folder_tool_bar_button_tooltip</Name>
+   <Value>Change project folder</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>generate_code_tool_bar_button_tooltip</Name>
+   <Value>Generate code</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>regenerate_config_file_check_button_tooltip</Name>
+   <Value>The config file (.ecf) if the EiffelStudio configuration file. To add or remove libraries, it have to be overrite.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>regenerate_config_file_check_button_text</Name>
+   <Value>Regenerate config file</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>generate_code_button_text</Name>
+   <Value>Generate Code</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>window_border</Name>
+   <Value>20</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_path_label_text</Name>
+   <Value>Project path</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_path_tooltip</Name>
+   <Value>The path that the code will be generated. Can be relative to the project save file.</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>padding_width</Name>
+   <Value>5</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>padding_height</Name>
+   <Value>5</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>target_name_tooltip</Name>
+   <Value>The name of the project target</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>target_name_label_text</Name>
+   <Value>Target name</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>cluster_name_label_text</Name>
+   <Value>Cluster name</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>cluster_name_tooltip</Name>
+   <Value>The name of the main cluster</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_label_text</Name>
+   <Value>Root class</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_tooltip</Name>
+   <Value>The name of the Root class of your project. Note that it will net be the true root class, but the class that you mes consider as root. The true root class will be auto-generated each time the "generate code" button will be use.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>libraries_frame_text</Name>
+   <Value>Libraries</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_name_label_text</Name>
+   <Value>Project name</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_name_tooltip</Name>
+   <Value>The name of the project (will be use to name the config file)</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>core_library_check_button_text</Name>
+   <Value>Core</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>core_library_check_button_tooltip</Name>
+   <Value>This librarie is used to manage the visual and the event system.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>effects_library_check_button_tooltip</Name>
+   <Value>This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>effects_library_check_button_text</Name>
+   <Value>Effects librarie</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>image_file_library_check_button_text</Name>
+   <Value>Image file librarie</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>image_file_library_check_button_tooltip</Name>
+   <Value>The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>text_library_check_button_text</Name>
+   <Value>Text librarie</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>text_library_check_button_tooltip</Name>
+   <Value>This librarie is use to load true type font file (.ttf) and generate images from texts.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>audio_library_check_button_text</Name>
+   <Value>Audio</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>audio_library_check_button_tooltip</Name>
+   <Value>This librarie manage the audio mixing functionnality.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>sound_file_library_check_button_text</Name>
+   <Value>Sound File</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>sound_file_library_check_button_tooltip</Name>
+   <Value>This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>mpg_file_library_check_button_text</Name>
+   <Value>MPG file</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>mpg_file_library_check_button_tooltip</Name>
+   <Value>With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>cpf_library_check_button_text</Name>
+   <Value>Custom package file</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>cpf_library_check_button_tooltip</Name>
+   <Value>This library is use to encapsulate multiple ressources (images, audio, etc.) in a single file.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>shared_library_check_button_text</Name>
+   <Value>Shared library</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>shared_library_check_button_tooltip</Name>
+   <Value>This library contain some classes used in multiple of other Eiffel Game2 libraries.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>opengl_library_check_button_text</Name>
+   <Value>OpenGL low level wrapper (experimental)</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>opengl_library_check_button_tooltip</Name>
+   <Value>Create hardware accelerated 3D scene.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>file_save_as_menu_item_text</Name>
+   <Value>Save Project &amp;As...</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>save_dialog_title</Name>
+   <Value>Save as...</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_path_text_field_default_text</Name>
+   <Value>.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_name_text_field_default_text</Name>
+   <Value>game</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_text_field_default_text</Name>
+   <Value>APPLICATION</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>core_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>image_file_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>text_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>effects_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>audio_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>sound_file_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>mpg_file_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>opengl_library_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>new_project_confirmation_text</Name>
+   <Value>Are you sure? Every unsaved modification will be lost.</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>regenerate_config_file_check_button_default_selected</Name>
+   <Value>1</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>open_project_confirmation_text</Name>
+   <Value>Are you sure? Every unsaved modification will be lost.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>quit_confirmation_text</Name>
+   <Value>Are you sure? Every unsaved modification will be lost.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>open_dialog_title</Name>
+   <Value>Open project...</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>project_path_browse_dialog</Name>
+   <Value>Project path...</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>field_not_valid</Name>
+   <Value>The field '{$field/}' is not valid.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_same_as_game2</Name>
+   <Value>The root class '{$field/}' cannot be '{$name/}'.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_feature_label_text</Name>
+   <Value>Root feature</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_feature_label_tooltip</Name>
+   <Value>The name of the root feature in the root class</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_feature_text_field_default_text</Name>
+   <Value>make</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>multi_thread_check_button_text</Name>
+   <Value>Multi-thread?</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>multi_thread_check_button_tooltip</Name>
+   <Value>This will add multithread functionnality to your project. You have to be extra-careful with this. You cannot manage video memory or input event using multi-thread.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>game2_root_class</Name>
+   <Value>GAME2_APPLICATION</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>game2_root_feature</Name>
+   <Value>make</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>code_indicator</Name>
+   <Value>Your code here.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>feature_section</Name>
+   <Value>Initialization</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_feature_documentation</Name>
+   <Value>Running the game.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>game2_root_class_feature_documentation</Name>
+   <Value>Initialize the libraries and run the game.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>root_class_game_documentation</Name>
+   <Value>A game created in Eiffel.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>game2_root_class_game_documentation</Name>
+   <Value>Internal Root class of the game.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>game2_root_class_no_modification</Name>
+   <Value>The content of this file is auto-generated and must not be modified. Every modification will be lost when regenerated.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>generate_confirmation</Name>
+   <Value>The project files has been created.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>generate_confirmation_with_override</Name>
+   <Value>The project files has been created and old files has been renamed with .old extension.</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>void_safe_check_button_text</Name>
+   <Value>Void-Safe?</Value>
+  </Constant>
+  <Constant>
+   <type>STRING</type>
+   <Name>void_safe_check_button_tooltip</Name>
+   <Value>Is void-safe enabled for this project?</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>void_safe_check_button_default_selected</Name>
+   <Value>1</Value>
+  </Constant>
+  <Constant>
+   <type>INTEGER</type>
+   <Name>multi_thread_check_button_default_selected</Name>
+   <Value>0</Value>
+  </Constant>
+ </item>
+ <item type="EV_TITLED_WINDOW">
+  <Internal_properties>
+   <id>1</id>
+   <name>edit_project_window</name>
+   <Expanded>1</Expanded>
+   <Is_root_window>True</Is_root_window>
+  </Internal_properties>
+  <EV_COLORIZABLE>
+  </EV_COLORIZABLE>
+  <EV_SENSITIVE>
+  </EV_SENSITIVE>
+  <EV_WIDGET>
+  </EV_WIDGET>
+  <EV_WINDOW>
+   <Title>
+    <Constant>edit_project_window_title</Constant>
+   </Title>
+  </EV_WINDOW>
+  <EV_PIXMAPABLE>
+  </EV_PIXMAPABLE>
+  <EV_CONTAINER>
+  </EV_CONTAINER>
+  <item type="EV_MENU_BAR">
+   <Internal_properties>
+    <id>15</id>
+    <name>edit_project_menu_bar</name>
+    <Expanded>1</Expanded>
+   </Internal_properties>
+   <item type="EV_MENU">
+    <Internal_properties>
+     <id>10</id>
+     <name>file_menu</name>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_TEXTABLE>
+     <Text>
+      <Constant>file_menu_text</Constant>
+     </Text>
+    </EV_TEXTABLE>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>2</id>
+      <name>file_new_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_new_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES file_new_menu_item_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>3</id>
+      <name>file_open_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_open_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES file_open_menu_item_select_action</Event>
+     </Events>
+    </item>
+    <item type="EV_MENU">
+     <Internal_properties>
+      <id>4</id>
+      <name>file_recent_menu</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+      <Is_sensitive>False</Is_sensitive>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_recent_menu_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>item_select_actions EV_MENU_ITEM_LIST_ACTION_SEQUENCES file_recent_menu_item_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_MENU_SEPARATOR">
+     <Internal_properties>
+      <id>5</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+    </item>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>6</id>
+      <name>file_save_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_save_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES file_save_menu_item_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>7</id>
+      <name>file_save_as_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_save_as_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES file_save_as_menu_item_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_MENU_SEPARATOR">
+     <Internal_properties>
+      <id>8</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+    </item>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>9</id>
+      <name>file_quit_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>file_quit_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES file_quit_menu_item_select_actions</Event>
+     </Events>
+    </item>
+   </item>
+   <item type="EV_MENU">
+    <Internal_properties>
+     <id>12</id>
+     <name>project_menu</name>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_TEXTABLE>
+     <Text>
+      <Constant>project_menu_text</Constant>
+     </Text>
+    </EV_TEXTABLE>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>11</id>
+      <name>project_generate_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>project_generate_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES project_generate_menu_item_select_actions</Event>
+     </Events>
+    </item>
+   </item>
+   <item type="EV_MENU">
+    <Internal_properties>
+     <id>14</id>
+     <name>help_menu</name>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_TEXTABLE>
+     <Text>
+      <Constant>help_menu_text</Constant>
+     </Text>
+    </EV_TEXTABLE>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <item type="EV_MENU_ITEM">
+     <Internal_properties>
+      <id>13</id>
+      <name>help_about_menu_item</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>
+       <Constant>help_about_menu_item_text</Constant>
+      </Text>
+     </EV_TEXTABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_MENU_ITEM_ACTION_SEQUENCES help_about_menu_item_select_actions</Event>
+     </Events>
+    </item>
+   </item>
+  </item>
+  <item type="EV_VERTICAL_BOX">
+   <Internal_properties>
+    <id>66</id>
+    <Expanded>1</Expanded>
+   </Internal_properties>
+   <EV_COLORIZABLE>
+   </EV_COLORIZABLE>
+   <EV_SENSITIVE>
+   </EV_SENSITIVE>
+   <EV_WIDGET>
+   </EV_WIDGET>
+   <EV_BOX>
+    <Padding>5</Padding>
+    <Border>5</Border>
+    <Is_item_expanded>000100</Is_item_expanded>
+   </EV_BOX>
+   <EV_PIXMAPABLE>
+   </EV_PIXMAPABLE>
+   <EV_CONTAINER>
+   </EV_CONTAINER>
+   <item type="EV_TOOL_BAR">
+    <Internal_properties>
+     <id>21</id>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_TOOLTIPABLE>
+    </EV_TOOLTIPABLE>
+    <EV_WIDGET>
+    </EV_WIDGET>
+    <EV_TOOL_BAR>
+    </EV_TOOL_BAR>
+    <item type="EV_TOOL_BAR_BUTTON">
+     <Internal_properties>
+      <id>16</id>
+      <name>new_tool_bar_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+      <Tooltip>New project</Tooltip>
+     </EV_TOOLTIPABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_TOOL_BAR_BUTTON_ACTION_SEQUENCES new_tool_bar_button_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_TOOL_BAR_BUTTON">
+     <Internal_properties>
+      <id>17</id>
+      <name>open_tool_bar_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+      <Tooltip>Open project</Tooltip>
+     </EV_TOOLTIPABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_TOOL_BAR_BUTTON_ACTION_SEQUENCES open_tool_bar_button_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_TOOL_BAR_BUTTON">
+     <Internal_properties>
+      <id>18</id>
+      <name>save_tool_bar_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+      <Tooltip>Save project</Tooltip>
+     </EV_TOOLTIPABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_TOOL_BAR_BUTTON_ACTION_SEQUENCES save_tool_bar_button_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_TOOL_BAR_SEPARATOR">
+     <Internal_properties>
+      <id>19</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+    </item>
+    <item type="EV_TOOL_BAR_BUTTON">
+     <Internal_properties>
+      <id>20</id>
+      <name>generate_code_tool_bar_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+      <Tooltip>Generate code</Tooltip>
+     </EV_TOOLTIPABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_TOOL_BAR_BUTTON_ACTION_SEQUENCES generate_code_tool_bar_button_select_actions</Event>
+     </Events>
+    </item>
+   </item>
+   <item type="EV_CELL">
+    <Internal_properties>
+     <id>22</id>
+     <Expanded>0</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_WIDGET>
+     <Minimum_height>20</Minimum_height>
+    </EV_WIDGET>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <EV_CONTAINER>
+    </EV_CONTAINER>
+   </item>
+   <item type="EV_HORIZONTAL_BOX">
+    <Internal_properties>
+     <id>26</id>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_WIDGET>
+    </EV_WIDGET>
+    <EV_BOX>
+     <Is_item_expanded>010</Is_item_expanded>
+    </EV_BOX>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <EV_CONTAINER>
+    </EV_CONTAINER>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>23</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+      <Minimum_width>20</Minimum_width>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+    <item type="EV_CHECK_BUTTON">
+     <Internal_properties>
+      <id>24</id>
+      <name>regenerate_config_file_check_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_FONTABLE>
+     </EV_FONTABLE>
+     <EV_DESELECTABLE>
+      <Is_selected>True</Is_selected>
+     </EV_DESELECTABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>Regenerate config file</Text>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+      <Tooltip>The config file (.ecf) if the EiffelStudio configuration file. To add or remove libraries, it have to be overrite.</Tooltip>
+     </EV_TOOLTIPABLE>
+     <EV_WIDGET>
+     </EV_WIDGET>
+     <EV_TEXT_ALIGNABLE>
+     </EV_TEXT_ALIGNABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_BUTTON_ACTION_SEQUENCES regenerate_config_file_check_button_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>25</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+      <Minimum_width>20</Minimum_width>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+   </item>
+   <item type="EV_HORIZONTAL_BOX">
+    <Internal_properties>
+     <id>60</id>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_WIDGET>
+    </EV_WIDGET>
+    <EV_BOX>
+     <Is_item_expanded>010</Is_item_expanded>
+    </EV_BOX>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <EV_CONTAINER>
+    </EV_CONTAINER>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>27</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+      <Minimum_width>20</Minimum_width>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+    <item type="EV_VERTICAL_BOX">
+     <Internal_properties>
+      <id>58</id>
+      <Expanded>1</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+     </EV_WIDGET>
+     <EV_BOX>
+      <Padding>5</Padding>
+      <Border>5</Border>
+      <Is_item_expanded>00000001</Is_item_expanded>
+     </EV_BOX>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>31</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>010</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>28</id>
+        <name>project_path_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>project_path_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The path that the code will be generated. Can be relative to the project save file.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+        <Text_alignment>Right</Text_alignment>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>29</id>
+        <name>project_path_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>.</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The path that the code will be generated. Can be relative to the project save file.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <Events>
+        <Event>change_actions EV_TEXT_COMPONENT_ACTION_SEQUENCES project_path_text_field_change_actions</Event>
+       </Events>
+      </item>
+      <item type="EV_BUTTON">
+       <Internal_properties>
+        <id>30</id>
+        <name>project_path_browse_dialog_button</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>...</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The path that the code will be generated. Can be relative to the project save file.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <EV_PIXMAPABLE>
+       </EV_PIXMAPABLE>
+       <Events>
+        <Event>select_actions EV_BUTTON_ACTION_SEQUENCES project_path_browse_dialog_button_select_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>34</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+       <Minimum_height>23</Minimum_height>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>01</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>32</id>
+        <name>project_name_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>project_name_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the project (will be use to name the config file)</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+        <Text_alignment>Right</Text_alignment>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>33</id>
+        <name>project_name_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>game</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the project (will be use to name the config file)</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+        <Minimum_width>23</Minimum_width>
+        <Minimum_height>55</Minimum_height>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <Events>
+        <Event>change_actions EV_TEXT_COMPONENT_ACTION_SEQUENCES project_name_text_field_change_actions</Event>
+        <Event>focus_in_actions EV_WIDGET_ACTION_SEQUENCES project_name_text_field_focus_in_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>37</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>01</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>35</id>
+        <name>target_name_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>target_name_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the project target</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+        <Text_alignment>Right</Text_alignment>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>36</id>
+        <name>target_name_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>game</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the project target</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <Events>
+        <Event>change_actions EV_TEXT_COMPONENT_ACTION_SEQUENCES target_name_text_field_change_actions</Event>
+        <Event>focus_in_actions EV_WIDGET_ACTION_SEQUENCES target_name_text_field_focus_in_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>40</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>01</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>38</id>
+        <name>cluster_name_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>cluster_name_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the main cluster</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+        <Text_alignment>Right</Text_alignment>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>39</id>
+        <name>cluster_name_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>project_name_text_field_default_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the main cluster</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>43</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>01</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>41</id>
+        <name>root_class_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>root_class_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the Root class of your project. Note that it will net be the true root class, but the class that you mes consider as root. The true root class will be auto-generated each time the "generate code" button will be use.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+        <Text_alignment>Right</Text_alignment>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>42</id>
+        <name>root_class_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>APPLICATION</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the Root class of your project. Note that it will net be the true root class, but the class that you mes consider as root. The true root class will be auto-generated each time the "generate code" button will be use.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <Events>
+        <Event>change_actions EV_TEXT_COMPONENT_ACTION_SEQUENCES root_class_text_field_change_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>46</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>01</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_LABEL">
+       <Internal_properties>
+        <id>44</id>
+        <name>root_feature_label</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>root_feature_label_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>
+         <Constant>root_feature_label_tooltip</Constant>
+        </Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+      </item>
+      <item type="EV_TEXT_FIELD">
+       <Internal_properties>
+        <id>45</id>
+        <name>root_feature_text_field</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>root_feature_text_field_default_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>The name of the root feature in the root class</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_COMPONENT>
+       </EV_TEXT_COMPONENT>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <Events>
+        <Event>change_actions EV_TEXT_COMPONENT_ACTION_SEQUENCES root_feature_text_field_change_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_HORIZONTAL_BOX">
+      <Internal_properties>
+       <id>67</id>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_BOX>
+       <Is_item_expanded>11</Is_item_expanded>
+      </EV_BOX>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_CHECK_BUTTON">
+       <Internal_properties>
+        <id>47</id>
+        <name>multi_thread_check_button</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_DESELECTABLE>
+       </EV_DESELECTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>Multi-thread?</Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>This will add multithread functionnality to your project. You have to be extra-careful with this. You cannot manage video memory or input event using multi-thread.</Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <EV_PIXMAPABLE>
+       </EV_PIXMAPABLE>
+       <Events>
+        <Event>select_actions EV_BUTTON_ACTION_SEQUENCES multi_thread_check_button_select_actions</Event>
+       </Events>
+      </item>
+      <item type="EV_CHECK_BUTTON">
+       <Internal_properties>
+        <id>68</id>
+        <name>void_safe_check_button</name>
+        <Expanded>0</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_FONTABLE>
+       </EV_FONTABLE>
+       <EV_DESELECTABLE>
+        <Is_selected>True</Is_selected>
+       </EV_DESELECTABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_TEXTABLE>
+        <Text>
+         <Constant>void_safe_check_button_text</Constant>
+        </Text>
+       </EV_TEXTABLE>
+       <EV_TOOLTIPABLE>
+        <Tooltip>
+         <Constant>void_safe_check_button_tooltip</Constant>
+        </Tooltip>
+       </EV_TOOLTIPABLE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_TEXT_ALIGNABLE>
+       </EV_TEXT_ALIGNABLE>
+       <EV_PIXMAPABLE>
+       </EV_PIXMAPABLE>
+       <Events>
+        <Event>select_actions EV_BUTTON_ACTION_SEQUENCES void_safe_check_button_select_actions</Event>
+       </Events>
+      </item>
+     </item>
+     <item type="EV_FRAME">
+      <Internal_properties>
+       <id>57</id>
+       <name>libraries_frame</name>
+       <Expanded>1</Expanded>
+      </Internal_properties>
+      <EV_COLORIZABLE>
+      </EV_COLORIZABLE>
+      <EV_FONTABLE>
+      </EV_FONTABLE>
+      <EV_SENSITIVE>
+      </EV_SENSITIVE>
+      <EV_TEXTABLE>
+       <Text>Libraries</Text>
+      </EV_TEXTABLE>
+      <EV_WIDGET>
+      </EV_WIDGET>
+      <EV_FRAME>
+      </EV_FRAME>
+      <EV_TEXT_ALIGNABLE>
+      </EV_TEXT_ALIGNABLE>
+      <EV_PIXMAPABLE>
+      </EV_PIXMAPABLE>
+      <EV_CONTAINER>
+      </EV_CONTAINER>
+      <item type="EV_TABLE">
+       <Internal_properties>
+        <id>56</id>
+        <Expanded>1</Expanded>
+       </Internal_properties>
+       <EV_COLORIZABLE>
+       </EV_COLORIZABLE>
+       <EV_SENSITIVE>
+       </EV_SENSITIVE>
+       <EV_WIDGET>
+       </EV_WIDGET>
+       <EV_PIXMAPABLE>
+       </EV_PIXMAPABLE>
+       <EV_TABLE>
+        <Columns>2</Columns>
+        <Rows>4</Rows>
+        <Column_positions>00010001000200020001000200010002</Column_positions>
+        <Row_positions>00010002000200010003000300040004</Row_positions>
+        <Column_spans>00010001000100010001000100010001</Column_spans>
+        <Row_spans>00010001000100010001000100010001</Row_spans>
+       </EV_TABLE>
+       <EV_CONTAINER>
+       </EV_CONTAINER>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>48</id>
+         <name>core_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Core</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>This librarie is used to manage the visual and the event system.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES core_library_check_button_select_action</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>49</id>
+         <name>image_file_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Image file librarie</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES image_file_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>50</id>
+         <name>text_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Text librarie</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>This librarie is use to load true type font file (.ttf) and generate images from texts.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES text_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>51</id>
+         <name>effects_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Effects librarie</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES effects_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>52</id>
+         <name>audio_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Audio</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>This librarie manage the audio mixing functionnality.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES audio_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>53</id>
+         <name>sound_file_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>Sound File</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES sound_file_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>54</id>
+         <name>mpg_file_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>MPG file</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES mpg_file_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+       <item type="EV_CHECK_BUTTON">
+        <Internal_properties>
+         <id>55</id>
+         <name>opengl_library_check_button</name>
+         <Expanded>0</Expanded>
+        </Internal_properties>
+        <EV_COLORIZABLE>
+        </EV_COLORIZABLE>
+        <EV_FONTABLE>
+        </EV_FONTABLE>
+        <EV_DESELECTABLE>
+        </EV_DESELECTABLE>
+        <EV_SENSITIVE>
+        </EV_SENSITIVE>
+        <EV_TEXTABLE>
+         <Text>OpenGL low level wrapper (experimental)</Text>
+        </EV_TEXTABLE>
+        <EV_TOOLTIPABLE>
+         <Tooltip>Create hardware accelerated 3D scene.</Tooltip>
+        </EV_TOOLTIPABLE>
+        <EV_WIDGET>
+        </EV_WIDGET>
+        <EV_TEXT_ALIGNABLE>
+        </EV_TEXT_ALIGNABLE>
+        <EV_PIXMAPABLE>
+        </EV_PIXMAPABLE>
+        <Events>
+         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES opengl_library_check_button_select_actions</Event>
+        </Events>
+       </item>
+      </item>
+     </item>
+    </item>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>59</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+      <Minimum_width>20</Minimum_width>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+   </item>
+   <item type="EV_HORIZONTAL_BOX">
+    <Internal_properties>
+     <id>64</id>
+     <Expanded>1</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_WIDGET>
+    </EV_WIDGET>
+    <EV_BOX>
+     <Is_item_expanded>100</Is_item_expanded>
+    </EV_BOX>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <EV_CONTAINER>
+    </EV_CONTAINER>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>61</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+    <item type="EV_BUTTON">
+     <Internal_properties>
+      <id>62</id>
+      <name>generate_code_button</name>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_FONTABLE>
+     </EV_FONTABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_TEXTABLE>
+      <Text>Generate Code</Text>
+     </EV_TEXTABLE>
+     <EV_TOOLTIPABLE>
+     </EV_TOOLTIPABLE>
+     <EV_WIDGET>
+     </EV_WIDGET>
+     <EV_TEXT_ALIGNABLE>
+     </EV_TEXT_ALIGNABLE>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <Events>
+      <Event>select_actions EV_BUTTON_ACTION_SEQUENCES generate_code_button_select_actions</Event>
+     </Events>
+    </item>
+    <item type="EV_CELL">
+     <Internal_properties>
+      <id>63</id>
+      <Expanded>0</Expanded>
+     </Internal_properties>
+     <EV_COLORIZABLE>
+     </EV_COLORIZABLE>
+     <EV_SENSITIVE>
+     </EV_SENSITIVE>
+     <EV_WIDGET>
+      <Minimum_width>20</Minimum_width>
+     </EV_WIDGET>
+     <EV_PIXMAPABLE>
+     </EV_PIXMAPABLE>
+     <EV_CONTAINER>
+     </EV_CONTAINER>
+    </item>
+   </item>
+   <item type="EV_CELL">
+    <Internal_properties>
+     <id>65</id>
+     <Expanded>0</Expanded>
+    </Internal_properties>
+    <EV_COLORIZABLE>
+    </EV_COLORIZABLE>
+    <EV_SENSITIVE>
+    </EV_SENSITIVE>
+    <EV_WIDGET>
+     <Minimum_height>20</Minimum_height>
+    </EV_WIDGET>
+    <EV_PIXMAPABLE>
+    </EV_PIXMAPABLE>
+    <EV_CONTAINER>
+    </EV_CONTAINER>
+   </item>
+  </item>
+ </item>
+</application>
