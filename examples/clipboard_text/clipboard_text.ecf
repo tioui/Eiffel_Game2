@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="clipboard_text" uuid="99E6E062-06CE-466D-A82E-DFC2066DA869">
-	<target name="clipboard_text">
-		<root class="APPLICATION" feature="make"/>
-		<option warning="true">
-			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
-		</option>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="clipboard_text" uuid="9AD8C9F0-5216-424A-B609-52021E6C3E79">
+    <target name="clipboard_text">
+        <root class="GAME2_APPLICATION" feature="make"/>
+        <option warning="true">
+            <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+        </option>
 		<setting name="console_application" value="true"/>
-		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
-		<cluster name="clipboard_text" location=".\" recursive="true">
-			<file_rule>
-				<exclude>/.svn$</exclude>
-				<exclude>/CVS$</exclude>
-				<exclude>/EIFGENs$</exclude>
-			</file_rule>
-		</cluster>
-	</target>
+        <setting name="concurrency" value="none"/>
+        <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+
+        <cluster name="clipboard_text" location=".\" recursive="true">
+            <file_rule>
+                <exclude>/EIFGENs$</exclude>
+            </file_rule>
+        </cluster>
+    </target>
 </system>

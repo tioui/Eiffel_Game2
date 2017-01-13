@@ -314,7 +314,6 @@ feature {NONE} -- Implementation
 			select_if_1 (audio_library_check_button, audio_library_check_button_default_selected)
 			select_if_1 (sound_file_library_check_button, sound_file_library_check_button_default_selected)
 			select_if_1 (mpg_file_library_check_button, mpg_file_library_check_button_default_selected)
-			select_if_1 (opengl_library_check_button, opengl_library_check_button_default_selected)
 			select_if_1 (regenerate_config_file_check_button, regenerate_config_file_check_button_default_selected)
 			select_if_1 (regenerate_config_file_check_button, regenerate_config_file_check_button_default_selected)
 			select_if_1 (multi_thread_check_button, multi_thread_check_button_default_selected)
@@ -352,7 +351,6 @@ feature {NONE} -- Implementation
 			Result := Result and is_select_if_1 (audio_library_check_button, audio_library_check_button_default_selected)
 			Result := Result and is_select_if_1 (sound_file_library_check_button, sound_file_library_check_button_default_selected)
 			Result := Result and is_select_if_1 (mpg_file_library_check_button, mpg_file_library_check_button_default_selected)
-			Result := Result and is_select_if_1 (opengl_library_check_button, opengl_library_check_button_default_selected)
 			Result := Result and is_select_if_1 (regenerate_config_file_check_button, regenerate_config_file_check_button_default_selected)
 			Result := Result and is_select_if_1 (multi_thread_check_button, multi_thread_check_button_default_selected)
 			Result := Result and is_select_if_1 (void_safe_check_button, void_safe_check_button_default_selected)
@@ -518,9 +516,6 @@ feature {NONE} -- Implementation
 			l_boolean_preference := l_factory.new_boolean_preference_value (l_manager, "mpg_file_library", True)
 			l_boolean_preference.set_value (mpg_file_library_check_button.is_selected)
 			a_preferences.set_preference ("mpg_file_library", l_boolean_preference)
-			l_boolean_preference := l_factory.new_boolean_preference_value (l_manager, "opengl_library", True)
-			l_boolean_preference.set_value (opengl_library_check_button.is_selected)
-			a_preferences.set_preference ("opengl_library", l_boolean_preference)
 		end
 
 	open_project
@@ -612,10 +607,6 @@ feature {NONE} -- Implementation
 											sound_file_library_check_button_default_selected /= 0)
 			load_selected_preference(l_manager, "mpg_file_library", mpg_file_library_check_button,
 											mpg_file_library_check_button_default_selected /= 0)
-			load_selected_preference(l_manager, "opengl_library", opengl_library_check_button,
-											opengl_library_check_button_default_selected /= 0)
-			load_selected_preference(l_manager, "opengl_library", opengl_library_check_button,
-											opengl_library_check_button_default_selected /= 0)
 		end
 
 	load_text_preference(a_manager:PREFERENCE_MANAGER; a_preference_name:STRING_8; a_textable:EV_TEXTABLE; a_default_value:STRING_32)
@@ -807,7 +798,6 @@ feature {NONE} -- Implementation
 			a_ecf_generator.has_audio_library := audio_library_check_button.is_selected
 			a_ecf_generator.has_sound_file_library := sound_file_library_check_button.is_selected
 			a_ecf_generator.has_mpg_file_library := mpg_file_library_check_button.is_selected
-			a_ecf_generator.has_opengl_library := opengl_library_check_button.is_selected
 			a_ecf_generator.generate_file
 		end
 
@@ -841,7 +831,6 @@ feature {NONE} -- Implementation
 			a_root_source_generator.has_audio_library := audio_library_check_button.is_selected
 			a_root_source_generator.has_sound_file_library := sound_file_library_check_button.is_selected
 			a_root_source_generator.has_mpg_file_library := mpg_file_library_check_button.is_selected
-			a_root_source_generator.has_opengl_library := opengl_library_check_button.is_selected
 			a_root_source_generator.generate_file
 		end
 

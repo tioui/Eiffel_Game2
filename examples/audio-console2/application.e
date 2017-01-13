@@ -1,8 +1,8 @@
 note
 	description : "A minimalist terminal audio player"
 	author		: "Louis Marchand"
-	date        : "Wed, 08 Apr 2015 00:55:34 +0000"
-	revision    : "2.0"
+	date        : "Fri, 13 Jan 2017 16:40:06 +0000"
+	revision    : "2.1"
 
 class
 	APPLICATION
@@ -19,11 +19,10 @@ feature {NONE} -- Initialization
 			-- Run application.
 		do
 			audio_library.enable_sound		-- Initialise the audio library
-			run_player
-			audio_library.quit_library		-- Free the sound sources and close the audio context.
+			run
 		end
 
-	run_player
+	run
 			-- Execute the sound player
 		local
 			l_sound:AUDIO_SOUND_FILE

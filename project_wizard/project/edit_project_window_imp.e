@@ -215,23 +215,34 @@ feature {NONE}-- Initialization
 			l_ev_table_1.put_at_position (audio_library_check_button, 1, 3, 1, 1)
 			l_ev_table_1.put_at_position (sound_file_library_check_button, 2, 3, 1, 1)
 			l_ev_table_1.put_at_position (mpg_file_library_check_button, 1, 4, 1, 1)
-			l_ev_table_1.put_at_position (opengl_library_check_button, 2, 4, 1, 1)
-			core_library_check_button.set_text ("Core")
-			core_library_check_button.set_tooltip ("This librarie is used to manage the visual and the event system.")
-			image_file_library_check_button.set_text ("Image file librarie")
-			image_file_library_check_button.set_tooltip ("The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.")
-			text_library_check_button.set_text ("Text librarie")
-			text_library_check_button.set_tooltip ("This librarie is use to load true type font file (.ttf) and generate images from texts.")
-			effects_library_check_button.set_text ("Effects librarie")
-			effects_library_check_button.set_tooltip ("This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).")
-			audio_library_check_button.set_text ("Audio")
-			audio_library_check_button.set_tooltip ("This librarie manage the audio mixing functionnality.")
-			sound_file_library_check_button.set_text ("Sound File")
-			sound_file_library_check_button.set_tooltip ("This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.")
-			mpg_file_library_check_button.set_text ("MPG file")
-			mpg_file_library_check_button.set_tooltip ("With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).")
-			opengl_library_check_button.set_text ("OpenGL low level wrapper (experimental)")
-			opengl_library_check_button.set_tooltip ("Create hardware accelerated 3D scene.")
+			string_constant_set_procedures.extend (agent core_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent core_library_check_button_text)
+			string_constant_set_procedures.extend (agent core_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent core_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent image_file_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent image_file_library_check_button_text)
+			string_constant_set_procedures.extend (agent image_file_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent image_file_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent text_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent text_library_check_button_text)
+			string_constant_set_procedures.extend (agent text_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent text_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent effects_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent effects_library_check_button_text)
+			string_constant_set_procedures.extend (agent effects_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent effects_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent audio_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent audio_library_check_button_text)
+			string_constant_set_procedures.extend (agent audio_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent audio_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent sound_file_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent sound_file_library_check_button_text)
+			string_constant_set_procedures.extend (agent sound_file_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent sound_file_library_check_button_tooltip)
+			string_constant_set_procedures.extend (agent mpg_file_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent mpg_file_library_check_button_text)
+			string_constant_set_procedures.extend (agent mpg_file_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent mpg_file_library_check_button_tooltip)
 			l_ev_cell_5.set_minimum_width (20)
 			l_ev_horizontal_box_10.disable_item_expand (generate_code_button)
 			l_ev_horizontal_box_10.disable_item_expand (l_ev_cell_7)
@@ -274,7 +285,6 @@ feature {NONE}-- Initialization
 			audio_library_check_button.select_actions.extend (agent audio_library_check_button_select_actions)
 			sound_file_library_check_button.select_actions.extend (agent sound_file_library_check_button_select_actions)
 			mpg_file_library_check_button.select_actions.extend (agent mpg_file_library_check_button_select_actions)
-			opengl_library_check_button.select_actions.extend (agent opengl_library_check_button_select_actions)
 			generate_code_button.select_actions.extend (agent generate_code_button_select_actions)
 				-- Close the application when an interface close
 				-- request is received on `Current'. i.e. the cross is clicked.
@@ -349,7 +359,6 @@ feature {NONE}-- Initialization
 			create audio_library_check_button
 			create sound_file_library_check_button
 			create mpg_file_library_check_button
-			create opengl_library_check_button
 			create l_ev_cell_5
 			create l_ev_horizontal_box_10
 			create l_ev_cell_6
@@ -397,7 +406,7 @@ feature {NONE} -- Implementation
 	regenerate_config_file_check_button, multi_thread_check_button,
 	void_safe_check_button, core_library_check_button, image_file_library_check_button,
 	text_library_check_button, effects_library_check_button, audio_library_check_button,
-	sound_file_library_check_button, mpg_file_library_check_button, opengl_library_check_button: EV_CHECK_BUTTON
+	sound_file_library_check_button, mpg_file_library_check_button: EV_CHECK_BUTTON
 	project_path_label,
 	project_name_label, target_name_label, cluster_name_label, root_class_label, root_feature_label: EV_LABEL
 	project_path_text_field,
@@ -572,11 +581,6 @@ feature {NONE} -- Implementation
 	
 	mpg_file_library_check_button_select_actions
 			-- Called by `select_actions' of `mpg_file_library_check_button'.
-		deferred
-		end
-	
-	opengl_library_check_button_select_actions
-			-- Called by `select_actions' of `opengl_library_check_button'.
 		deferred
 		end
 	

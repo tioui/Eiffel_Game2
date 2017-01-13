@@ -178,37 +178,37 @@
   <Constant>
    <type>STRING</type>
    <Name>core_library_check_button_tooltip</Name>
-   <Value>This librarie is used to manage the visual and the event system.</Value>
+   <Value>This library is used to manage the visual and the event system.</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>effects_library_check_button_tooltip</Name>
-   <Value>This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).</Value>
+   <Value>This library is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>effects_library_check_button_text</Name>
-   <Value>Effects librarie</Value>
+   <Value>Surface effects</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>image_file_library_check_button_text</Name>
-   <Value>Image file librarie</Value>
+   <Value>Image file</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>image_file_library_check_button_tooltip</Name>
-   <Value>The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.</Value>
+   <Value>The library is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>text_library_check_button_text</Name>
-   <Value>Text librarie</Value>
+   <Value>Text</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
    <Name>text_library_check_button_tooltip</Name>
-   <Value>This librarie is use to load true type font file (.ttf) and generate images from texts.</Value>
+   <Value>This library is use to load true type font file (.ttf) and generate images from texts.</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
@@ -218,7 +218,7 @@
   <Constant>
    <type>STRING</type>
    <Name>audio_library_check_button_tooltip</Name>
-   <Value>This librarie manage the audio mixing functionnality.</Value>
+   <Value>This library manage the audio mixing functionnality.</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
@@ -228,7 +228,7 @@
   <Constant>
    <type>STRING</type>
    <Name>sound_file_library_check_button_tooltip</Name>
-   <Value>This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.</Value>
+   <Value>This library make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.</Value>
   </Constant>
   <Constant>
    <type>STRING</type>
@@ -1604,10 +1604,10 @@
        <EV_TABLE>
         <Columns>2</Columns>
         <Rows>4</Rows>
-        <Column_positions>00010001000200020001000200010002</Column_positions>
-        <Row_positions>00010002000200010003000300040004</Row_positions>
-        <Column_spans>00010001000100010001000100010001</Column_spans>
-        <Row_spans>00010001000100010001000100010001</Row_spans>
+        <Column_positions>0001000100020002000100020001</Column_positions>
+        <Row_positions>0001000200020001000300030004</Row_positions>
+        <Column_spans>0001000100010001000100010001</Column_spans>
+        <Row_spans>0001000100010001000100010001</Row_spans>
        </EV_TABLE>
        <EV_CONTAINER>
        </EV_CONTAINER>
@@ -1626,10 +1626,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Core</Text>
+         <Text>
+          <Constant>core_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>This librarie is used to manage the visual and the event system.</Tooltip>
+         <Tooltip>
+          <Constant>core_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1656,10 +1660,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Image file librarie</Text>
+         <Text>
+          <Constant>image_file_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.</Tooltip>
+         <Tooltip>
+          <Constant>image_file_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1686,10 +1694,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Text librarie</Text>
+         <Text>
+          <Constant>text_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>This librarie is use to load true type font file (.ttf) and generate images from texts.</Tooltip>
+         <Tooltip>
+          <Constant>text_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1716,10 +1728,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Effects librarie</Text>
+         <Text>
+          <Constant>effects_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).</Tooltip>
+         <Tooltip>
+          <Constant>effects_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1746,10 +1762,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Audio</Text>
+         <Text>
+          <Constant>audio_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>This librarie manage the audio mixing functionnality.</Tooltip>
+         <Tooltip>
+          <Constant>audio_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1776,10 +1796,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>Sound File</Text>
+         <Text>
+          <Constant>sound_file_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.</Tooltip>
+         <Tooltip>
+          <Constant>sound_file_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1806,10 +1830,14 @@
         <EV_SENSITIVE>
         </EV_SENSITIVE>
         <EV_TEXTABLE>
-         <Text>MPG file</Text>
+         <Text>
+          <Constant>mpg_file_library_check_button_text</Constant>
+         </Text>
         </EV_TEXTABLE>
         <EV_TOOLTIPABLE>
-         <Tooltip>With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).</Tooltip>
+         <Tooltip>
+          <Constant>mpg_file_library_check_button_tooltip</Constant>
+         </Tooltip>
         </EV_TOOLTIPABLE>
         <EV_WIDGET>
         </EV_WIDGET>
@@ -1819,36 +1847,6 @@
         </EV_PIXMAPABLE>
         <Events>
          <Event>select_actions EV_BUTTON_ACTION_SEQUENCES mpg_file_library_check_button_select_actions</Event>
-        </Events>
-       </item>
-       <item type="EV_CHECK_BUTTON">
-        <Internal_properties>
-         <id>57</id>
-         <name>opengl_library_check_button</name>
-         <Expanded>0</Expanded>
-        </Internal_properties>
-        <EV_COLORIZABLE>
-        </EV_COLORIZABLE>
-        <EV_FONTABLE>
-        </EV_FONTABLE>
-        <EV_DESELECTABLE>
-        </EV_DESELECTABLE>
-        <EV_SENSITIVE>
-        </EV_SENSITIVE>
-        <EV_TEXTABLE>
-         <Text>OpenGL low level wrapper (experimental)</Text>
-        </EV_TEXTABLE>
-        <EV_TOOLTIPABLE>
-         <Tooltip>Create hardware accelerated 3D scene.</Tooltip>
-        </EV_TOOLTIPABLE>
-        <EV_WIDGET>
-        </EV_WIDGET>
-        <EV_TEXT_ALIGNABLE>
-        </EV_TEXT_ALIGNABLE>
-        <EV_PIXMAPABLE>
-        </EV_PIXMAPABLE>
-        <Events>
-         <Event>select_actions EV_BUTTON_ACTION_SEQUENCES opengl_library_check_button_select_actions</Event>
         </Events>
        </item>
       </item>

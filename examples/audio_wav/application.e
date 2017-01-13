@@ -1,8 +1,8 @@
 note
 	description : "This application play all files passed in argument. The arguments must be supported sound files."
 	author		: "Louis Marchand"
-	date        : "Tue, 07 Apr 2015 01:35:17 +0000"
-	revision    : "2.0"
+	date        : "Fri, 13 Jan 2017 16:40:27 +0000"
+	revision    : "2.1"
 
 class
 	APPLICATION
@@ -17,19 +17,12 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
-		do
-			audio_library.enable_sound	-- Permit to the Audio
-			run_player
-			audio_library.quit_library	-- Properly quit the library
-		end
-
-	run_player
-			-- Execute the audio player
 		local
 			l_source:AUDIO_SOURCE
 			l_sound:AUDIO_SOUND_WAV_FILE
 			l_environment:EXECUTION_ENVIRONMENT
 		do
+			audio_library.enable_sound	-- Permit to use the Audio functionnality
 			create l_environment
 			audio_library.sources_add	-- Add a sound source in the audio context.
 			l_source:=audio_library.last_source_added

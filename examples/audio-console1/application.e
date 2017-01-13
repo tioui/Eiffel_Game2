@@ -1,8 +1,8 @@
 note
 	description : "This application play all files passed in argument. The arguments must be supported sound files."
 	author		: "Louis Marchand"
-	date        : "Tue, 07 Apr 2015 02:22:17 +0000"
-	revision    : "2.0"
+	date        : "Fri, 13 Jan 2017 16:39:51 +0000"
+	revision    : "2.1"
 
 class
 	APPLICATION
@@ -23,13 +23,12 @@ feature {NONE} -- Initialization
 				io.put_string ("Usage: "+argument (0)+" <list files>%N")
 			else
 				audio_library.enable_sound	-- Permit to the Audio
-				run_standard
-				audio_library.quit_library	-- Properly quit the library
+				run
 			end
 
 		end
 
-	run_standard
+	run
 			-- Execute the sound player
 		local
 			i:INTEGER

@@ -1,8 +1,8 @@
 note
 	description: "An example of how to read MP3 files."
 	author: "Louis Marchand"
-	date: "Fri, 04 Nov 2016 17:31:01 +0000"
-	revision: "0.1"
+	date: "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision: "1.0"
 
 class
 	APPLICATION
@@ -27,8 +27,6 @@ feature {NONE} -- Initialization
 			if not l_engine.has_error then
 				l_engine.run
 			end
-			mpg_library.quit_library
-			audio_library.quit_library
 		end
 
 end

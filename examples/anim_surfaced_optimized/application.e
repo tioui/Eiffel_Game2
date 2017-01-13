@@ -4,8 +4,8 @@ note
 					Also showing drawing optimization
 				]"
 	author		: "Louis Marchand"
-	date        : "Wed, 16 Mar 2016 23:29:16 +0000"
-	revision    : "2.1"
+	date        : "Fri, 13 Jan 2017 16:39:33 +0000"
+	revision    : "2.2"
 
 class
 	APPLICATION
@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 	make
 			-- Run application.
 		local
-			l_engine:detachable ENGINE
+			l_engine:ENGINE
 		do
 			game_library.enable_video -- Enable the video functionalities
 			image_file_library.enable_image (true, false, false)  -- Enable PNG image (but not TIF or JPG).
@@ -30,10 +30,6 @@ feature {NONE} -- Initialization
 			if not l_engine.has_error then
 				l_engine.run
 			end
-			l_engine := Void				-- To be sure that the garbage collector can collect everything before quitting the libraries
-			game_library.clear_all_events	-- To be sure that an object is not stocked inside an event agent
-			image_file_library.quit_library  -- Correctly unlink image files library
-			game_library.quit_library  -- Clear the library before quitting
 		end
 
 end

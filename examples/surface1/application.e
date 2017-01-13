@@ -7,8 +7,8 @@ note
 						{GAME_WINDOW_RENDERED}.
 					]"
 	author		: "Louis Marchand"
-	date        : "Sat, 28 Mar 2015 03:05:36 +0000"
-	revision    : "1.0"
+	date        : "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision    : "1.1"
 
 class
 	APPLICATION
@@ -22,20 +22,7 @@ create
 feature {NONE} -- Initialization
 
 	make
-			-- Setup application.
-		do
-			game_library.enable_video	-- Enable the video functionnality of the library
-
-
-			run_standard				-- Run another routine to be able to collect every object of type GAME_*
-										-- Those object are all local object.
-
-			game_library.quit_library	-- Must be done before quitting
-										-- The garbage colector must be able to collect every object of type GAME_*
-		end
-
-	run_standard
-			-- Run the application. Every local variable will be collected properly when calling the `quit_library' command in the `make' feature.
+			-- Run the application.
 		local
 			l_window_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_window:GAME_WINDOW_SURFACED
@@ -43,6 +30,7 @@ feature {NONE} -- Initialization
 			l_bk_source, l_bird_source:GAME_IMAGE_BMP_FILE
 			l_bird_transparent_color:GAME_COLOR
 		do
+			game_library.enable_video	-- Enable the video functionnality of the library
 			create l_window_builder		-- Used to generate {GAME_WINDOW}.
 			l_window := l_window_builder.generate_window		-- Create the {GAME_WINDOW} using default attributes
 
@@ -59,9 +47,12 @@ feature {NONE} -- Initialization
 
 			l_window.surface.draw_surface (l_background, 0, 0)		-- Drawing a background on the window surface
 			l_window.surface.draw_surface (l_bird, 500, 400)		-- Drawing a bird on the window surface (over the background)
+
 			l_window.update-- Show the modifications of the window surface
 
 			game_library.delay (3000)	-- Wait 3 seconds before closing
+
+
 		end
 
 end

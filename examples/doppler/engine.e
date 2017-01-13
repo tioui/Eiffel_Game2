@@ -47,7 +47,6 @@ feature {NONE} -- Initialization
 			-- Note: On error, has a side effect on `has_error'
 		local
 			l_image:IMG_IMAGE_FILE
-			l_pixel_format:GAME_PIXEL_FORMAT
 		do
 			create l_image.make (a_filename)
 			if l_image.is_openable then

@@ -71,7 +71,7 @@ feature {NONE} -- Implementation
 			elseif l_battery.is_state_no_battery then
 				create l_text.make ("There is no battery detected.", font, l_font_color)
 			elseif l_battery.is_state_on_battery then
-				create l_text.make ("The battery is running on battery.", font, l_font_color)
+				create l_text.make ("The system is running on battery.", font, l_font_color)
 			elseif l_battery.is_state_unknown then
 				create l_text.make ("The battery system does not seems to work.", font, l_font_color)
 			else

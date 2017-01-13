@@ -499,7 +499,7 @@ feature -- Access
 	core_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `core_library_check_button_tooltip'.
 		once
-			create Result.put ("This librarie is used to manage the visual and the event system.")
+			create Result.put ("This library is used to manage the visual and the event system.")
 		end
 
 	effects_library_check_button_tooltip: STRING_32
@@ -511,7 +511,7 @@ feature -- Access
 	effects_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `effects_library_check_button_tooltip'.
 		once
-			create Result.put ("This librarie is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).")
+			create Result.put ("This library is use to make visual effect on surface image. Not very usefull if you use texture image (video memory) instead of surface image (ram).")
 		end
 
 	effects_library_check_button_text: STRING_32
@@ -523,7 +523,7 @@ feature -- Access
 	effects_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `effects_library_check_button_text'.
 		once
-			create Result.put ("Effects librarie")
+			create Result.put ("Surface effects")
 		end
 
 	image_file_library_check_button_text: STRING_32
@@ -535,7 +535,7 @@ feature -- Access
 	image_file_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `image_file_library_check_button_text'.
 		once
-			create Result.put ("Image file librarie")
+			create Result.put ("Image file")
 		end
 
 	image_file_library_check_button_tooltip: STRING_32
@@ -547,7 +547,7 @@ feature -- Access
 	image_file_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `image_file_library_check_button_tooltip'.
 		once
-			create Result.put ("The librarie is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.")
+			create Result.put ("The library is use to load image from file formats like PNG, JPEG, TIFF, etc. It is an easy way of managing image transparency.")
 		end
 
 	text_library_check_button_text: STRING_32
@@ -559,7 +559,7 @@ feature -- Access
 	text_library_check_button_text_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `text_library_check_button_text'.
 		once
-			create Result.put ("Text librarie")
+			create Result.put ("Text")
 		end
 
 	text_library_check_button_tooltip: STRING_32
@@ -571,7 +571,7 @@ feature -- Access
 	text_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `text_library_check_button_tooltip'.
 		once
-			create Result.put ("This librarie is use to load true type font file (.ttf) and generate images from texts.")
+			create Result.put ("This library is use to load true type font file (.ttf) and generate images from texts.")
 		end
 
 	audio_library_check_button_text: STRING_32
@@ -595,7 +595,7 @@ feature -- Access
 	audio_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `audio_library_check_button_tooltip'.
 		once
-			create Result.put ("This librarie manage the audio mixing functionnality.")
+			create Result.put ("This library manage the audio mixing functionnality.")
 		end
 
 	sound_file_library_check_button_text: STRING_32
@@ -619,7 +619,7 @@ feature -- Access
 	sound_file_library_check_button_tooltip_cell: CELL [STRING_32]
 			--`Result' is once access to a cell holding vale of `sound_file_library_check_button_tooltip'.
 		once
-			create Result.put ("This librarie make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.")
+			create Result.put ("This library make it possible to open and read multiple sound file format (ogg, flac, etc.) Note tha this librarie cannot open mp3 files.")
 		end
 
 	mpg_file_library_check_button_text: STRING_32

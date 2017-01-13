@@ -1,8 +1,8 @@
 note
 	description: "Show hot to directly draw pixels on a {GAME_SURFACE}"
 	author: "Louis Marchand"
-	date: "Sat, 02 Jan 2016 21:31:37 +0000"
-	revision: "1.0"
+	date: "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision: "1.1"
 
 class
 	APPLICATION
@@ -18,19 +18,12 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
-		do
-			game_library.enable_video
-			run
-			game_library.clear_all_events
-			game_library.quit_library
-		end
-
-	run
 		local
 			l_builder:GAME_WINDOW_SURFACED_BUILDER
 			l_window:GAME_WINDOW_SURFACED
 			l_surface:GAME_SURFACE
 		do
+			game_library.enable_video
 			create l_builder
 			l_window := l_builder.generate_window
 			create l_surface.make_for_window (l_window, 100, 100)

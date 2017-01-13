@@ -1,7 +1,7 @@
 note
 	description : "Listing rendering drivers"
-	date        : "Sat, 14 Mar 2015 02:22:50 +0000"
-	revision    : "1.0"
+	date        : "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision    : "1.1"
 
 class
 	APPLICATION
@@ -22,7 +22,6 @@ feature {NONE} -- Initialization
 			across game_library.renderer_drivers as l_drivers loop
 				print(l_drivers.item.out + "%N%N")
 			end
-			game_library.quit_library
 		end
 
 end

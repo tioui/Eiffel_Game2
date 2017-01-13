@@ -1,7 +1,8 @@
 note
 	description : "Exemple of drawing on a window using renderers."
-	date        : "2015, Febuary 19"
-	revision    : "0.1"
+	authors		: "Louis Marchand"
+	date        : "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision    : "1.0"
 
 class
 	APPLICATION
@@ -16,18 +17,11 @@ feature {NONE} -- Initialization
 
 	make
 			-- Run application.
-		do
-			game_library.enable_video
-			run_game
-			game_library.quit_library
-		end
-
-	run_game
-			-- Prepare and launch the game
 		local
 			l_window_builder: GAME_WINDOW_RENDERED_BUILDER
 			l_window:GAME_WINDOW_RENDERED
 		do
+			game_library.enable_video
 			create l_window_builder
 			l_window_builder.set_dimension (70, 70)
 			l_window := l_window_builder.generate_window

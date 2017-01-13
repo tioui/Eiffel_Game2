@@ -1,0 +1,17 @@
+<EIFFEL_DOCUMENT>
+	<PREFERENCE NAME="regenerate_ecf" VALUE="True"/>
+	<PREFERENCE NAME="project_path" VALUE="."/>
+	<PREFERENCE NAME="project_name" VALUE="writing_text"/>
+	<PREFERENCE NAME="target_name" VALUE="writing_text"/>
+	<PREFERENCE NAME="cluster_name" VALUE="writing_text"/>
+	<PREFERENCE NAME="root_class" VALUE="APPLICATION"/>
+	<PREFERENCE NAME="multi_thread" VALUE="False"/>
+	<PREFERENCE NAME="void_safe" VALUE="True"/>
+	<PREFERENCE NAME="core_library" VALUE="True"/>
+	<PREFERENCE NAME="image_file_library" VALUE="False"/>
+	<PREFERENCE NAME="text_library" VALUE="True"/>
+	<PREFERENCE NAME="effects_library" VALUE="False"/>
+	<PREFERENCE NAME="audio_library" VALUE="False"/>
+	<PREFERENCE NAME="sound_file_library" VALUE="False"/>
+	<PREFERENCE NAME="mpg_file_library" VALUE="False"/>
+</EIFFEL_DOCUMENT>

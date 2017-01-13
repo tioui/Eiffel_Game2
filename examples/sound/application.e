@@ -1,8 +1,8 @@
 note
 	description : "Root class for the sound and window exemple"
 	author		: "Louis Marchand"
-	date        : "Thu, 17 Mar 2016 13:26:06 +0000"
-	revision    : "2.1"
+	date        : "Fri, 13 Jan 2017 16:38:24 +0000"
+	revision    : "2.2"
 
 class
 	APPLICATION
@@ -32,10 +32,6 @@ feature {NONE} -- Initialization
 			if not l_engine.has_error then
 				l_engine.run
 			end
-			l_engine := Void
-			game_library.clear_all_events
-			game_library.quit_library  -- Clear the library before quitting
-			audio_library.quit_library
 		end
 
 

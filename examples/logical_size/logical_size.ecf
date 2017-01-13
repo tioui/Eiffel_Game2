@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-13-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-13-0 http://www.eiffel.com/developers/xml/configuration-1-13-0.xsd" name="logical_size" uuid="FF2B56C4-43F8-4BF7-9436-BA54D6EAC40F">
-	<target name="logical_size">
-		<root class="APPLICATION" feature="make"/>
-		<option warning="true">
-			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
-		</option>
-		<setting name="console_application" value="true"/>
-		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core" location="$ISE_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
-		<cluster name="logical_size" location=".\" recursive="true">
-			<file_rule>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/CVS$</exclude>
-				<exclude>/.svn$</exclude>
-			</file_rule>
-		</cluster>
-	</target>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="logical_size" uuid="48656668-F231-491B-A9E5-C239156D7611">
+    <target name="logical_size">
+        <root class="GAME2_APPLICATION" feature="make"/>
+        <option warning="true">
+            <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+        </option>
+        <setting name="concurrency" value="none"/>
+        <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+
+        <cluster name="logical_size" location=".\" recursive="true">
+            <file_rule>
+                <exclude>/EIFGENs$</exclude>
+            </file_rule>
+        </cluster>
+    </target>
 </system>

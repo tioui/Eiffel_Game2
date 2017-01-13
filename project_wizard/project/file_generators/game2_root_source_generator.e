@@ -170,7 +170,7 @@ feature {NONE} --Implementation
 			Result := "[
 note
     description : "{$game_documentation/}%
-    			{$no_modification/}"
+    			%{$no_modification/}"
     generator   : "Eiffel Game2 Project Wizard"
     date        : "{$date/}"
     revision    : "0.1"
