@@ -1,3 +1,8 @@
+v2.7
+2017-01-13
+ * Adding a project creation wizard
+ * Fix {GAME_KEY_STATE} modifier not working
+ 
 v2.6
 2016-11-05
  * Adding MP3 support
