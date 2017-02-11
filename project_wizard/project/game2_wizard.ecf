@@ -19,8 +19,8 @@
 				<exclude>/CVS$</exclude>
 				<exclude>/EIFGENs$</exclude>
 			</file_rule>
-			<cluster name="pixel_buffers" location="\home\louis\prog\Eiffel_Game2\project_wizard\project\pixel_buffers\"/>
-			<cluster name="file_generators" location="\home\louis\prog\Eiffel_Game2\project_wizard\project\file_generators\"/>
+			<cluster name="pixel_buffers" location=".\pixel_buffers\"/>
+			<cluster name="file_generators" location=".\file_generators\"/>
 		</cluster>
 	</target>
 	<target name="game2_wizard_dotnet" extends="game2_wizard">
