@@ -38,7 +38,7 @@ feature {NONE}
 			end
 		end
 
-	make_from_other (a_sound: SOUND)
+	make_from_other (a_sound: AUDIO_SOUND_CUSTOM)
 			-- Initialization for `Current' using another sound.
 		do
 			buffer_index:= 0

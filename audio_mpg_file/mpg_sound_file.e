@@ -136,22 +136,24 @@ feature {NONE} -- Implementation
 		local
 			l_filename_c:C_STRING
 			l_error:INTEGER
+			l_converter:UTF_CONVERTER
 		do
-			create l_filename_c.make (filename)
+			create l_converter
+			create l_filename_c.make (l_converter.string_32_to_utf_8_string_8 (filename.to_string_32))
 			l_error := {MPG_EXTERNAL}.mpg123_open(file_ptr, l_filename_c.item)
 			if l_error /= {MPG_EXTERNAL}.mpg123_ok then
-				read_mpg_error ("Cannot open file " + a_filename, l_error)
+				read_mpg_error ({STRING_32}"Cannot open file " + a_filename, l_error)
 			else
 				l_error := {MPG_EXTERNAL}.mpg123_getformat (file_ptr, $frequency_internal, $channel_count_internal, $resolution_index)
 				if l_error /= {MPG_EXTERNAL}.mpg123_ok then
-					read_mpg_error ("Cannot get audio format from " + a_filename, l_error)
+					read_mpg_error ({STRING_32}"Cannot get audio format from " + a_filename, l_error)
 				else
 					l_error := {MPG_EXTERNAL}.mpg123_format_none(file_ptr)
 					if l_error /= {MPG_EXTERNAL}.mpg123_ok then
-						read_mpg_error ("Cannot get audio format from " + a_filename, l_error)
+						read_mpg_error ({STRING_32}"Cannot get audio format from " + a_filename, l_error)
 					else
 						l_error := {MPG_EXTERNAL}.mpg123_format(file_ptr, frequency_internal, channel_count_internal, resolution_index)
-						read_mpg_error ("Cannot get audio format from " + a_filename, l_error)
+						read_mpg_error ({STRING_32}"Cannot get audio format from " + a_filename, l_error)
 					end
 				end
 
