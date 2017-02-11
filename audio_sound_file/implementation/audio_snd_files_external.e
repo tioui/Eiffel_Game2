@@ -24,6 +24,13 @@ feature -- libsndfile fonctions
 			"sf_open"
 		end
 
+	frozen sf_wchar_open(path:POINTER;mode:INTEGER;sf_info:POINTER):POINTER
+		external
+			"C (LPCWSTR, int , SF_INFO *) : SNDFILE* | <sndfile.h>"
+		alias
+			"sf_wchar_open"
+		end
+
 	frozen sf_open_virtual(sf_virtual_io:POINTER;mode:INTEGER;sf_info:POINTER;user_data:POINTER):POINTER
 		external
 			"C (SF_VIRTUAL_IO *, int , SF_INFO *, void *) : SNDFILE* | <sndfile.h>"

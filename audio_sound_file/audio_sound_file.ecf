@@ -77,6 +77,18 @@
 				<exclude>/Clib$</exclude>
 				<exclude>/spec$</exclude>
 			</file_rule>
+			<file_rule>
+				<exclude>/others$</exclude>
+				<condition>
+					<platform value="windows"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/windows$</exclude>
+				<condition>
+					<platform excluded_value="windows"/>
+				</condition>
+			</file_rule>
 		</cluster>
 	</target>
 </system>
