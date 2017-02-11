@@ -89,6 +89,18 @@
 					<platform excluded_value="windows"/>
 				</condition>
 			</file_rule>
+			<file_rule>
+				<exclude>implementation/others$</exclude>
+				<condition>
+					<platform value="windows"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>implementation/windows$</exclude>
+				<condition>
+					<platform excluded_value="windows"/>
+				</condition>
+			</file_rule>
 		</cluster>
 	</target>
 </system>

@@ -5,7 +5,7 @@ note
 	revision: "0.1"
 
 class
-	AUDIO_SND_FILES_EXTERNAL
+	AUDIO_SND_FILES_EXTERNAL_IMP
 
 
 feature -- libsndfile fonctions
@@ -22,13 +22,6 @@ feature -- libsndfile fonctions
 			"C (const char *, int , SF_INFO *) : SNDFILE* | <sndfile.h>"
 		alias
 			"sf_open"
-		end
-
-	frozen sf_wchar_open(path:POINTER;mode:INTEGER;sf_info:POINTER):POINTER
-		external
-			"C (LPCWSTR, int , SF_INFO *) : SNDFILE* | <sndfile.h>"
-		alias
-			"sf_wchar_open"
 		end
 
 	frozen sf_open_virtual(sf_virtual_io:POINTER;mode:INTEGER;sf_info:POINTER;user_data:POINTER):POINTER

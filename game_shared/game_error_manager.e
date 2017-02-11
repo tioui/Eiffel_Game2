@@ -21,12 +21,25 @@ feature {NONE} -- Implementation
 	put_error(a_general_message, a_specific_error:READABLE_STRING_GENERAL)
 			-- Create an error using `a_general_error' for the debug information
 			-- and `a_specific_error' for the lasting information
+		local
+			l_converter:UTF_CONVERTER
 		do
 			message := a_specific_error
 			has_error:=True
 			if print_on_error_internal.item then
-				io.error.put_string (a_general_message.to_string_8+"%N")
-				io.error.put_string (a_specific_error.to_string_8+"%N")
+				if a_general_message.is_valid_as_string_8 then
+					io.error.put_string (a_general_message.to_string_8+"%N")
+				else
+					create l_converter
+					io.error.put_string (l_converter.string_32_to_utf_8_string_8 (a_general_message.to_string_32)+"%N")
+				end
+
+				if a_specific_error.is_valid_as_string_8 then
+					io.error.put_string (a_specific_error.to_string_8+"%N")
+				else
+					create l_converter
+					io.error.put_string (l_converter.string_32_to_utf_8_string_8 (a_specific_error.to_string_32)+"%N")
+				end
 			end
 		ensure
 			has_error
@@ -41,7 +54,7 @@ feature {NONE} -- Implementation
 		once ("PROCESS")
 			create Result.put (True)
 		end
-	
+
 	print_on_error:BOOLEAN
 			-- When an error occured, the library will print
 			-- informations about the error on the error console
