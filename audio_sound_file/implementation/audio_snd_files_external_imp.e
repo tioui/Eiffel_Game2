@@ -74,6 +74,13 @@ feature -- libsndfile fonctions
 			"sizeof(SF_VIRTUAL_IO)"
 		end
 
+	frozen sf_get_string(sndfile:POINTER;str_type:INTEGER):POINTER
+		external
+			"C (SNDFILE *, int) : const char* | <sndfile.h>"
+		alias
+			"sf_get_string"
+		end
+
 feature -- sndfile_addition functions
 
 	frozen set_snd_file_virtual_io(virtual_io:POINTER)
@@ -178,6 +185,55 @@ feature -- libsndfile Constants
 			"C inline use <sndfile.h>"
 		alias
 			"SFC_GET_LOG_INFO"
+		end
+
+	frozen SF_STR_TITLE :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_TITLE"
+		end
+
+	frozen SF_STR_COMMENT :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_COMMENT"
+		end
+
+	frozen SF_STR_ARTIST :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_ARTIST"
+		end
+
+	frozen SF_STR_DATE :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_DATE"
+		end
+
+	frozen SF_STR_ALBUM :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_ALBUM"
+		end
+
+	frozen SF_STR_TRACKNUMBER :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_TRACKNUMBER"
+		end
+
+	frozen SF_STR_GENRE :INTEGER
+		external
+			"C inline use <sndfile.h>"
+		alias
+			"SF_STR_GENRE"
 		end
 
 end

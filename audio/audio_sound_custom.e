@@ -2,8 +2,8 @@ note
 	description: "Class that holds information for a sound and fills a buffer to play it."
 	author: "Émilio G!"
 	adaptation: "Louis Marchand"
-	date: "16-02-23"
-	revision: "16w09a"
+	date: "Tue, 21 Feb 2017 00:15:23 +0000"
+	revision: "1.0"
 	legal: "See notice at end of class."
 
 class
@@ -90,6 +90,29 @@ feature
 			--nothing. This is actually useless but necessary to inherit from AUDIO_SOUND.
 		do
 
+		end
+
+	sample_seek(a_frame_number:INTEGER_64)
+			-- Seek at the frame `a_frame_number' from the beginning of `Current'
+			-- <Precursor>
+		do
+
+		end
+
+	sample_position:INTEGER_64
+			-- <Precursor>
+		require else
+			Can_Position: True
+		do
+			Result := (buffer_index // byte_per_buffer_sample) + 1
+		end
+
+	sample_count:INTEGER_64
+			-- <Precursor>
+		require else
+			Can_Position: True
+		do
+			Result := sound_length
 		end
 
 feature {AUDIO_LIBRARY_CONTROLLER}

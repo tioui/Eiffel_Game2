@@ -1,8 +1,8 @@
 note
 	description: "A sound to be played by an audio source."
 	author: "Louis Marchand"
-	date: "Tue, 07 Apr 2015 01:15:20 +0000"
-	revision: "2.0"
+	date: "Tue, 21 Feb 2017 00:15:23 +0000"
+	revision: "2.1"
 
 deferred class
 	AUDIO_SOUND
@@ -80,6 +80,60 @@ feature --Access
 			Sound_Is_open: is_open
 		deferred
 		end
+
+	sample_seek(a_frame_number:INTEGER_64)
+			-- Seek at the frame `a_frame_number' from the beginning of `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+			Is_seek_inside: a_frame_number >= 1 and a_frame_number <= sample_count
+		deferred
+		end
+
+	time_seek(a_milliseconds:INTEGER_64)
+			-- Seek at `a_milliseconds' from the beginning of `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+			Is_seek_inside: a_milliseconds >= 1 and a_milliseconds <= time_count
+		do
+			sample_seek(((a_milliseconds * frequency) // 1000) + 1)
+		end
+
+	sample_position:INTEGER_64
+			-- The number of frames since the beginning of `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+		deferred
+		end
+
+	time_position:INTEGER_64
+			-- The number of milliseconds since the beginning of `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+		do
+			Result := ((sample_position - 1) * 1000) // frequency
+		end
+
+	sample_count:INTEGER_64
+			-- The total number of frames in `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+		deferred
+		end
+
+	time_count:INTEGER_64
+			-- The total number of milliseconds in `Current'
+		require
+			Sound_Is_open: is_open
+			Is_Seekable:is_seekable
+		do
+			Result := (sample_count * 1000) // frequency
+		end
+
 
 invariant
 	Errors_Valid: has_error ~ has_ressource_error

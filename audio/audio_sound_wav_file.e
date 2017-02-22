@@ -1,8 +1,8 @@
 note
 	description: "An {AUDIO_SOUND} witch data came from a WAV file."
 	author: "Louis Marchand"
-	date: "Tue, 07 Apr 2015 01:15:20 +0000"
-	revision: "2.0"
+	date: "Tue, 21 Feb 2017 00:15:23 +0000"
+	revision: "2.1"
 
 class
 	AUDIO_SOUND_WAV_FILE
@@ -70,14 +70,11 @@ feature {NONE} -- Initialization
 					chunk_data_size:=file.last_natural_32
 					cur_offset:=file.position
 					if chunk_id=0x64617461 then		-- Data
-						data_starting_offset:=file.position
-						if file.can_read_32 then
-							file.read_natural_32_little_endian
-							data_size:=file.last_natural_32
-							data_found:=true
-							if not fmt_found then
-								put_error ("Cannot read WAV data chunks.", "Data deteted but not the fmt")
-							end
+						data_starting_offset:=cur_offset
+						data_size := chunk_data_size
+						data_found:=true
+						if not fmt_found then
+							put_error ("Cannot read WAV data chunks.", "Data deteted but not the fmt")
 						end
 					else
 						if chunk_id=0x666D7420 then		-- fmt
@@ -107,6 +104,7 @@ feature {NONE} -- Initialization
 					frequency_internal:=file.last_natural_32.as_integer_32
 					if file.can_read_64 then
 						file.read_natural_32_little_endian	-- Byte Rate
+						byte_rate := file.last_natural_32.to_integer_32
 						file.read_natural_16_little_endian	-- Block Align
 						bytes_per_sample:=file.last_natural_16
 						file.read_natural_16_little_endian	-- Bits per sample
@@ -196,7 +194,28 @@ feature -- Access
 			file.go (data_starting_offset)
 		end
 
+	sample_seek(a_frame_number:INTEGER_64)
+			-- <Precursor>
+		do
+			file.go ((data_starting_offset + (byte_per_buffer_sample * (a_frame_number - 1))).to_integer_32)
+		end
+
+	sample_position:INTEGER_64
+			-- <Precursor>
+		do
+			Result := ((file.position - data_starting_offset) // byte_per_buffer_sample) + 1
+		end
+
+	sample_count:INTEGER_64
+			-- <Precursor>
+		do
+			Result := data_size.to_integer_64 // byte_per_buffer_sample
+		end
+
+
 feature {NONE} -- Implementation - Variable
+
+	byte_rate:INTEGER_32
 
 	file:GAME_FILE
 			-- The file used to read `Current's data

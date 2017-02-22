@@ -59,9 +59,8 @@ feature {NONE} -- Initialization
 			loop
 				env.sleep (10000000)	-- Put a loop delay to remove CPU time
 				audio_library.update	-- This line is very important. If it is not execute reguraly,
-							-- the source will stop playing.
+										-- the source will stop playing.
 			end
-							-- In some system, the absence of this method can lock the audio device until a reboot.
 		end
 
 end

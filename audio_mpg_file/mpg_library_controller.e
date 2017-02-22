@@ -31,16 +31,15 @@ feature -- Access
 
 	quit_library
 			-- Quit the MPG library (must be called one per process)
-		require
-			Is_Enabled: is_mpg_enabled
 		local
 			l_memory:MEMORY
 		do
-			is_mpg_enabled := False
-			create l_memory
-			l_memory.full_collect
-			{MPG_EXTERNAL}.mpg123_exit
-			is_mpg_enabled := False
+			if is_mpg_enabled then
+				create l_memory
+				l_memory.full_collect
+				{MPG_EXTERNAL}.mpg123_exit
+				is_mpg_enabled := False
+			end
 		end
 
 	is_mpg_enabled:BOOLEAN

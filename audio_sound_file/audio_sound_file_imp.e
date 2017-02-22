@@ -1,14 +1,14 @@
 note
 	description: "A {GAME_SOUND} loaded from a sound file."
 	author: "Louis Marchand"
-	date: "Wed, 08 Apr 2015 01:04:08 +0000"
-	revision: "2.0"
+	date: "Tue, 21 Feb 2017 00:15:23 +0000"
+	revision: "2.1"
 
 deferred class
 	AUDIO_SOUND_FILE_IMP
 
 inherit
-	AUDIO_SOUND
+	METADATA_AUDIO_SOUND
 	DISPOSABLE
 		undefine
 			default_create
@@ -50,6 +50,54 @@ feature {AUDIO_SOURCE}
 		end
 
 feature --Access
+
+	title: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_TITLE)
+		end
+
+	artist: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_ARTIST)
+		end
+
+	album: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_ALBUM)
+		end
+
+	date: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_DATE)
+		end
+
+	genre: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_GENRE)
+		end
+
+	comment: detachable READABLE_STRING_GENERAL
+			-- <Precursor>
+		do
+			Result := get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_COMMENT)
+		end
+
+	track_number: INTEGER_32
+			-- <Precursor>
+		local
+			l_string:READABLE_STRING_GENERAL
+		do
+			if attached get_metadata_value ({AUDIO_SND_FILES_EXTERNAL}.SF_STR_TRACKNUMBER) as la_string and then la_string.is_integer_32 then
+				Result := la_string.to_integer_32
+			else
+				Result := 0
+			end
+		end
 
 	open
 			-- <Precursor>
@@ -105,15 +153,58 @@ feature --Access
 		do
 			if is_seekable then
 				l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,{AUDIO_SND_FILES_EXTERNAL}.Seek_set)
-				check l_error/=-1 end
+				if l_error = -1 then
+					put_error (
+								"Cannot seek in the audio file.",
+								"The system tried to seek at the beginning of file " + filename + "but it failed."
+							)
+				end
 			else
 				dispose
 				open_from_file(filename)
 			end
+		end
 
+	sample_seek(a_frame_number:INTEGER_64)
+			-- <Precursor>
+		local
+			l_error:INTEGER_64
+		do
+			l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr, a_frame_number - 1, {AUDIO_SND_FILES_EXTERNAL}.Seek_set)
+			if l_error = -1 then
+				put_error (
+							"Cannot seek in the audio file.",
+							"The system tried to seek at the frame " + a_frame_number.out + " of file " + filename + "but it failed."
+						)
+			end
+		end
+
+	sample_position:INTEGER_64
+			-- <Precursor>
+		do
+			Result := {AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr, 0, {AUDIO_SND_FILES_EXTERNAL}.Seek_cur) + 1
+		end
+
+	sample_count:INTEGER_64
+			-- <Precursor>
+		do
+			Result:={AUDIO_SND_FILES_EXTERNAL}.get_sf_info_struct_frames(file_info)
 		end
 
 feature {NONE} -- Implementation - Methodes
+
+	get_metadata_value(a_flag:INTEGER):detachable READABLE_STRING_GENERAL
+		local
+			l_pointer:POINTER
+			l_c_string:C_STRING
+			l_utf_converter:UTF_CONVERTER
+		do
+			l_pointer := {AUDIO_SND_FILES_EXTERNAL}.sf_get_string(snd_file_ptr, a_flag)
+			if not l_pointer.is_default_pointer then
+				create l_c_string.make_shared_from_pointer (l_pointer)
+				Result := l_utf_converter.utf_8_string_8_to_string_32 (l_c_string.string)
+			end
+		end
 
 	open_from_file(a_filename:READABLE_STRING_GENERAL)
 			-- `open' `Current' using `a_filename'

@@ -1,8 +1,8 @@
 note
 	description: "Wrapper for the MPG123 internal library"
 	author: "Louis Marchand"
-	date: "Fri, 04 Nov 2016 17:31:01 +0000"
-	revision: "0.1"
+	date: "Tue, 21 Feb 2017 01:08:21 +0000"
+	revision: "0.2"
 
 class
 	MPG_EXTERNAL
@@ -110,30 +110,236 @@ feature -- Externals
 			"mpg123_read"
 		end
 
+	frozen mpg123_tell(mh:POINTER):INTEGER
+			-- Returns the current position in samples. On the next successful read, you'd get that sample.
+		external
+			"C (mpg123_handle *) : int | <mpg123.h>"
+		alias
+			"mpg123_tell"
+		end
+
+	frozen mpg123_length(mh:POINTER):INTEGER
+			-- Return, if possible, the full (expected) length of current track in samples.
+		external
+			"C (mpg123_handle *) : int | <mpg123.h>"
+		alias
+			"mpg123_length"
+		end
+
+	frozen mpg123_scan(mh:POINTER):INTEGER
+			-- Make a full parsing scan of each frame in the file.
+		external
+			"C (mpg123_handle *) : int | <mpg123.h>"
+		alias
+			"mpg123_scan"
+		end
+
+	frozen mpg123_meta_check(mh:POINTER):INTEGER
+			-- Query if there is (new) meta info, be it ID3 or ICY (or something new in future).
+		external
+			"C (mpg123_handle *) : int | <mpg123.h>"
+		alias
+			"mpg123_meta_check"
+		end
+
+	frozen mpg123_id3(mh, v1, v2:POINTER):INTEGER
+			-- Point v1 and v2 to existing data structures wich may change
+			-- on any next read/decode function call. v1 and/or v2 can be
+			-- set to NULL when there is no corresponding data.
+		external
+			"C (mpg123_handle *, mpg123_id3v1 **, mpg123_id3v2 **) : int | <mpg123.h>"
+		alias
+			"mpg123_id3"
+		end
+
+feature -- Structures
+
+	frozen get_mpg123_id3v1_struct_title(a_mpg123_id3v1:POINTER):POINTER
+			-- Title string of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"&(((mpg123_id3v1*)$a_mpg123_id3v1)->title[0])"
+		end
+
+	frozen get_mpg123_id3v1_struct_artist(a_mpg123_id3v1:POINTER):POINTER
+			-- Artist string of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"&(((mpg123_id3v1*)$a_mpg123_id3v1)->artist[0])"
+		end
+
+	frozen get_mpg123_id3v1_struct_album(a_mpg123_id3v1:POINTER):POINTER
+			-- Album string of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"&(((mpg123_id3v1*)$a_mpg123_id3v1)->album[0])"
+		end
+
+	frozen get_mpg123_id3v1_struct_year(a_mpg123_id3v1:POINTER):POINTER
+			-- Year string of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"&(((mpg123_id3v1*)$a_mpg123_id3v1)->year[0])"
+		end
+
+	frozen get_mpg123_id3v1_struct_comment(a_mpg123_id3v1:POINTER):POINTER
+			-- Comment string of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"&(((mpg123_id3v1*)$a_mpg123_id3v1)->comment[0])"
+		end
+
+	frozen get_mpg123_id3v1_struct_genre(a_mpg123_id3v1:POINTER):NATURAL_8
+			-- Genre index of the ID3 V1 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v1*)$a_mpg123_id3v1)->genre"
+		end
+
+	frozen get_mpg123_id3v2_struct_title(a_mpg123_id3v1:POINTER):POINTER
+			-- Title string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->title"
+		end
+
+	frozen get_mpg123_id3v2_struct_artist(a_mpg123_id3v1:POINTER):POINTER
+			-- Artist string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->artist"
+		end
+
+	frozen get_mpg123_id3v2_struct_album(a_mpg123_id3v1:POINTER):POINTER
+			-- Album string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->album"
+		end
+
+	frozen get_mpg123_id3v2_struct_year(a_mpg123_id3v1:POINTER):POINTER
+			-- Year string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->year"
+		end
+
+	frozen get_mpg123_id3v2_struct_genre(a_mpg123_id3v1:POINTER):POINTER
+			-- Genre string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->genre"
+		end
+
+	frozen get_mpg123_id3v2_struct_comment(a_mpg123_id3v1:POINTER):POINTER
+			-- Comment string of the ID3 V2 metadata
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_id3v2*)$a_mpg123_id3v1)->comment"
+		end
+
+	frozen get_mpg123_string_struct_p(a_mpg123_string:POINTER):POINTER
+			-- Get the data pointer from a mpg123_string
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_string*)$a_mpg123_string)->p"
+		end
+
+	frozen get_mpg123_string_struct_fill(a_mpg123_string:POINTER):INTEGER
+			-- Get the data size from a mpg123_string
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"((mpg123_string*)$a_mpg123_string)->fill"
+		end
+
+
 feature -- Constants
 
-	frozen  mpg123_ok :INTEGER
+	frozen sizeof_mpg123_id3v1_title :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"sizeof(((mpg123_id3v1*)0)->title)"
+		end
+
+	frozen sizeof_mpg123_id3v1_artist :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"sizeof(((mpg123_id3v1*)0)->artist)"
+		end
+
+	frozen sizeof_mpg123_id3v1_album :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"sizeof(((mpg123_id3v1*)0)->album)"
+		end
+
+	frozen sizeof_mpg123_id3v1_year :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"sizeof(((mpg123_id3v1*)0)->year)"
+		end
+
+	frozen sizeof_mpg123_id3v1_comment :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"sizeof(((mpg123_id3v1*)0)->comment)"
+		end
+
+	frozen mpg123_ok :INTEGER
 		external
 			"C inline use <mpg123.h>"
 		alias
 			"MPG123_OK"
 		end
 
-	frozen  mpg123_enc_signed_16 :INTEGER
+	frozen mpg123_err :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"MPG123_ERR"
+		end
+
+	frozen mpg123_enc_signed_16 :INTEGER
 		external
 			"C inline use <mpg123.h>"
 		alias
 			"MPG123_ENC_SIGNED_16"
 		end
 
-	frozen  mpg123_enc_ulaw_8 :INTEGER
+	frozen mpg123_enc_ulaw_8 :INTEGER
 		external
 			"C inline use <mpg123.h>"
 		alias
 			"MPG123_ENC_ULAW_8"
 		end
 
-	frozen  seek_set :INTEGER
+	frozen mpg123_id3_constant :INTEGER
+		external
+			"C inline use <mpg123.h>"
+		alias
+			"MPG123_ID3"
+		end
+
+	frozen seek_set :INTEGER
 		external
 			"C inline use <stdio.h>"
 		alias

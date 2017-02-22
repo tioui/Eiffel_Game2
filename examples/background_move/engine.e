@@ -161,7 +161,7 @@ feature {NONE} -- Implementation
 		end
 
 	on_quit(a_timestamp:NATURAL)
-			-- When the user close the window
+			-- When the user closes the window
 		do
 			game_library.stop
 		end
