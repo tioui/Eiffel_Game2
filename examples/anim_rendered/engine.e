@@ -46,7 +46,7 @@ feature -- Access
 			window.key_pressed_actions.extend (agent on_key_pressed)
 			window.key_released_actions.extend (agent on_key_released)
 			game_library.iteration_actions.extend (agent on_iteration)
-			if window.renderer.driver.is_present_synchronized_supported then	-- If the Video card acceptd the frame synchronisation (FPS)
+			if window.renderer.driver.is_present_synchronized_supported then	-- If the Video card accepted the frame synchronisation (FPS)
 				game_library.launch_no_delay									-- Don't let the library managed the frame synchronisation
 			else
 				game_library.launch

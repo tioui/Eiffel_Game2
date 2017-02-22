@@ -37,10 +37,10 @@ feature {NONE} -- Initialization
 						sub_image_height := height
 					end
 				else
-					has_error := False
+					has_error := True
 				end
 			else
-				has_error := False
+				has_error := True
 			end
 			initialize_animation_coordinate
 		end
