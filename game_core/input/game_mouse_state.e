@@ -1,7 +1,7 @@
 note
 	description: "[
 				A snapshot of the state of a {GAME_MOUSE} at a certain time.
-				Note that those informations are not updated overtime.
+				Note that this information is not updated overtime.
 					]"
 	author: "Louis Marchand"
 	date: "Wed Sep 03, 2014"
