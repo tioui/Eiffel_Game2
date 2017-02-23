@@ -194,7 +194,7 @@ feature --Access
 feature {NONE} -- Implementation - Methodes
 
 	get_metadata_value(a_flag:INTEGER):detachable READABLE_STRING_GENERAL
-			-- Get the text of a Metadata in `Current' using `a_flag' to know which metadata to retreive.
+			-- Get the text of a Metadata in `Current' using `a_flag' to know which metadata to retrieve.
 		local
 			l_pointer:POINTER
 			l_c_string:C_STRING
