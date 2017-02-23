@@ -198,6 +198,15 @@ feature --Access
 			has_ressource_error := has_error
 		end
 
+	close
+			-- <Precursor>
+		local
+			l_error:INTEGER
+		do
+			l_error:={MPG_EXTERNAL}.mpg123_close(file_ptr)
+			is_open := False
+		end
+
 	channel_count:INTEGER
 			-- <Precursor>
 		do
@@ -492,7 +501,7 @@ feature {NONE} -- Implementation
 			error:INTEGER
 		do
 			if is_open then
-				error:={MPG_EXTERNAL}.mpg123_close(file_ptr)
+				close
 			end
 			{MPG_EXTERNAL}.mpg123_delete(file_ptr)
 		end

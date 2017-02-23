@@ -39,6 +39,16 @@ feature {AUDIO_SOURCE}
 		end
 
 feature --Access
+
+	close
+			-- Stop the management of the stream
+		require
+			Sound_Is_open: is_open
+		deferred
+		ensure
+			Sound_Is_Closed: not is_open
+		end
+
 	channel_count:INTEGER
 			-- Get the channel number of `Current' (1=mono, 2=stereo, etc.).
 		require

@@ -89,7 +89,13 @@ feature
 	open
 			--nothing. This is actually useless but necessary to inherit from AUDIO_SOUND.
 		do
+			is_open := True
+		end
 
+	close
+			-- <Precursor>
+		do
+			is_open := False
 		end
 
 	sample_seek(a_frame_number:INTEGER_64)

@@ -158,6 +158,13 @@ feature -- Access
 			has_ressource_error := has_error
 		end
 
+	close
+			-- <Precursor>
+		do
+			file.close
+			is_open := False
+		end
+
 	channel_count:INTEGER
 			-- <Precursor>
 		do

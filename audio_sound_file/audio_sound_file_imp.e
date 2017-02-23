@@ -107,6 +107,18 @@ feature --Access
 			has_ressource_error := has_error
 		end
 
+	close
+			-- <Precursor>
+		local
+			l_error:INTEGER
+		do
+			file_info.memory_free
+			l_error:={AUDIO_SND_FILES_EXTERNAL}.sf_close(snd_file_ptr)
+			create snd_file_ptr
+			create file_info
+			is_open := False
+		end
+
 	is_openable:BOOLEAN
 			-- <Precursor>
 		local
@@ -214,12 +226,10 @@ feature {NONE} -- Implementation - Methodes
 
 	dispose
 			-- <Precursor>
-		local
-			error:INTEGER
 		do
-			file_info.memory_free
-			error:={AUDIO_SND_FILES_EXTERNAL}.sf_close(snd_file_ptr)
-			check error=0 end
+			if is_open then
+				close
+			end
 		end
 
 	Sf_info_size:INTEGER
