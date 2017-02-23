@@ -1,5 +1,5 @@
 note
-	description: "Controller for de audio library."
+	description: "Controller for the audio library."
 	author: "Louis Marchand"
 	date: "Tue, 07 Apr 2015 01:15:20 +0000"
 	revision: "2.0"
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make
 			-- Initialization for `Current'.
-			-- Active the sound context.
+			-- Activates the sound context.
 		do
 			sound_buffer_size:=65536
 			is_thread_init:=false
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	devices:LIST[READABLE_STRING_GENERAL]
-			-- List all possible device that `Current' may used
+			-- Lists all possible devices that `Current' may use
 		local
 			l_result:POINTER
 			l_c_string:C_STRING
@@ -64,7 +64,7 @@ feature -- Access
 		end
 
 	enable_sound
-			-- Active the sound context.
+			-- Activates the sound context.
 		require
 			Is_Not_Already_Enabled: not is_sound_enable
 		local
@@ -94,7 +94,7 @@ feature -- Access
 		end
 
 	disable_sound
-			-- Close the sound context.
+			-- Closes the sound context.
 		local
 			l_ok:BOOLEAN
 		do
@@ -126,7 +126,7 @@ feature -- Access
 		end
 
 	listener:AUDIO_LISTENER
-			-- Get the sound listener.
+			-- Gets the sound listener.
 		require
 			Get_Listener_Sound_Open:is_sound_enable
 		do
@@ -134,7 +134,7 @@ feature -- Access
 		end
 
 	is_sound_enable:BOOLEAN
-			-- True when a sound context is activate.
+			-- True when a sound context is active.
 		do
 			Result := not {AUDIO_EXTERNAL}.ALC_get_current_context.is_default_pointer
 		end
@@ -143,18 +143,18 @@ feature -- Sources management
 
 
 	sound_buffer_size:INTEGER assign set_sound_buffer_size
-		-- The buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
+		-- The buffer size for the sound streaming (default is 65536). Allocating too little memory to the buffer can cause sound to stop before finishing.
 
 	set_sound_buffer_size(a_buffer_size:INTEGER)
-			-- Set the buffer size for the sound streaming (default is 65536). Allocate too little memory to buffer can cause sound to stop before finishing.
+			-- Set the buffer size for the sound streaming (default is 65536). Allocating too little memory to the buffer can cause sound to stop before finishing.
 		do
 			sound_buffer_size:=a_buffer_size
 		end
 
 	update
-			-- This methode must be execute at regular interval. If it is not execute enough in a certain time lap, the sounds will stop before finishing.
-			-- If this append, you can call this methode more often or use bigger `sound_buffer_size'. You can use the method `update_playing' for each individual
-			-- sound sources in the project and it will do the same effect.
+			-- This method must be executed at regular interval. If it is not executed enough in a certain time lap, the sound will stop before finishing.
+			-- If this happens, you can call this method more often or use bigger `sound_buffer_size'. You can use the method `update_playing' for each individual
+			-- Sound sources in the project and it will do the same effect.
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
@@ -163,7 +163,7 @@ feature -- Sources management
 
 
 	launch_in_thread
-			-- Make `Current' automatically `update' using another thread.
+			-- Makes `Current' automatically `update' using another thread.
 			-- You have to manually call `stop_thread' before closing the application
 		require
 			Launch_in_Thread_Sound_Open:is_sound_enable
@@ -184,7 +184,7 @@ feature -- Sources management
 			-- The `update' thread is running
 
 	stop_thread
-			-- Stop the thread previously called with `launch_in_thread'
+			-- Stops the thread previously called with `launch_in_thread'
 		require
 			Is_Thread_Running: is_thread_executing
 		do
@@ -196,7 +196,7 @@ feature -- Sources management
 		end
 
 	sources_count:INTEGER
-			-- The current number of sound source in the sound context.
+			-- The current number of sound sources in the sound context.
 		require
 			Sources_Count_Sound_Open:is_sound_enable
 		do
@@ -204,7 +204,7 @@ feature -- Sources management
 		end
 
 	sources_add
-			-- Create a new sound source. To receive the sound source, use the `source_get_last_add method'.
+			-- Creates a new sound source. To receive the sound source, use the `source_get_last_add method'.
 		require
 			Sources_Add_Sound_Open:is_sound_enable
 		do
@@ -221,7 +221,7 @@ feature -- Sources management
 		end
 
 	last_source_added:AUDIO_SOURCE
-			-- Return the last sound source that as been created.
+			-- Returns the last sound source that has been created.
 		require
 			Sources_Get_Last_add_Sound_Open:is_sound_enable
 		do
@@ -229,7 +229,7 @@ feature -- Sources management
 		end
 
 	sources_at(a_index:INTEGER):AUDIO_SOURCE
-			-- Return the `a_index'-th sound source.
+			-- Returns the `a_index'-th sound source.
 		require
 			Sources_Get_At_Sound_Open:is_sound_enable
 			Al_Controler_Source_Get_Index_Valid: a_index>0 and then a_index<sources_count+1
@@ -238,7 +238,7 @@ feature -- Sources management
 		end
 
 	sources_remove(a_index:INTEGER)
-			-- Remove the `a_index'-th sound source.
+			-- Removes the `a_index'-th sound source.
 		require
 			Sources_Remove_At_Sound_Open:is_sound_enable
 			Al_Controler_Source_Remove_Index_Valid: a_index>0 and then a_index<sources_count+1
@@ -249,8 +249,8 @@ feature -- Sources management
 		end
 
 	sources_prune(a_source:AUDIO_SOURCE)
-			-- Remove the sound source `a_source' from the sound controller. A sound that has been remove from the sound
-			-- controller can continue to work on its own, but it will not be update by the `update_sound_playing' routine.
+			-- Removes the sound source `a_source' from the sound controller. A sound that has been removed from the sound
+			-- Controller can continue to work on its own, but it will not be updated by the `update_sound_playing' routine.
 		require
 			Sources_Remove_Sound_Open:is_sound_enable
 			Al_Controler_Source_Remove_Source_Valid: a_source /= Void and then sources_has (a_source)
@@ -262,7 +262,7 @@ feature -- Sources management
 		end
 
 	sources_wipe_out
-			-- This methode remove all sound sources in the sound context.
+			-- This method removes all sound sources in the sound context.
 		require
 			Update_Sound_Playing_Sound_Open:is_sound_enable
 		do
@@ -271,7 +271,7 @@ feature -- Sources management
 		end
 
 	sources_has(a_source:AUDIO_SOURCE):BOOLEAN
-			-- Return true if the sound source `a_source' is still in the sound controller.
+			-- Returns true if the sound source `a_source' is still in the sound controller.
 		require
 			Sources_Has_Sound_Open:is_sound_enable
 		do
@@ -285,7 +285,7 @@ feature -- Sources management
 		end
 
 	quit_library
-			-- Clear the library. Must be used before the end of the application
+			-- Clears the library. Must be used before the end of the application
 		local
 			mem:MEMORY
 		do
@@ -300,7 +300,7 @@ feature -- Sources management
 feature {NONE}
 
 	sources_extend(a_source:AUDIO_SOURCE)
-			-- add `a_source' in the `sources' chain
+			-- Adds `a_source' in the `sources' chain
 		require
 			Sources_Push_Sound_Open:is_sound_enable
 		do
@@ -325,7 +325,7 @@ feature {NONE} -- Implementation Class Variable
 			-- Internal C pointer to the audio context
 
 	internal_listener:AUDIO_LISTENER
-			-- The audio listener to be return by `listener'
+			-- The audio listener to be returned by `listener'
 
 	internal_sources:LIST[AUDIO_SOURCE]
 			-- Every audio `sources' initialized by the library
