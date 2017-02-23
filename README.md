@@ -9,7 +9,7 @@ The library is compatible with Linux, MAC OS X, Windows. It should work with oth
 
 The Audio and Audio_Sound_File sub-libraries are under the LGPL license. Every other sub-libraries are under the zlib license. Every examples are under the GPL license.
 
-The project use those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile and libmpg123.
+The project uses those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile and libmpg123.
 
 [<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%40tioui%2ecom&lc=CA&item_name=Louis%20Marchand&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
