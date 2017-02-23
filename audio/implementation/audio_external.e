@@ -8,7 +8,7 @@ class
 	AUDIO_EXTERNAL
 
 
-feature -- OpenAL functions
+feature -- OpenAL Functions
 
 
 	frozen AL_get_error:INTEGER
@@ -227,7 +227,7 @@ feature -- OpenAL functions
 			"alSourceRewind"
 		end
 
-feature -- OpenAL Constantes
+feature -- OpenAL Constants
 
 
 
