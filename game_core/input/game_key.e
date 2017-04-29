@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			-- dependant `a_physical_code' value (scancode).
 		do
 			physical_code := a_physical_code
-			virtual_code := {GAME_SDL_EXTERNAL}.SDL_GetKeyFromScancode(physical_code)
+			virtual_code := {GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyFromScancode(physical_code)
 		end
 
 	make_from_virtual_code(a_virtual_code:INTEGER_32)
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			-- `a_virtual_code' value (keycode).
 		do
 			virtual_code := a_virtual_code
-			physical_code := {GAME_SDL_EXTERNAL}.SDL_GetScancodeFromKey(virtual_code)
+			physical_code := {GAME_SDL_SCANCODE}.SDL_GetScancodeFromKey(virtual_code)
 		end
 
 	make_from_name(a_name:READABLE_STRING_GENERAL)
@@ -55,11 +55,11 @@ feature {NONE} -- Initialization
 		do
 			create l_utf_converter
 			create l_text_c.make(l_utf_converter.string_32_to_utf_8_string_8 (a_name.to_string_32))
-			l_code := {GAME_SDL_EXTERNAL}.SDL_GetScancodeFromName(l_text_c.item)
-			if l_code /= {GAME_SDL_EXTERNAL}.SDL_SCANCODE_UNKNOWN  then
+			l_code := {GAME_SDL_SCANCODE}.SDL_GetScancodeFromName(l_text_c.item)
+			if l_code /= {GAME_SDL_SCANCODE}.SDL_SCANCODE_UNKNOWN  then
 				make_from_physical_code(l_code)
 			else
-				l_code := {GAME_SDL_EXTERNAL}.SDL_GetKeyFromName(l_text_c.item)
+				l_code := {GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyFromName(l_text_c.item)
 				make_from_virtual_code(l_code)
 			end
 		end
@@ -89,7 +89,7 @@ feature -- Access
 			l_result_ptr:POINTER
 			l_result_c:C_STRING
 		do
-			l_result_ptr:={GAME_SDL_EXTERNAL}.SDL_GetKeyName(virtual_code)
+			l_result_ptr:={GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyName(virtual_code)
 			if not l_result_ptr.is_default_pointer then
 				create l_result_c.make_by_pointer (l_result_ptr)
 				Result:=l_result_c.string
