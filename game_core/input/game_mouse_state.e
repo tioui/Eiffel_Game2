@@ -71,7 +71,7 @@ feature -- Access
 		end
 
 
-feature {NONE} -- Implementation
+feature {GAME_SDL_ANY} -- Implementation
 
 	state:NATURAL_32
 			-- The internal state code.
