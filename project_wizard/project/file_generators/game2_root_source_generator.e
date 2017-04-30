@@ -169,34 +169,34 @@ feature {NONE} --Implementation
 		do
 			Result := "[
 note
-    description : "{$game_documentation/}%
-    			%{$no_modification/}"
-    generator   : "Eiffel Game2 Project Wizard"
-    date        : "{$date/}"
-    revision    : "0.1"
-    license     : "CC0"
+	description : "{$game_documentation/}%
+				%{$no_modification/}"
+	generator   : "Eiffel Game2 Project Wizard"
+	date        : "{$date/}"
+	revision    : "0.1"
+	license     : "CC0"
 
 class
-    {$game2_root_class/}
+	{$game2_root_class/}
 
 inherit
 	ANY
 {$code_inherit/}
 
 create
-    {$game2_root_feature/}
+	{$game2_root_feature/}
 
 feature {literal}{NONE}{/literal} -- {$feature_section/}
 
-    {$game2_root_feature/}
-            -- {$feature_documentation/}
-        local
-        	l_root_application:detachable {$root_class/}
-        do
+	{$game2_root_feature/}
+			-- {$feature_documentation/}
+		local
+			l_root_application:detachable {$root_class/}
+		do
 			create l_root_application.{$root_feature/}
 			l_root_application := Void
 {$code/}
-        end
+		end
 
 end
 					]"

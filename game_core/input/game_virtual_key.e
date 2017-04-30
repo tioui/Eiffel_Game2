@@ -1,9 +1,11 @@
 note
-	description: "A keyboard key."
+	description: "A virtual keyboard key."
 	author: "Louis Marchand"
+	date: "Sun, 30 Apr 2017 15:08:50 +0000"
+	revision: "2.1"
 
 deferred class
-	GAME_VIRTUAL_KEY_HOLDER
+	GAME_VIRTUAL_KEY
 
 feature -- Access
 

@@ -10,7 +10,24 @@ class
 inherit
 	GAME_KEY
 
-	GAME_MODIFIER_HOLDER
+	GAME_KEY_MODIFIER
+		rename
+			has_none as has_no_modifier,
+			has_left_shift as has_left_shift_modifier,
+			has_right_shift as has_right_shift_modifier,
+			has_left_ctrl as has_left_ctrl_modifier,
+			has_right_ctrl as has_right_ctrl_modifier,
+			has_left_alt as has_left_alt_modifier,
+			has_right_alt as has_right_alt_modifier,
+			has_left_gui as has_left_gui_modifier,
+			has_right_gui as has_right_gui_modifier,
+			has_num_lock as has_num_lock_modifier,
+			has_caps_lock as has_caps_lock_modifier,
+			has_alt_gr as has_alt_gr_modifier,
+			has_ctrl as has_ctrl_modifier,
+			has_shift as has_shift_modifier,
+			has_alt as has_alt_modifier,
+			has_gui as has_gui_modifier
 		undefine
 			out
 		end
