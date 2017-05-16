@@ -100,7 +100,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	renderer: GAME_RENDERER assign set_renderer
+	renderer: GAME_RENDERER
 			-- The rendering context of `Current'
 		require
 			exists
@@ -115,6 +115,8 @@ feature -- Access
 
 	set_renderer(a_renderer:GAME_RENDERER)
 			-- Assign `a_renderer' to `renderer'
+		obsolete
+			"Only one renderer valid for a {GAME_WINDOW} in the system."
 		require
 			is_Current_Valid: a_renderer.original_target = Current
 		do
@@ -125,11 +127,18 @@ feature -- Access
 
 	create_default_renderer
 			-- Assign `renderer' with the first found {GAME_RENDERER_DRIVER}
+		local
+			l_renderer:GAME_RENDERER
 		do
 			if attached internal_renderer as la_renderer then
+				if not renderer_pointer.is_default_pointer then
+					{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(renderer_pointer)
+				end
 				la_renderer.dispose
 			end
-			create internal_renderer.make (Current)
+			create l_renderer.make (Current)
+			renderer_pointer := l_renderer.item
+			internal_renderer := l_renderer
 		end
 
 	create_renderer(a_must_support_target_texture, a_must_sync_update, a_must_be_software_rendering,
@@ -140,21 +149,35 @@ feature -- Access
 			-- If `a_must_be_software_rendering' is True, the renderer will always
 		require
 			Software_Not_Hardware: a_must_be_software_rendering implies not a_must_be_hardware_accelerated
+		local
+			l_renderer:GAME_RENDERER
 		do
 			if attached internal_renderer as la_renderer then
+				if not renderer_pointer.is_default_pointer then
+					{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(renderer_pointer)
+				end
 				la_renderer.dispose
 			end
-			create internal_renderer.make_with_flags (Current, a_must_support_target_texture,
+			create l_renderer.make_with_flags (Current, a_must_support_target_texture,
 							a_must_sync_update, a_must_be_software_rendering, a_must_be_hardware_accelerated)
+			renderer_pointer := l_renderer.item
+			internal_renderer := l_renderer
 		end
 
 	create_renderer_from_driver(a_driver:GAME_RENDERER_DRIVER)
 			-- Create a new rendering context using `a_driver' as renderer driver.
+		local
+			l_renderer:GAME_RENDERER
 		do
 			if attached internal_renderer as la_renderer then
+				if not renderer_pointer.is_default_pointer then
+					{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(renderer_pointer)
+				end
 				la_renderer.dispose
 			end
-			create internal_renderer.make_with_renderer_driver (Current, a_driver)
+			create l_renderer.make_with_renderer_driver (Current, a_driver)
+			renderer_pointer := l_renderer.item
+			internal_renderer := l_renderer
 		end
 
 	update
@@ -173,10 +196,15 @@ feature {NONE} -- Implementation
 			-- If it has already been created. Contain the `renderer' of `Current'
 			-- Note that `renderer' is lazy assigned
 
+	renderer_pointer:POINTER
+			-- The internal pointer of the `renderer'
+
 	dispose
 			-- <Precursor>
 		do
-			renderer.dispose
+			if not renderer_pointer.is_default_pointer then
+				{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(renderer_pointer)
+			end
 			Precursor {GAME_WINDOW}
 		end
 

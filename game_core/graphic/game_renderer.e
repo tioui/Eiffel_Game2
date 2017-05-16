@@ -8,21 +8,11 @@ class
 	GAME_RENDERER
 
 inherit
-	MEMORY_STRUCTURE
-		rename
-			make as make_structure
-		export
-			{NONE} shared, make_structure, make_by_pointer
-			{GAME_SDL_ANY} item
-		redefine
-			exists
-		end
 	GAME_DRAWING_TOOLS
 	GAME_BLENDABLE
 		rename
 			is_valid as exists
 		end
-	DISPOSABLE
 
 create {GAME_WINDOW_RENDERED}
 	make,
@@ -83,7 +73,7 @@ feature {NONE} -- Initialization
 			original_target := a_window
 			target := a_window
 			clear_error
-			make_by_pointer({GAME_SDL_EXTERNAL}.SDL_CreateRenderer(a_window.item,a_renderer_driver_index,a_flags))
+			item := {GAME_SDL_EXTERNAL}.SDL_CreateRenderer(a_window.item,a_renderer_driver_index,a_flags)
 			manage_error_pointer (item, "Error while creating rendering context.")
 			is_dispose := False
 		ensure
@@ -234,7 +224,7 @@ feature -- Access
 							a_rotation_angle
 						)
 		end
-	
+
 	draw_sub_texture_with_rotation(
 							a_texture:GAME_TEXTURE; a_x_source,a_y_source,
 							a_width_source,a_height_source,a_x_destination,
@@ -766,7 +756,7 @@ feature -- Access
 	exists: BOOLEAN
 			-- <Precursor>
 		do
-			Result := Precursor {MEMORY_STRUCTURE} and not is_dispose
+			Result := not item.is_default_pointer and not is_dispose
 		end
 
 	driver: GAME_RENDERER_DRIVER
@@ -775,29 +765,21 @@ feature -- Access
 			create Result.make_from_renderer (Current)
 		end
 
+feature {GAME_SDL_ANY}
+
+	item:POINTER
+			-- Internal representation of `Current'
+
 feature {GAME_WINDOW_RENDERED}
 
 	dispose
 			-- <Precursor>
 		do
-			if exists then
-				{GAME_SDL_EXTERNAL}.SDL_DestroyRenderer(item)
-				is_dispose := True
-			end
+			is_dispose := False
 		end
 
 	is_dispose:BOOLEAN
-			-- As `Current' has been dispose
-
-feature {NONE} -- Implementation
-
-
-
-	structure_size: INTEGER_32
-			-- <Precursor>
-		do
-			Result := 0
-		end
+			 -- As `Current' has been dispose
 
 feature {NONE} -- External
 
