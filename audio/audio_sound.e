@@ -22,7 +22,7 @@ feature {AUDIO_SOURCE}
 	fill_buffer(a_buffer:POINTER;a_max_length:INTEGER)
 			-- Fill the next data samples in `a_buffer' (no more than `a_max_length' byte)
 			-- The actual number of byte placed in `a_buffer' will be available in `last_buffer_size'
-			-- Warning: side effect on buffer
+			-- Warning: side effect on `a_buffer'
 		require
 			Sound_Is_open: is_open
 		deferred
@@ -143,6 +143,9 @@ feature --Access
 		do
 			Result := (sample_count * 1000) // frequency
 		end
+
+	is_finished:BOOLEAN
+			-- `Current' has finished it's playback
 
 
 invariant

@@ -21,7 +21,7 @@ feature {NONE} -- Initialization
 		local
 			l_engine:ENGINE
 		do
-			audio_library.enable_sound
+			audio_library.enable_playback
 			mpg_library.enable_mpg
 			create l_engine.make
 			if not l_engine.has_error then

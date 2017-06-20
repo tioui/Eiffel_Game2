@@ -83,6 +83,47 @@ feature -- OpenAL Functions
 			"alcCloseDevice"
 		end
 
+	frozen ALC_is_extension_present(a_device, a_extName:POINTER):BOOLEAN
+		external
+			"C (ALCdevice *, const ALCchar *) : ALCboolean | <alc.h>"
+		alias
+			"alcIsExtensionPresent"
+		end
+
+	frozen ALC_capture_open_device(a_devicename:POINTER; a_frequency:NATURAL; a_format, a_buffersize:INTEGER):POINTER
+		external
+			"C (const ALCchar *, ALCuint, ALCenum, ALCsizei) : ALCdevice * | <alc.h>"
+		alias
+			"alcCaptureOpenDevice"
+		end
+
+	frozen ALC_capture_close_device(a_device:POINTER):BOOLEAN
+		external
+			"C (ALCdevice *) : ALCboolean | <alc.h>"
+		alias
+			"alcCaptureCloseDevice"
+		end
+
+	frozen ALC_capture_start(a_device:POINTER)
+		external
+			"C (ALCdevice *) | <alc.h>"
+		alias
+			"alcCaptureStart"
+		end
+
+	frozen ALC_capture_stop(a_device:POINTER)
+		external
+			"C (ALCdevice *) | <alc.h>"
+		alias
+			"alcCaptureStop"
+		end
+
+	frozen ALC_capture_samples(a_device, a_buffer:POINTER; a_samples:INTEGER)
+		external
+			"C (ALCdevice *, ALCvoid *, ALCsizei) | <alc.h>"
+		alias
+			"alcCaptureSamples"
+		end
 
 	frozen AL_get_listener_fv(param:INTEGER;les_params:POINTER)
 		external
@@ -243,6 +284,13 @@ feature -- OpenAL Constants
 			"C inline use <alc.h>"
 		alias
 			"ALC_DEVICE_SPECIFIER"
+		end
+
+	frozen ALC_capture_device_specifier :INTEGER
+		external
+			"C inline use <alc.h>"
+		alias
+			"ALC_CAPTURE_DEVICE_SPECIFIER"
 		end
 
 	frozen ALC_invalid_value :INTEGER

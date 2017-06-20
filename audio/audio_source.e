@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 			-- Note: Shorter `a_buffer_size' takes less memory but there is more
 			-- possibility that the buffer empty itself before the application have te time to fill it.
 		require
-			Make_Source_Sound_Enable:audio_library.is_sound_enable
+			Make_Source_Sound_Enable:audio_library.is_playback_enable
 		local
 			l_sources:ARRAY[NATURAL]
 			l_source_c:ANY
@@ -235,7 +235,6 @@ feature -- Access
 	queue_sound_infinite_loop(a_sound:AUDIO_SOUND)
 			-- Add a `a_sound' to the playing queue.
 			-- Loop the `a_sound' until the source is stopped.
-			-- Note: Use this for a streaming sound
 		require
 			Source_Is_Open: is_open
 			Queud_Sound_Is_Open: a_sound.is_open
@@ -373,10 +372,7 @@ feature {NONE} -- Implementation - Routines
 				bits_resolution := internal_sound_queued.item.sound.bits_per_sample
 				l_freq := internal_sound_queued.item.sound.frequency
 				l_byte_per_buffer_sample := internal_sound_queued.item.sound.byte_per_buffer_sample
-				if l_last_fill_buffer_size = 0 then
-					if l_infinite_loop_restarted then
-						l_streaming_sound_null := True
-					end
+				if internal_sound_queued.item.sound.is_finished then
 					internal_sound_queued.item.sound.restart
 					if internal_sound_queued.item.nb_loop = 0 then
 						internal_sound_queued.remove
@@ -391,6 +387,7 @@ feature {NONE} -- Implementation - Routines
 						end
 					end
 				else
+					l_streaming_sound_null := l_last_fill_buffer_size = 0
 					l_infinite_loop_restarted := False
 				end
 			end

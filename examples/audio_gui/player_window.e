@@ -26,8 +26,8 @@ feature {NONE} -- Initialization
 			-- Create any auxilliary objects needed for PLAYER_WINDOW.
 			-- Initialization for these objects must be performed in `user_initialization'.
 		do
-			if not audio_library.is_sound_enable then	-- Just in case that the current Window
-				audio_library.enable_sound				-- has already been open and close
+			if not audio_library.is_playback_enable then	-- Just in case that the current Window
+				audio_library.enable_playback				-- has already been open and close
 				audio_library.sources_wipe_out
 			end
 			if not mpg_library.is_mpg_enabled then

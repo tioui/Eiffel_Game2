@@ -20,6 +20,7 @@ feature {NONE} -- Initialization
 		do
 			default_create
 			create file.make_with_name (a_filename)
+			is_finished := False
 		end
 
 	process_header
@@ -133,6 +134,9 @@ feature {AUDIO_SOURCE}
 			else
 				last_buffer_size:=0
 			end
+			if last_buffer_size = 0 then
+				is_finished := True
+			end
 		end
 
 	byte_per_buffer_sample:INTEGER
@@ -154,6 +158,7 @@ feature -- Access
 		do
 			file.open_read
 			process_header
+			is_finished := False
 			is_open:=not has_error
 			has_ressource_error := has_error
 		end
@@ -199,12 +204,14 @@ feature -- Access
 			-- <Precursor>
 		do
 			file.go (data_starting_offset)
+			is_finished := False
 		end
 
 	sample_seek(a_frame_number:INTEGER_64)
 			-- <Precursor>
 		do
 			file.go ((data_starting_offset + (byte_per_buffer_sample * (a_frame_number - 1))).to_integer_32)
+			is_finished := False
 		end
 
 	sample_position:INTEGER_64

@@ -24,6 +24,7 @@ feature {NONE} -- Initialization
 			bits_per_sample_internal:=16
 			is_signed_internal:=true
 			filename:=a_filename
+			is_finished := False
 		end
 
 feature {AUDIO_SOURCE}
@@ -41,6 +42,9 @@ feature {AUDIO_SOURCE}
 				l_items:=l_items-1
 			end
 			last_buffer_size:={AUDIO_SND_FILES_EXTERNAL}.sf_read_short(snd_file_ptr,a_buffer,l_items).to_integer*2
+			if last_buffer_size = 0 then
+				is_finished := True
+			end
 		end
 
 	byte_per_buffer_sample:INTEGER
@@ -103,6 +107,7 @@ feature --Access
 			-- <Precursor>
 		do
 			open_from_file(filename)
+			is_finished := False
 			is_open:=not has_error
 			has_ressource_error := has_error
 		end
@@ -165,6 +170,7 @@ feature --Access
 		do
 			if is_seekable then
 				l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr,0,{AUDIO_SND_FILES_EXTERNAL}.Seek_set)
+				is_finished := False
 				if l_error = -1 then
 					put_error (
 								"Cannot seek in the audio file.",
@@ -174,6 +180,7 @@ feature --Access
 			else
 				dispose
 				open_from_file(filename)
+				is_finished := False
 			end
 		end
 
@@ -183,6 +190,7 @@ feature --Access
 			l_error:INTEGER_64
 		do
 			l_error:={AUDIO_SND_FILES_EXTERNAL}.SF_seek(snd_file_ptr, a_frame_number - 1, {AUDIO_SND_FILES_EXTERNAL}.Seek_set)
+			is_finished := False
 			if l_error = -1 then
 				put_error (
 							"Cannot seek in the audio file.",

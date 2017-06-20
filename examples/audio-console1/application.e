@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			if argument_count<1 then
 				io.put_string ("Usage: "+argument (0)+" <list files>%N")
 			else
-				audio_library.enable_sound	-- Permit to the Audio
+				audio_library.enable_playback
 				run
 			end
 

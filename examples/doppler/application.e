@@ -23,7 +23,7 @@ feature {NONE} -- Initialization
 		do
 			game_library.enable_video
 			image_file_library.enable_png
-			audio_library.enable_sound
+			audio_library.enable_playback
 			create l_engine.make
 			if not l_engine.has_error then
 				l_engine.run

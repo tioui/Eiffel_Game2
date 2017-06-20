@@ -18,7 +18,7 @@ feature {NONE} -- Initialization
 	make
 			-- Run application.
 		do
-			audio_library.enable_sound		-- Initialise the audio library
+			audio_library.enable_playback		-- Initialise the audio library
 			run
 		end
 

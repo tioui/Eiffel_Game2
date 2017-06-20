@@ -36,6 +36,7 @@ feature {NONE}
 				sound_data.put_integer_16 (a_sound_data.at (i), (i - 1) * byte_per_buffer_sample)
 				i := i + 1
 			end
+			is_finished := False
 		end
 
 	make_from_other (a_sound: AUDIO_SOUND_CUSTOM)
@@ -46,6 +47,7 @@ feature {NONE}
 			sound_length:= a_sound.sound_length
 			is_open := True
 			create sound_data.make_from_pointer (a_sound.sound_data.item, a_sound.sound_length * byte_per_buffer_sample)
+			is_finished := False
 		end
 
 feature
@@ -81,6 +83,7 @@ feature
 			--sets buffer_index to 0 so the sound plays normally when prompted again
 		do
 			buffer_index := 0
+			is_finished := False
 		end
 
 	is_openable: BOOLEAN = True
@@ -102,7 +105,8 @@ feature
 			-- Seek at the frame `a_frame_number' from the beginning of `Current'
 			-- <Precursor>
 		do
-
+			buffer_index := (a_frame_number * byte_per_buffer_sample).to_integer_32
+			is_finished := False
 		end
 
 	sample_position:INTEGER_64
@@ -139,12 +143,14 @@ feature {AUDIO_LIBRARY_CONTROLLER}
 				l_buffer_size:= a_max_length
 			end
 			if(l_buffer_size <= 0) then
-				restart
+				is_finished := True
+				last_buffer_size:= 0
 			else
 				a_buffer.memory_copy (sound_data.item.plus (buffer_index), l_buffer_size)
 				buffer_index := (buffer_index + l_buffer_size)
+				last_buffer_size:= l_buffer_size
 			end
-			last_buffer_size:= l_buffer_size
+
 		end
 
 invariant

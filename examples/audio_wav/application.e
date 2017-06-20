@@ -22,7 +22,7 @@ feature {NONE} -- Initialization
 			l_sound:AUDIO_SOUND_WAV_FILE
 			l_environment:EXECUTION_ENVIRONMENT
 		do
-			audio_library.enable_sound	-- Permit to use the Audio functionnality
+			audio_library.enable_playback	-- Permit to use the Audio functionnality
 			create l_environment
 			audio_library.sources_add	-- Add a sound source in the audio context.
 			l_source:=audio_library.last_source_added

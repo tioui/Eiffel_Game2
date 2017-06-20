@@ -21,13 +21,8 @@ feature {NONE} -- Initialization
 		local
 			l_engine:detachable ENGINE
 		do
-			game_library.enable_video -- Enable the video functionalities
-			print("List of devices:%N")
-			across audio_library.devices as la_device loop
-				print("    " + la_device.item + "%N")
-			end
-			audio_library.enable_sound
-			print("Using device: " + audio_library.device_specifier + "%N")
+			game_library.enable_video 		-- Enable the video functionalities
+			audio_library.enable_playback	-- Enable the audio library to play sound
 			create l_engine.make
 			if not l_engine.has_error then
 				l_engine.run

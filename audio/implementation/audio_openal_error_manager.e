@@ -22,6 +22,7 @@ inherit
 			last_error,
 			put_manual_error
 		end
+	AUDIO_ANY
 
 
 feature {NONE}

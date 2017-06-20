@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 			file_ptr := {MPG_EXTERNAL}.mpg123_new(l_pointer, l_pointer)
 			default_create
 			filename:=a_filename
+			is_finished := False
 		ensure
 			Handler_Valid: not file_ptr.is_default_pointer
 		end
@@ -61,6 +62,9 @@ feature {AUDIO_SOURCE}
 			l_error := {MPG_EXTERNAL}.mpg123_read(file_ptr,a_buffer,a_max_length, $l_size)
 			read_mpg_error("Cannot read stream", l_error)
 			last_buffer_size := l_size
+			if last_buffer_size = 0 then
+				is_finished := True
+			end
 		end
 
 	byte_per_buffer_sample:INTEGER
@@ -243,6 +247,7 @@ feature --Access
 			l_error:INTEGER
 		do
 			l_error := {MPG_EXTERNAL}.mpg123_seek(file_ptr, 0, {MPG_EXTERNAL}.seek_set)
+			is_finished := False
 			if l_error < 0 then
 				read_mpg_error ("Cannot restart playback", l_error)
 			end
@@ -254,6 +259,7 @@ feature --Access
 			l_error:INTEGER
 		do
 			l_error:={MPG_EXTERNAL}.mpg123_seek(file_ptr, (a_frame_number).to_integer_32 - 1, {MPG_EXTERNAL}.seek_set)
+			is_finished := False
 			if l_error < 0 then
 				read_mpg_error ("Cannot seek in file", l_error)
 			end

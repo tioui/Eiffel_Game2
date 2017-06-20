@@ -36,6 +36,15 @@ feature {NONE} -- Initialisation
 			Result:="bk.png"
 		end
 
+	is_alpha(a_state:GAME_KEY_STATE):BOOLEAN
+			-- is `a_state' represent an alpha value
+		local
+			l_char:CHARACTER_32
+		do
+			l_char := a_state.unicode_out.item (1)
+			Result := ((l_char >= {CHARACTER_32}'a') and (l_char <= {CHARACTER_32}'z')) or ((l_char >= {CHARACTER_32}'A') and (l_char <= {CHARACTER_32}'Z'))
+		end
+
 feature -- Access
 
 	move_left
