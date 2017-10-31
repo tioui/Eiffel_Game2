@@ -62,14 +62,23 @@ feature {NONE} -- Initialization
 			-- vice versa
 		require
 			Other_Exists: a_other.exists
+		local
+			l_root: like other
 		do
-			make_by_pointer (a_other.item)
-			other := a_other
+			from
+				l_root := a_other
+			until
+				not l_root.shared
+			loop
+				l_root := l_root.other
+			end
+			make_by_pointer (l_root.item)
+			other := l_root
 			shared := True
 		ensure
 			Is_Created: exists
 			Is_Shared: shared
-			Other_Assign: attached other
+			Other_Assign: attached other and then not other.shared
 		end
 
 	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
@@ -304,6 +313,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {GAME_TEXTURE} -- Implementation
 
 	other:detachable GAME_TEXTURE
 			-- If `Current' has been created with `share_from_other',
