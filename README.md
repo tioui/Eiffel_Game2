@@ -19,6 +19,7 @@ Installation on Linux (Ubuntu)
 ------------------------------
 
 * I assume that you already have a fonctionnal EiffelStudio on your system. If not, install it.
+* If you obtained library sources by cloning the git repository, fetch submodules (run `git submodule init` and `git submodule update` in the library folder)
 * Rename the library folder (containing this README.md) to "game2".
 * You need to add the game2 folder library in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "/usr/lib/EiffelStudio_XX.XX" or in "/usr/local/Eiffel_XX.XX".
 
