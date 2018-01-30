@@ -68,17 +68,19 @@ feature {NONE} -- Initialization
 			from
 				l_root := a_other
 			until
-				not l_root.shared
+				not (attached l_root as la_root and then la_root.shared)
 			loop
 				l_root := l_root.other
 			end
-			make_by_pointer (l_root.item)
-			other := l_root
-			shared := True
+			check attached l_root as la_root then
+				make_by_pointer (l_root.item)
+				other := l_root
+				shared := True
+			end
 		ensure
 			Is_Created: exists
 			Is_Shared: shared
-			Other_Assign: attached other and then not other.shared
+			Other_Assign: attached other as la_other and then not la_other.shared
 		end
 
 	make(a_renderer:GAME_RENDERER; a_pixel_format:GAME_PIXEL_FORMAT_READABLE;
