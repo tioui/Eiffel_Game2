@@ -62,7 +62,7 @@ feature -- Access
 		end
 
 	is_optional_button_1: BOOLEAN
-			-- Is the second optional button of the mouse the one represented by `Current'?
+			-- Is the first optional button of the mouse the one represented by `Current'?
 		do
 			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_X1
 		end
