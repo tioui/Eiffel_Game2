@@ -9,14 +9,16 @@ deferred class
 
 inherit
 
-	ANY
+	GAME_MOUSE_EVENTS_STATE
+		rename
+			make as make_events_state
 		undefine
 			default_create
 		end
 
 inherit {NONE}
 
-	GAME_MOUSE_MOTION_STATE
+	GAME_MOUSE_STATE
 		rename
 			state as button_id,
 			is_left_button_pressed as is_left_button,
@@ -25,7 +27,6 @@ inherit {NONE}
 			is_optionnal_button_1_pressed as is_optional_button_1,
 			is_optionnal_button_2_pressed as is_optional_button_2
 		redefine
-			make,
 			is_left_button,
 			is_right_button,
 			is_middle_button,
@@ -38,7 +39,10 @@ feature {NONE} -- Initialization
 	make (a_mouse_id, a_button_id: NATURAL_32; a_x, a_y: INTEGER_32)
 			-- Initialization for `Current'.
 		do
-			Precursor {GAME_MOUSE_MOTION_STATE} (a_mouse_id, a_button_id, a_x, a_y)
+			make_events_state (a_mouse_id)
+			button_id := a_button_id
+			x := a_x
+			y := a_y
 		end
 
 feature -- Access
