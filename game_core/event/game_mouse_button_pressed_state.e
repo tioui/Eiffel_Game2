@@ -8,71 +8,57 @@ class
 	GAME_MOUSE_BUTTON_PRESSED_STATE
 
 inherit
-	GAME_MOUSE_MOTION_STATE
-		rename
-			state as button_id
-		redefine
-			make,
-			is_left_button_pressed,
-			is_right_button_pressed,
-			is_middle_button_pressed,
-			is_optionnal_button_1_pressed,
-			is_optionnal_button_2_pressed
-		end
 
+	GAME_MOUSE_BUTTON_EVENT
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make(a_mouse_id, a_button_id:NATURAL_32; a_x,a_y:INTEGER_32)
-			-- Initialization for `Current'.
-		do
-			Precursor {GAME_MOUSE_MOTION_STATE}(a_mouse_id, a_button_id, a_x, a_y)
-		end
-
 feature -- Access
 
-	is_left_button_pressed:BOOLEAN
+	is_left_button_pressed: BOOLEAN
 			-- Is the left button of the mouse represented
 			-- by `Current' is the one that has been pressed
+		obsolete
+			"Use `is_left_button' instead [2018-01-31]"
 		do
-			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_LEFT
+			Result := is_left_button
 		end
 
-	is_right_button_pressed:BOOLEAN
+	is_right_button_pressed: BOOLEAN
 			-- Is the right button of the mouse represented
 			-- by `Current' is the one that has been pressed
+		obsolete
+			"Use `is_right_button' instead [2018-01-31]"
 		do
-			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_RIGHT
+			Result := is_right_button
 		end
 
-	is_middle_button_pressed:BOOLEAN
+	is_middle_button_pressed: BOOLEAN
 			-- Is the middle button of the mouse represented
 			-- by `Current' is the one that has been pressed
+		obsolete
+			"Use `is_middle_button' instead [2018-01-31]"
 		do
-			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_MIDDLE
+			Result := is_middle_button
 		end
 
-	is_optionnal_button_1_pressed:BOOLEAN
+	is_optionnal_button_1_pressed: BOOLEAN
 			-- Is the first optionnal button of the mouse represented
 			-- by `Current' is the one that has been pressed
+		obsolete
+			"Use `is_optional_button_1' instead [2018-01-31]"
 		do
-			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_X1
+			Result := is_optional_button_1
 		end
 
-	is_optionnal_button_2_pressed:BOOLEAN
+	is_optionnal_button_2_pressed: BOOLEAN
 			-- Is the second optionnal button of the mouse represented
 			-- by `Current' is the one that has been pressed
+		obsolete
+			"Use `is_optional_button_2' instead [2018-01-31]"
 		do
-			Result := button_id = {GAME_SDL_EXTERNAL}.SDL_BUTTON_X2
+			Result := is_optional_button_2
 		end
 
-invariant
-	Only_One_Button: is_left_button_pressed
-					 xor is_right_button_pressed
-					 xor is_middle_button_pressed
-					 xor is_optionnal_button_1_pressed
-					 xor is_optionnal_button_2_pressed
 end
