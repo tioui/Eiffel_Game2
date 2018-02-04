@@ -386,7 +386,7 @@ feature -- Access
 			end
 		end
 
-	key_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+	key_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_EVENT]]
 			-- When a key (represented by `key_state') has been pressed.
 		require
 			Key_Released_Events_Enabled: events_controller.is_key_pressed_event_enable
@@ -402,7 +402,7 @@ feature -- Access
 			end
 		end
 
-	key_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_STATE]]
+	key_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; key_state:GAME_KEY_EVENT]]
 			-- When a key (represented by `key_state') has been released.
 		require
 			Key_Released_Events_Enabled: events_controller.is_key_released_event_enable
@@ -447,7 +447,7 @@ feature -- Access
 			end
 		end
 
-	mouse_motion_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_STATE;
+	mouse_motion_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_EVENT;
 																	delta_x, delta_y:INTEGER_32]]
 			-- When a mouse represented by `mouse_state' has been moved in `Current'.
 			-- The difference between the old position and the new (`delta_x',`delta_y')
@@ -499,7 +499,7 @@ feature -- Access
 			end
 		end
 
-	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT_ORIGIN;
+	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT;
 																	delta_x,delta_y:INTEGER_32]]
 			-- When the wheel of a mouse represented by `mouse_state' has been moved.
 			-- The difference between the old wheel position and the new one is (`delta_x',`delta_y')
@@ -639,7 +639,7 @@ feature {NONE} -- Implementation
 
 		end
 
-	key_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+	key_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_EVENT]]
 			-- Internal value of the `key_pressed_actions' lazy evaluated attribute
 
 	key_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
@@ -652,7 +652,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `key_pressed_events_callback' and dispatch them to
 			-- the `key_pressed_actions' {ACTION_SEQUENCE}
 		local
-			l_keyboard_state:GAME_KEY_STATE
+			l_keyboard_state:GAME_KEY_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached key_pressed_actions_internal as actions then
@@ -662,7 +662,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	key_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_STATE]]
+	key_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; keyboard_state:GAME_KEY_EVENT]]
 			-- Internal value of the `key_released_actions' lazy evaluated attribute
 
 	key_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
@@ -675,7 +675,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `key_released_events_callback' and dispatch them to
 			-- the `key_released_actions' {ACTION_SEQUENCE}
 		local
-			l_keyboard_state:GAME_KEY_STATE
+			l_keyboard_state:GAME_KEY_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached key_released_actions_internal as actions then
@@ -724,7 +724,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_STATE;
+	mouse_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_MOTION_EVENT;
 																	delta_x, delta_y:INTEGER_32]]
 			-- Internal value of the `mouse_motion_actions' lazy evaluated attribute
 
@@ -738,7 +738,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `mouse_motion_events_callback' and dispatch them to
 			-- the `mouse_motion_actions' {ACTION_SEQUENCE}
 		local
-			l_mouse_state:GAME_MOUSE_MOTION_STATE
+			l_mouse_state:GAME_MOUSE_MOTION_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_motion_actions_internal as actions then
@@ -796,7 +796,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT_ORIGIN;
+	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT;
 																	delta_x,delta_y:INTEGER_32]]
 			-- Internal value of the `mouse_wheel_move_actions' lazy evaluated attribute
 
@@ -808,7 +808,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `mouse_wheel_move_events_callback' and dispatch them to
 			-- the `mouse_wheel_move_actions' {ACTION_SEQUENCE}
 		local
-			l_mouse_state:GAME_MOUSE_EVENT_ORIGIN
+			l_mouse_state:GAME_MOUSE_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_wheel_move_actions_internal as actions then

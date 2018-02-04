@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 			window.update
 		end
 
-	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_BUTTON_PRESSED_STATE; a_nb_clicks: NATURAL_8)
+	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_PRESS_EVENT; a_nb_clicks: NATURAL_8)
 			-- The user has click on the window
 		do
 			change_cursor

@@ -114,27 +114,27 @@ feature {NONE} -- Implementation
 			window.update
 		end
 
-	on_mouse_move(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_MOTION_STATE; a_delta_x, a_delta_y: INTEGER_32)
-			-- When the mouse is moving, update the mouse information (from `a_mouse_state')
+	on_mouse_move(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_MOTION_EVENT; a_delta_x, a_delta_y: INTEGER_32)
+			-- When the mouse is moving, update the mouse information (from `a_mouse_event')
 		do
-			last_x := a_mouse_state.x
-			last_y := a_mouse_state.y
+			last_x := a_mouse_event.x
+			last_y := a_mouse_event.y
 			redraw (a_timestamp)
 		end
 
-	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_BUTTON_PRESSED_STATE; a_nb_clicks: NATURAL_8)
-			-- When the user pressed the left mouse button (from `a_mouse_state'), start to draw a blue rectangle using mouse coordinate
+	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_PRESS_EVENT; a_nb_clicks: NATURAL_8)
+			-- When the user pressed the left mouse button (from `a_mouse_event'), start to draw a blue rectangle using mouse coordinate
 		do
-			if a_mouse_state.is_left_button_pressed then
-				rectangle_start_x := a_mouse_state.x
-				rectangle_start_y := a_mouse_state.y
+			if a_mouse_event.is_left_button_pressed then
+				rectangle_start_x := a_mouse_event.x
+				rectangle_start_y := a_mouse_event.y
 			end
 		end
 
-	on_mouse_up(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_BUTTON_RELEASED_STATE; a_nb_clicks: NATURAL_8)
+	on_mouse_up(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_RELEASE_EVENT; a_nb_clicks: NATURAL_8)
 			-- When the user released the left button, stop drawing the blue rectangle
 		do
-			if a_mouse_state.is_left_button_released then
+			if a_mouse_event.is_left_button_released then
 				rectangle_start_x := -1
 				rectangle_start_y := -1
 			end

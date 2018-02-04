@@ -117,26 +117,26 @@ feature {NONE} -- Implementation
 		end
 
 
-	on_key_pressed(a_timestamp: NATURAL_32; a_key_state: GAME_KEY_STATE)
+	on_key_pressed(a_timestamp: NATURAL_32; a_key_event: GAME_KEY_EVENT)
 			-- Action when a keyboard key has been pushed
 		do
-			if not a_key_state.is_repeat then		-- Be sure that the event is not only an automatic repetition of the key
-				if a_key_state.is_right then
+			if not a_key_event.is_repeat then		-- Be sure that the event is not only an automatic repetition of the key
+				if a_key_event.is_right then
 					maryo.go_right(a_timestamp)
-				elseif a_key_state.is_left then
+				elseif a_key_event.is_left then
 					maryo.go_left(a_timestamp)
 				end
 			end
 
 		end
 
-	on_key_released(a_timestamp: NATURAL_32; a_key_state: GAME_KEY_STATE)
+	on_key_released(a_timestamp: NATURAL_32; a_key_event: GAME_KEY_EVENT)
 			-- Action when a keyboard key has been released
 		do
-			if not a_key_state.is_repeat then		-- I don't know if a key release can repeat, but you never know...
-				if a_key_state.is_right then
+			if not a_key_event.is_repeat then		-- I don't know if a key release can repeat, but you never know...
+				if a_key_event.is_right then
 					maryo.stop_right
-				elseif a_key_state.is_left then
+				elseif a_key_event.is_left then
 					maryo.stop_left
 				end
 			end

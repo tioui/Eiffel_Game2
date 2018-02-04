@@ -12,14 +12,14 @@ deferred class
 
 inherit
 
-	GAME_MOUSE_EVENT
+	GAME_MOUSE_EVENT_COMMON
 		rename
 			state as button_id,
-			has_left_button as is_left_button,
-			has_right_button as is_right_button,
-			has_middle_button as is_middle_button,
-			has_optional_button_1 as is_optional_button_1,
-			has_optional_button_2 as is_optional_button_2
+			is_left_button as is_left_button,
+			is_right_button as is_right_button,
+			is_middle_button as is_middle_button,
+			is_optional_button_1 as is_optional_button_1,
+			is_optional_button_2 as is_optional_button_2
 		redefine
 			is_left_button,
 			is_right_button,

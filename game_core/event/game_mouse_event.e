@@ -1,68 +1,32 @@
 note
-	description: "[
-		Common interface for various mouse input events
-	]"
-	author: "Louis Marchand and obnosim"
-	date: "Sun Feb 04, 2018"
-	revision: "$Revision$"
+	description: "The state of a mouse in an event context."
+	author: "Louis Marchand"
+	date: "Wed, 01 Apr 2015 19:04:20 +0000"
+	revision: "2.0"
 
-deferred class
+class
 	GAME_MOUSE_EVENT
 
-inherit
-
-	GAME_MOUSE_EVENT_ORIGIN
-		rename
-			make as set_id
-		end
+create
+	make
 
 feature {NONE} -- Initialization
 
-	make (a_mouse_id, a_state: NATURAL_32; a_x, a_y: INTEGER_32)
-			-- Initialization for `Current'.
+	make (a_mouse_id: NATURAL_32)
+			-- Initialization of `Current' using `a_mouse_id' as internal `id'
 		do
-			set_id (a_mouse_id)
-			state := a_state
-			x := a_x
-			y := a_y
+			id := a_mouse_id
 		end
 
 feature -- Access
 
-	x: INTEGER_32
-			-- Horizontal position of the mouse represented by `Current' relative to the focussed window
+	id: NATURAL_32
+			-- Unique identifier of the mouse represented by `Current'
 
-	y: INTEGER_32
-			-- Vertical position of the mouse represented by `Current' relative to the focussed window
-
-	has_left_button: BOOLEAN
-			-- Is the left button of the mouse that emitted `Current' involved with `Current'?
-		deferred
+	is_touch_device: BOOLEAN
+			-- True if the mouse represented by `Current' is the touch device.
+		do
+			Result := id = {GAME_SDL_EXTERNAL}.SDL_TOUCH_MOUSEID
 		end
-
-	has_right_button: BOOLEAN
-			-- Is the right button of the mouse that emitted `Current' involved with `Current'?
-		deferred
-		end
-
-	has_middle_button: BOOLEAN
-			-- Is the middle button of the mouse that emitted `Current' involved with `Current'?
-		deferred
-		end
-
-	has_optional_button_1: BOOLEAN
-			-- Is the first optional button of the mouse that emitted `Current' involved with `Current'?
-		deferred
-		end
-
-	has_optional_button_2: BOOLEAN
-			-- Is the second optional button of the mouse that emitted `Current' involved with `Current'?
-		deferred
-		end
-
-feature {GAME_SDL_ANY} -- Implementation
-
-	state: NATURAL_32
-			-- The internal state code.
 
 end

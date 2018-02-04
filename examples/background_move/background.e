@@ -36,12 +36,12 @@ feature {NONE} -- Initialisation
 			Result:="bk.png"
 		end
 
-	is_alpha(a_state:GAME_KEY_STATE):BOOLEAN
-			-- is `a_state' represent an alpha value
+	is_alpha(a_key_event:GAME_KEY_EVENT):BOOLEAN
+			-- is `a_key_event' represent an alpha value
 		local
 			l_char:CHARACTER_32
 		do
-			l_char := a_state.unicode_out.item (1)
+			l_char := a_key_event.unicode_out.item (1)
 			Result := ((l_char >= {CHARACTER_32}'a') and (l_char <= {CHARACTER_32}'z')) or ((l_char >= {CHARACTER_32}'A') and (l_char <= {CHARACTER_32}'Z'))
 		end
 

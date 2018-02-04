@@ -129,31 +129,31 @@ feature {NONE} -- Implementation
 			window.update
 		end
 
-	on_key_down(a_timestamp:NATURAL_32; a_key_state:GAME_KEY_STATE)
+	on_key_down(a_timestamp:NATURAL_32; a_key_event:GAME_KEY_EVENT)
 			-- Manage the keyboard's key pressed
 		do
-			if not a_key_state.is_repeat then
-				if a_key_state.is_left then
+			if not a_key_event.is_repeat then
+				if a_key_event.is_left then
 					car.go_left
-				elseif a_key_state.is_right then
+				elseif a_key_event.is_right then
 					car.go_right
-				elseif a_key_state.is_up then
+				elseif a_key_event.is_up then
 					car.go_up
-				elseif a_key_state.is_down then
+				elseif a_key_event.is_down then
 					car.go_down
 				end
 			end
 		end
 
-	on_key_up(a_timestamp:NATURAL_32; a_key_state:GAME_KEY_STATE)
+	on_key_up(a_timestamp:NATURAL_32; a_key_event:GAME_KEY_EVENT)
 			-- Manage the keyboard's key released
 		do
-			if not a_key_state.is_repeat then
+			if not a_key_event.is_repeat then
 				if
-					(a_key_state.is_left and car.going_left) or
-					(a_key_state.is_right and car.going_right) or
-					(a_key_state.is_down and car.going_down) or
-					(a_key_state.is_up and car.going_up)
+					(a_key_event.is_left and car.going_left) or
+					(a_key_event.is_right and car.going_right) or
+					(a_key_event.is_down and car.going_down) or
+					(a_key_event.is_up and car.going_up)
 				then
 					car.stop
 				end

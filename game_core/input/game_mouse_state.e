@@ -5,13 +5,13 @@ note
 					]"
 	author: "Louis Marchand"
 	date: "Wed Sep 03, 2014"
-	revision: "$Revision$"
+	revision: "0.1"
 
 class
 	GAME_MOUSE_STATE
 
 inherit
-	ANY
+	GAME_MOUSE_BUTTON_MASK_COMMON
 		redefine
 			default_create
 		end
@@ -26,54 +26,5 @@ feature {NONE} -- Implementation
 		do
 			state := {GAME_SDL_EXTERNAL}.SDL_GetMouseState($x,$y)
 		end
-
-feature -- Access
-
-	x:INTEGER_32
-			-- Horizontal position of the mouse represented by `Current' relative to the focussed window
-
-	y:INTEGER_32
-			-- Vertical position of the mouse represented by `Current' relative to the focussed window
-
-	is_left_button_pressed:BOOLEAN
-			-- Is the left button of the mouse represented
-			-- by `Current' is currently pressed
-		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_LMASK) /= 0)
-		end
-
-	is_right_button_pressed:BOOLEAN
-			-- Is the right button of the mouse represented
-			-- by `Current' is currently pressed
-		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_RMASK) /= 0)
-		end
-
-	is_middle_button_pressed:BOOLEAN
-			-- Is the middle button of the mouse represented
-			-- by `Current' is currently pressed
-		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_MMASK) /= 0)
-		end
-
-	is_optionnal_button_1_pressed:BOOLEAN
-			-- Is the first optionnal button of the mouse represented
-			-- by `Current' is currently pressed
-		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X1MASK) /= 0)
-		end
-
-	is_optionnal_button_2_pressed:BOOLEAN
-			-- Is the second optionnal button of the mouse represented
-			-- by `Current' is currently pressed
-		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X2MASK) /= 0)
-		end
-
-
-feature {GAME_SDL_ANY} -- Implementation
-
-	state:NATURAL_32
-			-- The internal state code.
 
 end

@@ -111,7 +111,7 @@ feature -- Access
 			end
 		end
 
-	finger_motion_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_motion_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT]]
 			-- When a finger has been moved on `Current', `finger_state' is used to get finger information
 		require
 			Finger_Motion_Event_Enable: events_controller.is_finger_motion_event_enable
@@ -127,7 +127,7 @@ feature -- Access
 			end
 		end
 
-	finger_touched_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_touched_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT]]
 			-- When a finger has been pressed on `Current', `finger_state' is used to get finger information
 		require
 			Finger_Touch_Event_Enable: events_controller.is_finger_touched_event_enable
@@ -143,7 +143,7 @@ feature -- Access
 			end
 		end
 
-	finger_released_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_released_actions: ACTION_SEQUENCE [TUPLE [timestamp: NATURAL_32; finger_state:GAME_FINGER_EVENT]]
 			-- When a finger has been released on `Current', `finger_state' is used to get finger information
 		require
 			Finger_Released_Event_Enable: events_controller.is_finger_released_event_enable
@@ -224,7 +224,7 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	finger_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_motion_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT]]
 			-- Internal value of the `finger_motion_actions' lazy evaluated attribute
 
 	finger_motion_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
@@ -237,7 +237,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `finger_motion_events_callback' and dispatch them to
 			-- the `finger_motion_actions' {ACTION_SEQUENCE}
 		local
-			l_finger_state:GAME_FINGER_EVENT_STATE
+			l_finger_state:GAME_FINGER_EVENT
 		do
 			if a_touch_id = id then
 				if attached finger_motion_actions_internal as la_actions then
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	finger_touched_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_touched_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT]]
 			-- Internal value of the `finger_touched_actions' lazy evaluated attribute
 
 	finger_touched_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
@@ -260,7 +260,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `finger_touched_events_callback' and dispatch them to
 			-- the `finger_touched_actions' {ACTION_SEQUENCE}
 		local
-			l_finger_state:GAME_FINGER_EVENT_STATE
+			l_finger_state:GAME_FINGER_EVENT
 		do
 			if a_touch_id = id then
 				if attached finger_touched_actions_internal as la_actions then
@@ -270,7 +270,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	finger_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT_STATE]]
+	finger_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;finger_state:GAME_FINGER_EVENT]]
 			-- Internal value of the `finger_released_actions' lazy evaluated attribute
 
 	finger_released_events_callback: PROCEDURE [ANY, TUPLE [timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
@@ -283,7 +283,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `finger_released_events_callback' and dispatch them to
 			-- the `finger_released_actions' {ACTION_SEQUENCE}
 		local
-			l_finger_state:GAME_FINGER_EVENT_STATE
+			l_finger_state:GAME_FINGER_EVENT
 		do
 			if a_touch_id = id then
 				if attached finger_released_actions_internal as la_actions then

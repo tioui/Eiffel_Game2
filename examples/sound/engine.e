@@ -124,18 +124,18 @@ feature {NONE} -- Implementation
 			window.update		-- Be sure that the window always has a body (try to remove it to see what I mean)
 		end
 
-	on_key_down_quit(a_timestamp: NATURAL_32; a_key_state: GAME_KEY_STATE)
-			-- When the escape button is pressed (in `a_key_state') exit the application
+	on_key_down_quit(a_timestamp: NATURAL_32; a_key_event: GAME_KEY_EVENT)
+			-- When the escape button is pressed (in `a_key_event') exit the application
 		do
-			if a_key_state.is_escape then			-- If the escape key as been pressed,
+			if a_key_event.is_escape then			-- If the escape key as been pressed,
 				game_library.stop					-- quit the application
 			end
 		end
 
-	on_key_down_sound(a_timestamp: NATURAL_32; a_key_state: GAME_KEY_STATE)
-			-- When the space button is pressed (in `a_key_state'), play `sount' in `sound_source'
+	on_key_down_sound(a_timestamp: NATURAL_32; a_key_event: GAME_KEY_EVENT)
+			-- When the space button is pressed (in `a_key_event'), play `sount' in `sound_source'
 		do
-			if a_key_state.is_space and sound.is_open then			-- If the space key as been pressed, play the space sound
+			if a_key_event.is_space and sound.is_open then			-- If the space key as been pressed, play the space sound
 				if sound_source.is_playing then
 					sound_source.stop					-- Be sure that the queue buffer is empty on the sound_source object (when stop, the source queue is clear)
 					sound.restart						-- Be sure that the sound is at the beginning

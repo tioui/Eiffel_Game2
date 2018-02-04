@@ -1,11 +1,11 @@
 note
 	description: "Keyboard Events. To retreive the state of the keyboard. Must be return by an object of GAME_EVENT_CONTROLLER type."
 	author: "Louis Marchand"
-	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	date: "Sun, 04 Feb 2018 16:14:25 +0000"
 	revision: "2.0"
 
 class
-	GAME_KEY_STATE
+	GAME_KEY_EVENT
 
 inherit
 	GAME_KEY
@@ -61,6 +61,5 @@ feature -- Implementation
 
 	modifier: NATURAL_16
 			-- The internal identificator of the modifiers pressed
-
 
 end

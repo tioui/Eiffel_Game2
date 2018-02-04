@@ -81,12 +81,12 @@ feature {NONE} -- Implementation
 			window.update
 		end
 
-	on_mouse_pressed(a_timestamp: NATURAL_32; a_mouse_state: GAME_MOUSE_BUTTON_PRESSED_STATE; a_nb_clicks: NATURAL_8)
+	on_mouse_pressed(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_PRESS_EVENT; a_nb_clicks: NATURAL_8)
 			-- When the user pressed on a mouse button on `a_window'
 		do
-			if a_nb_clicks = 1 and a_mouse_state.is_left_button_pressed then
+			if a_nb_clicks = 1 and a_mouse_event.is_left_button then
 				window.start_text_input	-- On some OS, it show the onscreen keyboard
-				texts.extend ([a_mouse_state.x, a_mouse_state.y, {STRING_32}""])
+				texts.extend ([a_mouse_event.x, a_mouse_event.y, {STRING_32}""])
 			end
 		end
 
@@ -98,12 +98,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	on_key_pressed(a_timestamp: NATURAL_32; a_key_state: GAME_KEY_STATE)
+	on_key_pressed(a_timestamp: NATURAL_32; a_key_event: GAME_KEY_EVENT)
 			-- When the user pressed any key on the keyboard
 		do
-			if a_key_state.is_backspace and not texts.last.text.is_empty then
+			if a_key_event.is_backspace and not texts.last.text.is_empty then
 				texts.last.text := texts.last.text.substring (1, texts.last.text.count - 1)
-			elseif a_key_state.is_return or a_key_state.is_escape then
+			elseif a_key_event.is_return or a_key_event.is_escape then
 				window.stop_text_input
 			end
 		end

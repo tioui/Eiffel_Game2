@@ -1,11 +1,11 @@
 note
 	description: "An event that is trigger by a finger on a touch device"
 	author: "Louis Marchand"
-	date: "Thu, 16 Apr 2015 19:59:10 +0000"
+	date: "Sun, 04 Feb 2018 16:14:25 +0000"
 	revision: "2.0"
 
 class
-	GAME_FINGER_EVENT_STATE
+	GAME_FINGER_EVENT
 
 inherit
 	GAME_FINGER_STATE
@@ -37,5 +37,4 @@ feature -- Access
 
 	relative_y:REAL_32
 			-- The difference between the `y' value of the last finger event and this one
-
 end
