@@ -1,7 +1,10 @@
 note
-	description: "The state of a mouse button event"
-	author: "Louis Marchand"
-	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	description: "[
+		Encapsulates a mouse button event.
+		Any instance represents one button only.
+	]"
+	author: "Louis Marchand and obnosim"
+	date: "Sun Feb 04, 2018"
 	revision: "2.0"
 
 deferred class
@@ -9,40 +12,20 @@ deferred class
 
 inherit
 
-	GAME_MOUSE_EVENTS_STATE
-		rename
-			make as make_events_state
-		undefine
-			default_create
-		end
-
-inherit {NONE}
-
-	GAME_MOUSE_STATE
+	GAME_MOUSE_EVENT
 		rename
 			state as button_id,
-			is_left_button_pressed as is_left_button,
-			is_right_button_pressed as is_right_button,
-			is_middle_button_pressed as is_middle_button,
-			is_optionnal_button_1_pressed as is_optional_button_1,
-			is_optionnal_button_2_pressed as is_optional_button_2
+			has_left_button as is_left_button,
+			has_right_button as is_right_button,
+			has_middle_button as is_middle_button,
+			has_optional_button_1 as is_optional_button_1,
+			has_optional_button_2 as is_optional_button_2
 		redefine
 			is_left_button,
 			is_right_button,
 			is_middle_button,
 			is_optional_button_1,
 			is_optional_button_2
-		end
-
-feature {NONE} -- Initialization
-
-	make (a_mouse_id, a_button_id: NATURAL_32; a_x, a_y: INTEGER_32)
-			-- Initialization for `Current'.
-		do
-			make_events_state (a_mouse_id)
-			button_id := a_button_id
-			x := a_x
-			y := a_y
 		end
 
 feature -- Access
@@ -78,6 +61,6 @@ feature -- Access
 		end
 
 invariant
-	Only_One_Button: is_left_button xor is_right_button xor is_middle_button xor is_optional_button_1 xor is_optional_button_2
+	Only_One_Button: is_left_button.to_integer + is_right_button.to_integer + is_middle_button.to_integer + is_optional_button_1.to_integer + is_optional_button_2.to_integer = 1
 
 end

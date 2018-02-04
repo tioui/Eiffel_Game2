@@ -1,18 +1,18 @@
 note
 	description: "The state of a mouse button pressed event"
-	author: "Louis Marchand"
-	date: "Thu, 02 Apr 2015 02:40:10 +0000"
+	author: "Louis Marchand and obnosim"
+	date: "Sun Feb 04, 2018"
 	revision: "2.0"
 
-class
+deferred class
 	GAME_MOUSE_BUTTON_PRESSED_STATE
+
+obsolete
+	"Use GAME_MOUSE_BUTTON_PRESS_EVENT instead [2018-02-04]"
 
 inherit
 
 	GAME_MOUSE_BUTTON_EVENT
-
-create
-	make
 
 feature -- Access
 

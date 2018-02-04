@@ -5,14 +5,14 @@ note
 	revision: "2.0"
 
 class
-	GAME_MOUSE_EVENTS_STATE
+	GAME_MOUSE_EVENT_ORIGIN
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make(a_mouse_id:NATURAL_32)
+	make (a_mouse_id: NATURAL_32)
 			-- Initialization of `Current' using `a_mouse_id' as internal `id'
 		do
 			id := a_mouse_id
@@ -20,10 +20,10 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	id:NATURAL_32
+	id: NATURAL_32
 			-- Unique identifier of the mouse represented by `Current'
 
-	is_touch_device:BOOLEAN
+	is_touch_device: BOOLEAN
 			-- True if the mouse represented by `Current' is the touch device.
 		do
 			Result := id = {GAME_SDL_EXTERNAL}.SDL_TOUCH_MOUSEID

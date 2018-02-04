@@ -465,7 +465,7 @@ feature -- Access
 			end
 		end
 
-	mouse_button_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESS_EVENT;
 																	nb_clicks:NATURAL_8]]
 			-- When a mouse represented by `mouse_state' has been pressed for the `nb_clicks' times
 		require
@@ -482,7 +482,7 @@ feature -- Access
 			end
 		end
 
-	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE;
+	mouse_button_released_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASE_EVENT;
 																	nb_clicks:NATURAL_8]]
 			-- When a mouse represented by `mouse_state' has been released for the `nb_clicks' times
 		require
@@ -499,7 +499,7 @@ feature -- Access
 			end
 		end
 
-	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENTS_STATE;
+	mouse_wheel_move_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT_ORIGIN;
 																	delta_x,delta_y:INTEGER_32]]
 			-- When the wheel of a mouse represented by `mouse_state' has been moved.
 			-- The difference between the old wheel position and the new one is (`delta_x',`delta_y')
@@ -748,7 +748,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_button_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE;
+	mouse_button_pressed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_PRESS_EVENT;
 																	nb_clicks:NATURAL_8]]
 			-- Internal value of the `mouse_button_pressed_actions' lazy evaluated attribute
 
@@ -762,7 +762,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `mouse_button_pressed_events_callback' and dispatch them to
 			-- the `mouse_button_pressed_actions' {ACTION_SEQUENCE}
 		local
-			l_mouse_state:GAME_MOUSE_BUTTON_PRESSED_STATE
+			l_mouse_state:GAME_MOUSE_BUTTON_PRESS_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_button_pressed_actions_internal as actions then
@@ -772,7 +772,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE;
+	mouse_button_released_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_BUTTON_RELEASE_EVENT;
 																	nb_clicks:NATURAL_8]]
 			-- Internal value of the `mouse_button_released_actions' lazy evaluated attribute
 
@@ -786,7 +786,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `mouse_button_released_events_callback' and dispatch them to
 			-- the `mouse_button_released_actions' {ACTION_SEQUENCE}
 		local
-			l_mouse_state:GAME_MOUSE_BUTTON_RELEASED_STATE
+			l_mouse_state:GAME_MOUSE_BUTTON_RELEASE_EVENT
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_button_released_actions_internal as actions then
@@ -796,7 +796,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENTS_STATE;
+	mouse_wheel_move_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; mouse_state:GAME_MOUSE_EVENT_ORIGIN;
 																	delta_x,delta_y:INTEGER_32]]
 			-- Internal value of the `mouse_wheel_move_actions' lazy evaluated attribute
 
@@ -808,7 +808,7 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `mouse_wheel_move_events_callback' and dispatch them to
 			-- the `mouse_wheel_move_actions' {ACTION_SEQUENCE}
 		local
-			l_mouse_state:GAME_MOUSE_EVENTS_STATE
+			l_mouse_state:GAME_MOUSE_EVENT_ORIGIN
 		do
 			if a_window_id =id or a_window_id = 0 then
 				if attached mouse_wheel_move_actions_internal as actions then
