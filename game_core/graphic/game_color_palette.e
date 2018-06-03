@@ -89,7 +89,7 @@ feature -- Access
 		require else
 			Palette_Exist: exists
 		do
-			Result := (i >= index_set.lower) and (i <= index_set.upper)
+			Result := (i >= lower) and (i <= upper)
 		end
 
 	at alias "[]" (a_index:INTEGER):GAME_COLOR_READABLE assign put_i_th

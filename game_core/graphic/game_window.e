@@ -528,9 +528,9 @@ feature -- Access
 			l_red, l_green, l_blue:ARRAY[NATURAL_16]
 			l_error:INTEGER
 		do
-			create l_red.make(1, 256)
-			create l_green.make(1, 256)
-			create l_blue.make(1, 256)
+			create l_red.make_filled ({NATURAL_16} 0, 1, 256)
+			create l_green.make_filled ({NATURAL_16} 0, 1, 256)
+			create l_blue.make_filled ({NATURAL_16} 0, 1, 256)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_GetWindowGammaRamp(item, $l_red, $l_green, $l_blue)
 			manage_error_code(l_error, "Cannot get gamma correction values.")
 			Result := [create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_red), create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_green), create {ARRAYED_LIST[NATURAL_16]}.make_from_array (l_blue)]
