@@ -246,14 +246,14 @@ feature -- Constante SDL_ttf
 		external
 			"C inline use <SDL_ttf.h>"
 		alias
-			"TTF_STYLE_UNDERLINE"
+			"TTF_STYLE_BOLD"
 		end
 
 	frozen TTF_STYLE_ITALIC:INTEGER
 		external
 			"C inline use <SDL_ttf.h>"
 		alias
-			"TTF_STYLE_NORMAL"
+			"TTF_STYLE_ITALIC"
 		end
 
 	frozen TTF_STYLE_STRIKETHROUGH:INTEGER
