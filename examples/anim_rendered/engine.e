@@ -81,13 +81,14 @@ feature {NONE} -- Implementation
 
 			-- Draw the scene
 			window.renderer.set_drawing_color (create {GAME_COLOR}.make_rgb (0, 128, 255))	-- Redraw the blue sky
-			window.renderer.draw_filled_rectangle (0, 0, desert.width, desert.height)
+			window.renderer.clear
 
 			window.renderer.draw_texture (desert, 0, 0)		-- Redraw the desert
 			window.renderer.draw_sub_texture_with_mirror (		-- Redraw Maryo
 									maryo,  maryo.sub_image_x, maryo.sub_image_y, maryo.sub_image_width, maryo.sub_image_height,
 									maryo.x, maryo.y, False, maryo.facing_left
 								)
+
 
 			window.renderer.present		-- Update modification in the screen
 		end

@@ -15,12 +15,6 @@ inherit
 			is_middle_button as is_middle_button_pressed,
 			is_optional_button_1 as is_optional_button_1_pressed,
 			is_optional_button_2 as is_optional_button_2_pressed
-		redefine
-			is_left_button_pressed,
-			is_right_button_pressed,
-			is_middle_button_pressed,
-			is_optional_button_1_pressed,
-			is_optional_button_2_pressed
 		end
 
 

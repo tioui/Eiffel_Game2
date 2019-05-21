@@ -14,18 +14,7 @@ inherit
 
 	GAME_MOUSE_EVENT_COMMON
 		rename
-			state as button_id,
-			is_left_button as is_left_button,
-			is_right_button as is_right_button,
-			is_middle_button as is_middle_button,
-			is_optional_button_1 as is_optional_button_1,
-			is_optional_button_2 as is_optional_button_2
-		redefine
-			is_left_button,
-			is_right_button,
-			is_middle_button,
-			is_optional_button_1,
-			is_optional_button_2
+			state as button_id
 		end
 
 feature -- Access
