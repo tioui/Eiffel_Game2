@@ -25,10 +25,10 @@ feature {NONE} -- Initialisation
 											file_dropped_actions.call ([a_timestamp, a_filename])
 										end
 			joystick_founded_actions_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do
-												joystick_founded_actions.call ([a_timestamp, a_joystick_id])
+												manage_joystick_founded_callback(a_timestamp, a_joystick_id)
 											end
 			joystick_removed_actions_callback := agent (a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32) do
-												joystick_removed_actions.call ([a_timestamp, a_joystick_id])
+												manage_joystick_removed_callback(a_timestamp, a_joystick_id)
 											end
 			quit_signal_actions_callback := agent (a_timestamp:NATURAL_32) do
 											quit_signal_actions.call ([a_timestamp])
@@ -47,8 +47,6 @@ feature -- Access
 			is_running:=False
 			events_controller.quit_signal_actions.prune_all (quit_signal_actions_callback)
 			events_controller.iteration_actions.prune_all (iteration_actions_callback)
-			events_controller.joy_device_founded_actions.prune_all (joystick_founded_actions_callback)
-			events_controller.joy_device_removed_actions.prune_all (joystick_removed_actions_callback)
 			events_controller.file_dropped_actions.prune_all (file_dropped_actions_callback)
 		end
 
@@ -61,12 +59,6 @@ feature -- Access
 			end
 			if attached iteration_actions_internal as la_on_iteration_internal then
 				events_controller.iteration_actions.extend (iteration_actions_callback)
-			end
-			if attached joystick_founded_actions_internal as la_on_joystick_added_internal then
-				events_controller.joy_device_founded_actions.extend (joystick_founded_actions_callback)
-			end
-			if attached joystick_removed_actions_internal as la_on_joystick_removed_internal then
-				events_controller.joy_device_removed_actions.extend (joystick_removed_actions_callback)
 			end
 			if attached file_dropped_actions_internal as la_on_file_drop_internal then
 				events_controller.file_dropped_actions.extend (file_dropped_actions_callback)
@@ -88,6 +80,8 @@ feature -- Access
 			iteration_actions_internal := Void
 			joystick_founded_actions_internal := Void
 			joystick_removed_actions_internal := Void
+			joystick_found_actions_internal := Void
+			joystick_remove_actions_internal := Void
 			file_dropped_actions_internal := Void
 			if l_was_running then
 				run
@@ -124,10 +118,47 @@ feature -- Access
 			end
 		end
 
-	joystick_founded_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_found_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
+			-- Called when a new `joystick' has been founded
+			-- Automatically added to {GAME_LIBRARY_CONTROLLER}.`joysticks'
+		require
+			Joystick_Found_Event_Enabled: events_controller.is_joy_device_founded_event_enable
+		do
+			if attached joystick_found_actions_internal as la_on_joystick_added_internal then
+				Result := la_on_joystick_added_internal
+			else
+				create Result
+				if is_running then
+					events_controller.joy_device_founded_actions.extend (joystick_founded_actions_callback)
+				end
+				joystick_found_actions_internal := Result
+			end
+		end
+
+	joystick_remove_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
+			-- Called when a new joystick has been removed
+			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' after the
+			-- calls of this feature.
+		require
+			Joystick_Remove_Event_Enabled: events_controller.is_joy_device_removed_event_enable
+		do
+			if attached joystick_remove_actions_internal as la_on_joystick_removed_internal then
+				Result := la_on_joystick_removed_internal
+			else
+				create Result
+				if is_running then
+					events_controller.joy_device_removed_actions.extend (joystick_removed_actions_callback)
+				end
+				joystick_remove_actions_internal := Result
+			end
+		end
+
+	joystick_founded_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER]]
 			-- Called when a new joystick has been founded
 			-- To get the new joystick, call {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks',
 			-- then use the {GAME_LIBRARY_CONTROLLER}.`joysticks'.`at'(`joystick_id')
+		obsolete
+			"Use `joystick_remove_actions' instead [2020-03-30]"
 		require
 			Joystick_Found_Event_Enabled: events_controller.is_joy_device_founded_event_enable
 		do
@@ -142,10 +173,12 @@ feature -- Access
 			end
 		end
 
-	joystick_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER]]
 			-- Called when a new joystick has been removed
-			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' when the
-			-- {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks' will be called.
+			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' after the
+			-- calls of this feature.
+		obsolete
+			"Use `joystick_remove_actions' instead [2020-03-30]"
 		require
 			Joystick_Remove_Event_Enabled: events_controller.is_joy_device_removed_event_enable
 		do
@@ -179,6 +212,16 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	manage_joystick_founded_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
+			-- Used to manage `joystick_founded_actions_callback'
+		deferred
+		end
+
+	manage_joystick_removed_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
+			-- Used to manage `joystick_removed_actions_callback'
+		deferred
+		end
+
 	quit_signal_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
 			-- Internal representation of the quit signal event
 
@@ -191,16 +234,22 @@ feature {NONE} -- Implementation
 	iteration_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32]]
 			-- Internal callback of the iteration event
 
-	joystick_founded_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_found_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
+			-- Internal representation of the joystick founded event
+
+	joystick_founded_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; id_joystick:INTEGER]]
 			-- Internal representation of the joystick founded event
 
 	joystick_founded_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- Internal callback of the joystick founded event
 
-	joystick_removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
+	joystick_removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; id_joystick:INTEGER]]
 			-- Internal representation of the joystick removed event
 
-	joystick_removed_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER_32]]
+	joystick_remove_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
+			-- Internal representation of the joystick removed event
+
+	joystick_removed_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- Internal callback of the joystick removed event
 
 	file_dropped_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]

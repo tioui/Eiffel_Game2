@@ -68,11 +68,11 @@ feature {NONE} -- Initialization
 			from
 				l_root := a_other
 			until
-				not (attached l_root as la_root and then la_root.shared)
+				not (attached l_root and then l_root.shared)
 			loop
 				l_root := l_root.other
 			end
-			check attached l_root as la_root then
+			check attached l_root then
 				make_by_pointer (l_root.item)
 				other := l_root
 				shared := True

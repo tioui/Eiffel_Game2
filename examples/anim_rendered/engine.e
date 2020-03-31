@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	run
-			-- Launch the game
+			-- Launch the game.
 		require
 			No_Error: not has_error
 		do
@@ -54,6 +54,7 @@ feature -- Access
 
 		end
 
+
 	has_error:BOOLEAN
 			-- `True' if an error occured during the creation of `Current'
 
@@ -67,6 +68,8 @@ feature -- Access
 			-- The background
 
 feature {NONE} -- Implementation
+
+
 
 	on_iteration(a_timestamp:NATURAL_32)
 			-- Event that is launch at each iteration.

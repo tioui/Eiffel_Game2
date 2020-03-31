@@ -32,7 +32,6 @@ feature -- Access
 	name:READABLE_STRING_GENERAL
 			-- The name of `Current'
 		local
-			l_name_c:C_STRING
 			l_name_pointer:POINTER
 		do
 			clear_error
@@ -41,8 +40,7 @@ feature -- Access
 				manage_error_pointer(l_name_pointer, "An error occured while retriving the display name.")
 				Result:=""
 			else
-				create l_name_c.make_by_pointer (l_name_pointer)
-				Result:=l_name_c.string
+				Result:=(create {C_STRING}.make_by_pointer (l_name_pointer)).string
 			end
 		end
 
@@ -162,7 +160,7 @@ feature -- Access
 			clear_error
 			l_count:={GAME_SDL_EXTERNAL}.SDL_GetNumDisplayModes(index)
 
-			if not (l_count > 0) then
+			if l_count <= 0 then
 				manage_error_code(l_count, "An error occured while retriving the number of display modes.")
 				l_count:=0
 			end

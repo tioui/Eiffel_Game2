@@ -35,7 +35,6 @@ feature -- Query
 			-- A text to identified `Current'
 		local
 			l_c_pointer:POINTER
-			l_c_string:C_STRING
 		do
 			clear_error
 			l_c_pointer := {GAME_SDL_EXTERNAL}.SDL_HapticName(index)
@@ -43,8 +42,7 @@ feature -- Query
 				manage_error_pointer(l_c_pointer, "Cannot retreive haptic name.")
 				Result := ""
 			else
-				create l_c_string.make_by_pointer(l_c_pointer)
-				Result := l_c_string.string
+				Result := (create {C_STRING}.make_by_pointer(l_c_pointer)).string
 			end
 		end
 

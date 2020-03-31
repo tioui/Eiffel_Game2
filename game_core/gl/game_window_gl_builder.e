@@ -388,49 +388,34 @@ feature -- Access
 
 	is_gl_swap_interval_enabled:BOOLEAN
 			-- The FPS will be managed by the `update' of the result of `generate_window'
-		local
-			l_value:INTEGER
 		do
-			l_value := {GAME_SDL_EXTERNAL}.SDL_GL_GetSwapInterval
-			Result := l_value = 1
+			Result := {GAME_SDL_EXTERNAL}.SDL_GL_GetSwapInterval = 1
 		end
 
 	is_gl_swap_late_enabled:BOOLEAN
 			-- Like `enable_gl_swap_interval', but if a frame is skip because of
 			-- a lag, the driver will immediately update the frame.
-		local
-			l_value:INTEGER
 		do
-			l_value := {GAME_SDL_EXTERNAL}.SDL_GL_GetSwapInterval
-			Result := l_value = -1
+			Result := {GAME_SDL_EXTERNAL}.SDL_GL_GetSwapInterval = -1
 		end
 
 	enable_gl_swap_interval
 			-- Set `is_gl_swap_interval_enabled'
-		local
-			l_error:INTEGER
 		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1)
-			manage_error_code (l_error, "Cannot set swap interval")
+			manage_error_code ({GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1), "Cannot set swap interval")
 		end
 
 	enable_gl_swap_late
 			-- Set `is_gl_swap_late_enabled'
 			-- If this fail, you can it is possible that you can use `enable_gl_swap_interval'
-		local
-			l_error:INTEGER
 		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1)
-			manage_error_code (l_error, "Cannot set swap late")
+			manage_error_code ({GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1), "Cannot set swap late")
 		end
 
 	disable_gl_swap_interval_and_late
 			-- Unset `is_gl_swap_interval_enabled' and `is_gl_swap_late_enabled'
-		local
-			l_error:INTEGER
 		do
-			l_error := {GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1)
-			manage_error_code (l_error, "Cannot unset swap interval and swap late")
+			manage_error_code ({GAME_SDL_EXTERNAL}.SDL_GL_SetSwapInterval(1), "Cannot unset swap interval and swap late")
 		end
 
 

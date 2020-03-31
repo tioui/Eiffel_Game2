@@ -322,7 +322,7 @@ feature -- Access
 		require
 			gl_context_valid
 		do
-			Result := (gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_DEBUG_FLAG)) /= 0
+			Result := gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_DEBUG_FLAG) /= 0
 		end
 
 	is_gl_forward_compatibility_enabled:BOOLEAN
@@ -334,7 +334,7 @@ feature -- Access
 		require
 			gl_context_valid
 		do
-			Result := (gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG)) /= 0
+			Result := gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG) /= 0
 		end
 
 	is_gl_robust_access_enabled:BOOLEAN
@@ -345,7 +345,7 @@ feature -- Access
 		require
 			gl_context_valid
 		do
-			Result := (gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG)) /= 0
+			Result := gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_ROBUST_ACCESS_FLAG) /= 0
 		end
 
 	is_gl_reset_isolation_enabled:BOOLEAN
@@ -355,7 +355,7 @@ feature -- Access
 		require
 			gl_context_valid
 		do
-			Result := (gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_RESET_ISOLATION_FLAG)) /= 0
+			Result := gl_context_flags.bit_and({GAME_SDL_EXTERNAL}.SDL_GL_CONTEXT_RESET_ISOLATION_FLAG) /= 0
 		end
 
 	is_gl_core_profile_enabled:BOOLEAN

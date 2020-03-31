@@ -38,10 +38,6 @@ feature {NONE} -- Initialisation
 				do
 					button_released_events_dispatcher(a_timestamp, a_joystick_id, a_button_id)
 				end
-			removed_events_callback := agent (a_timestamp: NATURAL_32; a_joystick_id:INTEGER_32)
-				do
-					removed_events_dispatcher(a_timestamp, a_joystick_id)
-				end
 			Precursor{GAME_EVENTS}
 		end
 
@@ -56,7 +52,6 @@ feature -- Access
 			events_controller.joy_hat_motion_actions.prune_all (hat_motion_events_callback)
 			events_controller.joy_button_pressed_actions.prune_all (button_pressed_events_callback)
 			events_controller.joy_button_released_actions.prune_all (button_released_events_callback)
-			events_controller.joy_device_removed_actions.prune_all (removed_events_callback)
 		end
 
 	run
@@ -77,9 +72,6 @@ feature -- Access
 			end
 			if attached button_released_actions_internal then
 				events_controller.joy_button_released_actions.extend (button_released_events_callback)
-			end
-			if attached removed_actions_internal then
-				events_controller.joy_device_removed_actions.extend (removed_events_callback)
 			end
 		end
 
@@ -192,9 +184,6 @@ feature -- Access
 				Result := la_removed_actions_internal
 			else
 				create Result
-				if is_running and not events_controller.joy_device_removed_actions.has (removed_events_callback) then
-					events_controller.joy_device_removed_actions.extend (removed_events_callback)
-				end
 				removed_actions_internal := Result
 			end
 		end
@@ -212,10 +201,11 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `axis_motion_events_callback' and dispatch them to
 			-- the `axis_motion_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = id then
-				if attached axis_motion_actions_internal as la_actions then
-					la_actions.call (a_timestamp, a_axis_id, a_value)
-				end
+			if
+				a_joystick_id = id and then
+				attached axis_motion_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_axis_id, a_value)
 			end
 		end
 
@@ -230,10 +220,11 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `ball_motion_events_callback' and dispatch them to
 			-- the `ball_motion_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = id then
-				if attached ball_motion_actions_internal as la_actions then
-					la_actions.call (a_timestamp, a_ball_id, a_x_relative, a_y_relative)
-				end
+			if
+				a_joystick_id = id and then
+				attached ball_motion_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_ball_id, a_x_relative, a_y_relative)
 			end
 		end
 
@@ -247,14 +238,12 @@ feature {NONE} -- Implementation
 	hat_motion_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER; a_hat_id, a_value:NATURAL_8)
 			-- The dispatcher receiving event from the `hat_motion_events_callback' and dispatch them to
 			-- the `hat_motion_actions' {ACTION_SEQUENCE}
-		local
-			l_hat_state: GAME_JOYSTICK_HAT_STATE
 		do
-			if a_joystick_id = id then
-				if attached hat_motion_actions_internal as la_actions then
-					create l_hat_state.make(a_value)
-					la_actions.call (a_timestamp, a_hat_id, l_hat_state)
-				end
+			if
+				a_joystick_id = id and then
+				attached hat_motion_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_hat_id, create {GAME_JOYSTICK_HAT_STATE}.make(a_value))
 			end
 		end
 
@@ -269,10 +258,11 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `button_pressed_events_callback' and dispatch them to
 			-- the `button_pressed_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = id then
-				if attached button_pressed_actions_internal as la_actions then
-					la_actions.call (a_timestamp, a_button_id)
-				end
+			if
+				a_joystick_id = id and then
+				attached button_pressed_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_button_id)
 			end
 		end
 
@@ -287,28 +277,23 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `button_released_events_callback' and dispatch them to
 			-- the `button_released_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = id then
-				if attached button_released_actions_internal as la_actions then
-					la_actions.call (a_timestamp, a_button_id)
-				end
+			if
+				a_joystick_id = id and then
+				attached button_released_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_button_id)
 			end
 		end
-
-	removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
-			-- Internal value of the `removed_actions' lazy evaluated attribute
-
-	removed_events_callback: PROCEDURE [ANY, TUPLE [timestamp: NATURAL_32; joystick_id: INTEGER_32]]
-			-- Callback used to register `Current' in the `events_controller' for the
-			-- `removed_actions' {ACTION_SEQUENCE}
 
 	removed_events_dispatcher (a_timestamp: NATURAL_32; a_joystick_id:INTEGER)
 			-- The dispatcher receiving event from the `removed_events_callback' and dispatch them to
 			-- the `removed_actions' {ACTION_SEQUENCE}
 		do
-			if a_joystick_id = id then
-				if attached removed_actions_internal as la_actions then
-					la_actions.call (a_timestamp)
-				end
+			if
+				a_joystick_id = id and then
+				attached removed_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp)
 			end
 		end
 
@@ -316,5 +301,10 @@ feature {NONE} -- Implementation
 			-- Internal event identifier of `Current'
 		deferred
 		end
+
+feature {GAME_LIBRARY_CONTROLLER} -- Implementation
+
+	removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32]]
+			-- Internal value of the `removed_actions' lazy evaluated attribute
 
 end

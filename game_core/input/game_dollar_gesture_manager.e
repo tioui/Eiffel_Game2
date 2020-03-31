@@ -29,10 +29,8 @@ feature -- Access
 			l_rwops:POINTER
 			l_error:INTEGER
 			l_filename_c, l_mode_c:C_STRING
-			l_utf_converter:UTF_CONVERTER
 		do
-			create l_utf_converter
-			create l_filename_c.make (l_utf_converter.string_32_to_utf_8_string_8 (a_filename.to_string_32))
+			create l_filename_c.make ({UTF_CONVERTER}.string_32_to_utf_8_string_8 (a_filename.to_string_32))
 			create l_mode_c.make ("rb")
 			clear_error
 			l_rwops := {GAME_SDL_EXTERNAL}.SDL_RWFromFile(l_filename_c.item,l_mode_c.item)

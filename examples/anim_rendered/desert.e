@@ -12,7 +12,6 @@ inherit
 		rename
 			make as make_texture
 		end
-
 create
 	make
 
@@ -36,4 +35,5 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	
 end

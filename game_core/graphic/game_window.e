@@ -74,14 +74,14 @@ feature {NONE} -- Initialisation
 			Centered_Or_Undefine: a_is_centered implies not a_is_undefined
 		do
 			if a_is_centered then
-				if attached a_display as la_display then
-					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(la_display.index)
+				if attached a_display then
+					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED_DISPLAY(a_display.index)
 				else
 					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_CENTERED
 				end
 			elseif a_is_undefined then
-				if attached a_display as la_display then
-					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_UNDEFINED_DISPLAY(la_display.index)
+				if attached a_display then
+					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_UNDEFINED_DISPLAY(a_display.index)
 				else
 					Result := {GAME_SDL_EXTERNAL}.SDL_WINDOWPOS_UNDEFINED
 				end
@@ -836,14 +836,10 @@ feature -- Access
 		require
 			Window_Not_Closed: exists
 		local
-			l_text_ptr:POINTER
 			l_text_c:C_STRING
-			l_utf_converter:UTF_CONVERTER
 		do
-			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_GetWindowTitle(item)
-			create l_text_c.make_by_pointer(l_text_ptr)
-			create l_utf_converter
-			Result := l_utf_converter.utf_8_string_8_to_string_32(l_text_c.string)
+			create l_text_c.make_by_pointer({GAME_SDL_EXTERNAL}.SDL_GetWindowTitle(item))
+			Result := {UTF_CONVERTER}.utf_8_string_8_to_string_32(l_text_c.string)
 		end
 
 	set_title(a_title: READABLE_STRING_GENERAL)

@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 			Precursor {GAME_ERROR_MANAGER}
 			is_manual_error := False
 		ensure then
-			No_Error: is_manual_error = False
+			No_Error: not is_manual_error
 		end
 
 	manage_error_code(a_error_code:INTEGER; a_message:READABLE_STRING_GENERAL)

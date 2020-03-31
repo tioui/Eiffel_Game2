@@ -239,11 +239,12 @@ feature {NONE} -- Implementation
 		local
 			l_finger_state:GAME_FINGER_EVENT
 		do
-			if a_touch_id = id then
-				if attached finger_motion_actions_internal as la_actions then
-					create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
-					la_actions.call (a_timestamp, l_finger_state)
-				end
+			if
+				a_touch_id = id and then
+				attached finger_motion_actions_internal as la_actions
+			then
+				create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
+				la_actions.call (a_timestamp, l_finger_state)
 			end
 		end
 
@@ -262,11 +263,12 @@ feature {NONE} -- Implementation
 		local
 			l_finger_state:GAME_FINGER_EVENT
 		do
-			if a_touch_id = id then
-				if attached finger_touched_actions_internal as la_actions then
-					create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
-					la_actions.call (a_timestamp, l_finger_state)
-				end
+			if
+				a_touch_id = id and then
+				attached finger_touched_actions_internal as la_actions
+			then
+				create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
+				la_actions.call (a_timestamp, l_finger_state)
 			end
 		end
 
@@ -285,11 +287,12 @@ feature {NONE} -- Implementation
 		local
 			l_finger_state:GAME_FINGER_EVENT
 		do
-			if a_touch_id = id then
-				if attached finger_released_actions_internal as la_actions then
-					create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
-					la_actions.call (a_timestamp, l_finger_state)
-				end
+			if
+				a_touch_id = id and then
+				attached finger_released_actions_internal as la_actions
+			then
+				create l_finger_state.make (a_finger_id, a_x, a_y, a_x_relative, a_y_relative, a_pressure)
+				la_actions.call (a_timestamp, l_finger_state)
 			end
 		end
 
@@ -310,11 +313,12 @@ feature {NONE} -- Implementation
 		local
 			l_fingers_gesture:GAME_FINGERS_GESTURE
 		do
-			if a_touch_id = id then
-				if attached fingers_gesture_actions_internal as la_actions then
-					create l_fingers_gesture.make (a_center_x, a_center_y, a_distance, a_theta, a_fingers_count)
-					la_actions.call (a_timestamp, l_fingers_gesture)
-				end
+			if
+				a_touch_id = id and then
+				attached fingers_gesture_actions_internal as la_actions
+			then
+				create l_fingers_gesture.make (a_center_x, a_center_y, a_distance, a_theta, a_fingers_count)
+				la_actions.call (a_timestamp, l_fingers_gesture)
 			end
 		end
 
@@ -335,11 +339,12 @@ feature {NONE} -- Implementation
 		local
 			l_dollar_gesture:GAME_DOLLAR_GESTURE
 		do
-			if a_touch_id = id then
-				if attached dollar_gesture_actions_internal as la_actions then
-					create l_dollar_gesture.make (a_gesture_id, a_center_x, a_center_y, a_error, a_fingers_count)
-					la_actions.call (a_timestamp, l_dollar_gesture)
-				end
+			if
+				a_touch_id = id and then
+				attached dollar_gesture_actions_internal as la_actions
+			then
+				create l_dollar_gesture.make (a_gesture_id, a_center_x, a_center_y, a_error, a_fingers_count)
+				la_actions.call (a_timestamp, l_dollar_gesture)
 			end
 		end
 
@@ -354,10 +359,11 @@ feature {NONE} -- Implementation
 			-- The dispatcher receiving event from the `dollar_record_events_callback' and dispatch them to
 			-- the `dollar_record_actions' {ACTION_SEQUENCE}
 		do
-			if a_touch_id = id then
-				if attached dollar_record_actions_internal as la_actions then
-					la_actions.call (a_timestamp, a_gesture_id)
-				end
+			if
+				a_touch_id = id and then
+				attached dollar_record_actions_internal as la_actions
+			then
+				la_actions.call (a_timestamp, a_gesture_id)
 			end
 		end
 

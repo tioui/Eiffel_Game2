@@ -175,7 +175,7 @@ feature -- Access
 			-- <Precursor>
 		do
 			if exists then
-				Result := (index = count + 1)
+				Result := index = count + 1
 			else
 				Result := True
 			end

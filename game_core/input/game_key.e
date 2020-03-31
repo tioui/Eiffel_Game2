@@ -298,11 +298,11 @@ feature {NONE} -- Initialization
 			create l_utf_converter
 			create l_text_c.make(l_utf_converter.string_32_to_utf_8_string_8 (a_name.to_string_32))
 			l_code := {GAME_SDL_SCANCODE}.SDL_GetScancodeFromName(l_text_c.item)
-			if l_code /= {GAME_SDL_SCANCODE}.SDL_SCANCODE_UNKNOWN  then
-				make_from_physical_code(l_code)
-			else
+			if l_code = {GAME_SDL_SCANCODE}.SDL_SCANCODE_UNKNOWN  then
 				l_code := {GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyFromName(l_text_c.item)
 				make_from_virtual_code(l_code)
+			else
+				make_from_physical_code(l_code)
 			end
 		end
 
@@ -320,7 +320,7 @@ feature -- Access
 	unicode_out:READABLE_STRING_GENERAL
 			-- The unicode text representation of `Current'
 		do
-			Result := (create {UTF_CONVERTER}).utf_8_string_8_to_escaped_string_32 (out)
+			Result := {UTF_CONVERTER}.utf_8_string_8_to_escaped_string_32 (out)
 		end
 
 	out:STRING
@@ -333,8 +333,7 @@ feature -- Access
 		do
 			l_result_ptr:={GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyName(virtual_code)
 			if not l_result_ptr.is_default_pointer then
-				create l_result_c.make_by_pointer (l_result_ptr)
-				Result:=l_result_c.string
+				Result:=(create {C_STRING}.make_by_pointer (l_result_ptr)).string
 			else
 				Result:=""
 			end

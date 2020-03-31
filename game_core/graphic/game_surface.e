@@ -181,7 +181,7 @@ feature {NONE} -- Initialisation
 			Surface_Make_is_open: has_error or is_open
 		end
 
-	make_with_masks(a_width,a_height,a_bits_per_pixel:INTEGER;a_Rmask,a_Gmask,a_Bmask,a_Amask:NATURAL_32)
+	make_with_masks(a_width,a_height,a_bits_per_pixel:INTEGER;a_rmask,a_gmask,a_bmask,a_amask:NATURAL_32)
 			-- Initialization for `Current'.
 			-- Create a new empty surface with RGBA mask and flags.
 		require
@@ -191,7 +191,7 @@ feature {NONE} -- Initialisation
 			l_image_source:GAME_IMAGE
 		do
 			clear_error
-			l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(0,a_width,a_height,a_bits_per_pixel,a_Rmask,a_Gmask,a_Bmask,a_Amask)
+			l_surface_pointer:={GAME_SDL_EXTERNAL}.SDL_CreateRGBSurface(0,a_width,a_height,a_bits_per_pixel,a_rmask,a_gmask,a_bmask,a_amask)
 			if l_surface_pointer.is_default_pointer then
 				manage_error_pointer(l_surface_pointer, "An error occured while creating the surface.")
 				create image.own_from_pointer (create {POINTER})
@@ -488,7 +488,7 @@ feature -- Access
 			if l_error<-1 then
 				manage_error_code(l_error, "An error occured while getting the transparent color of the surface.")
 			end
-			Result := (l_error /= -1)
+			Result := l_error /= -1
 		end
 
 	disable_transparent

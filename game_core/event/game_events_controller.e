@@ -39,6 +39,8 @@ feature {NONE} -- Initialization
 			make
 			initialize_actions
 			create clear_actions
+			create joy_device_founded_actions
+			create joy_device_removed_actions
 		end
 
 	initialize_actions
@@ -61,8 +63,6 @@ feature {NONE} -- Initialization
 			create joy_hat_motion_actions
 			create joy_button_released_actions
 			create joy_button_pressed_actions
-			create joy_device_founded_actions
-			create joy_device_removed_actions
 			create finger_motion_actions
 			create finger_released_actions
 			create finger_touched_actions
@@ -1611,11 +1611,9 @@ feature {NONE} -- Implementation
 			-- Generate a {STRING_32} from the UTF8 C string pointed by `l_utf8_pointer'
 		local
 			l_to_covert:STRING_8
-			l_utf_converter:UTF_CONVERTER
 		do
-			create l_utf_converter
 			create l_to_covert.make_from_c (l_utf8_pointer)
-			Result := l_utf_converter.utf_8_string_8_to_escaped_string_32 (l_to_covert)
+			Result := {UTF_CONVERTER}.utf_8_string_8_to_escaped_string_32 (l_to_covert)
 		end
 
 

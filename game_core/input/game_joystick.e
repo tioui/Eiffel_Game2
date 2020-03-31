@@ -31,13 +31,19 @@ feature {NONE} -- Initialization
 		do
 			events_controller := game_library.events_controller
 			index:=a_from_index
+			is_removed := False
 			make_events
 		end
 
 feature -- Access
 
+	is_removed:BOOLEAN
+			-- `Current' has been removed
+
 	name:STRING
 			-- Return the Joystick Name.
+		require
+			Not_Removed: not is_removed
 		local
 			l_text_return:C_STRING
 		do
@@ -88,6 +94,7 @@ feature -- Access
 			-- Get the number of axes on the joystick.
 		require
 			Get_Axes_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumAxes(item)
@@ -100,6 +107,7 @@ feature -- Access
 			"Use `axes_count' instead"
 		require
 			Get_Axes_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumAxes(item)
@@ -111,6 +119,7 @@ feature -- Access
 			-- Note that `a_axis_id' index start at 0
 		require
 			Get_Axis_Value_Opened: is_open
+			Not_Removed: not is_removed
 			Get_Axis_Value_Axis_Id_Valid: a_axis_id<axes_number
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetAxis(item,a_axis_id)
@@ -120,6 +129,7 @@ feature -- Access
 			-- Return the number of balls on the joystick.
 		require
 			Get_Balls_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumBalls(item)
@@ -132,6 +142,7 @@ feature -- Access
 			"Use `balls_count' instead"
 		require
 			Get_Balls_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumBalls(item)
@@ -144,6 +155,7 @@ feature -- Access
 		require
 			Get_Ball_Value_Opened: is_open
 			Get_Ball_Value_Ball_Id_Valid: a_ball_id<axes_number
+			Not_Removed: not is_removed
 		local
 			l_dx,l_dy,l_error:INTEGER
 		do
@@ -158,6 +170,7 @@ feature -- Access
 			-- Return the number of buttons on the joystick.
 		require
 			Get_Buttons_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumButtons(item)
@@ -170,6 +183,7 @@ feature -- Access
 			"Use `buttons_count' instead"
 		require
 			Get_Buttons_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumButtons(item)
@@ -182,6 +196,7 @@ feature -- Access
 		require
 			Is_Buttons_Pressed_Opened: is_open
 			Is_Button_Pressed_Button_Id_Valid: a_button_id<buttons_number
+			Not_Removed: not is_removed
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetButton(item, a_button_id)
 		end
@@ -190,6 +205,7 @@ feature -- Access
 			-- Return the number of hats on the joystick.
 		require
 			Get_Hats_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumHats(item)
@@ -202,6 +218,7 @@ feature -- Access
 			"Use `hats_count' instead"
 		require
 			Get_Hats_Number_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickNumHats(item)
@@ -213,6 +230,7 @@ feature -- Access
 			-- Note that `a_hat_id' index start at 0
 		require
 			Get_Hat_State_Opened: is_open
+			Not_Removed: not is_removed
 			Get_Hat_State_Hat_Id_Valid: a_hat_id<hats_number
 		do
 			create Result.make ({GAME_SDL_EXTERNAL}.SDL_JoystickGetHat(item, a_hat_id))
@@ -220,9 +238,10 @@ feature -- Access
 
 	guid:READABLE_STRING_GENERAL
 			-- A unique hardware identifier of `Current'
+		require
+			Not_Removed: not is_removed
 		local
 			l_string_buffer:POINTER
-			l_c_string:C_STRING
 		do
 			l_string_buffer := l_string_buffer.memory_alloc (50)
 			if is_open then
@@ -230,14 +249,14 @@ feature -- Access
 			else
 				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(index, l_string_buffer, 50)
 			end
-			create l_c_string.own_from_pointer (l_string_buffer)
-			Result := l_c_string.string
+			Result := (create {C_STRING}.own_from_pointer (l_string_buffer)).string
 		end
 
 	instance_id:INTEGER_32
 			-- Identifier of `Current' used in event handeling
 		require
 			Is_Buttons_Pressed_Opened: is_open
+			Not_Removed: not is_removed
 		do
 			clear_error
 			Result := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID(item)
@@ -248,6 +267,7 @@ feature -- Access
 			-- Is `Current' has haptic features
 		require
 			Is_Buttons_Pressed_Opened: is_open
+			Not_Removed: not is_removed
 			Is_Haptic_Enable: Game_library.is_haptic_enable
 		local
 			l_error : INTEGER
@@ -262,6 +282,7 @@ feature -- Access
 			-- Used to manage the haptic (force feedback) of `Current'
 		require
 			Is_Buttons_Pressed_Opened: is_open
+			Not_Removed: not is_removed
 			Is_Haptic_Capable: is_haptic_capable
 			Is_Haptic_Enable: Game_library.is_haptic_enable
 		do
@@ -293,5 +314,15 @@ feature {NONE} -- Implementation
 			close
 		end
 	end
+
+feature {GAME_LIBRARY_CONTROLLER} -- Implementation
+
+	remove
+			-- set `is_removed' to `True'
+		do
+			is_removed := True
+		ensure
+			Is_Removed_Set: is_removed
+		end
 
 end

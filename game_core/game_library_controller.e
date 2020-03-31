@@ -90,14 +90,11 @@ feature -- Subs Systems
 			-- Disable the video functionalities
 		require
 			SDL_Controller_Disable_Video_Not_Enabled: is_video_enable
-		local
-			l_mem:MEMORY
 		do
 			across windows as la_windows loop
 				la_windows.item.close
 			end
-			create l_mem
-			l_mem.full_collect
+			{MEMORY}.full_collect
 			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_video)
 		ensure
 			SDL_Controller_Disable_Video_Disabled: not is_video_enable
@@ -127,7 +124,9 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
-			refresh_joysticks
+			initialise_joysticks
+			events_controller.joy_device_founded_actions.extend (joystick_founded_actions_callback)
+			events_controller.joy_device_removed_actions.extend (joystick_removed_actions_callback)
 		ensure
 			SDL_Controller_Enable_Joystick_Enabled: is_joystick_enable
 		end
@@ -137,6 +136,8 @@ feature -- Subs Systems
 		require
 			SDL_Controller_Disable_Joystick_Not_Enabled: is_joystick_enable
 		do
+			events_controller.joy_device_founded_actions.prune_all (joystick_founded_actions_callback)
+			events_controller.joy_device_removed_actions.prune_all (joystick_removed_actions_callback)
 			close_all_joysticks
 			internal_joysticks.wipe_out
 			quit_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
@@ -436,28 +437,28 @@ feature -- Joystick methods
 			-- Every {GAME_JOYSTICK} detected by `Current'
 		require
 			Joysticks_is_Joystick_Enabled: is_joystick_enable
+		local
+			l_joysticks:LINKED_LIST[GAME_JOYSTICK]
 		do
-			create Result.make (internal_joysticks)
+			create l_joysticks.make
+			across internal_joysticks as la_joysticks loop
+				if attached la_joysticks.item as la_joystick then
+					l_joysticks.extend (la_joystick)
+				end
+			end
+			create Result.make (l_joysticks)
 		end
 
 	refresh_joysticks
 		-- Update the joystiks list (if joysticks as been add or remove)
 		-- Warning: This will close all opened joysticks
-	require
-		Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
-	local
-		i, l_joystick_count:INTEGER
-	do
-		close_all_joysticks
-		internal_joysticks.wipe_out
-		l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
-		from i:=0
-		until i>=l_joystick_count
-		loop
-			internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
-			i:=i+1
+		obsolete
+			"Should not be necessary anymore [2020-03-30]"
+		require
+			Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
+		do
+
 		end
-	end
 
 	update_joysticks_state
 			-- Update the state of all opened joystick. This procedure is
@@ -470,7 +471,7 @@ feature -- Joystick methods
 
 feature {NONE} -- Joystick implementation
 
-	internal_joysticks:ARRAYED_LIST[GAME_JOYSTICK]
+	internal_joysticks:ARRAYED_LIST[detachable GAME_JOYSTICK]
 			-- Every {GAME_JOYSTICK} connected to the system.
 
 	open_all_joystick
@@ -478,9 +479,9 @@ feature {NONE} -- Joystick implementation
 		require
 			Joysticks_is_enabled: is_joystick_enable
 		do
-			internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
-								if not a_joystick.is_open then
-									a_joystick.open
+			internal_joysticks.do_all (agent (a_joystick:detachable GAME_JOYSTICK) do
+								if attached a_joystick as la_joystick and then not la_joystick.is_open then
+									la_joystick.open
 								end
 							end)
 		end
@@ -492,12 +493,72 @@ feature {NONE} -- Joystick implementation
 		Controller_Close_All_Joysticks_Joystick_Enabled: is_joystick_enable
 		Close_All_Joystick_Attach: internal_joysticks /= Void
 	do
-		internal_joysticks.do_all (agent (a_joystick:GAME_JOYSTICK) do
-								if a_joystick.is_open then
-									a_joystick.close
+		internal_joysticks.do_all (agent (a_joystick:detachable GAME_JOYSTICK) do
+								if attached a_joystick as la_joystick and then la_joystick.is_open then
+									la_joystick.close
 								end
 							end)
 	end
+
+	initialise_joysticks
+		-- Fill `internal_joysticks'
+		require
+			Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
+		local
+			i, l_joystick_count:INTEGER
+		do
+			close_all_joysticks
+			internal_joysticks.wipe_out
+			l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
+			from i:=0
+			until i>=l_joystick_count
+			loop
+				internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
+				i:=i+1
+			end
+		end
+
+	manage_joystick_founded_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
+			-- {Precursor}
+		local
+			l_joystick:GAME_JOYSTICK
+		do
+			across internal_joysticks as la_joysticks loop
+				if attached la_joysticks.item as la_joystick and then la_joystick.index ~ a_joystick_id then
+					l_joystick := la_joystick
+				end
+			end
+			if not attached l_joystick then
+				create l_joystick.make (a_joystick_id)
+				internal_joysticks.extend (l_joystick)
+				joystick_founded_actions.call ([a_timestamp, a_joystick_id])
+				joystick_found_actions.call ([a_timestamp, l_joystick])
+			end
+		end
+
+	manage_joystick_removed_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
+			-- {Precursor}
+		local
+			l_joystick:GAME_JOYSTICK
+		do
+			joystick_removed_actions.call ([a_timestamp, a_joystick_id])
+			if
+				internal_joysticks.valid_index (a_joystick_id + 1) and then
+				attached internal_joysticks.at (a_joystick_id + 1) as la_joystick
+			then
+				joystick_remove_actions.call ([a_timestamp, la_joystick])
+				la_joystick.remove
+				if la_joystick.is_open then
+					la_joystick.close
+				end
+				if la_joystick.is_events_running then
+					la_joystick.stop_events
+				end
+				la_joystick.clear_events
+				internal_joysticks.at (a_joystick_id + 1) := Void
+			end
+		end
+
 
 feature -- Haptic methods
 
@@ -676,16 +737,13 @@ feature -- OpenGL
 			-- Unload the OpenGL library
 		require
 			Is_GL_Enabled: is_gl_enabled
-		local
-			l_mem:MEMORY
 		do
 			across windows as la_windows loop
 				if attached {GAME_WINDOW_GL} la_windows.item then
 					la_windows.item.close
 				end
 			end
-			create l_mem
-			l_mem.full_collect
+			{MEMORY}.full_collect
 			{GAME_SDL_EXTERNAL}.sdl_gl_unloadlibrary
 			is_gl_enabled := False
 		end
@@ -710,16 +768,13 @@ feature -- Other methods
 	library_variable(a_variable:READABLE_STRING_GENERAL):READABLE_STRING_GENERAL assign set_library_variable
 			-- Retreive the internal variable `a_variable' or an empty text if it does not exist.
 		local
-			l_c_name, l_c_value:C_STRING
 			l_text_ptr:POINTER
 		do
-			create l_c_name.make(a_variable)
-			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_getenv(l_c_name.item)
+			l_text_ptr := {GAME_SDL_EXTERNAL}.SDL_getenv((create {C_STRING}.make(a_variable)).item)
 			if l_text_ptr.is_default_pointer then
 				Result := ""
 			else
-				create l_c_value.make_by_pointer(l_text_ptr)
-				Result := l_c_value.string
+				Result := (create {C_STRING}.make_by_pointer(l_text_ptr)).string
 			end
 		end
 
@@ -742,6 +797,15 @@ feature -- Other methods
 			-- Clear every events set in the system
 		do
 			events_controller.clear
+			across internal_joysticks as la_joysticks loop
+				if attached la_joysticks.item as la_joystick then
+					la_joystick.clear_events
+				end
+			end
+			across internal_windows as la_windows loop la_windows.item.clear_events  end
+			if attached internal_touch_devices as la_devices then
+				across la_devices as lla_devices loop lla_devices.item.clear_events  end
+			end
 		end
 
 	update_events
@@ -832,8 +896,6 @@ feature -- Other methods
 
 	quit_library
 			-- Close the library. Must be used before the end of the application
-		local
-			l_mem:MEMORY
 		do
 			internal_windows.wipe_out
 			if is_gl_enabled then
@@ -846,8 +908,7 @@ feature -- Other methods
 			refresh_touch_devices
 			create events_controller
 			events_controller.set_game_library (Current)
-			create l_mem
-			l_mem.full_collect
+			{MEMORY}.full_collect
 			{GAME_SDL_EXTERNAL}.SDL_Quit_lib
 		end
 
@@ -873,14 +934,12 @@ feature -- Other methods
 	base_path:PATH
 			-- The {PATH} of the executable. This {PATH} is not safe for writing file.
 		local
-			l_converter:UTF_CONVERTER
 			l_path_c:C_STRING
 			l_pointer:POINTER
 		do
-			create l_converter
 			l_pointer := {GAME_SDL_EXTERNAL}.SDL_GetBasePath
 			create l_path_c.make_shared_from_pointer (l_pointer)
-			create Result.make_from_string (l_converter.utf_8_string_8_to_escaped_string_32 (l_path_c.string))
+			create Result.make_from_string ({UTF_CONVERTER}.utf_8_string_8_to_escaped_string_32 (l_path_c.string))
 			{GAME_SDL_EXTERNAL}.SDL_free(l_pointer)
 		end
 
@@ -947,11 +1006,8 @@ feature{NONE} -- Implementation - Methods
 
 	is_sub_system_enable(a_flags:NATURAL_32):BOOLEAN
 			-- Return true if the sub-systems defined by the `a_flags' are enable.
-		local
-			l_return_value:NATURAL_32
 		do
-			l_return_value:={GAME_SDL_EXTERNAL}.SDL_WasInit(a_flags)
-			Result := l_return_value = a_flags
+			Result := {GAME_SDL_EXTERNAL}.SDL_WasInit(a_flags) = a_flags
 		end
 
 

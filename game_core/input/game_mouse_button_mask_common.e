@@ -24,35 +24,35 @@ feature -- Access
 			-- Is the left button of the mouse represented
 			-- by `Current' is currently pressed
 		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_LMASK) /= 0)
+			result := state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_LMASK) /= 0
 		end
 
 	is_right_button_pressed:BOOLEAN
 			-- Is the right button of the mouse represented
 			-- by `Current' is currently pressed
 		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_RMASK) /= 0)
+			result := state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_RMASK) /= 0
 		end
 
 	is_middle_button_pressed:BOOLEAN
 			-- Is the middle button of the mouse represented
 			-- by `Current' is currently pressed
 		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_MMASK) /= 0)
+			result := state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_MMASK) /= 0
 		end
 
 	is_optional_button_1_pressed:BOOLEAN
 			-- Is the first optionnal button of the mouse represented
 			-- by `Current' is currently pressed
 		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X1MASK) /= 0)
+			result := state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X1MASK) /= 0
 		end
 
 	is_optional_button_2_pressed:BOOLEAN
 			-- Is the second optionnal button of the mouse represented
 			-- by `Current' is currently pressed
 		do
-			result := (state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X2MASK) /= 0)
+			result := state.bit_and ({GAME_SDL_EXTERNAL}.SDL_BUTTON_X2MASK) /= 0
 		end
 
 	is_optionnal_button_1_pressed:BOOLEAN

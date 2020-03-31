@@ -109,18 +109,18 @@ feature -- Access
 			clear_error
 			if attached {GAME_TEXTURE} a_target as la_target then
 				l_error := {GAME_SDL_EXTERNAL}.SDL_SetRenderTarget(item, la_target.item)
-				if l_error /= 0 then
-					manage_error_code(l_error, "An error occured while setting the Renderer's target to texture.")
-				else
+				if l_error = 0 then
 					target := la_target
+				else
+					manage_error_code(l_error, "An error occured while setting the Renderer's target to texture.")
 				end
 			else
 				if a_target = original_target then
 					l_error := {GAME_SDL_EXTERNAL}.SDL_SetRenderTarget(item, create {POINTER})
-					if l_error /= 0 then
-						manage_error_code(l_error, "An error occured while setting the Renderer's target to window.")
-					else
+					if l_error = 0 then
 						target := original_target
+					else
+						manage_error_code(l_error, "An error occured while setting the Renderer's target to window.")
 					end
 				else
 					put_manual_error ("Render target error", "Cannot set another screen as render target.")
