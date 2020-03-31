@@ -79,6 +79,7 @@ feature -- Access
 				la_internal_haptic_controller.close
 			end
 			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
+			create item
 		end
 
 	is_open:BOOLEAN

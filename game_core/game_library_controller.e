@@ -507,15 +507,15 @@ feature {NONE} -- Joystick implementation
 		local
 			i, l_joystick_count:INTEGER
 		do
-			close_all_joysticks
-			internal_joysticks.wipe_out
-			l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
-			from i:=0
-			until i>=l_joystick_count
-			loop
-				internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
-				i:=i+1
-			end
+--			close_all_joysticks
+--			internal_joysticks.wipe_out
+--			l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
+--			from i:=0
+--			until i>=l_joystick_count
+--			loop
+--				internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
+--				i:=i+1
+--			end
 		end
 
 	manage_joystick_founded_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
