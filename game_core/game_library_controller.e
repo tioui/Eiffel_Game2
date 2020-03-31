@@ -548,9 +548,7 @@ feature {NONE} -- Joystick implementation
 			then
 				joystick_remove_actions.call ([a_timestamp, la_joystick])
 				la_joystick.remove
-				if la_joystick.is_open then
-					la_joystick.close
-				end
+				la_joystick.internal_close
 				if la_joystick.is_events_running then
 					la_joystick.stop_events
 				end

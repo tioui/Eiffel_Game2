@@ -72,14 +72,7 @@ feature -- Access
 		require
 			Close_Is_Open: is_open
 		do
-			if
-				attached internal_haptic_controller as la_internal_haptic_controller and then
-				la_internal_haptic_controller.is_open
-			then
-				la_internal_haptic_controller.close
-			end
-			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
-			create item
+			internal_close
 		end
 
 	is_open:BOOLEAN
@@ -311,12 +304,25 @@ feature {NONE} -- Implementation
 	dispose
 			-- <Pecursor>
 	do
-		if is_open then
-			close
+		if not item.is_default_pointer then
+			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
 		end
 	end
 
 feature {GAME_LIBRARY_CONTROLLER} -- Implementation
+
+	internal_close
+			-- Close `Current' (Free internal structure).
+		do
+			if
+				attached internal_haptic_controller as la_internal_haptic_controller and then
+				la_internal_haptic_controller.is_open
+			then
+				la_internal_haptic_controller.close
+			end
+			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
+			create item
+		end
 
 	remove
 			-- set `is_removed' to `True'
