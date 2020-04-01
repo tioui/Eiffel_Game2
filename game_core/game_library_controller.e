@@ -524,7 +524,7 @@ feature {NONE} -- Joystick implementation
 			l_joystick:GAME_JOYSTICK
 		do
 			across internal_joysticks as la_joysticks loop
-				if attached la_joysticks.item as la_joystick and then la_joystick.index ~ a_joystick_id then
+				if attached la_joysticks.item as la_joystick and then la_joystick.open_index ~ a_joystick_id then
 					l_joystick := la_joystick
 				end
 			end
@@ -540,11 +540,38 @@ feature {NONE} -- Joystick implementation
 			-- {Precursor}
 		local
 			l_joystick:GAME_JOYSTICK
+			l_index:INTEGER
+			l_cursor:ARRAYED_LIST_ITERATION_CURSOR [detachable GAME_JOYSTICK]
+			l_found:BOOLEAN
 		do
 			joystick_removed_actions.call ([a_timestamp, a_joystick_id])
+
+			from
+				l_cursor := internal_joysticks.new_cursor
+				l_index := 1
+			until
+				l_cursor.after or l_found
+			loop
+				if attached l_cursor.item as la_item and then la_item.index = a_joystick_id then
+					l_found := True
+					manage_joystick_removed_joystick(a_timestamp, l_index)
+				end
+				l_index := l_index + 1
+				l_cursor.forth
+			end
+			if not l_found then
+				manage_joystick_removed_joystick(a_timestamp, a_joystick_id + 1)
+			end
+		end
+
+	manage_joystick_removed_joystick(a_timestamp:NATURAL_32; a_index:INTEGER)
+			-- Remove the {GAME_JOYSTICK} at index `a_index' in `internal_joysticks'
+		local
+			l_open_index:INTEGER
+		do
 			if
-				internal_joysticks.valid_index (a_joystick_id + 1) and then
-				attached internal_joysticks.at (a_joystick_id + 1) as la_joystick
+				internal_joysticks.valid_index (a_index) and then
+				attached internal_joysticks.at (a_index) as la_joystick
 			then
 				joystick_remove_actions.call ([a_timestamp, la_joystick])
 				la_joystick.remove
@@ -553,10 +580,21 @@ feature {NONE} -- Joystick implementation
 					la_joystick.stop_events
 				end
 				la_joystick.clear_events
-				internal_joysticks.at (a_joystick_id + 1) := Void
+				l_open_index := la_joystick.open_index
+				internal_joysticks.at (a_index) := Void
+				from
+					internal_joysticks.move (a_index)
+				until
+					internal_joysticks.exhausted
+				loop
+					if attached internal_joysticks.item as la_next_joystick then
+						la_next_joystick.set_open_index(l_open_index)
+						l_open_index := l_open_index + 1
+					end
+					internal_joysticks.forth
+				end
 			end
 		end
-
 
 feature -- Haptic methods
 
@@ -1035,5 +1073,4 @@ feature {NONE} -- Implementation - Variables
 
 invariant
 	Is_Singleton: instance_count.item = 1
-
 end

@@ -26,16 +26,27 @@ create {GAME_LIBRARY_CONTROLLER}
 
 feature {NONE} -- Initialization
 
-	make(a_from_index:INTEGER)
-			-- Initialization for `Current'.
+	make(a_open_index:INTEGER)
+			-- Initialization for `Current' using `a_open_index' when `open'.
 		do
 			events_controller := game_library.events_controller
-			index:=a_from_index
+			open_index := a_open_index
 			is_removed := False
 			make_events
 		end
 
 feature -- Access
+
+	index:INTEGER
+			-- Internal unique identifier of `Current'
+		do
+			if is_open then
+				Result:=instance_id
+			else
+				Result := -1
+			end
+
+		end
 
 	is_removed:BOOLEAN
 			-- `Current' has been removed
@@ -50,7 +61,7 @@ feature -- Access
 			if is_open then
 				create l_text_return.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_JoystickName(item))
 			else
-				create l_text_return.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_JoystickNameForIndex(index))
+				create l_text_return.make_by_pointer ({GAME_SDL_EXTERNAL}.SDL_JoystickNameForIndex(open_index))
 			end
 			Result:=l_text_return.string
 		end
@@ -61,7 +72,7 @@ feature -- Access
 			Open_Joystick_Not_Open:not is_open
 		do
 			clear_error
-			item:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(index)
+			item:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(open_index)
 			manage_error_pointer(item, "Error while opening the Joystick.")
 		ensure
 			Is_Open_Or_Error: not has_error implies is_open
@@ -80,9 +91,6 @@ feature -- Access
 		do
 			Result := (not item.is_default_pointer) and then {GAME_SDL_EXTERNAL}.SDL_JoystickGetAttached(item)
 		end
-
-	index:INTEGER
-		-- The internal `index' representing `Current'
 
 	axes_count:INTEGER
 			-- Get the number of axes on the joystick.
@@ -241,7 +249,7 @@ feature -- Access
 			if is_open then
 				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetGUIDString(item, l_string_buffer, 50)
 			else
-				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(index, l_string_buffer, 50)
+				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(open_index, l_string_buffer, 50)
 			end
 			Result := (create {C_STRING}.own_from_pointer (l_string_buffer)).string
 		end
@@ -310,6 +318,17 @@ feature {NONE} -- Implementation
 	end
 
 feature {GAME_LIBRARY_CONTROLLER} -- Implementation
+
+	open_index:INTEGER assign set_open_index
+		-- The internal `index' usedby `open'
+
+	set_open_index(a_index:INTEGER)
+			-- Assign `a_index' to `open_index'
+		do
+			open_index := a_index
+		ensure
+			Is_Assign: open_index = a_index
+		end
 
 	internal_close
 			-- Close `Current' (Free internal structure).
