@@ -41,6 +41,7 @@ feature -- Access
 																		-- feature of the AUDIO_CONTROLLER instead, but your application must be multi-thread enable to do so.
 			window.key_pressed_actions.extend (agent on_key_down_quit)
 			music_source.play
+			music_source.set_gain (0)
 			game_library.launch	-- The controller will loop until the stop controller.method is called (in method on_quit).
 		end
 

@@ -39,7 +39,6 @@ feature -- Access
 			elseif bytes_per_pixel = 4 then
 				l_color_index := internal_item.read_natural_32 ((a_line - 1) * pitch + (a_column - 1) * bytes_per_pixel)
 			end
-			print("Color: " + l_color_index.to_hex_string + "%N")
 			{GAME_SDL_EXTERNAL}.SDL_GetRGBA(l_color_index, pixel_format.item, $l_red, $l_green, $l_blue, $l_alpha)
 			create Result.make(l_red, l_green, l_blue, l_alpha)
 		end

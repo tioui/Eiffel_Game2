@@ -1,8 +1,8 @@
 note
-    description: "External for OpenGL library."
+    description: "External methods for the GL standard library"
     author: "Louis Marchand"
-    date: "Mon, 28 Dec 2015 17:01:53 +0000"
-    revision: "1.0"
+    date: "Thu, 21 May 2020 13:43:03 +0000"
+    revision: "2.0"
 
 class
     GL_EXTERNAL
@@ -10,6060 +10,6096 @@ class
 feature -- C external
 
 
-	frozen GL_VERSION_1_1 : NATURAL
+	frozen GL_ZERO: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERSION_1_1"
+			"return GL_ZERO"
 		end
 
-	frozen GL_FALSE : NATURAL
+	frozen GL_FALSE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FALSE"
+			"return GL_FALSE"
 		end
 
-	frozen GL_TRUE : NATURAL
+	frozen GL_LOGIC_OP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TRUE"
+			"return GL_LOGIC_OP"
 		end
 
-	frozen GL_BYTE : NATURAL
+	frozen GL_NONE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BYTE"
+			"return GL_NONE"
 		end
 
-	frozen GL_UNSIGNED_BYTE : NATURAL
+	frozen GL_TEXTURE_COMPONENTS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNSIGNED_BYTE"
+			"return GL_TEXTURE_COMPONENTS"
 		end
 
-	frozen GL_SHORT : NATURAL
+	frozen GL_NO_ERROR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SHORT"
+			"return GL_NO_ERROR"
 		end
 
-	frozen GL_UNSIGNED_SHORT : NATURAL
+	frozen GL_POINTS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNSIGNED_SHORT"
+			"return GL_POINTS"
 		end
 
-	frozen GL_INT : NATURAL
+	frozen GL_CURRENT_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INT"
+			"return GL_CURRENT_BIT"
 		end
 
-	frozen GL_UNSIGNED_INT : NATURAL
+	frozen GL_TRUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNSIGNED_INT"
+			"return GL_TRUE"
 		end
 
-	frozen GL_FLOAT : NATURAL
+	frozen GL_ONE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FLOAT"
+			"return GL_ONE"
 		end
 
-	frozen GL_2_BYTES : NATURAL
+	frozen GL_CLIENT_PIXEL_STORE_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_2_BYTES"
+			"return GL_CLIENT_PIXEL_STORE_BIT"
 		end
 
-	frozen GL_3_BYTES : NATURAL
+	frozen GL_LINES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_3_BYTES"
+			"return GL_LINES"
 		end
 
-	frozen GL_4_BYTES : NATURAL
+	frozen GL_LINE_LOOP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_4_BYTES"
+			"return GL_LINE_LOOP"
 		end
 
-	frozen GL_DOUBLE : NATURAL
+	frozen GL_POINT_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DOUBLE"
+			"return GL_POINT_BIT"
 		end
 
-	frozen GL_POINTS : NATURAL
+	frozen GL_CLIENT_VERTEX_ARRAY_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINTS"
+			"return GL_CLIENT_VERTEX_ARRAY_BIT"
 		end
 
-	frozen GL_LINES : NATURAL
+	frozen GL_LINE_STRIP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINES"
+			"return GL_LINE_STRIP"
 		end
 
-	frozen GL_LINE_LOOP : NATURAL
+	frozen GL_LINE_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_LOOP"
+			"return GL_LINE_BIT"
 		end
 
-	frozen GL_LINE_STRIP : NATURAL
+	frozen GL_TRIANGLES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_STRIP"
+			"return GL_TRIANGLES"
 		end
 
-	frozen GL_TRIANGLES : NATURAL
+	frozen GL_TRIANGLE_STRIP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TRIANGLES"
+			"return GL_TRIANGLE_STRIP"
 		end
 
-	frozen GL_TRIANGLE_STRIP : NATURAL
+	frozen GL_TRIANGLE_FAN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TRIANGLE_STRIP"
+			"return GL_TRIANGLE_FAN"
 		end
 
-	frozen GL_TRIANGLE_FAN : NATURAL
+	frozen GL_QUADS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TRIANGLE_FAN"
+			"return GL_QUADS"
 		end
 
-	frozen GL_QUADS : NATURAL
+	frozen GL_QUAD_STRIP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_QUADS"
+			"return GL_QUAD_STRIP"
 		end
 
-	frozen GL_QUAD_STRIP : NATURAL
+	frozen GL_POLYGON_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_QUAD_STRIP"
+			"return GL_POLYGON_BIT"
 		end
 
-	frozen GL_POLYGON : NATURAL
+	frozen GL_POLYGON: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON"
+			"return GL_POLYGON"
 		end
 
-	frozen GL_VERTEX_ARRAY : NATURAL
+	frozen GL_POLYGON_STIPPLE_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERTEX_ARRAY"
+			"return GL_POLYGON_STIPPLE_BIT"
 		end
 
-	frozen GL_NORMAL_ARRAY : NATURAL
+	frozen GL_PIXEL_MODE_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NORMAL_ARRAY"
+			"return GL_PIXEL_MODE_BIT"
 		end
 
-	frozen GL_COLOR_ARRAY : NATURAL
+	frozen GL_LIGHTING_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_ARRAY"
+			"return GL_LIGHTING_BIT"
 		end
 
-	frozen GL_INDEX_ARRAY : NATURAL
+	frozen GL_FOG_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_ARRAY"
+			"return GL_FOG_BIT"
 		end
 
-	frozen GL_TEXTURE_COORD_ARRAY : NATURAL
+	frozen GL_DEPTH_BUFFER_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COORD_ARRAY"
+			"return GL_DEPTH_BUFFER_BIT"
 		end
 
-	frozen GL_EDGE_FLAG_ARRAY : NATURAL
+	frozen GL_ACCUM: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EDGE_FLAG_ARRAY"
+			"return GL_ACCUM"
 		end
 
-	frozen GL_VERTEX_ARRAY_SIZE : NATURAL
+	frozen GL_LOAD: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERTEX_ARRAY_SIZE"
+			"return GL_LOAD"
 		end
 
-	frozen GL_VERTEX_ARRAY_TYPE : NATURAL
+	frozen GL_RETURN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERTEX_ARRAY_TYPE"
+			"return GL_RETURN"
 		end
 
-	frozen GL_VERTEX_ARRAY_STRIDE : NATURAL
+	frozen GL_MULT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERTEX_ARRAY_STRIDE"
+			"return GL_MULT"
 		end
 
-	frozen GL_NORMAL_ARRAY_TYPE : NATURAL
+	frozen GL_ADD: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NORMAL_ARRAY_TYPE"
+			"return GL_ADD"
 		end
 
-	frozen GL_NORMAL_ARRAY_STRIDE : NATURAL
+	frozen GL_NEVER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NORMAL_ARRAY_STRIDE"
+			"return GL_NEVER"
 		end
 
-	frozen GL_COLOR_ARRAY_SIZE : NATURAL
+	frozen GL_ACCUM_BUFFER_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_ARRAY_SIZE"
+			"return GL_ACCUM_BUFFER_BIT"
 		end
 
-	frozen GL_COLOR_ARRAY_TYPE : NATURAL
+	frozen GL_LESS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_ARRAY_TYPE"
+			"return GL_LESS"
 		end
 
-	frozen GL_COLOR_ARRAY_STRIDE : NATURAL
+	frozen GL_EQUAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_ARRAY_STRIDE"
+			"return GL_EQUAL"
 		end
 
-	frozen GL_INDEX_ARRAY_TYPE : NATURAL
+	frozen GL_LEQUAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_ARRAY_TYPE"
+			"return GL_LEQUAL"
 		end
 
-	frozen GL_INDEX_ARRAY_STRIDE : NATURAL
+	frozen GL_GREATER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_ARRAY_STRIDE"
+			"return GL_GREATER"
 		end
 
-	frozen GL_TEXTURE_COORD_ARRAY_SIZE : NATURAL
+	frozen GL_NOTEQUAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COORD_ARRAY_SIZE"
+			"return GL_NOTEQUAL"
 		end
 
-	frozen GL_TEXTURE_COORD_ARRAY_TYPE : NATURAL
+	frozen GL_GEQUAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COORD_ARRAY_TYPE"
+			"return GL_GEQUAL"
 		end
 
-	frozen GL_TEXTURE_COORD_ARRAY_STRIDE : NATURAL
+	frozen GL_ALWAYS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COORD_ARRAY_STRIDE"
+			"return GL_ALWAYS"
 		end
 
-	frozen GL_EDGE_FLAG_ARRAY_STRIDE : NATURAL
+	frozen GL_SRC_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EDGE_FLAG_ARRAY_STRIDE"
+			"return GL_SRC_COLOR"
 		end
 
-	frozen GL_VERTEX_ARRAY_POINTER : NATURAL
+	frozen GL_ONE_MINUS_SRC_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERTEX_ARRAY_POINTER"
+			"return GL_ONE_MINUS_SRC_COLOR"
 		end
 
-	frozen GL_NORMAL_ARRAY_POINTER : NATURAL
+	frozen GL_SRC_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NORMAL_ARRAY_POINTER"
+			"return GL_SRC_ALPHA"
 		end
 
-	frozen GL_COLOR_ARRAY_POINTER : NATURAL
+	frozen GL_ONE_MINUS_SRC_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_ARRAY_POINTER"
+			"return GL_ONE_MINUS_SRC_ALPHA"
 		end
 
-	frozen GL_INDEX_ARRAY_POINTER : NATURAL
+	frozen GL_DST_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_ARRAY_POINTER"
+			"return GL_DST_ALPHA"
 		end
 
-	frozen GL_TEXTURE_COORD_ARRAY_POINTER : NATURAL
+	frozen GL_ONE_MINUS_DST_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COORD_ARRAY_POINTER"
+			"return GL_ONE_MINUS_DST_ALPHA"
 		end
 
-	frozen GL_EDGE_FLAG_ARRAY_POINTER : NATURAL
+	frozen GL_DST_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EDGE_FLAG_ARRAY_POINTER"
+			"return GL_DST_COLOR"
 		end
 
-	frozen GL_V2F : NATURAL
+	frozen GL_ONE_MINUS_DST_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_V2F"
+			"return GL_ONE_MINUS_DST_COLOR"
 		end
 
-	frozen GL_V3F : NATURAL
+	frozen GL_SRC_ALPHA_SATURATE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_V3F"
+			"return GL_SRC_ALPHA_SATURATE"
 		end
 
-	frozen GL_C4UB_V2F : NATURAL
+	frozen GL_STENCIL_BUFFER_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_C4UB_V2F"
+			"return GL_STENCIL_BUFFER_BIT"
 		end
 
-	frozen GL_C4UB_V3F : NATURAL
+	frozen GL_FRONT_LEFT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_C4UB_V3F"
+			"return GL_FRONT_LEFT"
 		end
 
-	frozen GL_C3F_V3F : NATURAL
+	frozen GL_FRONT_RIGHT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_C3F_V3F"
+			"return GL_FRONT_RIGHT"
 		end
 
-	frozen GL_N3F_V3F : NATURAL
+	frozen GL_BACK_LEFT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_N3F_V3F"
+			"return GL_BACK_LEFT"
 		end
 
-	frozen GL_C4F_N3F_V3F : NATURAL
+	frozen GL_BACK_RIGHT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_C4F_N3F_V3F"
+			"return GL_BACK_RIGHT"
 		end
 
-	frozen GL_T2F_V3F : NATURAL
+	frozen GL_FRONT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T2F_V3F"
+			"return GL_FRONT"
 		end
 
-	frozen GL_T4F_V4F : NATURAL
+	frozen GL_BACK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T4F_V4F"
+			"return GL_BACK"
 		end
 
-	frozen GL_T2F_C4UB_V3F : NATURAL
+	frozen GL_LEFT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T2F_C4UB_V3F"
+			"return GL_LEFT"
 		end
 
-	frozen GL_T2F_C3F_V3F : NATURAL
+	frozen GL_RIGHT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T2F_C3F_V3F"
+			"return GL_RIGHT"
 		end
 
-	frozen GL_T2F_N3F_V3F : NATURAL
+	frozen GL_FRONT_AND_BACK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T2F_N3F_V3F"
+			"return GL_FRONT_AND_BACK"
 		end
 
-	frozen GL_T2F_C4F_N3F_V3F : NATURAL
+	frozen GL_AUX0: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T2F_C4F_N3F_V3F"
+			"return GL_AUX0"
 		end
 
-	frozen GL_T4F_C4F_N3F_V4F : NATURAL
+	frozen GL_AUX1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T4F_C4F_N3F_V4F"
+			"return GL_AUX1"
 		end
 
-	frozen GL_MATRIX_MODE : NATURAL
+	frozen GL_AUX2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MATRIX_MODE"
+			"return GL_AUX2"
 		end
 
-	frozen GL_MODELVIEW : NATURAL
+	frozen GL_AUX3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MODELVIEW"
+			"return GL_AUX3"
 		end
 
-	frozen GL_PROJECTION : NATURAL
+	frozen GL_INVALID_ENUM: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PROJECTION"
+			"return GL_INVALID_ENUM"
 		end
 
-	frozen GL_TEXTURE : NATURAL
+	frozen GL_INVALID_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE"
+			"return GL_INVALID_VALUE"
 		end
 
-	frozen GL_POINT_SMOOTH : NATURAL
+	frozen GL_INVALID_OPERATION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_SMOOTH"
+			"return GL_INVALID_OPERATION"
 		end
 
-	frozen GL_POINT_SIZE : NATURAL
+	frozen GL_STACK_OVERFLOW: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_SIZE"
+			"return GL_STACK_OVERFLOW"
 		end
 
-	frozen GL_POINT_SIZE_GRANULARITY : NATURAL
+	frozen GL_STACK_UNDERFLOW: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_SIZE_GRANULARITY"
+			"return GL_STACK_UNDERFLOW"
 		end
 
-	frozen GL_POINT_SIZE_RANGE : NATURAL
+	frozen GL_OUT_OF_MEMORY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_SIZE_RANGE"
+			"return GL_OUT_OF_MEMORY"
 		end
 
-	frozen GL_LINE_SMOOTH : NATURAL
+	frozen GL_2D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_SMOOTH"
+			"return GL_2D"
 		end
 
-	frozen GL_LINE_STIPPLE : NATURAL
+	frozen GL_3D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_STIPPLE"
+			"return GL_3D"
 		end
 
-	frozen GL_LINE_STIPPLE_PATTERN : NATURAL
+	frozen GL_3D_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_STIPPLE_PATTERN"
+			"return GL_3D_COLOR"
 		end
 
-	frozen GL_LINE_STIPPLE_REPEAT : NATURAL
+	frozen GL_3D_COLOR_TEXTURE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_STIPPLE_REPEAT"
+			"return GL_3D_COLOR_TEXTURE"
 		end
 
-	frozen GL_LINE_WIDTH : NATURAL
+	frozen GL_4D_COLOR_TEXTURE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_WIDTH"
+			"return GL_4D_COLOR_TEXTURE"
 		end
 
-	frozen GL_LINE_WIDTH_GRANULARITY : NATURAL
+	frozen GL_PASS_THROUGH_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_WIDTH_GRANULARITY"
+			"return GL_PASS_THROUGH_TOKEN"
 		end
 
-	frozen GL_LINE_WIDTH_RANGE : NATURAL
+	frozen GL_POINT_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_WIDTH_RANGE"
+			"return GL_POINT_TOKEN"
 		end
 
-	frozen GL_POINT : NATURAL
+	frozen GL_LINE_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT"
+			"return GL_LINE_TOKEN"
 		end
 
-	frozen GL_LINE : NATURAL
+	frozen GL_POLYGON_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE"
+			"return GL_POLYGON_TOKEN"
 		end
 
-	frozen GL_FILL : NATURAL
+	frozen GL_BITMAP_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FILL"
+			"return GL_BITMAP_TOKEN"
 		end
 
-	frozen GL_CW : NATURAL
+	frozen GL_DRAW_PIXEL_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CW"
+			"return GL_DRAW_PIXEL_TOKEN"
 		end
 
-	frozen GL_CCW : NATURAL
+	frozen GL_COPY_PIXEL_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CCW"
+			"return GL_COPY_PIXEL_TOKEN"
 		end
 
-	frozen GL_FRONT : NATURAL
+	frozen GL_LINE_RESET_TOKEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FRONT"
+			"return GL_LINE_RESET_TOKEN"
 		end
 
-	frozen GL_BACK : NATURAL
+	frozen GL_EXP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BACK"
+			"return GL_EXP"
 		end
 
-	frozen GL_POLYGON_MODE : NATURAL
+	frozen GL_VIEWPORT_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_MODE"
+			"return GL_VIEWPORT_BIT"
 		end
 
-	frozen GL_POLYGON_SMOOTH : NATURAL
+	frozen GL_EXP2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_SMOOTH"
+			"return GL_EXP2"
 		end
 
-	frozen GL_POLYGON_STIPPLE : NATURAL
+	frozen GL_CW: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_STIPPLE"
+			"return GL_CW"
 		end
 
-	frozen GL_EDGE_FLAG : NATURAL
+	frozen GL_CCW: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EDGE_FLAG"
+			"return GL_CCW"
 		end
 
-	frozen GL_CULL_FACE : NATURAL
+	frozen GL_COEFF: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CULL_FACE"
+			"return GL_COEFF"
 		end
 
-	frozen GL_CULL_FACE_MODE : NATURAL
+	frozen GL_ORDER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CULL_FACE_MODE"
+			"return GL_ORDER"
 		end
 
-	frozen GL_FRONT_FACE : NATURAL
+	frozen GL_DOMAIN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FRONT_FACE"
+			"return GL_DOMAIN"
 		end
 
-	frozen GL_POLYGON_OFFSET_FACTOR : NATURAL
+	frozen GL_CURRENT_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_OFFSET_FACTOR"
+			"return GL_CURRENT_COLOR"
 		end
 
-	frozen GL_POLYGON_OFFSET_UNITS : NATURAL
+	frozen GL_CURRENT_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_OFFSET_UNITS"
+			"return GL_CURRENT_INDEX"
 		end
 
-	frozen GL_POLYGON_OFFSET_POINT : NATURAL
+	frozen GL_CURRENT_NORMAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_OFFSET_POINT"
+			"return GL_CURRENT_NORMAL"
 		end
 
-	frozen GL_POLYGON_OFFSET_LINE : NATURAL
+	frozen GL_CURRENT_TEXTURE_COORDS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_OFFSET_LINE"
+			"return GL_CURRENT_TEXTURE_COORDS"
 		end
 
-	frozen GL_POLYGON_OFFSET_FILL : NATURAL
+	frozen GL_CURRENT_RASTER_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_OFFSET_FILL"
+			"return GL_CURRENT_RASTER_COLOR"
 		end
 
-	frozen GL_COMPILE : NATURAL
+	frozen GL_CURRENT_RASTER_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COMPILE"
+			"return GL_CURRENT_RASTER_INDEX"
 		end
 
-	frozen GL_COMPILE_AND_EXECUTE : NATURAL
+	frozen GL_CURRENT_RASTER_TEXTURE_COORDS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COMPILE_AND_EXECUTE"
+			"return GL_CURRENT_RASTER_TEXTURE_COORDS"
 		end
 
-	frozen GL_LIST_BASE : NATURAL
+	frozen GL_CURRENT_RASTER_POSITION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIST_BASE"
+			"return GL_CURRENT_RASTER_POSITION"
 		end
 
-	frozen GL_LIST_INDEX : NATURAL
+	frozen GL_CURRENT_RASTER_POSITION_VALID: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIST_INDEX"
+			"return GL_CURRENT_RASTER_POSITION_VALID"
 		end
 
-	frozen GL_LIST_MODE : NATURAL
+	frozen GL_CURRENT_RASTER_DISTANCE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIST_MODE"
+			"return GL_CURRENT_RASTER_DISTANCE"
 		end
 
-	frozen GL_NEVER : NATURAL
+	frozen GL_POINT_SMOOTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NEVER"
+			"return GL_POINT_SMOOTH"
 		end
 
-	frozen GL_LESS : NATURAL
+	frozen GL_POINT_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LESS"
+			"return GL_POINT_SIZE"
 		end
 
-	frozen GL_EQUAL : NATURAL
+	frozen GL_POINT_SIZE_RANGE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EQUAL"
+			"return GL_POINT_SIZE_RANGE"
 		end
 
-	frozen GL_LEQUAL : NATURAL
+	frozen GL_POINT_SIZE_GRANULARITY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LEQUAL"
+			"return GL_POINT_SIZE_GRANULARITY"
 		end
 
-	frozen GL_GREATER : NATURAL
+	frozen GL_LINE_SMOOTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GREATER"
+			"return GL_LINE_SMOOTH"
 		end
 
-	frozen GL_NOTEQUAL : NATURAL
+	frozen GL_LINE_WIDTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NOTEQUAL"
+			"return GL_LINE_WIDTH"
 		end
 
-	frozen GL_GEQUAL : NATURAL
+	frozen GL_LINE_WIDTH_RANGE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GEQUAL"
+			"return GL_LINE_WIDTH_RANGE"
 		end
 
-	frozen GL_ALWAYS : NATURAL
+	frozen GL_LINE_WIDTH_GRANULARITY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALWAYS"
+			"return GL_LINE_WIDTH_GRANULARITY"
 		end
 
-	frozen GL_DEPTH_TEST : NATURAL
+	frozen GL_LINE_STIPPLE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_TEST"
+			"return GL_LINE_STIPPLE"
 		end
 
-	frozen GL_DEPTH_BITS : NATURAL
+	frozen GL_LINE_STIPPLE_PATTERN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_BITS"
+			"return GL_LINE_STIPPLE_PATTERN"
 		end
 
-	frozen GL_DEPTH_CLEAR_VALUE : NATURAL
+	frozen GL_LINE_STIPPLE_REPEAT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_CLEAR_VALUE"
+			"return GL_LINE_STIPPLE_REPEAT"
 		end
 
-	frozen GL_DEPTH_FUNC : NATURAL
+	frozen GL_LIST_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_FUNC"
+			"return GL_LIST_MODE"
 		end
 
-	frozen GL_DEPTH_RANGE : NATURAL
+	frozen GL_MAX_LIST_NESTING: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_RANGE"
+			"return GL_MAX_LIST_NESTING"
 		end
 
-	frozen GL_DEPTH_WRITEMASK : NATURAL
+	frozen GL_LIST_BASE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_WRITEMASK"
+			"return GL_LIST_BASE"
 		end
 
-	frozen GL_DEPTH_COMPONENT : NATURAL
+	frozen GL_LIST_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_COMPONENT"
+			"return GL_LIST_INDEX"
 		end
 
-	frozen GL_LIGHTING : NATURAL
+	frozen GL_POLYGON_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHTING"
+			"return GL_POLYGON_MODE"
 		end
 
-	frozen GL_LIGHT0 : NATURAL
+	frozen GL_POLYGON_SMOOTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT0"
+			"return GL_POLYGON_SMOOTH"
 		end
 
-	frozen GL_LIGHT1 : NATURAL
+	frozen GL_POLYGON_STIPPLE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT1"
+			"return GL_POLYGON_STIPPLE"
 		end
 
-	frozen GL_LIGHT2 : NATURAL
+	frozen GL_EDGE_FLAG: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT2"
+			"return GL_EDGE_FLAG"
 		end
 
-	frozen GL_LIGHT3 : NATURAL
+	frozen GL_CULL_FACE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT3"
+			"return GL_CULL_FACE"
 		end
 
-	frozen GL_LIGHT4 : NATURAL
+	frozen GL_CULL_FACE_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT4"
+			"return GL_CULL_FACE_MODE"
 		end
 
-	frozen GL_LIGHT5 : NATURAL
+	frozen GL_FRONT_FACE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT5"
+			"return GL_FRONT_FACE"
 		end
 
-	frozen GL_LIGHT6 : NATURAL
+	frozen GL_LIGHTING: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT6"
+			"return GL_LIGHTING"
 		end
 
-	frozen GL_LIGHT7 : NATURAL
+	frozen GL_LIGHT_MODEL_LOCAL_VIEWER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT7"
+			"return GL_LIGHT_MODEL_LOCAL_VIEWER"
 		end
 
-	frozen GL_SPOT_EXPONENT : NATURAL
+	frozen GL_LIGHT_MODEL_TWO_SIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SPOT_EXPONENT"
+			"return GL_LIGHT_MODEL_TWO_SIDE"
 		end
 
-	frozen GL_SPOT_CUTOFF : NATURAL
+	frozen GL_LIGHT_MODEL_AMBIENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SPOT_CUTOFF"
+			"return GL_LIGHT_MODEL_AMBIENT"
 		end
 
-	frozen GL_CONSTANT_ATTENUATION : NATURAL
+	frozen GL_SHADE_MODEL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CONSTANT_ATTENUATION"
+			"return GL_SHADE_MODEL"
 		end
 
-	frozen GL_LINEAR_ATTENUATION : NATURAL
+	frozen GL_COLOR_MATERIAL_FACE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINEAR_ATTENUATION"
+			"return GL_COLOR_MATERIAL_FACE"
 		end
 
-	frozen GL_QUADRATIC_ATTENUATION : NATURAL
+	frozen GL_COLOR_MATERIAL_PARAMETER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_QUADRATIC_ATTENUATION"
+			"return GL_COLOR_MATERIAL_PARAMETER"
 		end
 
-	frozen GL_AMBIENT : NATURAL
+	frozen GL_COLOR_MATERIAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AMBIENT"
+			"return GL_COLOR_MATERIAL"
 		end
 
-	frozen GL_DIFFUSE : NATURAL
+	frozen GL_FOG: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DIFFUSE"
+			"return GL_FOG"
 		end
 
-	frozen GL_SPECULAR : NATURAL
+	frozen GL_FOG_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SPECULAR"
+			"return GL_FOG_INDEX"
 		end
 
-	frozen GL_SHININESS : NATURAL
+	frozen GL_FOG_DENSITY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SHININESS"
+			"return GL_FOG_DENSITY"
 		end
 
-	frozen GL_EMISSION : NATURAL
+	frozen GL_FOG_START: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EMISSION"
+			"return GL_FOG_START"
 		end
 
-	frozen GL_POSITION : NATURAL
+	frozen GL_FOG_END: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POSITION"
+			"return GL_FOG_END"
 		end
 
-	frozen GL_SPOT_DIRECTION : NATURAL
+	frozen GL_FOG_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SPOT_DIRECTION"
+			"return GL_FOG_MODE"
 		end
 
-	frozen GL_AMBIENT_AND_DIFFUSE : NATURAL
+	frozen GL_FOG_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AMBIENT_AND_DIFFUSE"
+			"return GL_FOG_COLOR"
 		end
 
-	frozen GL_COLOR_INDEXES : NATURAL
+	frozen GL_DEPTH_RANGE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_INDEXES"
+			"return GL_DEPTH_RANGE"
 		end
 
-	frozen GL_LIGHT_MODEL_TWO_SIDE : NATURAL
+	frozen GL_DEPTH_TEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT_MODEL_TWO_SIDE"
+			"return GL_DEPTH_TEST"
 		end
 
-	frozen GL_LIGHT_MODEL_LOCAL_VIEWER : NATURAL
+	frozen GL_DEPTH_WRITEMASK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT_MODEL_LOCAL_VIEWER"
+			"return GL_DEPTH_WRITEMASK"
 		end
 
-	frozen GL_LIGHT_MODEL_AMBIENT : NATURAL
+	frozen GL_DEPTH_CLEAR_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHT_MODEL_AMBIENT"
+			"return GL_DEPTH_CLEAR_VALUE"
 		end
 
-	frozen GL_FRONT_AND_BACK : NATURAL
+	frozen GL_DEPTH_FUNC: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FRONT_AND_BACK"
+			"return GL_DEPTH_FUNC"
 		end
 
-	frozen GL_SHADE_MODEL : NATURAL
+	frozen GL_ACCUM_CLEAR_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SHADE_MODEL"
+			"return GL_ACCUM_CLEAR_VALUE"
 		end
 
-	frozen GL_FLAT : NATURAL
+	frozen GL_STENCIL_TEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FLAT"
+			"return GL_STENCIL_TEST"
 		end
 
-	frozen GL_SMOOTH : NATURAL
+	frozen GL_STENCIL_CLEAR_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SMOOTH"
+			"return GL_STENCIL_CLEAR_VALUE"
 		end
 
-	frozen GL_COLOR_MATERIAL : NATURAL
+	frozen GL_STENCIL_FUNC: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_MATERIAL"
+			"return GL_STENCIL_FUNC"
 		end
 
-	frozen GL_COLOR_MATERIAL_FACE : NATURAL
+	frozen GL_STENCIL_VALUE_MASK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_MATERIAL_FACE"
+			"return GL_STENCIL_VALUE_MASK"
 		end
 
-	frozen GL_COLOR_MATERIAL_PARAMETER : NATURAL
+	frozen GL_STENCIL_FAIL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_MATERIAL_PARAMETER"
+			"return GL_STENCIL_FAIL"
 		end
 
-	frozen GL_NORMALIZE : NATURAL
+	frozen GL_STENCIL_PASS_DEPTH_FAIL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NORMALIZE"
+			"return GL_STENCIL_PASS_DEPTH_FAIL"
 		end
 
-	frozen GL_CLIP_PLANE0 : NATURAL
+	frozen GL_STENCIL_PASS_DEPTH_PASS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE0"
+			"return GL_STENCIL_PASS_DEPTH_PASS"
 		end
 
-	frozen GL_CLIP_PLANE1 : NATURAL
+	frozen GL_STENCIL_REF: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE1"
+			"return GL_STENCIL_REF"
 		end
 
-	frozen GL_CLIP_PLANE2 : NATURAL
+	frozen GL_STENCIL_WRITEMASK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE2"
+			"return GL_STENCIL_WRITEMASK"
 		end
 
-	frozen GL_CLIP_PLANE3 : NATURAL
+	frozen GL_MATRIX_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE3"
+			"return GL_MATRIX_MODE"
 		end
 
-	frozen GL_CLIP_PLANE4 : NATURAL
+	frozen GL_NORMALIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE4"
+			"return GL_NORMALIZE"
 		end
 
-	frozen GL_CLIP_PLANE5 : NATURAL
+	frozen GL_VIEWPORT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIP_PLANE5"
+			"return GL_VIEWPORT"
 		end
 
-	frozen GL_ACCUM_RED_BITS : NATURAL
+	frozen GL_MODELVIEW_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_RED_BITS"
+			"return GL_MODELVIEW_STACK_DEPTH"
 		end
 
-	frozen GL_ACCUM_GREEN_BITS : NATURAL
+	frozen GL_PROJECTION_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_GREEN_BITS"
+			"return GL_PROJECTION_STACK_DEPTH"
 		end
 
-	frozen GL_ACCUM_BLUE_BITS : NATURAL
+	frozen GL_TEXTURE_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_BLUE_BITS"
+			"return GL_TEXTURE_STACK_DEPTH"
 		end
 
-	frozen GL_ACCUM_ALPHA_BITS : NATURAL
+	frozen GL_MODELVIEW_MATRIX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_ALPHA_BITS"
+			"return GL_MODELVIEW_MATRIX"
 		end
 
-	frozen GL_ACCUM_CLEAR_VALUE : NATURAL
+	frozen GL_PROJECTION_MATRIX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_CLEAR_VALUE"
+			"return GL_PROJECTION_MATRIX"
 		end
 
-	frozen GL_ACCUM : NATURAL
+	frozen GL_TEXTURE_MATRIX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM"
+			"return GL_TEXTURE_MATRIX"
 		end
 
-	frozen GL_ADD : NATURAL
+	frozen GL_ATTRIB_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ADD"
+			"return GL_ATTRIB_STACK_DEPTH"
 		end
 
-	frozen GL_LOAD : NATURAL
+	frozen GL_CLIENT_ATTRIB_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LOAD"
+			"return GL_CLIENT_ATTRIB_STACK_DEPTH"
 		end
 
-	frozen GL_MULT : NATURAL
+	frozen GL_ALPHA_TEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MULT"
+			"return GL_ALPHA_TEST"
 		end
 
-	frozen GL_RETURN : NATURAL
+	frozen GL_ALPHA_TEST_FUNC: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RETURN"
+			"return GL_ALPHA_TEST_FUNC"
 		end
 
-	frozen GL_ALPHA_TEST : NATURAL
+	frozen GL_ALPHA_TEST_REF: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_TEST"
+			"return GL_ALPHA_TEST_REF"
 		end
 
-	frozen GL_ALPHA_TEST_REF : NATURAL
+	frozen GL_DITHER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_TEST_REF"
+			"return GL_DITHER"
 		end
 
-	frozen GL_ALPHA_TEST_FUNC : NATURAL
+	frozen GL_BLEND_DST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_TEST_FUNC"
+			"return GL_BLEND_DST"
 		end
 
-	frozen GL_BLEND : NATURAL
+	frozen GL_BLEND_SRC: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLEND"
+			"return GL_BLEND_SRC"
 		end
 
-	frozen GL_BLEND_SRC : NATURAL
+	frozen GL_BLEND: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLEND_SRC"
+			"return GL_BLEND"
 		end
 
-	frozen GL_BLEND_DST : NATURAL
+	frozen GL_LOGIC_OP_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLEND_DST"
+			"return GL_LOGIC_OP_MODE"
 		end
 
-	frozen GL_ZERO : NATURAL
+	frozen GL_INDEX_LOGIC_OP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ZERO"
+			"return GL_INDEX_LOGIC_OP"
 		end
 
-	frozen GL_ONE : NATURAL
+	frozen GL_COLOR_LOGIC_OP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ONE"
+			"return GL_COLOR_LOGIC_OP"
 		end
 
-	frozen GL_SRC_COLOR : NATURAL
+	frozen GL_AUX_BUFFERS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SRC_COLOR"
+			"return GL_AUX_BUFFERS"
 		end
 
-	frozen GL_ONE_MINUS_SRC_COLOR : NATURAL
+	frozen GL_DRAW_BUFFER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ONE_MINUS_SRC_COLOR"
+			"return GL_DRAW_BUFFER"
 		end
 
-	frozen GL_SRC_ALPHA : NATURAL
+	frozen GL_READ_BUFFER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SRC_ALPHA"
+			"return GL_READ_BUFFER"
 		end
 
-	frozen GL_ONE_MINUS_SRC_ALPHA : NATURAL
+	frozen GL_SCISSOR_BOX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ONE_MINUS_SRC_ALPHA"
+			"return GL_SCISSOR_BOX"
 		end
 
-	frozen GL_DST_ALPHA : NATURAL
+	frozen GL_SCISSOR_TEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DST_ALPHA"
+			"return GL_SCISSOR_TEST"
 		end
 
-	frozen GL_ONE_MINUS_DST_ALPHA : NATURAL
+	frozen GL_INDEX_CLEAR_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ONE_MINUS_DST_ALPHA"
+			"return GL_INDEX_CLEAR_VALUE"
 		end
 
-	frozen GL_DST_COLOR : NATURAL
+	frozen GL_INDEX_WRITEMASK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DST_COLOR"
+			"return GL_INDEX_WRITEMASK"
 		end
 
-	frozen GL_ONE_MINUS_DST_COLOR : NATURAL
+	frozen GL_COLOR_CLEAR_VALUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ONE_MINUS_DST_COLOR"
+			"return GL_COLOR_CLEAR_VALUE"
 		end
 
-	frozen GL_SRC_ALPHA_SATURATE : NATURAL
+	frozen GL_COLOR_WRITEMASK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SRC_ALPHA_SATURATE"
+			"return GL_COLOR_WRITEMASK"
 		end
 
-	frozen GL_FEEDBACK : NATURAL
+	frozen GL_INDEX_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FEEDBACK"
+			"return GL_INDEX_MODE"
 		end
 
-	frozen GL_RENDER : NATURAL
+	frozen GL_RGBA_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RENDER"
+			"return GL_RGBA_MODE"
 		end
 
-	frozen GL_SELECT : NATURAL
+	frozen GL_DOUBLEBUFFER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SELECT"
+			"return GL_DOUBLEBUFFER"
 		end
 
-	frozen GL_2D : NATURAL
+	frozen GL_STEREO: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_2D"
+			"return GL_STEREO"
 		end
 
-	frozen GL_3D : NATURAL
+	frozen GL_RENDER_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_3D"
+			"return GL_RENDER_MODE"
 		end
 
-	frozen GL_3D_COLOR : NATURAL
+	frozen GL_PERSPECTIVE_CORRECTION_HINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_3D_COLOR"
+			"return GL_PERSPECTIVE_CORRECTION_HINT"
 		end
 
-	frozen GL_3D_COLOR_TEXTURE : NATURAL
+	frozen GL_POINT_SMOOTH_HINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_3D_COLOR_TEXTURE"
+			"return GL_POINT_SMOOTH_HINT"
 		end
 
-	frozen GL_4D_COLOR_TEXTURE : NATURAL
+	frozen GL_LINE_SMOOTH_HINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_4D_COLOR_TEXTURE"
+			"return GL_LINE_SMOOTH_HINT"
 		end
 
-	frozen GL_POINT_TOKEN : NATURAL
+	frozen GL_POLYGON_SMOOTH_HINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_TOKEN"
+			"return GL_POLYGON_SMOOTH_HINT"
 		end
 
-	frozen GL_LINE_TOKEN : NATURAL
+	frozen GL_FOG_HINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_TOKEN"
+			"return GL_FOG_HINT"
 		end
 
-	frozen GL_LINE_RESET_TOKEN : NATURAL
+	frozen GL_TEXTURE_GEN_S: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_RESET_TOKEN"
+			"return GL_TEXTURE_GEN_S"
 		end
 
-	frozen GL_POLYGON_TOKEN : NATURAL
+	frozen GL_TEXTURE_GEN_T: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_TOKEN"
+			"return GL_TEXTURE_GEN_T"
 		end
 
-	frozen GL_BITMAP_TOKEN : NATURAL
+	frozen GL_TEXTURE_GEN_R: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BITMAP_TOKEN"
+			"return GL_TEXTURE_GEN_R"
 		end
 
-	frozen GL_DRAW_PIXEL_TOKEN : NATURAL
+	frozen GL_TEXTURE_GEN_Q: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DRAW_PIXEL_TOKEN"
+			"return GL_TEXTURE_GEN_Q"
 		end
 
-	frozen GL_COPY_PIXEL_TOKEN : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_I: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COPY_PIXEL_TOKEN"
+			"return GL_PIXEL_MAP_I_TO_I"
 		end
 
-	frozen GL_PASS_THROUGH_TOKEN : NATURAL
+	frozen GL_PIXEL_MAP_S_TO_S: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PASS_THROUGH_TOKEN"
+			"return GL_PIXEL_MAP_S_TO_S"
 		end
 
-	frozen GL_FEEDBACK_BUFFER_POINTER : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_R: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FEEDBACK_BUFFER_POINTER"
+			"return GL_PIXEL_MAP_I_TO_R"
 		end
 
-	frozen GL_FEEDBACK_BUFFER_SIZE : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_G: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FEEDBACK_BUFFER_SIZE"
+			"return GL_PIXEL_MAP_I_TO_G"
 		end
 
-	frozen GL_FEEDBACK_BUFFER_TYPE : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_B: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FEEDBACK_BUFFER_TYPE"
+			"return GL_PIXEL_MAP_I_TO_B"
 		end
 
-	frozen GL_SELECTION_BUFFER_POINTER : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_A: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SELECTION_BUFFER_POINTER"
+			"return GL_PIXEL_MAP_I_TO_A"
 		end
 
-	frozen GL_SELECTION_BUFFER_SIZE : NATURAL
+	frozen GL_PIXEL_MAP_R_TO_R: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SELECTION_BUFFER_SIZE"
+			"return GL_PIXEL_MAP_R_TO_R"
 		end
 
-	frozen GL_FOG : NATURAL
+	frozen GL_PIXEL_MAP_G_TO_G: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG"
+			"return GL_PIXEL_MAP_G_TO_G"
 		end
 
-	frozen GL_FOG_MODE : NATURAL
+	frozen GL_PIXEL_MAP_B_TO_B: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_MODE"
+			"return GL_PIXEL_MAP_B_TO_B"
 		end
 
-	frozen GL_FOG_DENSITY : NATURAL
+	frozen GL_PIXEL_MAP_A_TO_A: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_DENSITY"
+			"return GL_PIXEL_MAP_A_TO_A"
 		end
 
-	frozen GL_FOG_COLOR : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_I_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_COLOR"
+			"return GL_PIXEL_MAP_I_TO_I_SIZE"
 		end
 
-	frozen GL_FOG_INDEX : NATURAL
+	frozen GL_PIXEL_MAP_S_TO_S_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_INDEX"
+			"return GL_PIXEL_MAP_S_TO_S_SIZE"
 		end
 
-	frozen GL_FOG_START : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_R_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_START"
+			"return GL_PIXEL_MAP_I_TO_R_SIZE"
 		end
 
-	frozen GL_FOG_END : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_G_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_END"
+			"return GL_PIXEL_MAP_I_TO_G_SIZE"
 		end
 
-	frozen GL_LINEAR : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_B_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINEAR"
+			"return GL_PIXEL_MAP_I_TO_B_SIZE"
 		end
 
-	frozen GL_EXP : NATURAL
+	frozen GL_PIXEL_MAP_I_TO_A_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EXP"
+			"return GL_PIXEL_MAP_I_TO_A_SIZE"
 		end
 
-	frozen GL_EXP2 : NATURAL
+	frozen GL_PIXEL_MAP_R_TO_R_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EXP2"
+			"return GL_PIXEL_MAP_R_TO_R_SIZE"
 		end
 
-	frozen GL_LOGIC_OP : NATURAL
+	frozen GL_PIXEL_MAP_G_TO_G_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LOGIC_OP"
+			"return GL_PIXEL_MAP_G_TO_G_SIZE"
 		end
 
-	frozen GL_INDEX_LOGIC_OP : NATURAL
+	frozen GL_PIXEL_MAP_B_TO_B_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_LOGIC_OP"
+			"return GL_PIXEL_MAP_B_TO_B_SIZE"
 		end
 
-	frozen GL_COLOR_LOGIC_OP : NATURAL
+	frozen GL_PIXEL_MAP_A_TO_A_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_LOGIC_OP"
+			"return GL_PIXEL_MAP_A_TO_A_SIZE"
 		end
 
-	frozen GL_LOGIC_OP_MODE : NATURAL
+	frozen GL_UNPACK_SWAP_BYTES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LOGIC_OP_MODE"
+			"return GL_UNPACK_SWAP_BYTES"
 		end
 
-	frozen GL_CLEAR : NATURAL
+	frozen GL_UNPACK_LSB_FIRST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLEAR"
+			"return GL_UNPACK_LSB_FIRST"
 		end
 
-	frozen GL_SET : NATURAL
+	frozen GL_UNPACK_ROW_LENGTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SET"
+			"return GL_UNPACK_ROW_LENGTH"
 		end
 
-	frozen GL_COPY : NATURAL
+	frozen GL_UNPACK_SKIP_ROWS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COPY"
+			"return GL_UNPACK_SKIP_ROWS"
 		end
 
-	frozen GL_COPY_INVERTED : NATURAL
+	frozen GL_UNPACK_SKIP_PIXELS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COPY_INVERTED"
+			"return GL_UNPACK_SKIP_PIXELS"
 		end
 
-	frozen GL_NOOP : NATURAL
+	frozen GL_UNPACK_ALIGNMENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NOOP"
+			"return GL_UNPACK_ALIGNMENT"
 		end
 
-	frozen GL_INVERT : NATURAL
+	frozen GL_PACK_SWAP_BYTES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INVERT"
+			"return GL_PACK_SWAP_BYTES"
 		end
 
-	frozen GL_AND : NATURAL
+	frozen GL_PACK_LSB_FIRST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AND"
+			"return GL_PACK_LSB_FIRST"
 		end
 
-	frozen GL_NAND : NATURAL
+	frozen GL_PACK_ROW_LENGTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NAND"
+			"return GL_PACK_ROW_LENGTH"
 		end
 
-	frozen GL_OR : NATURAL
+	frozen GL_PACK_SKIP_ROWS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OR"
+			"return GL_PACK_SKIP_ROWS"
 		end
 
-	frozen GL_NOR : NATURAL
+	frozen GL_PACK_SKIP_PIXELS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NOR"
+			"return GL_PACK_SKIP_PIXELS"
 		end
 
-	frozen GL_XOR : NATURAL
+	frozen GL_PACK_ALIGNMENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_XOR"
+			"return GL_PACK_ALIGNMENT"
 		end
 
-	frozen GL_EQUIV : NATURAL
+	frozen GL_MAP_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EQUIV"
+			"return GL_MAP_COLOR"
 		end
 
-	frozen GL_AND_REVERSE : NATURAL
+	frozen GL_MAP_STENCIL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AND_REVERSE"
+			"return GL_MAP_STENCIL"
 		end
 
-	frozen GL_AND_INVERTED : NATURAL
+	frozen GL_INDEX_SHIFT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AND_INVERTED"
+			"return GL_INDEX_SHIFT"
 		end
 
-	frozen GL_OR_REVERSE : NATURAL
+	frozen GL_INDEX_OFFSET: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OR_REVERSE"
+			"return GL_INDEX_OFFSET"
 		end
 
-	frozen GL_OR_INVERTED : NATURAL
+	frozen GL_RED_SCALE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OR_INVERTED"
+			"return GL_RED_SCALE"
 		end
 
-	frozen GL_STENCIL_BITS : NATURAL
+	frozen GL_RED_BIAS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_BITS"
+			"return GL_RED_BIAS"
 		end
 
-	frozen GL_STENCIL_TEST : NATURAL
+	frozen GL_ZOOM_X: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_TEST"
+			"return GL_ZOOM_X"
 		end
 
-	frozen GL_STENCIL_CLEAR_VALUE : NATURAL
+	frozen GL_ZOOM_Y: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_CLEAR_VALUE"
+			"return GL_ZOOM_Y"
 		end
 
-	frozen GL_STENCIL_FUNC : NATURAL
+	frozen GL_GREEN_SCALE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_FUNC"
+			"return GL_GREEN_SCALE"
 		end
 
-	frozen GL_STENCIL_VALUE_MASK : NATURAL
+	frozen GL_GREEN_BIAS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_VALUE_MASK"
+			"return GL_GREEN_BIAS"
 		end
 
-	frozen GL_STENCIL_FAIL : NATURAL
+	frozen GL_BLUE_SCALE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_FAIL"
+			"return GL_BLUE_SCALE"
 		end
 
-	frozen GL_STENCIL_PASS_DEPTH_FAIL : NATURAL
+	frozen GL_BLUE_BIAS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_PASS_DEPTH_FAIL"
+			"return GL_BLUE_BIAS"
 		end
 
-	frozen GL_STENCIL_PASS_DEPTH_PASS : NATURAL
+	frozen GL_ALPHA_SCALE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_PASS_DEPTH_PASS"
+			"return GL_ALPHA_SCALE"
 		end
 
-	frozen GL_STENCIL_REF : NATURAL
+	frozen GL_ALPHA_BIAS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_REF"
+			"return GL_ALPHA_BIAS"
 		end
 
-	frozen GL_STENCIL_WRITEMASK : NATURAL
+	frozen GL_DEPTH_SCALE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_WRITEMASK"
+			"return GL_DEPTH_SCALE"
 		end
 
-	frozen GL_STENCIL_INDEX : NATURAL
+	frozen GL_DEPTH_BIAS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_INDEX"
+			"return GL_DEPTH_BIAS"
 		end
 
-	frozen GL_KEEP : NATURAL
+	frozen GL_MAX_EVAL_ORDER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_KEEP"
+			"return GL_MAX_EVAL_ORDER"
 		end
 
-	frozen GL_REPLACE : NATURAL
+	frozen GL_MAX_LIGHTS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_REPLACE"
+			"return GL_MAX_LIGHTS"
 		end
 
-	frozen GL_INCR : NATURAL
+	frozen GL_MAX_CLIP_PLANES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INCR"
+			"return GL_MAX_CLIP_PLANES"
 		end
 
-	frozen GL_DECR : NATURAL
+	frozen GL_MAX_TEXTURE_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DECR"
+			"return GL_MAX_TEXTURE_SIZE"
 		end
 
-	frozen GL_NONE : NATURAL
+	frozen GL_MAX_PIXEL_MAP_TABLE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NONE"
+			"return GL_MAX_PIXEL_MAP_TABLE"
 		end
 
-	frozen GL_LEFT : NATURAL
+	frozen GL_MAX_ATTRIB_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LEFT"
+			"return GL_MAX_ATTRIB_STACK_DEPTH"
 		end
 
-	frozen GL_RIGHT : NATURAL
+	frozen GL_MAX_MODELVIEW_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RIGHT"
+			"return GL_MAX_MODELVIEW_STACK_DEPTH"
 		end
 
-	frozen GL_FRONT_LEFT : NATURAL
+	frozen GL_MAX_NAME_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FRONT_LEFT"
+			"return GL_MAX_NAME_STACK_DEPTH"
 		end
 
-	frozen GL_FRONT_RIGHT : NATURAL
+	frozen GL_MAX_PROJECTION_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FRONT_RIGHT"
+			"return GL_MAX_PROJECTION_STACK_DEPTH"
 		end
 
-	frozen GL_BACK_LEFT : NATURAL
+	frozen GL_MAX_TEXTURE_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BACK_LEFT"
+			"return GL_MAX_TEXTURE_STACK_DEPTH"
 		end
 
-	frozen GL_BACK_RIGHT : NATURAL
+	frozen GL_MAX_VIEWPORT_DIMS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BACK_RIGHT"
+			"return GL_MAX_VIEWPORT_DIMS"
 		end
 
-	frozen GL_AUX0 : NATURAL
+	frozen GL_MAX_CLIENT_ATTRIB_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUX0"
+			"return GL_MAX_CLIENT_ATTRIB_STACK_DEPTH"
 		end
 
-	frozen GL_AUX1 : NATURAL
+	frozen GL_SUBPIXEL_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUX1"
+			"return GL_SUBPIXEL_BITS"
 		end
 
-	frozen GL_AUX2 : NATURAL
+	frozen GL_INDEX_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUX2"
+			"return GL_INDEX_BITS"
 		end
 
-	frozen GL_AUX3 : NATURAL
+	frozen GL_RED_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUX3"
+			"return GL_RED_BITS"
 		end
 
-	frozen GL_COLOR_INDEX : NATURAL
+	frozen GL_GREEN_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_INDEX"
+			"return GL_GREEN_BITS"
 		end
 
-	frozen GL_RED : NATURAL
+	frozen GL_BLUE_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RED"
+			"return GL_BLUE_BITS"
 		end
 
-	frozen GL_GREEN : NATURAL
+	frozen GL_ALPHA_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GREEN"
+			"return GL_ALPHA_BITS"
 		end
 
-	frozen GL_BLUE : NATURAL
+	frozen GL_DEPTH_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLUE"
+			"return GL_DEPTH_BITS"
 		end
 
-	frozen GL_ALPHA : NATURAL
+	frozen GL_STENCIL_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA"
+			"return GL_STENCIL_BITS"
 		end
 
-	frozen GL_LUMINANCE : NATURAL
+	frozen GL_ACCUM_RED_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE"
+			"return GL_ACCUM_RED_BITS"
 		end
 
-	frozen GL_LUMINANCE_ALPHA : NATURAL
+	frozen GL_ACCUM_GREEN_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE_ALPHA"
+			"return GL_ACCUM_GREEN_BITS"
 		end
 
-	frozen GL_ALPHA_BITS : NATURAL
+	frozen GL_ACCUM_BLUE_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_BITS"
+			"return GL_ACCUM_BLUE_BITS"
 		end
 
-	frozen GL_RED_BITS : NATURAL
+	frozen GL_ACCUM_ALPHA_BITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RED_BITS"
+			"return GL_ACCUM_ALPHA_BITS"
 		end
 
-	frozen GL_GREEN_BITS : NATURAL
+	frozen GL_NAME_STACK_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GREEN_BITS"
+			"return GL_NAME_STACK_DEPTH"
 		end
 
-	frozen GL_BLUE_BITS : NATURAL
+	frozen GL_AUTO_NORMAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLUE_BITS"
+			"return GL_AUTO_NORMAL"
 		end
 
-	frozen GL_INDEX_BITS : NATURAL
+	frozen GL_MAP1_COLOR_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_BITS"
+			"return GL_MAP1_COLOR_4"
 		end
 
-	frozen GL_SUBPIXEL_BITS : NATURAL
+	frozen GL_MAP1_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SUBPIXEL_BITS"
+			"return GL_MAP1_INDEX"
 		end
 
-	frozen GL_AUX_BUFFERS : NATURAL
+	frozen GL_MAP1_NORMAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUX_BUFFERS"
+			"return GL_MAP1_NORMAL"
 		end
 
-	frozen GL_READ_BUFFER : NATURAL
+	frozen GL_MAP1_TEXTURE_COORD_1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_READ_BUFFER"
+			"return GL_MAP1_TEXTURE_COORD_1"
 		end
 
-	frozen GL_DRAW_BUFFER : NATURAL
+	frozen GL_MAP1_TEXTURE_COORD_2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DRAW_BUFFER"
+			"return GL_MAP1_TEXTURE_COORD_2"
 		end
 
-	frozen GL_DOUBLEBUFFER : NATURAL
+	frozen GL_MAP1_TEXTURE_COORD_3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DOUBLEBUFFER"
+			"return GL_MAP1_TEXTURE_COORD_3"
 		end
 
-	frozen GL_STEREO : NATURAL
+	frozen GL_MAP1_TEXTURE_COORD_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STEREO"
+			"return GL_MAP1_TEXTURE_COORD_4"
 		end
 
-	frozen GL_BITMAP : NATURAL
+	frozen GL_MAP1_VERTEX_3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BITMAP"
+			"return GL_MAP1_VERTEX_3"
 		end
 
-	frozen GL_COLOR : NATURAL
+	frozen GL_MAP1_VERTEX_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR"
+			"return GL_MAP1_VERTEX_4"
 		end
 
-	frozen GL_DEPTH : NATURAL
+	frozen GL_MAP2_COLOR_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH"
+			"return GL_MAP2_COLOR_4"
 		end
 
-	frozen GL_STENCIL : NATURAL
+	frozen GL_MAP2_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL"
+			"return GL_MAP2_INDEX"
 		end
 
-	frozen GL_DITHER : NATURAL
+	frozen GL_MAP2_NORMAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DITHER"
+			"return GL_MAP2_NORMAL"
 		end
 
-	frozen GL_RGB : NATURAL
+	frozen GL_MAP2_TEXTURE_COORD_1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB"
+			"return GL_MAP2_TEXTURE_COORD_1"
 		end
 
-	frozen GL_RGBA : NATURAL
+	frozen GL_MAP2_TEXTURE_COORD_2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA"
+			"return GL_MAP2_TEXTURE_COORD_2"
 		end
 
-	frozen GL_MAX_LIST_NESTING : NATURAL
+	frozen GL_MAP2_TEXTURE_COORD_3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_LIST_NESTING"
+			"return GL_MAP2_TEXTURE_COORD_3"
 		end
 
-	frozen GL_MAX_EVAL_ORDER : NATURAL
+	frozen GL_MAP2_TEXTURE_COORD_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_EVAL_ORDER"
+			"return GL_MAP2_TEXTURE_COORD_4"
 		end
 
-	frozen GL_MAX_LIGHTS : NATURAL
+	frozen GL_MAP2_VERTEX_3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_LIGHTS"
+			"return GL_MAP2_VERTEX_3"
 		end
 
-	frozen GL_MAX_CLIP_PLANES : NATURAL
+	frozen GL_MAP2_VERTEX_4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_CLIP_PLANES"
+			"return GL_MAP2_VERTEX_4"
 		end
 
-	frozen GL_MAX_TEXTURE_SIZE : NATURAL
+	frozen GL_MAP1_GRID_DOMAIN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_TEXTURE_SIZE"
+			"return GL_MAP1_GRID_DOMAIN"
 		end
 
-	frozen GL_MAX_PIXEL_MAP_TABLE : NATURAL
+	frozen GL_MAP1_GRID_SEGMENTS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_PIXEL_MAP_TABLE"
+			"return GL_MAP1_GRID_SEGMENTS"
 		end
 
-	frozen GL_MAX_ATTRIB_STACK_DEPTH : NATURAL
+	frozen GL_MAP2_GRID_DOMAIN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_ATTRIB_STACK_DEPTH"
+			"return GL_MAP2_GRID_DOMAIN"
 		end
 
-	frozen GL_MAX_MODELVIEW_STACK_DEPTH : NATURAL
+	frozen GL_MAP2_GRID_SEGMENTS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_MODELVIEW_STACK_DEPTH"
+			"return GL_MAP2_GRID_SEGMENTS"
 		end
 
-	frozen GL_MAX_NAME_STACK_DEPTH : NATURAL
+	frozen GL_TEXTURE_1D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_NAME_STACK_DEPTH"
+			"return GL_TEXTURE_1D"
 		end
 
-	frozen GL_MAX_PROJECTION_STACK_DEPTH : NATURAL
+	frozen GL_TEXTURE_2D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_PROJECTION_STACK_DEPTH"
+			"return GL_TEXTURE_2D"
 		end
 
-	frozen GL_MAX_TEXTURE_STACK_DEPTH : NATURAL
+	frozen GL_FEEDBACK_BUFFER_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_TEXTURE_STACK_DEPTH"
+			"return GL_FEEDBACK_BUFFER_POINTER"
 		end
 
-	frozen GL_MAX_VIEWPORT_DIMS : NATURAL
+	frozen GL_FEEDBACK_BUFFER_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_VIEWPORT_DIMS"
+			"return GL_FEEDBACK_BUFFER_SIZE"
 		end
 
-	frozen GL_MAX_CLIENT_ATTRIB_STACK_DEPTH : NATURAL
+	frozen GL_FEEDBACK_BUFFER_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAX_CLIENT_ATTRIB_STACK_DEPTH"
+			"return GL_FEEDBACK_BUFFER_TYPE"
 		end
 
-	frozen GL_ATTRIB_STACK_DEPTH : NATURAL
+	frozen GL_SELECTION_BUFFER_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ATTRIB_STACK_DEPTH"
+			"return GL_SELECTION_BUFFER_POINTER"
 		end
 
-	frozen GL_CLIENT_ATTRIB_STACK_DEPTH : NATURAL
+	frozen GL_SELECTION_BUFFER_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIENT_ATTRIB_STACK_DEPTH"
+			"return GL_SELECTION_BUFFER_SIZE"
 		end
 
-	frozen GL_COLOR_CLEAR_VALUE : NATURAL
+	frozen GL_TEXTURE_WIDTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_CLEAR_VALUE"
+			"return GL_TEXTURE_WIDTH"
 		end
 
-	frozen GL_COLOR_WRITEMASK : NATURAL
+	frozen GL_TRANSFORM_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_WRITEMASK"
+			"return GL_TRANSFORM_BIT"
 		end
 
-	frozen GL_CURRENT_INDEX : NATURAL
+	frozen GL_TEXTURE_HEIGHT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_INDEX"
+			"return GL_TEXTURE_HEIGHT"
 		end
 
-	frozen GL_CURRENT_COLOR : NATURAL
+	frozen GL_TEXTURE_INTERNAL_FORMAT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_COLOR"
+			"return GL_TEXTURE_INTERNAL_FORMAT"
 		end
 
-	frozen GL_CURRENT_NORMAL : NATURAL
+	frozen GL_TEXTURE_BORDER_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_NORMAL"
+			"return GL_TEXTURE_BORDER_COLOR"
 		end
 
-	frozen GL_CURRENT_RASTER_COLOR : NATURAL
+	frozen GL_TEXTURE_BORDER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_COLOR"
+			"return GL_TEXTURE_BORDER"
 		end
 
-	frozen GL_CURRENT_RASTER_DISTANCE : NATURAL
+	frozen GL_DONT_CARE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_DISTANCE"
+			"return GL_DONT_CARE"
 		end
 
-	frozen GL_CURRENT_RASTER_INDEX : NATURAL
+	frozen GL_FASTEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_INDEX"
+			"return GL_FASTEST"
 		end
 
-	frozen GL_CURRENT_RASTER_POSITION : NATURAL
+	frozen GL_NICEST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_POSITION"
+			"return GL_NICEST"
 		end
 
-	frozen GL_CURRENT_RASTER_TEXTURE_COORDS : NATURAL
+	frozen GL_AMBIENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_TEXTURE_COORDS"
+			"return GL_AMBIENT"
 		end
 
-	frozen GL_CURRENT_RASTER_POSITION_VALID : NATURAL
+	frozen GL_DIFFUSE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_RASTER_POSITION_VALID"
+			"return GL_DIFFUSE"
 		end
 
-	frozen GL_CURRENT_TEXTURE_COORDS : NATURAL
+	frozen GL_SPECULAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_TEXTURE_COORDS"
+			"return GL_SPECULAR"
 		end
 
-	frozen GL_INDEX_CLEAR_VALUE : NATURAL
+	frozen GL_POSITION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_CLEAR_VALUE"
+			"return GL_POSITION"
 		end
 
-	frozen GL_INDEX_MODE : NATURAL
+	frozen GL_SPOT_DIRECTION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_MODE"
+			"return GL_SPOT_DIRECTION"
 		end
 
-	frozen GL_INDEX_WRITEMASK : NATURAL
+	frozen GL_SPOT_EXPONENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_WRITEMASK"
+			"return GL_SPOT_EXPONENT"
 		end
 
-	frozen GL_MODELVIEW_MATRIX : NATURAL
+	frozen GL_SPOT_CUTOFF: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MODELVIEW_MATRIX"
+			"return GL_SPOT_CUTOFF"
 		end
 
-	frozen GL_MODELVIEW_STACK_DEPTH : NATURAL
+	frozen GL_CONSTANT_ATTENUATION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MODELVIEW_STACK_DEPTH"
+			"return GL_CONSTANT_ATTENUATION"
 		end
 
-	frozen GL_NAME_STACK_DEPTH : NATURAL
+	frozen GL_LINEAR_ATTENUATION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NAME_STACK_DEPTH"
+			"return GL_LINEAR_ATTENUATION"
 		end
 
-	frozen GL_PROJECTION_MATRIX : NATURAL
+	frozen GL_QUADRATIC_ATTENUATION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PROJECTION_MATRIX"
+			"return GL_QUADRATIC_ATTENUATION"
 		end
 
-	frozen GL_PROJECTION_STACK_DEPTH : NATURAL
+	frozen GL_COMPILE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PROJECTION_STACK_DEPTH"
+			"return GL_COMPILE"
 		end
 
-	frozen GL_RENDER_MODE : NATURAL
+	frozen GL_COMPILE_AND_EXECUTE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RENDER_MODE"
+			"return GL_COMPILE_AND_EXECUTE"
 		end
 
-	frozen GL_RGBA_MODE : NATURAL
+	frozen GL_BYTE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA_MODE"
+			"return GL_BYTE"
 		end
 
-	frozen GL_TEXTURE_MATRIX : NATURAL
+	frozen GL_UNSIGNED_BYTE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_MATRIX"
+			"return GL_UNSIGNED_BYTE"
 		end
 
-	frozen GL_TEXTURE_STACK_DEPTH : NATURAL
+	frozen GL_SHORT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_STACK_DEPTH"
+			"return GL_SHORT"
 		end
 
-	frozen GL_VIEWPORT : NATURAL
+	frozen GL_UNSIGNED_SHORT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VIEWPORT"
+			"return GL_UNSIGNED_SHORT"
 		end
 
-	frozen GL_AUTO_NORMAL : NATURAL
+	frozen GL_INT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_AUTO_NORMAL"
+			"return GL_INT"
 		end
 
-	frozen GL_MAP1_COLOR_4 : NATURAL
+	frozen GL_UNSIGNED_INT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_COLOR_4"
+			"return GL_UNSIGNED_INT"
 		end
 
-	frozen GL_MAP1_INDEX : NATURAL
+	frozen GL_FLOAT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_INDEX"
+			"return GL_FLOAT"
 		end
 
-	frozen GL_MAP1_NORMAL : NATURAL
+	frozen GL_2_BYTES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_NORMAL"
+			"return GL_2_BYTES"
 		end
 
-	frozen GL_MAP1_TEXTURE_COORD_1 : NATURAL
+	frozen GL_3_BYTES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_TEXTURE_COORD_1"
+			"return GL_3_BYTES"
 		end
 
-	frozen GL_MAP1_TEXTURE_COORD_2 : NATURAL
+	frozen GL_4_BYTES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_TEXTURE_COORD_2"
+			"return GL_4_BYTES"
 		end
 
-	frozen GL_MAP1_TEXTURE_COORD_3 : NATURAL
+	frozen GL_DOUBLE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_TEXTURE_COORD_3"
+			"return GL_DOUBLE"
 		end
 
-	frozen GL_MAP1_TEXTURE_COORD_4 : NATURAL
+	frozen GL_CLEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_TEXTURE_COORD_4"
+			"return GL_CLEAR"
 		end
 
-	frozen GL_MAP1_VERTEX_3 : NATURAL
+	frozen GL_AND: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_VERTEX_3"
+			"return GL_AND"
 		end
 
-	frozen GL_MAP1_VERTEX_4 : NATURAL
+	frozen GL_AND_REVERSE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_VERTEX_4"
+			"return GL_AND_REVERSE"
 		end
 
-	frozen GL_MAP2_COLOR_4 : NATURAL
+	frozen GL_COPY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_COLOR_4"
+			"return GL_COPY"
 		end
 
-	frozen GL_MAP2_INDEX : NATURAL
+	frozen GL_AND_INVERTED: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_INDEX"
+			"return GL_AND_INVERTED"
 		end
 
-	frozen GL_MAP2_NORMAL : NATURAL
+	frozen GL_NOOP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_NORMAL"
+			"return GL_NOOP"
 		end
 
-	frozen GL_MAP2_TEXTURE_COORD_1 : NATURAL
+	frozen GL_XOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_TEXTURE_COORD_1"
+			"return GL_XOR"
 		end
 
-	frozen GL_MAP2_TEXTURE_COORD_2 : NATURAL
+	frozen GL_OR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_TEXTURE_COORD_2"
+			"return GL_OR"
 		end
 
-	frozen GL_MAP2_TEXTURE_COORD_3 : NATURAL
+	frozen GL_NOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_TEXTURE_COORD_3"
+			"return GL_NOR"
 		end
 
-	frozen GL_MAP2_TEXTURE_COORD_4 : NATURAL
+	frozen GL_EQUIV: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_TEXTURE_COORD_4"
+			"return GL_EQUIV"
 		end
 
-	frozen GL_MAP2_VERTEX_3 : NATURAL
+	frozen GL_INVERT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_VERTEX_3"
+			"return GL_INVERT"
 		end
 
-	frozen GL_MAP2_VERTEX_4 : NATURAL
+	frozen GL_OR_REVERSE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_VERTEX_4"
+			"return GL_OR_REVERSE"
 		end
 
-	frozen GL_MAP1_GRID_DOMAIN : NATURAL
+	frozen GL_COPY_INVERTED: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_GRID_DOMAIN"
+			"return GL_COPY_INVERTED"
 		end
 
-	frozen GL_MAP1_GRID_SEGMENTS : NATURAL
+	frozen GL_OR_INVERTED: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP1_GRID_SEGMENTS"
+			"return GL_OR_INVERTED"
 		end
 
-	frozen GL_MAP2_GRID_DOMAIN : NATURAL
+	frozen GL_NAND: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_GRID_DOMAIN"
+			"return GL_NAND"
 		end
 
-	frozen GL_MAP2_GRID_SEGMENTS : NATURAL
+	frozen GL_SET: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP2_GRID_SEGMENTS"
+			"return GL_SET"
 		end
 
-	frozen GL_COEFF : NATURAL
+	frozen GL_EMISSION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COEFF"
+			"return GL_EMISSION"
 		end
 
-	frozen GL_ORDER : NATURAL
+	frozen GL_SHININESS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ORDER"
+			"return GL_SHININESS"
 		end
 
-	frozen GL_DOMAIN : NATURAL
+	frozen GL_AMBIENT_AND_DIFFUSE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DOMAIN"
+			"return GL_AMBIENT_AND_DIFFUSE"
 		end
 
-	frozen GL_PERSPECTIVE_CORRECTION_HINT : NATURAL
+	frozen GL_COLOR_INDEXES: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PERSPECTIVE_CORRECTION_HINT"
+			"return GL_COLOR_INDEXES"
 		end
 
-	frozen GL_POINT_SMOOTH_HINT : NATURAL
+	frozen GL_MODELVIEW: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_SMOOTH_HINT"
+			"return GL_MODELVIEW"
 		end
 
-	frozen GL_LINE_SMOOTH_HINT : NATURAL
+	frozen GL_PROJECTION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_SMOOTH_HINT"
+			"return GL_PROJECTION"
 		end
 
-	frozen GL_POLYGON_SMOOTH_HINT : NATURAL
+	frozen GL_TEXTURE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_SMOOTH_HINT"
+			"return GL_TEXTURE"
 		end
 
-	frozen GL_FOG_HINT : NATURAL
+	frozen GL_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_HINT"
+			"return GL_COLOR"
 		end
 
-	frozen GL_DONT_CARE : NATURAL
+	frozen GL_DEPTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DONT_CARE"
+			"return GL_DEPTH"
 		end
 
-	frozen GL_FASTEST : NATURAL
+	frozen GL_STENCIL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FASTEST"
+			"return GL_STENCIL"
 		end
 
-	frozen GL_NICEST : NATURAL
+	frozen GL_COLOR_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NICEST"
+			"return GL_COLOR_INDEX"
 		end
 
-	frozen GL_SCISSOR_BOX : NATURAL
+	frozen GL_STENCIL_INDEX: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SCISSOR_BOX"
+			"return GL_STENCIL_INDEX"
 		end
 
-	frozen GL_SCISSOR_TEST : NATURAL
+	frozen GL_DEPTH_COMPONENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SCISSOR_TEST"
+			"return GL_DEPTH_COMPONENT"
 		end
 
-	frozen GL_MAP_COLOR : NATURAL
+	frozen GL_RED: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP_COLOR"
+			"return GL_RED"
 		end
 
-	frozen GL_MAP_STENCIL : NATURAL
+	frozen GL_GREEN: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MAP_STENCIL"
+			"return GL_GREEN"
 		end
 
-	frozen GL_INDEX_SHIFT : NATURAL
+	frozen GL_BLUE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_SHIFT"
+			"return GL_BLUE"
 		end
 
-	frozen GL_INDEX_OFFSET : NATURAL
+	frozen GL_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INDEX_OFFSET"
+			"return GL_ALPHA"
 		end
 
-	frozen GL_RED_SCALE : NATURAL
+	frozen GL_RGB: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RED_SCALE"
+			"return GL_RGB"
 		end
 
-	frozen GL_RED_BIAS : NATURAL
+	frozen GL_RGBA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RED_BIAS"
+			"return GL_RGBA"
 		end
 
-	frozen GL_GREEN_SCALE : NATURAL
+	frozen GL_LUMINANCE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GREEN_SCALE"
+			"return GL_LUMINANCE"
 		end
 
-	frozen GL_GREEN_BIAS : NATURAL
+	frozen GL_LUMINANCE_ALPHA: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_GREEN_BIAS"
+			"return GL_LUMINANCE_ALPHA"
 		end
 
-	frozen GL_BLUE_SCALE : NATURAL
+	frozen GL_BITMAP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLUE_SCALE"
+			"return GL_BITMAP"
 		end
 
-	frozen GL_BLUE_BIAS : NATURAL
+	frozen GL_POINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_BLUE_BIAS"
+			"return GL_POINT"
 		end
 
-	frozen GL_ALPHA_SCALE : NATURAL
+	frozen GL_LINE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_SCALE"
+			"return GL_LINE"
 		end
 
-	frozen GL_ALPHA_BIAS : NATURAL
+	frozen GL_FILL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA_BIAS"
+			"return GL_FILL"
 		end
 
-	frozen GL_DEPTH_SCALE : NATURAL
+	frozen GL_RENDER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_SCALE"
+			"return GL_RENDER"
 		end
 
-	frozen GL_DEPTH_BIAS : NATURAL
+	frozen GL_FEEDBACK: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_BIAS"
+			"return GL_FEEDBACK"
 		end
 
-	frozen GL_PIXEL_MAP_S_TO_S_SIZE : NATURAL
+	frozen GL_SELECT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_S_TO_S_SIZE"
+			"return GL_SELECT"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_I_SIZE : NATURAL
+	frozen GL_FLAT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_I_SIZE"
+			"return GL_FLAT"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_R_SIZE : NATURAL
+	frozen GL_SMOOTH: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_R_SIZE"
+			"return GL_SMOOTH"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_G_SIZE : NATURAL
+	frozen GL_KEEP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_G_SIZE"
+			"return GL_KEEP"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_B_SIZE : NATURAL
+	frozen GL_REPLACE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_B_SIZE"
+			"return GL_REPLACE"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_A_SIZE : NATURAL
+	frozen GL_INCR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_A_SIZE"
+			"return GL_INCR"
 		end
 
-	frozen GL_PIXEL_MAP_R_TO_R_SIZE : NATURAL
+	frozen GL_DECR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_R_TO_R_SIZE"
+			"return GL_DECR"
 		end
 
-	frozen GL_PIXEL_MAP_G_TO_G_SIZE : NATURAL
+	frozen GL_VENDOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_G_TO_G_SIZE"
+			"return GL_VENDOR"
 		end
 
-	frozen GL_PIXEL_MAP_B_TO_B_SIZE : NATURAL
+	frozen GL_RENDERER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_B_TO_B_SIZE"
+			"return GL_RENDERER"
 		end
 
-	frozen GL_PIXEL_MAP_A_TO_A_SIZE : NATURAL
+	frozen GL_VERSION: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_A_TO_A_SIZE"
+			"return GL_VERSION"
 		end
 
-	frozen GL_PIXEL_MAP_S_TO_S : NATURAL
+	frozen GL_EXTENSIONS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_S_TO_S"
+			"return GL_EXTENSIONS"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_I : NATURAL
+	frozen GL_S: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_I"
+			"return GL_S"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_R : NATURAL
+	frozen GL_ENABLE_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_R"
+			"return GL_ENABLE_BIT"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_G : NATURAL
+	frozen GL_T: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_G"
+			"return GL_T"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_B : NATURAL
+	frozen GL_R: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_B"
+			"return GL_R"
 		end
 
-	frozen GL_PIXEL_MAP_I_TO_A : NATURAL
+	frozen GL_Q: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_I_TO_A"
+			"return GL_Q"
 		end
 
-	frozen GL_PIXEL_MAP_R_TO_R : NATURAL
+	frozen GL_MODULATE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_R_TO_R"
+			"return GL_MODULATE"
 		end
 
-	frozen GL_PIXEL_MAP_G_TO_G : NATURAL
+	frozen GL_DECAL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_G_TO_G"
+			"return GL_DECAL"
 		end
 
-	frozen GL_PIXEL_MAP_B_TO_B : NATURAL
+	frozen GL_TEXTURE_ENV_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_B_TO_B"
+			"return GL_TEXTURE_ENV_MODE"
 		end
 
-	frozen GL_PIXEL_MAP_A_TO_A : NATURAL
+	frozen GL_TEXTURE_ENV_COLOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MAP_A_TO_A"
+			"return GL_TEXTURE_ENV_COLOR"
 		end
 
-	frozen GL_PACK_ALIGNMENT : NATURAL
+	frozen GL_TEXTURE_ENV: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_ALIGNMENT"
+			"return GL_TEXTURE_ENV"
 		end
 
-	frozen GL_PACK_LSB_FIRST : NATURAL
+	frozen GL_EYE_LINEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_LSB_FIRST"
+			"return GL_EYE_LINEAR"
 		end
 
-	frozen GL_PACK_ROW_LENGTH : NATURAL
+	frozen GL_OBJECT_LINEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_ROW_LENGTH"
+			"return GL_OBJECT_LINEAR"
 		end
 
-	frozen GL_PACK_SKIP_PIXELS : NATURAL
+	frozen GL_SPHERE_MAP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_SKIP_PIXELS"
+			"return GL_SPHERE_MAP"
 		end
 
-	frozen GL_PACK_SKIP_ROWS : NATURAL
+	frozen GL_TEXTURE_GEN_MODE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_SKIP_ROWS"
+			"return GL_TEXTURE_GEN_MODE"
 		end
 
-	frozen GL_PACK_SWAP_BYTES : NATURAL
+	frozen GL_OBJECT_PLANE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PACK_SWAP_BYTES"
+			"return GL_OBJECT_PLANE"
 		end
 
-	frozen GL_UNPACK_ALIGNMENT : NATURAL
+	frozen GL_EYE_PLANE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_ALIGNMENT"
+			"return GL_EYE_PLANE"
 		end
 
-	frozen GL_UNPACK_LSB_FIRST : NATURAL
+	frozen GL_NEAREST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_LSB_FIRST"
+			"return GL_NEAREST"
 		end
 
-	frozen GL_UNPACK_ROW_LENGTH : NATURAL
+	frozen GL_LINEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_ROW_LENGTH"
+			"return GL_LINEAR"
 		end
 
-	frozen GL_UNPACK_SKIP_PIXELS : NATURAL
+	frozen GL_NEAREST_MIPMAP_NEAREST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_SKIP_PIXELS"
+			"return GL_NEAREST_MIPMAP_NEAREST"
 		end
 
-	frozen GL_UNPACK_SKIP_ROWS : NATURAL
+	frozen GL_LINEAR_MIPMAP_NEAREST: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_SKIP_ROWS"
+			"return GL_LINEAR_MIPMAP_NEAREST"
 		end
 
-	frozen GL_UNPACK_SWAP_BYTES : NATURAL
+	frozen GL_NEAREST_MIPMAP_LINEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_UNPACK_SWAP_BYTES"
+			"return GL_NEAREST_MIPMAP_LINEAR"
 		end
 
-	frozen GL_ZOOM_X : NATURAL
+	frozen GL_LINEAR_MIPMAP_LINEAR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ZOOM_X"
+			"return GL_LINEAR_MIPMAP_LINEAR"
 		end
 
-	frozen GL_ZOOM_Y : NATURAL
+	frozen GL_TEXTURE_MAG_FILTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ZOOM_Y"
+			"return GL_TEXTURE_MAG_FILTER"
 		end
 
-	frozen GL_TEXTURE_ENV : NATURAL
+	frozen GL_TEXTURE_MIN_FILTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_ENV"
+			"return GL_TEXTURE_MIN_FILTER"
 		end
 
-	frozen GL_TEXTURE_ENV_MODE : NATURAL
+	frozen GL_TEXTURE_WRAP_S: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_ENV_MODE"
+			"return GL_TEXTURE_WRAP_S"
 		end
 
-	frozen GL_TEXTURE_1D : NATURAL
+	frozen GL_TEXTURE_WRAP_T: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_1D"
+			"return GL_TEXTURE_WRAP_T"
 		end
 
-	frozen GL_TEXTURE_2D : NATURAL
+	frozen GL_CLAMP: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_2D"
+			"return GL_CLAMP"
 		end
 
-	frozen GL_TEXTURE_WRAP_S : NATURAL
+	frozen GL_REPEAT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_WRAP_S"
+			"return GL_REPEAT"
 		end
 
-	frozen GL_TEXTURE_WRAP_T : NATURAL
+	frozen GL_POLYGON_OFFSET_UNITS: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_WRAP_T"
+			"return GL_POLYGON_OFFSET_UNITS"
 		end
 
-	frozen GL_TEXTURE_MAG_FILTER : NATURAL
+	frozen GL_POLYGON_OFFSET_POINT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_MAG_FILTER"
+			"return GL_POLYGON_OFFSET_POINT"
 		end
 
-	frozen GL_TEXTURE_MIN_FILTER : NATURAL
+	frozen GL_POLYGON_OFFSET_LINE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_MIN_FILTER"
+			"return GL_POLYGON_OFFSET_LINE"
 		end
 
-	frozen GL_TEXTURE_ENV_COLOR : NATURAL
+	frozen GL_R3_G3_B2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_ENV_COLOR"
+			"return GL_R3_G3_B2"
 		end
 
-	frozen GL_TEXTURE_GEN_S : NATURAL
+	frozen GL_V2F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GEN_S"
+			"return GL_V2F"
 		end
 
-	frozen GL_TEXTURE_GEN_T : NATURAL
+	frozen GL_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GEN_T"
+			"return GL_V3F"
 		end
 
-	frozen GL_TEXTURE_GEN_R : NATURAL
+	frozen GL_C4UB_V2F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GEN_R"
+			"return GL_C4UB_V2F"
 		end
 
-	frozen GL_TEXTURE_GEN_Q : NATURAL
+	frozen GL_C4UB_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GEN_Q"
+			"return GL_C4UB_V3F"
 		end
 
-	frozen GL_TEXTURE_GEN_MODE : NATURAL
+	frozen GL_C3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GEN_MODE"
+			"return GL_C3F_V3F"
 		end
 
-	frozen GL_TEXTURE_BORDER_COLOR : NATURAL
+	frozen GL_N3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BORDER_COLOR"
+			"return GL_N3F_V3F"
 		end
 
-	frozen GL_TEXTURE_WIDTH : NATURAL
+	frozen GL_C4F_N3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_WIDTH"
+			"return GL_C4F_N3F_V3F"
 		end
 
-	frozen GL_TEXTURE_HEIGHT : NATURAL
+	frozen GL_T2F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_HEIGHT"
+			"return GL_T2F_V3F"
 		end
 
-	frozen GL_TEXTURE_BORDER : NATURAL
+	frozen GL_T4F_V4F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BORDER"
+			"return GL_T4F_V4F"
 		end
 
-	frozen GL_TEXTURE_COMPONENTS : NATURAL
+	frozen GL_T2F_C4UB_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_COMPONENTS"
+			"return GL_T2F_C4UB_V3F"
 		end
 
-	frozen GL_TEXTURE_RED_SIZE : NATURAL
+	frozen GL_T2F_C3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_RED_SIZE"
+			"return GL_T2F_C3F_V3F"
 		end
 
-	frozen GL_TEXTURE_GREEN_SIZE : NATURAL
+	frozen GL_T2F_N3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_GREEN_SIZE"
+			"return GL_T2F_N3F_V3F"
 		end
 
-	frozen GL_TEXTURE_BLUE_SIZE : NATURAL
+	frozen GL_T2F_C4F_N3F_V3F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BLUE_SIZE"
+			"return GL_T2F_C4F_N3F_V3F"
 		end
 
-	frozen GL_TEXTURE_ALPHA_SIZE : NATURAL
+	frozen GL_T4F_C4F_N3F_V4F: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_ALPHA_SIZE"
+			"return GL_T4F_C4F_N3F_V4F"
 		end
 
-	frozen GL_TEXTURE_LUMINANCE_SIZE : NATURAL
+	frozen GL_CLIP_PLANE0: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_LUMINANCE_SIZE"
+			"return GL_CLIP_PLANE0"
 		end
 
-	frozen GL_TEXTURE_INTENSITY_SIZE : NATURAL
+	frozen GL_CLIP_PLANE1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_INTENSITY_SIZE"
+			"return GL_CLIP_PLANE1"
 		end
 
-	frozen GL_NEAREST_MIPMAP_NEAREST : NATURAL
+	frozen GL_CLIP_PLANE2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NEAREST_MIPMAP_NEAREST"
+			"return GL_CLIP_PLANE2"
 		end
 
-	frozen GL_NEAREST_MIPMAP_LINEAR : NATURAL
+	frozen GL_CLIP_PLANE3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NEAREST_MIPMAP_LINEAR"
+			"return GL_CLIP_PLANE3"
 		end
 
-	frozen GL_LINEAR_MIPMAP_NEAREST : NATURAL
+	frozen GL_CLIP_PLANE4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINEAR_MIPMAP_NEAREST"
+			"return GL_CLIP_PLANE4"
 		end
 
-	frozen GL_LINEAR_MIPMAP_LINEAR : NATURAL
+	frozen GL_CLIP_PLANE5: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINEAR_MIPMAP_LINEAR"
+			"return GL_CLIP_PLANE5"
 		end
 
-	frozen GL_OBJECT_LINEAR : NATURAL
+	frozen GL_LIGHT0: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OBJECT_LINEAR"
+			"return GL_LIGHT0"
 		end
 
-	frozen GL_OBJECT_PLANE : NATURAL
+	frozen GL_COLOR_BUFFER_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OBJECT_PLANE"
+			"return GL_COLOR_BUFFER_BIT"
 		end
 
-	frozen GL_EYE_LINEAR : NATURAL
+	frozen GL_LIGHT1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EYE_LINEAR"
+			"return GL_LIGHT1"
 		end
 
-	frozen GL_EYE_PLANE : NATURAL
+	frozen GL_LIGHT2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EYE_PLANE"
+			"return GL_LIGHT2"
 		end
 
-	frozen GL_SPHERE_MAP : NATURAL
+	frozen GL_LIGHT3: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SPHERE_MAP"
+			"return GL_LIGHT3"
 		end
 
-	frozen GL_DECAL : NATURAL
+	frozen GL_LIGHT4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DECAL"
+			"return GL_LIGHT4"
 		end
 
-	frozen GL_MODULATE : NATURAL
+	frozen GL_LIGHT5: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_MODULATE"
+			"return GL_LIGHT5"
 		end
 
-	frozen GL_NEAREST : NATURAL
+	frozen GL_LIGHT6: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NEAREST"
+			"return GL_LIGHT6"
 		end
 
-	frozen GL_REPEAT : NATURAL
+	frozen GL_LIGHT7: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_REPEAT"
+			"return GL_LIGHT7"
 		end
 
-	frozen GL_CLAMP : NATURAL
+	frozen GL_HINT_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLAMP"
+			"return GL_HINT_BIT"
 		end
 
-	frozen GL_S : NATURAL
+	frozen GL_POLYGON_OFFSET_FILL: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_S"
+			"return GL_POLYGON_OFFSET_FILL"
 		end
 
-	frozen GL_T : NATURAL
+	frozen GL_POLYGON_OFFSET_FACTOR: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_T"
+			"return GL_POLYGON_OFFSET_FACTOR"
 		end
 
-	frozen GL_R : NATURAL
+	frozen GL_ALPHA4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_R"
+			"return GL_ALPHA4"
 		end
 
-	frozen GL_Q : NATURAL
+	frozen GL_ALPHA8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_Q"
+			"return GL_ALPHA8"
 		end
 
-	frozen GL_VENDOR : NATURAL
+	frozen GL_ALPHA12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VENDOR"
+			"return GL_ALPHA12"
 		end
 
-	frozen GL_RENDERER : NATURAL
+	frozen GL_ALPHA16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RENDERER"
+			"return GL_ALPHA16"
 		end
 
-	frozen GL_VERSION : NATURAL
+	frozen GL_LUMINANCE4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VERSION"
+			"return GL_LUMINANCE4"
 		end
 
-	frozen GL_EXTENSIONS : NATURAL
+	frozen GL_LUMINANCE8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EXTENSIONS"
+			"return GL_LUMINANCE8"
 		end
 
-	frozen GL_NO_ERROR : NATURAL
+	frozen GL_LUMINANCE12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_NO_ERROR"
+			"return GL_LUMINANCE12"
 		end
 
-	frozen GL_INVALID_ENUM : NATURAL
+	frozen GL_LUMINANCE16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INVALID_ENUM"
+			"return GL_LUMINANCE16"
 		end
 
-	frozen GL_INVALID_VALUE : NATURAL
+	frozen GL_LUMINANCE4_ALPHA4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INVALID_VALUE"
+			"return GL_LUMINANCE4_ALPHA4"
 		end
 
-	frozen GL_INVALID_OPERATION : NATURAL
+	frozen GL_LUMINANCE6_ALPHA2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INVALID_OPERATION"
+			"return GL_LUMINANCE6_ALPHA2"
 		end
 
-	frozen GL_STACK_OVERFLOW : NATURAL
+	frozen GL_LUMINANCE8_ALPHA8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STACK_OVERFLOW"
+			"return GL_LUMINANCE8_ALPHA8"
 		end
 
-	frozen GL_STACK_UNDERFLOW : NATURAL
+	frozen GL_LUMINANCE12_ALPHA4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STACK_UNDERFLOW"
+			"return GL_LUMINANCE12_ALPHA4"
 		end
 
-	frozen GL_OUT_OF_MEMORY : NATURAL
+	frozen GL_LUMINANCE12_ALPHA12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_OUT_OF_MEMORY"
+			"return GL_LUMINANCE12_ALPHA12"
 		end
 
-	frozen GL_CURRENT_BIT : NATURAL
+	frozen GL_LUMINANCE16_ALPHA16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CURRENT_BIT"
+			"return GL_LUMINANCE16_ALPHA16"
 		end
 
-	frozen GL_POINT_BIT : NATURAL
+	frozen GL_INTENSITY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POINT_BIT"
+			"return GL_INTENSITY"
 		end
 
-	frozen GL_LINE_BIT : NATURAL
+	frozen GL_INTENSITY4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LINE_BIT"
+			"return GL_INTENSITY4"
 		end
 
-	frozen GL_POLYGON_BIT : NATURAL
+	frozen GL_INTENSITY8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_BIT"
+			"return GL_INTENSITY8"
 		end
 
-	frozen GL_POLYGON_STIPPLE_BIT : NATURAL
+	frozen GL_INTENSITY12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_POLYGON_STIPPLE_BIT"
+			"return GL_INTENSITY12"
 		end
 
-	frozen GL_PIXEL_MODE_BIT : NATURAL
+	frozen GL_INTENSITY16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PIXEL_MODE_BIT"
+			"return GL_INTENSITY16"
 		end
 
-	frozen GL_LIGHTING_BIT : NATURAL
+	frozen GL_RGB4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIGHTING_BIT"
+			"return GL_RGB4"
 		end
 
-	frozen GL_FOG_BIT : NATURAL
+	frozen GL_RGB5: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_FOG_BIT"
+			"return GL_RGB5"
 		end
 
-	frozen GL_DEPTH_BUFFER_BIT : NATURAL
+	frozen GL_RGB8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_DEPTH_BUFFER_BIT"
+			"return GL_RGB8"
 		end
 
-	frozen GL_ACCUM_BUFFER_BIT : NATURAL
+	frozen GL_RGB10: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ACCUM_BUFFER_BIT"
+			"return GL_RGB10"
 		end
 
-	frozen GL_STENCIL_BUFFER_BIT : NATURAL
+	frozen GL_RGB12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_STENCIL_BUFFER_BIT"
+			"return GL_RGB12"
 		end
 
-	frozen GL_VIEWPORT_BIT : NATURAL
+	frozen GL_RGB16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_VIEWPORT_BIT"
+			"return GL_RGB16"
 		end
 
-	frozen GL_TRANSFORM_BIT : NATURAL
+	frozen GL_RGBA2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TRANSFORM_BIT"
+			"return GL_RGBA2"
 		end
 
-	frozen GL_ENABLE_BIT : NATURAL
+	frozen GL_RGBA4: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ENABLE_BIT"
+			"return GL_RGBA4"
 		end
 
-	frozen GL_COLOR_BUFFER_BIT : NATURAL
+	frozen GL_RGB5_A1: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_COLOR_BUFFER_BIT"
+			"return GL_RGB5_A1"
 		end
 
-	frozen GL_HINT_BIT : NATURAL
+	frozen GL_RGBA8: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_HINT_BIT"
+			"return GL_RGBA8"
 		end
 
-	frozen GL_EVAL_BIT : NATURAL
+	frozen GL_RGB10_A2: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_EVAL_BIT"
+			"return GL_RGB10_A2"
 		end
 
-	frozen GL_LIST_BIT : NATURAL
+	frozen GL_RGBA12: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LIST_BIT"
+			"return GL_RGBA12"
 		end
 
-	frozen GL_TEXTURE_BIT : NATURAL
+	frozen GL_RGBA16: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BIT"
+			"return GL_RGBA16"
 		end
 
-	frozen GL_SCISSOR_BIT : NATURAL
+	frozen GL_TEXTURE_RED_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_SCISSOR_BIT"
+			"return GL_TEXTURE_RED_SIZE"
 		end
 
-	frozen GL_ALL_ATTRIB_BITS : NATURAL
+	frozen GL_TEXTURE_GREEN_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALL_ATTRIB_BITS"
+			"return GL_TEXTURE_GREEN_SIZE"
 		end
 
-	frozen GL_PROXY_TEXTURE_1D : NATURAL
+	frozen GL_TEXTURE_BLUE_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PROXY_TEXTURE_1D"
+			"return GL_TEXTURE_BLUE_SIZE"
 		end
 
-	frozen GL_PROXY_TEXTURE_2D : NATURAL
+	frozen GL_TEXTURE_ALPHA_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_PROXY_TEXTURE_2D"
+			"return GL_TEXTURE_ALPHA_SIZE"
 		end
 
-	frozen GL_TEXTURE_PRIORITY : NATURAL
+	frozen GL_TEXTURE_LUMINANCE_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_PRIORITY"
+			"return GL_TEXTURE_LUMINANCE_SIZE"
 		end
 
-	frozen GL_TEXTURE_RESIDENT : NATURAL
+	frozen GL_TEXTURE_INTENSITY_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_RESIDENT"
+			"return GL_TEXTURE_INTENSITY_SIZE"
 		end
 
-	frozen GL_TEXTURE_BINDING_1D : NATURAL
+	frozen GL_PROXY_TEXTURE_1D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BINDING_1D"
+			"return GL_PROXY_TEXTURE_1D"
 		end
 
-	frozen GL_TEXTURE_BINDING_2D : NATURAL
+	frozen GL_PROXY_TEXTURE_2D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_BINDING_2D"
+			"return GL_PROXY_TEXTURE_2D"
 		end
 
-	frozen GL_TEXTURE_INTERNAL_FORMAT : NATURAL
+	frozen GL_TEXTURE_PRIORITY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_TEXTURE_INTERNAL_FORMAT"
+			"return GL_TEXTURE_PRIORITY"
 		end
 
-	frozen GL_ALPHA4 : NATURAL
+	frozen GL_TEXTURE_RESIDENT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA4"
+			"return GL_TEXTURE_RESIDENT"
 		end
 
-	frozen GL_ALPHA8 : NATURAL
+	frozen GL_TEXTURE_BINDING_1D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA8"
+			"return GL_TEXTURE_BINDING_1D"
 		end
 
-	frozen GL_ALPHA12 : NATURAL
+	frozen GL_TEXTURE_BINDING_2D: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA12"
+			"return GL_TEXTURE_BINDING_2D"
 		end
 
-	frozen GL_ALPHA16 : NATURAL
+	frozen GL_VERTEX_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_ALPHA16"
+			"return GL_VERTEX_ARRAY"
 		end
 
-	frozen GL_LUMINANCE4 : NATURAL
+	frozen GL_NORMAL_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE4"
+			"return GL_NORMAL_ARRAY"
 		end
 
-	frozen GL_LUMINANCE8 : NATURAL
+	frozen GL_COLOR_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE8"
+			"return GL_COLOR_ARRAY"
 		end
 
-	frozen GL_LUMINANCE12 : NATURAL
+	frozen GL_INDEX_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE12"
+			"return GL_INDEX_ARRAY"
 		end
 
-	frozen GL_LUMINANCE16 : NATURAL
+	frozen GL_TEXTURE_COORD_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE16"
+			"return GL_TEXTURE_COORD_ARRAY"
 		end
 
-	frozen GL_LUMINANCE4_ALPHA4 : NATURAL
+	frozen GL_EDGE_FLAG_ARRAY: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE4_ALPHA4"
+			"return GL_EDGE_FLAG_ARRAY"
 		end
 
-	frozen GL_LUMINANCE6_ALPHA2 : NATURAL
+	frozen GL_VERTEX_ARRAY_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE6_ALPHA2"
+			"return GL_VERTEX_ARRAY_SIZE"
 		end
 
-	frozen GL_LUMINANCE8_ALPHA8 : NATURAL
+	frozen GL_VERTEX_ARRAY_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE8_ALPHA8"
+			"return GL_VERTEX_ARRAY_TYPE"
 		end
 
-	frozen GL_LUMINANCE12_ALPHA4 : NATURAL
+	frozen GL_VERTEX_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE12_ALPHA4"
+			"return GL_VERTEX_ARRAY_STRIDE"
 		end
 
-	frozen GL_LUMINANCE12_ALPHA12 : NATURAL
+	frozen GL_NORMAL_ARRAY_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE12_ALPHA12"
+			"return GL_NORMAL_ARRAY_TYPE"
 		end
 
-	frozen GL_LUMINANCE16_ALPHA16 : NATURAL
+	frozen GL_NORMAL_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_LUMINANCE16_ALPHA16"
+			"return GL_NORMAL_ARRAY_STRIDE"
 		end
 
-	frozen GL_INTENSITY : NATURAL
+	frozen GL_COLOR_ARRAY_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INTENSITY"
+			"return GL_COLOR_ARRAY_SIZE"
 		end
 
-	frozen GL_INTENSITY4 : NATURAL
+	frozen GL_COLOR_ARRAY_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INTENSITY4"
+			"return GL_COLOR_ARRAY_TYPE"
 		end
 
-	frozen GL_INTENSITY8 : NATURAL
+	frozen GL_COLOR_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INTENSITY8"
+			"return GL_COLOR_ARRAY_STRIDE"
 		end
 
-	frozen GL_INTENSITY12 : NATURAL
+	frozen GL_INDEX_ARRAY_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INTENSITY12"
+			"return GL_INDEX_ARRAY_TYPE"
 		end
 
-	frozen GL_INTENSITY16 : NATURAL
+	frozen GL_INDEX_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_INTENSITY16"
+			"return GL_INDEX_ARRAY_STRIDE"
 		end
 
-	frozen GL_R3_G3_B2 : NATURAL
+	frozen GL_TEXTURE_COORD_ARRAY_SIZE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_R3_G3_B2"
+			"return GL_TEXTURE_COORD_ARRAY_SIZE"
 		end
 
-	frozen GL_RGB4 : NATURAL
+	frozen GL_TEXTURE_COORD_ARRAY_TYPE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB4"
+			"return GL_TEXTURE_COORD_ARRAY_TYPE"
 		end
 
-	frozen GL_RGB5 : NATURAL
+	frozen GL_TEXTURE_COORD_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB5"
+			"return GL_TEXTURE_COORD_ARRAY_STRIDE"
 		end
 
-	frozen GL_RGB8 : NATURAL
+	frozen GL_EDGE_FLAG_ARRAY_STRIDE: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB8"
+			"return GL_EDGE_FLAG_ARRAY_STRIDE"
 		end
 
-	frozen GL_RGB10 : NATURAL
+	frozen GL_VERTEX_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB10"
+			"return GL_VERTEX_ARRAY_POINTER"
 		end
 
-	frozen GL_RGB12 : NATURAL
+	frozen GL_NORMAL_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB12"
+			"return GL_NORMAL_ARRAY_POINTER"
 		end
 
-	frozen GL_RGB16 : NATURAL
+	frozen GL_COLOR_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB16"
+			"return GL_COLOR_ARRAY_POINTER"
 		end
 
-	frozen GL_RGBA2 : NATURAL
+	frozen GL_INDEX_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA2"
+			"return GL_INDEX_ARRAY_POINTER"
 		end
 
-	frozen GL_RGBA4 : NATURAL
+	frozen GL_TEXTURE_COORD_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA4"
+			"return GL_TEXTURE_COORD_ARRAY_POINTER"
 		end
 
-	frozen GL_RGB5_A1 : NATURAL
+	frozen GL_EDGE_FLAG_ARRAY_POINTER: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB5_A1"
+			"return GL_EDGE_FLAG_ARRAY_POINTER"
 		end
 
-	frozen GL_RGBA8 : NATURAL
+	frozen GL_COLOR_INDEX1_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA8"
+			"return GL_COLOR_INDEX1_EXT"
 		end
 
-	frozen GL_RGB10_A2 : NATURAL
+	frozen GL_COLOR_INDEX2_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGB10_A2"
+			"return GL_COLOR_INDEX2_EXT"
 		end
 
-	frozen GL_RGBA12 : NATURAL
+	frozen GL_COLOR_INDEX4_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA12"
+			"return GL_COLOR_INDEX4_EXT"
 		end
 
-	frozen GL_RGBA16 : NATURAL
+	frozen GL_COLOR_INDEX8_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_RGBA16"
+			"return GL_COLOR_INDEX8_EXT"
 		end
 
-	frozen GL_CLIENT_PIXEL_STORE_BIT : NATURAL
+	frozen GL_COLOR_INDEX12_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIENT_PIXEL_STORE_BIT"
+			"return GL_COLOR_INDEX12_EXT"
 		end
 
-	frozen GL_CLIENT_VERTEX_ARRAY_BIT : NATURAL
+	frozen GL_COLOR_INDEX16_EXT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIENT_VERTEX_ARRAY_BIT"
+			"return GL_COLOR_INDEX16_EXT"
 		end
 
-	frozen GL_CLIENT_ALL_ATTRIB_BITS : NATURAL
+	frozen GL_EVAL_BIT: NATURAL
 		external
-			"C [macro <GL/gl.h>] : unsigned int"
+			"C inline use <gl_order.h>"
 		alias
-			"GL_CLIENT_ALL_ATTRIB_BITS"
+			"return GL_EVAL_BIT"
 		end
 
-	frozen glClearIndex(a_c: REAL_32)
+	frozen GL_LIST_BIT: NATURAL
 		external
-			"C(GLfloat) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glClearIndex"
+			"return GL_LIST_BIT"
 		end
 
-	frozen glClearColor(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
+	frozen GL_TEXTURE_BIT: NATURAL
 		external
-			"C(GLclampf,GLclampf,GLclampf,GLclampf) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glClearColor"
+			"return GL_TEXTURE_BIT"
 		end
 
-	frozen glClear(a_mask: NATURAL)
+	frozen GL_SCISSOR_BIT: NATURAL
 		external
-			"C(GLbitfield) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glClear"
+			"return GL_SCISSOR_BIT"
 		end
 
-	frozen glIndexMask(a_mask: NATURAL)
+	frozen GL_ALL_ATTRIB_BITS: NATURAL
 		external
-			"C(GLuint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glIndexMask"
+			"return GL_ALL_ATTRIB_BITS"
 		end
 
-	frozen glColorMask(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8; a_alpha: NATURAL_8)
+	frozen GL_CLIENT_ALL_ATTRIB_BITS: NATURAL
 		external
-			"C(GLboolean,GLboolean,GLboolean,GLboolean) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glColorMask"
-		end
-
-	frozen glAlphaFunc(a_func: NATURAL; a_ref: REAL_32)
-		external
-			"C(GLenum,GLclampf) | <GL/gl.h>"
-		alias
-			"glAlphaFunc"
-		end
-
-	frozen glBlendFunc(a_sfactor: NATURAL; a_dfactor: NATURAL)
-		external
-			"C(GLenum,GLenum) | <GL/gl.h>"
-		alias
-			"glBlendFunc"
-		end
-
-	frozen glLogicOp(a_opcode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glLogicOp"
-		end
-
-	frozen glCullFace(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glCullFace"
-		end
-
-	frozen glFrontFace(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glFrontFace"
-		end
-
-	frozen glPointSize(a_size: REAL_32)
-		external
-			"C(GLfloat) | <GL/gl.h>"
-		alias
-			"glPointSize"
-		end
-
-	frozen glLineWidth(a_width: REAL_32)
-		external
-			"C(GLfloat) | <GL/gl.h>"
-		alias
-			"glLineWidth"
-		end
-
-	frozen glLineStipple(a_factor: INTEGER; a_pattern: NATURAL_16)
-		external
-			"C(GLint,GLushort) | <GL/gl.h>"
-		alias
-			"glLineStipple"
-		end
-
-	frozen glPolygonMode(a_face: NATURAL; a_mode: NATURAL)
-		external
-			"C(GLenum,GLenum) | <GL/gl.h>"
-		alias
-			"glPolygonMode"
-		end
-
-	frozen glPolygonOffset(a_factor: REAL_32; a_units: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glPolygonOffset"
-		end
-
-	frozen glPolygonStipple(a_mask: POINTER)
-		external
-			"C(GLubyte *) | <GL/gl.h>"
-		alias
-			"glPolygonStipple"
-		end
-
-	frozen glGetPolygonStipple(a_mask: POINTER)
-		external
-			"C(GLubyte *) | <GL/gl.h>"
-		alias
-			"glGetPolygonStipple"
-		end
-
-	frozen glEdgeFlag(a_flag: NATURAL_8)
-		external
-			"C(GLboolean) | <GL/gl.h>"
-		alias
-			"glEdgeFlag"
-		end
-
-	frozen glEdgeFlagv(a_flag: POINTER)
-		external
-			"C(GLboolean *) | <GL/gl.h>"
-		alias
-			"glEdgeFlagv"
-		end
-
-	frozen glScissor(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
-		external
-			"C(GLint,GLint,GLsizei,GLsizei) | <GL/gl.h>"
-		alias
-			"glScissor"
-		end
-
-	frozen glClipPlane(a_plane: NATURAL; a_equation: POINTER)
-		external
-			"C(GLenum,GLdouble *) | <GL/gl.h>"
-		alias
-			"glClipPlane"
-		end
-
-	frozen glGetClipPlane(a_plane: NATURAL; a_equation: POINTER)
-		external
-			"C(GLenum,GLdouble *) | <GL/gl.h>"
-		alias
-			"glGetClipPlane"
-		end
-
-	frozen glDrawBuffer(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glDrawBuffer"
-		end
-
-	frozen glReadBuffer(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glReadBuffer"
-		end
-
-	frozen glEnable(a_cap: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glEnable"
-		end
-
-	frozen glDisable(a_cap: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glDisable"
-		end
-
-	frozen glIsEnabled(a_cap: NATURAL):NATURAL_8
-		external
-			"C(GLenum):GLboolean | <GL/gl.h>"
-		alias
-			"glIsEnabled"
-		end
-
-	frozen glEnableClientState(a_cap: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glEnableClientState"
-		end
-
-	frozen glDisableClientState(a_cap: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glDisableClientState"
-		end
-
-	frozen glGetBooleanv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLboolean *) | <GL/gl.h>"
-		alias
-			"glGetBooleanv"
-		end
-
-	frozen glGetDoublev(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLdouble *) | <GL/gl.h>"
-		alias
-			"glGetDoublev"
-		end
-
-	frozen glGetFloatv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetFloatv"
-		end
-
-	frozen glGetIntegerv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetIntegerv"
-		end
-
-	frozen glPushAttrib(a_mask: NATURAL)
-		external
-			"C(GLbitfield) | <GL/gl.h>"
-		alias
-			"glPushAttrib"
-		end
-
-	frozen glPopAttrib
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glPopAttrib"
-		end
-
-	frozen glPushClientAttrib(a_mask: NATURAL)
-		external
-			"C(GLbitfield) | <GL/gl.h>"
-		alias
-			"glPushClientAttrib"
-		end
-
-	frozen glPopClientAttrib
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glPopClientAttrib"
-		end
-
-	frozen glRenderMode(a_mode: NATURAL):INTEGER
-		external
-			"C(GLenum):GLint | <GL/gl.h>"
-		alias
-			"glRenderMode"
-		end
-
-	frozen glGetError:NATURAL
-		external
-			"C:GLenum | <GL/gl.h>"
-		alias
-			"glGetError"
-		end
-
-	frozen glGetString(a_name: NATURAL):POINTER
-		external
-			"C(GLenum):GLubyte * | <GL/gl.h>"
-		alias
-			"glGetString"
-		end
-
-	frozen glFinish
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glFinish"
-		end
-
-	frozen glFlush
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glFlush"
-		end
-
-	frozen glHint(a_target: NATURAL; a_mode: NATURAL)
-		external
-			"C(GLenum,GLenum) | <GL/gl.h>"
-		alias
-			"glHint"
-		end
-
-	frozen glClearDepth(a_depth: REAL_64)
-		external
-			"C(GLclampd) | <GL/gl.h>"
-		alias
-			"glClearDepth"
-		end
-
-	frozen glDepthFunc(a_func: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glDepthFunc"
-		end
-
-	frozen glDepthMask(a_flag: NATURAL_8)
-		external
-			"C(GLboolean) | <GL/gl.h>"
-		alias
-			"glDepthMask"
-		end
-
-	frozen glDepthRange(a_near_val: REAL_64; a_far_val: REAL_64)
-		external
-			"C(GLclampd,GLclampd) | <GL/gl.h>"
-		alias
-			"glDepthRange"
-		end
-
-	frozen glClearAccum(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glClearAccum"
+			"return GL_CLIENT_ALL_ATTRIB_BITS"
 		end
 
 	frozen glAccum(a_op: NATURAL; a_value: REAL_32)
 		external
-			"C(GLenum,GLfloat) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glAccum"
+			"glAccum ((GLenum)$a_op, (GLfloat)$a_value)"
 		end
 
-	frozen glMatrixMode(a_mode: NATURAL)
+	frozen glAlphaFunc(a_func: NATURAL; a_ref: REAL_32)
 		external
-			"C(GLenum) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glMatrixMode"
+			"glAlphaFunc ((GLenum)$a_func, (GLclampf)$a_ref)"
 		end
 
-	frozen glOrtho(a_left: REAL_64; a_right: REAL_64; a_bottom: REAL_64; a_top: REAL_64; a_near_val: REAL_64; a_far_val: REAL_64)
+	frozen glAreTexturesResident(a_n: INTEGER; a_textures: POINTER; a_residences: POINTER): NATURAL_8
 		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glOrtho"
-		end
-
-	frozen glFrustum(a_left: REAL_64; a_right: REAL_64; a_bottom: REAL_64; a_top: REAL_64; a_near_val: REAL_64; a_far_val: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glFrustum"
-		end
-
-	frozen glViewport(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
-		external
-			"C(GLint,GLint,GLsizei,GLsizei) | <GL/gl.h>"
-		alias
-			"glViewport"
-		end
-
-	frozen glPushMatrix
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glPushMatrix"
-		end
-
-	frozen glPopMatrix
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glPopMatrix"
-		end
-
-	frozen glLoadIdentity
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glLoadIdentity"
-		end
-
-	frozen glLoadMatrixd(a_m: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glLoadMatrixd"
-		end
-
-	frozen glLoadMatrixf(a_m: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glLoadMatrixf"
-		end
-
-	frozen glMultMatrixd(a_m: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glMultMatrixd"
-		end
-
-	frozen glMultMatrixf(a_m: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glMultMatrixf"
-		end
-
-	frozen glRotated(a_angle: REAL_64; a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glRotated"
-		end
-
-	frozen glRotatef(a_angle: REAL_32; a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glRotatef"
-		end
-
-	frozen glScaled(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glScaled"
-		end
-
-	frozen glScalef(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glScalef"
-		end
-
-	frozen glTranslated(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glTranslated"
-		end
-
-	frozen glTranslatef(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glTranslatef"
-		end
-
-	frozen glIsList(a_list: NATURAL):NATURAL_8
-		external
-			"C(GLuint):GLboolean | <GL/gl.h>"
-		alias
-			"glIsList"
-		end
-
-	frozen glDeleteLists(a_list: NATURAL; a_range: INTEGER)
-		external
-			"C(GLuint,GLsizei) | <GL/gl.h>"
-		alias
-			"glDeleteLists"
-		end
-
-	frozen glGenLists(a_range: INTEGER):NATURAL
-		external
-			"C(GLsizei):GLuint | <GL/gl.h>"
-		alias
-			"glGenLists"
-		end
-
-	frozen glNewList(a_list: NATURAL; a_mode: NATURAL)
-		external
-			"C(GLuint,GLenum) | <GL/gl.h>"
-		alias
-			"glNewList"
-		end
-
-	frozen glEndList
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glEndList"
-		end
-
-	frozen glCallList(a_list: NATURAL)
-		external
-			"C(GLuint) | <GL/gl.h>"
-		alias
-			"glCallList"
-		end
-
-	frozen glCallLists(a_n: INTEGER; a_type: NATURAL; a_lists: POINTER)
-		external
-			"C(GLsizei,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glCallLists"
-		end
-
-	frozen glListBase(a_base: NATURAL)
-		external
-			"C(GLuint) | <GL/gl.h>"
-		alias
-			"glListBase"
-		end
-
-	frozen glBegin(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glBegin"
-		end
-
-	frozen glEnd
-		external
-			"C | <GL/gl.h>"
-		alias
-			"glEnd"
-		end
-
-	frozen glVertex2d(a_x: REAL_64; a_y: REAL_64)
-		external
-			"C(GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glVertex2d"
-		end
-
-	frozen glVertex2f(a_x: REAL_32; a_y: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glVertex2f"
-		end
-
-	frozen glVertex2i(a_x: INTEGER; a_y: INTEGER)
-		external
-			"C(GLint,GLint) | <GL/gl.h>"
-		alias
-			"glVertex2i"
-		end
-
-	frozen glVertex2s(a_x: INTEGER_16; a_y: INTEGER_16)
-		external
-			"C(GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glVertex2s"
-		end
-
-	frozen glVertex3d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glVertex3d"
-		end
-
-	frozen glVertex3f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glVertex3f"
-		end
-
-	frozen glVertex3i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER)
-		external
-			"C(GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glVertex3i"
-		end
-
-	frozen glVertex3s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glVertex3s"
-		end
-
-	frozen glVertex4d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64; a_w: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glVertex4d"
-		end
-
-	frozen glVertex4f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32; a_w: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glVertex4f"
-		end
-
-	frozen glVertex4i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER; a_w: INTEGER)
-		external
-			"C(GLint,GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glVertex4i"
-		end
-
-	frozen glVertex4s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16; a_w: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glVertex4s"
-		end
-
-	frozen glVertex2dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glVertex2dv"
-		end
-
-	frozen glVertex2fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glVertex2fv"
-		end
-
-	frozen glVertex2iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glVertex2iv"
-		end
-
-	frozen glVertex2sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glVertex2sv"
-		end
-
-	frozen glVertex3dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glVertex3dv"
-		end
-
-	frozen glVertex3fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glVertex3fv"
-		end
-
-	frozen glVertex3iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glVertex3iv"
-		end
-
-	frozen glVertex3sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glVertex3sv"
-		end
-
-	frozen glVertex4dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glVertex4dv"
-		end
-
-	frozen glVertex4fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glVertex4fv"
-		end
-
-	frozen glVertex4iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glVertex4iv"
-		end
-
-	frozen glVertex4sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glVertex4sv"
-		end
-
-	frozen glNormal3b(a_nx: INTEGER_8; a_ny: INTEGER_8; a_nz: INTEGER_8)
-		external
-			"C(GLbyte,GLbyte,GLbyte) | <GL/gl.h>"
-		alias
-			"glNormal3b"
-		end
-
-	frozen glNormal3d(a_nx: REAL_64; a_ny: REAL_64; a_nz: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glNormal3d"
-		end
-
-	frozen glNormal3f(a_nx: REAL_32; a_ny: REAL_32; a_nz: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glNormal3f"
-		end
-
-	frozen glNormal3i(a_nx: INTEGER; a_ny: INTEGER; a_nz: INTEGER)
-		external
-			"C(GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glNormal3i"
-		end
-
-	frozen glNormal3s(a_nx: INTEGER_16; a_ny: INTEGER_16; a_nz: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glNormal3s"
-		end
-
-	frozen glNormal3bv(a_v: POINTER)
-		external
-			"C(GLbyte *) | <GL/gl.h>"
-		alias
-			"glNormal3bv"
-		end
-
-	frozen glNormal3dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glNormal3dv"
-		end
-
-	frozen glNormal3fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glNormal3fv"
-		end
-
-	frozen glNormal3iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glNormal3iv"
-		end
-
-	frozen glNormal3sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glNormal3sv"
-		end
-
-	frozen glIndexd(a_c: REAL_64)
-		external
-			"C(GLdouble) | <GL/gl.h>"
-		alias
-			"glIndexd"
-		end
-
-	frozen glIndexf(a_c: REAL_32)
-		external
-			"C(GLfloat) | <GL/gl.h>"
-		alias
-			"glIndexf"
-		end
-
-	frozen glIndexi(a_c: INTEGER)
-		external
-			"C(GLint) | <GL/gl.h>"
-		alias
-			"glIndexi"
-		end
-
-	frozen glIndexs(a_c: INTEGER_16)
-		external
-			"C(GLshort) | <GL/gl.h>"
-		alias
-			"glIndexs"
-		end
-
-	frozen glIndexub(a_c: NATURAL_8)
-		external
-			"C(GLubyte) | <GL/gl.h>"
-		alias
-			"glIndexub"
-		end
-
-	frozen glIndexdv(a_c: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glIndexdv"
-		end
-
-	frozen glIndexfv(a_c: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glIndexfv"
-		end
-
-	frozen glIndexiv(a_c: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glIndexiv"
-		end
-
-	frozen glIndexsv(a_c: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glIndexsv"
-		end
-
-	frozen glIndexubv(a_c: POINTER)
-		external
-			"C(GLubyte *) | <GL/gl.h>"
-		alias
-			"glIndexubv"
-		end
-
-	frozen glColor3b(a_red: INTEGER_8; a_green: INTEGER_8; a_blue: INTEGER_8)
-		external
-			"C(GLbyte,GLbyte,GLbyte) | <GL/gl.h>"
-		alias
-			"glColor3b"
-		end
-
-	frozen glColor3d(a_red: REAL_64; a_green: REAL_64; a_blue: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glColor3d"
-		end
-
-	frozen glColor3f(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glColor3f"
-		end
-
-	frozen glColor3i(a_red: INTEGER; a_green: INTEGER; a_blue: INTEGER)
-		external
-			"C(GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glColor3i"
-		end
-
-	frozen glColor3s(a_red: INTEGER_16; a_green: INTEGER_16; a_blue: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glColor3s"
-		end
-
-	frozen glColor3ub(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8)
-		external
-			"C(GLubyte,GLubyte,GLubyte) | <GL/gl.h>"
-		alias
-			"glColor3ub"
-		end
-
-	frozen glColor3ui(a_red: NATURAL; a_green: NATURAL; a_blue: NATURAL)
-		external
-			"C(GLuint,GLuint,GLuint) | <GL/gl.h>"
-		alias
-			"glColor3ui"
-		end
-
-	frozen glColor3us(a_red: NATURAL_16; a_green: NATURAL_16; a_blue: NATURAL_16)
-		external
-			"C(GLushort,GLushort,GLushort) | <GL/gl.h>"
-		alias
-			"glColor3us"
-		end
-
-	frozen glColor4b(a_red: INTEGER_8; a_green: INTEGER_8; a_blue: INTEGER_8; a_alpha: INTEGER_8)
-		external
-			"C(GLbyte,GLbyte,GLbyte,GLbyte) | <GL/gl.h>"
-		alias
-			"glColor4b"
-		end
-
-	frozen glColor4d(a_red: REAL_64; a_green: REAL_64; a_blue: REAL_64; a_alpha: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glColor4d"
-		end
-
-	frozen glColor4f(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glColor4f"
-		end
-
-	frozen glColor4i(a_red: INTEGER; a_green: INTEGER; a_blue: INTEGER; a_alpha: INTEGER)
-		external
-			"C(GLint,GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glColor4i"
-		end
-
-	frozen glColor4s(a_red: INTEGER_16; a_green: INTEGER_16; a_blue: INTEGER_16; a_alpha: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glColor4s"
-		end
-
-	frozen glColor4ub(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8; a_alpha: NATURAL_8)
-		external
-			"C(GLubyte,GLubyte,GLubyte,GLubyte) | <GL/gl.h>"
-		alias
-			"glColor4ub"
-		end
-
-	frozen glColor4ui(a_red: NATURAL; a_green: NATURAL; a_blue: NATURAL; a_alpha: NATURAL)
-		external
-			"C(GLuint,GLuint,GLuint,GLuint) | <GL/gl.h>"
-		alias
-			"glColor4ui"
-		end
-
-	frozen glColor4us(a_red: NATURAL_16; a_green: NATURAL_16; a_blue: NATURAL_16; a_alpha: NATURAL_16)
-		external
-			"C(GLushort,GLushort,GLushort,GLushort) | <GL/gl.h>"
-		alias
-			"glColor4us"
-		end
-
-	frozen glColor3bv(a_v: POINTER)
-		external
-			"C(GLbyte *) | <GL/gl.h>"
-		alias
-			"glColor3bv"
-		end
-
-	frozen glColor3dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glColor3dv"
-		end
-
-	frozen glColor3fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glColor3fv"
-		end
-
-	frozen glColor3iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glColor3iv"
-		end
-
-	frozen glColor3sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glColor3sv"
-		end
-
-	frozen glColor3ubv(a_v: POINTER)
-		external
-			"C(GLubyte *) | <GL/gl.h>"
-		alias
-			"glColor3ubv"
-		end
-
-	frozen glColor3uiv(a_v: POINTER)
-		external
-			"C(GLuint *) | <GL/gl.h>"
-		alias
-			"glColor3uiv"
-		end
-
-	frozen glColor3usv(a_v: POINTER)
-		external
-			"C(GLushort *) | <GL/gl.h>"
-		alias
-			"glColor3usv"
-		end
-
-	frozen glColor4bv(a_v: POINTER)
-		external
-			"C(GLbyte *) | <GL/gl.h>"
-		alias
-			"glColor4bv"
-		end
-
-	frozen glColor4dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glColor4dv"
-		end
-
-	frozen glColor4fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glColor4fv"
-		end
-
-	frozen glColor4iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glColor4iv"
-		end
-
-	frozen glColor4sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glColor4sv"
-		end
-
-	frozen glColor4ubv(a_v: POINTER)
-		external
-			"C(GLubyte *) | <GL/gl.h>"
-		alias
-			"glColor4ubv"
-		end
-
-	frozen glColor4uiv(a_v: POINTER)
-		external
-			"C(GLuint *) | <GL/gl.h>"
-		alias
-			"glColor4uiv"
-		end
-
-	frozen glColor4usv(a_v: POINTER)
-		external
-			"C(GLushort *) | <GL/gl.h>"
-		alias
-			"glColor4usv"
-		end
-
-	frozen glTexCoord1d(a_s: REAL_64)
-		external
-			"C(GLdouble) | <GL/gl.h>"
-		alias
-			"glTexCoord1d"
-		end
-
-	frozen glTexCoord1f(a_s: REAL_32)
-		external
-			"C(GLfloat) | <GL/gl.h>"
-		alias
-			"glTexCoord1f"
-		end
-
-	frozen glTexCoord1i(a_s: INTEGER)
-		external
-			"C(GLint) | <GL/gl.h>"
-		alias
-			"glTexCoord1i"
-		end
-
-	frozen glTexCoord1s(a_s: INTEGER_16)
-		external
-			"C(GLshort) | <GL/gl.h>"
-		alias
-			"glTexCoord1s"
-		end
-
-	frozen glTexCoord2d(a_s: REAL_64; a_t: REAL_64)
-		external
-			"C(GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glTexCoord2d"
-		end
-
-	frozen glTexCoord2f(a_s: REAL_32; a_t: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexCoord2f"
-		end
-
-	frozen glTexCoord2i(a_s: INTEGER; a_t: INTEGER)
-		external
-			"C(GLint,GLint) | <GL/gl.h>"
-		alias
-			"glTexCoord2i"
-		end
-
-	frozen glTexCoord2s(a_s: INTEGER_16; a_t: INTEGER_16)
-		external
-			"C(GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glTexCoord2s"
-		end
-
-	frozen glTexCoord3d(a_s: REAL_64; a_t: REAL_64; a_r: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glTexCoord3d"
-		end
-
-	frozen glTexCoord3f(a_s: REAL_32; a_t: REAL_32; a_r: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexCoord3f"
-		end
-
-	frozen glTexCoord3i(a_s: INTEGER; a_t: INTEGER; a_r: INTEGER)
-		external
-			"C(GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glTexCoord3i"
-		end
-
-	frozen glTexCoord3s(a_s: INTEGER_16; a_t: INTEGER_16; a_r: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glTexCoord3s"
-		end
-
-	frozen glTexCoord4d(a_s: REAL_64; a_t: REAL_64; a_r: REAL_64; a_q: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glTexCoord4d"
-		end
-
-	frozen glTexCoord4f(a_s: REAL_32; a_t: REAL_32; a_r: REAL_32; a_q: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexCoord4f"
-		end
-
-	frozen glTexCoord4i(a_s: INTEGER; a_t: INTEGER; a_r: INTEGER; a_q: INTEGER)
-		external
-			"C(GLint,GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glTexCoord4i"
-		end
-
-	frozen glTexCoord4s(a_s: INTEGER_16; a_t: INTEGER_16; a_r: INTEGER_16; a_q: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glTexCoord4s"
-		end
-
-	frozen glTexCoord1dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glTexCoord1dv"
-		end
-
-	frozen glTexCoord1fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexCoord1fv"
-		end
-
-	frozen glTexCoord1iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glTexCoord1iv"
-		end
-
-	frozen glTexCoord1sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glTexCoord1sv"
-		end
-
-	frozen glTexCoord2dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glTexCoord2dv"
-		end
-
-	frozen glTexCoord2fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexCoord2fv"
-		end
-
-	frozen glTexCoord2iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glTexCoord2iv"
-		end
-
-	frozen glTexCoord2sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glTexCoord2sv"
-		end
-
-	frozen glTexCoord3dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glTexCoord3dv"
-		end
-
-	frozen glTexCoord3fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexCoord3fv"
-		end
-
-	frozen glTexCoord3iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glTexCoord3iv"
-		end
-
-	frozen glTexCoord3sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glTexCoord3sv"
-		end
-
-	frozen glTexCoord4dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glTexCoord4dv"
-		end
-
-	frozen glTexCoord4fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexCoord4fv"
-		end
-
-	frozen glTexCoord4iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glTexCoord4iv"
-		end
-
-	frozen glTexCoord4sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glTexCoord4sv"
-		end
-
-	frozen glRasterPos2d(a_x: REAL_64; a_y: REAL_64)
-		external
-			"C(GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glRasterPos2d"
-		end
-
-	frozen glRasterPos2f(a_x: REAL_32; a_y: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glRasterPos2f"
-		end
-
-	frozen glRasterPos2i(a_x: INTEGER; a_y: INTEGER)
-		external
-			"C(GLint,GLint) | <GL/gl.h>"
-		alias
-			"glRasterPos2i"
-		end
-
-	frozen glRasterPos2s(a_x: INTEGER_16; a_y: INTEGER_16)
-		external
-			"C(GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glRasterPos2s"
-		end
-
-	frozen glRasterPos3d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glRasterPos3d"
-		end
-
-	frozen glRasterPos3f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glRasterPos3f"
-		end
-
-	frozen glRasterPos3i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER)
-		external
-			"C(GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glRasterPos3i"
-		end
-
-	frozen glRasterPos3s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glRasterPos3s"
-		end
-
-	frozen glRasterPos4d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64; a_w: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glRasterPos4d"
-		end
-
-	frozen glRasterPos4f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32; a_w: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glRasterPos4f"
-		end
-
-	frozen glRasterPos4i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER; a_w: INTEGER)
-		external
-			"C(GLint,GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glRasterPos4i"
-		end
-
-	frozen glRasterPos4s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16; a_w: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glRasterPos4s"
-		end
-
-	frozen glRasterPos2dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glRasterPos2dv"
-		end
-
-	frozen glRasterPos2fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glRasterPos2fv"
-		end
-
-	frozen glRasterPos2iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glRasterPos2iv"
-		end
-
-	frozen glRasterPos2sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glRasterPos2sv"
-		end
-
-	frozen glRasterPos3dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glRasterPos3dv"
-		end
-
-	frozen glRasterPos3fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glRasterPos3fv"
-		end
-
-	frozen glRasterPos3iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glRasterPos3iv"
-		end
-
-	frozen glRasterPos3sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glRasterPos3sv"
-		end
-
-	frozen glRasterPos4dv(a_v: POINTER)
-		external
-			"C(GLdouble *) | <GL/gl.h>"
-		alias
-			"glRasterPos4dv"
-		end
-
-	frozen glRasterPos4fv(a_v: POINTER)
-		external
-			"C(GLfloat *) | <GL/gl.h>"
-		alias
-			"glRasterPos4fv"
-		end
-
-	frozen glRasterPos4iv(a_v: POINTER)
-		external
-			"C(GLint *) | <GL/gl.h>"
-		alias
-			"glRasterPos4iv"
-		end
-
-	frozen glRasterPos4sv(a_v: POINTER)
-		external
-			"C(GLshort *) | <GL/gl.h>"
-		alias
-			"glRasterPos4sv"
-		end
-
-	frozen glRectd(a_x1: REAL_64; a_y1: REAL_64; a_x2: REAL_64; a_y2: REAL_64)
-		external
-			"C(GLdouble,GLdouble,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glRectd"
-		end
-
-	frozen glRectf(a_x1: REAL_32; a_y1: REAL_32; a_x2: REAL_32; a_y2: REAL_32)
-		external
-			"C(GLfloat,GLfloat,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glRectf"
-		end
-
-	frozen glRecti(a_x1: INTEGER; a_y1: INTEGER; a_x2: INTEGER; a_y2: INTEGER)
-		external
-			"C(GLint,GLint,GLint,GLint) | <GL/gl.h>"
-		alias
-			"glRecti"
-		end
-
-	frozen glRects(a_x1: INTEGER_16; a_y1: INTEGER_16; a_x2: INTEGER_16; a_y2: INTEGER_16)
-		external
-			"C(GLshort,GLshort,GLshort,GLshort) | <GL/gl.h>"
-		alias
-			"glRects"
-		end
-
-	frozen glRectdv(a_v1: POINTER; a_v2: POINTER)
-		external
-			"C(GLdouble *,GLdouble *) | <GL/gl.h>"
-		alias
-			"glRectdv"
-		end
-
-	frozen glRectfv(a_v1: POINTER; a_v2: POINTER)
-		external
-			"C(GLfloat *,GLfloat *) | <GL/gl.h>"
-		alias
-			"glRectfv"
-		end
-
-	frozen glRectiv(a_v1: POINTER; a_v2: POINTER)
-		external
-			"C(GLint *,GLint *) | <GL/gl.h>"
-		alias
-			"glRectiv"
-		end
-
-	frozen glRectsv(a_v1: POINTER; a_v2: POINTER)
-		external
-			"C(GLshort *,GLshort *) | <GL/gl.h>"
-		alias
-			"glRectsv"
-		end
-
-	frozen glVertexPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLint,GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glVertexPointer"
-		end
-
-	frozen glNormalPointer(a_type: NATURAL; a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glNormalPointer"
-		end
-
-	frozen glColorPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLint,GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glColorPointer"
-		end
-
-	frozen glIndexPointer(a_type: NATURAL; a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glIndexPointer"
-		end
-
-	frozen glTexCoordPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLint,GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glTexCoordPointer"
-		end
-
-	frozen glEdgeFlagPointer(a_stride: INTEGER; a_ptr: POINTER)
-		external
-			"C(GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glEdgeFlagPointer"
-		end
-
-	frozen glGetPointerv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLvoid **) | <GL/gl.h>"
-		alias
-			"glGetPointerv"
+			"return glAreTexturesResident ((GLsizei)$a_n, (GLuint *)$a_textures, (GLboolean *)$a_residences)"
 		end
 
 	frozen glArrayElement(a_i: INTEGER)
 		external
-			"C(GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glArrayElement"
+			"glArrayElement ((GLint)$a_i)"
 		end
 
-	frozen glDrawArrays(a_mode: NATURAL; a_first: INTEGER; a_count: INTEGER)
+	frozen glBegin(a_mode: NATURAL)
 		external
-			"C(GLenum,GLint,GLsizei) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glDrawArrays"
-		end
-
-	frozen glDrawElements(a_mode: NATURAL; a_count: INTEGER; a_type: NATURAL; a_indices: POINTER)
-		external
-			"C(GLenum,GLsizei,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glDrawElements"
-		end
-
-	frozen glInterleavedArrays(a_format: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
-		external
-			"C(GLenum,GLsizei,GLvoid *) | <GL/gl.h>"
-		alias
-			"glInterleavedArrays"
-		end
-
-	frozen glShadeModel(a_mode: NATURAL)
-		external
-			"C(GLenum) | <GL/gl.h>"
-		alias
-			"glShadeModel"
-		end
-
-	frozen glLightf(a_light: NATURAL; a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glLightf"
-		end
-
-	frozen glLighti(a_light: NATURAL; a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glLighti"
-		end
-
-	frozen glLightfv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glLightfv"
-		end
-
-	frozen glLightiv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glLightiv"
-		end
-
-	frozen glGetLightfv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetLightfv"
-		end
-
-	frozen glGetLightiv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetLightiv"
-		end
-
-	frozen glLightModelf(a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glLightModelf"
-		end
-
-	frozen glLightModeli(a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glLightModeli"
-		end
-
-	frozen glLightModelfv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glLightModelfv"
-		end
-
-	frozen glLightModeliv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glLightModeliv"
-		end
-
-	frozen glMaterialf(a_face: NATURAL; a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glMaterialf"
-		end
-
-	frozen glMateriali(a_face: NATURAL; a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glMateriali"
-		end
-
-	frozen glMaterialfv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glMaterialfv"
-		end
-
-	frozen glMaterialiv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glMaterialiv"
-		end
-
-	frozen glGetMaterialfv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetMaterialfv"
-		end
-
-	frozen glGetMaterialiv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetMaterialiv"
-		end
-
-	frozen glColorMaterial(a_face: NATURAL; a_mode: NATURAL)
-		external
-			"C(GLenum,GLenum) | <GL/gl.h>"
-		alias
-			"glColorMaterial"
-		end
-
-	frozen glPixelZoom(a_xfactor: REAL_32; a_yfactor: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glPixelZoom"
-		end
-
-	frozen glPixelStoref(a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glPixelStoref"
-		end
-
-	frozen glPixelStorei(a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glPixelStorei"
-		end
-
-	frozen glPixelTransferf(a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glPixelTransferf"
-		end
-
-	frozen glPixelTransferi(a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glPixelTransferi"
-		end
-
-	frozen glPixelMapfv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
-		external
-			"C(GLenum,GLsizei,GLfloat *) | <GL/gl.h>"
-		alias
-			"glPixelMapfv"
-		end
-
-	frozen glPixelMapuiv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
-		external
-			"C(GLenum,GLsizei,GLuint *) | <GL/gl.h>"
-		alias
-			"glPixelMapuiv"
-		end
-
-	frozen glPixelMapusv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
-		external
-			"C(GLenum,GLsizei,GLushort *) | <GL/gl.h>"
-		alias
-			"glPixelMapusv"
-		end
-
-	frozen glGetPixelMapfv(a_map: NATURAL; a_values: POINTER)
-		external
-			"C(GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetPixelMapfv"
-		end
-
-	frozen glGetPixelMapuiv(a_map: NATURAL; a_values: POINTER)
-		external
-			"C(GLenum,GLuint *) | <GL/gl.h>"
-		alias
-			"glGetPixelMapuiv"
-		end
-
-	frozen glGetPixelMapusv(a_map: NATURAL; a_values: POINTER)
-		external
-			"C(GLenum,GLushort *) | <GL/gl.h>"
-		alias
-			"glGetPixelMapusv"
-		end
-
-	frozen glBitmap(a_width: INTEGER; a_height: INTEGER; a_xorig: REAL_32; a_yorig: REAL_32; a_xmove: REAL_32; a_ymove: REAL_32; a_bitmap: POINTER)
-		external
-			"C(GLsizei,GLsizei,GLfloat,GLfloat,GLfloat,GLfloat,GLubyte *) | <GL/gl.h>"
-		alias
-			"glBitmap"
-		end
-
-	frozen glReadPixels(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
-		external
-			"C(GLint,GLint,GLsizei,GLsizei,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glReadPixels"
-		end
-
-	frozen glDrawPixels(a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
-		external
-			"C(GLsizei,GLsizei,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glDrawPixels"
-		end
-
-	frozen glCopyPixels(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER; a_type: NATURAL)
-		external
-			"C(GLint,GLint,GLsizei,GLsizei,GLenum) | <GL/gl.h>"
-		alias
-			"glCopyPixels"
-		end
-
-	frozen glStencilFunc(a_func: NATURAL; a_ref: INTEGER; a_mask: NATURAL)
-		external
-			"C(GLenum,GLint,GLuint) | <GL/gl.h>"
-		alias
-			"glStencilFunc"
-		end
-
-	frozen glStencilMask(a_mask: NATURAL)
-		external
-			"C(GLuint) | <GL/gl.h>"
-		alias
-			"glStencilMask"
-		end
-
-	frozen glStencilOp(a_fail: NATURAL; a_zfail: NATURAL; a_zpass: NATURAL)
-		external
-			"C(GLenum,GLenum,GLenum) | <GL/gl.h>"
-		alias
-			"glStencilOp"
-		end
-
-	frozen glClearStencil(a_s: INTEGER)
-		external
-			"C(GLint) | <GL/gl.h>"
-		alias
-			"glClearStencil"
-		end
-
-	frozen glTexGend(a_coord: NATURAL; a_pname: NATURAL; a_param: REAL_64)
-		external
-			"C(GLenum,GLenum,GLdouble) | <GL/gl.h>"
-		alias
-			"glTexGend"
-		end
-
-	frozen glTexGenf(a_coord: NATURAL; a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexGenf"
-		end
-
-	frozen glTexGeni(a_coord: NATURAL; a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glTexGeni"
-		end
-
-	frozen glTexGendv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLdouble *) | <GL/gl.h>"
-		alias
-			"glTexGendv"
-		end
-
-	frozen glTexGenfv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexGenfv"
-		end
-
-	frozen glTexGeniv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glTexGeniv"
-		end
-
-	frozen glGetTexGendv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLdouble *) | <GL/gl.h>"
-		alias
-			"glGetTexGendv"
-		end
-
-	frozen glGetTexGenfv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetTexGenfv"
-		end
-
-	frozen glGetTexGeniv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetTexGeniv"
-		end
-
-	frozen glTexEnvf(a_target: NATURAL; a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexEnvf"
-		end
-
-	frozen glTexEnvi(a_target: NATURAL; a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glTexEnvi"
-		end
-
-	frozen glTexEnvfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexEnvfv"
-		end
-
-	frozen glTexEnviv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glTexEnviv"
-		end
-
-	frozen glGetTexEnvfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetTexEnvfv"
-		end
-
-	frozen glGetTexEnviv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetTexEnviv"
-		end
-
-	frozen glTexParameterf(a_target: NATURAL; a_pname: NATURAL; a_param: REAL_32)
-		external
-			"C(GLenum,GLenum,GLfloat) | <GL/gl.h>"
-		alias
-			"glTexParameterf"
-		end
-
-	frozen glTexParameteri(a_target: NATURAL; a_pname: NATURAL; a_param: INTEGER)
-		external
-			"C(GLenum,GLenum,GLint) | <GL/gl.h>"
-		alias
-			"glTexParameteri"
-		end
-
-	frozen glTexParameterfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glTexParameterfv"
-		end
-
-	frozen glTexParameteriv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glTexParameteriv"
-		end
-
-	frozen glGetTexParameterfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetTexParameterfv"
-		end
-
-	frozen glGetTexParameteriv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetTexParameteriv"
-		end
-
-	frozen glGetTexLevelParameterfv(a_target: NATURAL; a_level: INTEGER; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLint,GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glGetTexLevelParameterfv"
-		end
-
-	frozen glGetTexLevelParameteriv(a_target: NATURAL; a_level: INTEGER; a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLint,GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glGetTexLevelParameteriv"
-		end
-
-	frozen glTexImage1D(a_target: NATURAL; a_level: INTEGER; a_internalFormat: INTEGER; a_width: INTEGER; a_border: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
-		external
-			"C(GLenum,GLint,GLint,GLsizei,GLint,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glTexImage1D"
-		end
-
-	frozen glTexImage2D(a_target: NATURAL; a_level: INTEGER; a_internalFormat: INTEGER; a_width: INTEGER; a_height: INTEGER; a_border: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
-		external
-			"C(GLenum,GLint,GLint,GLsizei,GLsizei,GLint,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glTexImage2D"
-		end
-
-	frozen glGetTexImage(a_target: NATURAL; a_level: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
-		external
-			"C(GLenum,GLint,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
-		alias
-			"glGetTexImage"
-		end
-
-	frozen glGenTextures(a_n: INTEGER; a_textures: POINTER)
-		external
-			"C(GLsizei,GLuint *) | <GL/gl.h>"
-		alias
-			"glGenTextures"
-		end
-
-	frozen glDeleteTextures(a_n: INTEGER; a_textures: POINTER)
-		external
-			"C(GLsizei,GLuint *) | <GL/gl.h>"
-		alias
-			"glDeleteTextures"
+			"glBegin ((GLenum)$a_mode)"
 		end
 
 	frozen glBindTexture(a_target: NATURAL; a_texture: NATURAL)
 		external
-			"C(GLenum,GLuint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glBindTexture"
+			"glBindTexture ((GLenum)$a_target, (GLuint)$a_texture)"
 		end
 
-	frozen glPrioritizeTextures(a_n: INTEGER; a_textures: POINTER; a_priorities: POINTER)
+	frozen glBitmap(a_width: INTEGER; a_height: INTEGER; a_xorig: REAL_32; a_yorig: REAL_32; a_xmove: REAL_32; a_ymove: REAL_32; a_bitmap: POINTER)
 		external
-			"C(GLsizei,GLuint *,GLclampf *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glPrioritizeTextures"
+			"glBitmap ((GLsizei)$a_width, (GLsizei)$a_height, (GLfloat)$a_xorig, (GLfloat)$a_yorig, (GLfloat)$a_xmove, (GLfloat)$a_ymove, (GLubyte *)$a_bitmap)"
 		end
 
-	frozen glAreTexturesResident(a_n: INTEGER; a_textures: POINTER; a_residences: POINTER):NATURAL_8
+	frozen glBlendFunc(a_sfactor: NATURAL; a_dfactor: NATURAL)
 		external
-			"C(GLsizei,GLuint *,GLboolean *):GLboolean | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glAreTexturesResident"
+			"glBlendFunc ((GLenum)$a_sfactor, (GLenum)$a_dfactor)"
 		end
 
-	frozen glIsTexture(a_texture: NATURAL):NATURAL_8
+	frozen glCallList(a_list: NATURAL)
 		external
-			"C(GLuint):GLboolean | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glIsTexture"
+			"glCallList ((GLuint)$a_list)"
 		end
 
-	frozen glTexSubImage1D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_width: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+	frozen glCallLists(a_n: INTEGER; a_type: NATURAL; a_lists: POINTER)
 		external
-			"C(GLenum,GLint,GLint,GLsizei,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glTexSubImage1D"
+			"glCallLists ((GLsizei)$a_n, (GLenum)$a_type, (void *)$a_lists)"
 		end
 
-	frozen glTexSubImage2D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_yoffset: INTEGER; a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+	frozen glClear(a_mask: NATURAL)
 		external
-			"C(GLenum,GLint,GLint,GLint,GLsizei,GLsizei,GLenum,GLenum,GLvoid *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glTexSubImage2D"
+			"glClear ((GLbitfield)$a_mask)"
+		end
+
+	frozen glClearAccum(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClearAccum ((GLfloat)$a_red, (GLfloat)$a_green, (GLfloat)$a_blue, (GLfloat)$a_alpha)"
+		end
+
+	frozen glClearColor(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClearColor ((GLclampf)$a_red, (GLclampf)$a_green, (GLclampf)$a_blue, (GLclampf)$a_alpha)"
+		end
+
+	frozen glClearDepth(a_depth: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClearDepth ((GLclampd)$a_depth)"
+		end
+
+	frozen glClearIndex(a_c: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClearIndex ((GLfloat)$a_c)"
+		end
+
+	frozen glClearStencil(a_s: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClearStencil ((GLint)$a_s)"
+		end
+
+	frozen glClipPlane(a_plane: NATURAL; a_equation: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glClipPlane ((GLenum)$a_plane, (GLdouble *)$a_equation)"
+		end
+
+	frozen glColor3b(a_red: INTEGER_8; a_green: INTEGER_8; a_blue: INTEGER_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3b ((GLbyte)$a_red, (GLbyte)$a_green, (GLbyte)$a_blue)"
+		end
+
+	frozen glColor3bv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3bv ((GLbyte *)$a_v)"
+		end
+
+	frozen glColor3d(a_red: REAL_64; a_green: REAL_64; a_blue: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3d ((GLdouble)$a_red, (GLdouble)$a_green, (GLdouble)$a_blue)"
+		end
+
+	frozen glColor3dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glColor3f(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3f ((GLfloat)$a_red, (GLfloat)$a_green, (GLfloat)$a_blue)"
+		end
+
+	frozen glColor3fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glColor3i(a_red: INTEGER; a_green: INTEGER; a_blue: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3i ((GLint)$a_red, (GLint)$a_green, (GLint)$a_blue)"
+		end
+
+	frozen glColor3iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3iv ((GLint *)$a_v)"
+		end
+
+	frozen glColor3s(a_red: INTEGER_16; a_green: INTEGER_16; a_blue: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3s ((GLshort)$a_red, (GLshort)$a_green, (GLshort)$a_blue)"
+		end
+
+	frozen glColor3sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3sv ((GLshort *)$a_v)"
+		end
+
+	frozen glColor3ub(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3ub ((GLubyte)$a_red, (GLubyte)$a_green, (GLubyte)$a_blue)"
+		end
+
+	frozen glColor3ubv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3ubv ((GLubyte *)$a_v)"
+		end
+
+	frozen glColor3ui(a_red: NATURAL; a_green: NATURAL; a_blue: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3ui ((GLuint)$a_red, (GLuint)$a_green, (GLuint)$a_blue)"
+		end
+
+	frozen glColor3uiv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3uiv ((GLuint *)$a_v)"
+		end
+
+	frozen glColor3us(a_red: NATURAL_16; a_green: NATURAL_16; a_blue: NATURAL_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3us ((GLushort)$a_red, (GLushort)$a_green, (GLushort)$a_blue)"
+		end
+
+	frozen glColor3usv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor3usv ((GLushort *)$a_v)"
+		end
+
+	frozen glColor4b(a_red: INTEGER_8; a_green: INTEGER_8; a_blue: INTEGER_8; a_alpha: INTEGER_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4b ((GLbyte)$a_red, (GLbyte)$a_green, (GLbyte)$a_blue, (GLbyte)$a_alpha)"
+		end
+
+	frozen glColor4bv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4bv ((GLbyte *)$a_v)"
+		end
+
+	frozen glColor4d(a_red: REAL_64; a_green: REAL_64; a_blue: REAL_64; a_alpha: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4d ((GLdouble)$a_red, (GLdouble)$a_green, (GLdouble)$a_blue, (GLdouble)$a_alpha)"
+		end
+
+	frozen glColor4dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glColor4f(a_red: REAL_32; a_green: REAL_32; a_blue: REAL_32; a_alpha: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4f ((GLfloat)$a_red, (GLfloat)$a_green, (GLfloat)$a_blue, (GLfloat)$a_alpha)"
+		end
+
+	frozen glColor4fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glColor4i(a_red: INTEGER; a_green: INTEGER; a_blue: INTEGER; a_alpha: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4i ((GLint)$a_red, (GLint)$a_green, (GLint)$a_blue, (GLint)$a_alpha)"
+		end
+
+	frozen glColor4iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4iv ((GLint *)$a_v)"
+		end
+
+	frozen glColor4s(a_red: INTEGER_16; a_green: INTEGER_16; a_blue: INTEGER_16; a_alpha: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4s ((GLshort)$a_red, (GLshort)$a_green, (GLshort)$a_blue, (GLshort)$a_alpha)"
+		end
+
+	frozen glColor4sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4sv ((GLshort *)$a_v)"
+		end
+
+	frozen glColor4ub(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8; a_alpha: NATURAL_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4ub ((GLubyte)$a_red, (GLubyte)$a_green, (GLubyte)$a_blue, (GLubyte)$a_alpha)"
+		end
+
+	frozen glColor4ubv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4ubv ((GLubyte *)$a_v)"
+		end
+
+	frozen glColor4ui(a_red: NATURAL; a_green: NATURAL; a_blue: NATURAL; a_alpha: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4ui ((GLuint)$a_red, (GLuint)$a_green, (GLuint)$a_blue, (GLuint)$a_alpha)"
+		end
+
+	frozen glColor4uiv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4uiv ((GLuint *)$a_v)"
+		end
+
+	frozen glColor4us(a_red: NATURAL_16; a_green: NATURAL_16; a_blue: NATURAL_16; a_alpha: NATURAL_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4us ((GLushort)$a_red, (GLushort)$a_green, (GLushort)$a_blue, (GLushort)$a_alpha)"
+		end
+
+	frozen glColor4usv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColor4usv ((GLushort *)$a_v)"
+		end
+
+	frozen glColorMask(a_red: NATURAL_8; a_green: NATURAL_8; a_blue: NATURAL_8; a_alpha: NATURAL_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColorMask ((GLboolean)$a_red, (GLboolean)$a_green, (GLboolean)$a_blue, (GLboolean)$a_alpha)"
+		end
+
+	frozen glColorMaterial(a_face: NATURAL; a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColorMaterial ((GLenum)$a_face, (GLenum)$a_mode)"
+		end
+
+	frozen glColorPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glColorPointer ((GLint)$a_size, (GLenum)$a_type, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glCopyPixels(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER; a_type: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glCopyPixels ((GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height, (GLenum)$a_type)"
 		end
 
 	frozen glCopyTexImage1D(a_target: NATURAL; a_level: INTEGER; a_internalformat: NATURAL; a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_border: INTEGER)
 		external
-			"C(GLenum,GLint,GLenum,GLint,GLint,GLsizei,GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glCopyTexImage1D"
+			"glCopyTexImage1D ((GLenum)$a_target, (GLint)$a_level, (GLenum)$a_internalformat, (GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLint)$a_border)"
 		end
 
 	frozen glCopyTexImage2D(a_target: NATURAL; a_level: INTEGER; a_internalformat: NATURAL; a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER; a_border: INTEGER)
 		external
-			"C(GLenum,GLint,GLenum,GLint,GLint,GLsizei,GLsizei,GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glCopyTexImage2D"
+			"glCopyTexImage2D ((GLenum)$a_target, (GLint)$a_level, (GLenum)$a_internalformat, (GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height, (GLint)$a_border)"
 		end
 
 	frozen glCopyTexSubImage1D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_x: INTEGER; a_y: INTEGER; a_width: INTEGER)
 		external
-			"C(GLenum,GLint,GLint,GLint,GLint,GLsizei) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glCopyTexSubImage1D"
+			"glCopyTexSubImage1D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_xoffset, (GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width)"
 		end
 
 	frozen glCopyTexSubImage2D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_yoffset: INTEGER; a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
 		external
-			"C(GLenum,GLint,GLint,GLint,GLint,GLint,GLsizei,GLsizei) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glCopyTexSubImage2D"
+			"glCopyTexSubImage2D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_xoffset, (GLint)$a_yoffset, (GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height)"
 		end
 
-	frozen glMap1d(a_target: NATURAL; a_u1: REAL_64; a_u2: REAL_64; a_stride: INTEGER; a_order: INTEGER; a_points: POINTER)
+	frozen glCullFace(a_mode: NATURAL)
 		external
-			"C(GLenum,GLdouble,GLdouble,GLint,GLint,GLdouble *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glMap1d"
+			"glCullFace ((GLenum)$a_mode)"
 		end
 
-	frozen glMap1f(a_target: NATURAL; a_u1: REAL_32; a_u2: REAL_32; a_stride: INTEGER; a_order: INTEGER; a_points: POINTER)
+	frozen glDeleteLists(a_list: NATURAL; a_range: INTEGER)
 		external
-			"C(GLenum,GLfloat,GLfloat,GLint,GLint,GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glMap1f"
+			"glDeleteLists ((GLuint)$a_list, (GLsizei)$a_range)"
 		end
 
-	frozen glMap2d(a_target: NATURAL; a_u1: REAL_64; a_u2: REAL_64; a_ustride: INTEGER; a_uorder: INTEGER; a_v1: REAL_64; a_v2: REAL_64; a_vstride: INTEGER; a_vorder: INTEGER; a_points: POINTER)
+	frozen glDeleteTextures(a_n: INTEGER; a_textures: POINTER)
 		external
-			"C(GLenum,GLdouble,GLdouble,GLint,GLint,GLdouble,GLdouble,GLint,GLint,GLdouble *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glMap2d"
+			"glDeleteTextures ((GLsizei)$a_n, (GLuint *)$a_textures)"
 		end
 
-	frozen glMap2f(a_target: NATURAL; a_u1: REAL_32; a_u2: REAL_32; a_ustride: INTEGER; a_uorder: INTEGER; a_v1: REAL_32; a_v2: REAL_32; a_vstride: INTEGER; a_vorder: INTEGER; a_points: POINTER)
+	frozen glDepthFunc(a_func: NATURAL)
 		external
-			"C(GLenum,GLfloat,GLfloat,GLint,GLint,GLfloat,GLfloat,GLint,GLint,GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glMap2f"
+			"glDepthFunc ((GLenum)$a_func)"
 		end
 
-	frozen glGetMapdv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+	frozen glDepthMask(a_flag: NATURAL_8)
 		external
-			"C(GLenum,GLenum,GLdouble *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glGetMapdv"
+			"glDepthMask ((GLboolean)$a_flag)"
 		end
 
-	frozen glGetMapfv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+	frozen glDepthRange(a_znear: REAL_64; a_zfar: REAL_64)
 		external
-			"C(GLenum,GLenum,GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glGetMapfv"
+			"glDepthRange ((GLclampd)$a_znear, (GLclampd)$a_zfar)"
 		end
 
-	frozen glGetMapiv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+	frozen glDisable(a_cap: NATURAL)
 		external
-			"C(GLenum,GLenum,GLint *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glGetMapiv"
+			"glDisable ((GLenum)$a_cap)"
+		end
+
+	frozen glDisableClientState(a_array: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glDisableClientState ((GLenum)$a_array)"
+		end
+
+	frozen glDrawArrays(a_mode: NATURAL; a_first: INTEGER; a_count: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glDrawArrays ((GLenum)$a_mode, (GLint)$a_first, (GLsizei)$a_count)"
+		end
+
+	frozen glDrawBuffer(a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glDrawBuffer ((GLenum)$a_mode)"
+		end
+
+	frozen glDrawElements(a_mode: NATURAL; a_count: INTEGER; a_type: NATURAL; a_indices: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glDrawElements ((GLenum)$a_mode, (GLsizei)$a_count, (GLenum)$a_type, (void *)$a_indices)"
+		end
+
+	frozen glDrawPixels(a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glDrawPixels ((GLsizei)$a_width, (GLsizei)$a_height, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glEdgeFlag(a_flag: NATURAL_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEdgeFlag ((GLboolean)$a_flag)"
+		end
+
+	frozen glEdgeFlagPointer(a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEdgeFlagPointer ((GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glEdgeFlagv(a_flag: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEdgeFlagv ((GLboolean *)$a_flag)"
+		end
+
+	frozen glEnable(a_cap: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEnable ((GLenum)$a_cap)"
+		end
+
+	frozen glEnableClientState(a_array: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEnableClientState ((GLenum)$a_array)"
+		end
+
+	frozen glEnd
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEnd()"
+		end
+
+	frozen glEndList
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEndList()"
 		end
 
 	frozen glEvalCoord1d(a_u: REAL_64)
 		external
-			"C(GLdouble) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord1d"
-		end
-
-	frozen glEvalCoord1f(a_u: REAL_32)
-		external
-			"C(GLfloat) | <GL/gl.h>"
-		alias
-			"glEvalCoord1f"
+			"glEvalCoord1d ((GLdouble)$a_u)"
 		end
 
 	frozen glEvalCoord1dv(a_u: POINTER)
 		external
-			"C(GLdouble *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord1dv"
+			"glEvalCoord1dv ((GLdouble *)$a_u)"
+		end
+
+	frozen glEvalCoord1f(a_u: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEvalCoord1f ((GLfloat)$a_u)"
 		end
 
 	frozen glEvalCoord1fv(a_u: POINTER)
 		external
-			"C(GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord1fv"
+			"glEvalCoord1fv ((GLfloat *)$a_u)"
 		end
 
 	frozen glEvalCoord2d(a_u: REAL_64; a_v: REAL_64)
 		external
-			"C(GLdouble,GLdouble) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord2d"
-		end
-
-	frozen glEvalCoord2f(a_u: REAL_32; a_v: REAL_32)
-		external
-			"C(GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glEvalCoord2f"
+			"glEvalCoord2d ((GLdouble)$a_u, (GLdouble)$a_v)"
 		end
 
 	frozen glEvalCoord2dv(a_u: POINTER)
 		external
-			"C(GLdouble *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord2dv"
+			"glEvalCoord2dv ((GLdouble *)$a_u)"
+		end
+
+	frozen glEvalCoord2f(a_u: REAL_32; a_v: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glEvalCoord2f ((GLfloat)$a_u, (GLfloat)$a_v)"
 		end
 
 	frozen glEvalCoord2fv(a_u: POINTER)
 		external
-			"C(GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalCoord2fv"
-		end
-
-	frozen glMapGrid1d(a_un: INTEGER; a_u1: REAL_64; a_u2: REAL_64)
-		external
-			"C(GLint,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glMapGrid1d"
-		end
-
-	frozen glMapGrid1f(a_un: INTEGER; a_u1: REAL_32; a_u2: REAL_32)
-		external
-			"C(GLint,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glMapGrid1f"
-		end
-
-	frozen glMapGrid2d(a_un: INTEGER; a_u1: REAL_64; a_u2: REAL_64; a_vn: INTEGER; a_v1: REAL_64; a_v2: REAL_64)
-		external
-			"C(GLint,GLdouble,GLdouble,GLint,GLdouble,GLdouble) | <GL/gl.h>"
-		alias
-			"glMapGrid2d"
-		end
-
-	frozen glMapGrid2f(a_un: INTEGER; a_u1: REAL_32; a_u2: REAL_32; a_vn: INTEGER; a_v1: REAL_32; a_v2: REAL_32)
-		external
-			"C(GLint,GLfloat,GLfloat,GLint,GLfloat,GLfloat) | <GL/gl.h>"
-		alias
-			"glMapGrid2f"
-		end
-
-	frozen glEvalPoint1(a_i: INTEGER)
-		external
-			"C(GLint) | <GL/gl.h>"
-		alias
-			"glEvalPoint1"
-		end
-
-	frozen glEvalPoint2(a_i: INTEGER; a_j: INTEGER)
-		external
-			"C(GLint,GLint) | <GL/gl.h>"
-		alias
-			"glEvalPoint2"
+			"glEvalCoord2fv ((GLfloat *)$a_u)"
 		end
 
 	frozen glEvalMesh1(a_mode: NATURAL; a_i1: INTEGER; a_i2: INTEGER)
 		external
-			"C(GLenum,GLint,GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalMesh1"
+			"glEvalMesh1 ((GLenum)$a_mode, (GLint)$a_i1, (GLint)$a_i2)"
 		end
 
 	frozen glEvalMesh2(a_mode: NATURAL; a_i1: INTEGER; a_i2: INTEGER; a_j1: INTEGER; a_j2: INTEGER)
 		external
-			"C(GLenum,GLint,GLint,GLint,GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glEvalMesh2"
+			"glEvalMesh2 ((GLenum)$a_mode, (GLint)$a_i1, (GLint)$a_i2, (GLint)$a_j1, (GLint)$a_j2)"
 		end
 
-	frozen glFogf(a_pname: NATURAL; a_param: REAL_32)
+	frozen glEvalPoint1(a_i: INTEGER)
 		external
-			"C(GLenum,GLfloat) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glFogf"
+			"glEvalPoint1 ((GLint)$a_i)"
 		end
 
-	frozen glFogi(a_pname: NATURAL; a_param: INTEGER)
+	frozen glEvalPoint2(a_i: INTEGER; a_j: INTEGER)
 		external
-			"C(GLenum,GLint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glFogi"
-		end
-
-	frozen glFogfv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLfloat *) | <GL/gl.h>"
-		alias
-			"glFogfv"
-		end
-
-	frozen glFogiv(a_pname: NATURAL; a_params: POINTER)
-		external
-			"C(GLenum,GLint *) | <GL/gl.h>"
-		alias
-			"glFogiv"
+			"glEvalPoint2 ((GLint)$a_i, (GLint)$a_j)"
 		end
 
 	frozen glFeedbackBuffer(a_size: INTEGER; a_type: NATURAL; a_buffer: POINTER)
 		external
-			"C(GLsizei,GLenum,GLfloat *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glFeedbackBuffer"
+			"glFeedbackBuffer ((GLsizei)$a_size, (GLenum)$a_type, (GLfloat *)$a_buffer)"
 		end
 
-	frozen glPassThrough(a_token: REAL_32)
+	frozen glFinish
 		external
-			"C(GLfloat) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glPassThrough"
+			"glFinish()"
 		end
 
-	frozen glSelectBuffer(a_size: INTEGER; a_buffer: POINTER)
+	frozen glFlush
 		external
-			"C(GLsizei,GLuint *) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glSelectBuffer"
+			"glFlush()"
+		end
+
+	frozen glFogf(a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFogf ((GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glFogfv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFogfv ((GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glFogi(a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFogi ((GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glFogiv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFogiv ((GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glFrontFace(a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFrontFace ((GLenum)$a_mode)"
+		end
+
+	frozen glFrustum(a_left: REAL_64; a_right: REAL_64; a_bottom: REAL_64; a_top: REAL_64; a_znear: REAL_64; a_zfar: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glFrustum ((GLdouble)$a_left, (GLdouble)$a_right, (GLdouble)$a_bottom, (GLdouble)$a_top, (GLdouble)$a_znear, (GLdouble)$a_zfar)"
+		end
+
+	frozen glGenLists(a_range: INTEGER): NATURAL
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glGenLists ((GLsizei)$a_range)"
+		end
+
+	frozen glGenTextures(a_n: INTEGER; a_textures: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGenTextures ((GLsizei)$a_n, (GLuint *)$a_textures)"
+		end
+
+	frozen glGetBooleanv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetBooleanv ((GLenum)$a_pname, (GLboolean *)$a_params)"
+		end
+
+	frozen glGetClipPlane(a_plane: NATURAL; a_equation: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetClipPlane ((GLenum)$a_plane, (GLdouble *)$a_equation)"
+		end
+
+	frozen glGetDoublev(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetDoublev ((GLenum)$a_pname, (GLdouble *)$a_params)"
+		end
+
+	frozen glGetError: NATURAL
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glGetError()"
+		end
+
+	frozen glGetFloatv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetFloatv ((GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetIntegerv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetIntegerv ((GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetLightfv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetLightfv ((GLenum)$a_light, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetLightiv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetLightiv ((GLenum)$a_light, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetMapdv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetMapdv ((GLenum)$a_target, (GLenum)$a_query, (GLdouble *)$a_v)"
+		end
+
+	frozen glGetMapfv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetMapfv ((GLenum)$a_target, (GLenum)$a_query, (GLfloat *)$a_v)"
+		end
+
+	frozen glGetMapiv(a_target: NATURAL; a_query: NATURAL; a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetMapiv ((GLenum)$a_target, (GLenum)$a_query, (GLint *)$a_v)"
+		end
+
+	frozen glGetMaterialfv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetMaterialfv ((GLenum)$a_face, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetMaterialiv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetMaterialiv ((GLenum)$a_face, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetPixelMapfv(a_map: NATURAL; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetPixelMapfv ((GLenum)$a_map, (GLfloat *)$a_values)"
+		end
+
+	frozen glGetPixelMapuiv(a_map: NATURAL; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetPixelMapuiv ((GLenum)$a_map, (GLuint *)$a_values)"
+		end
+
+	frozen glGetPixelMapusv(a_map: NATURAL; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetPixelMapusv ((GLenum)$a_map, (GLushort *)$a_values)"
+		end
+
+	frozen glGetPointerv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetPointerv ((GLenum)$a_pname, (void **)$a_params)"
+		end
+
+	frozen glGetPolygonStipple(a_mask: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetPolygonStipple ((GLubyte *)$a_mask)"
+		end
+
+	frozen glGetString(a_name: NATURAL): POINTER
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glGetString ((GLenum)$a_name)"
+		end
+
+	frozen glGetTexEnvfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexEnvfv ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetTexEnviv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexEnviv ((GLenum)$a_target, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetTexGendv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexGendv ((GLenum)$a_coord, (GLenum)$a_pname, (GLdouble *)$a_params)"
+		end
+
+	frozen glGetTexGenfv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexGenfv ((GLenum)$a_coord, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetTexGeniv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexGeniv ((GLenum)$a_coord, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetTexImage(a_target: NATURAL; a_level: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexImage ((GLenum)$a_target, (GLint)$a_level, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glGetTexLevelParameterfv(a_target: NATURAL; a_level: INTEGER; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexLevelParameterfv ((GLenum)$a_target, (GLint)$a_level, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetTexLevelParameteriv(a_target: NATURAL; a_level: INTEGER; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexLevelParameteriv ((GLenum)$a_target, (GLint)$a_level, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glGetTexParameterfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexParameterfv ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glGetTexParameteriv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glGetTexParameteriv ((GLenum)$a_target, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glHint(a_target: NATURAL; a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glHint ((GLenum)$a_target, (GLenum)$a_mode)"
+		end
+
+	frozen glIndexMask(a_mask: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexMask ((GLuint)$a_mask)"
+		end
+
+	frozen glIndexPointer(a_type: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexPointer ((GLenum)$a_type, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glIndexd(a_c: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexd ((GLdouble)$a_c)"
+		end
+
+	frozen glIndexdv(a_c: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexdv ((GLdouble *)$a_c)"
+		end
+
+	frozen glIndexf(a_c: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexf ((GLfloat)$a_c)"
+		end
+
+	frozen glIndexfv(a_c: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexfv ((GLfloat *)$a_c)"
+		end
+
+	frozen glIndexi(a_c: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexi ((GLint)$a_c)"
+		end
+
+	frozen glIndexiv(a_c: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexiv ((GLint *)$a_c)"
+		end
+
+	frozen glIndexs(a_c: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexs ((GLshort)$a_c)"
+		end
+
+	frozen glIndexsv(a_c: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexsv ((GLshort *)$a_c)"
+		end
+
+	frozen glIndexub(a_c: NATURAL_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexub ((GLubyte)$a_c)"
+		end
+
+	frozen glIndexubv(a_c: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glIndexubv ((GLubyte *)$a_c)"
 		end
 
 	frozen glInitNames
 		external
-			"C | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glInitNames"
+			"glInitNames()"
+		end
+
+	frozen glInterleavedArrays(a_format: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glInterleavedArrays ((GLenum)$a_format, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glIsEnabled(a_cap: NATURAL): NATURAL_8
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glIsEnabled ((GLenum)$a_cap)"
+		end
+
+	frozen glIsList(a_list: NATURAL): NATURAL_8
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glIsList ((GLuint)$a_list)"
+		end
+
+	frozen glIsTexture(a_texture: NATURAL): NATURAL_8
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glIsTexture ((GLuint)$a_texture)"
+		end
+
+	frozen glLightModelf(a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightModelf ((GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glLightModelfv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightModelfv ((GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glLightModeli(a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightModeli ((GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glLightModeliv(a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightModeliv ((GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glLightf(a_light: NATURAL; a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightf ((GLenum)$a_light, (GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glLightfv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightfv ((GLenum)$a_light, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glLighti(a_light: NATURAL; a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLighti ((GLenum)$a_light, (GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glLightiv(a_light: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLightiv ((GLenum)$a_light, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glLineStipple(a_factor: INTEGER; a_pattern: NATURAL_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLineStipple ((GLint)$a_factor, (GLushort)$a_pattern)"
+		end
+
+	frozen glLineWidth(a_width: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLineWidth ((GLfloat)$a_width)"
+		end
+
+	frozen glListBase(a_base: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glListBase ((GLuint)$a_base)"
+		end
+
+	frozen glLoadIdentity
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLoadIdentity()"
+		end
+
+	frozen glLoadMatrixd(a_m: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLoadMatrixd ((GLdouble *)$a_m)"
+		end
+
+	frozen glLoadMatrixf(a_m: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glLoadMatrixf ((GLfloat *)$a_m)"
 		end
 
 	frozen glLoadName(a_name: NATURAL)
 		external
-			"C(GLuint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glLoadName"
+			"glLoadName ((GLuint)$a_name)"
 		end
 
-	frozen glPushName(a_name: NATURAL)
+	frozen glLogicOp(a_opcode: NATURAL)
 		external
-			"C(GLuint) | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glPushName"
+			"glLogicOp ((GLenum)$a_opcode)"
+		end
+
+	frozen glMap1d(a_target: NATURAL; a_u1: REAL_64; a_u2: REAL_64; a_stride: INTEGER; a_order: INTEGER; a_points: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMap1d ((GLenum)$a_target, (GLdouble)$a_u1, (GLdouble)$a_u2, (GLint)$a_stride, (GLint)$a_order, (GLdouble *)$a_points)"
+		end
+
+	frozen glMap1f(a_target: NATURAL; a_u1: REAL_32; a_u2: REAL_32; a_stride: INTEGER; a_order: INTEGER; a_points: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMap1f ((GLenum)$a_target, (GLfloat)$a_u1, (GLfloat)$a_u2, (GLint)$a_stride, (GLint)$a_order, (GLfloat *)$a_points)"
+		end
+
+	frozen glMap2d(a_target: NATURAL; a_u1: REAL_64; a_u2: REAL_64; a_ustride: INTEGER; a_uorder: INTEGER; a_v1: REAL_64; a_v2: REAL_64; a_vstride: INTEGER; a_vorder: INTEGER; a_points: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMap2d ((GLenum)$a_target, (GLdouble)$a_u1, (GLdouble)$a_u2, (GLint)$a_ustride, (GLint)$a_uorder, (GLdouble)$a_v1, (GLdouble)$a_v2, (GLint)$a_vstride, (GLint)$a_vorder, (GLdouble *)$a_points)"
+		end
+
+	frozen glMap2f(a_target: NATURAL; a_u1: REAL_32; a_u2: REAL_32; a_ustride: INTEGER; a_uorder: INTEGER; a_v1: REAL_32; a_v2: REAL_32; a_vstride: INTEGER; a_vorder: INTEGER; a_points: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMap2f ((GLenum)$a_target, (GLfloat)$a_u1, (GLfloat)$a_u2, (GLint)$a_ustride, (GLint)$a_uorder, (GLfloat)$a_v1, (GLfloat)$a_v2, (GLint)$a_vstride, (GLint)$a_vorder, (GLfloat *)$a_points)"
+		end
+
+	frozen glMapGrid1d(a_un: INTEGER; a_u1: REAL_64; a_u2: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMapGrid1d ((GLint)$a_un, (GLdouble)$a_u1, (GLdouble)$a_u2)"
+		end
+
+	frozen glMapGrid1f(a_un: INTEGER; a_u1: REAL_32; a_u2: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMapGrid1f ((GLint)$a_un, (GLfloat)$a_u1, (GLfloat)$a_u2)"
+		end
+
+	frozen glMapGrid2d(a_un: INTEGER; a_u1: REAL_64; a_u2: REAL_64; a_vn: INTEGER; a_v1: REAL_64; a_v2: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMapGrid2d ((GLint)$a_un, (GLdouble)$a_u1, (GLdouble)$a_u2, (GLint)$a_vn, (GLdouble)$a_v1, (GLdouble)$a_v2)"
+		end
+
+	frozen glMapGrid2f(a_un: INTEGER; a_u1: REAL_32; a_u2: REAL_32; a_vn: INTEGER; a_v1: REAL_32; a_v2: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMapGrid2f ((GLint)$a_un, (GLfloat)$a_u1, (GLfloat)$a_u2, (GLint)$a_vn, (GLfloat)$a_v1, (GLfloat)$a_v2)"
+		end
+
+	frozen glMaterialf(a_face: NATURAL; a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMaterialf ((GLenum)$a_face, (GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glMaterialfv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMaterialfv ((GLenum)$a_face, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glMateriali(a_face: NATURAL; a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMateriali ((GLenum)$a_face, (GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glMaterialiv(a_face: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMaterialiv ((GLenum)$a_face, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glMatrixMode(a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMatrixMode ((GLenum)$a_mode)"
+		end
+
+	frozen glMultMatrixd(a_m: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMultMatrixd ((GLdouble *)$a_m)"
+		end
+
+	frozen glMultMatrixf(a_m: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glMultMatrixf ((GLfloat *)$a_m)"
+		end
+
+	frozen glNewList(a_list: NATURAL; a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNewList ((GLuint)$a_list, (GLenum)$a_mode)"
+		end
+
+	frozen glNormal3b(a_nx: INTEGER_8; a_ny: INTEGER_8; a_nz: INTEGER_8)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3b ((GLbyte)$a_nx, (GLbyte)$a_ny, (GLbyte)$a_nz)"
+		end
+
+	frozen glNormal3bv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3bv ((GLbyte *)$a_v)"
+		end
+
+	frozen glNormal3d(a_nx: REAL_64; a_ny: REAL_64; a_nz: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3d ((GLdouble)$a_nx, (GLdouble)$a_ny, (GLdouble)$a_nz)"
+		end
+
+	frozen glNormal3dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glNormal3f(a_nx: REAL_32; a_ny: REAL_32; a_nz: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3f ((GLfloat)$a_nx, (GLfloat)$a_ny, (GLfloat)$a_nz)"
+		end
+
+	frozen glNormal3fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glNormal3i(a_nx: INTEGER; a_ny: INTEGER; a_nz: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3i ((GLint)$a_nx, (GLint)$a_ny, (GLint)$a_nz)"
+		end
+
+	frozen glNormal3iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3iv ((GLint *)$a_v)"
+		end
+
+	frozen glNormal3s(a_nx: INTEGER_16; a_ny: INTEGER_16; a_nz: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3s ((GLshort)$a_nx, (GLshort)$a_ny, (GLshort)$a_nz)"
+		end
+
+	frozen glNormal3sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormal3sv ((GLshort *)$a_v)"
+		end
+
+	frozen glNormalPointer(a_type: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glNormalPointer ((GLenum)$a_type, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glOrtho(a_left: REAL_64; a_right: REAL_64; a_bottom: REAL_64; a_top: REAL_64; a_znear: REAL_64; a_zfar: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glOrtho ((GLdouble)$a_left, (GLdouble)$a_right, (GLdouble)$a_bottom, (GLdouble)$a_top, (GLdouble)$a_znear, (GLdouble)$a_zfar)"
+		end
+
+	frozen glPassThrough(a_token: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPassThrough ((GLfloat)$a_token)"
+		end
+
+	frozen glPixelMapfv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelMapfv ((GLenum)$a_map, (GLsizei)$a_mapsize, (GLfloat *)$a_values)"
+		end
+
+	frozen glPixelMapuiv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelMapuiv ((GLenum)$a_map, (GLsizei)$a_mapsize, (GLuint *)$a_values)"
+		end
+
+	frozen glPixelMapusv(a_map: NATURAL; a_mapsize: INTEGER; a_values: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelMapusv ((GLenum)$a_map, (GLsizei)$a_mapsize, (GLushort *)$a_values)"
+		end
+
+	frozen glPixelStoref(a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelStoref ((GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glPixelStorei(a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelStorei ((GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glPixelTransferf(a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelTransferf ((GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glPixelTransferi(a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelTransferi ((GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glPixelZoom(a_xfactor: REAL_32; a_yfactor: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPixelZoom ((GLfloat)$a_xfactor, (GLfloat)$a_yfactor)"
+		end
+
+	frozen glPointSize(a_size: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPointSize ((GLfloat)$a_size)"
+		end
+
+	frozen glPolygonMode(a_face: NATURAL; a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPolygonMode ((GLenum)$a_face, (GLenum)$a_mode)"
+		end
+
+	frozen glPolygonOffset(a_factor: REAL_32; a_units: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPolygonOffset ((GLfloat)$a_factor, (GLfloat)$a_units)"
+		end
+
+	frozen glPolygonStipple(a_mask: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPolygonStipple ((GLubyte *)$a_mask)"
+		end
+
+	frozen glPopAttrib
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPopAttrib()"
+		end
+
+	frozen glPopClientAttrib
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPopClientAttrib()"
+		end
+
+	frozen glPopMatrix
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPopMatrix()"
 		end
 
 	frozen glPopName
 		external
-			"C | <GL/gl.h>"
+			"C inline use <gl_order.h>"
 		alias
-			"glPopName"
+			"glPopName()"
 		end
+
+	frozen glPrioritizeTextures(a_n: INTEGER; a_textures: POINTER; a_priorities: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPrioritizeTextures ((GLsizei)$a_n, (GLuint *)$a_textures, (GLclampf *)$a_priorities)"
+		end
+
+	frozen glPushAttrib(a_mask: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPushAttrib ((GLbitfield)$a_mask)"
+		end
+
+	frozen glPushClientAttrib(a_mask: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPushClientAttrib ((GLbitfield)$a_mask)"
+		end
+
+	frozen glPushMatrix
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPushMatrix()"
+		end
+
+	frozen glPushName(a_name: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glPushName ((GLuint)$a_name)"
+		end
+
+	frozen glRasterPos2d(a_x: REAL_64; a_y: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2d ((GLdouble)$a_x, (GLdouble)$a_y)"
+		end
+
+	frozen glRasterPos2dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glRasterPos2f(a_x: REAL_32; a_y: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2f ((GLfloat)$a_x, (GLfloat)$a_y)"
+		end
+
+	frozen glRasterPos2fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glRasterPos2i(a_x: INTEGER; a_y: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2i ((GLint)$a_x, (GLint)$a_y)"
+		end
+
+	frozen glRasterPos2iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2iv ((GLint *)$a_v)"
+		end
+
+	frozen glRasterPos2s(a_x: INTEGER_16; a_y: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2s ((GLshort)$a_x, (GLshort)$a_y)"
+		end
+
+	frozen glRasterPos2sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos2sv ((GLshort *)$a_v)"
+		end
+
+	frozen glRasterPos3d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3d ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z)"
+		end
+
+	frozen glRasterPos3dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glRasterPos3f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3f ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z)"
+		end
+
+	frozen glRasterPos3fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glRasterPos3i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3i ((GLint)$a_x, (GLint)$a_y, (GLint)$a_z)"
+		end
+
+	frozen glRasterPos3iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3iv ((GLint *)$a_v)"
+		end
+
+	frozen glRasterPos3s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3s ((GLshort)$a_x, (GLshort)$a_y, (GLshort)$a_z)"
+		end
+
+	frozen glRasterPos3sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos3sv ((GLshort *)$a_v)"
+		end
+
+	frozen glRasterPos4d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64; a_w: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4d ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z, (GLdouble)$a_w)"
+		end
+
+	frozen glRasterPos4dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glRasterPos4f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32; a_w: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4f ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z, (GLfloat)$a_w)"
+		end
+
+	frozen glRasterPos4fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glRasterPos4i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER; a_w: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4i ((GLint)$a_x, (GLint)$a_y, (GLint)$a_z, (GLint)$a_w)"
+		end
+
+	frozen glRasterPos4iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4iv ((GLint *)$a_v)"
+		end
+
+	frozen glRasterPos4s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16; a_w: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4s ((GLshort)$a_x, (GLshort)$a_y, (GLshort)$a_z, (GLshort)$a_w)"
+		end
+
+	frozen glRasterPos4sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRasterPos4sv ((GLshort *)$a_v)"
+		end
+
+	frozen glReadBuffer(a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glReadBuffer ((GLenum)$a_mode)"
+		end
+
+	frozen glReadPixels(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glReadPixels ((GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glRectd(a_x1: REAL_64; a_y1: REAL_64; a_x2: REAL_64; a_y2: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectd ((GLdouble)$a_x1, (GLdouble)$a_y1, (GLdouble)$a_x2, (GLdouble)$a_y2)"
+		end
+
+	frozen glRectdv(a_v1: POINTER; a_v2: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectdv ((GLdouble *)$a_v1, (GLdouble *)$a_v2)"
+		end
+
+	frozen glRectf(a_x1: REAL_32; a_y1: REAL_32; a_x2: REAL_32; a_y2: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectf ((GLfloat)$a_x1, (GLfloat)$a_y1, (GLfloat)$a_x2, (GLfloat)$a_y2)"
+		end
+
+	frozen glRectfv(a_v1: POINTER; a_v2: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectfv ((GLfloat *)$a_v1, (GLfloat *)$a_v2)"
+		end
+
+	frozen glRecti(a_x1: INTEGER; a_y1: INTEGER; a_x2: INTEGER; a_y2: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRecti ((GLint)$a_x1, (GLint)$a_y1, (GLint)$a_x2, (GLint)$a_y2)"
+		end
+
+	frozen glRectiv(a_v1: POINTER; a_v2: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectiv ((GLint *)$a_v1, (GLint *)$a_v2)"
+		end
+
+	frozen glRects(a_x1: INTEGER_16; a_y1: INTEGER_16; a_x2: INTEGER_16; a_y2: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRects ((GLshort)$a_x1, (GLshort)$a_y1, (GLshort)$a_x2, (GLshort)$a_y2)"
+		end
+
+	frozen glRectsv(a_v1: POINTER; a_v2: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRectsv ((GLshort *)$a_v1, (GLshort *)$a_v2)"
+		end
+
+	frozen glRenderMode(a_mode: NATURAL): INTEGER
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"return glRenderMode ((GLenum)$a_mode)"
+		end
+
+	frozen glRotated(a_angle: REAL_64; a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRotated ((GLdouble)$a_angle, (GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z)"
+		end
+
+	frozen glRotatef(a_angle: REAL_32; a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glRotatef ((GLfloat)$a_angle, (GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z)"
+		end
+
+	frozen glScaled(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glScaled ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z)"
+		end
+
+	frozen glScalef(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glScalef ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z)"
+		end
+
+	frozen glScissor(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glScissor ((GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height)"
+		end
+
+	frozen glSelectBuffer(a_size: INTEGER; a_buffer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glSelectBuffer ((GLsizei)$a_size, (GLuint *)$a_buffer)"
+		end
+
+	frozen glShadeModel(a_mode: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glShadeModel ((GLenum)$a_mode)"
+		end
+
+	frozen glStencilFunc(a_func: NATURAL; a_ref: INTEGER; a_mask: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glStencilFunc ((GLenum)$a_func, (GLint)$a_ref, (GLuint)$a_mask)"
+		end
+
+	frozen glStencilMask(a_mask: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glStencilMask ((GLuint)$a_mask)"
+		end
+
+	frozen glStencilOp(a_fail: NATURAL; a_zfail: NATURAL; a_zpass: NATURAL)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glStencilOp ((GLenum)$a_fail, (GLenum)$a_zfail, (GLenum)$a_zpass)"
+		end
+
+	frozen glTexCoord1d(a_s: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1d ((GLdouble)$a_s)"
+		end
+
+	frozen glTexCoord1dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glTexCoord1f(a_s: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1f ((GLfloat)$a_s)"
+		end
+
+	frozen glTexCoord1fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glTexCoord1i(a_s: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1i ((GLint)$a_s)"
+		end
+
+	frozen glTexCoord1iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1iv ((GLint *)$a_v)"
+		end
+
+	frozen glTexCoord1s(a_s: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1s ((GLshort)$a_s)"
+		end
+
+	frozen glTexCoord1sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord1sv ((GLshort *)$a_v)"
+		end
+
+	frozen glTexCoord2d(a_s: REAL_64; a_t: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2d ((GLdouble)$a_s, (GLdouble)$a_t)"
+		end
+
+	frozen glTexCoord2dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glTexCoord2f(a_s: REAL_32; a_t: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2f ((GLfloat)$a_s, (GLfloat)$a_t)"
+		end
+
+	frozen glTexCoord2fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glTexCoord2i(a_s: INTEGER; a_t: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2i ((GLint)$a_s, (GLint)$a_t)"
+		end
+
+	frozen glTexCoord2iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2iv ((GLint *)$a_v)"
+		end
+
+	frozen glTexCoord2s(a_s: INTEGER_16; a_t: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2s ((GLshort)$a_s, (GLshort)$a_t)"
+		end
+
+	frozen glTexCoord2sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord2sv ((GLshort *)$a_v)"
+		end
+
+	frozen glTexCoord3d(a_s: REAL_64; a_t: REAL_64; a_r: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3d ((GLdouble)$a_s, (GLdouble)$a_t, (GLdouble)$a_r)"
+		end
+
+	frozen glTexCoord3dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glTexCoord3f(a_s: REAL_32; a_t: REAL_32; a_r: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3f ((GLfloat)$a_s, (GLfloat)$a_t, (GLfloat)$a_r)"
+		end
+
+	frozen glTexCoord3fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glTexCoord3i(a_s: INTEGER; a_t: INTEGER; a_r: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3i ((GLint)$a_s, (GLint)$a_t, (GLint)$a_r)"
+		end
+
+	frozen glTexCoord3iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3iv ((GLint *)$a_v)"
+		end
+
+	frozen glTexCoord3s(a_s: INTEGER_16; a_t: INTEGER_16; a_r: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3s ((GLshort)$a_s, (GLshort)$a_t, (GLshort)$a_r)"
+		end
+
+	frozen glTexCoord3sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord3sv ((GLshort *)$a_v)"
+		end
+
+	frozen glTexCoord4d(a_s: REAL_64; a_t: REAL_64; a_r: REAL_64; a_q: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4d ((GLdouble)$a_s, (GLdouble)$a_t, (GLdouble)$a_r, (GLdouble)$a_q)"
+		end
+
+	frozen glTexCoord4dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glTexCoord4f(a_s: REAL_32; a_t: REAL_32; a_r: REAL_32; a_q: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4f ((GLfloat)$a_s, (GLfloat)$a_t, (GLfloat)$a_r, (GLfloat)$a_q)"
+		end
+
+	frozen glTexCoord4fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glTexCoord4i(a_s: INTEGER; a_t: INTEGER; a_r: INTEGER; a_q: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4i ((GLint)$a_s, (GLint)$a_t, (GLint)$a_r, (GLint)$a_q)"
+		end
+
+	frozen glTexCoord4iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4iv ((GLint *)$a_v)"
+		end
+
+	frozen glTexCoord4s(a_s: INTEGER_16; a_t: INTEGER_16; a_r: INTEGER_16; a_q: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4s ((GLshort)$a_s, (GLshort)$a_t, (GLshort)$a_r, (GLshort)$a_q)"
+		end
+
+	frozen glTexCoord4sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoord4sv ((GLshort *)$a_v)"
+		end
+
+	frozen glTexCoordPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexCoordPointer ((GLint)$a_size, (GLenum)$a_type, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glTexEnvf(a_target: NATURAL; a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexEnvf ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glTexEnvfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexEnvfv ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glTexEnvi(a_target: NATURAL; a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexEnvi ((GLenum)$a_target, (GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glTexEnviv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexEnviv ((GLenum)$a_target, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glTexGend(a_coord: NATURAL; a_pname: NATURAL; a_param: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGend ((GLenum)$a_coord, (GLenum)$a_pname, (GLdouble)$a_param)"
+		end
+
+	frozen glTexGendv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGendv ((GLenum)$a_coord, (GLenum)$a_pname, (GLdouble *)$a_params)"
+		end
+
+	frozen glTexGenf(a_coord: NATURAL; a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGenf ((GLenum)$a_coord, (GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glTexGenfv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGenfv ((GLenum)$a_coord, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glTexGeni(a_coord: NATURAL; a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGeni ((GLenum)$a_coord, (GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glTexGeniv(a_coord: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexGeniv ((GLenum)$a_coord, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glTexImage1D(a_target: NATURAL; a_level: INTEGER; a_internalformat: INTEGER; a_width: INTEGER; a_border: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexImage1D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_internalformat, (GLsizei)$a_width, (GLint)$a_border, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glTexImage2D(a_target: NATURAL; a_level: INTEGER; a_internalformat: INTEGER; a_width: INTEGER; a_height: INTEGER; a_border: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexImage2D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_internalformat, (GLsizei)$a_width, (GLsizei)$a_height, (GLint)$a_border, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glTexParameterf(a_target: NATURAL; a_pname: NATURAL; a_param: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexParameterf ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat)$a_param)"
+		end
+
+	frozen glTexParameterfv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexParameterfv ((GLenum)$a_target, (GLenum)$a_pname, (GLfloat *)$a_params)"
+		end
+
+	frozen glTexParameteri(a_target: NATURAL; a_pname: NATURAL; a_param: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexParameteri ((GLenum)$a_target, (GLenum)$a_pname, (GLint)$a_param)"
+		end
+
+	frozen glTexParameteriv(a_target: NATURAL; a_pname: NATURAL; a_params: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexParameteriv ((GLenum)$a_target, (GLenum)$a_pname, (GLint *)$a_params)"
+		end
+
+	frozen glTexSubImage1D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_width: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexSubImage1D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_xoffset, (GLsizei)$a_width, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glTexSubImage2D(a_target: NATURAL; a_level: INTEGER; a_xoffset: INTEGER; a_yoffset: INTEGER; a_width: INTEGER; a_height: INTEGER; a_format: NATURAL; a_type: NATURAL; a_pixels: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTexSubImage2D ((GLenum)$a_target, (GLint)$a_level, (GLint)$a_xoffset, (GLint)$a_yoffset, (GLsizei)$a_width, (GLsizei)$a_height, (GLenum)$a_format, (GLenum)$a_type, (void *)$a_pixels)"
+		end
+
+	frozen glTranslated(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTranslated ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z)"
+		end
+
+	frozen glTranslatef(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glTranslatef ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z)"
+		end
+
+	frozen glVertex2d(a_x: REAL_64; a_y: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2d ((GLdouble)$a_x, (GLdouble)$a_y)"
+		end
+
+	frozen glVertex2dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glVertex2f(a_x: REAL_32; a_y: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2f ((GLfloat)$a_x, (GLfloat)$a_y)"
+		end
+
+	frozen glVertex2fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glVertex2i(a_x: INTEGER; a_y: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2i ((GLint)$a_x, (GLint)$a_y)"
+		end
+
+	frozen glVertex2iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2iv ((GLint *)$a_v)"
+		end
+
+	frozen glVertex2s(a_x: INTEGER_16; a_y: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2s ((GLshort)$a_x, (GLshort)$a_y)"
+		end
+
+	frozen glVertex2sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex2sv ((GLshort *)$a_v)"
+		end
+
+	frozen glVertex3d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3d ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z)"
+		end
+
+	frozen glVertex3dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glVertex3f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3f ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z)"
+		end
+
+	frozen glVertex3fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glVertex3i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3i ((GLint)$a_x, (GLint)$a_y, (GLint)$a_z)"
+		end
+
+	frozen glVertex3iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3iv ((GLint *)$a_v)"
+		end
+
+	frozen glVertex3s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3s ((GLshort)$a_x, (GLshort)$a_y, (GLshort)$a_z)"
+		end
+
+	frozen glVertex3sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex3sv ((GLshort *)$a_v)"
+		end
+
+	frozen glVertex4d(a_x: REAL_64; a_y: REAL_64; a_z: REAL_64; a_w: REAL_64)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4d ((GLdouble)$a_x, (GLdouble)$a_y, (GLdouble)$a_z, (GLdouble)$a_w)"
+		end
+
+	frozen glVertex4dv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4dv ((GLdouble *)$a_v)"
+		end
+
+	frozen glVertex4f(a_x: REAL_32; a_y: REAL_32; a_z: REAL_32; a_w: REAL_32)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4f ((GLfloat)$a_x, (GLfloat)$a_y, (GLfloat)$a_z, (GLfloat)$a_w)"
+		end
+
+	frozen glVertex4fv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4fv ((GLfloat *)$a_v)"
+		end
+
+	frozen glVertex4i(a_x: INTEGER; a_y: INTEGER; a_z: INTEGER; a_w: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4i ((GLint)$a_x, (GLint)$a_y, (GLint)$a_z, (GLint)$a_w)"
+		end
+
+	frozen glVertex4iv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4iv ((GLint *)$a_v)"
+		end
+
+	frozen glVertex4s(a_x: INTEGER_16; a_y: INTEGER_16; a_z: INTEGER_16; a_w: INTEGER_16)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4s ((GLshort)$a_x, (GLshort)$a_y, (GLshort)$a_z, (GLshort)$a_w)"
+		end
+
+	frozen glVertex4sv(a_v: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertex4sv ((GLshort *)$a_v)"
+		end
+
+	frozen glVertexPointer(a_size: INTEGER; a_type: NATURAL; a_stride: INTEGER; a_pointer: POINTER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glVertexPointer ((GLint)$a_size, (GLenum)$a_type, (GLsizei)$a_stride, (void *)$a_pointer)"
+		end
+
+	frozen glViewport(a_x: INTEGER; a_y: INTEGER; a_width: INTEGER; a_height: INTEGER)
+		external
+			"C inline use <gl_order.h>"
+		alias
+			"glViewport ((GLint)$a_x, (GLint)$a_y, (GLsizei)$a_width, (GLsizei)$a_height)"
+		end
+
 
 end
 

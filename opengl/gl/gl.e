@@ -1,8 +1,8 @@
 note
-	description: "OpenGL functions and constants container."
+	description: "GL Wrapper"
 	author: "Louis Marchand"
-	date: "Tue, 29 Dec 2015 19:06:42 +0000"
-	revision: "1.0"
+	date: "Thu, 21 May 2020 18:16:44 +0000"
+	revision: "2.0"
 
 class
 	GL

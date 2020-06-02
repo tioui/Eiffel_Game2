@@ -9,8 +9,6 @@ class
 
 inherit
 	GAME_LIBRARY_SHARED
-	GL
-	GLU
 
 create
 	make
@@ -69,26 +67,26 @@ feature {NONE} -- Implementation
 		local
 			l_error_code:NATURAL_32
 		do
-			glMatrixMode (gl_projection)
-			glLoadIdentity
-			l_error_code := glGetError
-			if l_error_code ~ gl_no_error then
-				glMatrixMode (gl_ModelView)
-				glLoadIdentity
-				l_error_code := glGetError
-				if l_error_code ~ gl_no_error then
-					glClearColor (0.0, 0.0, 0.0, 0.0)
-					l_error_code := glGetError
-					if not (l_error_code ~ gl_no_error) then
-						io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
+			{GL}.glMatrixMode ({GL}.gl_projection)
+			{GL}.glLoadIdentity
+			l_error_code := {GL}.glGetError
+			if l_error_code ~ {GL}.gl_no_error then
+				{GL}.glMatrixMode ({GL}.gl_ModelView)
+				{GL}.glLoadIdentity
+				l_error_code := {GL}.glGetError
+				if l_error_code ~ {GL}.gl_no_error then
+					{GL}.glClearColor (0.0, 0.0, 0.0, 0.0)
+					l_error_code := {GL}.glGetError
+					if not (l_error_code ~ {GL}.gl_no_error) then
+						io.error.put_string ("Cannot initializing OpenGL.%N")
 						has_error := True
 					end
 				else
-					io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
+					io.error.put_string ("Cannot initializing OpenGL%N")
 					has_error := True
 				end
 			else
-				io.error.put_string ("Cannot initializing OpenGL: " + glu_error_text (l_error_code) + "%N")
+				io.error.put_string ("Cannot initializing OpenGL%N")
 				has_error := True
 			end
 		end
@@ -96,13 +94,13 @@ feature {NONE} -- Implementation
 	update_screen(a_timestamp:NATURAL_32; a_window:GAME_WINDOW)
 			-- Redraw the scene
 		do
-			glClear (gl_color_buffer_bit)
-			glBegin (gl_quads)
-			glvertex2f (-0.5, -0.5)
-			glvertex2f (0.5, -0.5)
-			glvertex2f (0.5, 0.5)
-			glvertex2f (-0.5, 0.5)
-			glEnd
+			{GL}.glClear ({GL}.gl_color_buffer_bit)
+			{GL}.glBegin ({GL}.gl_quads)
+			{GL}.glvertex2f (-0.5, -0.5)
+			{GL}.glvertex2f (0.5, -0.5)
+			{GL}.glvertex2f (0.5, 0.5)
+			{GL}.glvertex2f (-0.5, 0.5)
+			{GL}.glEnd
 			a_window.update
 		end
 
@@ -112,7 +110,7 @@ feature {NONE} -- Implementation
 			l_size:TUPLE[width, height:INTEGER]
 		do
 			l_size := a_window.gl_drawable_size
-			glviewport (0, 0, l_size.width, l_size.height)
+			{GL}.glviewport (0, 0, l_size.width, l_size.height)
 			update_screen(a_timestamp, a_window)
 		end
 
