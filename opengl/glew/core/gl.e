@@ -5,16 +5,12 @@ note
 	revision: "2.0"
 
 class
-	GLEW
+	GL
 
 inherit
+	GL_EXTERNAL
 	GLEW_EXTERNAL
 		rename
-			glewIsSupported as glewIsSupportedInternal,
-			glewIsExtensionSupported as glewIsExtensionSupportedInternal,
-			glewGetExtension as glewGetExtensionInternal,
-			glewGetErrorString as glewGetErrorStringInternal,
-			glewGetString as glewGetStringInternal,
 			glDebugMessageInsertAmd as glDebugMessageInsertAmdInternal,
 			glGetDebugMessageLogAmd as glGetDebugMessageLogAmdInternal,
 			glGetPerfMonitorCounterStringAmd as glGetPerfMonitorCounterStringAmdInternal,
@@ -43,56 +39,6 @@ feature -- Constants
 			-- The buffer size used when creating {C_STRING}
 
 feature -- Access
-
-	glewIsSupported(a_name:READABLE_STRING_GENERAL):BOOLEAN
-		local
-			l_c_name:C_STRING
-		do
-			create l_c_name.make (a_name)
-			Result := glewIsSupportedInternal(l_c_name.item)
-		ensure
-			instance_free: class
-		end
-
-	glewIsExtensionSupported(a_name:READABLE_STRING_GENERAL):BOOLEAN
-		local
-			l_c_name:C_STRING
-		do
-			create l_c_name.make (a_name)
-			Result := glewIsExtensionSupportedInternal(l_c_name.item)
-		ensure
-			instance_free: class
-		end
-
-	glewGetExtension(a_name:READABLE_STRING_GENERAL):BOOLEAN
-		local
-			l_c_name:C_STRING
-		do
-			create l_c_name.make (a_name)
-			Result := glewGetExtensionInternal(l_c_name.item)
-		ensure
-			instance_free: class
-		end
-
-	glewGetErrorString(a_error_code:NATURAL):STRING
-		local
-			l_c_error:C_STRING
-		do
-			create l_c_error.make_by_pointer (glewGetErrorStringInternal(a_error_code))
-			Result := l_c_error.string
-		ensure
-			instance_free: class
-		end
-
-	glewGetString(a_name_code:NATURAL):STRING
-		local
-			l_c_error:C_STRING
-		do
-			create l_c_error.make_by_pointer (glewGetStringInternal(a_name_code))
-			Result := l_c_error.string
-		ensure
-			instance_free: class
-		end
 
 	glDebugMessageInsertAmd(a_category, a_severity, a_id: NATURAL; a_buffer:READABLE_STRING_GENERAL)
 		local

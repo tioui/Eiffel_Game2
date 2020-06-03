@@ -11,61 +11,7 @@ class
 feature -- C external
 
 
-	frozen glewInit: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewInit()"
-		end
 
-	frozen glewIsSupported(a_name: POINTER): BOOLEAN
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewIsSupported ((char *)$a_name)"
-		end
-
-	frozen glewIsExtensionSupported(a_name: POINTER): BOOLEAN
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewIsExtensionSupported ((char *)$a_name)"
-		end
-
-	frozen glewExperimental_get: BOOLEAN
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewExperimental"
-		end
-
-	frozen glewExperimental_set(a_value : BOOLEAN)
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"glewExperimental = $a_value"
-		end
-
-	frozen glewGetExtension(a_name: POINTER): BOOLEAN
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewGetExtension ((char *)$a_name)"
-		end
-
-	frozen glewGetErrorString(a_error: NATURAL): POINTER
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewGetErrorString ((GLenum)$a_error)"
-		end
-
-	frozen glewGetString(a_name: NATURAL): POINTER
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return glewGetString ((GLenum)$a_name)"
-		end
 
 	frozen GL_HALF_APPLE: NATURAL
 		external
@@ -14410,34 +14356,6 @@ feature -- C external
 			"return GL_FLOAT16_MAT4x3_AMD"
 		end
 
-	frozen GL_RED: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_RED"
-		end
-
-	frozen GL_GREEN: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_GREEN"
-		end
-
-	frozen GL_BLUE: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_BLUE"
-		end
-
-	frozen GL_ALPHA: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_ALPHA"
-		end
-
 	frozen GL_RG8UI: NATURAL
 		external
 			"C inline use <gl_order.h>"
@@ -24266,13 +24184,6 @@ feature -- C external
 			"return GL_RG32UI"
 		end
 
-	frozen GL_STENCIL_INDEX: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_STENCIL_INDEX"
-		end
-
 	frozen GL_TEXTURE_IMMUTABLE_FORMAT: NATURAL
 		external
 			"C inline use <gl_order.h>"
@@ -26735,34 +26646,6 @@ feature -- C external
 			"C inline use <gl_order.h>"
 		alias
 			"glVertexP4uiv ((GLenum)$a_type, (GLuint *)$a_value)"
-		end
-
-	frozen GL_DEPTH_RANGE: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_DEPTH_RANGE"
-		end
-
-	frozen GL_VIEWPORT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_VIEWPORT"
-		end
-
-	frozen GL_SCISSOR_BOX: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_SCISSOR_BOX"
-		end
-
-	frozen GL_SCISSOR_TEST: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_SCISSOR_TEST"
 		end
 
 	frozen GL_MAX_VIEWPORTS: NATURAL
@@ -32365,34 +32248,6 @@ feature -- C external
 			"return GL_UNSIGNED_INT_10_10_10_2_EXT"
 		end
 
-	frozen GL_TEXTURE_1D: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_TEXTURE_1D"
-		end
-
-	frozen GL_TEXTURE_2D: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_TEXTURE_2D"
-		end
-
-	frozen GL_PROXY_TEXTURE_1D: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_PROXY_TEXTURE_1D"
-		end
-
-	frozen GL_PROXY_TEXTURE_2D: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_PROXY_TEXTURE_2D"
-		end
-
 	frozen GL_COLOR_TABLE_FORMAT_EXT: NATURAL
 		external
 			"C inline use <gl_order.h>"
@@ -32447,48 +32302,6 @@ feature -- C external
 			"C inline use <gl_order.h>"
 		alias
 			"return GL_COLOR_TABLE_INTENSITY_SIZE_EXT"
-		end
-
-	frozen GL_COLOR_INDEX1_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX1_EXT"
-		end
-
-	frozen GL_COLOR_INDEX2_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX2_EXT"
-		end
-
-	frozen GL_COLOR_INDEX4_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX4_EXT"
-		end
-
-	frozen GL_COLOR_INDEX8_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX8_EXT"
-		end
-
-	frozen GL_COLOR_INDEX12_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX12_EXT"
-		end
-
-	frozen GL_COLOR_INDEX16_EXT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_COLOR_INDEX16_EXT"
 		end
 
 	frozen GL_TEXTURE_INDEX_SIZE_EXT: NATURAL
@@ -32902,20 +32715,6 @@ feature -- C external
 			"C inline use <gl_order.h>"
 		alias
 			"return GL_UNSIGNED_SHORT_1_5_5_5_REV_EXT"
-		end
-
-	frozen GL_BYTE: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_BYTE"
-		end
-
-	frozen GL_SHORT: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_SHORT"
 		end
 
 	frozen GL_R16_SNORM_EXT: NATURAL
@@ -36598,20 +36397,6 @@ feature -- C external
 			"C inline use <gl_order.h>"
 		alias
 			"return GL_CONTEXT_FLAG_DEBUG_BIT"
-		end
-
-	frozen GL_STACK_OVERFLOW: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_STACK_OVERFLOW"
-		end
-
-	frozen GL_STACK_UNDERFLOW: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_STACK_UNDERFLOW"
 		end
 
 	frozen GL_DEBUG_OUTPUT_SYNCHRONOUS: NATURAL
@@ -46629,13 +46414,6 @@ feature -- C external
 			"C inline use <gl_order.h>"
 		alias
 			"glAlphaFuncQCOM ((GLenum)$a_func, (GLclampf)$a_ref)"
-		end
-
-	frozen GL_DONT_CARE: NATURAL
-		external
-			"C inline use <gl_order.h>"
-		alias
-			"return GL_DONT_CARE"
 		end
 
 	frozen GL_BINNING_CONTROL_HINT_QCOM: NATURAL

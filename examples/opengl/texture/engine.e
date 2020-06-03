@@ -9,6 +9,8 @@ class
 
 inherit
 	GAME_LIBRARY_SHARED
+	GLEW_LIBRARY_SHARED
+	GL		-- You may also use class call. Ex: {GL}.glLoadIdentity
 
 create
 	make
@@ -21,30 +23,36 @@ feature {NONE} -- Initialization
 			l_window_builder:GAME_WINDOW_GL_BUILDER
 			l_window:GAME_WINDOW_GL
 		do
-			has_error := False
-			l_window_builder.set_gl_version (1, 2)
-			l_window_builder.enable_resizable
-			if not l_window_builder.has_error then
-				l_window := l_window_builder.generate_window
-				if not l_window.has_error then
-					init_gl
-					if not has_error then
-						init_gl_texture
-						if has_error then
-							io.error.put_string ("Cannot initialize OpenGL texture.%N")
+			glew_library.init
+			has_error := glew_library.has_error
+			if has_error then
+				io.error.put_string ("Cannot initialize GLEW: " +glew_library.error_string + "%N")
+			else
+				l_window_builder.set_gl_version (1, 2)
+				l_window_builder.enable_resizable
+				if not l_window_builder.has_error then
+					l_window := l_window_builder.generate_window
+					if not l_window.has_error then
+						init_gl
+						if not has_error then
+							init_gl_texture
+							if has_error then
+								io.error.put_string ("Cannot initialize OpenGL texture.%N")
+							end
+						else
+							io.error.put_string ("Cannot initialize OpenGL.%N")
 						end
+						window := l_window
 					else
-						io.error.put_string ("Cannot initialize OpenGL.%N")
+						io.error.put_string ("Cannot generate GL window.%N")
+						has_error := True
 					end
-					window := l_window
 				else
 					io.error.put_string ("Cannot generate GL window.%N")
 					has_error := True
 				end
-			else
-				io.error.put_string ("Cannot generate GL window.%N")
-				has_error := True
 			end
+
 		end
 
 feature -- Access
@@ -73,15 +81,15 @@ feature {NONE} -- Implementation
 	init_gl
 			-- Initialize OpenGL
 		do
-			{GL}.glMatrixMode ({GL}.gl_projection)
-			{GL}.glLoadIdentity
+			glMatrixMode (gl_projection)
+			glLoadIdentity
 			manage_gl_error
 			if not has_error then
-				{GL}.glMatrixMode ({GL}.gl_ModelView)
-				{GL}.glLoadIdentity
+				glMatrixMode (gl_ModelView)
+				glLoadIdentity
 				manage_gl_error
 				if not has_error then
-					{GL}.glClearColor (0.0, 0.0, 0.0, 0.0)
+					glClearColor (0.0, 0.0, 0.0, 0.0)
 					manage_gl_error
 				end
 			end
@@ -94,20 +102,20 @@ feature {NONE} -- Implementation
 		do
 			if attached texture_surface as la_surface then
 				if not la_surface.has_error then
-					{GL}.glEnable({GL}.GL_TEXTURE_2D)
-					{GL}.glGenTextures(1, $l_texture_id)
+					glEnable(GL_TEXTURE_2D)
+					glGenTextures(1, $l_texture_id)
 					texture_id := l_texture_id
-					{GL}.glBindTexture({GL}.GL_TEXTURE_2D, l_texture_id)
-					{GL}.glTexParameteri({GL}.GL_TEXTURE_2D, {GL}.GL_TEXTURE_WRAP_S, {GL}.GL_REPEAT.as_integer_32)
-					{GL}.glTexParameteri({GL}.GL_TEXTURE_2D, {GL}.GL_TEXTURE_WRAP_T, {GL}.GL_REPEAT.as_integer_32)
-					{GL}.glTexParameteri({GL}.GL_TEXTURE_2D, {GL}.GL_TEXTURE_MAG_FILTER, {GL}.GL_NEAREST.as_integer_32)
-					{GL}.glTexParameteri({GL}.GL_TEXTURE_2D, {GL}.GL_TEXTURE_MIN_FILTER, {GL}.GL_LINEAR.as_integer_32)
+					glBindTexture(GL_TEXTURE_2D, l_texture_id)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST.as_integer_32)
+					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR.as_integer_32)
 					if la_surface.must_lock then
 						la_surface.lock
 					end
 					if la_surface.must_lock implies la_surface.is_locked then
 						check la_surface.pixel_format.is_packed_layout_8888 and la_surface.pixel_format.is_order_packed_bgra end
-							{GL}.glTexImage2D({GL}.GL_TEXTURE_2D, 0, {GL}.GL_RGBA.as_integer_32, la_surface.width, la_surface.height, 0, {GLEW}.GL_BGRA, {GLEW}.gl_unsigned_int_8_8_8_8, la_surface.pixels.item);
+						glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA.as_integer_32, la_surface.width, la_surface.height, 0, GL_BGRA, gl_unsigned_int_8_8_8_8, la_surface.pixels.item);
 						manage_gl_error
 					end
 					if la_surface.is_locked then
@@ -128,8 +136,8 @@ feature {NONE} -- Implementation
 		local
 			l_error_code:NATURAL
 		do
-			l_error_code := {GL}.glGetError
-			if l_error_code /~ {GL}.gl_no_error then
+			l_error_code := glGetError
+			if l_error_code /~ gl_no_error then
 				io.error.put_string ("OpenGL error.%N")
 				has_error := True
 			end
@@ -162,18 +170,18 @@ feature {NONE} -- Implementation
 	update_screen(a_timestamp:NATURAL_32; a_window:GAME_WINDOW)
 			-- Redraw the scene
 		do
-			{GL}.glClear ({GL}.gl_color_buffer_bit.as_natural_32)
-			{GL}.glBindTexture({GL}.GL_TEXTURE_2D.as_natural_32, texture_id)
-			{GL}.glBegin ({GL}.gl_quads.as_natural_32)
-			{GL}.glTexCoord2f (1, 1)
-			{GL}.glvertex2f (-0.5, -0.5)
-			{GL}.glTexCoord2f (0, 1)
-			{GL}.glvertex2f (0.5, -0.5)
-			{GL}.glTexCoord2f (0, 0)
-			{GL}.glvertex2f (0.2, 0.5)
-			{GL}.glTexCoord2f (1, 0)
-			{GL}.glvertex2f (-0.2, 0.5)
-			{GL}.glEnd
+			glClear (gl_color_buffer_bit.as_natural_32)
+			glBindTexture(GL_TEXTURE_2D.as_natural_32, texture_id)
+			glBegin (gl_quads.as_natural_32)
+			glTexCoord2f (1, 1)
+			glvertex2f (-0.5, -0.5)
+			glTexCoord2f (0, 1)
+			glvertex2f (0.5, -0.5)
+			glTexCoord2f (0, 0)
+			glvertex2f (0.2, 0.5)
+			glTexCoord2f (1, 0)
+			glvertex2f (-0.2, 0.5)
+			glEnd
 			a_window.update
 		end
 
@@ -183,7 +191,7 @@ feature {NONE} -- Implementation
 			l_size:TUPLE[width, height:INTEGER]
 		do
 			l_size := a_window.gl_drawable_size
-			{GL}.glviewport (0, 0, l_size.width, l_size.height)
+			glviewport (0, 0, l_size.width, l_size.height)
 			update_screen(a_timestamp, a_window)
 		end
 

@@ -78,13 +78,6 @@
 			</condition>
 		</external_linker_flag>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<cluster name="gl" location="..\..\gl\" recursive="true">
-			<description>An OpenGL Wrapper for the Eiffel Game Library.</description>
-			<file_rule>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/spec$</exclude>
-			</file_rule>
-		</cluster>
 		<cluster name="glew" location=".\" recursive="true">
 			<description>An OpenGL extension wrangler Wrapper for the Eiffel Game Library.</description>
 			<file_rule>
@@ -92,6 +85,7 @@
 				<exclude>/generation$</exclude>
 				<exclude>/spec$</exclude>
 			</file_rule>
+			<cluster name="gl_implementation" location="..\..\gl\implementation" recursive="true"/>
 		</cluster>
 	</target>
 </system>
