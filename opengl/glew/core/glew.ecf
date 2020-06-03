@@ -35,12 +35,27 @@
 				<custom name="ISE_C_COMPILER" value="mingw"/>
 			</condition>
 		</external_cflag>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\glew32.lib">
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\Release\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\glew32.lib">
 			<condition>
 				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="msc"/>
 			</condition>
 		</external_object>
+		
+		<external_linker_flag value='-L"$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\glew\lib\Release\$(ISE_PLATFORM)\$(ISE_C_COMPILER)"'>
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_linker_flag>
+		
 		<external_library location="-lopengl32">
+			<condition>
+				<platform value="windows"/>
+				<custom name="ISE_C_COMPILER" value="mingw"/>
+			</condition>
+		</external_library>
+		<external_library location="-lglew32">
 			<condition>
 				<platform value="windows"/>
 				<custom name="ISE_C_COMPILER" value="mingw"/>

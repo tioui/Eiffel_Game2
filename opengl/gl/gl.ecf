@@ -8,11 +8,6 @@
 		<option full_class_checking="false" is_attached_by_default="false" void_safety="none" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\gl\include">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_include>
 		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/opengl/gl/spec/include"/>
 		<external_include location="-lGL">
 			<condition>
@@ -24,11 +19,6 @@
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\gl\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\gl32.lib">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
 		<external_library location="-lopengl32">
 			<condition>
 				<platform value="windows"/>
