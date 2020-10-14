@@ -11,10 +11,7 @@ class
 	MARYO
 
 inherit
-	GAME_TEXTURE
-		rename
-			make as make_texture
-		end
+	IMAGE
 
 create
 	make
@@ -22,26 +19,9 @@ create
 feature {NONE} -- Initialization
 
 	make(a_renderer:GAME_RENDERER)
-			-- Initialization of `Current' to used with `a_renderer'
-		local
-			l_image:IMG_IMAGE_FILE
+			-- Initialization of `Current' for used with `a_renderer'
 		do
-			has_error := False
-			create l_image.make ("maryo.png")
-			if l_image.is_openable then
-				l_image.open
-				if l_image.is_open then
-					make_from_image (a_renderer, l_image)
-					if not has_error then
-						sub_image_width := width // 3
-						sub_image_height := height
-					end
-				else
-					has_error := True
-				end
-			else
-				has_error := True
-			end
+			make_from_file(a_renderer,"maryo.png")
 			initialize_animation_coordinate
 		end
 
@@ -49,9 +29,11 @@ feature {NONE} -- Initialization
 			-- Create the `animation_coordinates'
 		do
 			create {ARRAYED_LIST[TUPLE[x,y:INTEGER]]} animation_coordinates.make(4)
-			animation_coordinates.extend ([width // 3, 0])	-- Be sure to place the image standing still first
+			sub_image_height := texture.height
+			sub_image_width := texture.width // 3
+			animation_coordinates.extend ([texture.width // 3, 0])	-- Be sure to place the image standing still first
 			animation_coordinates.extend ([0, 0])
-			animation_coordinates.extend ([(width // 3) * 2, 0])
+			animation_coordinates.extend ([(texture.width // 3) * 2, 0])
 			animation_coordinates.extend ([0, 0])
 			sub_image_x := animation_coordinates.first.x	-- Place the image standing still
 			sub_image_y := animation_coordinates.first.y	-- Place the image standing still

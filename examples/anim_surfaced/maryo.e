@@ -159,7 +159,7 @@ feature -- Access
 			-- Dimension of the portion of image to show inside `surface'
 
 	surface:GAME_SURFACE
-			-- The surface to use when drawing `Current'
+			-- The image to use when drawing `Current'
 
 feature {NONE} -- implementation
 

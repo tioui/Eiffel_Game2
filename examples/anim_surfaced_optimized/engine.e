@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 			create maryo
 			create l_window_builder
 			if not desert.has_error then
-				l_window_builder.set_dimension (desert.width, desert.height)
+				l_window_builder.set_dimension (desert.surface.width, desert.surface.height)
 			end
 			l_window_builder.set_title ("Example Animation with optimization")
 			window := l_window_builder.generate_window
@@ -87,8 +87,8 @@ feature {NONE} -- Implementation
 				-- Be sure that Maryo does not get out of the screen
 				if maryo.x < 0 then
 					maryo.x := 0
-				elseif maryo.x + maryo.sub_image_width > desert.width then
-					maryo.x := desert.width - maryo.sub_image_width
+				elseif maryo.x + maryo.sub_image_width > desert.surface.width then
+					maryo.x := desert.surface.width - maryo.sub_image_width
 				end
 
 				-- Draw the scene (does not redraw what we don't have to redraw)
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 									l_area_dirty.first.width, l_area_dirty.first.height
 								)
 				window.surface.draw_sub_surface (
-									desert,
+									desert.surface,
 									l_area_dirty.first.x, l_area_dirty.first.y,
 									l_area_dirty.first.width, l_area_dirty.first.height,
 									l_area_dirty.first.x, l_area_dirty.first.y

@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 			create l_window_builder
 			l_window_builder.set_title ("Example Animation")
 			if not desert.has_error then
-				l_window_builder.set_dimension (desert.width, desert.height)
+				l_window_builder.set_dimension (desert.surface.width, desert.surface.height)
 			end
 			window := l_window_builder.generate_window
 			has_error := desert.has_error or maryo.has_error or window.has_error
@@ -67,13 +67,13 @@ feature {NONE} -- Implementation
 			-- Be sure that Maryo does not get out of the screen
 			if maryo.x < 0 then
 				maryo.x := 0
-			elseif maryo.x + maryo.sub_image_width > desert.width then
-				maryo.x := desert.width - maryo.sub_image_width
+			elseif maryo.x + maryo.sub_image_width > desert.surface.width then
+				maryo.x := desert.surface.width - maryo.sub_image_width
 			end
 
 			-- Draw the scene
-			window.surface.draw_rectangle (create {GAME_COLOR}.make_rgb (0, 128, 255), 0, 0, desert.width, desert.height)
-			window.surface.draw_surface (desert, 0, 0)
+			window.surface.draw_rectangle (create {GAME_COLOR}.make_rgb (0, 128, 255), 0, 0, desert.surface.width, desert.surface.height)
+			window.surface.draw_surface (desert.surface, 0, 0)
 			window.surface.draw_sub_surface (
 									maryo.surface, maryo.sub_image_x, maryo.sub_image_y,
 									maryo.sub_image_width, maryo.sub_image_height, maryo.x, maryo.y

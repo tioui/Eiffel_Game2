@@ -8,7 +8,7 @@ class
 	DESERT
 
 inherit
-	GAME_SURFACE
+	ANY
 		redefine
 			default_create
 		end
@@ -26,15 +26,23 @@ feature {NONE} -- Initialization
 			if l_image.is_openable then
 				l_image.open
 				if l_image.is_open then
-					make_from_image (l_image)
+					create surface.make_from_image (l_image)
 				else
 					has_error := True
-					make(1,1)
+					create surface.make(1,1)
 				end
 			else
 				has_error := True
-				make(1,1)
+				create surface.make(1,1)
 			end
 		end
+
+feature -- Access
+
+	surface:GAME_SURFACE
+			-- The image to use when drawing `Current'
+
+	has_error:BOOLEAN
+			-- An error occured when initializing `Current'
 
 end

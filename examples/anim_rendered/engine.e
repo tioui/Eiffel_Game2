@@ -78,17 +78,17 @@ feature {NONE} -- Implementation
 
 			if maryo.x < 0 then		-- Be sure that Maryo does not get out of the screen
 				maryo.x := 0
-			elseif maryo.x + maryo.sub_image_width > desert.width then
-				maryo.x := desert.width - maryo.sub_image_width
+			elseif maryo.x + maryo.sub_image_width > desert.texture.width then
+				maryo.x := desert.texture.width - maryo.sub_image_width
 			end
 
 			-- Draw the scene
 			window.renderer.set_drawing_color (create {GAME_COLOR}.make_rgb (0, 128, 255))	-- Redraw the blue sky
 			window.renderer.clear
 
-			window.renderer.draw_texture (desert, 0, 0)		-- Redraw the desert
+			window.renderer.draw_texture (desert.texture, 0, 0)		-- Redraw the desert
 			window.renderer.draw_sub_texture_with_mirror (		-- Redraw Maryo
-									maryo,  maryo.sub_image_x, maryo.sub_image_y, maryo.sub_image_width, maryo.sub_image_height,
+									maryo.texture,  maryo.sub_image_x, maryo.sub_image_y, maryo.sub_image_width, maryo.sub_image_height,
 									maryo.x, maryo.y, False, maryo.facing_left
 								)
 
