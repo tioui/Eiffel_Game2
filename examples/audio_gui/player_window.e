@@ -87,7 +87,7 @@ feature {NONE} -- Implementation
 			if attached sound as la_sound then
 				if attached la_sound.title as la_title then
 					if attached la_sound.artist as la_artist then
-						sound_name_label.set_text (la_artist + " - ")
+						sound_name_label.set_text (la_artist.to_string_32 + {STRING_32}" - ")
 					end
 					sound_name_label.set_text (sound_name_label.text + la_title)
 				else

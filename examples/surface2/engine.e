@@ -35,9 +35,6 @@ feature -- Access
 			-- Run the application. Every local variable will be collected properly when calling the `quit_library' command in the `make' feature.
 		require
 			No_Error: not has_error		-- Start this procedure only if the `make' didn't has any error
-		local
-			l_window:GAME_WINDOW_SURFACED
-			l_background, l_bird:GAME_SURFACE
 		do
 			window.surface.draw_surface (background, 0, 0)		-- Drawing a background
 			window.surface.draw_surface (bird, 500, 400)		-- Drawing a bird (over the background)
@@ -90,12 +87,12 @@ feature {NONE} -- Implementation
 					end
 				else
 					create Result.make (1, 1)		-- To be sure that Result is set
-					io.error.put_string ("The file " + a_filename.as_string_8 + " does not seem to be a valid image file.%N")
+					io.error.put_string_32 ({STRING_32}"The file " + a_filename + " does not seem to be a valid image file.%N")
 					has_error := True
 				end
 			else
 				create Result.make (1, 1)		-- To be sure that Result is set
-				io.error.put_string ("Cannot read the image file " + a_filename.as_string_8 + ".%N")
+				io.error.put_string_32 ({STRING_32}"Cannot read the image file " + a_filename + ".%N")
 				has_error := True
 			end
 		end

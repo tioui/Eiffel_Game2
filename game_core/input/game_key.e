@@ -329,7 +329,6 @@ feature -- Access
 			-- Use `unicode_out' to get the UTF-8 representatin
 		local
 			l_result_ptr:POINTER
-			l_result_c:C_STRING
 		do
 			l_result_ptr:={GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyName(virtual_code)
 			if not l_result_ptr.is_default_pointer then

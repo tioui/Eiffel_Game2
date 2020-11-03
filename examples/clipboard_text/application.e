@@ -25,9 +25,9 @@ feature {NONE} -- Initialization
 			create l_builder
 			l_window := l_builder.generate_window
 			if l_window.has_clipboard_text then
-				print("What was in the system clipboard: " + l_window.clipboard_text + "%N")
+				io.standard_default.put_string_32({STRING_32}"What was in the system clipboard: " + l_window.clipboard_text + "%N")
 			else
-				print("There is nothing in the system clipboard.%N")
+				io.standard_default.put_string_32({STRING_32}"There is nothing in the system clipboard.%N")
 			end
 			l_window.set_clipboard_text ("Long live Eiffel Game")
 			print("Now, there is %"Long live Eiffel Game%" in the system clipboard%N")

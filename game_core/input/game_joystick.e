@@ -122,7 +122,7 @@ feature -- Access
 		require
 			Get_Axis_Value_Opened: is_open
 			Not_Removed: not is_removed
-			Get_Axis_Value_Axis_Id_Valid: a_axis_id<axes_number
+			Get_Axis_Value_Axis_Id_Valid: a_axis_id<axes_count
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetAxis(item,a_axis_id)
 		end
@@ -156,7 +156,7 @@ feature -- Access
 			-- Note that `a_ball_id' index start at 0
 		require
 			Get_Ball_Value_Opened: is_open
-			Get_Ball_Value_Ball_Id_Valid: a_ball_id<axes_number
+			Get_Ball_Value_Ball_Id_Valid: a_ball_id<axes_count
 			Not_Removed: not is_removed
 		local
 			l_dx,l_dy,l_error:INTEGER
@@ -197,7 +197,7 @@ feature -- Access
 			-- Note that `a_button_id' index start at 0
 		require
 			Is_Buttons_Pressed_Opened: is_open
-			Is_Button_Pressed_Button_Id_Valid: a_button_id<buttons_number
+			Is_Button_Pressed_Button_Id_Valid: a_button_id<buttons_count
 			Not_Removed: not is_removed
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetButton(item, a_button_id)
@@ -233,7 +233,7 @@ feature -- Access
 		require
 			Get_Hat_State_Opened: is_open
 			Not_Removed: not is_removed
-			Get_Hat_State_Hat_Id_Valid: a_hat_id<hats_number
+			Get_Hat_State_Hat_Id_Valid: a_hat_id<hats_count
 		do
 			create Result.make ({GAME_SDL_EXTERNAL}.SDL_JoystickGetHat(item, a_hat_id))
 		end

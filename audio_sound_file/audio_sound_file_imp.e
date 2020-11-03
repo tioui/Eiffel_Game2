@@ -174,7 +174,7 @@ feature --Access
 				if l_error = -1 then
 					put_error (
 								"Cannot seek in the audio file.",
-								"The system tried to seek at the beginning of file " + filename + "but it failed."
+								{STRING_32}"The system tried to seek at the beginning of file " + filename.to_string_32 + {STRING_32}"but it failed."
 							)
 				end
 			else
@@ -194,7 +194,7 @@ feature --Access
 			if l_error = -1 then
 				put_error (
 							"Cannot seek in the audio file.",
-							"The system tried to seek at the frame " + a_frame_number.out + " of file " + filename + "but it failed."
+							{STRING_32}"The system tried to seek at the frame " + a_frame_number.out.to_string_32 + {STRING_32}" of file " + filename.to_string_32 + {STRING_32}"but it failed."
 						)
 			end
 		end

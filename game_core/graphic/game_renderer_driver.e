@@ -131,7 +131,7 @@ feature -- Access
 	out:STRING_8
 			-- <Precursor>
 		do
-			Result := "Renderer driver: " + name + "%N"
+			Result := "Renderer driver: " + name.to_string_8 + "%N"
 			Result := Result + "Number: " + index.out + "%N"
 			if maximum_texture_height > 0 or maximum_texture_width > 0 then
 				Result := Result + "Maximum texture dimension: ("

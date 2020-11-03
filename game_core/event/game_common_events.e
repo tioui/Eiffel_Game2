@@ -158,7 +158,7 @@ feature -- Access
 			-- To get the new joystick, call {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks',
 			-- then use the {GAME_LIBRARY_CONTROLLER}.`joysticks'.`at'(`joystick_id')
 		obsolete
-			"Use `joystick_remove_actions' instead [2020-03-30]"
+			"Use `joystick_found_actions' instead [2020-03-30]"
 		require
 			Joystick_Found_Event_Enabled: events_controller.is_joy_device_founded_event_enable
 		do

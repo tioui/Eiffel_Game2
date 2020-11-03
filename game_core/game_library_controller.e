@@ -823,7 +823,7 @@ feature -- Other methods
 			create l_c_name.make(a_variable)
 			create l_c_value.make(a_value)
 			l_error := {GAME_SDL_EXTERNAL}.SDL_setenv(l_c_name.item, l_c_value.item, True)
-			manage_error_code(l_error, "Cannot set the environment variable " + a_variable + " with value " + a_value + ".")
+			manage_error_code(l_error, {STRING_32}"Cannot set the environment variable " + a_variable.to_string_32 + {STRING_32}" with value " + a_value.to_string_32 + {STRING_32}".")
 		end
 
 	events_controller:GAME_EVENTS_CONTROLLER

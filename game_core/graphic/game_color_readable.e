@@ -53,10 +53,10 @@ feature {NONE} -- Initialization
 			l_convertor:HEXADECIMAL_STRING_TO_INTEGER_CONVERTER
 		do
 			create l_convertor.make
-			l_string_red:="0x"+a_hexadecimal.substring (1, 2)
-			l_string_green:="0x"+a_hexadecimal.substring (3, 4)
-			l_string_blue:="0x"+a_hexadecimal.substring (5, 6)
-			l_string_alpha:="0x"+a_hexadecimal.substring (7, 8)
+			l_string_red:={STRING_32}"0x"+a_hexadecimal.substring (1, 2).to_string_32
+			l_string_green:={STRING_32}"0x"+a_hexadecimal.substring (3, 4).to_string_32
+			l_string_blue:={STRING_32}"0x"+a_hexadecimal.substring (5, 6).to_string_32
+			l_string_alpha:={STRING_32}"0x"+a_hexadecimal.substring (7, 8).to_string_32
 			l_convertor.parse_string_with_type (l_string_red,l_convertor.type_natural_8)
 			l_red:=l_convertor.parsed_natural_8
 			l_convertor.parse_string_with_type (l_string_green,l_convertor.type_natural_8)
@@ -74,7 +74,7 @@ feature {NONE} -- Initialization
 		require
 			a_hexadecimal.count=6
 		do
-			make_from_hexadecimal(a_hexadecimal+"ff")
+			make_from_hexadecimal(a_hexadecimal.to_string_32+{STRING_32}"ff")
 		end
 
 	make_from_other(a_other:GAME_COLOR_READABLE)

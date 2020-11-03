@@ -80,7 +80,6 @@ feature {NONE} -- Implementation
 			-- Draw the scene
 		local
 			l_text:TEXT_SURFACE_BLENDED
-			from_x, from_y, l_width, l_height:INTEGER
 			l_corners:ARRAYED_LIST[TUPLE[x,y,width,height:INTEGER]]
 		do
 			-- Draw the background
@@ -125,7 +124,7 @@ feature {NONE} -- Implementation
 	on_mouse_down(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_PRESS_EVENT; a_nb_clicks: NATURAL_8)
 			-- When the user pressed the left mouse button (from `a_mouse_event'), start to draw a blue rectangle using mouse coordinate
 		do
-			if a_mouse_event.is_left_button_pressed then
+			if a_mouse_event.is_left_button then
 				rectangle_start_x := a_mouse_event.x
 				rectangle_start_y := a_mouse_event.y
 			end
@@ -134,7 +133,7 @@ feature {NONE} -- Implementation
 	on_mouse_up(a_timestamp: NATURAL_32; a_mouse_event: GAME_MOUSE_BUTTON_RELEASE_EVENT; a_nb_clicks: NATURAL_8)
 			-- When the user released the left button, stop drawing the blue rectangle
 		do
-			if a_mouse_event.is_left_button_released then
+			if a_mouse_event.is_left_button then
 				rectangle_start_x := -1
 				rectangle_start_y := -1
 			end

@@ -35,9 +35,9 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			set_type({GAME_SDL_EXTERNAL}.SDL_HAPTIC_CUSTOM.as_natural_16)
-			set_axes_number(1)
+			set_axes_count(1)
 		ensure then
-			Axes_Number_Valid: axes_number >= 1
+			Axes_Number_Valid: axes_count >= 1
 			Type_Valid: type = {GAME_SDL_EXTERNAL}.SDL_HAPTIC_CUSTOM
 		end
 
@@ -115,7 +115,7 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.set_sdl_haptic_custom_channels(specific_item, a_count)
 			set_samples(create {ARRAYED_LIST[NATURAL_16]}.make(0))
 		ensure
-			Is_Assign: axes_number = a_count
+			Is_Assign: axes_count = a_count
 			Samples_Valid_For_Every_Axes: samples.count.divisible (axes_count)
 		end
 
@@ -174,7 +174,7 @@ feature -- Access
 			l_count, l_byte_count, i:INTEGER
 		do
 			l_samples_ptr := {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_data (specific_item)
-			l_count := axes_number * {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_samples (specific_item)
+			l_count := axes_count * {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_samples (specific_item)
 			l_byte_count := l_count * natural_16_bytes
 			create Result.make (l_count)
 			create l_managed_pointer.make_from_pointer (l_samples_ptr, l_byte_count)
@@ -190,13 +190,13 @@ feature -- Access
 			-- Assign `samples' with the values in `a_samples'
 		require
 			Exists: exists
-			Samples_For_All_Axes: a_samples.count.divisible (axes_number)
+			Samples_For_All_Axes: a_samples.count.divisible (axes_count)
 		local
 			l_pointer:POINTER
 			l_array:ARRAY[NATURAL_16]
 			l_count, l_byte_count:INTEGER
 		do
-			l_count := axes_number * {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_samples (specific_item)
+			l_count := axes_count * {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_samples (specific_item)
 			l_byte_count := l_count * natural_16_bytes
 			l_array := a_samples.to_array
 			l_pointer := {GAME_SDL_EXTERNAL}.get_sdl_haptic_custom_data (specific_item)
@@ -208,7 +208,7 @@ feature -- Access
 			{GAME_SDL_EXTERNAL}.set_sdl_haptic_custom_data (specific_item, l_pointer)
 		ensure
 			Is_Assign: samples ~ a_samples
-			Samples_Valid_For_Every_Axes: samples.count.divisible (axes_number)
+			Samples_Valid_For_Every_Axes: samples.count.divisible (axes_count)
 		end
 
 	fade_in_level:NATURAL_16 assign set_fade_in_level
@@ -280,6 +280,6 @@ feature {NONE} -- Implementation
 		end
 
 invariant
-	Axes_Number_Valid: axes_number >= 1
-	Samples_Valid_For_Every_Axes: samples.count.divisible (axes_number)
+	Axes_Number_Valid: axes_count >= 1
+	Samples_Valid_For_Every_Axes: samples.count.divisible (axes_count)
 end

@@ -8,7 +8,7 @@
 		<precompile name="base-safe_precompile" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="cpf_lib" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf_lib\cpf_lib-safe.ecf"/>
+		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf-safe.ecf"/>
 		<cluster name="custom_package_file" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
