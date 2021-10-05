@@ -5,8 +5,9 @@
 		<description>Shared Classes for the game library.</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="0" product="Game_Shared" copyright="Louis Marchand"/>
-		<option warning="true" full_class_checking="false" void_safety="none" syntax="standard" namespace="EiffelSoftware.Library">
+		<option warning="true" full_class_checking="false" void_safety="all" syntax="standard" namespace="EiffelSoftware.Library">
 		</option>
+		<setting name="total_order_on_reals" value="true"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>

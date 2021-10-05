@@ -5,9 +5,10 @@
 		<description>A game library for EiffelStudio</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game" copyright="Louis Marchand"/>
-		<option full_class_checking="false" void_safety="none" syntax="standard">
+		<option full_class_checking="false" void_safety="all" syntax="standard">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
+		<setting name="total_order_on_reals" value="true"/>
 		<mapping old_name="GAME_FINGER_EVENT_STATE" new_name="GAME_FINGER_EVENT"/>
 		<mapping old_name="GAME_KEY_STATE" new_name="GAME_KEY_EVENT"/>
 		<mapping old_name="GAME_MOUSE_BUTTON_PRESSED_STATE" new_name="GAME_MOUSE_BUTTON_PRESS_EVENT"/>

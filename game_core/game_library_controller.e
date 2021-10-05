@@ -124,7 +124,6 @@ feature -- Subs Systems
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
 		do
 			initialise_sub_system({GAME_SDL_EXTERNAL}.Sdl_init_joystick)
-			initialise_joysticks
 			events_controller.joy_device_founded_actions.extend (joystick_founded_actions_callback)
 			events_controller.joy_device_removed_actions.extend (joystick_removed_actions_callback)
 		ensure
@@ -500,24 +499,6 @@ feature {NONE} -- Joystick implementation
 							end)
 	end
 
-	initialise_joysticks
-		-- Fill `internal_joysticks'
-		require
-			Controller_Update_Joysticks_Joystick_Enabled: is_joystick_enable
-		local
-			i, l_joystick_count:INTEGER
-		do
---			close_all_joysticks
---			internal_joysticks.wipe_out
---			l_joystick_count := {GAME_SDL_EXTERNAL}.SDL_NumJoysticks
---			from i:=0
---			until i>=l_joystick_count
---			loop
---				internal_joysticks.extend(create {GAME_JOYSTICK}.make(i))
---				i:=i+1
---			end
-		end
-
 	manage_joystick_founded_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
 			-- {Precursor}
 		local
@@ -531,20 +512,17 @@ feature {NONE} -- Joystick implementation
 			if not attached l_joystick then
 				create l_joystick.make (a_joystick_id)
 				internal_joysticks.extend (l_joystick)
-				joystick_founded_actions.call ([a_timestamp, a_joystick_id])
-				joystick_found_actions.call ([a_timestamp, l_joystick])
+				joystick_found_actions.call (a_timestamp, l_joystick)
 			end
 		end
 
 	manage_joystick_removed_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
 			-- {Precursor}
 		local
-			l_joystick:GAME_JOYSTICK
 			l_index:INTEGER
 			l_cursor:ARRAYED_LIST_ITERATION_CURSOR [detachable GAME_JOYSTICK]
 			l_found:BOOLEAN
 		do
-			joystick_removed_actions.call ([a_timestamp, a_joystick_id])
 
 			from
 				l_cursor := internal_joysticks.new_cursor
@@ -553,6 +531,7 @@ feature {NONE} -- Joystick implementation
 				l_cursor.after or l_found
 			loop
 				if attached l_cursor.item as la_item and then la_item.index = a_joystick_id then
+					joystick_remove_actions.call (a_timestamp, la_item)
 					l_found := True
 					manage_joystick_removed_joystick(a_timestamp, l_index)
 				end

@@ -6,9 +6,9 @@
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<precompile name="base-safe_precompile" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared-safe.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf-safe.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>
 		<cluster name="custom_package_file" location=".\" recursive="true">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>

@@ -46,9 +46,6 @@ feature -- Access
 
 	run
 			-- Execute the game
-		local
-			l_window_builder: GAME_WINDOW_RENDERED_BUILDER
-			l_window:GAME_WINDOW_RENDERED
 		do
 			game_library.quit_signal_actions.extend (agent on_quit)	-- Stopping the `game_library' main loop when closing the window
 			window.expose_actions.extend (agent on_expose)	-- When the window has to be redraw (the window appear,

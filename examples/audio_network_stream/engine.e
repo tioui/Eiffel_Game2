@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			io.standard_default.put_string ("Select an audio device (0 for default):%N")
 			l_index := 1
 			across a_devices as la_devices loop
-				io.standard_default.put_string_32 ({STRING_32}"	" + l_index.out + " - " + la_devices.item.name.to_string_32)
+				io.standard_default.put_string ("       " + l_index.out + " - " + la_devices.item.name.to_string_8)
 				io.standard_default.put_new_line
 				l_index := l_index + 1
 			end

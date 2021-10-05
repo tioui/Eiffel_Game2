@@ -24,11 +24,11 @@ feature {NONE} -- Initialization
 			game_library.enable_video
 			print("Capture devices:%N")
 			across audio_library.capture_devices as la_devices loop
-				io.standard_default.put_string_32({STRING_32}"    " + la_devices.item.name + "%N")
+				io.standard_default.put_string("    " + la_devices.item.name.to_string_8 + "%N")
 			end
 			audio_library.enable_capture (44100, 1, 8, 1024)
 			audio_capture := audio_library.capture_controller
-			io.standard_default.put_string_32({STRING_32}"Capture device used: " + audio_library.capture_device.name + "%N")
+			io.standard_default.put_string("Capture device used: " + audio_library.capture_device.name.to_string_8 + "%N")
 			create l_window_builder
 			l_window_builder.set_dimension (500, 350)
 			window := l_window_builder.generate_window

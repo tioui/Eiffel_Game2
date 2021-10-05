@@ -78,8 +78,6 @@ feature -- Access
 			end
 			quit_signal_actions_internal := Void
 			iteration_actions_internal := Void
-			joystick_founded_actions_internal := Void
-			joystick_removed_actions_internal := Void
 			joystick_found_actions_internal := Void
 			joystick_remove_actions_internal := Void
 			file_dropped_actions_internal := Void
@@ -153,46 +151,6 @@ feature -- Access
 			end
 		end
 
-	joystick_founded_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER]]
-			-- Called when a new joystick has been founded
-			-- To get the new joystick, call {GAME_LIBRARY_CONTROLLER}.`refresh_joysticks',
-			-- then use the {GAME_LIBRARY_CONTROLLER}.`joysticks'.`at'(`joystick_id')
-		obsolete
-			"Use `joystick_found_actions' instead [2020-03-30]"
-		require
-			Joystick_Found_Event_Enabled: events_controller.is_joy_device_founded_event_enable
-		do
-			if attached joystick_founded_actions_internal as la_on_joystick_added_internal then
-				Result := la_on_joystick_added_internal
-			else
-				create Result
-				if is_running then
-					events_controller.joy_device_founded_actions.extend (joystick_founded_actions_callback)
-				end
-				joystick_founded_actions_internal := Result
-			end
-		end
-
-	joystick_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id:INTEGER]]
-			-- Called when a new joystick has been removed
-			-- The joystick will be removed from {GAME_LIBRARY_CONTROLLER}.`joysticks' after the
-			-- calls of this feature.
-		obsolete
-			"Use `joystick_remove_actions' instead [2020-03-30]"
-		require
-			Joystick_Remove_Event_Enabled: events_controller.is_joy_device_removed_event_enable
-		do
-			if attached joystick_removed_actions_internal as la_on_joystick_removed_internal then
-				Result := la_on_joystick_removed_internal
-			else
-				create Result
-				if is_running then
-					events_controller.joy_device_removed_actions.extend (joystick_removed_actions_callback)
-				end
-				joystick_removed_actions_internal := Result
-			end
-		end
-
 	file_dropped_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 			-- Called when the file (or any other string) `filename' is drag and drop on a {GAME_WINDOW}.
 			-- The event is not enabled by default. Use `events_controller'.`enable_file_dropped_event' to enable it.
@@ -237,14 +195,8 @@ feature {NONE} -- Implementation
 	joystick_found_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
 			-- Internal representation of the joystick founded event
 
-	joystick_founded_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; id_joystick:INTEGER]]
-			-- Internal representation of the joystick founded event
-
 	joystick_founded_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- Internal callback of the joystick founded event
-
-	joystick_removed_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; id_joystick:INTEGER]]
-			-- Internal representation of the joystick removed event
 
 	joystick_remove_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick:GAME_JOYSTICK]]
 			-- Internal representation of the joystick removed event

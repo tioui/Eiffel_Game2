@@ -47,7 +47,6 @@ feature {NONE} -- Initialisation
 		local
 			l_utf_converter:UTF_CONVERTER
 			l_title_utf_8:C_STRING
-			l_x, l_y:INTEGER
 		do
 			create l_utf_converter
 			create l_title_utf_8.make (l_utf_converter.string_32_to_utf_8_string_8 (a_title.to_string_32))

@@ -217,11 +217,11 @@ feature {NONE} -- Implementation
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="{$project_name/}" uuid="{$uuid/}">
     <target name="{$target/}">
         <root class="{$game2_root_class/}" feature="{$game2_root_feature/}"/>
-        <option warning="true" void_safety="none">
+        <option warning="true" void_safety="all">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="{$thread/}"/>
-        <precompile name="base_pre" location="$ISE_PRECOMP\base{$thread_pre/}.ecf"/>
+        <precompile name="base_pre" location="$ISE_PRECOMP\base{$thread_pre/}-safe.ecf"/>
         <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 {$libraries/}
         <cluster name="{$cluster/}" location=".\" recursive="true">

@@ -14,7 +14,6 @@ feature {NONE} -- Initialisation
 			-- `a_filename' as source file
 		local
 			l_image: IMG_IMAGE_FILE
-			l_pixel_format:GAME_PIXEL_FORMAT
 		do
 			create l_image.make (a_filename)
 			if l_image.is_openable then

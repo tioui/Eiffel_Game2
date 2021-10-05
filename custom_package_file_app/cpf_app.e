@@ -68,7 +68,7 @@ feature {NONE} -- Initialization
 			loop
 				create l_inc_file.make_with_name (a_inc_file_names.item)
 				if not l_inc_file.exists or else not l_inc_file.is_readable then
-					io.error.put_string_32 ({STRING_32}"The file "+a_inc_file_names.item.to_string_32+{STRING_32}" is not readable.")
+					io.error.put_string ("The file "+a_inc_file_names.item.to_string_8+" is not readable.")
 					io.error.put_new_line
 					l_dest_file.delete
 					has_error:=true
@@ -86,7 +86,7 @@ feature {NONE} -- Initialization
 				from l_file_list.start
 				until l_file_list.exhausted
 				loop
-					io.put_string_32 ({STRING_32}"Packaging ("+i.out.to_string_32+{STRING_32}"/"+a_inc_file_names.count.out.to_string_32+{STRING_32}") : "+a_inc_file_names.at (i).to_string_32)
+					io.put_string ("Packaging ("+i.out+"/"+a_inc_file_names.count.out+") : "+a_inc_file_names.at (i).to_string_8)
 					io.put_new_line
 					from l_file_list.item.start
 					until l_file_list.item.end_of_file
@@ -111,7 +111,7 @@ feature {NONE} -- Initialization
 		do
 			create l_src_file.make (a_package_file_name)
 			if not l_src_file.exists or else not l_src_file.is_readable then
-				io.error.put_string_32 ({STRING_32}"The file "+a_package_file_name.to_string_32+{STRING_32}" is not readable.")
+				io.error.put_string ("The file "+a_package_file_name.to_string_8+" is not readable.")
 				io.error.put_new_line
 				has_error:=True
 			else
@@ -144,7 +144,7 @@ feature {NONE} -- Initialization
 						i:=i+1
 					end
 				else
-					io.error.put_string_32 ({STRING_32}"The file " + a_package_file_name.to_string_32 + {STRING_32}" is not a valid package file.")
+					io.error.put_string ("The file " + a_package_file_name.to_string_8 + " is not a valid package file.")
 					io.error.put_new_line
 					has_error:=True
 				end

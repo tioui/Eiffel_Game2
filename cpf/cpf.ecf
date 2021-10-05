@@ -5,8 +5,9 @@
 		<description>An add-on for the Eiffel Game Library to use customs packages files.</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="0" product="CPF" copyright="Louis Marchand"/>
-		<option warning="true" full_class_checking="false" void_safety="none" namespace="EiffelSoftware.Library">
+		<option warning="true" full_class_checking="false" void_safety="all" namespace="EiffelSoftware.Library">
 		</option>
+		<setting name="total_order_on_reals" value="true"/>
 		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\cpf\spec\include">
 			<condition>
 				<platform value="windows"/>

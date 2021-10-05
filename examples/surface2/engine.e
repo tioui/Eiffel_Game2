@@ -87,12 +87,12 @@ feature {NONE} -- Implementation
 					end
 				else
 					create Result.make (1, 1)		-- To be sure that Result is set
-					io.error.put_string_32 ({STRING_32}"The file " + a_filename + " does not seem to be a valid image file.%N")
+					io.error.put_string ("The file " + a_filename + " does not seem to be a valid image file.%N")
 					has_error := True
 				end
 			else
 				create Result.make (1, 1)		-- To be sure that Result is set
-				io.error.put_string_32 ({STRING_32}"Cannot read the image file " + a_filename + ".%N")
+				io.error.put_string ("The file " + a_filename + " does not seem to be a valid image file.%N")
 				has_error := True
 			end
 		end
