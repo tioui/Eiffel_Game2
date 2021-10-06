@@ -2,15 +2,15 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="cursor" uuid="D9FBCD87-E483-49AA-9D9F-E73D50B34AEA">
     <target name="cursor">
         <root class="GAME2_APPLICATION" feature="make"/>
-        <option warning="true">
+        <option  void_safety="all" warning="true">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="none"/>
         <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
-		<library name="game_image_file" location="$EIFFEL_LIBRARY\contrib\library\game2\game_image_file\game_image_file-safe.ecf"/>
-		<library name="game_text" location="$EIFFEL_LIBRARY\contrib\library\game2\game_text\game_text-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
+		<library name="game_image_file" location="$EIFFEL_LIBRARY\contrib\library\game2\game_image_file\game_image_file.ecf"/>
+		<library name="game_text" location="$EIFFEL_LIBRARY\contrib\library\game2\game_text\game_text.ecf"/>
 
         <cluster name="cursor" location=".\" recursive="true">
             <file_rule>

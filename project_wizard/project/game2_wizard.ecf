@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="game2_wizard" uuid="C0924898-6A24-4F75-B8B8-660B25279F49">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="game2_wizard" uuid="C0924898-6A24-4F75-B8B8-660B25279F49">
 	<target name="game2_wizard">
 		<description>EiffelBuild Generated Configuration for Project game2_wizard.</description>
 		<root cluster="root_cluster" class="APPLICATION" feature="make_and_launch"/>
-		<option warning="true">
+		<option warning="true" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" supplier_precondition="true"/>
 		</option>
+		<setting name="dead_code_removal" value="feature"/>
+		<capability>
+			<concurrency support="none"/>
+			<void_safety support="all" use="all"/>
+		</capability>
 		<precompile name="vision2_pre" location="$ISE_PRECOMP\vision2-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
 		<library name="preferences_xml" location="$ISE_LIBRARY\library\preferences\preferences_xml-safe.ecf"/>

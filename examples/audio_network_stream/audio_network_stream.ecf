@@ -2,7 +2,7 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd" name="audio_network_stream" uuid="38801855-0F44-40E8-9EAE-5EFB3666B3C9">
 	<target name="audio_network_stream">
 		<root class="GAME2_APPLICATION" feature="make"/>
-		<option warning="true">
+		<option  void_safety="all" warning="true">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<capability>
@@ -11,8 +11,8 @@
 			<void_safety support="all"/>
 		</capability>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-mt-safe.ecf"/>
-		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio-safe.ecf"/>
-		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="net" location="$ISE_LIBRARY\library\net\net.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<cluster name="audio_network_stream" location=".\" recursive="true">

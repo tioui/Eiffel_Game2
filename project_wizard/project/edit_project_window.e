@@ -745,11 +745,7 @@ feature {NONE} -- Implementation
 						rename_to_old(ecf_file_path.name)
 						l_has_override := True
 					end
-					if void_safe_check_button.is_selected then
-						create {ECF_SAFE_GENERATOR}l_ecf_generator.make (ecf_file_path.name, project_name_text_field.text, l_uuid)
-					else
-						create l_ecf_generator.make (ecf_file_path.name, project_name_text_field.text, l_uuid)
-					end
+					create l_ecf_generator.make (ecf_file_path.name, project_name_text_field.text, l_uuid)
 					generate_ecf_file(l_ecf_generator)
 				end
 				if not root_class_file_exist then
@@ -798,6 +794,7 @@ feature {NONE} -- Implementation
 			a_ecf_generator.has_audio_library := audio_library_check_button.is_selected
 			a_ecf_generator.has_sound_file_library := sound_file_library_check_button.is_selected
 			a_ecf_generator.has_mpg_file_library := mpg_file_library_check_button.is_selected
+			a_ecf_generator.is_void_safe := void_safe_check_button.is_selected
 			a_ecf_generator.generate_file
 		end
 

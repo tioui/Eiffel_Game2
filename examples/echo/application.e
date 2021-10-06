@@ -101,11 +101,10 @@ feature {NONE} -- Initialization
 			until
 				l_index_valid
 			loop
-				io.standard_default.put_string ("       " + l_index.out + " - " + la_devices.item.name.to_string_8 + "%N")
 				io.standard_default.put_string ("Select a playback device to use (0 to select the default device)%N")
 				l_index := 1
 				across l_devices as la_devices loop
-					io.standard_default.put_string_32 ({STRING_32}"	" + l_index.out + " - " + la_devices.item.name + "%N")
+					io.standard_default.put_string ("	" + l_index.out + " - " + la_devices.item.name.to_string_8 + "%N")
 					l_index := l_index + 1
 				end
 				io.standard_default.put_string ("Choice:")

@@ -2,14 +2,14 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="mp3_player" uuid="2A1670E2-AC8A-45CB-8DCB-96F92B556319">
     <target name="mp3_player">
         <root class="GAME2_APPLICATION" feature="make"/>
-        <option warning="true">
+        <option  void_safety="all" warning="true">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="none"/>
         <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio-safe.ecf"/>
-		<library name="audio_mpg_file" location="$EIFFEL_LIBRARY\contrib\library\game2\audio_mpg_file\audio_mpg_file-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
+		<library name="audio_mpg_file" location="$EIFFEL_LIBRARY\contrib\library\game2\audio_mpg_file\audio_mpg_file.ecf"/>
 
         <cluster name="mp3_player" location=".\" recursive="true">
             <file_rule>

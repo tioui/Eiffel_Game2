@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="custom_package_file" uuid="F60A95BB-4C28-4CD3-A9D3-E9A98614226D">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="custom_package_file" uuid="F60A95BB-4C28-4CD3-A9D3-E9A98614226D">
 	<target name="custom_package_file">
 		<root class="CPF_APP" feature="make"/>
-		<option warning="true" full_class_checking="false" void_safety="all">
+		<option warning="true" full_class_checking="false" is_obsolete_routine_type="true" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
+		<setting name="dead_code_removal" value="feature"/>
+		<capability>
+			<concurrency support="none"/>
+			<void_safety support="all" use="all"/>
+		</capability>
 		<precompile name="base-safe_precompile" location="$ISE_PRECOMP\base-safe.ecf"/>
-		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>
+		<library name="game_shared" location="$EIFFEL_LIBRARY\contrib\library\game2\game_shared\game_shared.ecf"/>
 		<cluster name="custom_package_file" location=".\" recursive="true">
 			<file_rule>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/CVS$</exclude>
 				<exclude>/.svn$</exclude>
 				<exclude>/.tests$</exclude>
+				<exclude>/CVS$</exclude>
+				<exclude>/EIFGENs$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

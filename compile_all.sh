@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bash 
+#!/usr/bin/env -S bash -e
 
 ######################################################################
 # @author      : Louis Marchand (prog@tioui.com)
@@ -13,21 +13,27 @@ compile_library() {
 	echo $1
 	pushd $2
 	ecb -config $3 -batch
+	result=$?
 	popd
+	return $result
 }
 
 compile_program() {
 	echo $1
 	pushd $2
 	ecb -config $3 -batch -finalize -c_compile
+	result=$?
 	popd
+	return $result
 }
 
 compile_program_target() {
 	echo $1
 	pushd $2
 	ecb -config $3 -target $4 -batch -finalize -c_compile
+	result=$?
 	popd
+	return $result
 }
 
 ./clean_all.sh
@@ -46,31 +52,31 @@ compile_library "OpenGL base library" opengl/gl gl.ecf
 compile_library "OpenGL GLEW library" opengl/glew/core glew.ecf
 compile_program "CPF Application" custom_package_file_app custom_package_file.ecf
 compile_program_target "Project Wizard" project_wizard/project game2_wizard.ecf game2_wizard
-compile_program "Clipboard text example" example/clipboard_text/ clipboard_text.ecf
-compile_program "Audio Network example" example/audio_network_stream/ audio_network_stream.ecf
-compile_program "Writing Text example" example/writing_text/ writing_text.ecf
-compile_program "Battery example" example/battery/ battery.ecf
-compile_program "Anim Renderer example" example/anim_rendered/ anim_rendered.ecf
-compile_program "Anim Surfaced example" example/anim_surfaced/ anim_surfaced.ecf
-compile_program "Anim Surfaced Optimized example" example/anim_surfaced_optimized/ anim_surfaced_optimized.ecf
-compile_program "Wheel Zoom example" example/wheel_zoom/ wheel_zoom.ecf
-compile_program "Mouse Text example" example/mouse-text/ mouse.ecf
-compile_program "OpenGL base example" example/opengl/base/ opengl_base.ecf
-compile_program "OpenGL texture example" example/opengl/texture/ opengl_texture.ecf
-compile_program "Doppler example" example/doppler/ doppler.ecf
-compile_program "Surface 1 example" example/surface1/ surface1.ecf
-compile_program "Surface 2 example" example/surface2/ surface2.ecf
-compile_program "Capture example" example/capture/ capture.ecf
-compile_program "Logical Size example" example/logical_size/ logical_size.ecf
-compile_program "Audio WAV example" example/audio_wav/ audio_wav.ecf
-compile_program "Cursor example" example/cursor/ cursor.ecf
-compile_program "Audio GUI example" example/audio_gui/ audio_gui.ecf
-compile_program "Background Move example" example/background_move/ background_move.ecf
-compile_program "Renderer Driver example" example/renderer_driver/ renderer_driver.ecf
-compile_program "Audio Console 1 example" example/audio-console1/ audio-console1.ecf
-compile_program "Audio Console 2 example" example/audio-console2/ audio-console2.ecf
-compile_program "Echo example" example/echo/ echo.ecf
-compile_program "Sound example" example/sound/ sound.ecf
-compile_program "Draw Pixel example" example/draw_pixel/ draw_pixel.ecf
-compile_program "MP3 example" example/mp3/ mp3_player.ecf
-compile_program "Draw Renderer example" example/draw_pixel/ draw_pixel.ecf
+compile_program "Clipboard text example" examples/clipboard_text/ clipboard_text.ecf
+compile_program "Audio Network example" examples/audio_network_stream/ audio_network_stream.ecf
+compile_program "Writing Text example" examples/writing_text/ writing_text.ecf
+compile_program "Battery example" examples/battery/ battery.ecf
+compile_program "Anim Renderer example" examples/anim_rendered/ anim_rendered.ecf
+compile_program "Anim Surfaced example" examples/anim_surfaced/ anim_surfaced.ecf
+compile_program "Anim Surfaced Optimized example" examples/anim_surfaced_optimized/ anim_surfaced_optimized.ecf
+compile_program "Wheel Zoom example" examples/wheel_zoom/ wheel_zoom.ecf
+compile_program "Mouse Text example" examples/mouse-text/ mouse-text.ecf
+compile_program "OpenGL base example" examples/opengl/base/ opengl_base.ecf
+compile_program "OpenGL texture example" examples/opengl/texture/ opengl_texture.ecf
+compile_program "Doppler example" examples/doppler/ doppler.ecf
+compile_program "Surface 1 example" examples/surface1/ surface1.ecf
+compile_program "Surface 2 example" examples/surface2/ surface2.ecf
+compile_program "Capture example" examples/capture/ capture.ecf
+compile_program "Logical Size example" examples/logical_size/ logical_size.ecf
+compile_program "Audio WAV example" examples/audio_wav/ audio_wav.ecf
+compile_program "Cursor example" examples/cursor/ cursor.ecf
+compile_program "Audio GUI example" examples/audio_gui/ audio_gui.ecf
+compile_program "Background Move example" examples/background_move/ background_move.ecf
+compile_program "Renderer Driver example" examples/renderer_driver/ renderer_driver.ecf
+compile_program "Audio Console 1 example" examples/audio-console1/ audio-console1.ecf
+compile_program "Audio Console 2 example" examples/audio-console2/ audio-console2.ecf
+compile_program "Echo example" examples/echo/ echo.ecf
+compile_program "Sound example" examples/sound/ sound.ecf
+compile_program "Draw Pixel example" examples/draw_pixel/ draw_pixel.ecf
+compile_program "MP3 example" examples/mp3/ mp3_player.ecf
+compile_program "Draw Renderer example" examples/draw_pixel/ draw_pixel.ecf

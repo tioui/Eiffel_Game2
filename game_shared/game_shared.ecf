@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="game_shared" uuid="3431F582-E21F-4E12-BF76-9A7D83FDE93D" library_target="game_shared">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="game_shared" uuid="3431F582-E21F-4E12-BF76-9A7D83FDE93D" library_target="game_shared">
 	<description>Shared Classes for the game library.</description>
 	<target name="game_shared">
 		<description>Shared Classes for the game library.</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="0" product="Game_Shared" copyright="Louis Marchand"/>
-		<option warning="true" full_class_checking="false" void_safety="all" syntax="standard" namespace="EiffelSoftware.Library">
+		<option warning="true" full_class_checking="false" is_obsolete_routine_type="true" syntax="standard" manifest_array_type="mismatch_warning" namespace="EiffelSoftware.Library">
 		</option>
 		<setting name="total_order_on_reals" value="true"/>
+		<setting name="dead_code_removal" value="feature"/>
+		<capability>
+			<concurrency support="none"/>
+			<void_safety support="all" use="all"/>
+		</capability>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>

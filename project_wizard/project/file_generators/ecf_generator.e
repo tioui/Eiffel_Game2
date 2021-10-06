@@ -131,6 +131,33 @@ feature -- Access
 			Is_Enabled: not is_multithread
 		end
 
+	is_void_safe:BOOLEAN assign set_is_void_safe
+			-- The project must enable void safety
+
+	set_is_void_safe(a_is_void_safe:BOOLEAN)
+			-- Assign `is_void_safe' with the value of `a_is_void_safe'.
+		do
+			is_void_safe := a_is_void_safe
+		ensure
+			Is_Assign: is_void_safe ~ a_is_void_safe
+		end
+
+	enable_void_safe
+			-- put `is_void_safe' to `True'
+		do
+			set_is_void_safe(True)
+		ensure
+			Is_Enabled: is_void_safe
+		end
+
+	disable_void_safe
+			-- put `is_void_safe' to `False'
+		do
+			set_is_void_safe(False)
+		ensure
+			Is_Enabled: not is_void_safe
+		end
+
 feature {NONE} -- Implementation
 
 	generated_content:STRING
@@ -154,6 +181,14 @@ feature {NONE} -- Implementation
 			else
 				l_template.add_value ("none", "thread")
 				l_template.add_value ("", "thread_pre")
+			end
+			if is_void_safe then
+				l_template.add_value ("all", "void_safety")
+				l_template.add_value ("-safe", "void_safe_pre")
+				l_libraries.append (thread_library_text)
+			else
+				l_template.add_value ("none", "void_safety")
+				l_template.add_value ("", "void_safe_pre")
 			end
 			l_template.add_value (generate_libraries_content, "libraries")
 			l_template.get_structure
@@ -217,11 +252,11 @@ feature {NONE} -- Implementation
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="{$project_name/}" uuid="{$uuid/}">
     <target name="{$target/}">
         <root class="{$game2_root_class/}" feature="{$game2_root_feature/}"/>
-        <option warning="true" void_safety="all">
+        <option warning="true" void_safety="{$void_safety/}">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="{$thread/}"/>
-        <precompile name="base_pre" location="$ISE_PRECOMP\base{$thread_pre/}-safe.ecf"/>
+        <precompile name="base_pre" location="$ISE_PRECOMP\base{$thread_pre/}{$void_safe_pre/}.ecf"/>
         <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 {$libraries/}
         <cluster name="{$cluster/}" location=".\" recursive="true">

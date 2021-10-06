@@ -2,13 +2,13 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="echo" uuid="E0648DCA-9099-4A16-ADA8-DF2B9202A919">
     <target name="echo">
         <root class="GAME2_APPLICATION" feature="make"/>
-        <option warning="true">
+        <option  void_safety="all" warning="true">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="none"/>
         <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
 
         <cluster name="echo" location=".\" recursive="true">
             <file_rule>

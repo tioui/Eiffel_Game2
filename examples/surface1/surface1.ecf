@@ -2,13 +2,13 @@
 <system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="surface1" uuid="BF0C7BAB-CBB4-4F68-BEB4-730972A68CFE">
     <target name="surface1">
         <root class="GAME2_APPLICATION" feature="make"/>
-        <option warning="true">
+        <option  void_safety="all" warning="true">
             <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
         </option>
         <setting name="concurrency" value="none"/>
         <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
-        <library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
-		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
 
         <cluster name="surface1" location=".\" recursive="true">
             <file_rule>

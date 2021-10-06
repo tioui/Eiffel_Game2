@@ -9,7 +9,7 @@ The library is compatible with Linux, MAC OS X, Windows. It should work with oth
 
 The Audio and Audio_Sound_File sub-libraries are under the LGPL license. Every other sub-libraries are under the zlib license. Every examples are under the GPL license.
 
-The project uses those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile and libmpg123.
+The project uses those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile, libmpg123, GLEW.
 
 [<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%40tioui%2ecom&lc=CA&item_name=Louis%20Marchand&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
@@ -27,19 +27,19 @@ Installation on Linux (Ubuntu)
 
 ***
 
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev
 
 ***
 
 * Execute the "compile_c_library.sh" script (from the "game2" directory).
-* Create a project and add the sub-libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
+* Create a project and add the sub-libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core.ecf .
 
 Note: If you have an error in the apt-get command telling libsdl2-dev depending of libgles2-mesa-dev. Just install the latest and retry like this:
 
 ***
 
 	sudo apt-get install libgles2-mesa-dev
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev
 
 ***
 
@@ -53,7 +53,7 @@ Installation on Windows
 * You need to add the "game2" library folder in the "contrib/library" folder of EiffelStudio. Normaly, this folder is in "c:\Program Files\Eiffel Software\".
 * You need to install the C libraries dependancies. To get them, download the file https://github.com/tioui/Eiffel_Game2/raw/windows_build/C_libraries.zip. When you extract the file, you should have a C_lib_win directory. Put the C_lib_win directory in the root directory of the Eiffel_Game2 repository directory.
 * Using the "EiffelStudio command prompt" (look in the Windows "Start" menu), execute the "compile_c_library.bat" script of the "game2" directory.
-* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core-safe.ecf .
+* Create a project and add the libraries you need (".ecf" file) in the project.(You can use the EIFFEL_LIBRARY environment variable to add those libraries. For example: $EIFFEL_LIBRARY/contrib/library/game2/game_core/game_core.ecf .
 * Put all ".dll" files of the C_lib_win\DLLXX directory in the new project directory or in the C:\Windows\System32\.
 
 

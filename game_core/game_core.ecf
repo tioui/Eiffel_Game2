@@ -1,22 +1,45 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-12-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-12-0 http://www.eiffel.com/developers/xml/configuration-1-12-0.xsd" name="game_core" uuid="96C4285D-765B-4AD2-BB48-DF0CFE1A74EE" library_target="game_core">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="game_core" uuid="96C4285D-765B-4AD2-BB48-DF0CFE1A74EE" library_target="game_core">
 	<description>A Game library for EiffelStudio</description>
 	<target name="game_core">
 		<description>A game library for EiffelStudio</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game" copyright="Louis Marchand"/>
-		<option full_class_checking="false" void_safety="all" syntax="standard">
+		<option full_class_checking="false" is_obsolete_routine_type="true" syntax="standard" manifest_array_type="mismatch_warning">
 			<assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
 		</option>
 		<setting name="total_order_on_reals" value="true"/>
+		<setting name="dead_code_removal" value="feature"/>
+		<capability>
+			<concurrency support="none"/>
+			<void_safety support="all" use="all"/>
+		</capability>
 		<mapping old_name="GAME_FINGER_EVENT_STATE" new_name="GAME_FINGER_EVENT"/>
 		<mapping old_name="GAME_KEY_STATE" new_name="GAME_KEY_EVENT"/>
 		<mapping old_name="GAME_MOUSE_BUTTON_PRESSED_STATE" new_name="GAME_MOUSE_BUTTON_PRESS_EVENT"/>
 		<mapping old_name="GAME_MOUSE_BUTTON_RELEASED_STATE" new_name="GAME_MOUSE_BUTTON_RELEASE_EVENT"/>
 		<mapping old_name="GAME_MOUSE_MOTION_STATE" new_name="GAME_MOUSE_MOTION_EVENT"/>
 		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/game_core/spec/include"/>
-
-		
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\SDL2\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
+		<external_include location="/opt/local/Library/Frameworks/SDL2.framework/Headers">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/C_lib_mac/SDL2">
+			<condition>
+				<platform value="macintosh"/>
+			</condition>
+		</external_include>
+		<external_cflag value="`sdl2-config --cflags`">
+			<condition>
+				<platform value="unix"/>
+			</condition>
+		</external_cflag>
 		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game2/game_core/spec/$(ISE_PLATFORM)/lib/sdl_additions.o">
 			<condition>
 				<platform excluded_value="windows"/>
@@ -49,26 +72,6 @@
 				<dotnet value="true"/>
 			</condition>
 		</external_object>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\SDL2\include">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_include>
-		<external_include location="/opt/local/Library/Frameworks/SDL2.framework/Headers">
-			<condition>
-				<platform value="macintosh"/>
-			</condition>
-		</external_include>
-		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/C_lib_mac/SDL2">
-			<condition>
-				<platform value="macintosh"/>
-			</condition>
-		</external_include>
-		<external_cflag value="`sdl2-config --cflags`">
-			<condition>
-				<platform value="unix"/>
-			</condition>
-		</external_cflag>
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\SDL2\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\SDL2.lib">
 			<condition>
 				<platform value="windows"/>
@@ -96,21 +99,21 @@
 		</external_linker_flag>
 		<variable name="malloc_check_" value="0"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
-		<library name="cpf" location="..\cpf\cpf.ecf"/>
 		<library name="chain_indexable_iterator" location="..\eiffel_chain_indexable_iterator\chain_indexable_iterator.ecf"/>
+		<library name="cpf" location="..\cpf\cpf.ecf"/>
 		<library name="game_shared" location="..\game_shared\game_shared.ecf"/>
 		<cluster name="game_core" location=".\" recursive="true">
 			<description>A Game Library for EiffelStudio</description>
 			<file_rule>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/spec$</exclude>
 				<exclude>/Clib$</exclude>
-				<exclude>/implementation$</exclude>
-				<exclude>/graphic$</exclude>
-				<exclude>/input$</exclude>
-				<exclude>/haptic$</exclude>
+				<exclude>/EIFGENs$</exclude>
 				<exclude>/event$</exclude>
 				<exclude>/gl$</exclude>
+				<exclude>/graphic$</exclude>
+				<exclude>/haptic$</exclude>
+				<exclude>/implementation$</exclude>
+				<exclude>/input$</exclude>
+				<exclude>/spec$</exclude>
 			</file_rule>
 			<cluster name="input" location=".\input\"/>
 			<cluster name="gl" location=".\gl\"/>

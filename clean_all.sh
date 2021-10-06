@@ -8,39 +8,43 @@
 # @description : Compilation of every ECF files
 ######################################################################
 
-# Audio library
 rm -rf audio/EIFGENs
-
-# Audio MPG File library
 rm -rf audio_mpg_file/EIFGENs
-
-# Audio sound File library
 rm -rf audio_sound_file/EIFGENs
-
-# CPF library
 rm -rf cpf/EIFGENs
-
-# Game Core library
 rm -rf game_core/EIFGENs
-
-#Game Effects library
 rm -rf game_effects/EIFGENs
-
-#Game Image File library
 rm -rf game_image_file/EIFGENs
-
-#Game Shared library
 rm -rf game_shared/EIFGENs
-
-#OpenGL base library
 rm -rf opengl/gl/EIFGENs
-
-#OpenGL GLEW library
-rm -rf opengl/glew/code/EIFGENs
-
-#CPF Application
+rm -rf opengl/glew/core/EIFGENs
 rm -rf custom_package_file_app/EIFGENs
-
-#Project Wizard
 rm -rf project_wizard/project/EIFGENs
-
+rm -rf examples/clipboard_text/EIFGENs
+rm -rf examples/audio_network_stream/EIFGENs
+rm -rf examples/writing_text/EIFGENs
+rm -rf examples/battery/EIFGENs
+rm -rf examples/anim_rendered/EIFGENs
+rm -rf examples/anim_surfaced/EIFGENs
+rm -rf examples/anim_surfaced_optimized/EIFGENs
+rm -rf examples/wheel_zoom/EIFGENs
+rm -rf examples/mouse-text/EIFGENs
+rm -rf examples/opengl/base/EIFGENs
+rm -rf examples/opengl/texture/EIFGENs
+rm -rf examples/doppler/EIFGENs
+rm -rf examples/surface1/EIFGENs
+rm -rf examples/surface2/EIFGENs
+rm -rf examples/capture/EIFGENs
+rm -rf examples/logical_size/EIFGENs
+rm -rf examples/audio_wav/EIFGENs
+rm -rf examples/cursor/EIFGENs
+rm -rf examples/audio_gui/EIFGENs
+rm -rf examples/background_move/EIFGENs
+rm -rf examples/renderer_driver/EIFGENs
+rm -rf examples/audio-console1/EIFGENs
+rm -rf examples/audio-console2/EIFGENs
+rm -rf examples/echo/EIFGENs
+rm -rf examples/sound/EIFGENs
+rm -rf examples/draw_pixel/EIFGENs
+rm -rf examples/mp3/EIFGENs
+rm -rf examples/draw_pixel/EIFGENs
