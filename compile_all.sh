@@ -80,3 +80,4 @@ compile_program "Sound example" examples/sound/ sound.ecf
 compile_program "Draw Pixel example" examples/draw_pixel/ draw_pixel.ecf
 compile_program "MP3 example" examples/mp3/ mp3_player.ecf
 compile_program "Draw Renderer example" examples/draw_pixel/ draw_pixel.ecf
+compile_program "Draw Renderer example" examples/joystick/ joystick.ecf
