@@ -1,6 +1,6 @@
 <EIFFEL_DOCUMENT>
 	<PREFERENCE NAME="regenerate_ecf" VALUE="True"/>
-	<PREFERENCE NAME="project_path" VALUE="/home/louis/prog/Eiffel_Game2/examples/joystick"/>
+	<PREFERENCE NAME="project_path" VALUE="."/>
 	<PREFERENCE NAME="project_name" VALUE="joystick"/>
 	<PREFERENCE NAME="target_name" VALUE="joystick"/>
 	<PREFERENCE NAME="cluster_name" VALUE="joystick"/>
