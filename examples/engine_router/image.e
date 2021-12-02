@@ -1,16 +1,26 @@
 note
 	description: "A visual element."
 	author: "Louis Marchand"
-	date: "Wed, 14 Oct 2020 20:42:09 +0000"
-	revision: "0.1"
+	date: "Tue, 02 Nov 2021 13:35:13 +0000"
+	revision: "0.2"
 
-deferred class
+class
 	IMAGE
+
+create
+	make_from_texture,
+	make_from_file
 
 feature {NONE} -- Initialisation
 
+	make_from_texture(a_texture:GAME_TEXTURE)
+			-- Initialisation of `Current' using `a_texture' as `texture'
+		do
+			texture := a_texture
+		end
+
 	make_from_file(a_renderer:GAME_RENDERER; a_filename:STRING)
-			-- Initialization of `Current' for used with `a_renderer' opening
+			-- Initialisation of `Current' for used with `a_renderer' opening
 			-- `a_filename' as source file
 		local
 			l_image: IMG_IMAGE_FILE

@@ -12,7 +12,7 @@ class
 
 create
 	make_and_launch
-	
+
 feature {NONE} -- Initialization
 
 	make_and_launch
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 				-- No code should appear here,
 				-- otherwise GUI message processing will be stuck in SCOOP mode.
 		end
-		
+
 feature {NONE} -- User Initialization
 
 	user_create_interface_objects

@@ -37,7 +37,6 @@ feature -- Access
 	generate_file
 			-- Generate the file pointed by the `filename'
 		local
-			l_template:TEMPLATE_TEXT
 			l_file:PLAIN_TEXT_FILE
 			l_generated_content:STRING
 		do

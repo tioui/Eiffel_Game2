@@ -1,0 +1,3 @@
+The image come from the SMC game: http://secretmaryo.org/. The SMC game is under GPL 3.0 license.
+
+The menu cursor image is under CC0 license: https://openclipart.org/detail/12603/arrow-next

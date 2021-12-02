@@ -102,7 +102,7 @@ feature -- Access
 		end
 
 	facing_left:BOOLEAN
-			-- Is `Current' looking in the left direction
+			-- Is `Current' looking in the left direction.
 
 	going_left:BOOLEAN
 			-- Is `Current' moving left
