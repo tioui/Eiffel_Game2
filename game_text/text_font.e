@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 		require
 			Is_Text_Enable: text_library.is_text_enable
 			Filename_Not_Empty: not a_filename.is_empty
-			Size_Stricly_Positive: a_size > 1
+			Size_Stricly_Positive: a_size > 0
 		do
 			make_with_index(a_filename,a_size,0)
 		end
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 		require
 			Is_Text_Enable: text_library.is_text_enable
 			Filename_Not_Empty: not a_filename.is_empty
-			Size_Stricly_Positive: a_size > 1
+			Size_Stricly_Positive: a_size > 0
 			Index_Positive: a_index >= 0
 		local
 			l_filename_c, l_mode_c:C_STRING
