@@ -160,7 +160,6 @@ feature {NONE} -- Implementation
 	on_axis_motion(a_timestamp: NATURAL_32; a_axis_id:NATURAL_8; a_value:INTEGER_16)
 			-- When the user move an axis
 		do
-			print(a_value.out + "%N")
 			if axis_values.valid_index (a_axis_id + 1) then
 				axis_values.at (a_axis_id + 1) := a_value
 			end
