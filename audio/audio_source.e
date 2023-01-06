@@ -354,7 +354,7 @@ feature {NONE} -- Implementation - Routines
 	queue_next_buffer
 			-- Queue the next C buffer returned from the next sound of the `internal_sound_queued'
 		local
-			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq,l_byte_per_buffer_sample:INTEGER
+			l_last_fill_buffer_size,l_channel,bits_resolution,l_freq:INTEGER
 			l_infinite_loop_restarted, l_streaming_sound_null:BOOLEAN
 		do
 			from
@@ -371,7 +371,6 @@ feature {NONE} -- Implementation - Routines
 				l_channel := internal_sound_queued.item.sound.channel_count
 				bits_resolution := internal_sound_queued.item.sound.bits_per_sample
 				l_freq := internal_sound_queued.item.sound.frequency
-				l_byte_per_buffer_sample := internal_sound_queued.item.sound.byte_per_buffer_sample
 				if internal_sound_queued.item.sound.is_finished then
 					internal_sound_queued.item.sound.restart
 					if internal_sound_queued.item.nb_loop = 0 then

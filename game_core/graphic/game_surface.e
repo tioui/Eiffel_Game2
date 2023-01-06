@@ -485,7 +485,7 @@ feature -- Access
 		do
 			clear_error
 			l_error:={GAME_SDL_EXTERNAL}.SDL_GetColorKey(item, $l_color_key)
-			if l_error<-1 then
+			if l_error < -1 then
 				manage_error_code(l_error, "An error occured while getting the transparent color of the surface.")
 			end
 			Result := l_error /= -1
