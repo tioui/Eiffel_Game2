@@ -21,73 +21,62 @@
 				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<external_object location="$(ISE_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\av_additions.lib">
-			<condition>
-				<platform value="windows"/>
-				<concurrency value="none"/>
-				<dotnet value="false"/>
-			</condition>
-		</external_object>
-		<external_object location="$(ISE_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtav_additions.lib">
-			<condition>
-				<platform value="windows"/>
-				<concurrency excluded_value="none"/>
-				<dotnet value="false"/>
-			</condition>
-		</external_object>
-		<external_object location="$(ISE_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilav_additions.lib">
-			<condition>
-				<platform value="windows"/>
-				<dotnet value="true"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game2/audio_video_file/spec/$(ISE_PLATFORM)/lib/av_additions.o">
-			<condition>
-				<platform excluded_value="windows"/>
-				<concurrency value="none"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game2/audio_video_file/spec/$(ISE_PLATFORM)/lib/MTav_additions.o">
-			<condition>
-				<platform excluded_value="windows"/>
-				<concurrency excluded_value="none"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avcodec.lib">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avutil.lib">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
-		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avformat.lib">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_object>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\include\libavcodec">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_include>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\include\libavformat">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_include>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\libav\include">
-			<condition>
-				<platform value="windows"/>
-			</condition>
-		</external_include>
 		<external_linker_flag value="`pkg-config --libs libavcodec libavformat libavutil libswresample`">
 			<condition>
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avcodec.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avutil.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avformat.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\swresample.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avfilter.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\swscale.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\av_additions.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtav_additions.lib">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_object>
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\include">
+			<condition>
+				<platform value="windows"/>
+			</condition>
+		</external_include>
 		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>

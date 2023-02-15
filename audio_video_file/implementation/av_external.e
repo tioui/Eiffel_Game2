@@ -433,16 +433,6 @@ feature -- Libavcodec AVFrame structure
 			"((AVFrame *)$a_frame)->linesize[(int)$a_i]=(int)$a_value"
 		end
 
-feature -- Libavcodec AVPicture structure	
-
-	frozen c_sizeof_av_picture:INTEGER
-			-- Eiffel alias to get the size of an 'AVPicture'
-		external
-			"C inline use <libavcodec/avcodec.h>"
-		alias
-			"sizeof(AVPicture)"
-		end
-
 feature -- Libavcodec AVRational structure
 
 	frozen get_av_rational_struct_num (a_rational:POINTER):INTEGER
