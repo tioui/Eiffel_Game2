@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="click_draw_on_texture" uuid="30E9D7E5-53C1-4E01-86E1-A8360AC1BFDB">
+    <target name="click_draw_on_texture">
+        <root class="GAME2_APPLICATION" feature="make"/>
+        <option warning="true" void_safety="all">
+            <assertions precondition="true" postcondition="true" check="true" invariant="true" loop="true" supplier_precondition="true"/>
+        </option>
+        <setting name="concurrency" value="none"/>
+        <precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
+        <library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
+		<library name="game_image_file" location="$EIFFEL_LIBRARY\contrib\library\game2\game_image_file\game_image_file.ecf"/>
+		<library name="game_text" location="$EIFFEL_LIBRARY\contrib\library\game2\game_text\game_text.ecf"/>
+
+        <cluster name="click_draw_on_texture" location=".\" recursive="true">
+            <file_rule>
+                <exclude>/EIFGENs$</exclude>
+            </file_rule>
+        </cluster>
+    </target>
+</system>

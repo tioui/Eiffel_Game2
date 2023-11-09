@@ -7,25 +7,11 @@ note
 deferred class
 	IMAGE
 
-feature -- Class methods
-
-	is_file_openable(a_filename:STRING):BOOLEAN
-		local
-			l_image: IMG_IMAGE_FILE
-		do
-			create l_image.make (a_filename)
-			Result := l_image.is_openable
-		ensure
-			class
-		end
-
 feature {NONE} -- Initialisation
 
 	make_from_file(a_renderer:GAME_RENDERER; a_filename:STRING)
 			-- Initialization of `Current' for used with `a_renderer' opening
 			-- `a_filename' as source file
-		require
-			Is_File_Openable: is_file_openable(a_filename)
 		local
 			l_image: IMG_IMAGE_FILE
 		do
