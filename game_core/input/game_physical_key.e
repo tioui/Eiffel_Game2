@@ -9,7 +9,7 @@ deferred class
 
 feature -- Access
 
-	physical_code:INTEGER_32
+	physical_code:NATURAL_32
 			-- Hardware code of the key
 			-- (not compatible between systems)
 		deferred

@@ -272,7 +272,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_from_physical_code(a_physical_code:INTEGER_32)
+	make_from_physical_code(a_physical_code:NATURAL_32)
 			-- Initialize `Current' using hardware
 			-- dependant `a_physical_code' value (scancode).
 		do
@@ -280,7 +280,7 @@ feature {NONE} -- Initialization
 			virtual_code := {GAME_SDL_VIRTUAL_KEY}.SDL_GetKeyFromScancode(physical_code)
 		end
 
-	make_from_virtual_code(a_virtual_code:INTEGER_32)
+	make_from_virtual_code(a_virtual_code:NATURAL_32)
 			-- Initialize `Current' using layout aware
 			-- `a_virtual_code' value (keycode).
 		do
@@ -291,7 +291,7 @@ feature {NONE} -- Initialization
 	make_from_name(a_name:READABLE_STRING_GENERAL)
 			-- Initialize `Current' using a text representation.
 		local
-			l_code:INTEGER_32
+			l_code:NATURAL_32
 			l_utf_converter:UTF_CONVERTER
 			l_text_c:C_STRING
 		do
@@ -309,11 +309,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	virtual_code:INTEGER_32
+	virtual_code:NATURAL_32
 			-- Code of the key using the virtual layout keyboard
 			-- (should be compatible between systems)
 
-	physical_code:INTEGER_32
+	physical_code:NATURAL_32
 			-- Hardware code of the key
 			-- (not compatible between systems)
 

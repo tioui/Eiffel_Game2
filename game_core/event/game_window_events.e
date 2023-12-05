@@ -22,11 +22,11 @@ feature {NONE} -- Initialisation
 											window_events_dispatcher(a_timestamp, a_window_id, a_event_type, a_data1, a_data2)
 										end
 			key_pressed_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
-													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
+													a_scancode,a_keycode:NATURAL_32;a_modifier:NATURAL_16) do
 											key_pressed_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
 			key_released_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
-													a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16) do
+													a_scancode,a_keycode:NATURAL_32;a_modifier:NATURAL_16) do
 											key_released_events_dispatcher(a_timestamp, a_window_id, a_repeat, a_scancode, a_keycode, a_modifier)
 										end
 			text_editing_events_callback := agent (a_timestamp,a_window_id:NATURAL_32;a_text:STRING_32;
@@ -643,12 +643,12 @@ feature {NONE} -- Implementation
 			-- Internal value of the `key_pressed_actions' lazy evaluated attribute
 
 	key_pressed_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
-												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+												scancode,keycode:NATURAL_32;modifier:NATURAL_16]]
 			-- Callback used to register `Current' in the `events_controller' for the
 			-- `key_pressed_actions' {ACTION_SEQUENCE}
 
 	key_pressed_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
-								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+								a_scancode,a_keycode:NATURAL_32;a_modifier:NATURAL_16)
 			-- The dispatcher receiving event from the `key_pressed_events_callback' and dispatch them to
 			-- the `key_pressed_actions' {ACTION_SEQUENCE}
 		local
@@ -667,12 +667,12 @@ feature {NONE} -- Implementation
 			-- Internal value of the `key_released_actions' lazy evaluated attribute
 
 	key_released_events_callback:PROCEDURE [ANY, TUPLE[timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
-												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+												scancode,keycode:NATURAL_32;modifier:NATURAL_16]]
 			-- Callback used to register `Current' in the `events_controller' for the
 			-- `key_released_actions' {ACTION_SEQUENCE}
 
 	key_released_events_dispatcher(a_timestamp,a_window_id:NATURAL_32;a_repeat:NATURAL_8;
-								a_scancode,a_keycode:INTEGER_32;a_modifier:NATURAL_16)
+								a_scancode,a_keycode:NATURAL_32;a_modifier:NATURAL_16)
 			-- The dispatcher receiving event from the `key_released_events_callback' and dispatch them to
 			-- the `key_released_actions' {ACTION_SEQUENCE}
 		local

@@ -37,7 +37,7 @@ create {GAME_SDL_ANY}
 
 feature {NONE} -- Initialization
 
-	make(a_physical_code, a_virtual_code:INTEGER_32; a_modifier: NATURAL_16; a_repeat: NATURAL_8)
+	make(a_physical_code, a_virtual_code:NATURAL_32; a_modifier: NATURAL_16; a_repeat: NATURAL_8)
 			-- Initialization for `Current'.
 		do
 			physical_code := a_physical_code

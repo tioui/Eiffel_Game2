@@ -9,7 +9,7 @@ deferred class
 
 feature -- Access
 
-	virtual_code: INTEGER_32
+	virtual_code: NATURAL_32
 			-- Code of the key using the virtual layout keyboard
 			-- (should be compatible between systems)
 		deferred

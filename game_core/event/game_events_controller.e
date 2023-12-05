@@ -130,14 +130,14 @@ feature -- Access
 			-- SDL_WINDOWEVENT_CLOSE: the window manager requests that the window be closed
 
 	key_pressed_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
-												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+												scancode,keycode:NATURAL_32;modifier:NATURAL_16]]
 			-- When a user presses a button on a keyboard. The current focused window
 			-- is identified by `window_id'. `repeat' is non zero if the event is a key repeat.
 			-- The key pressed has the physical code `scancode', the virtual code `keycode' and
 			-- has the current `modifier' (CTRL, SHIFT, ALT, etc.) in effect.
 
 	key_released_actions: ACTION_SEQUENCE[TUPLE[	timestamp,window_id:NATURAL_32;repeat:NATURAL_8;
-												scancode,keycode:INTEGER_32;modifier:NATURAL_16]]
+												scancode,keycode:NATURAL_32;modifier:NATURAL_16]]
 			-- When a user releases a button on a keyboard. The current focused window
 			-- is identified by `window_id'. `repeat' is non zero if the event is a key repeat.
 			-- The key released has the physical code `scancode', the virtual code `keycode' and

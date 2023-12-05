@@ -2409,30 +2409,30 @@ feature -- Structure SDL_Keysym SDL.h
 			"sizeof(SDL_Keysym)"
 		end
 
-	frozen set_key_sym_struct_scancode (ptr: POINTER; value:INTEGER)
+	frozen set_key_sym_struct_scancode (ptr: POINTER; value:NATURAL_32)
 		external
-			"C [struct <SDL.h>] (SDL_Keysym, int)"
+			"C [struct <SDL.h>] (SDL_Keysym, SDL_Scancode)"
 		alias
 			"scancode"
 		end
 
-	frozen get_key_sym_struct_scancode(ptr:POINTER):INTEGER
+	frozen get_key_sym_struct_scancode(ptr:POINTER):NATURAL_32
 		external
-			"C [struct <SDL.h>] (SDL_Keysym):int"
+			"C [struct <SDL.h>] (SDL_Keysym):SDL_Scancode"
 		alias
 			"scancode"
 		end
 
-	frozen set_key_sym_struct_sym (ptr: POINTER; value:INTEGER)
+	frozen set_key_sym_struct_sym (ptr: POINTER; value:NATURAL_32)
 		external
-			"C [struct <SDL.h>] (SDL_Keysym, int)"
+			"C [struct <SDL.h>] (SDL_Keysym, SDL_Keycode)"
 		alias
 			"sym"
 		end
 
-	frozen get_key_sym_struct_sym(ptr:POINTER):INTEGER
+	frozen get_key_sym_struct_sym(ptr:POINTER):NATURAL_32
 		external
-			"C [struct <SDL.h>] (SDL_Keysym):int"
+			"C [struct <SDL.h>] (SDL_Keysym):SDL_Keycode"
 		alias
 			"sym"
 		end

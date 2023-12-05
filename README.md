@@ -11,9 +11,12 @@ The Audio and Audio_Sound_File sub-libraries are under the LGPL license. Every o
 
 The project uses those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, Libsndfile, libmpg123, GLEW.
 
-[<img src="http://api.flattr.com/button/flattr-badge-large.png">](http://flattr.com/thing/971297/Eiffel-Game-Library)
 [<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif">](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=louis%40tioui%2ecom&lc=CA&item_name=Louis%20Marchand&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
-[<img src="https://www.coinbase.com/assets/buttons/donation_small-210ad5fe8fe0846a0c6bc676e1bad3d462ab3fcbdaf2443de8755503d0729847.png">](https://www.coinbase.com/tioui)
+
+Community
+---------
+
+Join our community on Matrix at https://matrix.to/#/!wrHTCYwtIhbsUyXlpp:libreti.net?via=libreti.net
 
 Installation on Linux (Ubuntu)
 ------------------------------
