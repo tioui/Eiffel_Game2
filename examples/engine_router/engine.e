@@ -28,8 +28,6 @@ feature -- Access
 			-- Launch `Current'
 		require
 			No_Error: not has_error
-		local
-			l_dimensions: TUPLE[hauteur, largeur:INTEGER]
 		do
 
 			game_library.quit_signal_actions.extend (agent on_quit)

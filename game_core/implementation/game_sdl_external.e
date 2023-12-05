@@ -1710,6 +1710,13 @@ feature -- Function SDL.h
 			"SDL_UpdateTexture"
 		end
 
+	frozen SDL_UpdateYUVTexture(texture, rect, y_plane:POINTER; y_pitch:INTEGER; u_plane:POINTER; u_pitch:INTEGER; v_plane:POINTER; v_pitch:INTEGER):INTEGER
+		external
+			"C (SDL_Texture*, SDL_Rect*, const Uint8 *, int, const Uint8 *, int, const Uint8 *, int) : int | <SDL.h>"
+		alias
+			"SDL_UpdateYUVTexture"
+		end
+
 	frozen SDL_UnlockTexture(texture:POINTER)
 		external
 			"C (SDL_Texture*) | <SDL.h>"

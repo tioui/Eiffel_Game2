@@ -30,7 +30,7 @@ Installation on Linux (Ubuntu)
 
 ***
 
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev libavcodec-dev libavformat-dev libavresample-dev libavutil-dev libswresample-dev libswscale-dev
 
 ***
 
@@ -42,7 +42,7 @@ Note: If you have an error in the apt-get command telling libsdl2-dev depending 
 ***
 
 	sudo apt-get install libgles2-mesa-dev
-	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev
+	sudo apt-get install libsdl2-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libopenal-dev libsndfile1-dev libmpg123-dev libepoxy-dev libgl1-mesa-dev libglu1-mesa-dev libglew-dev libavcodec-dev libavformat-dev libavresample-dev libavutil-dev libswresample-dev libswscale-dev
 
 ***
 

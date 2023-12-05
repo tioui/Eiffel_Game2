@@ -31,13 +31,6 @@ feature {AUDIO_SOURCE}
 	last_buffer_size:INTEGER
 			-- The size of the last buffer filled by `fill_buffer'
 
-	byte_per_buffer_sample:INTEGER
-			-- The number of byte for one frame of `Current'.
-		require
-			Sound_Is_open: is_open
-		deferred
-		end
-
 feature --Access
 
 	close
@@ -148,7 +141,5 @@ feature --Access
 			-- `Current' has finished it's playback
 
 
-invariant
-	Errors_Valid: has_error ~ has_ressource_error
 
 end

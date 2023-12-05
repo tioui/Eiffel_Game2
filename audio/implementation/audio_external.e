@@ -450,7 +450,6 @@ feature -- OpenAL Constants
 			"AL_FORMAT_STEREO16"
 		end
 
-
 	frozen AL_SOURCE_STATE :INTEGER
 		external
 			"C inline use <al.h>"
