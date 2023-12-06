@@ -16,7 +16,7 @@ The project uses those libraries: SDL2, SDL2_image, SDL2_gfx, SDL2_ttf, OpenAL, 
 Community
 ---------
 
-Join our community on Matrix at https://matrix.to/#/!wrHTCYwtIhbsUyXlpp:libreti.net?via=libreti.net
+Join our community on Matrix at [#eiffel_game2:libreti.net](https://matrix.to/#/#eiffel_game2:libreti.net)
 
 Installation on Linux (Ubuntu)
 ------------------------------
