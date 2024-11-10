@@ -2,11 +2,11 @@ Eiffel Game library version 2 - Examples
 ========================================
 
 
-Begining with surface
+Beginning with surfaces
 	- surface1
 	- surface2
 
-More with surface
+More with surfaces
 	- anim_surfaced
 	- anim_surfaced_optimized
 
@@ -23,36 +23,36 @@ Drawing rectangles on screen:
 Mouse management:
 	- mouse-text
 
-Text surface:
+Text surfaces:
 	- mouse text
 	- cursor
 
 Transparency by color key:
 	- surface1
 
-Sound usage:
+Using sounds:
 	- sound
 	- audio_wav
 	- sound-console1 (without graphical window)
 	- sound-console2 (without graphical window)
 
-Keyboard event:
+Keyboard events:
 	- sound
 	- anim_*
 
-Text input handeling:
+Text input handling:
 	- writing_text
 
-Window icon and caption:
+Window icons and captions:
 	- sound
 
-Animation (sub image)
+Animations (sub-images)
 	- anim_*
 
-Mirror
+Mirrors
 	- anim_*
 
-Tick event (main loop routine)
+Tick events (main loop routine)
 	- anim_*
 
 Thread sound optimisation
