@@ -359,7 +359,7 @@ feature -- Access
 									a_height_destination, True)
 		end
 
-	draw_rectangle(a_color:GAME_COLOR;a_x,a_y,a_width,a_height:INTEGER)
+	draw_rectangle(a_color:GAME_COLOR_READABLE;a_x,a_y,a_width,a_height:INTEGER)
 			-- Draw a `a_color' rectangle of dimension `a_width' x `a_height' on `Current' at (`a_x',`a_y').
 		require
 			Surface_Is_Video_Enable:game_library.is_video_enable
@@ -390,7 +390,7 @@ feature -- Access
 
 		end
 
-	draw_rectangles(a_color:GAME_COLOR;a_rectangles:CHAIN[TUPLE[x, y, width, height:INTEGER]])
+	draw_rectangles(a_color:GAME_COLOR_READABLE;a_rectangles:CHAIN[TUPLE[x, y, width, height:INTEGER]])
 			-- Drawing every `a_color' rectangle in `a_rectangles'
 			-- that has it's left frontier at
 			-- `x', it's top frontier at `y', with
