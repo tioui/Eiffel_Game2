@@ -1,5 +1,5 @@
 note
-	description: "Representation of an image that can be paste on other image."
+	description: "Representation of an image that can be pasted on other images."
 	author: "Louis Marchand"
 	date: "Sat, 28 Mar 2015 14:00:33 +0000"
 	revision: "2.0"
@@ -33,8 +33,8 @@ feature {NONE} -- Initialisation
 	share_from_image(a_image:GAME_IMAGE)
 			-- Create a `Current' from `a_image_source'.
 			-- The image source in memory is not copied.
-			-- If multiple surface is done with the same `a_image',
-			-- every modification to surface will affect all.
+			-- If multiple surface are made from the same `a_image',
+			-- every modification to the surface will affect every other copies.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_From_Image_Source_Is_Open: a_image.is_open
@@ -48,9 +48,8 @@ feature {NONE} -- Initialisation
 	make_from_image(a_image:GAME_IMAGE)
 			-- Create a `Current' from `a_image'.
 			-- The image source in memory is copied.
-			-- Slower than `share_from_image' and use more memory.
-			-- If multiple surface is done with the same `a_image',
-			-- every modification to surface will affect all.
+			-- Slower than `share_from_image' and uses more memory.
+			-- Modifications made to this surface will not affect other similar surfaces.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_From_Image_Source_Is_Open: a_image.is_open
@@ -78,8 +77,8 @@ feature {NONE} -- Initialisation
 	share_from_other(a_other:GAME_SURFACE)
 			-- Create a `Current' from `a_other'.
 			-- The image source in memory is not copied.
-			-- If multiple surface is done with the same `image',
-			-- every modification to surface will affect all.
+			-- If multiple surfaces are created from the same `image',
+			-- every modification to surface will affect all other copies.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_Other_Opened: a_other.is_open
@@ -92,7 +91,7 @@ feature {NONE} -- Initialisation
 	make_from_other(a_other:GAME_SURFACE)
 			-- Create a `Current' from `a_other'.
 			-- The image source in memory will be copied.
-			-- Slower than `share_from_other' and use more memory.
+			-- Slower than `share_from_other' and uses more memory.
 		require
 			Surface_Make_Video_Enabled: game_library.is_video_enable
 			Surface_Make_Other_Opened: a_other.is_open
