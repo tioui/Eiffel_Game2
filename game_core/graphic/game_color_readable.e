@@ -108,7 +108,7 @@ feature -- Access
 		end
 
 	alpha:NATURAL_8
-			-- The opacity (aplha channel) intensity
+			-- The opacity (alpha channel) intensity
 			-- 0=transparent and 255=opaque
 		do
 			Result:=alpha_internal
