@@ -18,10 +18,6 @@ inherit
 			is_running as is_events_running,
 			clear as clear_events
 		end
-	GAMEPAD_BUTTONS
-		rename
-			make as make_buttons
-		end
 
 create
 	make
@@ -31,13 +27,19 @@ feature  -- Initialization
 	make(a_joystick_id:INTEGER_32)
 			-- Initialization for `Current' using `a_open_index' when `open'.
 		do
+			create axis.make
+			create buttons.make
 			joystick_id := a_joystick_id
 			events_controller := game_library.events_controller
 			is_removed := false
 			make_events
-			make_buttons
+
 		end
 feature -- Access
+
+	axis:GAMEPAD_AXIS
+
+	buttons:GAMEPAD_BUTTONS
 
 	index:INTEGER
 		-- Internal unique identifier of 'Current'
@@ -110,17 +112,10 @@ feature -- Access
 --		do
 --			Result:= {GAME_SDL_EXTERNAL}.sdl_getgamepadguidforid (instance_id)
 --		end
-
---	instance_id:INTEGER_32
---			-- Identifier of `Current' used in event handling
---		require
---			Is_Buttons_Pressed_Opened: is_open
---			Not_Removed: not is_removed
---		do
---			clear_error
---			Result := {GAME_SDL_EXTERNAL}.sdl_gamecontroller(item)
---			manage_error_code(Result, "Error while querying the gamepad's instance ID.")
---		end
+	get_axis(axis_id:INTEGER):INTEGER_16
+		do
+			Result:={GAME_SDL_EXTERNAL}.sdl_gamecontrollergetaxis (item, axis_id)
+		end
 
 
 

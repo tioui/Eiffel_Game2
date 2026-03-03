@@ -1857,6 +1857,12 @@ feature -- Function SDL.h
 			"SDL_GameControllerEventState"
 		end
 
+	frozen SDL_GameControllerGetAxis(gamecontroller:POINTER; gamecontroller_axis:INTEGER): INTEGER_16
+		external
+			"C (SDL_GameController*, SDL_GameControllerAxis) : Sint16 | <SDL.h>"
+		alias
+			"SDL_GameControllerGetAxis"
+		end
 --	frozen SDL_GetGamepadID(gamepad:POINTER): INTEGER_32
 --		external
 --			"C (SDL_GameController*) : SDL_JoystickID | <SDL.h>"

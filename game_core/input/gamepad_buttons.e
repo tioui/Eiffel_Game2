@@ -11,67 +11,83 @@ create
 feature -- Access
 
 	make
+	-- Initalization of 'Current'
 		do
-			south_button:=0
+			south:=0
 
-			east_button:=1
+			east:=1
 
-			west_button:=2
+			west:=2
 
-			north_button:=3
+			north:=3
 
-			back_button:=4
+			back:=4
 
-			guide_button:=5
+			guide:=5
 
-			start_button:=6
+			start:=6
 
-			left_stick_button:=7
+			left_stick:=7
 
-			right_stick_button:=8
+			right_stick:=8
 
-			left_shoulder_button:=9
+			left_shoulder:=9
 
-			right_shoulder_button:=10
+			right_shoulder:=10
 
-			dpad_up_button:=11
+			dpad_up:=11
 
-			dpad_down_button:=12
+			dpad_down:=12
 
-			dpad_left_button:=13
+			dpad_left:=13
 
-			dpad_right_button:=14
+			dpad_right:=14
 		end
 
-	south_button:NATURAL_8
+	south:NATURAL_8
+	--ID of the south button(A on Xbox, X on Playstation, B on Nintendo)
 
-	east_button:NATURAL_8
+	east:NATURAL_8
+	--ID of the east button(B on Xbox, O on Playstation, A on Nintendo)
 
-	west_button:NATURAL_8
+	west:NATURAL_8
+	--ID of the west button(X on Xbox, Square on Playstation, Y on Nintendo)
 
-	north_button:NATURAL_8
+	north:NATURAL_8
+	--ID of the north button(Y on Xbox, Triangle on Playstation, X on Nintendo)
 
-	back_button:NATURAL_8
+	back:NATURAL_8
+	--ID of the back button(back on Xbox, share on Playstation, - on Nintendo)
 
-	guide_button:NATURAL_8
+	guide:NATURAL_8
+	--ID of the guide button(guide on Xbox, ps on Playstation, ? on Nintendo)
 
-	start_button:NATURAL_8
+	start:NATURAL_8
+	--ID of the start button(start on Xbox, options on Playstation, ? on Nintendo)
 
-	left_stick_button:NATURAL_8
+	left_stick:NATURAL_8
+	--ID of the left joystick button
 
-	right_stick_button:NATURAL_8
+	right_stick:NATURAL_8
+	--ID of the right joystick button
 
-	left_shoulder_button:NATURAL_8
+	left_shoulder:NATURAL_8
+	--ID of the left shoulder button
 
-	right_shoulder_button:NATURAL_8
+	right_shoulder:NATURAL_8
+	--ID of the right shoulder button
 
-	dpad_up_button:NATURAL_8
+	dpad_up:NATURAL_8
+	--ID of the up arrow button
 
-	dpad_down_button:NATURAL_8
+	dpad_down:NATURAL_8
+	--ID of the down arrow button
 
-	dpad_left_button:NATURAL_8
+	dpad_left:NATURAL_8
+	--ID of the left arrow button
 
-	dpad_right_button:NATURAL_8
+	dpad_right:NATURAL_8
+	--ID of the right arrow button
 
 
 end
