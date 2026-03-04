@@ -65,6 +65,7 @@ feature {NONE} -- Initialization
 			create joy_hat_motion_actions
 			create joy_button_released_actions
 			create joy_button_pressed_actions
+			create gamepad_axis_motion_actions
 			create gamepad_button_pressed_actions
 			create gamepad_button_released_actions
 			create finger_motion_actions
@@ -237,6 +238,10 @@ feature -- Access
 
 	joy_device_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- When a new joystick device identified by `joystick_id' has been removed.
+
+	gamepad_axis_motion_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32;axis_id:NATURAL_8;value:INTEGER_16]]
+			-- When the axis identified by `axis_id' of the gamepad identified by `joystick_id' has
+			-- been moved to a certain `value'.
 
 	gamepad_button_pressed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; joystick_id: INTEGER_32; button_id:NATURAL_8]]
 		-- When the button identified by 'button_id' of the gamepad identified by 'joystick_id' has been pressed
@@ -1065,6 +1070,52 @@ feature -- Access
 			end
 		ensure
 			Is_Assign: is_any_joy_event_enable ~ a_value
+		end
+
+	enable_gamepad_axis_motion_event
+			-- Process the `gamepad_axis_motion_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controlleraxismotion, {GAME_SDL_EXTERNAL}.sdl_enable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_gamepad_axis_motion_event_enable
+		end
+
+	disable_gamepad_axis_motion_event
+			-- Ignore the `gamepad_axis_motion_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controlleraxismotion, {GAME_SDL_EXTERNAL}.sdl_disable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_gamepad_axis_motion_event_enable
+		end
+
+	is_gamepad_axis_motion_event_enable:BOOLEAN assign set_is_gamepad_axis_motion_event_enable
+			-- Is the `gamepad_axis_motion_actions' event has to be process.
+			-- Enabled by default
+		local
+			l_query:NATURAL_8
+		do
+			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controlleraxismotion, {GAME_SDL_EXTERNAL}.sdl_query)
+			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_gamepad_axis_motion_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_gamepad_axis_motion_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_gamepad_axis_motion_event
+			else
+				disable_gamepad_axis_motion_event
+			end
+		ensure
+			Is_Assign: is_gamepad_axis_motion_event_enable ~ a_value
 		end
 
 	enable_gamepad_button_pressed_event
