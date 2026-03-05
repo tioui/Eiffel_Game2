@@ -30,6 +30,8 @@ feature  -- Initialization
 			create axis.make
 			create buttons.make
 			joystick_id := a_joystick_id
+			open_index := a_joystick_id
+
 			events_controller := game_library.events_controller
 			is_removed := false
 			make_events
@@ -45,7 +47,7 @@ feature -- Access
 		-- Internal unique identifier of 'Current'
 		do
 			if is_open then
-				Result :=joystick_id
+				Result :=cached_instance_id
 			else
 				Result := -1
 			end
@@ -75,22 +77,27 @@ feature -- Access
 			Open_Gamepad_Not_Open:not is_open
 		do
 			clear_error
-			item := {GAME_SDL_EXTERNAL}.sdl_gamecontrolleropen(joystick_id)
+			io.put_string (" open_index : " + open_index.out + "  ")
+			item := {GAME_SDL_EXTERNAL}.sdl_gamecontrolleropen(open_index)
 			manage_error_pointer(item, "Error while opening the Gamepad.")
+			if is_open then
+                cached_instance_id := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID({GAME_SDL_EXTERNAL}.sdl_gamecontrollergetjoystick (item))
+            end
 		ensure
 			Is_Open_Or_Error: not has_error implies is_open
 		end
 
 	close
 			-- Close `Current' (Free internal structure).
-		require
-			Close_Is_Open: is_open
+	--	require
+	--		Close_Is_Open: is_open
 		do
-			{GAME_SDL_EXTERNAL}.sdl_gamecontrollerclose (item)
+			io.put_string ("ca ferme")
+			internal_close
 		end
 
-	is_open:BOOLEAN
-			-- True if the joystick has been opened.
+	is_open:BOOLEAN-- il y a peut-être un problème avec is_open. Precondition violation à chaque fois que close est appelé
+			-- True if the controller has been opened.
 		do
 			Result := (not item.is_default_pointer) and then {GAME_SDL_EXTERNAL}.sdl_gamecontrollergetattached (item)
 		end
@@ -117,12 +124,32 @@ feature -- Access
 			Result:={GAME_SDL_EXTERNAL}.sdl_gamecontrollergetaxis (item, axis_id)
 		end
 
+--	instance_id:INTEGER_32
+--			-- Identifier of `Current' used in event handeling
+--		require
+--			Is_Buttons_Pressed_Opened: is_open
+--			Not_Removed: not is_removed
+--		local
+--			l_joystick:GAME_JOYSTICK
+--		do
+--			clear_error
+--		--	l_joystick.item :=
+--			Result := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID({GAME_SDL_EXTERNAL}.sdl_gamecontrollergetjoystick (item))
+--			manage_error_code(Result, "Error while querying the gamepad's instance ID.")
+--		end
 
+		  cached_instance_id: INTEGER_32
+        -- Instance ID mis en cache lors du open, reste valide après déconnexion
 
 	events_controller:GAME_EVENTS_CONTROLLER
 			-- Used main event manager
 
+	joystick_id: INTEGER_32
+				-- joystick of the gamepad
+
 feature  {NONE} -- Implementation
+
+
 	dispose
 			-- <Pecursor>
 	do
@@ -136,11 +163,10 @@ feature {GAME_SDL_ANY} -- Implementation
 	item:POINTER
 			-- Point to the internal C structure of `Current'
 
-	joystick_id: INTEGER_32
-				-- joysticks of the gamepad
 
-feature  -- Implementation
---{GAME_LIBRARY_CONTROLLER}
+
+feature {GAME_LIBRARY_CONTROLLER}  -- Implementation
+
 
 	open_index:INTEGER assign set_open_index
 		-- The internal 'index' used by 'open'
@@ -152,6 +178,15 @@ feature  -- Implementation
 		ensure
 			Is_Assign: open_index = a_index
 		end
+
+		internal_close
+				-- Close `Current' (Free internal structure).
+			do
+
+				{GAME_SDL_EXTERNAL}.sdl_gamecontrollerclose(item)
+				create item
+				io.put_string (is_open.out + " intenral")
+			end
 
 	remove
 			-- set 'is_removed' to 'True'

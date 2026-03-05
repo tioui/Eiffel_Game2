@@ -672,7 +672,7 @@ feature --{NONE} -- Gamepad Implementations
 	open_all_gamepad
 			-- Open all gamepad that is not already open.
 		require
-			Joysticks_is_enabled: is_gamepad_enable
+			Gamepads_is_enabled: is_gamepad_enable
 		do
 			internal_gamepads.do_all (agent (a_gamepad:detachable GAME_GAMEPAD) do
 								if attached a_gamepad as la_gamepad and then not la_gamepad.is_open then
@@ -726,7 +726,11 @@ feature --{NONE} -- Gamepad Implementations
 			until
 				l_cursor.after or l_found
 			loop
-				if attached l_cursor.item as la_item and then la_item.index = a_gamepad_id then
+				if attached l_cursor.item as la_item then
+				io.put_string ("/ " + la_item.cached_instance_id.out + "|=" + a_gamepad_id.out + "/")
+				end
+				if attached l_cursor.item as la_item and then la_item.cached_instance_id = a_gamepad_id then
+					io.put_string ("ça rentre")
 					gamepad_remove_actions.call (a_timestamp, la_item)
 					l_found := True
 					manage_gamepad_removed_gamepad(a_timestamp, l_index)

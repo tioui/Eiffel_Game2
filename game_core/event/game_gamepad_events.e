@@ -19,9 +19,9 @@ feature {NONE} -- Initialisation
 			-- initialization of 'Current'
 		do
 			axis_motion_events_callback := agent (a_timestamp: NATURAL_32; a_joystick_id:INTEGER_32; a_axis_id:NATURAL_8; a_value:INTEGER_16)
-						do
-							axis_motion_events_dispatcher(a_timestamp, a_joystick_id, a_axis_id, a_value)
-						end
+				do
+					axis_motion_events_dispatcher(a_timestamp, a_joystick_id, a_axis_id, a_value)
+				end
 			button_pressed_events_callback := agent (a_timestamp: NATURAL_32; a_gamepad_id:INTEGER_32; a_button_id:NATURAL_8)
 				do
 					button_pressed_events_dispatcher(a_timestamp, a_gamepad_id, a_button_id)
