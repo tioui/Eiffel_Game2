@@ -36,11 +36,11 @@ feature {NONE} -- Initialisation
 			iteration_actions_callback:=agent (a_timestamp:NATURAL_32) do
 										iteration_actions.call ([a_timestamp])
 									end
-			gamepad_founded_actions_callback := agent (a_timestamp:NATURAL_32; a_gamepad_id:INTEGER_32)	do
-												manage_gamepad_founded_callback(a_timestamp, a_gamepad_id)
+			controller_founded_actions_callback := agent (a_timestamp:NATURAL_32; a_controller_id:INTEGER_32)	do
+												manage_controller_founded_callback(a_timestamp, a_controller_id)
 									end
-			gamepad_removed_actions_callback := agent (a_timestamp:NATURAL_32; a_gamepad_id:INTEGER_32) do
-												manage_gamepad_removed_callback(a_timestamp, a_gamepad_id)
+			controller_removed_actions_callback := agent (a_timestamp:NATURAL_32; a_controller_id:INTEGER_32) do
+												manage_controller_removed_callback(a_timestamp, a_controller_id)
 									end
 			Precursor{GAME_EVENTS}
 		end
@@ -86,8 +86,8 @@ feature -- Access
 			iteration_actions_internal := Void
 			joystick_found_actions_internal := Void
 			joystick_remove_actions_internal := Void
-			gamepad_found_actions_internal := Void
-			gamepad_remove_actions_internal := Void
+			controller_found_actions_internal := Void
+			controller_remove_actions_internal := Void
 			file_dropped_actions_internal := Void
 			if l_was_running then
 				run
@@ -159,38 +159,38 @@ feature -- Access
 			end
 		end
 
-	gamepad_found_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; gamepad:GAME_GAMEPAD]]
-			-- Called when a new `gamepad' has been found
-			-- Automatically added to {GAME_LIBRARY_CONTROLLER}.`gamepads'
+	controller_found_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; controller:GAME_CONTROLLER]]
+			-- Called when a new `controller' has been found
+			-- Automatically added to {GAME_LIBRARY_CONTROLLER}.`controllers'
 		require
-			Gamepad_Found_Event_Enabled: events_controller.is_gamepad_device_founded_event_enable
+			controller_Found_Event_Enabled: events_controller.is_controller_device_founded_event_enable
 		do
-			if attached gamepad_found_actions_internal as la_on_gamepad_added_internal then
-				Result := la_on_gamepad_added_internal
+			if attached controller_found_actions_internal as la_on_controller_added_internal then
+				Result := la_on_controller_added_internal
 			else
 				create Result
 				if is_running then
-					events_controller.gamepad_device_founded_actions.extend (gamepad_founded_actions_callback)
+					events_controller.controller_device_founded_actions.extend (controller_founded_actions_callback)
 				end
-				gamepad_found_actions_internal := Result
+				controller_found_actions_internal := Result
 			end
 		end
 
-	gamepad_remove_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; gamepad:GAME_GAMEPAD]]
-			-- Called when a new gamepad has been removed
-			-- The gamepad will be removed from {GAME_LIBRARY_CONTROLLER}.`gamepads' after the
+	controller_remove_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; controller:GAME_CONTROLLER]]
+			-- Called when a new controller has been removed
+			-- The controller will be removed from {GAME_LIBRARY_CONTROLLER}.`controllers' after the
 			-- calls of this feature.
 		require
-			Gamepad_Remove_Event_Enabled: events_controller.is_gamepad_device_removed_event_enable
+			controller_Remove_Event_Enabled: events_controller.is_controller_device_removed_event_enable
 		do
-			if attached gamepad_remove_actions_internal as la_on_gamepad_removed_internal then
-				Result := la_on_gamepad_removed_internal
+			if attached controller_remove_actions_internal as la_on_controller_removed_internal then
+				Result := la_on_controller_removed_internal
 			else
 				create Result
 				if is_running then
-					events_controller.gamepad_device_removed_actions.extend (gamepad_removed_actions_callback)
+					events_controller.controller_device_removed_actions.extend (controller_removed_actions_callback)
 				end
-				gamepad_remove_actions_internal := Result
+				controller_remove_actions_internal := Result
 			end
 		end
 
@@ -223,13 +223,13 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	manage_gamepad_founded_callback(a_timestamp:NATURAL_32; a_gamepad_id:INTEGER_32)
-			-- Used to manage `gamepad_founded_actions_callback'
+	manage_controller_founded_callback(a_timestamp:NATURAL_32; a_controller_id:INTEGER_32)
+			-- Used to manage `controller_founded_actions_callback'
 		deferred
 		end
 
-	manage_gamepad_removed_callback(a_timestamp:NATURAL_32; a_gamepad_id:INTEGER_32)
-			-- Used to manage `gamepad_removed_actions_callback'
+	manage_controller_removed_callback(a_timestamp:NATURAL_32; a_controller_id:INTEGER_32)
+			-- Used to manage `controller_removed_actions_callback'
 		deferred
 		end
 
@@ -257,17 +257,17 @@ feature {NONE} -- Implementation
 	joystick_removed_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;joystick_id:INTEGER_32]]
 			-- Internal callback of the joystick removed event
 
-	gamepad_found_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; gamepad:GAME_GAMEPAD]]
-			-- Internal representation of the gamepad founded event
+	controller_found_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; controller:GAME_CONTROLLER]]
+			-- Internal representation of the controller founded event
 
-	gamepad_founded_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;gamepad_id:INTEGER_32]]
-			-- Internal callback of the gamepad founded event
+	controller_founded_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;controller_id:INTEGER_32]]
+			-- Internal callback of the controller founded event
 
-	gamepad_remove_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; gamepad:GAME_GAMEPAD]]
-			-- Internal representation of the gamepad removed event
+	controller_remove_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32; controller:GAME_CONTROLLER]]
+			-- Internal representation of the controller removed event
 
-	gamepad_removed_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;gamepad_id:INTEGER_32]]
-			-- Internal callback of the gamepad removed event
+	controller_removed_actions_callback:PROCEDURE [ANY, TUPLE[timestamp:NATURAL_32;controller_id:INTEGER_32]]
+			-- Internal callback of the controller removed event
 
 	file_dropped_actions_internal: detachable ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;filename:READABLE_STRING_GENERAL]]
 			-- Internal representation of the file drop event

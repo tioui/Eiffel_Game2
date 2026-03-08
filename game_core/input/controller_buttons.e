@@ -1,13 +1,14 @@
 note
-	description: "Summary description for {GAMEPAD_BUTTONS}."
-	author: ""
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "The buttons of a controller."
+	author: "Malyk Vigneault"
+	date: "March 3, 2026"
+	revision: "1.0"
 
 class
-	GAMEPAD_BUTTONS
+	CONTROLLER_BUTTONS
 create
 	make
+	
 feature -- Access
 
 	make
