@@ -1850,6 +1850,13 @@ feature -- Function SDL.h
 			"SDL_GameControllerGetJoystick"
 		end
 
+	frozen SDL_GameControllerAddMapping(mappingString: POINTER): INTEGER
+		external
+			"C (const char*) : int | <SDL.h>"
+		alias
+			"SDL_GameControllerAddMapping"
+	end
+
 	frozen SDL_SetHint(name,value:POINTER):BOOLEAN
 		external
 			"C (const char*, const char*) : SDL_bool | <SDL.h>"

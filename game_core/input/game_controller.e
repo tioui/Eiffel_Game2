@@ -72,6 +72,29 @@ feature -- Access
 				Result:=l_text_return.string
 			end
 
+	guid:READABLE_STRING_GENERAL
+			-- A unique hardware identifier of `Current'
+		require
+			Not_Removed: not is_removed
+		local
+			l_string_buffer:POINTER
+			l_c_string:C_STRING
+		do
+			check joystick /= joystick.default_pointer end
+			l_string_buffer := l_string_buffer.memory_alloc (50)
+			if is_open then
+				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetGUIDString(joystick, l_string_buffer, 50)
+			else
+				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(open_index, l_string_buffer, 50)
+			end
+			 create l_c_string.make_by_pointer (l_string_buffer)
+ 		   print("GUID: " + l_c_string.string + "%N")
+  			  Result := l_c_string.string
+			Result := (create {C_STRING}.make_by_pointer (l_string_buffer)).string
+		end
+
+
+
 	open
 			-- Open `Current' (Allocate internal structure).
 		require
@@ -81,10 +104,15 @@ feature -- Access
 			item := {GAME_SDL_EXTERNAL}.sdl_gamecontrolleropen(open_index)
 			manage_error_pointer(item, "Error while opening the Gamepad.")
 			if is_open then
-                cached_instance_id := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID({GAME_SDL_EXTERNAL}.sdl_gamecontrollergetjoystick (item))
+                cached_instance_id := {GAME_SDL_EXTERNAL}.SDL_JoystickInstanceID(joystick)
             end
 		ensure
 			Is_Open_Or_Error: not has_error implies is_open
+		end
+
+	joystick:POINTER
+		do
+			Result := {GAME_SDL_EXTERNAL}.sdl_gamecontrollergetjoystick (item)
 		end
 
 	close
@@ -137,7 +165,7 @@ feature  {NONE} -- Implementation
 		end
 	end
 
-feature {GAME_SDL_ANY} -- Implementation
+feature --{GAME_SDL_ANY} -- Implementation
 
 	item:POINTER
 			-- Point to the internal C structure of `Current'

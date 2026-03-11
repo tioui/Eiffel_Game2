@@ -68,6 +68,7 @@ feature {NONE} -- Initialization
 			create controller_axis_motion_actions
 			create controller_button_pressed_actions
 			create controller_button_released_actions
+			create controller_device_mapped_actions
 			create finger_motion_actions
 			create finger_released_actions
 			create finger_touched_actions
@@ -254,6 +255,8 @@ feature -- Access
 
 	controller_device_removed_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id: INTEGER_32]]
 			-- When a new controller device identified by `joystick_id' has been removed.
+	controller_device_mapped_actions: ACTION_SEQUENCE[TUPLE[timestamp:NATURAL_32;joystick_id: INTEGER_32]]
+			-- When a new controller device identified by `joystick_id' has been mapped.
 
 	finger_motion_actions: ACTION_SEQUENCE[TUPLE[	timestamp:NATURAL_32;touch_id, finger_id:INTEGER_64;
 												x, y, x_relative, y_relative, pressure:REAL_32]]
@@ -1302,6 +1305,52 @@ feature -- Access
 			Is_Assign: is_controller_device_removed_event_enable ~ a_value
 		end
 
+	enable_controller_device_mapped_event
+			-- Process the `controller_device_mapped_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controllerdeviceremapped, {GAME_SDL_EXTERNAL}.sdl_enable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_enable end
+		ensure
+			Is_Event_Enabled: is_controller_device_mapped_event_enable
+		end
+
+	disable_controller_device_mapped_event
+			-- Ignore the `controller_device_mapped_actions' event.
+			-- Enabled by default
+		local
+			l_error:NATURAL_8
+		do
+			l_error := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controllerdeviceremapped, {GAME_SDL_EXTERNAL}.sdl_disable)
+			check l_error = {GAME_SDL_EXTERNAL}.sdl_disable end
+		ensure
+			Is_Event_Disabled: not is_controller_device_removed_event_enable
+		end
+
+	is_controller_device_mapped_event_enable:BOOLEAN assign set_is_controller_device_mapped_event_enable
+			-- Is the `controller_device_mapped_actions' event has to be process.
+			-- Enabled by default
+		local
+			l_query:NATURAL_8
+		do
+			l_query := {GAME_SDL_EXTERNAL}.SDL_EventState({GAME_SDL_EXTERNAL}.sdl_controllerdeviceremapped, {GAME_SDL_EXTERNAL}.sdl_query)
+			Result := l_query = {GAME_SDL_EXTERNAL}.sdl_enable
+		end
+
+	set_is_controller_device_mapped_event_enable(a_value:BOOLEAN)
+			-- Assign to `is_controller_device_mapped_event_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_controller_device_mapped_event
+			else
+				disable_controller_device_mapped_event
+			end
+		ensure
+			Is_Assign: is_controller_device_mapped_event_enable ~ a_value
+		end
+
 	enable_finger_touched_event
 			-- Process the `finger_touched_actions' event.
 			-- Enabled by default
@@ -1807,6 +1856,12 @@ feature {NONE} -- Implementation
 				controller_device_removed_actions.call ({GAME_SDL_EXTERNAL}.get_controller_device_event_struct_timestamp (item),
 												 {GAME_SDL_EXTERNAL}.get_controller_device_event_struct_which (item))
 			end
+		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_controllerdeviceremapped then
+			if not controller_device_mapped_actions.is_empty then
+				controller_device_mapped_actions.call ({GAME_SDL_EXTERNAL}.get_controller_device_event_struct_timestamp (item),
+												 {GAME_SDL_EXTERNAL}.get_controller_device_event_struct_which (item))
+			end
+
 		elseif l_event_type = {GAME_SDL_EXTERNAL}.sdl_multigesture then
 			if not fingers_gesture_actions.is_empty then
 				fingers_gesture_actions.call ({GAME_SDL_EXTERNAL}.get_multi_gesture_event_struct_timestamp (item),
