@@ -5,7 +5,7 @@ note
 	revision: "0.1"
 
 class
-	AUDIO_VIDEO_FILE
+	AV_AUDIO_VIDEO_FILE
 
 inherit
 	AV_AUDIO_VIDEO_MEDIA

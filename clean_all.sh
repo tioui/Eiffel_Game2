@@ -49,3 +49,6 @@ rm -rf examples/draw_pixel/EIFGENs
 rm -rf examples/mp3/EIFGENs
 rm -rf examples/draw_pixel/EIFGENs
 rm -rf examples/joystick/EIFGENs
+rm -rf examples/movie/EIFGENs
+rm -rf examples/movie_audio/EIFGENs
+rm -rf examples/movie_video/EIFGENs
