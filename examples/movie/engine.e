@@ -61,7 +61,7 @@ feature -- Access
 	has_error:BOOLEAN
 			-- an error occured while making `Current'
 
-	video:AV_AUDIO_VIDEO_FILE
+	video:AUDIO_VIDEO_FILE
 			-- The Movie to play
 
 	video_texture:GAME_TEXTURE_STREAMING

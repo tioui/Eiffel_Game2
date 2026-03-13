@@ -7,7 +7,7 @@ note
 		 modifications are made to the project.
 		 	]"
 	generator: "EiffelBuild"
-	date: "$Date: 2015-12-18 07:09:27 -0800 (Fri, 18 Dec 2015) $"
+	date: "$Date: 2015-12-18 15:09:27 +0000 (Fri, 18 Dec 2015) $"
 	revision: "$Revision: 98290 $"
 
 deferred class
@@ -215,6 +215,7 @@ feature {NONE}-- Initialization
 			l_ev_table_1.put_at_position (audio_library_check_button, 1, 3, 1, 1)
 			l_ev_table_1.put_at_position (sound_file_library_check_button, 2, 3, 1, 1)
 			l_ev_table_1.put_at_position (mpg_file_library_check_button, 1, 4, 1, 1)
+			l_ev_table_1.put_at_position (audio_video_library_check_button, 2, 4, 1, 1)
 			string_constant_set_procedures.extend (agent core_library_check_button.set_text (?))
 			string_constant_retrieval_functions.extend (agent core_library_check_button_text)
 			string_constant_set_procedures.extend (agent core_library_check_button.set_tooltip (?))
@@ -239,10 +240,15 @@ feature {NONE}-- Initialization
 			string_constant_retrieval_functions.extend (agent sound_file_library_check_button_text)
 			string_constant_set_procedures.extend (agent sound_file_library_check_button.set_tooltip (?))
 			string_constant_retrieval_functions.extend (agent sound_file_library_check_button_tooltip)
-			string_constant_set_procedures.extend (agent mpg_file_library_check_button.set_text (?))
-			string_constant_retrieval_functions.extend (agent mpg_file_library_check_button_text)
-			string_constant_set_procedures.extend (agent mpg_file_library_check_button.set_tooltip (?))
-			string_constant_retrieval_functions.extend (agent mpg_file_library_check_button_tooltip)
+			mpg_file_library_check_button.set_text ("MPG file")
+			mpg_file_library_check_button.set_tooltip ("With this library, you can open and read MPEG audio file format (mpg, mp2 and mp3).")
+			string_constant_set_procedures.extend (agent audio_video_library_check_button.set_text (?))
+			string_constant_retrieval_functions.extend (agent audio_video_library_check_button_text)
+			string_constant_set_procedures.extend (agent audio_video_library_check_button.set_tooltip (?))
+			string_constant_retrieval_functions.extend (agent audio_video_library_check_button_tooltip)
+			audio_video_library_check_button.set_minimum_width (83)
+			audio_video_library_check_button.set_minimum_height (31)
+			audio_video_library_check_button.align_text_right
 			l_ev_cell_5.set_minimum_width (20)
 			l_ev_horizontal_box_10.disable_item_expand (generate_code_button)
 			l_ev_horizontal_box_10.disable_item_expand (l_ev_cell_7)
@@ -285,6 +291,7 @@ feature {NONE}-- Initialization
 			audio_library_check_button.select_actions.extend (agent audio_library_check_button_select_actions)
 			sound_file_library_check_button.select_actions.extend (agent sound_file_library_check_button_select_actions)
 			mpg_file_library_check_button.select_actions.extend (agent mpg_file_library_check_button_select_actions)
+			audio_video_library_check_button.select_actions.extend (agent audio_video_file_library_check_button_select_actions)
 			generate_code_button.select_actions.extend (agent generate_code_button_select_actions)
 				-- Close the application when an interface close
 				-- request is received on `Current'. i.e. the cross is clicked.
@@ -359,6 +366,7 @@ feature {NONE}-- Initialization
 			create audio_library_check_button
 			create sound_file_library_check_button
 			create mpg_file_library_check_button
+			create audio_video_library_check_button
 			create l_ev_cell_5
 			create l_ev_horizontal_box_10
 			create l_ev_cell_6
@@ -406,7 +414,7 @@ feature {NONE} -- Implementation
 	regenerate_config_file_check_button, multi_thread_check_button,
 	void_safe_check_button, core_library_check_button, image_file_library_check_button,
 	text_library_check_button, effects_library_check_button, audio_library_check_button,
-	sound_file_library_check_button, mpg_file_library_check_button: EV_CHECK_BUTTON
+	sound_file_library_check_button, mpg_file_library_check_button, audio_video_library_check_button: EV_CHECK_BUTTON
 	project_path_label,
 	project_name_label, target_name_label, cluster_name_label, root_class_label, root_feature_label: EV_LABEL
 	project_path_text_field,
@@ -581,6 +589,11 @@ feature {NONE} -- Implementation
 	
 	mpg_file_library_check_button_select_actions
 			-- Called by `select_actions' of `mpg_file_library_check_button'.
+		deferred
+		end
+	
+	audio_video_file_library_check_button_select_actions
+			-- Called by `select_actions' of `audio_video_library_check_button'.
 		deferred
 		end
 	

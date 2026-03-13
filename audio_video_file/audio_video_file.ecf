@@ -11,22 +11,21 @@
 		<setting name="total_order_on_reals" value="true"/>
 		<setting name="dead_code_removal" value="feature"/>
 		<capability>
+			<catcall_detection support="none"/>
 			<concurrency support="none"/>
 			<void_safety support="all" use="all"/>
 		</capability>
-
 		<external_include location="$(EIFFEL_LIBRARY)/contrib/library/game2/audio_video_file/spec/include"/>
 		<external_include location="`pkg-config --cflags libavcodec libavformat libavutil libswresample`">
 			<condition>
 				<platform value="unix"/>
 			</condition>
 		</external_include>
-		<external_linker_flag value="`pkg-config --libs libavcodec libavformat libavutil libswresample`">
+		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\include">
 			<condition>
-				<platform value="unix"/>
+				<platform value="windows"/>
 			</condition>
-		</external_linker_flag>
-
+		</external_include>
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\lib\$(ISE_PLATFORM)\$(ISE_C_COMPILER)\avcodec.lib">
 			<condition>
 				<platform value="windows"/>
@@ -72,24 +71,24 @@
 				<platform value="windows"/>
 			</condition>
 		</external_object>
-		<external_include location="$(EIFFEL_LIBRARY)\contrib\library\game2\C_lib_win\ffmpeg\include">
+		<external_linker_flag value="`pkg-config --libs libavcodec libavformat libavutil libswresample`">
 			<condition>
-				<platform value="windows"/>
+				<platform value="unix"/>
 			</condition>
-		</external_include>
-		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
+		</external_linker_flag>
 		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>
+		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
 		<library name="game_shared" location="..\game_shared\game_shared.ecf"/>
 		<library name="thread" location="$ISE_LIBRARY\library\thread\thread.ecf"/>
-		<cluster name="av_audio_video_files" location=".\" recursive="true">
+		<cluster name="audio_video_file" location=".\" recursive="true">
 			<description>An add-on for The Video Eiffel Game Library to open some video files using LibAV from ffmpeg (MP4, WebM, etc.)</description>
 			<file_rule>
-				<exclude>/EIFGENs$</exclude>
-				<exclude>/spec$</exclude>
 				<exclude>/Clib$</exclude>
+				<exclude>/EIFGENs$</exclude>
 				<exclude>/implementation/Clib$</exclude>
+				<exclude>/spec$</exclude>
 			</file_rule>
 		</cluster>
 	</target>

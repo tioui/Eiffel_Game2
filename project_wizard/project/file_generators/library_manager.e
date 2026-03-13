@@ -224,4 +224,31 @@ feature -- Access
 		ensure
 			Is_Enabled: not has_opengl_library
 		end
+
+	has_audio_video_file_library:BOOLEAN assign set_has_audio_video_file_library
+			-- The project must used the audio_video_file library
+
+	set_has_audio_video_file_library(a_has_audio_video_file_library:BOOLEAN)
+			-- Assign `has_audio_video_file_library' with the value of `a_has_audio_video_file_library'.
+		do
+			has_audio_video_file_library := a_has_audio_video_file_library
+		ensure
+			Is_Assign: has_audio_video_file_library ~ a_has_audio_video_file_library
+		end
+
+	enable_audio_video_file_library
+			-- put `has_audio_video_file_library' to `True'
+		do
+			set_has_audio_video_file_library(True)
+		ensure
+			Is_Enabled: has_audio_video_file_library
+		end
+
+	disable_audio_video_file_library
+			-- put `has_audio_video_file_library' to `False'
+		do
+			set_has_audio_video_file_library(False)
+		ensure
+			Is_Enabled: not has_audio_video_file_library
+		end
 end
