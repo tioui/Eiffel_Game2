@@ -12,7 +12,7 @@
 		</capability>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
-		<library name="av_audio_video_files" location="$ISE_LIBRARY\contrib\library\game2\audio_video_file\av_audio_video_files.ecf"/>
+		<library name="audio_video_file" location="$ISE_LIBRARY\contrib\library\game2\audio_video_file\audio_video_file.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="game_core" location="$EIFFEL_LIBRARY\contrib\library\game2\game_core\game_core.ecf"/>
 		<cluster name="movie" location=".\" recursive="true">

@@ -56,7 +56,7 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	generated_content:STRING
-			-- The content of the genereted file
+			-- The content of the generated file
 		do
 			Result := template_text
 		end

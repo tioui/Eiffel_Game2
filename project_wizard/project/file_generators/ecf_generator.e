@@ -217,6 +217,7 @@ feature {NONE} -- Implementation
 			add_to_generate_libraries_content(has_sound_file_library, Result, "audio_sound_file", l_template)
 			add_to_generate_libraries_content(has_mpg_file_library, Result, "audio_mpg_file", l_template)
 			add_to_generate_libraries_content(has_opengl_library, Result, "opengl", l_template)
+			add_to_generate_libraries_content(has_audio_video_file_library, Result, "audio_video_file", l_template)
 		end
 
 	add_to_generate_libraries_content(a_has_library:BOOLEAN; a_content, a_name:STRING; a_template:TEMPLATE_TEXT)

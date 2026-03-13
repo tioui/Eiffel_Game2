@@ -8,11 +8,12 @@
 # @description : Compilation of every ECF files
 ######################################################################
 
+EC=${EC:-ec}
 
 compile_library() {
 	echo $1
 	pushd $2
-	ecb -config $3 -batch
+	$EC -config $3 -batch
 	result=$?
 	popd
 	return $result
@@ -21,7 +22,7 @@ compile_library() {
 compile_program() {
 	echo $1
 	pushd $2
-	ecb -config $3 -batch -finalize -c_compile
+	$EC -config $3 -stop -finalize -c_compile
 	result=$?
 	popd
 	return $result
@@ -30,7 +31,7 @@ compile_program() {
 compile_program_target() {
 	echo $1
 	pushd $2
-	ecb -config $3 -target $4 -batch -finalize -c_compile
+	$EC -config $3 -target $4 -batch -finalize -c_compile
 	result=$?
 	popd
 	return $result
@@ -80,4 +81,7 @@ compile_program "Sound example" examples/sound/ sound.ecf
 compile_program "Draw Pixel example" examples/draw_pixel/ draw_pixel.ecf
 compile_program "MP3 example" examples/mp3/ mp3_player.ecf
 compile_program "Draw Renderer example" examples/draw_pixel/ draw_pixel.ecf
-compile_program "Draw Renderer example" examples/joystick/ joystick.ecf
+compile_program "Joystick example" examples/joystick/ joystick.ecf
+compile_program "Movie" examples/movie/ movie.ecf
+compile_program "Movie audio" examples/movie_audio/ movie_audio.ecf
+compile_program "Movie video" examples/movie_video/ movie_video.ecf

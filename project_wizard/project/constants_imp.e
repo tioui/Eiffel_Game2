@@ -28,7 +28,7 @@ note
 			file is accessible or you do not specify to load from a file.
 		]"
 	generator: "EiffelBuild"
-	date: "$Date: 2014-01-06 17:24:44 -0800 (Mon, 06 Jan 2014) $"
+	date: "$Date: 2014-01-07 01:24:44 +0000 (Tue, 07 Jan 2014) $"
 	revision: "$Revision: 93911 $"
 
 deferred class
@@ -1206,6 +1206,42 @@ feature -- Access
 
 	multi_thread_check_button_default_selected_cell: CELL [INTEGER]
 			--`Result' is once access to a cell holding vale of `multi_thread_check_button_default_selected'.
+		once
+			create Result.put (0)
+		end
+
+	audio_video_library_check_button_text: STRING_32
+			-- `Result' is STRING_32 constant named `audio_video_library_check_button_text'.
+		do
+			Result := audio_video_library_check_button_text_cell.item
+		end
+
+	audio_video_library_check_button_text_cell: CELL [STRING_32]
+			--`Result' is once access to a cell holding vale of `audio_video_library_check_button_text'.
+		once
+			create Result.put ("Audio video file")
+		end
+
+	audio_video_library_check_button_tooltip: STRING_32
+			-- `Result' is STRING_32 constant named `audio_video_library_check_button_tooltip'.
+		do
+			Result := audio_video_library_check_button_tooltip_cell.item
+		end
+
+	audio_video_library_check_button_tooltip_cell: CELL [STRING_32]
+			--`Result' is once access to a cell holding vale of `audio_video_library_check_button_tooltip'.
+		once
+			create Result.put ("This library allows to open and play audio and video media.")
+		end
+
+	audio_video_library_check_button_default_selected: INTEGER
+			-- `Result' is INTEGER constant named `audio_video_library_check_button_default_selected'.
+		do
+			Result := audio_video_library_check_button_default_selected_cell.item
+		end
+
+	audio_video_library_check_button_default_selected_cell: CELL [INTEGER]
+			--`Result' is once access to a cell holding vale of `audio_video_library_check_button_default_selected'.
 		once
 			create Result.put (0)
 		end
