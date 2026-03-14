@@ -167,7 +167,14 @@ feature -- Subs Systems
 			-- Enable the controller functionality
 		require
 			SDL_Controller_Enable_controller_Already_Enabled: not is_controller_enable
+		local
+			l_bool:BOOLEAN
+			l_hint:C_STRING
+			l_value:C_STRING
 		do
+			create l_hint.make ("SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS")
+			create l_value.make ("1")
+			l_bool := {GAME_SDL_EXTERNAL}.sdl_sethint(l_hint.item,l_value.item)
 			initialise_sub_system({GAME_SDL_EXTERNAL}.sdl_init_gamecontroller)
 			events_controller.controller_device_founded_actions.extend (controller_founded_actions_callback)
 			events_controller.controller_device_removed_actions.extend (controller_removed_actions_callback)
