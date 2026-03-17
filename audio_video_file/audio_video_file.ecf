@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="av_audio_video_files" uuid="B63EECDB-A9BD-4711-8EC9-CC5CAC4B2A74" library_target="av_audio_video_files">
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-20-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-20-0 http://www.eiffel.com/developers/xml/configuration-1-20-0.xsd" name="audio_video_file" uuid="B63EECDB-A9BD-4711-8EC9-CC5CAC4B2A74" library_target="audio_video_file">
 	<description>An add-on for The Video Eiffel Game Library to open some video files using LibAV from ffmpeg (MP4, WebM, etc.)</description>
-	<target name="av_audio_video_files">
+	<target name="audio_video_file">
 		<description>An add-on for The Eiffel Game Video Library to open MPG(like MP3) video file formats</description>
 		<root all_classes="true"/>
 		<version major="2" minor="0" release="0" build="1" product="Eiffel_Game_Video_Video_File" copyright="Louis Marchand"/>
@@ -59,23 +59,41 @@
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\av_additions.lib">
 			<condition>
 				<platform value="windows"/>
+				<concurrency value="none"/>
+				<dotnet value="false"/>
 			</condition>
 		</external_object>
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\ilav_additions.lib">
 			<condition>
 				<platform value="windows"/>
+				<dotnet value="true"/>
 			</condition>
 		</external_object>
 		<external_object location="$(EIFFEL_LIBRARY)\contrib\library\game2\audio_video_file\spec\$(ISE_C_COMPILER)\$(ISE_PLATFORM)\lib\mtav_additions.lib">
 			<condition>
 				<platform value="windows"/>
+				<concurrency excluded_value="none"/>
+				<dotnet value="false"/>
 			</condition>
 		</external_object>
-		<external_linker_flag value="`pkg-config --libs libavcodec libavformat libavutil libswresample`">
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game2/audio_video_file/spec/$(ISE_PLATFORM)/lib/av_additions.o">
+			<condition>
+				<platform value="unix"/>
+				<concurrency value="none"/>
+			</condition>
+		</external_object>
+		<external_object location="$(EIFFEL_LIBRARY)/contrib/library/game2/audio_video_file/spec/$(ISE_PLATFORM)/lib/MTav_additions.o">
+			<condition>
+				<platform value="unix"/>
+				<concurrency excluded_value="none"/>
+			</condition>
+		</external_object>
+		<external_linker_flag value="`pkg-config --libs libavcodec libavformat libavutil libswresample libswscale`">
 			<condition>
 				<platform value="unix"/>
 			</condition>
 		</external_linker_flag>
+
 		<library name="audio" location="$EIFFEL_LIBRARY\contrib\library\game2\audio\audio.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
 		<library name="cpf" location="$EIFFEL_LIBRARY\contrib\library\game2\cpf\cpf.ecf"/>
