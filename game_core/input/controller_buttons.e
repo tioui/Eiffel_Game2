@@ -8,7 +8,7 @@ class
 	CONTROLLER_BUTTONS
 create
 	make
-	
+
 feature -- Access
 
 	make
@@ -43,6 +43,18 @@ feature -- Access
 			dpad_left:=13
 
 			dpad_right:=14
+--les boutons suivants n'ont pas été testés, car ils ne sont pas sur ma manette
+			misc1:=15
+
+			paddle1:=16
+
+			paddle2:=17
+
+			paddle3:=18
+
+			paddle4:=19
+
+			touchepad:=20
 		end
 
 	south:NATURAL_8
@@ -89,6 +101,24 @@ feature -- Access
 
 	dpad_right:NATURAL_8
 	--ID of the right arrow button
+
+	misc1:NATURAL_8
+	--ID of Xbox Series X share button, PS5 microphone button, Nintendo Switch Pro capture button, Amazon Luna microphone button
+
+	paddle1:NATURAL_8
+	--ID of Xbox Elite paddle P1 (upper left, facing the back)
+
+	paddle2:NATURAL_8
+	--ID of Xbox Elite paddle P2 (upper right, facing the back) */
+
+	paddle3:NATURAL_8
+	--ID of Xbox Elite paddle P3 (upper right, facing the back) */
+
+	paddle4:NATURAL_8
+	--ID of Xbox Elite paddle P4 (upper right, facing the back) */
+
+	touchepad:NATURAL_8
+	--ID of PS4/PS5 touchpad button
 
 
 end
