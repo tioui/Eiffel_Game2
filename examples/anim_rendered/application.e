@@ -21,6 +21,7 @@ feature {NONE} -- Initialization
 		local
 			l_engine:ENGINE
 		do
+
 			game_library.enable_video -- Enable the video functionalities
 			image_file_library.enable_image (true, false, false)  -- Enable PNG image (but not TIF or JPG).
 			create l_engine.make

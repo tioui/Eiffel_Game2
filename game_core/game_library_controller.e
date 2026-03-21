@@ -61,6 +61,7 @@ feature {NONE} -- Initialization
 			has_error:=False
 			set_iteration_per_second(60)
 			create internal_joysticks.make (0)
+			create internal_controllers.make (0)
 			create internal_haptics.make(0)
 			l_error:={GAME_SDL_EXTERNAL}.SDL_Init(a_flags)
 			if l_error < 0 then
@@ -119,7 +120,7 @@ feature -- Subs Systems
 		end
 
 	enable_joystick
-			-- Unable the joystick functionality
+			-- Enable the joystick functionality
 		require
 			SDL_Controller_Enable_Joystick_Already_Enabled: not is_joystick_enable
 		do
@@ -162,6 +163,75 @@ feature -- Subs Systems
 			Is_Assign: is_joystick_enable~ a_value
 		end
 
+	enable_controller
+			-- Enable the controller functionality
+		require
+			SDL_Controller_Enable_controller_Already_Enabled: not is_controller_enable
+		local
+			l_bool:BOOLEAN
+			l_hint:C_STRING
+			l_value:C_STRING
+		do
+			create l_hint.make ("SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS")
+			create l_value.make ("1")
+			l_bool := {GAME_SDL_EXTERNAL}.sdl_sethint(l_hint.item,l_value.item)
+			initialise_sub_system({GAME_SDL_EXTERNAL}.sdl_init_gamecontroller)
+			events_controller.controller_device_founded_actions.extend (controller_founded_actions_callback)
+			events_controller.controller_device_removed_actions.extend (controller_removed_actions_callback)
+		ensure
+			SDL_Controller_Enable_controller_Enabled: is_controller_enable
+		end
+
+	disable_controller
+			-- Disable the controller fonctionality
+		require
+			SDL_Controller_Disable_controller_Not_Enabled: is_controller_enable
+		do
+			events_controller.controller_device_founded_actions.prune_all (controller_founded_actions_callback)
+			events_controller.controller_device_removed_actions.prune_all (controller_removed_actions_callback)
+			close_all_controllers
+			internal_controllers.wipe_out
+			quit_sub_system({GAME_SDL_EXTERNAL}.sdl_init_gamecontroller)
+		ensure
+			SDL_Controller_Disable_Gameback_Disabled: not is_controller_enable
+		end
+
+	is_controller_enable:BOOLEAN assign set_is_controller_enable
+			-- Return true if the controller functionnality is enabled.
+		do
+			Result:=is_sub_system_enable({GAME_SDL_EXTERNAL}.sdl_init_gamecontroller)
+		end
+
+	set_is_controller_enable(a_value:BOOLEAN)
+			-- Assign to `is_controller_enable' the value of `a_value'
+		do
+			if a_value then
+				enable_controller
+			else
+				disable_controller
+			end
+		ensure
+			Is_Assign: is_controller_enable~ a_value
+		end
+
+	findController
+			--Finds controller
+		local
+			l_controller: GAME_CONTROLLER
+			i: INTEGER_32
+		do
+			from
+   				 i := 0
+			until
+  				  i >= {GAME_SDL_EXTERNAL}.sdl_numjoysticks
+			loop
+  				  if {GAME_SDL_EXTERNAL}.sdl_isgamecontroller (i) then
+  				  		create l_controller.make(i)
+  				  		internal_controllers.extend (l_controller)
+  				  end
+   				 i := i + 1
+			end
+		end
 
 	enable_haptic
 			-- Unable the haptic (force feedback) functionality.
@@ -575,6 +645,139 @@ feature {NONE} -- Joystick implementation
 			end
 		end
 
+feature -- controller methods
+	controllers:CHAIN_INDEXABLE_ITERATOR[GAME_CONTROLLER]
+			-- Every {GAME_CONTROLLER} detected by `Current'
+		require
+			controllers_is_controller_Enabled: is_controller_enable
+		local
+			l_controllers:LINKED_LIST[GAME_CONTROLLER]
+		do
+			create l_controllers.make
+			across internal_controllers as la_controllers loop
+				if attached la_controllers.item as la_controller then
+					l_controllers.extend (la_controller)
+				end
+			end
+			create Result.make (l_controllers)
+		end
+
+	update_controllers_state
+			-- Update the state of all opened controller. This procedure is
+			-- Called at each game loop instead you disable every controller event
+			-- with {GAME_EVENTS_CONTROLLER}.`disable_controller_*_event' or with
+			-- {GAME_EVENTS_CONTROLLER}.`disable_every_controller_events'
+		do
+			{GAME_SDL_EXTERNAL}.sdl_gamecontrollerupdate
+		end
+
+feature --{NONE} -- controller Implementations
+
+	internal_controllers:ARRAYED_LIST[detachable GAME_CONTROLLER]
+			-- Every {GAME_CONTROLLER} connected to the system.
+
+	open_all_controller
+			-- Open all controller that is not already open.
+		require
+			controllers_is_enabled: is_controller_enable
+		do
+			internal_controllers.do_all (agent (a_controller:detachable GAME_CONTROLLER) do
+								if attached a_controller as la_controller and then not la_controller.is_open then
+									la_controller.open
+								end
+							end)
+		end
+
+
+	close_all_controllers
+		-- Close the controller that has been opened
+	require
+		Controller_Close_All_controllers_Joystick_Enabled: is_controller_enable
+		Close_All_controller_Attach: internal_controllers /= Void
+	do
+		internal_controllers.do_all (agent (a_controller:detachable GAME_CONTROLLER) do
+								if attached a_controller as la_controller and then la_controller.is_open then
+									la_controller.close
+								end
+							end)
+	end
+
+	manage_controller_founded_callback(a_timestamp:NATURAL_32; a_joystick_id:INTEGER_32)
+			-- {Precursor}
+		local
+			l_controller:GAME_CONTROLLER
+		do
+			across internal_controllers as la_controllers loop
+				if attached la_controllers.item as la_controller and then la_controller.open_index ~ a_joystick_id then
+					l_controller := la_controller
+				end
+			end
+			if not attached l_controller then
+				create l_controller.make (a_joystick_id)
+				internal_controllers.extend (l_controller)
+				controller_found_actions.call (a_timestamp, l_controller)
+			end
+		end
+
+	manage_controller_removed_callback(a_timestamp:NATURAL_32; a_controller_id:INTEGER_32)
+			-- {Precursor}
+		local
+			l_index:INTEGER
+			l_cursor:ARRAYED_LIST_ITERATION_CURSOR [detachable GAME_CONTROLLER]
+			l_found:BOOLEAN
+		do
+
+			from
+				l_cursor := internal_controllers.new_cursor
+				l_index := 1
+			until
+				l_cursor.after or l_found
+			loop
+				if attached l_cursor.item as la_item and then la_item.cached_instance_id = a_controller_id then
+					controller_remove_actions.call (a_timestamp, la_item)
+					l_found := True
+					manage_controller_removed_controller(a_timestamp, l_index)
+				end
+				l_index := l_index + 1
+				l_cursor.forth
+			end
+			if not l_found then
+				manage_controller_removed_controller(a_timestamp, a_controller_id + 1)
+			end
+		end
+
+	manage_controller_removed_controller(a_timestamp:NATURAL_32; a_index:INTEGER)
+			-- Remove the {GAME_CONTROLLER} at index `a_index' in `internal_controllers'
+		local
+			l_open_index:INTEGER
+		do
+			if
+				internal_controllers.valid_index (a_index) and then
+				attached internal_controllers.at (a_index) as la_controller
+			then
+				controller_remove_actions.call ([a_timestamp, la_controller])
+				la_controller.remove
+				la_controller.close
+				if la_controller.is_events_running then
+					la_controller.stop_events
+				end
+				la_controller.clear_events
+				l_open_index := la_controller.open_index
+				internal_controllers.at (a_index) := Void
+				from
+					internal_controllers.move (a_index)
+				until
+					internal_controllers.exhausted
+				loop
+					if attached internal_controllers.item as la_next_controller then
+						la_next_controller.set_open_index(l_open_index)
+						l_open_index := l_open_index + 1
+					end
+					internal_controllers.forth
+				end
+			end
+		end
+
 feature -- Haptic methods
 
 	haptics:CHAIN_INDEXABLE_ITERATOR[GAME_HAPTIC_DEVICE]
@@ -917,6 +1120,10 @@ feature -- Other methods
 				disable_gl
 			end
 			clear_events
+
+			if is_controller_enable then-- Important de disable controller avant joystick
+				disable_controller
+			end
 			if is_joystick_enable then
 				disable_joystick
 			end
