@@ -8,32 +8,14 @@ class
 	GAME_JOYSTICK
 
 inherit
-	DISPOSABLE
-	GAME_JOYSTICK_EVENTS
-		rename
-			make as make_events,
-			id as index,
-			stop as stop_events,
-			run as run_events,
-			is_running as is_events_running,
-			clear as clear_events
-		end
-	GAME_LIBRARY_SHARED
+GAME_DEVICE_COMMON
+redefine
+	close
+end
 
 
 create {GAME_LIBRARY_CONTROLLER}
 	make
-
-feature {NONE} -- Initialization
-
-	make(a_open_index:INTEGER)
-			-- Initialization for `Current' using `a_open_index' when `open'.
-		do
-			events_controller := game_library.events_controller
-			open_index := a_open_index
-			is_removed := False
-			make_events
-		end
 
 feature -- Access
 
@@ -48,13 +30,10 @@ feature -- Access
 
 		end
 
-	is_removed:BOOLEAN
-			-- `Current' has been removed
+
 
 	name:STRING
 			-- Return the Joystick Name.
-		require
-			Not_Removed: not is_removed
 		local
 			l_text_return:C_STRING
 		do
@@ -68,19 +47,15 @@ feature -- Access
 
 	open
 			-- Open `Current' (Allocate internal structure).
-		require
-			Open_Joystick_Not_Open:not is_open
 		do
 			clear_error
 			item:={GAME_SDL_EXTERNAL}.SDL_JoystickOpen(open_index)
 			manage_error_pointer(item, "Error while opening the Joystick.")
-		ensure
-			Is_Open_Or_Error: not has_error implies is_open
 		end
 
 	close
 			-- Close `Current' (Free internal structure).
-		require
+		require else
 			Close_Is_Open: is_open
 		do
 			internal_close
@@ -195,10 +170,8 @@ feature -- Access
 	is_button_pressed(a_button_id:INTEGER):BOOLEAN
 			-- True if the button identified by `a_button_id' is pressed, False otherwise
 			-- Note that `a_button_id' index start at 0
-		require
-			Is_Buttons_Pressed_Opened: is_open
+		require else
 			Is_Button_Pressed_Button_Id_Valid: a_button_id<buttons_count
-			Not_Removed: not is_removed
 		do
 			Result:={GAME_SDL_EXTERNAL}.SDL_JoystickGetButton(item, a_button_id)
 		end
@@ -238,21 +211,6 @@ feature -- Access
 			create Result.make ({GAME_SDL_EXTERNAL}.SDL_JoystickGetHat(item, a_hat_id))
 		end
 
-	guid:READABLE_STRING_GENERAL
-			-- A unique hardware identifier of `Current'
-		require
-			Not_Removed: not is_removed
-		local
-			l_string_buffer:POINTER
-		do
-			l_string_buffer := l_string_buffer.memory_alloc (50)
-			if is_open then
-				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetGUIDString(item, l_string_buffer, 50)
-			else
-				{GAME_SDL_EXTERNAL}.c_SDL_JoystickGetDeviceGUIDString(open_index, l_string_buffer, 50)
-			end
-			Result := (create {C_STRING}.own_from_pointer (l_string_buffer)).string
-		end
 
 	instance_id:INTEGER_32
 			-- Identifier of `Current' used in event handeling
@@ -296,39 +254,12 @@ feature -- Access
 			end
 		end
 
-	events_controller:GAME_EVENTS_CONTROLLER
-			-- Used main event manager
-
-feature {GAME_SDL_ANY} -- Implementation
-
-	item:POINTER
-			-- Point to the internal C structure of `Current'
-
 feature {NONE} -- Implementation
 
 	internal_haptic_controller: detachable GAME_HAPTIC_JOYSTICK
 			-- Value of the lazy evaluated attribute `haptic_controller'
 
-	dispose
-			-- <Pecursor>
-	do
-		if not item.is_default_pointer then
-			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
-		end
-	end
-
 feature {GAME_LIBRARY_CONTROLLER} -- Implementation
-
-	open_index:INTEGER assign set_open_index
-		-- The internal `index' usedby `open'
-
-	set_open_index(a_index:INTEGER)
-			-- Assign `a_index' to `open_index'
-		do
-			open_index := a_index
-		ensure
-			Is_Assign: open_index = a_index
-		end
 
 	internal_close
 			-- Close `Current' (Free internal structure).
@@ -341,14 +272,6 @@ feature {GAME_LIBRARY_CONTROLLER} -- Implementation
 			end
 			{GAME_SDL_EXTERNAL}.SDL_JoystickClose(item)
 			create item
-		end
-
-	remove
-			-- set `is_removed' to `True'
-		do
-			is_removed := True
-		ensure
-			Is_Removed_Set: is_removed
 		end
 
 end

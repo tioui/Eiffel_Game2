@@ -1752,6 +1752,118 @@ feature -- Function SDL.h
 			"SDL_GetPrefPath"
 		end
 
+	frozen SDL_GameControllerOpen(joystick_index: INTEGER_32):POINTER
+		external
+			"C (int) : SDL_GameController* | <SDL.h>"
+		alias
+			"SDL_GameControllerOpen"
+		end
+
+	frozen SDL_GameControllerClose(gamepad: POINTER)
+		external
+			"C (SDL_GameController*) | <SDL.h>"
+		alias
+			"SDL_GameControllerClose"
+		end
+
+	frozen SDL_GameControllerGetAttached(gamepad: POINTER):BOOLEAN
+		external
+			"C (SDL_GameController*) : SDL_TRUE | <SDL.h>"
+		alias
+			"SDL_GameControllerGetAttached"
+		end
+
+	frozen SDL_GameControllerGetButton(gamepad:POINTER; button: INTEGER_32):BOOLEAN
+		external
+			"C (SDL_GameController*, SDL_GameControllerButton) : Uint8 | <SDL.h>"
+		alias
+			"SDL_GameControllerGetButton"
+		end
+
+	frozen SDL_GameControllerGetStringForButton(button: INTEGER_32):POINTER
+		external
+			"C ( SDL_GameControllerButton) : const char* | <SDL.h>"
+		alias
+			"SDL_GameControllerGetStringForButton"
+		end
+
+--	frozen SDL_GameControllerHasButton(gamecontroller: POINTER; button: INTEGER_32): BOOLEAN
+--		external
+--			"C (SDL_GameController*, SDL_GameControllerButton) : SDL_bool | <SDL.h>"
+--		alias
+--			"SDL_GameControllerHasButton"
+--		end
+
+	frozen SDL_IsGameController(joystick_index: INTEGER_32): BOOLEAN
+		external
+			"C (SDL_JoystickID) : bool | <SDL.h>"
+		alias
+			"SDL_IsGameController"
+		end
+
+	frozen SDL_GameControllerMapping(gamepad: POINTER):POINTER
+		external
+			"C (SDL_GameController*) : char* | <SDL.h>"
+		alias
+			"SDL_GameControllerMapping"
+		end
+
+	frozen SDL_GameControllerUpdate()
+		external
+			"C | <SDL.h>"
+		alias
+			"SDL_GameControllerUpdate"
+		end
+
+	frozen SDL_GameControllerName(gamepad: POINTER): POINTER
+		external
+			"C (SDL_GameController*) : const char* | <SDL.h>"
+		alias
+			"SDL_GameControllerName"
+		end
+
+	frozen SDL_GameControllerNameForIndex(joystick_index: INTEGER_32): POINTER
+		external
+			"C (int) : const char* | <SDL.h>"
+		alias
+			"SDL_GameControllerNameForIndex"
+		end
+
+	frozen SDL_GameControllerEventState(state: INTEGER): INTEGER
+		external
+			"C (int) : int | <SDL.h>"
+		alias
+			"SDL_GameControllerEventState"
+		end
+
+	frozen SDL_GameControllerGetAxis(gamecontroller:POINTER; gamecontroller_axis:INTEGER): INTEGER_16
+		external
+			"C (SDL_GameController*, SDL_GameControllerAxis) : Sint16 | <SDL.h>"
+		alias
+			"SDL_GameControllerGetAxis"
+		end
+
+	frozen SDL_GameControllerGetJoystick(gamepad:POINTER): POINTER
+		external
+			"C (SDL_GameController*) : SDL_Joystick* | <SDL.h>"
+		alias
+			"SDL_GameControllerGetJoystick"
+		end
+
+	frozen SDL_GameControllerAddMapping(mappingString: POINTER): INTEGER
+		external
+			"C (const char*) : int | <SDL.h>"
+		alias
+			"SDL_GameControllerAddMapping"
+	end
+
+	frozen SDL_SetHint(name,value:POINTER):BOOLEAN
+		external
+			"C (const char*, const char*) : SDL_bool | <SDL.h>"
+		alias
+			"SDL_SetHint"
+		end
+
 feature -- Manual C function (implemented in sdl_additions.c)
 
 	frozen setSDLRWops(rwop,cpf_infos:POINTER)
